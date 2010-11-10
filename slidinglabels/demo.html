@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Sliding Labels Demo</title>
+<link href="http://a.tbcdn.cn/s/kissy/1.1.5/cssbase/base-min.css" rel="stylesheet"/>
+<style>
+form { width:380px;padding:20px 90px;background:#f7f7f7;border:1px solid #ddd; }
+div { clear:both;margin:0 0 10px; }
+label { cursor:pointer;display:block; }
+input[type="text"],
+textarea { width:300px;border:1px solid #999;padding:5px;-moz-border-radius:4px;-webkit-border-radius:4px; }
+input[type="text"]:focus { border-color:#777; }
+input[name="zip"] { width:150px; }
+
+/* submit button */
+input[type="submit"] { cursor:pointer;border:1px solid #999;padding:5px;-moz-border-radius:4px;-webkit-border-radius:4px;background:#eee; }
+input[type="submit"]:hover,
+input[type="submit"]:focus { border-color:#333;background:#ddd; }
+input[type="submit"]:active { margin-top:1px; }
+</style>
+<script src="http://github.com/kissyteam/kissy/raw/master/build/kissy-min.js"></script>
+<script src="slidinglabels.js"></script>
+</head>
+<body style="padding-left: 20px; padding-top: 20px;">
+<div class="demo">
+    <h1>Sliding Labels Demo</h1>
+    <form action="" method="post" id="info">
+        <div id="name-wrap" class="slider">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name"/>
+        </div>
+        <!--/#name-wrap-->
+
+        <div id="email-wrap" class="slider">
+            <label for="email">E&ndash;mail</label>
+            <input type="text" id="email" name="email"/>
+        </div>
+        <!--/#email-wrap-->
+
+        <div id="url-wrap" class="slider">
+            <label for="url">URL</label>
+            <input type="text" id="url" name="url"/>
+        </div>
+        <!--/#url-wrap-->
+
+        <div id="comment-wrap" class="slider">
+            <label for="comment">Comment</label>
+            <textarea cols="53" rows="10" id="comment"></textarea>
+        </div>
+        <!--/#comment-wrap-->
+
+        <input type="submit" id="btn" name="btn" value="submit">
+    </form>
+</div>
+
+<script>
+KISSY.ready(function(S) {
+    new S.SlidingLabels('#info', {
+        blurStyle: {
+            color: '#aaa'
+        },
+        focusStyle: {
+            color: '#000'
+        }
+    });
+});
+</script>
+</body>
+</html>
