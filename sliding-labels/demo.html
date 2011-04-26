@@ -55,8 +55,8 @@ input[type="submit"]:active { margin-top:1px; }
 </div>
 
 <script>
-KISSY.ready(function(S) {
-    new S.SlidingLabels('#info', {
+KISSY.use('gallary/slidinglabels', function(S, SL) {
+    new SL('#info', {
         blurStyle: {
             color: '#aaa'
         },

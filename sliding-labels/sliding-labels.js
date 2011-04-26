@@ -1,5 +1,5 @@
 /**
- * KISSY SlidingLabels
+ * @fileoverview KISSY SlidingLabels
  * @author 乔花<qiaohua@taobao.com>
  * @see http://danyi.codetea.co.uk/2010/03/16/sliding-label/
  */
@@ -183,7 +183,7 @@ KISSY.add('gallary/slidinglabels', function(S, undefined) {
         }
     });
 
-    S.SlidingLabels = SlidingLabels;
+    return SlidingLabels;
 }, {
     requires: ["core"]
 });
