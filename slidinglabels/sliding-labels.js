@@ -3,8 +3,7 @@
  * @author 乔花<qiaohua@taobao.com>
  * @see http://danyi.codetea.co.uk/2010/03/16/sliding-label/
  */
-
-KISSY.add('slidinglabels', function(S, undefined) {
+KISSY.add('gallary/slidinglabels', function(S, undefined) {
     var POSITION = 'position', RELATIVE = 'relative', ABSOLUTE = 'absolute',
         PX = 'px', X = 'x', Y = 'y', BLUR_STYLE = 'blurStyle', FOCUS_STYLE = 'focusStyle',
         defaultPosition = [5, 5];
@@ -71,8 +70,6 @@ KISSY.add('slidinglabels', function(S, undefined) {
 
     S.extend(SlidingLabels, S.Base);
     
-    S.SlidingLabels = SlidingLabels;
-
     S.augment(SlidingLabels, {
         /**
          * 初始化 label 状态及绑定 focus/blur 事件
@@ -185,4 +182,8 @@ KISSY.add('slidinglabels', function(S, undefined) {
             }*/
         }
     });
-}, { requires: ['core'] });
+
+    S.SlidingLabels = SlidingLabels;
+}, {
+    requires: ["core"]
+});
