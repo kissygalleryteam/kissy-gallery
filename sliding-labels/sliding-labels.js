@@ -36,13 +36,27 @@ KISSY.add('gallary/slidinglabels', function(S, undefined) {
         axis: {             // 移动方向, 水平方向(x) or 垂直方向(y)
             value:  X
         },
-        position: {         // px, 水平和垂直方向上, 相对于父元素的位置, x or [x, y], 不设置时, 取 0
+        position: {         // px, 水平和垂直方向上, 相对于父元素的位置, x or [x, y], 不设置时, 取 [5, 5]
             value: defaultPosition,
             setter: function(v) {
-                return S.mix(this.get(POSITION), S.makeArray(v));
+                var tmp = S.makeArray(v),
+                    deft = this.get(POSITION);
+                if (S.isUndefined(tmp[0])) {
+                    tmp = deft;
+                } else if (S.isUndefined(tmp[1])){
+                    tmp[1] = deft[1];
+                }
+                return tmp;
             },
             getter: function(v) {
-                return S.mix(defaultPosition, S.makeArray(v));
+                var tmp = S.makeArray(v),
+                    deft = defaultPosition;
+                if (S.isUndefined(tmp[0])) {
+                    tmp = deft;
+                } else if (S.isUndefined(tmp[1])){
+                    tmp[1] = deft[1];
+                }
+                return tmp;
             }
         },
         offset: {           // label 和 input 之间的距离
