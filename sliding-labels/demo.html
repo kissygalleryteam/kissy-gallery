@@ -16,7 +16,7 @@
         border: 1px solid #ddd;
     }
 
-    div {
+    #content div {
         clear: both;
         margin: 0 0 10px;
     }
@@ -63,7 +63,6 @@
         margin-top: 1px;
     }
 </style>
-<script src="http://github.com/kissyteam/kissy/raw/master/build/kissy-min.js"></script>
 <script src="sliding-labels.js"></script>
 <script src="../../kissy-util/view-code/view-code.js"></script>
 </head>
@@ -94,49 +93,49 @@
 
     <h3 class="s-title">Demo</h3>
     <div class="s-section">
-        <form action="" method="post" id="info">
-            <div id="name-wrap" class="slider">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name"/>
-            </div>
-            <!--/#name-wrap-->
-
-            <div id="email-wrap" class="slider">
-                <label for="email">E&ndash;mail</label>
-                <input type="text" id="email" name="email"/>
-            </div>
-            <!--/#email-wrap-->
-
-            <div id="url-wrap" class="slider">
-                <label for="url">URL</label>
-                <input type="text" id="url" name="url"/>
-            </div>
-            <!--/#url-wrap-->
-
-            <div id="comment-wrap" class="slider">
-                <label for="comment">Comment</label>
-                <textarea cols="53" rows="10" id="comment"></textarea>
-            </div>
-            <!--/#comment-wrap-->
-
-            <input type="submit" id="btn" name="btn" value="submit">
-        </form>
-
-        <!-- code start -->
-        <script>
-            KISSY.use('gallary/slidinglabels', function(S, SL) {
-                new SL('#info', {
-                    blurStyle: {
-                        color: '#aaa'
-                    },
-                    focusStyle: {
-                        color: '#000'
-                    }
-                });
-            });
-        </script>
-        <!-- code end -->
-        <a class="S_ViewCode" href="#">显示源码</a>
+    	<div class="s-demo">
+	        <form action="" method="post" id="info">
+	            <div id="name-wrap" class="slider">
+	                <label for="name">Name</label>
+	                <input type="text" id="name" name="name"/>
+	            </div>
+	            <!--/#name-wrap-->
+	
+	            <div id="email-wrap" class="slider">
+	                <label for="email">E&ndash;mail</label>
+	                <input type="text" id="email" name="email"/>
+	            </div>
+	            <!--/#email-wrap-->
+	
+	            <div id="url-wrap" class="slider">
+	                <label for="url">URL</label>
+	                <input type="text" id="url" name="url"/>
+	            </div>
+	            <!--/#url-wrap-->
+	
+	            <div id="comment-wrap" class="slider">
+	                <label for="comment">Comment</label>
+	                <textarea cols="53" rows="10" id="comment"></textarea>
+	            </div>
+	            <!--/#comment-wrap-->
+	
+	            <input type="submit" id="btn" name="btn" value="submit">
+	        </form>
+	
+	        <script>
+	            KISSY.use('gallary/slidinglabels', function(S, SL) {
+	                new SL('#info', {
+	                    blurStyle: {
+	                        color: '#aaa'
+	                    },
+	                    focusStyle: {
+	                        color: '#000'
+	                    }
+	                });
+	            });
+	        </script>
+    	</div>        
+        <a class="s-view-code" href="#">显示源码</a>
     </div>
     <h3 class="s-title">API</h3>
     <div class="s-section">
@@ -177,10 +176,5 @@
     &copy; Copyright 2010~2011, KISSY Team.
 </div>
 
-<script>
-    KISSY.ready(function(S) {
-        S.util.viewCode();
-    })
-</script>
 </body>
 </html>
