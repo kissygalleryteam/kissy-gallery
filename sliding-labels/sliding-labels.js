@@ -4,7 +4,7 @@
  * @author 乔花<qiaohua@taobao.com>
  * @see http://danyi.codetea.co.uk/2010/03/16/sliding-label/
  */
-KISSY.add('gallary/sliding-labels', function(S, undefined) {
+KISSY.add('gallery/sliding-labels', function(S, undefined) {
     var POSITION = 'position', RELATIVE = 'relative', ABSOLUTE = 'absolute',
         PX = 'px', X = 'x', Y = 'y', BLUR_STYLE = 'blurStyle', FOCUS_STYLE = 'focusStyle',
         defaultPosition = [5, 5];
@@ -199,8 +199,8 @@ KISSY.add('gallary/sliding-labels', function(S, undefined) {
     });
 
     // 兼容 1.1.6
-    S.namespace('Gallary');
-    S.Gallary.SlidingLabels = SlidingLabels;
+    S.namespace('Gallery');
+    S.Gallery.SlidingLabels = SlidingLabels;
 
 
     return SlidingLabels;
