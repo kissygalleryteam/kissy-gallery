@@ -123,8 +123,8 @@
 	        </form>
 	
 	        <script>
-	            KISSY.use('gallary/slidinglabels', function(S, SL) {
-	                new SL('#info', {
+	            KISSY.use('gallary/sliding-labels', function(S, SL) {
+                    new SL('#info', {
 	                    blurStyle: {
 	                        color: '#aaa'
 	                    },
@@ -132,6 +132,9 @@
 	                        color: '#000'
 	                    }
 	                });
+
+                    // 或者使用 1.1.6 的方式
+                    // new S.Gallary.SlidingLabels(...);
 	            });
 	        </script>
     	</div>        

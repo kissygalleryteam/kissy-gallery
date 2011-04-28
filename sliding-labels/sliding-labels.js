@@ -1,9 +1,10 @@
 /**
- * @fileoverview KISSY SlidingLabels
+ * @fileoverview 表单label浮动功能
+ * @desc 表单各个输入项目中, 如果有label的话, 可以很方便地放在输入框上方, 当点击时移开label
  * @author 乔花<qiaohua@taobao.com>
  * @see http://danyi.codetea.co.uk/2010/03/16/sliding-label/
  */
-KISSY.add('gallary/slidinglabels', function(S, undefined) {
+KISSY.add('gallary/sliding-labels', function(S, undefined) {
     var POSITION = 'position', RELATIVE = 'relative', ABSOLUTE = 'absolute',
         PX = 'px', X = 'x', Y = 'y', BLUR_STYLE = 'blurStyle', FOCUS_STYLE = 'focusStyle',
         defaultPosition = [5, 5];
@@ -196,6 +197,11 @@ KISSY.add('gallary/slidinglabels', function(S, undefined) {
             }*/
         }
     });
+
+    // 兼容 1.1.6
+    S.namespace('Gallary');
+    S.Gallary.SlidingLabels = SlidingLabels;
+
 
     return SlidingLabels;
 }, {
