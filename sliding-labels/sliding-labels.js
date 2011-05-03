@@ -1,10 +1,10 @@
 /**
- * KISSY SlidingLabels
+ * @fileoverview 表单label浮动功能
+ * @desc 表单各个输入项目中, 如果有label的话, 可以很方便地放在输入框上方, 当点击时移开label
  * @author 乔花<qiaohua@taobao.com>
  * @see http://danyi.codetea.co.uk/2010/03/16/sliding-label/
  */
-
-KISSY.add('slidinglabels', function(S, undefined) {
+KISSY.add('gallery/sliding-labels', function(S, undefined) {
     var POSITION = 'position', RELATIVE = 'relative', ABSOLUTE = 'absolute',
         PX = 'px', X = 'x', Y = 'y', BLUR_STYLE = 'blurStyle', FOCUS_STYLE = 'focusStyle',
         defaultPosition = [5, 5];
@@ -37,13 +37,27 @@ KISSY.add('slidinglabels', function(S, undefined) {
         axis: {             // 移动方向, 水平方向(x) or 垂直方向(y)
             value:  X
         },
-        position: {         // px, 水平和垂直方向上, 相对于父元素的位置, x or [x, y], 不设置时, 取 0
+        position: {         // px, 水平和垂直方向上, 相对于父元素的位置, x or [x, y], 不设置时, 取 [5, 5]
             value: defaultPosition,
             setter: function(v) {
-                return S.mix(this.get(POSITION), S.makeArray(v));
+                var tmp = S.makeArray(v),
+                    deft = this.get(POSITION);
+                if (S.isUndefined(tmp[0])) {
+                    tmp = deft;
+                } else if (S.isUndefined(tmp[1])){
+                    tmp[1] = deft[1];
+                }
+                return tmp;
             },
             getter: function(v) {
-                return S.mix(defaultPosition, S.makeArray(v));
+                var tmp = S.makeArray(v),
+                    deft = defaultPosition;
+                if (S.isUndefined(tmp[0])) {
+                    tmp = deft;
+                } else if (S.isUndefined(tmp[1])){
+                    tmp[1] = deft[1];
+                }
+                return tmp;
             }
         },
         offset: {           // label 和 input 之间的距离
@@ -71,8 +85,6 @@ KISSY.add('slidinglabels', function(S, undefined) {
 
     S.extend(SlidingLabels, S.Base);
     
-    S.SlidingLabels = SlidingLabels;
-
     S.augment(SlidingLabels, {
         /**
          * 初始化 label 状态及绑定 focus/blur 事件
@@ -185,4 +197,13 @@ KISSY.add('slidinglabels', function(S, undefined) {
             }*/
         }
     });
-}, { requires: ['core'] });
+
+    // 兼容 1.1.6
+    S.namespace('Gallery');
+    S.Gallery.SlidingLabels = SlidingLabels;
+
+
+    return SlidingLabels;
+}, {
+    requires: ["core"]
+});

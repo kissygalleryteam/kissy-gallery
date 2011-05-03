@@ -1,31 +1,42 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>KISSY Gallery</title>
-<style>
-body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0;}body,button,input,select,textarea{font:12px/1.5 tahoma,arial,\5b8b\4f53,sans-serif;}h1,h2,h3,h4,h5,h6{font-size:100%;}address,cite,dfn,em,var{font-style:normal;}code,kbd,pre,samp{font-family:courier new,courier,monospace;}small{font-size:12px;}ul,ol{list-style:none;}a{text-decoration:none;}a:hover{text-decoration:underline;}sup{vertical-align:text-top;}sub{vertical-align:text-bottom;}legend{color:#000;}fieldset,img{border:0;}button,input,select,textarea{font-size:100%;}table{border-collapse:collapse;border-spacing:0;}
-body { margin: 20px 50px; }
-pre {
-    color: #666;
-    font: 14px/1.5em Monaco,"Andale Mono","Lucida Console","Bitstream Vera Sans Mono","Courier New",monospace;
-    margin: 20px;
-}
-a { color: #1F75CC; }
-a:active, a:hover { text-decoration: underline; }
-</style>
+    <meta charset="utf-8"/>
+    <title>KISSY Gallery</title> 
+	<link rel="shortcut icon" href="../kissy-dpl/base/assets/favicon.ico"/> 
+	<link rel="stylesheet" href="../kissy-dpl/base/assets/reset.css"/> 
+	<link rel="stylesheet" href="../kissy-dpl/base/assets/kissy-docs.css"/> 	
+	<script src="../kissy-dpl/base/assets/kissy.js"></script> 
+	<script src="../kissy-dpl/base/assets/kissy-docs.js"></script> 
 </head>
 <body>
-<img src="http://kissyteam.github.com/kissy.png" alt="KISSY" />
-<pre>
-~:    
-    <a href="slidinglabels/demo.html">Sliding Labels</a>
-    
-    digital clock (<a href="digital-clock/clock-js.html">js zoom</a> , <a href="digital-clock/clock-css.html">css zoom</a>)
-
-    <a href="http://github.com/kissyteam/kissy-gallery">源码</a>
-
-    kissyteam(at)gmail.com
-</pre>
+    <div id="header"> 
+		<h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../kissy-dpl/base/assets/logo.png"/></a></h1> 
+		<p class="sub-title">Gallery</p>
+		<ul class="navigation"> 
+			<li><a href="http://blog.kissyui.com/">博客</a></li> 
+			<li><a href="http://github.com/kissyteam">源码</a></li> 
+		</ul> 
+	</div> 
+    <div id="content">
+    	<div class="s-crumbs">
+			<span>当前位置：</span>
+			<a href="http://kissyui.com/">KISSY</a>
+			<span>Gallery</span>
+		</div>
+        <div class="layout grid-m">
+            <div class="col-main">
+				<div class="s-section">
+					<ul class="s-list">
+						<li><a href="sliding-labels/demo.html">SlidingLabels</a> <span class="s-desc">- 表单label浮动功能。表单各个输入项目中, 如果有label的话, 可以很方便地放在输入框上方, 当点击时移开label。</span></li>
+						<li><a href="digital-clock/clock-js.html">DigitalClock</a> <span class="s-desc">- 数字时钟。</span></li>
+					</ul>	
+				</div>					
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        &copy; Copyright 2010~2011, KISSY Team.
+    </div>
 </body>
 </html>
