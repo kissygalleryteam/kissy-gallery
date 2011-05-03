@@ -1,2 +1,2 @@
-call c:/ourtools/ant/bin/ant
+call ../../kissy-tools/ant/bin/ant
 pause
