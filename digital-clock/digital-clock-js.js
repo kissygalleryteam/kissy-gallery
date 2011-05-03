@@ -2,7 +2,7 @@
  digital clock emulation
  @author yiminghe@gmail.com(chengyu)
  */
-KISSY.add("digital-clock", function(S) {
+KISSY.add("gallery/digital-clock", function(S) {
 
     //clock number markup
     var CLOCK_NUMBER = ('<div class="Kelement  Kvertical Ke1">'
@@ -124,14 +124,14 @@ KISSY.add("digital-clock", function(S) {
         ,9:N2("11111011")
     };
 
-
-    var ClockNumber = S.Base.create([S.Ext.Box], {
-        init:function() {
+    var ClockNumber = S.UIBase.create([S.UIBase.Box.Render], {
+        initializer:function() {
             var self = this;
-            self.on("renderUI", self._renderUIClockNumber, self);
         },
-        _renderUIClockNumber:function() {
-            var self = this,el = self.get("el");
+        renderUI:function() {
+
+            var self = this,
+                el = self.get("el");
             el.html(CLOCK_NUMBER);
             self._bars = el.children();
             var bars = self._bars;
@@ -205,10 +205,10 @@ KISSY.add("digital-clock", function(S) {
         },
         //internal use ,synchronize data with ui
         _uiSetValue: function (vr, e) {
-
+            if (!e || !("prevVal" in e)) return;
             var self = this
                 , v = DIGITAL_CONFIG[vr]
-                , preV = DIGITAL_CONFIG[e && e.prevVal || vr]
+                , preV = DIGITAL_CONFIG[ e.prevVal]
                 , diff = v ^ preV,
                 bars = self._bars;
             for (var i = 0; i < bars.length; i++) {
@@ -246,12 +246,13 @@ KISSY.add("digital-clock", function(S) {
         }
     });
 
-    DigitalClock = S.Base.create([S.Ext.Box], {
-        init:function() {
+    var DigitalClock = S.UIBase.create([S.UIBase.Box.Render], {
+        initializer:function() {
             var self = this;
-            self.on("renderUI", self._renderUIDigitalClock, self);
+            //self.on("afterRenderUI", self._renderUIDigitalClock, self);
         },
-        _renderUIDigitalClock:function() {
+        renderUI:function() {
+
             var self = this,el = self.get("el"),c;
             self._ns = [];
             var ns = self._ns,zoomLimit = self.get("zoomLimit");
@@ -259,6 +260,7 @@ KISSY.add("digital-clock", function(S) {
                 var s = new ClockNumber({
                     zoomLimit:zoomLimit,
                     render:el,
+                    elOrder:0,
                     autoRender:true
                 });
                 s.get("el").addClass("ks-digitalclock-seconds");
@@ -268,6 +270,7 @@ KISSY.add("digital-clock", function(S) {
                 ns.unshift(new ClockNumber({
                     zoomLimit:zoomLimit,
                     render:el,
+                    elOrder:0,
                     autoRender:true
                 }));
             }
@@ -277,6 +280,7 @@ KISSY.add("digital-clock", function(S) {
                 ns.unshift(new ClockNumber({
                     zoomLimit:zoomLimit,
                     render:el,
+                    elOrder:0,
                     autoRender:true
                 }));
             }
@@ -343,5 +347,9 @@ KISSY.add("digital-clock", function(S) {
             }
         }
     });
-    S.DigitalClock = DigitalClock;
+    S.namespace("Gallery");
+    S.Gallery.DigitalClock = DigitalClock;
+    return DigitalClock;
+}, {
+    requires:['node','uibase']
 });

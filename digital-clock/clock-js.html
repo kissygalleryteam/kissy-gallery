@@ -4,8 +4,8 @@
 <meta charset="utf-8"/>
 <title>电子时钟</title>
 <link href="digital-clock-js.css" rel="stylesheet" type="text/css"/>
-<script src="https://github.com/yiminghe/kissy/raw/master/build/kissy-min.js"></script>
-<script src="https://github.com/yiminghe/kissy/raw/master/build/ext/ext-pkg-min.js"></script>
+<script src="http://localhost/kissy_git/kissy/build/kissy.js"></script>
+<script src="http://localhost/kissy_git/kissy/build/uibase.js"></script>
 <script type="text/javascript" src="digital-clock-js.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/3.1.1/build/yui/yui-min.js"></script>
 
@@ -26,41 +26,44 @@
 
 <script type="text/javascript">
     KISSY.ready(function (S) {
-        var clock = new S.DigitalClock({
-            render: S.one("#clock_con"),
-            //trangle will disappear when zoom < zoomLimit
-            zoomLimit: S.UA.ie == 6 ? 0.2 : 0.15,
-            autoRender:true,
-            zoom:1
-        });
-
-        setInterval(function () {
-            clock.set("date", new Date());
-        },
-                1000);
+        S.use("gallery/digital-clock", function(S, DigitalClock) {
+            // DigitalClock =S.Gallery.DigitalClock;
+            var clock = new DigitalClock({
+                render: S.one("#clock_con"),
+                //trangle will disappear when zoom < zoomLimit
+                zoomLimit: S.UA.ie == 6 ? 0.2 : 0.15,
+                autoRender:true,
+                zoom:1
+            });
 
 
-        YUI().use("slider", function (Y) {
-            var xSlider = new Y.Slider({
-                value: clock.get("zoom") * 100
+            setInterval(function () {
+                clock.set("date", new Date());
+            }, 1000);
+
+
+            YUI().use("slider", function (Y) {
+                var xSlider = new Y.Slider({
+                    value: clock.get("zoom") * 100
+                });
+                xSlider.render('.horiz_slider');
+                xSlider.after("valueChange", function (e) {
+                    var z = e.newVal / 100;
+                    //console.log("zoom : " + z);
+                    clock.set("zoom", z);
+                });
+                // Link the input value to the Slider
+                var xInput = Y.one("#horiz_value");
+                xInput.setData({
+                    slider: xSlider
+                });
+                xInput.set("value", clock.get("zoom") * 100);
+                // Pass the input as the 'this' object inside updateInput
+                xSlider.after("valueChange", updateInput, xInput);
+                function updateInput(e) {
+                    this.set("value", e.newVal);
+                }
             });
-            xSlider.render('.horiz_slider');
-            xSlider.after("valueChange", function (e) {
-                var z = e.newVal / 100;
-                //console.log("zoom : " + z);
-                clock.set("zoom", z);
-            });
-            // Link the input value to the Slider
-            var xInput = Y.one("#horiz_value");
-            xInput.setData({
-                slider: xSlider
-            });
-            xInput.set("value", clock.get("zoom") * 100);
-            // Pass the input as the 'this' object inside updateInput
-            xSlider.after("valueChange", updateInput, xInput);
-            function updateInput(e) {
-                this.set("value", e.newVal);
-            }
         });
     });
 </script>
