@@ -1,0 +1,40 @@
+<project name="Chart" default="build" basedir=".">
+    <description>
+        simple example build file
+    </description>
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="concat" depends="init"
+        description="concat the source " >
+        <concat destfile="${build}/chart-pkg.js"
+            encoding="utf-8"
+            outputencoding="utf-8">
+      <path>
+          <filelist dir="${src}/js">
+              <!--<file name="color.js/color.js" />-->
+              <file name="format_number.js" />
+              <file name="color.js" />
+              <file name="c~colors.js" />
+              <file name="m~path.js" />
+              <file name="m~frame.js" />
+              <file name="m~anim.js" />
+              <file name="m~simpletooltip.js" />
+              <file name="m~axis.js" />
+              <file name="m~element.js" />
+              <file name="m~chart.js" />
+          </filelist>
+      </path>
+   </concat>
+  </target>
+  <target name="cssbuild" depends="init">
+      <copy file="${src}/css/chart.css" tofile="${build}/chart.css"/>
+  </target>
+  <target name="build" depends = "concat,cssbuild">
+  </target>
+</project>
