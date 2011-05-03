@@ -1,11 +1,1 @@
-* 目录说明
-   |- /assets/      [ 存放 img, css sprites的psd图 ]
-   |- /build/      [ 打包后, 生产环境需要引用的css,js ]
-   |- /docs/      [ 接口文档 ]
-   |- /demo/      [ demo目录 ]
-   |- /src/      [ css, js源码 ]
-   |- build.bat   [ 打包工具 ]
-   |- build.sh      [ 打包工具 for 水果机 ]
-   |- build.xml   [ 打包配置文件 ]
-   |- index.php   [ 项目索引文件 ]
-   |- README      [ 其他相关说明 ]
+鍥捐〃宸ュ叿锛屽熀浜嶩TML5 canvas
