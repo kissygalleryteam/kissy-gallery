@@ -2,6 +2,7 @@
     box-shadow:1px 1px 2px #555;
     padding:3px;
     position:absolute;
+    z-index:9999;
     background:#333;
     background:rgba(20,20,20,.9);
     color:#fff;

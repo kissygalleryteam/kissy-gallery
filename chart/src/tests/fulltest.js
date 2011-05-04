@@ -1,4 +1,4 @@
-KISSY.add("fulltest",function(S){
+(function(S){
     var Dom = S.DOM;
     /**
      * get the random Data
@@ -83,7 +83,7 @@ KISSY.add("fulltest",function(S){
                 o.elements[0].format = "0,000.00";
                 return o;
             }()
-        },
+        }
     ];
     var container = S.one("#fulltestarea");
     S.each(chartdata, function(data,idx){
@@ -95,4 +95,4 @@ KISSY.add("fulltest",function(S){
         chart.render(data.d);
     });
     
-});
+})(KISSY);

@@ -1,6 +1,6 @@
-KISSY.add("m~path",function(S){
+KISSY.add("gallery/chart/path",function(S){
     var ie = S.UA.ie,
-        P = S.namespace("chart");
+        P = S.namespace("Gallery.Chart");
 
     function Path(x,y,w,h){ }
     S.augment(Path,{
@@ -80,4 +80,9 @@ KISSY.add("m~path",function(S){
     P.Path = Path;
     P.RectPath = RectPath;
     P.ArcPath = ArcPath;
+    return {
+        Path:Path,
+        RectPath:RectPath,
+        ArcPath:ArcPath
+    };
 });

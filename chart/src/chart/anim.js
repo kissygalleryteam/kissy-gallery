@@ -1,5 +1,5 @@
-KISSY.add("m~anim",function(S){
-    var P = S.namespace("chart"),
+KISSY.add("gallery/chart/anim",function(S){
+    var P = S.namespace("Gallery.Chart"),
         Easing = S.Easing;
     function Anim(duration,easing){
         this.duration = duration*1000;
@@ -20,4 +20,5 @@ KISSY.add("m~anim",function(S){
         }
     });
     P.Anim = Anim;
+    return Anim;
 });

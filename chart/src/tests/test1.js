@@ -1,4 +1,4 @@
-KISSY.use("chart",function(S){
+(function(S){
     var Dom = S.DOM,
         Event = S.Event,
         c = Dom.get("#chart1");
@@ -173,4 +173,4 @@ KISSY.use("chart",function(S){
         });
         //chart.render(chart2);
     });
-});
+})(KISSY);

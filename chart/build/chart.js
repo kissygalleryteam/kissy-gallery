@@ -1,78 +1,366 @@
-/**
-* Formats the number according to the ‘format’ string; 
-* adherses to the american number standard where a comma 
-* is inserted after every 3 digits.
-*  note: there should be only 1 contiguous number in the format, 
-* where a number consists of digits, period, and commas
-*        any other characters can be wrapped around this number, including ‘$’, ‘%’, or text
-*        examples (123456.789):
-*          ‘0 - (123456) show only digits, no precision
-*          ‘0.00 - (123456.78) show only digits, 2 precision
-*          ‘0.0000 - (123456.7890) show only digits, 4 precision
-*          ‘0,000 - (123,456) show comma and digits, no precision
-*          ‘0,000.00 - (123,456.78) show comma and digits, 2 precision
-*          ‘0,0.00 - (123,456.78) shortcut method, show comma and digits, 2 precision
-*
-* @method format
-* @param format {string} the way you would like to format this text
-* @return {string} the formatted number
-* @public
-*/
+KISSY.add("gallery/chart", function(S, CAnim) {
+    var Event = S.Event,
+        Dom = S.DOM;
+    var P = S.namespace("Gallery.Chart");
+    //kissy < 1.2
+    CAnim = P.Anim;
 
-Number.prototype.format = function(format) {
-  if (typeof format  !== "string") {
-    return ;
-  } // sanity check
 
-  var hasComma = -1 < format.indexOf(","),
-    psplit = format.split('.'),
-    that = this;
+    /**
+     * 图表默认配置
+     */
+    var defaultCfg = {
+        left:40,
+        top:38
+    };
 
-  // compute precision
-  if (1 < psplit.length) {
-    // fix number precision
-    that = that.toFixed(psplit[1].length);
-  }
-  // error: too many periods
-  else if (2 < psplit.length) {
-    throw('NumberFormatException: invalid format, formats should have no more than 1 period:' + format);
-  }
-  // remove precision
-  else {
-    that = that.toFixed(0);
-  }
+    /**
+     * class Chart
+     * @constructor
+     * @param {(string|object)} the canvas element
+     */
+    function Chart(canvas, data) {
+        if (!(this instanceof Chart)) return new Chart(canvas, data);
 
-  // get the string now that precision is correct
-  var fnum = that.toString();
+        var elCanvas = Dom.get(canvas);
 
-  // format has comma, then compute commas
-  if (hasComma) {
-    // remove precision for computation
-    psplit = fnum.split('.');
+        if (!elCanvas || !elCanvas.getContext) {
+            S.log("Canvas not found");
+            return;
+        }
 
-    var cnum = psplit[0],
-      parr = [],
-      j = cnum.length,
-      m = Math.floor(j / 3),
-      n = cnum.length % 3 || 3; // n cannot be ZERO or causes infinite loop 
+        var self = this,
+            ctx = elCanvas.getContext("2d"),
+            width = elCanvas.width,
+            height = elCanvas.height;
 
-    // break the number into chunks of 3 digits; first chunk may be less than 3
-    for (var i = 0; i < j; i += n) {
-      if (i != 0) {n = 3;}
-      parr[parr.length] = cnum.substr(i, n);
-      m -= 1;
+        this.elCanvas = elCanvas;
+        this.ctx = ctx;
+        this.width = width;
+        this.height = height;
+
+
+        this._stooltip = Chart.getTooltip();
+        this._chartAnim = new CAnim(0.3, "easeIn");
+
+        //自动渲染
+        if (data) {
+            this.render(data);
+        }
     }
 
-    // put chunks back together, separated by comma
-    fnum = parr.join(','); 
+    /**
+     * 获取ToolTip 对象， 所有图表共享一个Tooltip
+     */
+    Chart.getTooltip = function() {
+        if (!Chart.tooltip) {
+            Chart.tooltip = new P.SimpleTooltip();
+        }
+        return Chart.tooltip;
+    }
 
-    // add the precision back in
-    if (psplit[1]) {fnum += '.' + psplit[1];}
-  }
+    S.augment(Chart,
+        S.EventTarget, /**@lends Chart.prototype*/{
+        /**
+         * render form
+         * @param {Object} the chart data
+         */
+        render : function(data) {
+            var self = this,
+                type = data.type;
 
-  // replace the number portion of the format with fnum
-  return format.replace(/[\d,?\.?]+/, fnum);
-};
+            self.init();
+            if (!type || !data.elements || !data.axis) {
+                return;
+            }
+            data = S.clone(data);
+            self.data = data;
+            self._drawcfg = S.merge(defaultCfg, data.config, {width:self.width,
+                height : self.height,
+                right : self.width - 10,
+                bottom : self.height - 20
+            });
+            self._frame = new P.Frame(self._drawcfg);
+            if (type === "bar" || type === "line") {
+                self._drawcfg.max = data.axis.y.max || P.Axis.getMax(P.Element.getMax(data.elements), self._drawcfg);
+                self.axis = new P.Axis(data.axis, self, self._drawcfg, type);
+                self.layers.push(self.axis);
+            }
+            self.element = P.Element.getElement(data.elements, self, self._drawcfg, data.type);
+            self.layers.push(self._frame);
+            self.layers.push(self.element);
+            setTimeout(function() {
+                self._redraw();
+                self.initEvent();
+            }, 100);
+        },
+        /**
+         * show the loading text
+         */
+        loading : function() {
+            this.showMessage("\u8F7D\u5165\u4E2D...");
+        },
+
+        /**
+         * show text
+         */
+        showMessage : function(m) {
+            var ctx = this.ctx,
+                tx = this.width / 2,
+                ty = this.height / 2;
+            ctx.clearRect(0, 0, this.width, this.height);
+            ctx.save();
+            ctx.font = "12px Arial";
+            ctx.textAlign = "center";
+            ctx.fillStyle = "#808080";
+            ctx.fillText(m, tx, ty);
+            ctx.restore();
+        },
+        /**
+         * init the chart for render
+         * this will remove all the event
+         * @private
+         */
+        init : function() {
+            this._chartAnim.init();
+            this.layers = [];
+            this.offset = Dom.offset(this.elCanvas);
+            this.loading();
+
+            S.each([this.element,this.axis], function(item) {
+                if (item) {
+                    item.destory();
+                    Event.remove(item);
+                }
+            });
+
+            this.element = null;
+            this.axis = null;
+            if (this._event_inited) {
+                Event.remove(this.elCanvas, "mousemove", this._mousemoveHandle);
+                Event.remove(this.elCanvas, "mouseleave", this._mouseLeaveHandle);
+                Event.remove(this, "mouseleave", this._drawAreaLeave);
+            }
+            this._stooltip.hide();
+        },
+        initEvent : function() {
+            this._event_inited = true;
+            Event.on(this.elCanvas, "mousemove", this._mousemoveHandle, this);
+            Event.on(this.elCanvas, "mouseleave", this._mouseLeaveHandle, this);
+            Event.on(this, "mouseleave", this._drawAreaLeave, this);
+            if (this.type === "bar") {
+                Event.on(this.element, "barhover", this._barHover, this);
+            }
+            if (this.axis) {
+                Event.on(this.axis, "xaxishover", this._xAxisHover, this);
+                Event.on(this.axis, "leave", this._xAxisLeave, this);
+                Event.on(this.axis, "redraw", this._redraw, this);
+            }
+            Event.on(this.element, "redraw", this._redraw, this);
+            Event.on(this.element, "showtooltip", function(e) {
+                this._stooltip.show(e.message.innerHTML);
+            }, this);
+            Event.on(this.element, "hidetooltip", function(e) {
+                this._stooltip.hide();
+            }, this);
+        },
+        /**
+         * draw all layers
+         * @private
+         */
+        draw : function() {
+            var self = this,
+                ctx = self.ctx,
+                k = self._chartAnim.get(),
+                size = self._drawcfg;
+            ctx.clearRect(0, 0, size.width, size.height);
+            ctx.globalAlpha = k;
+            S.each(self.layers, function(e, i) {
+                e.draw(ctx, size);
+            });
+            if (k < 1) {
+                this._redraw();
+            }
+        },
+        /**
+         * @private
+         * redraw the layers
+         */
+        _redraw : function() {
+            this._redrawmark = true;
+            if (!this._running) {
+                this._run();
+            }
+        },
+        /**
+         * run the Timer
+         * @private
+         */
+        _run : function() {
+            var self = this;
+            clearTimeout(self._timeoutid);
+            self._running = true;
+            self._redrawmark = false;
+            self._timeoutid = setTimeout(function go() {
+                self.draw();
+                if (self._redrawmark) {
+                    self._run();
+                } else {
+                    self._running = false;
+                }
+            }, 1000 / 24);
+        },
+        /**
+         * event handler
+         * @private
+         */
+        _barHover : function(ev) {
+        },
+        /**
+         * event handler
+         * @private
+         */
+        _xAxisLeave : function(ev) {
+            //this._redraw();
+            this.fire("axisleave", ev);
+        },
+        /**
+         * event handler
+         * @private
+         */
+        _xAxisHover : function(ev) {
+            this.fire("axishover", ev);
+            this._redraw();
+        },
+        /**
+         * event handler
+         * @private
+         */
+        _drawAreaLeave : function(ev) {
+            this._stooltip.hide();
+        },
+        /**
+         * event handler
+         * @private
+         */
+        _mousemoveHandle : function(e) {
+            var ox = e.offsetX || e.pageX - this.offset.left,
+                oy = e.offsetY || e.pageY - this.offset.top;
+            //if(this._frame && this._frame.path && this._frame.path.inpath(ox,oy)){
+            this.fire("mousemove", {x:ox,y:oy});
+            //}
+        },
+        /**
+         * event handler
+         * @private
+         */
+        _mouseLeaveHandle : function(ev) {
+            //var to = ev.toElement || ev.relatedTarget,
+            //t = to!== this._tooltip.el,
+            //c = to!==this.elCanvas,
+            //t2 = !Dom.contains(this._tooltip.el, to);
+            //if( c && t && t2){
+            this.fire("mouseleave");
+            //}
+        }
+    });
+
+    /*export*/
+    P.Chart = Chart;
+    return Chart;
+}, {
+    requires:['./chart/anim',
+        './chart/axis',
+        './chart/simpletooltip',
+        './chart/frame',
+        './chart/element'
+    ]
+});
+/**
+ * Formats the number according to the ‘format’ string;
+ * adherses to the american number standard where a comma
+ * is inserted after every 3 digits.
+ *  note: there should be only 1 contiguous number in the format,
+ * where a number consists of digits, period, and commas
+ *        any other characters can be wrapped around this number, including ‘$’, ‘%’, or text
+ *        examples (123456.789):
+ *          ‘0 - (123456) show only digits, no precision
+ *          ‘0.00 - (123456.78) show only digits, 2 precision
+ *          ‘0.0000 - (123456.7890) show only digits, 4 precision
+ *          ‘0,000 - (123,456) show comma and digits, no precision
+ *          ‘0,000.00 - (123,456.78) show comma and digits, 2 precision
+ *          ‘0,0.00 - (123,456.78) shortcut method, show comma and digits, 2 precision
+ *
+ * @method format
+ * @param format {string} the way you would like to format this text
+ * @return {string} the formatted number
+ * @public
+ */
+KISSY.add("gallery/chart/format", function(S) {
+    var format = function(that,format) {
+        if (typeof format !== "string") {
+            return;
+        } // sanity check
+
+        var hasComma = -1 < format.indexOf(","),
+            psplit = format.split('.');
+
+        // compute precision
+        if (1 < psplit.length) {
+            // fix number precision
+            that = that.toFixed(psplit[1].length);
+        }
+        // error: too many periods
+        else if (2 < psplit.length) {
+            throw('NumberFormatException: invalid format, formats should have no more than 1 period:' + format);
+        }
+        // remove precision
+        else {
+            that = that.toFixed(0);
+        }
+
+        // get the string now that precision is correct
+        var fnum = that.toString();
+
+        // format has comma, then compute commas
+        if (hasComma) {
+            // remove precision for computation
+            psplit = fnum.split('.');
+
+            var cnum = psplit[0],
+                parr = [],
+                j = cnum.length,
+                m = Math.floor(j / 3),
+                n = cnum.length % 3 || 3; // n cannot be ZERO or causes infinite loop
+
+            // break the number into chunks of 3 digits; first chunk may be less than 3
+            for (var i = 0; i < j; i += n) {
+                if (i != 0) {
+                    n = 3;
+                }
+                parr[parr.length] = cnum.substr(i, n);
+                m -= 1;
+            }
+
+            // put chunks back together, separated by comma
+            fnum = parr.join(',');
+
+            // add the precision back in
+            if (psplit[1]) {
+                fnum += '.' + psplit[1];
+            }
+        }
+
+        // replace the number portion of the format with fnum
+        return format.replace(/[\d,?\.?]+/, fnum);
+    };
+
+    var chart=S.namespace("Gallery.Chart");
+    chart.format=format;
+
+    return format;
+
+});
 /*
  * color.js
  * Version 0.2.1.2
@@ -87,285 +375,291 @@ Number.prototype.format = function(format) {
 /*jslint undef: true, nomen: true, eqeqeq: true, regexp: true, strict: true, newcap: true, immed: true */
 
 /*! @source http://purl.eligrey.com/github/color.js/blob/master/color.js*/
+KISSY.add("gallery/chart/color", function(S) {
+    var Color = (function () {
+        var str = "string",
+            Color = function Color(r, g, b, a) {
+                var
+                    color = this,
+                    args = arguments.length,
+                    parseHex = function (h) {
+                        return parseInt(h, 16);
+                    };
 
-var Color = (function () {
-	var
-	str   = "string",
-	Color = function Color(r, g, b, a) {
-		var
-		color    = this,
-		args     = arguments.length,
-		parseHex = function (h) {
-			return parseInt(h, 16);
-		};
-		
-		if (args < 3) { // called as Color(color [, alpha])
-			if (typeof r === str) {
-				r = r.substr(r.indexOf("#") + 1);
-				var threeDigits = r.length === 3;
-				r = parseHex(r);
-				threeDigits &&
-					(r = (((r & 0xF00) * 0x1100) | ((r & 0xF0) * 0x110) | ((r & 0xF) * 0x11)));
-			}
-			
-			args === 2 && // alpha specifed
-				(a = g);
-			
-			g = (r & 0xFF00) / 0x100;
-			b =  r & 0xFF;
-			r =  r >>> 0x10;
-		}
-		
-		if (!(color instanceof Color)) {
-			return new Color(r, g, b, a);
-		}
-		
-		this.channels = [
-			typeof r === str && parseHex(r) || r,
-			typeof g === str && parseHex(g) || g,
-			typeof b === str && parseHex(b) || b,
-			(typeof a !== str && typeof a !== "number") && 1 ||
-				typeof a === str && parseFloat(a) || a
-		];
-	},
-	proto       = Color.prototype,
-	undef       = "undefined",
-	lowerCase   = "toLowerCase",
-	math        = Math,
-	colorDict;
-	
-	// RGB to HSL and HSL to RGB code from
-	// http://www.mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
-	
-	Color.RGBtoHSL = function (rgb) {
-		// in JS 1.7 use: var [r, g, b] = rgb;
-		var r = rgb[0],
-		    g = rgb[1],
-		    b = rgb[2];
-		
-		r /= 255;
-		g /= 255;
-		b /= 255;
-		
-		var max = math.max(r, g, b),
-		    min = math.min(r, g, b),
-		h, s, l = (max + min) / 2;
+                if (args < 3) { // called as Color(color [, alpha])
+                    if (typeof r === str) {
+                        r = r.substr(r.indexOf("#") + 1);
+                        var threeDigits = r.length === 3;
+                        r = parseHex(r);
+                        threeDigits &&
+                        (r = (((r & 0xF00) * 0x1100) | ((r & 0xF0) * 0x110) | ((r & 0xF) * 0x11)));
+                    }
 
-		if (max === min) {
-			h = s = 0; // achromatic
-		} else {
-			var d = max - min;
-			s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-			switch (max) {
-			    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-			    case g: h = (b - r) / d + 2; break;
-			    case b: h = (r - g) / d + 4; break;
-			}
-			h /= 6;
-		}
+                    args === 2 && // alpha specifed
+                    (a = g);
 
-		return [h, s, l];
+                    g = (r & 0xFF00) / 0x100;
+                    b = r & 0xFF;
+                    r = r >>> 0x10;
+                }
 
-	};
-	
-	Color.HSLtoRGB = function (hsl) {
-		// in JS 1.7 use: var [h, s, l] = hsl;
-		var h = hsl[0],
-		    s = hsl[1],
-		    l = hsl[2],
-		
-		r, g, b,
-		
-		hue2rgb = function (p, q, t){
-		    if (t < 0) {
-		    	t += 1;
-		    }
-		    if (t > 1) {
-		    	t -= 1;
-		    }
-		    if (t < 1/6) {
-		    	return p + (q - p) * 6 * t;
-		    }
-		    if (t < 1/2) {
-		    	return q;
-		    }
-		    if (t < 2/3) {
-		    	return p + (q - p) * (2/3 - t) * 6;
-		    }
-		    return p;
-		};
-		
-		if (s === 0) {
-			r = g = b = l; // achromatic
-		} else {
-			var
-			q = l < 0.5 ? l * (1 + s) : l + s - l * s,
-			p = 2 * l - q;
-			r = hue2rgb(p, q, h + 1/3);
-			g = hue2rgb(p, q, h);
-			b = hue2rgb(p, q, h - 1/3);
-		}
+                if (!(color instanceof Color)) {
+                    return new Color(r, g, b, a);
+                }
 
-		return [r * 0xFF, g * 0xFF, b * 0xFF];
-	};
-	
-	Color.rgb = function (r, g, b, a) {
-		return new Color(r, g, b, typeof a !== undef ? a : 1);
-	};
-	
-	Color.hsl = function (h, s, l, a) {
-		var rgb = Color.HSLtoRGB([h, s, l]),
-		   ceil = math.ceil;
-		return new Color(ceil(rgb[0]), ceil(rgb[1]), ceil(rgb[2]), typeof a !== undef ? a : 1);
-	};
-	
-	Color.TO_STRING_METHOD = "hexTriplet"; // default toString method used
-	
-	Color.parse = function (color) {
-		color = color.replace(/^\s+/g, "") // trim leading whitespace
-			[lowerCase]();
-		
-		if (color[0] === "#") {
-			return new Color(color);
-		}
-		
-		var cssFn = color.substr(0, 3), i;
-		
-		color = color.replace(/[^\d,.]/g, "").split(",");
-		i     = color.length;
-		
-		while (i--) {
-			color[i] = color[i] && parseFloat(color[i]) || 0;
-		}
-		
-		switch (cssFn) {
-			case "rgb": // handle rgb[a](red, green, blue [, alpha])
-				return Color.rgb.apply(Color, color); // no need to break;
-			case "hsl": // handle hsl[a](hue, saturation, lightness [, alpha])
-				color[0] /= 360;
-				color[1] /= 100;
-				color[2] /= 100;
-				return Color.hsl.apply(Color, color);
-		}
-		
-		return null;
-	};
-	
-	(Color.clearColors = function () {
-		colorDict = {
-			transparent: [0, 0, 0, 0]
-		};
-	})();
-	
-	Color.define = function (color, rgb) {
-		colorDict[color[lowerCase]()] = rgb;
-	};
-	
-	Color.get = function (color) {
-		color = color[lowerCase]();
-		
-		if (Object.prototype.hasOwnProperty.call(colorDict, color)) {
-			return Color.apply(null, [].concat(colorDict[color]));
-		}
-		
-		return null;
-	};
-	
-	Color.del = function (color) {
-		return delete colorDict[color[lowerCase]()];
-	};
-	
-	Color.random = function (rangeStart, rangeEnd) {
-		typeof rangeStart === str &&
-			(rangeStart = Color.get(rangeStart)) &&
-			(rangeStart = rangeStart.getValue());
-		typeof rangeEnd === str &&
-			(rangeEnd = Color.get(rangeEnd)) &&
-			(rangeEnd = rangeEnd.getValue());
-		
-		var floor = math.floor,
-		   random = math.random;
-		
-		rangeEnd = (rangeEnd || 0xFFFFFF) + 1;
-		if (!isNaN(rangeStart)) {
-			return new Color(floor((random() * (rangeEnd - rangeStart)) + rangeStart));
-		}
-		// random color from #000000 to #FFFFFF
-		return new Color(floor(random() * rangeEnd));
-	};
-	
-	proto.toString = function () {
-		return this[Color.TO_STRING_METHOD]();
-	};
-	
-	proto.valueOf = proto.getValue = function () {
-		var channels = this.channels;
-		return (
-			(channels[0] * 0x10000) |
-			(channels[1] * 0x100  ) |
-			 channels[2]
-		);
-	};
-	
-	proto.setValue = function (value) {
-		this.channels.splice(
-			0, 3,
-			
-			value >>> 0x10,
-			(value & 0xFF00) / 0x100,
-			value & 0xFF
-		);
-	};
-	
-	proto.hexTriplet = ("01".substr(-1) === "1" ?
-	// pad 6 zeros to the left
-		function () {
-			return "#" + ("00000" + this.getValue().toString(16)).substr(-6);
-		}
-	: // IE doesn't support substr with negative numbers
-		function () {
-			var str = this.getValue().toString(16);
-			return "#" + (new Array( str.length < 6 ? 6 - str.length + 1 : 0)).join("0") + str;
-		}
-	);
-	
-	proto.css = function () {
-		var color = this;
-		return color.channels[3] === 1 ? color.hexTriplet() : color.rgba();
-	};
-	
-	// TODO: make the following functions less redundant
-	
-	proto.rgbData = function () {
-		return this.channels.slice(0, 3);
-	};
-	
-	proto.hslData = function () {
-		return Color.RGBtoHSL(this.rgbData());
-	};
-	
-	proto.rgb = function () {
-		return "rgb(" + this.rgbData().join(",") + ")";
-	};
-	
-	proto.rgba = function () {
-		return "rgba(" + this.channels.join(",") + ")";
-	};
-	
-	proto.hsl = function () {
-		var hsl = this.hslData();
-		return "hsl(" + hsl[0] * 360 + "," + (hsl[1] * 100) + "%," + (hsl[2] * 100) + "%)";
-	};
-	
-	proto.hsla = function () {
-		var hsl = this.hslData();
-		return "hsla(" + hsl[0] * 360 + "," + (hsl[1] * 100) + "%," + (hsl[2] * 100) + "%," + this.channels[3] + ")";
-	};
-	
-	return Color;
-}());
-KISSY.add("c~colors", function(S){
-    var P = S.namespace("chart"),
+                this.channels = [
+                    typeof r === str && parseHex(r) || r,
+                    typeof g === str && parseHex(g) || g,
+                    typeof b === str && parseHex(b) || b,
+                    (typeof a !== str && typeof a !== "number") && 1 ||
+                        typeof a === str && parseFloat(a) || a
+                ];
+            },
+            proto = Color.prototype,
+            undef = "undefined",
+            lowerCase = "toLowerCase",
+            math = Math,
+            colorDict;
+
+        // RGB to HSL and HSL to RGB code from
+        // http://www.mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
+
+        Color.RGBtoHSL = function (rgb) {
+            // in JS 1.7 use: var [r, g, b] = rgb;
+            var r = rgb[0],
+                g = rgb[1],
+                b = rgb[2];
+
+            r /= 255;
+            g /= 255;
+            b /= 255;
+
+            var max = math.max(r, g, b),
+                min = math.min(r, g, b),
+                h, s, l = (max + min) / 2;
+
+            if (max === min) {
+                h = s = 0; // achromatic
+            } else {
+                var d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+
+            return [h, s, l];
+
+        };
+
+        Color.HSLtoRGB = function (hsl) {
+            // in JS 1.7 use: var [h, s, l] = hsl;
+            var h = hsl[0],
+                s = hsl[1],
+                l = hsl[2],
+
+                r, g, b,
+
+                hue2rgb = function (p, q, t) {
+                    if (t < 0) {
+                        t += 1;
+                    }
+                    if (t > 1) {
+                        t -= 1;
+                    }
+                    if (t < 1 / 6) {
+                        return p + (q - p) * 6 * t;
+                    }
+                    if (t < 1 / 2) {
+                        return q;
+                    }
+                    if (t < 2 / 3) {
+                        return p + (q - p) * (2 / 3 - t) * 6;
+                    }
+                    return p;
+                };
+
+            if (s === 0) {
+                r = g = b = l; // achromatic
+            } else {
+                var
+                    q = l < 0.5 ? l * (1 + s) : l + s - l * s,
+                    p = 2 * l - q;
+                r = hue2rgb(p, q, h + 1 / 3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1 / 3);
+            }
+
+            return [r * 0xFF, g * 0xFF, b * 0xFF];
+        };
+
+        Color.rgb = function (r, g, b, a) {
+            return new Color(r, g, b, typeof a !== undef ? a : 1);
+        };
+
+        Color.hsl = function (h, s, l, a) {
+            var rgb = Color.HSLtoRGB([h, s, l]),
+                ceil = math.ceil;
+            return new Color(ceil(rgb[0]), ceil(rgb[1]), ceil(rgb[2]), typeof a !== undef ? a : 1);
+        };
+
+        Color.TO_STRING_METHOD = "hexTriplet"; // default toString method used
+
+        Color.parse = function (color) {
+            color = color.replace(/^\s+/g, "") // trim leading whitespace
+                [lowerCase]();
+
+            if (color[0] === "#") {
+                return new Color(color);
+            }
+
+            var cssFn = color.substr(0, 3), i;
+
+            color = color.replace(/[^\d,.]/g, "").split(",");
+            i = color.length;
+
+            while (i--) {
+                color[i] = color[i] && parseFloat(color[i]) || 0;
+            }
+
+            switch (cssFn) {
+                case "rgb": // handle rgb[a](red, green, blue [, alpha])
+                    return Color.rgb.apply(Color, color); // no need to break;
+                case "hsl": // handle hsl[a](hue, saturation, lightness [, alpha])
+                    color[0] /= 360;
+                    color[1] /= 100;
+                    color[2] /= 100;
+                    return Color.hsl.apply(Color, color);
+            }
+
+            return null;
+        };
+
+        (Color.clearColors = function () {
+            colorDict = {
+                transparent: [0, 0, 0, 0]
+            };
+        })();
+
+        Color.define = function (color, rgb) {
+            colorDict[color[lowerCase]()] = rgb;
+        };
+
+        Color.get = function (color) {
+            color = color[lowerCase]();
+
+            if (Object.prototype.hasOwnProperty.call(colorDict, color)) {
+                return Color.apply(null, [].concat(colorDict[color]));
+            }
+
+            return null;
+        };
+
+        Color.del = function (color) {
+            return delete colorDict[color[lowerCase]()];
+        };
+
+        Color.random = function (rangeStart, rangeEnd) {
+            typeof rangeStart === str &&
+                (rangeStart = Color.get(rangeStart)) &&
+            (rangeStart = rangeStart.getValue());
+            typeof rangeEnd === str &&
+                (rangeEnd = Color.get(rangeEnd)) &&
+            (rangeEnd = rangeEnd.getValue());
+
+            var floor = math.floor,
+                random = math.random;
+
+            rangeEnd = (rangeEnd || 0xFFFFFF) + 1;
+            if (!isNaN(rangeStart)) {
+                return new Color(floor((random() * (rangeEnd - rangeStart)) + rangeStart));
+            }
+            // random color from #000000 to #FFFFFF
+            return new Color(floor(random() * rangeEnd));
+        };
+
+        proto.toString = function () {
+            return this[Color.TO_STRING_METHOD]();
+        };
+
+        proto.valueOf = proto.getValue = function () {
+            var channels = this.channels;
+            return (
+                (channels[0] * 0x10000) |
+                    (channels[1] * 0x100  ) |
+                    channels[2]
+                );
+        };
+
+        proto.setValue = function (value) {
+            this.channels.splice(
+                0, 3,
+
+                value >>> 0x10,
+                (value & 0xFF00) / 0x100,
+                value & 0xFF
+                );
+        };
+
+        proto.hexTriplet = ("01".substr(-1) === "1" ?
+            // pad 6 zeros to the left
+            function () {
+                return "#" + ("00000" + this.getValue().toString(16)).substr(-6);
+            }
+            : // IE doesn't support substr with negative numbers
+            function () {
+                var str = this.getValue().toString(16);
+                return "#" + (new Array(str.length < 6 ? 6 - str.length + 1 : 0)).join("0") + str;
+            }
+            );
+
+        proto.css = function () {
+            var color = this;
+            return color.channels[3] === 1 ? color.hexTriplet() : color.rgba();
+        };
+
+        // TODO: make the following functions less redundant
+
+        proto.rgbData = function () {
+            return this.channels.slice(0, 3);
+        };
+
+        proto.hslData = function () {
+            return Color.RGBtoHSL(this.rgbData());
+        };
+
+        proto.rgb = function () {
+            return "rgb(" + this.rgbData().join(",") + ")";
+        };
+
+        proto.rgba = function () {
+            return "rgba(" + this.channels.join(",") + ")";
+        };
+
+        proto.hsl = function () {
+            var hsl = this.hslData();
+            return "hsl(" + hsl[0] * 360 + "," + (hsl[1] * 100) + "%," + (hsl[2] * 100) + "%)";
+        };
+
+        proto.hsla = function () {
+            var hsl = this.hslData();
+            return "hsla(" + hsl[0] * 360 + "," + (hsl[1] * 100) + "%," + (hsl[2] * 100) + "%," + this.channels[3] + ")";
+        };
+
+        return Color;
+    }());
+
+
+    var chart = S.namespace("Gallery.Chart");
+    chart.Color = Color;
+    return Color;
+});
+
+KISSY.add("gallery/chart/colors", function(S){
+    var P = S.namespace("Gallery.Chart"),
         colors = [
          { c : "#00AEEF" },
          { c : "#FF4037" },
@@ -376,9 +670,9 @@ KISSY.add("c~colors", function(S){
     ];
     P.colors = colors;
 });
-KISSY.add("m~path",function(S){
+KISSY.add("gallery/chart/path",function(S){
     var ie = S.UA.ie,
-        P = S.namespace("chart");
+        P = S.namespace("Gallery.Chart");
 
     function Path(x,y,w,h){ }
     S.augment(Path,{
@@ -458,9 +752,14 @@ KISSY.add("m~path",function(S){
     P.Path = Path;
     P.RectPath = RectPath;
     P.ArcPath = ArcPath;
+    return {
+        Path:Path,
+        RectPath:RectPath,
+        ArcPath:ArcPath
+    };
 });
-KISSY.add("m~frame",function(S){
-    var P = S.namespace("chart");
+KISSY.add("gallery/chart/frame",function(S){
+    var P = S.namespace("Gallery.Chart");
     function Frame(cfg){
         this.path = new P.RectPath(cfg.left,cfg.top,cfg.right-cfg.left,cfg.bottom-cfg.top);
     }
@@ -475,9 +774,10 @@ KISSY.add("m~frame",function(S){
         }
     });
     P.Frame = Frame;
+    return Frame;
 });
-KISSY.add("m~anim",function(S){
-    var P = S.namespace("chart"),
+KISSY.add("gallery/chart/anim",function(S){
+    var P = S.namespace("Gallery.Chart"),
         Easing = S.Easing;
     function Anim(duration,easing){
         this.duration = duration*1000;
@@ -498,9 +798,10 @@ KISSY.add("m~anim",function(S){
         }
     });
     P.Anim = Anim;
+    return Anim;
 });
-KISSY.add("chart~simpletooltip",function(S){
-    var P     = S.namespace("chart"),
+KISSY.add("gallery/chart/simpletooltip",function(S){
+    var P     = S.namespace("Gallery.Chart"),
         Dom   = S.DOM,
         Event = S.Event;
 
@@ -569,15 +870,17 @@ KISSY.add("chart~simpletooltip",function(S){
     });
 
     P.SimpleTooltip = SimpleTooltip;
+    return SimpleTooltip;
 });
-KISSY.add("m~axis",function(S){
-    var P = KISSY.namespace("chart"),
+KISSY.add("gallery/chart/axis", function(S) {
+    var P = KISSY.namespace("Gallery.Chart"),
         Event = S.Event,
         ATYPE = {
             LINE : 0,
             BAR : 1
         };
-    function Axis(data,chart,cfg,type){
+
+    function Axis(data, chart, cfg, type) {
         var self = this,
             label,cfgitem;
         this.chart = chart;
@@ -586,49 +889,50 @@ KISSY.add("m~axis",function(S){
         self.cfg = cfg;
         self.current_x = -1;
         self.initEvent();
-        S.each(data,function(item,label){
-            item.name = ("name" in item) && S.isString(item) && item.name.length > 0?"("+item.name+")":false;
+        S.each(data, function(item, label) {
+            item.name = ("name" in item) && S.isString(item) && item.name.length > 0 ? "(" + item.name + ")" : false;
         });
-        self.initdata(data,cfg);
+        self.initdata(data, cfg);
     }
-    S.mix(Axis,{
-        getMax : function(max,cfg){
+
+    S.mix(Axis, {
+        getMax : function(max, cfg) {
             var h = cfg.bottom - cfg.top,
                 n = Math.ceil(h / 40),
                 g = max / n,i;
-            if(g <= 1){
+            if (g <= 1) {
                 g = 1;
-            }else if(g > 1 && g <= 5){
+            } else if (g > 1 && g <= 5) {
                 g = Math.ceil(g);
-            }else if (g > 5 && g <= 10){
+            } else if (g > 5 && g <= 10) {
                 g = 10;
-            }else {
+            } else {
                 i = 1;
                 do{
                     i *= 10;
-                    g = g/10;
-                }while(g > 10)
+                    g = g / 10;
+                } while (g > 10)
                 g = Math.ceil(g) * i;
             }
             return g * n;
         }
     });
-    S.augment(Axis,S.EventTarget,{
-        initYLabel : function(data, cfg){
-            if(data.y.labels){
+    S.augment(Axis, S.EventTarget, {
+        initYLabel : function(data, cfg) {
+            if (data.y.labels) {
                 return null;
             }
-            var max    = cfg.max,
-                n      = Math.ceil((cfg.bottom - cfg.top)/40),
-                g      = max/n,
+            var max = cfg.max,
+                n = Math.ceil((cfg.bottom - cfg.top) / 40),
+                g = max / n,
                 labels = [];
-            for(i = 0; i <= n; i++){
+            for (i = 0; i <= n; i++) {
                 labels.push(g * i);
             }
             data.y.labels = labels
         },
-        initdata : function(data,cfg){
-            this.initYLabel(data,cfg);
+        initdata : function(data, cfg) {
+            this.initYLabel(data, cfg);
             var xd = data.x,
                 yd = data.y,
                 xl = xd.labels.length,
@@ -637,31 +941,31 @@ KISSY.add("m~axis",function(S){
                 left = cfg.left,
                 bottom = cfg.bottom,
                 top = cfg.top,
-                ygap = (bottom-top)/(yl-1),
+                ygap = (bottom - top) / (yl - 1),
                 width = right - left,
                 xgap, pathx,pathleft,pathright,
-                lgap = Math.ceil(120*xl/width);
+                lgap = Math.ceil(120 * xl / width);
             //init X Axis
             xd._lpath = {
-                x : right*2 - left,
+                x : right * 2 - left,
                 y : bottom + 20
             };
             xd._path = [];
             xd._area = [];
             xd._showlabel = [];
-            for(i = 0; i<xl; i++){
-                if(this.type === ATYPE.LINE){
-                    xgap = width/(xl-1);
+            for (i = 0; i < xl; i++) {
+                if (this.type === ATYPE.LINE) {
+                    xgap = width / (xl - 1);
                     pathx = left + i * xgap;
-                    pathleft = (i === 0)?pathx:pathx - xgap/2;
-                    pathright = (i===(xl-1))?pathx:pathx + xgap/2;
+                    pathleft = (i === 0) ? pathx : pathx - xgap / 2;
+                    pathright = (i === (xl - 1)) ? pathx : pathx + xgap / 2;
                 } else {
-                    xgap = width/xl;
+                    xgap = width / xl;
                     pathx = left + (i + 0.5) * xgap;
-                    pathleft = pathx-xgap/2;
-                    pathright = pathx+xgap/2;
+                    pathleft = pathx - xgap / 2;
+                    pathright = pathx + xgap / 2;
                 }
-                xd._showlabel.push(i===0 || i % lgap === 0);
+                xd._showlabel.push(i === 0 || i % lgap === 0);
                 xd._path.push({
                     left : pathleft,
                     right : pathright,
@@ -669,50 +973,50 @@ KISSY.add("m~axis",function(S){
                     bottom : bottom,
                     x : pathx
                 });
-                xd._area.push(new P.RectPath(pathleft,top,pathright-pathleft, bottom-top));
+                xd._area.push(new P.RectPath(pathleft, top, pathright - pathleft, bottom - top));
             }
             //init Y Axis
             yd._lpath = {
-                x: (bottom - top)/2 + top,
+                x: (bottom - top) / 2 + top,
                 y : -10
             };
             yd._path = [];
-            for(i=0; i<yl; i++){
+            for (i = 0; i < yl; i++) {
                 yd._path.push({
-                    y : bottom - ygap*i,
+                    y : bottom - ygap * i,
                     left : left,
                     right : right
                 });
             }
         },
-        initEvent : function(){
-            if(this.type === ATYPE.LINE){
-                Event.on(this.chart,"mousemove",this.chartMouseMove,this);
-                Event.on(this.chart,"mouseleave",this.chartMouseLeave,this);
+        initEvent : function() {
+            if (this.type === ATYPE.LINE) {
+                Event.on(this.chart, "mousemove", this.chartMouseMove, this);
+                Event.on(this.chart, "mouseleave", this.chartMouseLeave, this);
             }
         },
-        destory : function(){
-            if(this.type === ATYPE.LINE){
-                Event.remove(this.chart,"mousemove",this.chartMouseMove);
-                Event.remove(this.chart,"mouseleave",this.chartMouseLeave,this);
+        destory : function() {
+            if (this.type === ATYPE.LINE) {
+                Event.remove(this.chart, "mousemove", this.chartMouseMove);
+                Event.remove(this.chart, "mouseleave", this.chartMouseLeave, this);
             }
         },
-        chartMouseMove : function(ev){
+        chartMouseMove : function(ev) {
             var self = this;
-            S.each(self.data.x._area,function(path,idx){
-                if(idx !== self.current_x && path.inpath(ev.x,ev.y)){
+            S.each(self.data.x._area, function(path, idx) {
+                if (idx !== self.current_x && path.inpath(ev.x, ev.y)) {
                     self.current_x = idx;
-                    self.fire("xaxishover",{index : idx, x : self.data.x._path[idx].x});
+                    self.fire("xaxishover", {index : idx, x : self.data.x._path[idx].x});
                     self.fire("redraw");
                 }
             });
         },
-        chartMouseLeave : function(ev){
+        chartMouseLeave : function(ev) {
             this.current_x = -1;
             this.fire("redraw");
             this.fire("leave");
         },
-        draw : function(ctx){
+        draw : function(ctx) {
             var self = this,
                 cfgx = this.data.x,
                 cfgy = this.data.y,
@@ -724,57 +1028,57 @@ KISSY.add("m~axis",function(S){
                 i, iscurrent,px,py,textwidth,labelx,showlabel;
             ctx.save();
             //draw y axis
-            for(i = 0; i < ly; i++){
+            for (i = 0; i < ly; i++) {
                 py = cfgy._path[i];
                 label = cfgy.labels[i];
                 //draw even bg
-                if(i%2 === 1 && i>0){
+                if (i % 2 === 1 && i > 0) {
                     ctx.save();
                     ctx.fillStyle = "#f7f7f7";
                     ctx.fillRect(
                         py.left,
                         py.y,
-                        py.right-py.left,
-                        cfgy._path[i-1].y - py.y);
+                        py.right - py.left,
+                        cfgy._path[i - 1].y - py.y);
                     ctx.restore();
                 }
                 //draw grid
-                if(i !== 0 && i!== ly-1){
+                if (i !== 0 && i !== ly - 1) {
                     ctx.strokeStyle = "#e4e4e4";
                     ctx.lineWidth = "1.0";
                     ctx.beginPath();
-                    ctx.moveTo(py.left,py.y);
-                    ctx.lineTo(py.right,py.y);
+                    ctx.moveTo(py.left, py.y);
+                    ctx.lineTo(py.right, py.y);
                     ctx.stroke();
                 }
                 //draw label
-                if(label ){
+                if (label) {
                     ctx.font = "12px Tohoma";
                     ctx.textAlign = "right";
                     ctx.textBaseline = "middle";
                     ctx.fillStyle = "#808080";
-                    ctx.fillText(label, py.left - 5,  py.y);
+                    ctx.fillText(label, py.left - 5, py.y);
                 }
             }
             //draw x axis
-            for(i = 0; i<lx; i++){
+            for (i = 0; i < lx; i++) {
                 iscurrent = (i === self.current_x);
                 px = cfgx._path[i];
                 label = cfgx.labels[i];
                 showlabel = cfgx._showlabel[i];
                 //draw x grid
-                ctx.strokeStyle = isline && iscurrent?"#404040":"#e4e4e4";
-                ctx.lineWidth = isline && iscurrent?"1.6":"1.0";
-                if(isbar){
-                    if(i !== 0){
+                ctx.strokeStyle = isline && iscurrent ? "#404040" : "#e4e4e4";
+                ctx.lineWidth = isline && iscurrent ? "1.6" : "1.0";
+                if (isbar) {
+                    if (i !== 0) {
                         ctx.beginPath();
-                        ctx.moveTo(px.left,px.bottom);
-                        ctx.lineTo(px.left,px.top);
+                        ctx.moveTo(px.left, px.bottom);
+                        ctx.lineTo(px.left, px.top);
                         ctx.stroke();
                     }
                 }
-                if(isline){
-                    if(i!==0 && i !== lx-1){
+                if (isline) {
+                    if (i !== 0 && i !== lx - 1) {
                         ctx.beginPath();
                         ctx.moveTo(px.x, px.bottom);
                         ctx.lineTo(px.x, px.top);
@@ -782,37 +1086,37 @@ KISSY.add("m~axis",function(S){
                     }
                 }
                 //draw x label
-                if(label && showlabel){
+                if (label && showlabel) {
                     ctx.font = "13px Tahoma";
-                    if(isline && i === 0 ){
+                    if (isline && i === 0) {
                         ctx.textAlign = "left";
-                    }else if(isline && i === lx - 1){
+                    } else if (isline && i === lx - 1) {
                         ctx.textAlign = "right";
-                    }else {
+                    } else {
                         ctx.textAlign = "center";
                     }
                     ctx.textBaseline = "top";
                     ctx.fillStyle = "#AAAAAA";
-                    ctx.fillText(label, px.x, px.bottom+ 5);
+                    ctx.fillText(label, px.x, px.bottom + 5);
                 }
             }
-            if(self.current_x !== -1 ){
+            if (self.current_x !== -1) {
                 px = cfgx._path[self.current_x];
                 label = cfgx.labels[self.current_x];
                 ctx.font = "12px Tahoma";
                 textwidth = ctx.measureText(label).width + 6;
                 ctx.fillStyle = "#333";
-                labelx = Math.max(px.x - textwidth/2, self.cfg.left);
+                labelx = Math.max(px.x - textwidth / 2, self.cfg.left);
                 labelx = Math.min(labelx, self.cfg.right - textwidth);
                 ctx.fillRect(labelx, px.bottom, textwidth, 20);
                 ctx.textAlign = "left";
                 ctx.fillStyle = "#ffffff";
-                ctx.fillText(label, labelx + 2 , px.bottom + 5);
+                ctx.fillText(label, labelx + 2, px.bottom + 5);
             }
             ctx.restore();
             self.drawLabels(ctx);
         },
-        drawLabels : function(ctx){
+        drawLabels : function(ctx) {
             var self = this,
                 data = self.data,
                 yname = data.y.name,
@@ -825,27 +1129,28 @@ KISSY.add("m~axis",function(S){
             ctx.fillStyle = "#808080";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            if(xname){
+            if (xname) {
                 ctx.fillText(xname, px.x, px.y);
             }
-            if(yname){
-                ctx.rotate(Math.PI/2);
-                ctx.translate(py.x,py.y);
-                ctx.fillText(yname,0,0);
+            if (yname) {
+                ctx.rotate(Math.PI / 2);
+                ctx.translate(py.x, py.y);
+                ctx.fillText(yname, 0, 0);
             }
             ctx.restore();
         }
     });
     P.Axis = Axis;
+    return Axis;
 });
-KISSY.add("m~element",function(S){
-    var P = S.namespace("chart"),
+KISSY.add("gallery/chart/element",function(S){
+    var P = S.namespace("Gallery.Chart"),
         Dom = S.DOM,
         Event = S.Event,
 
         darker = function(c){
             var hsl = c.hslData();
-            return new Color.hsl(hsl[0],hsl[1],hsl[2]*0.6);
+            return new P.Color.hsl(hsl[0],hsl[1],hsl[2]*0.6);
         };
 
     function Element (data,chart,drawcfg){
@@ -913,7 +1218,7 @@ KISSY.add("m~element",function(S){
                         S.each(element.data,function(d,idx){
                             fmt = '';
                             if(S.isNumber(d)){
-                                fmt = d.format(element.format);
+                                fmt = P.format(d,element.format);
                             }else{
                                 fmt = "null";
                                 element.data[idx] = 0;
@@ -1223,7 +1528,7 @@ KISSY.add("m~element",function(S){
                 k = self.anim.get(), i;
             self.drawNames(ctx);
             S.each(data, function(bar,idx){
-                color = new Color(P.colors[idx].c);
+                color = new P.Color(P.colors[idx].c);
                 colord = darker(color);
                 for(i = 0; i< ml; i++){
                     barleft = bar._left[i];
@@ -1244,7 +1549,7 @@ KISSY.add("m~element",function(S){
                         ctx.font = "20px bold Arial";
                         ctx.textBaseline = "top";
                         ctx.textAlign = "center";
-                        ctx.fillText(bar.data[i].format(bar.format), bar._x[i], bartop + 2);
+                        ctx.fillText(P.format(bar.data[i],bar.format), bar._x[i], bartop + 2);
                         ctx.restore();
                     }
                 }
@@ -1343,7 +1648,7 @@ KISSY.add("m~element",function(S){
             start = 0;
             S.each(data,function(item,idx){
                 pecent = item.data/total;
-                color = new Color(P.colors[idx].c);
+                color = new P.Color(P.colors[idx].c);
                 colord = darker(color);
                 self._start.push(start);
                 self._pecent.push(item.data/total);
@@ -1416,272 +1721,10 @@ KISSY.add("m~element",function(S){
     P.LineElement = LineElement;
     P.BarElement = BarElement;
     P.PieElement = PieElement;
-});
-KISSY.add("chart",function(S){
-    var P     = S.namespace("chart"),
-        Event = S.Event,
-        Dom   = S.DOM;
-
-    /**
-     * 图表默认配置
-     */
-    var defaultCfg = {
-        left:40,
-        top:38
+    return {
+        Element:Element,
+        LineElement:LineElement,
+        BarElement:BarElement,
+        PieElement:PieElement
     };
-
-    /**
-     * class Chart
-     * @constructor
-     * @param {(string|object)} the canvas element
-     */
-    function Chart (canvas, data){
-        if(!(this instanceof Chart)) return new Chart(canvas,data);
-
-        var elCanvas = Dom.get(canvas);
-
-        if(!elCanvas || !elCanvas.getContext){
-            S.log("Canvas not found");
-            return;
-        }
-
-        var self = this,
-            ctx = elCanvas.getContext("2d"),
-            width = elCanvas.width,
-            height = elCanvas.height;
-
-        this.elCanvas = elCanvas;
-        this.ctx = ctx;
-        this.width = width;
-        this.height = height;
-
-
-        this._stooltip = Chart.getTooltip();
-        this._chartAnim = new P.Anim(0.3,"easeIn");
-
-        //自动渲染
-        if(data){
-            this.render(data);
-        }
-    }
-    /**
-     * 获取ToolTip 对象， 所有图表共享一个Tooltip
-     */
-    Chart.getTooltip = function(){
-        if(!Chart.tooltip){
-            Chart.tooltip = new P.SimpleTooltip();
-        }
-        return Chart.tooltip;
-    }
-
-    S.augment(Chart,
-        S.EventTarget, /**@lends Chart.prototype*/{
-        /**
-         * render form
-         * @param {Object} the chart data
-         */
-        render : function(data){
-            var self = this,
-                type = data.type;
-
-            self.init();
-            if(!type || !data.elements || !data.axis){
-                return;
-            }
-            data = S.clone(data);
-            self.data = data;
-            self._drawcfg = S.merge(defaultCfg, data.config, {width:self.width,
-                height : self.height,
-                right : self.width - 10,
-                bottom : self.height - 20
-            });
-            self._frame = new P.Frame(self._drawcfg);
-            if(type === "bar" || type === "line"){
-                self._drawcfg.max = data.axis.y.max || P.Axis.getMax(P.Element.getMax(data.elements), self._drawcfg);
-                self.axis = new P.Axis(data.axis,self,self._drawcfg,type);
-                self.layers.push(self.axis);
-            }
-            self.element = P.Element.getElement(data.elements,self,self._drawcfg, data.type);
-            self.layers.push(self._frame);
-            self.layers.push(self.element);
-            setTimeout(function(){
-                self._redraw();
-                self.initEvent();
-            },100);
-        },
-        /**
-         * show the loading text
-         */
-        loading : function(){
-            this.showMessage("\u8F7D\u5165\u4E2D...");
-        },
-
-        /**
-         * show text
-         */
-        showMessage : function(m){
-            var ctx = this.ctx,
-                tx = this.width/2,
-                ty = this.height/2;
-            ctx.clearRect(0,0,this.width,this.height);
-            ctx.save();
-            ctx.font = "12px Arial";
-            ctx.textAlign = "center";
-            ctx.fillStyle = "#808080";
-            ctx.fillText(m,tx,ty);
-            ctx.restore();
-        },
-        /**
-         * init the chart for render
-         * this will remove all the event
-         * @private
-         */
-        init : function(){
-            this._chartAnim.init();
-            this.layers = [];
-            this.offset = Dom.offset(this.elCanvas);
-            this.loading();
-
-            S.each([this.element,this.axis],function(item){
-                if(item){
-                    item.destory();
-                    Event.remove(item);
-                }
-            });
-
-            this.element = null;
-            this.axis = null;
-            if(this._event_inited){
-                Event.remove(this.elCanvas,"mousemove",this._mousemoveHandle);
-                Event.remove(this.elCanvas,"mouseleave",this._mouseLeaveHandle);
-                Event.remove(this,"mouseleave",this._drawAreaLeave);
-            }
-            this._stooltip.hide();
-        },
-        initEvent : function(){
-            this._event_inited = true;
-            Event.on(this.elCanvas,"mousemove",this._mousemoveHandle,this);
-            Event.on(this.elCanvas,"mouseleave",this._mouseLeaveHandle,this);
-            Event.on(this,"mouseleave",this._drawAreaLeave,this);
-            if(this.type === "bar"){
-                Event.on(this.element,"barhover",this._barHover,this);
-            }
-            if(this.axis){
-                Event.on(this.axis, "xaxishover",this._xAxisHover,this);
-                Event.on(this.axis,"leave",this._xAxisLeave,this);
-                Event.on(this.axis, "redraw", this._redraw,this);
-            }
-            Event.on(this.element,"redraw",this._redraw,this);
-            Event.on(this.element,"showtooltip",function(e){
-                this._stooltip.show(e.message.innerHTML);
-            },this);
-            Event.on(this.element,"hidetooltip",function(e){
-                this._stooltip.hide();
-            },this);
-        },
-        /**
-         * draw all layers
-         * @private
-         */
-        draw : function(){
-            var self = this,
-                ctx = self.ctx,
-                k = self._chartAnim.get(),
-                size = self._drawcfg;
-            ctx.clearRect(0,0,size.width,size.height);
-            ctx.globalAlpha = k;
-            S.each(self.layers,function(e,i){
-                e.draw(ctx, size);
-            });
-            if(k < 1) {
-                this._redraw();
-            }
-        },
-        /**
-         * @private
-         * redraw the layers
-         */
-        _redraw : function(){
-            this._redrawmark = true;
-            if(!this._running){
-                this._run();
-            }
-        },
-        /**
-         * run the Timer
-         * @private
-         */
-        _run : function(){
-            var self = this;
-            clearTimeout(self._timeoutid);
-            self._running = true;
-            self._redrawmark = false;
-            self._timeoutid = setTimeout(function go(){
-                self.draw();
-                if(self._redrawmark){
-                    self._run();
-                }else{
-                    self._running = false;
-                }
-            },1000/24);
-        },
-        /**
-         * event handler
-         * @private
-         */
-        _barHover : function(ev){
-        },
-        /**
-         * event handler
-         * @private
-         */
-        _xAxisLeave : function(ev){
-            //this._redraw();
-            this.fire("axisleave",ev);
-        },
-        /**
-         * event handler
-         * @private
-         */
-        _xAxisHover : function(ev){
-            this.fire("axishover",ev);
-            this._redraw();
-        },
-        /**
-         * event handler
-         * @private
-         */
-        _drawAreaLeave : function(ev){
-            this._stooltip.hide();
-        },
-        /**
-         * event handler
-         * @private
-         */
-        _mousemoveHandle : function(e){
-            var ox = e.offsetX || e.pageX - this.offset.left,
-                oy = e.offsetY || e.pageY - this.offset.top;
-            //if(this._frame && this._frame.path && this._frame.path.inpath(ox,oy)){
-                this.fire("mousemove",{x:ox,y:oy});
-            //}
-        },
-        /**
-         * event handler
-         * @private
-         */
-        _mouseLeaveHandle : function(ev){
-            //var to = ev.toElement || ev.relatedTarget,
-                //t = to!== this._tooltip.el,
-                //c = to!==this.elCanvas,
-                //t2 = !Dom.contains(this._tooltip.el, to);
-            //if( c && t && t2){
-            this.fire("mouseleave");
-            //}
-        }
-    });
-
-    /*export*/
-    var Gallery = S.namespace("Gallery");
-    Gallery.Chart = Chart;
-    S.Chart = Chart;
 });

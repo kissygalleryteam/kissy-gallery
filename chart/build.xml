@@ -12,28 +12,28 @@
 
   <target name="concat" depends="init"
         description="concat the source " >
-        <concat destfile="${build}/chart-pkg.js"
+        <concat destfile="${build}/chart.js"
             encoding="utf-8"
             outputencoding="utf-8">
       <path>
-          <filelist dir="${src}/js">
-              <!--<file name="color.js/color.js" />-->
-              <file name="format_number.js" />
-              <file name="color.js" />
-              <file name="c~colors.js" />
-              <file name="m~path.js" />
-              <file name="m~frame.js" />
-              <file name="m~anim.js" />
-              <file name="m~simpletooltip.js" />
-              <file name="m~axis.js" />
-              <file name="m~element.js" />
-              <file name="m~chart.js" />
+          <filelist dir="${src}">
+              <file name="chart.js" />
+              <file name="chart/format.js" />
+              <file name="chart/color.js" />
+              <file name="chart/colors.js" />
+              <file name="chart/path.js" />
+              <file name="chart/frame.js" />
+              <file name="chart/anim.js" />
+              <file name="chart/simpletooltip.js" />
+              <file name="chart/axis.js" />
+              <file name="chart/element.js" />
+
           </filelist>
       </path>
    </concat>
   </target>
   <target name="cssbuild" depends="init">
-      <copy file="${src}/css/chart.css" tofile="${build}/chart.css"/>
+      <copy file="${src}/assets/chart.css" tofile="${build}/chart.css"/>
   </target>
   <target name="build" depends = "concat,cssbuild">
   </target>

@@ -1,11 +1,11 @@
-KISSY.add("m~element",function(S){
-    var P = S.namespace("chart"),
+KISSY.add("gallery/chart/element",function(S){
+    var P = S.namespace("Gallery.Chart"),
         Dom = S.DOM,
         Event = S.Event,
 
         darker = function(c){
             var hsl = c.hslData();
-            return new Color.hsl(hsl[0],hsl[1],hsl[2]*0.6);
+            return new P.Color.hsl(hsl[0],hsl[1],hsl[2]*0.6);
         };
 
     function Element (data,chart,drawcfg){
@@ -73,7 +73,7 @@ KISSY.add("m~element",function(S){
                         S.each(element.data,function(d,idx){
                             fmt = '';
                             if(S.isNumber(d)){
-                                fmt = d.format(element.format);
+                                fmt = P.format(d,element.format);
                             }else{
                                 fmt = "null";
                                 element.data[idx] = 0;
@@ -383,7 +383,7 @@ KISSY.add("m~element",function(S){
                 k = self.anim.get(), i;
             self.drawNames(ctx);
             S.each(data, function(bar,idx){
-                color = new Color(P.colors[idx].c);
+                color = new P.Color(P.colors[idx].c);
                 colord = darker(color);
                 for(i = 0; i< ml; i++){
                     barleft = bar._left[i];
@@ -404,7 +404,7 @@ KISSY.add("m~element",function(S){
                         ctx.font = "20px bold Arial";
                         ctx.textBaseline = "top";
                         ctx.textAlign = "center";
-                        ctx.fillText(bar.data[i].format(bar.format), bar._x[i], bartop + 2);
+                        ctx.fillText(P.format(bar.data[i],bar.format), bar._x[i], bartop + 2);
                         ctx.restore();
                     }
                 }
@@ -503,7 +503,7 @@ KISSY.add("m~element",function(S){
             start = 0;
             S.each(data,function(item,idx){
                 pecent = item.data/total;
-                color = new Color(P.colors[idx].c);
+                color = new P.Color(P.colors[idx].c);
                 colord = darker(color);
                 self._start.push(start);
                 self._pecent.push(item.data/total);
@@ -576,4 +576,10 @@ KISSY.add("m~element",function(S){
     P.LineElement = LineElement;
     P.BarElement = BarElement;
     P.PieElement = PieElement;
+    return {
+        Element:Element,
+        LineElement:LineElement,
+        BarElement:BarElement,
+        PieElement:PieElement
+    };
 });

@@ -1,5 +1,5 @@
-KISSY.add("m~frame",function(S){
-    var P = S.namespace("chart");
+KISSY.add("gallery/chart/frame",function(S){
+    var P = S.namespace("Gallery.Chart");
     function Frame(cfg){
         this.path = new P.RectPath(cfg.left,cfg.top,cfg.right-cfg.left,cfg.bottom-cfg.top);
     }
@@ -14,4 +14,5 @@ KISSY.add("m~frame",function(S){
         }
     });
     P.Frame = Frame;
+    return Frame;
 });

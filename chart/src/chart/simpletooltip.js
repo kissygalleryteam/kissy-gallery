@@ -1,5 +1,5 @@
-KISSY.add("chart~simpletooltip",function(S){
-    var P     = S.namespace("chart"),
+KISSY.add("gallery/chart/simpletooltip",function(S){
+    var P     = S.namespace("Gallery.Chart"),
         Dom   = S.DOM,
         Event = S.Event;
 
@@ -68,4 +68,5 @@ KISSY.add("chart~simpletooltip",function(S){
     });
 
     P.SimpleTooltip = SimpleTooltip;
+    return SimpleTooltip;
 });

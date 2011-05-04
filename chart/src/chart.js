@@ -1,7 +1,10 @@
-KISSY.add("chart",function(S){
-    var P     = S.namespace("chart"),
-        Event = S.Event,
-        Dom   = S.DOM;
+KISSY.add("gallery/chart", function(S, CAnim) {
+    var Event = S.Event,
+        Dom = S.DOM;
+    var P = S.namespace("Gallery.Chart");
+    //kissy < 1.2
+    CAnim = P.Anim;
+
 
     /**
      * 图表默认配置
@@ -16,12 +19,12 @@ KISSY.add("chart",function(S){
      * @constructor
      * @param {(string|object)} the canvas element
      */
-    function Chart (canvas, data){
-        if(!(this instanceof Chart)) return new Chart(canvas,data);
+    function Chart(canvas, data) {
+        if (!(this instanceof Chart)) return new Chart(canvas, data);
 
         var elCanvas = Dom.get(canvas);
 
-        if(!elCanvas || !elCanvas.getContext){
+        if (!elCanvas || !elCanvas.getContext) {
             S.log("Canvas not found");
             return;
         }
@@ -38,18 +41,19 @@ KISSY.add("chart",function(S){
 
 
         this._stooltip = Chart.getTooltip();
-        this._chartAnim = new P.Anim(0.3,"easeIn");
+        this._chartAnim = new CAnim(0.3, "easeIn");
 
         //自动渲染
-        if(data){
+        if (data) {
             this.render(data);
         }
     }
+
     /**
      * 获取ToolTip 对象， 所有图表共享一个Tooltip
      */
-    Chart.getTooltip = function(){
-        if(!Chart.tooltip){
+    Chart.getTooltip = function() {
+        if (!Chart.tooltip) {
             Chart.tooltip = new P.SimpleTooltip();
         }
         return Chart.tooltip;
@@ -61,12 +65,12 @@ KISSY.add("chart",function(S){
          * render form
          * @param {Object} the chart data
          */
-        render : function(data){
+        render : function(data) {
             var self = this,
                 type = data.type;
 
             self.init();
-            if(!type || !data.elements || !data.axis){
+            if (!type || !data.elements || !data.axis) {
                 return;
             }
             data = S.clone(data);
@@ -77,39 +81,39 @@ KISSY.add("chart",function(S){
                 bottom : self.height - 20
             });
             self._frame = new P.Frame(self._drawcfg);
-            if(type === "bar" || type === "line"){
+            if (type === "bar" || type === "line") {
                 self._drawcfg.max = data.axis.y.max || P.Axis.getMax(P.Element.getMax(data.elements), self._drawcfg);
-                self.axis = new P.Axis(data.axis,self,self._drawcfg,type);
+                self.axis = new P.Axis(data.axis, self, self._drawcfg, type);
                 self.layers.push(self.axis);
             }
-            self.element = P.Element.getElement(data.elements,self,self._drawcfg, data.type);
+            self.element = P.Element.getElement(data.elements, self, self._drawcfg, data.type);
             self.layers.push(self._frame);
             self.layers.push(self.element);
-            setTimeout(function(){
+            setTimeout(function() {
                 self._redraw();
                 self.initEvent();
-            },100);
+            }, 100);
         },
         /**
          * show the loading text
          */
-        loading : function(){
+        loading : function() {
             this.showMessage("\u8F7D\u5165\u4E2D...");
         },
 
         /**
          * show text
          */
-        showMessage : function(m){
+        showMessage : function(m) {
             var ctx = this.ctx,
-                tx = this.width/2,
-                ty = this.height/2;
-            ctx.clearRect(0,0,this.width,this.height);
+                tx = this.width / 2,
+                ty = this.height / 2;
+            ctx.clearRect(0, 0, this.width, this.height);
             ctx.save();
             ctx.font = "12px Arial";
             ctx.textAlign = "center";
             ctx.fillStyle = "#808080";
-            ctx.fillText(m,tx,ty);
+            ctx.fillText(m, tx, ty);
             ctx.restore();
         },
         /**
@@ -117,14 +121,14 @@ KISSY.add("chart",function(S){
          * this will remove all the event
          * @private
          */
-        init : function(){
+        init : function() {
             this._chartAnim.init();
             this.layers = [];
             this.offset = Dom.offset(this.elCanvas);
             this.loading();
 
-            S.each([this.element,this.axis],function(item){
-                if(item){
+            S.each([this.element,this.axis], function(item) {
+                if (item) {
                     item.destory();
                     Event.remove(item);
                 }
@@ -132,49 +136,49 @@ KISSY.add("chart",function(S){
 
             this.element = null;
             this.axis = null;
-            if(this._event_inited){
-                Event.remove(this.elCanvas,"mousemove",this._mousemoveHandle);
-                Event.remove(this.elCanvas,"mouseleave",this._mouseLeaveHandle);
-                Event.remove(this,"mouseleave",this._drawAreaLeave);
+            if (this._event_inited) {
+                Event.remove(this.elCanvas, "mousemove", this._mousemoveHandle);
+                Event.remove(this.elCanvas, "mouseleave", this._mouseLeaveHandle);
+                Event.remove(this, "mouseleave", this._drawAreaLeave);
             }
             this._stooltip.hide();
         },
-        initEvent : function(){
+        initEvent : function() {
             this._event_inited = true;
-            Event.on(this.elCanvas,"mousemove",this._mousemoveHandle,this);
-            Event.on(this.elCanvas,"mouseleave",this._mouseLeaveHandle,this);
-            Event.on(this,"mouseleave",this._drawAreaLeave,this);
-            if(this.type === "bar"){
-                Event.on(this.element,"barhover",this._barHover,this);
+            Event.on(this.elCanvas, "mousemove", this._mousemoveHandle, this);
+            Event.on(this.elCanvas, "mouseleave", this._mouseLeaveHandle, this);
+            Event.on(this, "mouseleave", this._drawAreaLeave, this);
+            if (this.type === "bar") {
+                Event.on(this.element, "barhover", this._barHover, this);
             }
-            if(this.axis){
-                Event.on(this.axis, "xaxishover",this._xAxisHover,this);
-                Event.on(this.axis,"leave",this._xAxisLeave,this);
-                Event.on(this.axis, "redraw", this._redraw,this);
+            if (this.axis) {
+                Event.on(this.axis, "xaxishover", this._xAxisHover, this);
+                Event.on(this.axis, "leave", this._xAxisLeave, this);
+                Event.on(this.axis, "redraw", this._redraw, this);
             }
-            Event.on(this.element,"redraw",this._redraw,this);
-            Event.on(this.element,"showtooltip",function(e){
+            Event.on(this.element, "redraw", this._redraw, this);
+            Event.on(this.element, "showtooltip", function(e) {
                 this._stooltip.show(e.message.innerHTML);
-            },this);
-            Event.on(this.element,"hidetooltip",function(e){
+            }, this);
+            Event.on(this.element, "hidetooltip", function(e) {
                 this._stooltip.hide();
-            },this);
+            }, this);
         },
         /**
          * draw all layers
          * @private
          */
-        draw : function(){
+        draw : function() {
             var self = this,
                 ctx = self.ctx,
                 k = self._chartAnim.get(),
                 size = self._drawcfg;
-            ctx.clearRect(0,0,size.width,size.height);
+            ctx.clearRect(0, 0, size.width, size.height);
             ctx.globalAlpha = k;
-            S.each(self.layers,function(e,i){
+            S.each(self.layers, function(e, i) {
                 e.draw(ctx, size);
             });
-            if(k < 1) {
+            if (k < 1) {
                 this._redraw();
             }
         },
@@ -182,9 +186,9 @@ KISSY.add("chart",function(S){
          * @private
          * redraw the layers
          */
-        _redraw : function(){
+        _redraw : function() {
             this._redrawmark = true;
-            if(!this._running){
+            if (!this._running) {
                 this._run();
             }
         },
@@ -192,69 +196,69 @@ KISSY.add("chart",function(S){
          * run the Timer
          * @private
          */
-        _run : function(){
+        _run : function() {
             var self = this;
             clearTimeout(self._timeoutid);
             self._running = true;
             self._redrawmark = false;
-            self._timeoutid = setTimeout(function go(){
+            self._timeoutid = setTimeout(function go() {
                 self.draw();
-                if(self._redrawmark){
+                if (self._redrawmark) {
                     self._run();
-                }else{
+                } else {
                     self._running = false;
                 }
-            },1000/24);
+            }, 1000 / 24);
         },
         /**
          * event handler
          * @private
          */
-        _barHover : function(ev){
+        _barHover : function(ev) {
         },
         /**
          * event handler
          * @private
          */
-        _xAxisLeave : function(ev){
+        _xAxisLeave : function(ev) {
             //this._redraw();
-            this.fire("axisleave",ev);
+            this.fire("axisleave", ev);
         },
         /**
          * event handler
          * @private
          */
-        _xAxisHover : function(ev){
-            this.fire("axishover",ev);
+        _xAxisHover : function(ev) {
+            this.fire("axishover", ev);
             this._redraw();
         },
         /**
          * event handler
          * @private
          */
-        _drawAreaLeave : function(ev){
+        _drawAreaLeave : function(ev) {
             this._stooltip.hide();
         },
         /**
          * event handler
          * @private
          */
-        _mousemoveHandle : function(e){
+        _mousemoveHandle : function(e) {
             var ox = e.offsetX || e.pageX - this.offset.left,
                 oy = e.offsetY || e.pageY - this.offset.top;
             //if(this._frame && this._frame.path && this._frame.path.inpath(ox,oy)){
-                this.fire("mousemove",{x:ox,y:oy});
+            this.fire("mousemove", {x:ox,y:oy});
             //}
         },
         /**
          * event handler
          * @private
          */
-        _mouseLeaveHandle : function(ev){
+        _mouseLeaveHandle : function(ev) {
             //var to = ev.toElement || ev.relatedTarget,
-                //t = to!== this._tooltip.el,
-                //c = to!==this.elCanvas,
-                //t2 = !Dom.contains(this._tooltip.el, to);
+            //t = to!== this._tooltip.el,
+            //c = to!==this.elCanvas,
+            //t2 = !Dom.contains(this._tooltip.el, to);
             //if( c && t && t2){
             this.fire("mouseleave");
             //}
@@ -262,7 +266,13 @@ KISSY.add("chart",function(S){
     });
 
     /*export*/
-    var Gallery = S.namespace("Gallery");
-    Gallery.Chart = Chart;
-    S.Chart = Chart;
+    P.Chart = Chart;
+    return Chart;
+}, {
+    requires:['./chart/anim',
+        './chart/axis',
+        './chart/simpletooltip',
+        './chart/frame',
+        './chart/element'
+    ]
 });

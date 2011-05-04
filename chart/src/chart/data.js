@@ -1,5 +1,5 @@
-KISSY.add("chart~data",function(S){
-    P = S.namespace("chart");
+KISSY.add("gallery/chart/data",function(S){
+    var P = S.namespace("Gallery.Chart");
     /**
      * @constructor 图表数据
      */

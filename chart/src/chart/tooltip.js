@@ -1,7 +1,7 @@
-KISSY.add("m~tooltip",function(S){
+KISSY.add("gallery/chart/tooltip",function(S){
     var Dom = S.DOM,
         Event = S.Event,
-        P = S.namespace("chart");
+        P = S.namespace("Gallery.Chart");
     /**
      * @constructor
      * @param {DOMObject} the container of tooltip
@@ -92,4 +92,5 @@ KISSY.add("m~tooltip",function(S){
         }
     });
     P.Tooltip = Tooltip;
+    return Tooltip;
 });
