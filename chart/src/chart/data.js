@@ -1,9 +1,11 @@
 KISSY.add("gallery/chart/data",function(S){
     var P = S.namespace("Gallery.Chart");
     /**
-     * @constructor 图表数据
+     * 图表数据
+     * @constructor
      */
     function Data(data){
+
     }
     S.augment(Data,{
         axis : function(){},

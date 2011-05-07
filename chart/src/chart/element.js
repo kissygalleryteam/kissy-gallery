@@ -53,7 +53,7 @@ KISSY.add("gallery/chart/element",function(S){
         S.EventTarget,{
         /**
          * normalize the data
-         * @argument {object} the data of chart elements
+         * @argument {Object} the data of chart elements
          */
         normalize : function(data){
             var label,newlabel,
@@ -87,6 +87,7 @@ KISSY.add("gallery/chart/element",function(S){
             this.maxlength = length;
             return data;
         },
+
         drawNames : function(ctx){
             var self = this,
                 cfg = self.drawcfg,

@@ -7,18 +7,17 @@ KISSY.add("gallery/chart/path",function(S){
         /**
          * get the path draw
          */
-        draw : function(ctx){
-        },
+        draw : function(ctx){ },
         /**
          * get the path draw
          */
-        inpath : function(ox,oy,ctx){
-        }
+        inpath : function(ox,oy,ctx){ }
     });
 
     function RectPath(x,y,w,h){
         this.rect = {x:x,y:y,w:w,h:h};
     }
+
     S.extend(RectPath, Path, {
         draw : function(ctx){
             var r = this.rect;

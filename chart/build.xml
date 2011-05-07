@@ -1,6 +1,6 @@
 <project name="Chart" default="build" basedir=".">
     <description>
-        simple example build file
+        Build Kissy Chart
     </description>
   <property name="src" location="src"/>
   <property name="build" location="build"/>
@@ -10,7 +10,13 @@
     <mkdir dir="${build}"/>
   </target>
 
-  <target name="concat" depends="init"
+  <target name="clear" depends="init">
+    <delete includeemptydirs="true">
+        <fileset dir="${build}" includes="**/*"/>
+    </delete>
+  </target>
+
+  <target name="concat" depends="clear"
         description="concat the source " >
         <concat destfile="${build}/chart.js"
             encoding="utf-8"
@@ -27,12 +33,12 @@
               <file name="chart/simpletooltip.js" />
               <file name="chart/axis.js" />
               <file name="chart/element.js" />
-
           </filelist>
       </path>
    </concat>
   </target>
-  <target name="cssbuild" depends="init">
+
+  <target name="cssbuild" depends="clear">
       <copy file="${src}/assets/chart.css" tofile="${build}/chart.css"/>
   </target>
   <target name="build" depends = "concat,cssbuild">

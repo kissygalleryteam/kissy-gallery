@@ -11,3 +11,8 @@
 .ks-chart-tooltip li{
     list-style:none;
 }
+.ks-chart-error {
+    color:#900;
+    border:1px solid #eee;
+    padding:2px;
+}

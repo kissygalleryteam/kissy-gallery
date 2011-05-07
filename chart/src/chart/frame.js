@@ -1,5 +1,9 @@
 KISSY.add("gallery/chart/frame",function(S){
     var P = S.namespace("Gallery.Chart");
+
+    /**
+     * The Border Layer
+     */
     function Frame(cfg){
         this.path = new P.RectPath(cfg.left,cfg.top,cfg.right-cfg.left,cfg.bottom-cfg.top);
     }

@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8"/>
 <title>KISSY gallery - 图表.dev</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" >
+<!--[if lt IE 9]>
+<script type="text/javascript" src="flashcanvas/flashcanvas.js"></script>
+<![endif]-->
 <link rel="shortcut icon" href="../../kissy-dpl/base/assets/favicon.ico"/>
 <link rel="stylesheet" href="../../kissy-dpl/base/assets/reset.css"/>
 <link rel="stylesheet" href="../../kissy-dpl/base/assets/kissy-docs.css"/>
@@ -14,7 +18,7 @@
 <body>
 <div id="header">
     <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/">
-        <img src="../../kissy-dpl/base/assets/logo.png"/></a></h1>
+    <img src="../../kissy-dpl/base/assets/logo.png"/></a></h1>
     <div class="sub-title">Gallery</div>
     <ul class="navigation">
         <li><a href="http://blog.kissyui.com/">博客</a></li>
@@ -34,106 +38,99 @@
 功能：图表工具
 描述：基于HTML5 Canvas 的图表引擎
 源码：<a href="https://github.com/kissyteam/kissy-gallery/tree/master/chart">KISSY Chart</a></pre>
-    <h3 class="s-title">Demo - 功能点</h3>
-    <div>暂时不支持IE < 9</div>
+    <h3 class="s-title">功能点</h3>
+    <ul>
+        <li>目前支持条形图，折线图</li>
+        <li>通过 <a href="http://flashcanvas.net/">flashCanvas</a> 添加对IE的支持</li>
+    </ul>
     <div class="s-section">
+        <style>
+            .s-demo textarea {
+                width:750px; margin-left:20px; height:100px; color:#999;
+            }
+        </style>
         <div class="s-demo">
             <div>
-                <h3>柱形图</h3>
+                <h3>条形图（Bar Chart）</h3>
                 <canvas id="chart1" width="800" height="400"></canvas>
-                <h3>折线图</h3>
+                <textarea id="chartdata1">{
+    type : "bar",
+    elements : [
+        {
+            name : "接待人数",
+            data : [8,29,15,30,5,11],
+            label : "{name} : {d}人"
+        },
+        {
+            name : "回复人数",
+            data : [4,29,14,25,6,8],
+            label : "{name} : {d}人"
+        },
+        {
+            name : "回复人数",
+            data : [4,20,13,15,16,28],
+            label : "{name} : {d}人"
+        }
+    ],
+    axis : {
+        x : {
+            name : "时间",
+            labels : ["2011-1-10","2011-1-11","2011-1-12","2011-1-13","2011-1-14","2011-1-15"]
+        },
+        y : {
+            name : "人数"
+        }
+    },
+    config : {
+        left:20
+    }
+} </textarea>
+                <h3>折线图(Line Chart)</h3>
                 <canvas id="chart2" width="800" height="400"></canvas>
+                <textarea id="chartdata2" >{
+    type : "line",
+    elements : [
+        {
+            name : "接待人数",
+            data : [900,700,600,400,200,500],
+            label : "{name} : {d}人"
+        },
+        {
+            name : "回复人数",
+            data : [500,35,156,87,200,321],
+            label : "{name} : {d}人",
+            drawbg : true
+        },
+        {
+            name : "回复人数",
+            data : [400,198,null,464,156,446],
+            label : "{name} : {d}人"
+        }
+    ],
+    axis : {
+        x : {
+            name : "时间",
+            labels : ["2011-1-10","2011-1-11","2011-1-12","2011-1-13","2011-1-14","2011-1-15"]
+        },
+        y : {
+            name : "人数"
+        }
+    },
+    config : {
+        left : 30
+    }
+}
+        </textarea>
             </div>
             <script>
-                KISSY.ready(function(S) {
+                KISSY.use("gallery/chart", function(S, Chart) {
+                    //kissy < 1.2
+                    //new S.Gallery.Chart.Chart("#chart2",chart2Data);
+                    var d1 = eval("("+S.DOM.val("#chartdata1")+")");
+                    new Chart("#chart1", d1);
 
-                    S.use("gallery/chart", function(S, Chart) {
-                        function randomData(length, max) {
-                            max = S.isNull(max) ? 100 : max;
-                            var out = [],i;
-                            for (i = 0; i < length; i++) {
-                                out.push(Math.round(Math.random() * max));
-                            }
-                            return out;
-                        }
-
-                        var chart1Data = {
-                            type : "bar",
-                            elements : [
-                                {
-                                    name : "接待人数",
-                                    data : randomData(6, 30),
-                                    label : "{name} : {d}人"
-                                },
-                                {
-                                    name : "回复人数",
-                                    data : randomData(6, 20),
-                                    label : "{name} : {d}人"
-                                },
-                                {
-                                    name : "回复人数",
-                                    data : randomData(6, 18),
-                                    label : "{name} : {d}人"
-                                }
-                            ],
-                            axis : {
-                                x : {
-                                    name : "时间",
-                                    labels : ["2011-1-10","2011-1-11","2011-1-12","2011-1-13","2011-1-14","2011-1-15"]
-                                },
-                                y : {
-                                    name : "人数",
-                                    labels : [null,"2,000","4,000","6,000","8,000","10,000"],
-                                    max : 50
-                                }
-                            },
-                            config : {
-                                left : 60
-                            }
-                        };
-                        new Chart("#chart1", chart1Data);
-
-                        var chart2Data = {
-                            type : "line",
-                            elements : [
-                                {
-                                    name : "接待人数",
-                                    data : randomData(6, 30),
-                                    label : "{name} : {d}人"
-                                },
-                                {
-                                    name : "回复人数",
-                                    data : randomData(6, 20),
-                                    label : "{name} : {d}人"
-                                },
-                                {
-                                    name : "回复人数",
-                                    data : randomData(6, 18),
-                                    label : "{name} : {d}人"
-                                }
-                            ],
-                            axis : {
-                                x : {
-                                    name : "时间",
-                                    labels : ["2011-1-10","2011-1-11","2011-1-12","2011-1-13","2011-1-14","2011-1-15"]
-                                },
-                                y : {
-                                    name : "人数",
-                                    labels : [null,"2,000","4,000","6,000","8,000","10,000"],
-                                    max : 50
-                                }
-                            },
-                            config : {
-                                left : 60
-                            }
-                        };
-
-                        //kissy < 1.2
-                        //new S.Gallery.Chart.Chart("#chart2",chart2Data);
-
-                        new Chart("#chart2", chart2Data);
-                    });
-
+                    var d2 = eval("("+S.DOM.val("#chartdata2")+")");
+                    new Chart("#chart2", d2);
                 });
             </script>
         </div>
@@ -143,12 +140,12 @@
     <h3 class="s-title">API</h3>
     <div class="s-section">
         <h4 class="s-api-title">方法</h4>
-        <div class="s-api-method">KISSY.Gallery.Chart(canvas, param )</div>
+        <div class="s-api-method">KISSY.Gallery.Chart(canvas, data)</div>
         <h4 class="s-api-title">参数</h4>
         <div class="s-api-params">
             <ul class="s-list">
-                <li>{Sting|HTMLElement} [<em>canvas</em>] 图表的容器canvas元素</li>
-                <li>{Object} [ <em>param</em>图表数据</li>
+                <li>{Sting|HTMLElement} <em>canvas</em> 图表的容器canvas元素</li>
+                <li>{Object} [<em>param</em>图表数据]</li>
             </ul>
         </div>
         <h4 class="s-api-title">返回</h4>
@@ -158,7 +155,7 @@
     <h3 class="s-title">Note</h3>
     <div class="s-section">
         <ul class="s-list">
-            <li>your note</li>
+            <li>FlashCanvas Pro 对于商业应用收费，商业应用请确保已购买授权</li>
         </ul>
     </div>
 </div>

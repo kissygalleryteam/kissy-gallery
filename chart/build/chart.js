@@ -17,36 +17,33 @@ KISSY.add("gallery/chart", function(S, CAnim) {
     /**
      * class Chart
      * @constructor
-     * @param {(string|object)} the canvas element
+     * @param {String|Object} the canvas element
+     * @param {String|Object} the canvas data
      */
     function Chart(canvas, data) {
         if (!(this instanceof Chart)) return new Chart(canvas, data);
 
-        var elCanvas = Dom.get(canvas);
+        var elCanvas = this.elCanvas = Dom.get(canvas)
 
-        if (!elCanvas || !elCanvas.getContext) {
-            S.log("Canvas not found");
-            return;
-        }
+        if(!elCanvas) return;
 
         var self = this,
-            ctx = elCanvas.getContext("2d"),
             width = elCanvas.width,
             height = elCanvas.height;
 
-        this.elCanvas = elCanvas;
-        this.ctx = ctx;
-        this.width = width;
-        this.height = height;
+        self.elCanvas = elCanvas;
+        self.width = width;
+        self.height = height;
+        self.ctx = -1;
 
 
-        this._stooltip = Chart.getTooltip();
-        this._chartAnim = new CAnim(0.3, "easeIn");
-
-        //自动渲染
-        if (data) {
-            this.render(data);
+        self._stooltip = Chart.getTooltip();
+        self._chartAnim = new CAnim(0.3, "easeIn");
+        if(data){
+            self.data = data;
+            self._initContext();
         }
+
     }
 
     /**
@@ -61,6 +58,7 @@ KISSY.add("gallery/chart", function(S, CAnim) {
 
     S.augment(Chart,
         S.EventTarget, /**@lends Chart.prototype*/{
+
         /**
          * render form
          * @param {Object} the chart data
@@ -69,7 +67,19 @@ KISSY.add("gallery/chart", function(S, CAnim) {
             var self = this,
                 type = data.type;
 
+            // ensure we have got context here
+            if(self.ctx == -1){
+                self.data = data;
+                self._initContext();
+                return;
+            }
+            if(self.ctx === 0){
+                self.data = data;
+                return;
+            }
+
             self.init();
+
             if (!type || !data.elements || !data.axis) {
                 return;
             }
@@ -95,6 +105,43 @@ KISSY.add("gallery/chart", function(S, CAnim) {
             }, 100);
         },
         /**
+         * init Canvas Context
+         * @private
+         */
+        _initContext : function(){
+            var self = this;
+            if(typeof self.ctx == 'object') return;
+
+            if(self.elCanvas.getContext){
+                this.ctx = self.elCanvas.getContext('2d');
+                self._contextReady()
+            }else{
+                //this is for gaving flashCanvas has the time to init canvas
+                self.ctx = 0;
+                (typeof self._count == "number")?self._count--:self._count = 8;
+                if(self._count >= 0){
+                    setTimeout(function ctx(){
+                        self._initContext();
+                    },150)
+                }else{
+                    var text = Dom.create("<p class='ks-chart-error' > 糟了，你的浏览器还不支持我们的图表</p>")
+                    Dom.insertAfter(text,self.elCanvas)
+                }
+            }
+        },
+
+        /**
+         * execute when the ctx is ready
+         * @private
+         */
+        _contextReady : function(){
+            var self = this;
+            if(self.data){
+                self.render(self.data);
+           }
+        },
+
+        /**
          * show the loading text
          */
         loading : function() {
@@ -116,6 +163,7 @@ KISSY.add("gallery/chart", function(S, CAnim) {
             ctx.fillText(m, tx, ty);
             ctx.restore();
         },
+
         /**
          * init the chart for render
          * this will remove all the event
@@ -143,8 +191,10 @@ KISSY.add("gallery/chart", function(S, CAnim) {
             }
             this._stooltip.hide();
         },
+
         initEvent : function() {
             this._event_inited = true;
+
             Event.on(this.elCanvas, "mousemove", this._mousemoveHandle, this);
             Event.on(this.elCanvas, "mouseleave", this._mouseLeaveHandle, this);
             Event.on(this, "mouseleave", this._drawAreaLeave, this);
@@ -164,6 +214,7 @@ KISSY.add("gallery/chart", function(S, CAnim) {
                 this._stooltip.hide();
             }, this);
         },
+
         /**
          * draw all layers
          * @private
@@ -183,8 +234,22 @@ KISSY.add("gallery/chart", function(S, CAnim) {
             }
         },
         /**
-         * @private
+         * Get The Draw Context of Canvas
+         */
+        ctx : function(){
+            if(this.ctx) {
+                return this.ctx;
+            }
+            if(this.elCanvas.getContext){
+                this.ctx = this.elCanvas.getContext('2d');
+                return this.ctx;
+            }else{
+                return null;
+            }
+        },
+        /**
          * redraw the layers
+         * @private
          */
         _redraw : function() {
             this._redrawmark = true;
@@ -246,9 +311,11 @@ KISSY.add("gallery/chart", function(S, CAnim) {
         _mousemoveHandle : function(e) {
             var ox = e.offsetX || e.pageX - this.offset.left,
                 oy = e.offsetY || e.pageY - this.offset.top;
-            //if(this._frame && this._frame.path && this._frame.path.inpath(ox,oy)){
-            this.fire("mousemove", {x:ox,y:oy});
-            //}
+            if(this._frame && this._frame.path && this._frame.path.inpath(ox,oy)){
+                this.fire("mousemove", {x:ox,y:oy});
+            }else{
+                this.fire("mouseleave");
+            }
         },
         /**
          * event handler
@@ -679,18 +746,17 @@ KISSY.add("gallery/chart/path",function(S){
         /**
          * get the path draw
          */
-        draw : function(ctx){
-        },
+        draw : function(ctx){ },
         /**
          * get the path draw
          */
-        inpath : function(ox,oy,ctx){
-        }
+        inpath : function(ox,oy,ctx){ }
     });
 
     function RectPath(x,y,w,h){
         this.rect = {x:x,y:y,w:w,h:h};
     }
+
     S.extend(RectPath, Path, {
         draw : function(ctx){
             var r = this.rect;
@@ -760,6 +826,10 @@ KISSY.add("gallery/chart/path",function(S){
 });
 KISSY.add("gallery/chart/frame",function(S){
     var P = S.namespace("Gallery.Chart");
+
+    /**
+     * The Border Layer
+     */
     function Frame(cfg){
         this.path = new P.RectPath(cfg.left,cfg.top,cfg.right-cfg.left,cfg.bottom-cfg.top);
     }
@@ -1198,7 +1268,7 @@ KISSY.add("gallery/chart/element",function(S){
         S.EventTarget,{
         /**
          * normalize the data
-         * @argument {object} the data of chart elements
+         * @argument {Object} the data of chart elements
          */
         normalize : function(data){
             var label,newlabel,
@@ -1232,6 +1302,7 @@ KISSY.add("gallery/chart/element",function(S){
             this.maxlength = length;
             return data;
         },
+
         drawNames : function(ctx){
             var self = this,
                 cfg = self.drawcfg,
