@@ -10,34 +10,94 @@ KISSY.add("gallery/chart/data",function(S){
 
         this.origin = data;
         this.type = data.type.toLowerCase();
-        this._element = this._initElement();
+        this._elements = this._initElement(data);
+        this._elements = this.element_normalize(this._elements);
 
         this._axis = data.axis;
 
         this._design = data.design;
     }
-    S.augment(Data,{
+
+    S.mix( Data, {
+        DEFAULT_LABEL : "{d}",
+        DEFAULT_FORMAT: "0"
+    });
+
+    S.augment(Data, {
         axis : function(){},
-        elements : function(){},
-        look: function(){},
+
+        elements : function(){
+            return this._elements;
+        },
+        look: function(){
+
+        },
+
+        /**
+         * normalize the data
+         * @argument {Object} the data of chart elements
+         */
+        element_normalize : function(elements){
+            var label,newlabel,
+                length = 0,
+                fmt;
+
+            S.each(elements, function(element){
+                if(!element.label){
+                    element.label = Data.DEFAULT_LABEL;
+                }
+                element.format = (S.isString(element.format)) ? element.format : Data.DEFAULT_FORMAT;
+                length = Math.max(element.data.length, length);
+                if(S.isString(element.label)){
+                    label = element.label;
+                    element.label = [];
+                    //format number
+                    if(S.isArray(element.data)){
+                        S.each(element.data, function(d,idx){
+                            fmt = '';
+                            if(S.isNumber(d)){
+                                fmt = P.format(d,element.format);
+                            }else{
+                                fmt = "null";
+                                element.data[idx] = 0;
+                            }
+                            newlabel = S.substitute(label,{"d" : fmt,"name":element.name});
+                            element.label.push(newlabel);
+                        });
+                    }
+                }
+            });
+
+            this.maxlength = length;
+            return elements;
+        },
+
         /**
          * 初始化Element 元素
+         * @private
          */
-        _initElement : function(){
+        _initElement : function(data){
             var elements = [],
-                elem;
-            if(!data.elements && data.element && (data.name instanceof Array)){
-                S.each(data.names, function(d,n){
+                elem,
+                self = this;
+
+            if(!data.elements && data.element && (data.element.names instanceof Array)){
+                elem = data.element;
+                S.each(elem.names, function(d,n){
                     elements.push({
-                        name : d,
-                        label : self._getLabel(labels, n),
-                        data : self._getLabel(datas, n),
+                        name   : d,
+                        label  : self._getLabel(elem.labels, n, Data.DEFAULT_LABEL),
+                        data   : self._getLabel(elem.datas, n, 0),
+                        format : self._getLabel(elem.format,Data.DEFAULT_FORMAT)
                     });
-                })
+                });
+
+                return elements;
             }else{
                 return null;
             }
         },
+
         /**
          * 如果是数组，返回label[n]
          * 否则返回labels
@@ -45,7 +105,7 @@ KISSY.add("gallery/chart/data",function(S){
          * @param {Any}
          * @param {Number} offset
          */
-        _getLabel : function(labels, n){
+        _getLabel : function(labels, n, default){
             if(S.isArray(labels)){
                 return (n < labels.length)?labels[n]:null;
             }else{
