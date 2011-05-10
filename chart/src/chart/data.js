@@ -29,73 +29,97 @@ KISSY.add("gallery/chart/data",function(S){
         elements : function(){
             return this._elements;
         },
+
         look: function(){
 
         },
 
         /**
          * normalize the data
+         * parse the label
          * @argument {Object} the data of chart elements
          */
         element_normalize : function(elements){
-            var label,newlabel,
-                length = 0,
+            var label,
+                newlabel,
                 fmt;
 
-            S.each(elements, function(element){
-                if(!element.label){
-                    element.label = Data.DEFAULT_LABEL;
-                }
-                element.format = (S.isString(element.format)) ? element.format : Data.DEFAULT_FORMAT;
-                length = Math.max(element.data.length, length);
-                if(S.isString(element.label)){
-                    label = element.label;
-                    element.label = [];
-                    //format number
-                    if(S.isArray(element.data)){
-                        S.each(element.data, function(d,idx){
-                            fmt = '';
-                            if(S.isNumber(d)){
-                                fmt = P.format(d,element.format);
-                            }else{
-                                fmt = "null";
-                                element.data[idx] = 0;
-                            }
-                            newlabel = S.substitute(label,{"d" : fmt,"name":element.name});
-                            element.label.push(newlabel);
-                        });
-                    }
+            S.each(elements, function(elem){
+                if(elem.labels){
+                    elem.labels = self._makeLabels(elem.datas, elem.format, elem.names);
                 }
             });
-
-            this.maxlength = length;
+            S.each(elements, function(element){
+                label = element.label;
+                element.labels = [];
+                //generate the labels
+                if(S.isArray(element.datas)){
+                    S.each(element.data, function(d,idx){
+                        if(S.isNumber(d)){
+                            fmt = P.format(d, element.format);
+                        }else{
+                            fmt = "null";
+                            element.data[idx] = 0;
+                        }
+                        newlabel = S.substitute(label,{
+                            'd' : d,
+                            "data" : d,
+                            "name" : element.name
+                        });
+                        element.labels.push(newlabel);
+                    });
+                }
+            });
             return elements;
+        },
+        _makeLabels : function(labels, datas, formats, names){
+            S.each(labels, function(s,n){
+                labels[n] = S.substitute(s,{
+                    'd': S.format(datas[n], formats),
+                    ''
+                })
+            });
+        }
+
+        elementItemNormalize : function(elem){
+            
         },
 
         /**
-         * 初始化Element 元素
+         * normalize Input Element
          * @private
+         * @param {Object} input data
          */
         _initElement : function(data){
-            var elements = [],
+            var elements = null,
                 elem,
                 self = this;
 
             if(!data.elements && data.element && (data.element.names instanceof Array)){
+                elements = [];
                 elem = data.element;
                 S.each(elem.names, function(d,n){
                     elements.push({
                         name   : d,
-                        label  : self._getLabel(elem.labels, n, Data.DEFAULT_LABEL),
-                        data   : self._getLabel(elem.datas, n, 0),
-                        format : self._getLabel(elem.format,Data.DEFAULT_FORMAT)
+                        data   : self._getLabel(elem.datas, n),
+                        label  : self._getLabel(elem.labels, n),
+                        format : self._getLabel(elem.format,n) || Data.DEFAULT_FORMAT
                     });
                 });
-
-                return elements;
-            }else{
-                return null;
             }
+
+            if(data.elements && S.isArray(data.elements)){
+                elements = [];
+                S.each(data.elements, function(e){
+                    elements.push({
+                        name : e.name,
+                        data : e.data,
+                        label : e.label,
+                        format : e.format || Data.DEFAULT_FORMAT
+                    });
+                });
+            }
+            return elements;
         },
 
         /**
@@ -105,7 +129,7 @@ KISSY.add("gallery/chart/data",function(S){
          * @param {Any}
          * @param {Number} offset
          */
-        _getLabel : function(labels, n, default){
+        _getLabel : function(labels, n){
             if(S.isArray(labels)){
                 return (n < labels.length)?labels[n]:null;
             }else{
