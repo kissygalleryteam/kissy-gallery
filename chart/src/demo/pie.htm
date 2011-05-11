@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+	<title>chart demo</title>
+    <link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.1.6/cssreset/reset-min.css" />
+    <link rel="stylesheet" href="../assets/chart.css" />
+    <link rel="stylesheet" href="../assets/test.css" />
+    <script src="http://a.tbcdn.cn/s/kissy/1.1.6/kissy.js"></script>
+    <script src="../chart.js"></script>
+    <script src="../chart/format.js"></script>
+    <script src="../chart/color.js"></script>
+    <script src="../chart/colors.js"></script>
+    <script src="../chart/data.js"></script>
+    <script src="../chart/element.js"></script>
+    <script src="../chart/frame.js"></script>
+    <script src="../chart/axis.js"></script>
+    <script src="../chart/simpletooltip.js"></script>
+    <script src="../chart/path.js"></script>
+    <script src="../chart/anim.js"></script>
+</head>
+<body>
+<canvas style="background:#ddd;" id="chart1" width="600" height="400"></canvas>
+<script>
+KISSY.use("gallery/chart", function(S,Chart){
+    var P = S.namespace("Gallery.Chart");
+    var pie = new P.Chart("#chart1",{
+        type : "pie",
+        element : {
+            datas : [1,2,4,5,6,7,7],
+            names : ["A","B","C","D","E","F","G"]
+        }
+    });
+});
+
+</script>
+</body>
+</html>

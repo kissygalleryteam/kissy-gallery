@@ -1,17 +1,17 @@
-KISSY.add("gallery/chart", function(S, CAnim) {
+KISSY.add("gallery/chart", function(S) {
     var Event = S.Event,
         Dom = S.DOM;
-    var P = S.namespace("Gallery.Chart");
+
     //kissy < 1.2
-    CAnim = P.Anim;
+    var P = S.namespace("Gallery.Chart");
 
 
     /**
      * 图表默认配置
      */
     var defaultCfg = {
-        left:40,
-        top:38
+        'left' : 40,
+        'top'  : 40
     };
 
     /**
@@ -36,9 +36,9 @@ KISSY.add("gallery/chart", function(S, CAnim) {
         self.height = height;
         self.ctx = -1;
 
-
         self._stooltip = Chart.getTooltip();
-        self._chartAnim = new CAnim(0.3, "easeIn");
+        self._chartAnim = new P.Anim(0.3, "easeIn");
+        console.log(1);
         if(data){
             self.data = data;
             self._initContext();
@@ -73,32 +73,47 @@ KISSY.add("gallery/chart", function(S, CAnim) {
                 self._initContext();
                 return;
             }
+            //wait... context to init
             if(self.ctx === 0){
                 self.data = data;
                 return;
             }
+            console.log(2)
 
             self.init();
 
-            if (!type || !data.elements || !data.axis) {
+            if (!type) {
                 return;
             }
+
             data = S.clone(data);
+
             self.data = data;
-            self._drawcfg = S.merge(defaultCfg, data.config, {width:self.width,
+
+            self._drawcfg = S.merge(defaultCfg, data.config, {
+                width:self.width,
                 height : self.height,
                 right : self.width - 10,
                 bottom : self.height - 20
             });
-            self._frame = new P.Frame(self._drawcfg);
+            console.log(3,type);
+
+
             if (type === "bar" || type === "line") {
                 self._drawcfg.max = data.axis.y.max || P.Axis.getMax(P.Element.getMax(data.elements), self._drawcfg);
                 self.axis = new P.Axis(data.axis, self, self._drawcfg, type);
+                self._frame = new P.Frame(self._drawcfg);
                 self.layers.push(self.axis);
+                self.layers.push(self._frame);
+                self.element = P.Element.getElement(data.elements, self, self._drawcfg, data.type);
+                self.layers.push(self.element);
+            }if(type === 'pie'){
+                console.log(4);
+                self._data = new P.Data(data);
+                self.element = P.Element.getElement(self._data,self, self._drawcfg, data.type);
+                self.layers.push(self.element);
             }
-            self.element = P.Element.getElement(data.elements, self, self._drawcfg, data.type);
-            self.layers.push(self._frame);
-            self.layers.push(self.element);
+
             setTimeout(function() {
                 self._redraw();
                 self.initEvent();
@@ -220,15 +235,18 @@ KISSY.add("gallery/chart", function(S, CAnim) {
          * @private
          */
         draw : function() {
+            console.log(5,"draw", this.layers)
             var self = this,
                 ctx = self.ctx,
                 k = self._chartAnim.get(),
                 size = self._drawcfg;
             ctx.clearRect(0, 0, size.width, size.height);
             ctx.globalAlpha = k;
+
             S.each(self.layers, function(e, i) {
                 e.draw(ctx, size);
             });
+
             if (k < 1) {
                 this._redraw();
             }
@@ -336,10 +354,12 @@ KISSY.add("gallery/chart", function(S, CAnim) {
     P.Chart = Chart;
     return Chart;
 }, {
-    requires:['./chart/anim',
+    requires:[
+        './chart/anim',
         './chart/axis',
         './chart/simpletooltip',
         './chart/frame',
-        './chart/element'
+        './chart/element',
+        './chart/data'
     ]
 });

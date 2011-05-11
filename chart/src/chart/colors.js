@@ -1,7 +1,7 @@
 KISSY.add("gallery/chart/colors", function(S){
     var P = S.namespace("Gallery.Chart"),
         colors = [
-         { c : "#00AEEF" },
+         { c : "#00b0f0" },
          { c : "#FF4037" },
          { c : "#39B54A" },
          { c : "#FEF56F" },

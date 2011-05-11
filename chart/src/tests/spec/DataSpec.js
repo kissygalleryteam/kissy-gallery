@@ -1,58 +1,94 @@
 describe("Chart Data",function(){
     var P = KISSY.namespace("Gallery.Chart");
-    var data, json1, data2, json2;
+
+    describe("single Data",function(){
+        var data, json1, data2, json2, jsonmutibar;
+        beforeEach(function() {
+            json1 = {
+                type : "Line",
+                element : {
+                    datas : [1,2,3,4],
+                    labels : ["n","b","n","c"],
+                    names : ["a1","a2","a3","a4"],
+                    format : "0.00"
+                }
+            };
+            json2 = {
+                type : "PIE",
+                elements : [
+                    {
+                        data : 100,
+                        name : "bb100",
+                    },
+                    {
+                        data : 200,
+                        name : "bb200",
+                    },
+                    {
+                        data : 300,
+                        name : "bb300",
+                    }
+
+                ]
+            };
+
+            data = new P.Data(json1);
+            data2 = new P.Data(json2);
+        });
+
+        it("sould return the right form of type", function() {
+            expect(data.type).toEqual("line");
+            expect(data2.type).toEqual("pie")
+        });
+
+        it("sould recognize the element and turn it into right form", function() {
+            var elements = data.elements();
+            var elements2 = data2.elements();
+            //elements
+            expect(elements.length).toEqual(4);
+            expect(elements[1].name).toEqual("a2");
+            expect(elements[2].format).toEqual("0.00");
+
+            //elements2
+            expect(elements2.length).toEqual(3);
+            expect(elements2[1].name).toEqual("bb200");
+            expect(elements2[1].data).toEqual(200);
+            //defaut label
+            expect(elements2[2].format).toEqual("0");
+        });
+    });
 
 
-    beforeEach(function() {
-        json1 = {
-            type : "Line",
-            element : {
-                datas : [1,2,3,4],
-                labels : ["n","b","n","c"],
-                names : ["a1","a2","a3","a4"],
-                format : "0.00"
-            }
-        };
-        json2 = {
-            type : "PIE",
+    describe("muti json", function(){
+        var mjson = {
+            type : "BAR",
             elements : [
                 {
-                    data : 100,
-                    name : "bb100",
+                    name : "muti_1",
+                    datas : [1,2,3,4,5],
                 },
                 {
-                    data : 200,
-                    name : "bb200",
-                },
-                {
-                    data : 300,
-                    name : "bb300",
+                    name : "muti_2",
+                    datas : [11,12,13,14,15],
                 }
-
             ]
         };
-        data = new P.Data(json1);
-        data2 = new P.Data(json2);
-    });
+        var mdata;
 
-    it("sould return the right form of type", function() {
-        expect(data.type).toEqual("line");
-        expect(data2.type).toEqual("pie")
-    });
+        beforeEach(function(){
+            mdata = new P.Data(mjson);
+        });
 
-    it("sould recognize the element and turn it into array", function() {
-        var elements = data.elements();
-        var elements2 = data2.elements();
-        //elements
-        expect(elements.length).toEqual(4);
-        expect(elements[1].name).toEqual("a2");
-        expect(elements[2].format).toEqual("0.00");
-
-        //elements2
-        expect(elements2.length).toEqual(3);
-        expect(elements2[1].name).toEqual("bb200");
-        expect(elements2[1].data).toEqual(200);
-        //defaut label
-        expect(elements2[2].format).toEqual("0");
+        it("should gave the right name",function(){
+            expect(mdata.elements()[1].name).toEqual("muti_2");
+        });
+        it("should gave the right type",function(){
+            expect(mdata.type).toEqual("bar");
+        });
+        it("should has element.items",function(){
+            var elem = mdata.elements();
+            expect(elem.length).toEqual(2);
+            expect(elem[0].items.length).toEqual(5);
+        })
     });
 });

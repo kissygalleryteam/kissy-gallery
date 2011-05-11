@@ -1,3 +1,19 @@
+element : {
+    labels : [],
+    datas : [],
+    names : []
+}
+
+elements : [
+    {name:,data:}
+]
+elements : [
+    {
+        names:,
+        datas:
+    }
+]
+
 elements : [
     {
         name:
@@ -6,15 +22,47 @@ elements : [
         format:
     }
     {
-        names:
+        name:
         datas:
         labels:
-        format:
+        formats:
     }
 ]
 
-element : {
-    labels : [],
-    datas : [],
-    names : []
-}
+elements : [
+    {
+        items : [
+            {
+                data,
+                label
+            },
+            {
+                data,
+                label
+            },
+        ],
+        name : 
+    },
+    {
+        elements : [
+            {
+            
+            },
+            {
+            
+            },
+        ]
+    }
+]
+
+elements : [
+    {
+        name : 
+        data : 
+        label:
+
+    },
+    {
+        k
+    }
+]

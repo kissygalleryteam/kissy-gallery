@@ -11,8 +11,8 @@ KISSY.add("gallery/chart/data",function(S){
         this.origin = data;
         this.type = data.type.toLowerCase();
         this._elements = this._initElement(data);
-        this._elements = this.element_normalize(this._elements);
-
+        this._elements = this._expandElement(this._elements);
+        this._initElementItem();
         this._axis = data.axis;
 
         this._design = data.design;
@@ -30,59 +30,87 @@ KISSY.add("gallery/chart/data",function(S){
             return this._elements;
         },
 
+        /**
+         * return the sum of all Data
+         */
+        sumData : function(){
+            var d = 0;
+            this.eachElement(function(item){
+                d += item.data;
+            });
+            return d;
+        },
+
         look: function(){
 
         },
+        /**
+         * execuse fn on each Element item
+         */
+        eachElement : function(fn){
+            var self = this;
+
+            S.each(self._elements, function(item,idx){
+                if(item.items){
+                    S.each(item.items, function(i, idx2){
+                        fn(i,idx,idx2);
+                    });
+                }else{
+                    fn(item, idx, -1);
+                }
+            });
+        },
 
         /**
-         * normalize the data
+         * Init the Element Item
          * parse the label
-         * @argument {Object} the data of chart elements
          */
-        element_normalize : function(elements){
-            var label,
-                newlabel,
-                fmt;
+        _initElementItem: function(){
+            var self = this;
 
-            S.each(elements, function(elem){
-                if(elem.labels){
-                    elem.labels = self._makeLabels(elem.datas, elem.format, elem.names);
-                }
+            self.eachElement(function(elem,idx,idx2){
+                elem.data = S.isNumber(elem.data)? elem.data : 0;
+                elem.format = elem.format || Data.DEFAULT_FORMAT;
+                elem.label = elem.label || Data.DEFAULT_LABEL;
+                elem.label = S.substitute(elem.label, elem);
             });
-            S.each(elements, function(element){
-                label = element.label;
-                element.labels = [];
-                //generate the labels
-                if(S.isArray(element.datas)){
-                    S.each(element.data, function(d,idx){
-                        if(S.isNumber(d)){
-                            fmt = P.format(d, element.format);
-                        }else{
-                            fmt = "null";
-                            element.data[idx] = 0;
-                        }
-                        newlabel = S.substitute(label,{
-                            'd' : d,
-                            "data" : d,
-                            "name" : element.name
-                        });
-                        element.labels.push(newlabel);
-                    });
-                }
-            });
-            return elements;
         },
-        _makeLabels : function(labels, datas, formats, names){
-            S.each(labels, function(s,n){
-                labels[n] = S.substitute(s,{
-                    'd': S.format(datas[n], formats),
-                    ''
-                })
-            });
-        }
 
-        elementItemNormalize : function(elem){
-            
+        _expandElement : function(data){
+            var datas,
+                itemdata,
+                self = this;
+
+            S.each(data, function(item,idx){
+                if(S.isArray(item.datas)){
+                    item.items = item.items || [];
+
+                    S.each(item.datas, function(d,n){
+                        itemdata = {
+                            name : item.name,
+                            data : d
+                        }
+
+                        if(item.labels && S.isString(item.labels[n])){
+                            itemdata.label = item.labels[n];
+                        }
+                        if(item.label){
+                            itemdata.label = item.label;
+                        }
+
+                        if(item.formats && S.isString(item.formats[n])){
+                            itemdata.format = item.labels[n];
+                        }
+                        if(item.format){
+                            itemdata.format = item.label;
+                        }
+                        delete item.datas;
+                        item.items.push(itemdata);
+                    });
+                };
+
+            });
+            return data;
         },
 
         /**
@@ -93,7 +121,9 @@ KISSY.add("gallery/chart/data",function(S){
         _initElement : function(data){
             var elements = null,
                 elem,
-                self = this;
+                self = this,
+                newe;
+            var keys = ["name","names","data", "datas","label","labels","format","formats"];
 
             if(!data.elements && data.element && (data.element.names instanceof Array)){
                 elements = [];
@@ -111,12 +141,13 @@ KISSY.add("gallery/chart/data",function(S){
             if(data.elements && S.isArray(data.elements)){
                 elements = [];
                 S.each(data.elements, function(e){
-                    elements.push({
-                        name : e.name,
-                        data : e.data,
-                        label : e.label,
-                        format : e.format || Data.DEFAULT_FORMAT
+                    newe = S.clone(e);
+
+                    S.filter(newe,function(v,k){
+                        return S.inArray(k, keys);
                     });
+
+                    elements.push(newe);
                 });
             }
             return elements;
@@ -137,5 +168,6 @@ KISSY.add("gallery/chart/data",function(S){
             }
         }
     });
+
     P.Data = Data;
 });

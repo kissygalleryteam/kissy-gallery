@@ -91,13 +91,12 @@ KISSY.add("gallery/chart/element",function(S){
         drawNames : function(ctx){
             var self = this,
                 cfg = self.drawcfg,
-                data = self.data,
+                data = self.data || self.data.elements(),
                 l = data.length,
                 i = l - 1,
                 d,c,
                 br = cfg.right,
                 by = cfg.top/2;
-
             for(; i>=0; i--){
                 d = data[i];
                 if(d.notdraw){
@@ -480,71 +479,87 @@ KISSY.add("gallery/chart/element",function(S){
     });
 
     function PieElement(data,chart,drawcfg){
-        PieElement.superclass.constructor.call(this,data,chart,drawcfg);
+        S.log("start pie");
+        this.data = data;
+        this.chart = chart;
+        this.type = 0;
+        this.drawcfg = drawcfg;
+        this.initdata(drawcfg);
+        this.init();
+
         this.anim = new P.Anim(1,"bounceOut");
         this.anim.init();
     }
+
     S.extend(PieElement,Element,{
+
         initdata : function(cfg){
             var self = this,
                 data = self.data,
                 total = 0,
                 color,colord,
-                pecent,start;
-            self._pecent = [];
-            self._start = [];
-            self._color = [];
-            self._colord = [];
+                pecent,pecent_s;
 
-            S.each(data,function(item,idx){
-                item.data = S.isNumber(item.data)?item.data:0;
-                total += item.data;
+            self.items = [];
+            total = data.sumData();
+
+            pecent_s = 0;
+
+            S.each(data.elements(),function(item,idx){
+
+                pecent   = item.data/total;
+
+                self.items.push({
+                    start : -Math.PI * 2 * pecent_s,
+                    color : self.getColor(idx, data.elements().length),
+                    angle : -Math.PI * 2 * pecent,
+                });
+                pecent_s += pecent;
+
             });
 
-            start = 0;
-            S.each(data,function(item,idx){
-                pecent = item.data/total;
-                color = new P.Color(P.colors[idx].c);
-                colord = darker(color);
-                self._start.push(start);
-                self._pecent.push(item.data/total);
-                self._color.push(color.css());
-                self._colord.push(colord.css());
-                start += pecent;
-            });
             self._x = (cfg.right + cfg.left)/2;
-            self._y = (cfg.top + cfg.bottom)/2;
+            self._y = cfg.height/2;
             self._r = Math.min(cfg.bottom - cfg.top, cfg.right - cfg.left)/2;
+        },
+
+        getColor : function(idx, all){
+            var mc = P.Color("#ff4400"),
+                hsl = mc.hslData(),
+                l0 = Math.floor(idx/3)/all + 1/(idx%3 + 1);
+                l1 = 0.9;
+                l2 = l1 - 1/2;
+                console.log(Math.round(l0*360));
+                P.Color.hsl(l0,l1,l2).hexTriplet()
+                //l2 = hsl[2] + (1 - hsl[2])*0.95*(Math.pow((idx/all),2));
+            return P.Color.hsl(l0,l1,l2).hexTriplet();
         },
         draw : function(ctx){
             var self = this,
                 px = self._x,
                 py = self._y,
                 pr = self._r,
-                start, pecent,
+                start, angle,
+                angle_start = -Math.PI/4,
                 k = self.anim.get(),
                 gra;
             if(k < 1){
                 self.fire("redraw");
             }
             self.drawNames(ctx);
-            S.each(self.data, function(p, idx){
-                start = self._start[idx] * k;
-                pecent = self._pecent[idx] * k;
+            S.each(self.items, function(p, idx){
+                start = angle_start + p.start * k;
+                angle = p.angle * k;
                 ctx.save();
-                //ctx.strokeStyle = "#000";
-                ctx.lineWidth = 2;
-                gra = ctx.createRadialGradient(px,py,0,px,py,pr);
-                gra.addColorStop(1,self._colord[idx]);
-                gra.addColorStop(0.4,self._color[idx]);
-                //gra.addColorStop(0,"#fff");
-                ctx.fillStyle = gra;
+                ctx.lineWidth = 0.5;
+                ctx.fillStyle = p.color;
+                ctx.strokeStyle = "#fff";
                 ctx.beginPath();
                 ctx.moveTo(px,py);
-                ctx.arc(px, py, pr, start*2*Math.PI, (start+pecent)*2*Math.PI,false);
+                ctx.arc(px, py, pr, start, (start+angle), true);
                 ctx.closePath();
                 ctx.fill();
-                //ctx.stroke();
+                ctx.stroke();
                 ctx.restore();
             });
         },
@@ -573,6 +588,7 @@ KISSY.add("gallery/chart/element",function(S){
         chartMouseLeave : function(ev){
         }
     });
+
     P.Element = Element;
     P.LineElement = LineElement;
     P.BarElement = BarElement;
