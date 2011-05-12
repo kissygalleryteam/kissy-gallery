@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>expose</title>
+<style>
+	body{
+		margin:2em 2em;
+		font-family:'MicroSoft YaHei';
+	}
+
+</style>
+
+
+<script>
+window.onload = function(){
+	document.getElementById('btn').onclick = function(){
+		document.getElementById('player').style.position = "relative";
+	}
+}
+</script>
+
+
+
+</head>
+<body>
+
+
+
+<h1>刘德华 -世界第一等</h1>
+<hr/>
+
+
+<div id="player" class="player">
+	<embed width="610" height="498"  pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="ShowId=0&amp;Cp=0&amp;Tid=0&amp;VideoIDS=XMjM2MTg2OTcy&amp;isAutoPlay=true&amp;Version=/v1.0.0647&amp;winType=interior&amp;iku_num=2" allowscriptaccess="always" allowfullscreen="true" quality="high" bgcolor="#FFFFFF" name="movie_player" id="movie_player" src="http://static.youku.com/v1.0.0141/v/swf/qplayer.swf" type="application/x-shockwave-flash">
+</div>
+
+<div class="ft" id="btn">点这里视频就会重新加载</div>
+
+</body>
+</html>
+
+

@@ -1,0 +1,218 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>KISSY gallery - Expose</title> 
+	<link rel="shortcut icon" href="../../kissy-dpl/base/assets/favicon.ico"/> 
+	<link rel="stylesheet" href="../../kissy-dpl/base/assets/reset.css"/> 
+	<link rel="stylesheet" href="../../kissy-dpl/base/assets/kissy-docs.css"/> 
+	<style>
+		.title{
+			padding:10px 0;
+			margin:10px 0;
+			font-size:18px;font-weight:bold;color:green;
+			border-bottom:1px solid #aaa;
+		}
+		.player{
+			width:610px;
+			padding:10px;
+			background:#eee;
+			border:1px solid #ccc;
+		}
+		.ft{
+			margin-top:10px;
+		}
+		.comment{
+			width:500px;
+			padding:10px;
+			margin-top:30px;
+			background:#eee;
+			border:1px solid #ccc;
+		}
+		.comment textarea{
+			width:480px;
+			height:100px;
+			padding:5px;
+			border:1px solid #ccc;
+		}
+		.comment .item{
+			margin-bottom:10px;
+		}
+		
+		.s-demo button {
+			padding:3px 5px;
+		}
+
+		.a{font-size:12px;font-weight:normal;}
+	</style>	
+	<script src="../../kissy-dpl/base/assets/kissy.js"></script> 
+	<script src="../../kissy-dpl/base/assets/kissy-docs.js"></script> 
+	<script src="expose.js"></script> 
+</head>
+<body>
+    <div id="header"> 
+		<h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../kissy-dpl/base/assets/logo.png"/></a></h1> 
+		<div class="sub-title">Gallery</div>
+		<ul class="navigation"> 
+			<li><a href="http://blog.kissyui.com/">博客</a></li> 
+			<li><a href="http://github.com/kissyteam">源码</a></li> 		
+		</ul>
+		
+	</div> 
+    <div id="content">
+		<div class="s-crumbs">
+			<span>当前位置：</span>
+			<a href="http://kissyui.com/">KISSY</a>
+			<a href="../index.html">Gallery</a>
+			<span>Expose</span>
+		</div>
+			<pre class="s-section">				
+作者：satans17@gmail.com(常胤)
+功能：高亮指定的区域
+描述：高亮指定的区域，可以做出视频网站流行的关灯效果。
+源码：<a href="expose.js">expose.js</a></pre>
+
+			
+			<h3 class="s-title">Demo1 - 视频关灯</h3>			
+			<div class="s-section" id="demo1">
+				<div class="s-demo">
+						<h1 class="title">刘德华 -世界第一等 <a href="#" class="turnoff a">关灯</a></h1>
+						<div id="player" class="player">
+							<embed width="610" height="498"  pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="ShowId=0&amp;Cp=0&amp;Tid=0&amp;VideoIDS=XMjM2MTg2OTcy&amp;isAutoPlay=true&amp;Version=/v1.0.0647&amp;winType=interior&amp;iku_num=2" allowscriptaccess="always" allowfullscreen="true" quality="high" bgcolor="#FFFFFF" name="movie_player" id="movie_player" src="http://static.youku.com/v1.0.0141/v/swf/qplayer.swf" type="application/x-shockwave-flash">
+							<div class="ft">
+								<button type="button" class="turnoff">关灯看电影</button>
+							</div>
+						</div>
+
+						<script>
+							KISSY.ready(function(S){
+								var DOM = S.DOM, Event = S.Event;
+								
+								var a = new S.Gallery.Expose("#player", {
+									//遮罩颜色
+									bgcolor: "#000",
+									//遮罩透明度
+									opacity: 0.8
+								});
+								
+								S.all("#demo1 .turnoff").on("click",function(ev){
+									ev.halt();
+									//关灯
+									a.expose();
+								});
+							});
+						</script>
+				</div>
+				<a class="s-view-code" href="#">显示源码</a>
+			</div>
+			
+			
+			
+			<h3 class="s-title">Demo2 - 表单检验高光</h3>			
+			<div class="s-section">
+				<div class="s-demo">
+
+						<div class="comment"  id="comment">
+							<div class="item"><input type="text" name="name" value="您的名字" class="input"/></div>
+							<div class="item"><textarea class="input">您的评论</textarea></div>
+							<div class="ft"><button type="button" id="btnadd" onclick="alert('假的 ^_^ \n\n大家一起来提交好玩实用的组件吧')">发表评论</button></div>
+						</div>
+						
+						<script>
+
+							KISSY.ready(function(S){
+								var DOM = S.DOM, Event = S.Event;
+
+								//评论
+								var div = DOM.get("#comment"),
+									b = new S.Gallery.Expose(div, {
+											bgcolor: "#aaa"
+										});
+								
+								
+								S.all(".input",div).on("click",function(ev){
+									b.expose();
+								});
+
+								
+								//关灯事件，关灯前触发
+								b.on("expose",function(){
+									DOM.css(div,{
+										background:'#F9F68D'
+									})
+								});
+								
+								//开灯事前，开灯前触发
+								b.on("close",function(){
+									DOM.css(div,{
+										background:'#fff'
+									})
+								})
+
+								
+							});
+						</script>		
+
+				</div>
+				<a class="s-view-code" href="#">显示源码</a>
+			</div>
+			
+			
+
+			
+			
+			
+			<h3 class="s-title">API</h3>			
+			<div class="s-section">
+				<h4 class="s-api-title">方法</h4>
+				<div class="s-api-method">KISSY.gallery.Expose ( target, config )</div>
+				
+				<h4 class="s-api-title">参数</h4>
+				<div class="s-api-params">
+					<ul class="s-list">
+						<li>{String} [ <em>target</em> = '#' ] 要高亮的对象</li>
+						<li>{String} [ <em>config</em> = '{}' ] 配置项。</li>
+					</ul>
+				</div>
+				
+
+				
+				<h4 class="s-api-title">配置项</h4>
+				<div class="s-api-params">
+					<ul class="s-list">
+						<li>{Number} [ <em>zindex</em> = 9998 ] 遮罩层的zindex值</li>
+						<li>{String} [ <em>bgcolor</em> = '#fff' ]  遮罩层的背景颜色</li>
+						<li>{Number} [ <em>anim</em> = 1 ]  遮罩层动画显示的时间 </li>
+						<li>{Number} [ <em>opacity</em> = 0.8 ] 遮罩层的透明度 </li>
+						<li>{String} [ <em>tip</em> = '右键单击关闭遮罩效果' ] 遮罩层的提示文字</li>
+					</ul>
+				</div>
+				
+				
+				<h4 class="s-api-title">Events</h4>
+				<div class="s-api-params">
+					<ul class="s-list">
+						<li>expose：打开遮罩之前触发</li>
+						<li>close：关闭遮罩后触发</li>
+					</ul>
+				</div>
+				
+				
+				<h4 class="s-api-title">返回</h4>
+				<div class="s-api-return">Expose实例</div>
+			</div>
+			
+			<h3 class="s-title">Note</h3>			
+			<div class="s-section">
+				<ul class="s-list">
+					<li>在ff3.6下，改变视频所在div的position属性会导致视频重新加载，<a href="test.html">测试</a>，其他浏览器没发现类似问题</li>
+					<li>遮罩层不能遮住flash等控件</li>
+					<li>这个是一个比较水的关灯的实现方式，通过改变对象的z-index来实现上面的效果。承玉提醒，在不操作对象的情况下，可以通过多个层遮住对象以外的区域实现此效果，有兴趣的同学实现下吧。</li>
+				</ul>
+			</div>
+    </div>
+    <div id="footer">
+        &copy; Copyright 2010~2011, KISSY Team.
+    </div>
+</body>
+</html>
