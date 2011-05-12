@@ -28,12 +28,32 @@ KISSY.use("gallery/chart", function(S,Chart){
     var pie = new P.Chart("#chart1",{
         type : "pie",
         element : {
-            datas : [1,2,4,5,6,7,7],
-            names : ["A","B","C","D","E","F","G"]
+            datas : [1,2,4,5,6,7,8],
+            names : ["AAA","BBB","CCC","DDD","EEE","FFF","GGG"]
+        },
+        config : {
+            //colors : ["#aaa","#999","#666"],
+            showLabels : true
         }
     });
 });
 
 </script>
+<!--
+<canvas style="background:#ddd;" id="chart2" width="800" height="300"></canvas>
+<script>
+KISSY.use("gallery/chart", function(S,Chart){
+    var P = S.namespace("Gallery.Chart");
+    var pie = new P.Chart("#chart2",{
+        type : "pie",
+        element : {
+            datas : [1,2,4,5,6,7,7,8,9],
+            names : ["A","B","C","D","E","F","G","H","I"]
+        }
+    });
+});
+
+</script>
+-->
 </body>
 </html>

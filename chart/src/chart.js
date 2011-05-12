@@ -38,7 +38,7 @@ KISSY.add("gallery/chart", function(S) {
 
         self._stooltip = Chart.getTooltip();
         self._chartAnim = new P.Anim(0.3, "easeIn");
-        console.log(1);
+        S.log(1);
         if(data){
             self.data = data;
             self._initContext();
@@ -78,7 +78,7 @@ KISSY.add("gallery/chart", function(S) {
                 self.data = data;
                 return;
             }
-            console.log(2)
+            S.log(2)
 
             self.init();
 
@@ -96,7 +96,7 @@ KISSY.add("gallery/chart", function(S) {
                 right : self.width - 10,
                 bottom : self.height - 20
             });
-            console.log(3,type);
+            S.log(3,type);
 
 
             if (type === "bar" || type === "line") {
@@ -108,9 +108,9 @@ KISSY.add("gallery/chart", function(S) {
                 self.element = P.Element.getElement(data.elements, self, self._drawcfg, data.type);
                 self.layers.push(self.element);
             }if(type === 'pie'){
-                console.log(4);
+                S.log(4);
                 self._data = new P.Data(data);
-                self.element = P.Element.getElement(self._data,self, self._drawcfg, data.type);
+                self.element = P.Element.getElement(self._data, self, self._drawcfg, data.type);
                 self.layers.push(self.element);
             }
 
@@ -223,7 +223,8 @@ KISSY.add("gallery/chart", function(S) {
             }
             Event.on(this.element, "redraw", this._redraw, this);
             Event.on(this.element, "showtooltip", function(e) {
-                this._stooltip.show(e.message.innerHTML);
+                var msg = S.isString(e.message)?e.message:e.message.innerHTML;
+                this._stooltip.show(msg);
             }, this);
             Event.on(this.element, "hidetooltip", function(e) {
                 this._stooltip.hide();
@@ -235,7 +236,6 @@ KISSY.add("gallery/chart", function(S) {
          * @private
          */
         draw : function() {
-            console.log(5,"draw", this.layers)
             var self = this,
                 ctx = self.ctx,
                 k = self._chartAnim.get(),
@@ -329,7 +329,7 @@ KISSY.add("gallery/chart", function(S) {
         _mousemoveHandle : function(e) {
             var ox = e.offsetX || e.pageX - this.offset.left,
                 oy = e.offsetY || e.pageY - this.offset.top;
-            if(this._frame && this._frame.path && this._frame.path.inpath(ox,oy)){
+            if(this._frame && this._frame.path && this._frame.path.inpath(ox,oy) || !this._frame){
                 this.fire("mousemove", {x:ox,y:oy});
             }else{
                 this.fire("mouseleave");

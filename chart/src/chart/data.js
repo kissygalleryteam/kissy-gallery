@@ -4,6 +4,14 @@ KISSY.add("gallery/chart/data",function(S){
      * 图表数据
      * @constructor
      */
+    var defaultData = {
+        left : 20,
+        right : 20,
+        bottom : 20,
+        showLabels : true,
+        colors : []
+    }
+
     function Data(data){
         if(!data || !data.type) return;
         if(!this instanceof Data) return new Data(data);
@@ -16,10 +24,12 @@ KISSY.add("gallery/chart/data",function(S){
         this._axis = data.axis;
 
         this._design = data.design;
+        this._cfg = S.merge(defaultData, data.config||{});
+        this.showLabels = this._cfg.showLabels;
     }
 
     S.mix( Data, {
-        DEFAULT_LABEL : "{d}",
+        DEFAULT_LABEL : "{name} : {data}",
         DEFAULT_FORMAT: "0"
     });
 
@@ -28,6 +38,36 @@ KISSY.add("gallery/chart/data",function(S){
 
         elements : function(){
             return this._elements;
+        },
+
+        /**
+         * get the color from the user config or the default
+         * color
+         * @param {Number} idx
+         * @param {Length} length of element
+         * @param {String} type of Chart
+         */
+        getColor : function(idx,length,type){
+            var usercolor = this._cfg.colors
+            if(S.isArray(usercolor) && usercolor[idx]){
+                return usercolor[idx];
+            }
+            if(S.isFunction(usercolor)){
+                return usercolor(idx);
+            }
+            return this.getDefaultColor(idx,length,type);
+        },
+
+        getDefaultColor : function (idx,length,type){
+            var mc = P.Color("#ff4400"),
+                hsl = mc.hslData(),
+                h = Math.floor(idx/3)/length + 1/(idx%3 + 1),
+                s = .6,
+                b = 1,
+
+                l = b - s/2;
+
+            return P.Color.hsl(h,s,l).hexTriplet();
         },
 
         /**

@@ -1,5 +1,6 @@
 (function(S){
     var Dom = S.DOM,
+        P = S.namespace("Gallery.Chart"),
         Event = S.Event,
         c = Dom.get("#chart1");
 
@@ -133,22 +134,22 @@
         {
             name : "iphone",
             data : 10,
-            label : "${name} ${d}"
+            label : "{name} - {data}"
         },
         {
             name : "android",
             data : 20,
-            label : "${name} ${d}"
+            label : "{name} {data}"
         },
         {
             name : "wp7",
             data : 70,
-            label : "${name} ${d}"
+            label : "{name} {data}"
         }
         ]
     };
     Event.on(window,"load",function(){
-        var chart = new S.Chart(c);
+        var chart = new P.Chart(c);
         if(!chart) return;
         //chart.render(chart1);
         var testdata = [

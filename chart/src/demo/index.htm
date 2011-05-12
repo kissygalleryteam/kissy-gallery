@@ -5,23 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" >
 	<title>chart demo</title>
     <link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.1.6/cssreset/reset-min.css" />
-    <link rel="stylesheet" href="../src/css/chart.css" />
-    <link rel="stylesheet" href="../src/css/test.css" />
+    <link rel="stylesheet" href="../assets/chart.css" />
+    <link rel="stylesheet" href="../assets/test.css" />
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="../build/flashcanvas/flashcanvas.js"></script>
+    <script src="../../build/flashcanvas/flashcanvas.js"></script>
     <![endif]-->
-    <script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/1.1.6/kissy.js"></script>
-    <script type="text/javascript" src="../src/js/format_number.js"></script>
-    <script type="text/javascript" src="../src/js/color.js/color.js"></script>
-    <script type="text/javascript" src="../src/js/c~colors.js"></script>
-    <script type="text/javascript" src="../src/js/m~element.js"></script>
-    <script type="text/javascript" src="../src/js/m~frame.js"></script>
-    <script type="text/javascript" src="../src/js/m~axis.js"></script>
-    <script type="text/javascript" src="../src/js/m~tooltip.js"></script>
-    <script type="text/javascript" src="../src/js/m~simpletooltip.js"></script>
-    <script type="text/javascript" src="../src/js/m~path.js"></script>
-    <script type="text/javascript" src="../src/js/m~anim.js"></script>
-    <script type="text/javascript" src="../src/js/m~chart.js"></script>
+    <script src="http://a.tbcdn.cn/s/kissy/1.1.6/kissy.js"></script>
+    <script src="../chart.js"></script>
+    <script src="../chart/format.js"></script>
+    <script src="../chart/color.js"></script>
+    <script src="../chart/colors.js"></script>
+    <script src="../chart/element.js"></script>
+    <script src="../chart/frame.js"></script>
+    <script src="../chart/axis.js"></script>
+    <script src="../chart/tooltip.js"></script>
+    <script src="../chart/simpletooltip.js"></script>
+    <script src="../chart/path.js"></script>
+    <script src="../chart/anim.js"></script>
+    <script src="../chart/data.js"></script>
 </head>
 <body>
 <div id="page">
@@ -56,7 +57,7 @@ mychart.render(jsondata);
 </p>
 <pre>
 &lt;!--[if lt IE 9]&gt;
-&lt;script type="text/javascript" src="../src/js/flashcanvas/flashcanvas.js"&gt;&lt;/script&gt;
+&lt;script src="../chart/flashcanvas/flashcanvas.js"&gt;&lt;/script&gt;
 &lt;![endif]--&gt;
 </pre>
 如果是IE9，由于添加了版本判断，请确保IE9以标准的文档模式渲染
@@ -107,6 +108,6 @@ mychart.render(jsondata);
 *           0,0.00 - (123,456.78) shortcut method, show comma and digits, 2 precision
 </pre>
 </div>
-    <script type="text/javascript" src="../src/js/m~test1.js"></script>
+    <script src="../tests/test1.js"></script>
 </body>
 </html>
