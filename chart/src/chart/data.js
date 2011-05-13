@@ -80,6 +80,12 @@ KISSY.add("gallery/chart/data",function(S){
             });
             return d;
         },
+        /**
+         * Get the Biggest Data
+         */
+        max : function(){
+            return this._max;
+        },
 
         look: function(){
 
@@ -107,12 +113,17 @@ KISSY.add("gallery/chart/data",function(S){
          */
         _initElementItem: function(){
             var self = this;
+            self.max = null;
 
             self.eachElement(function(elem,idx,idx2){
+                if(self.max === null){
+                    self.max = elem.data;
+                }
                 elem.data = S.isNumber(elem.data)? elem.data : 0;
                 elem.format = elem.format || Data.DEFAULT_FORMAT;
                 elem.label = elem.label || Data.DEFAULT_LABEL;
                 elem.label = S.substitute(elem.label, elem);
+                self._max = Math.max(self._max, elem.data);
             });
         },
 

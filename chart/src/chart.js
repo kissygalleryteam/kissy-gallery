@@ -99,18 +99,19 @@ KISSY.add("gallery/chart", function(S) {
             S.log(3,type);
 
 
+            self._data = new P.Data(data);
+
             if (type === "bar" || type === "line") {
-                self._drawcfg.max = data.axis.y.max || P.Axis.getMax(P.Element.getMax(data.elements), self._drawcfg);
+                //self._drawcfg.max = data.axis.y.max || P.Axis.getMax(P.Element.getMax(data.elements), self._drawcfg);
                 self.axis = new P.Axis(data.axis, self, self._drawcfg, type);
                 self._frame = new P.Frame(self._drawcfg);
                 self.layers.push(self.axis);
                 self.layers.push(self._frame);
-                self.element = P.Element.getElement(data.elements, self, self._drawcfg, data.type);
+                self.element = P.Element.getElement(self._data, self, self._drawcfg);
                 self.layers.push(self.element);
             }if(type === 'pie'){
                 S.log(4);
-                self._data = new P.Data(data);
-                self.element = P.Element.getElement(self._data, self, self._drawcfg, data.type);
+                self.element = P.Element.getElement(self._data, self, self._drawcfg);
                 self.layers.push(self.element);
             }
 
