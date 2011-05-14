@@ -15,17 +15,17 @@ KISSY.add("gallery/chart/data",function(S){
     function Data(data){
         if(!data || !data.type) return;
         if(!this instanceof Data) return new Data(data);
+        var self = this;
 
-        this.origin = data;
-        this.type = data.type.toLowerCase();
-        this._elements = this._initElement(data);
-        this._elements = this._expandElement(this._elements);
-        this._initElementItem();
-        this._axis = data.axis;
-
-        this._design = data.design;
-        this._cfg = S.merge(defaultData, data.config||{});
-        this.showLabels = this._cfg.showLabels;
+        self.origin = data;
+        data = S.clone(data);
+        self.type = data.type.toLowerCase();
+        self._elements = self._initElement(data);
+        self._elements = self._expandElement(self._elements);
+        self._initElementItem();
+        self._axis = data.axis;
+        self._design = data.design;
+        self.config = S.merge(defaultData, data.config||{});
     }
 
     S.mix( Data, {
@@ -34,21 +34,43 @@ KISSY.add("gallery/chart/data",function(S){
     });
 
     S.augment(Data, {
-        axis : function(){},
+        /**
+         * get the AxisData
+         */
+        axis : function(){
+            return this._axis;
+        },
 
+        /**
+         * get the Element Data
+         */
         elements : function(){
             return this._elements;
         },
 
         /**
+         * get the the max length of each Element
+         */
+        maxElementLength: function(){
+            var ml = 0;
+            S.each(this._elements, function(elem,idx){
+                if(S.isArray(elem.items)){
+                    ml = Math.max(ml, elem.items.length);
+                }
+            });
+            return ml;
+        },
+
+
+        /**
          * get the color from the user config or the default
          * color
          * @param {Number} idx
-         * @param {Length} length of element
          * @param {String} type of Chart
          */
-        getColor : function(idx,length,type){
-            var usercolor = this._cfg.colors
+        getColor : function(idx,type){
+            var length = this._elements.length;
+            var usercolor = this.config.colors
             if(S.isArray(usercolor) && usercolor[idx]){
                 return usercolor[idx];
             }
@@ -58,38 +80,39 @@ KISSY.add("gallery/chart/data",function(S){
             return this.getDefaultColor(idx,length,type);
         },
 
-        getDefaultColor : function (idx,length,type){
-            var mc = P.Color("#ff4400"),
-                hsl = mc.hslData(),
-                h = Math.floor(idx/3)/length + 1/(idx%3 + 1),
-                s = .6,
-                b = 1,
-
-                l = b - s/2;
-
-            return P.Color.hsl(h,s,l).hexTriplet();
-        },
-
         /**
          * return the sum of all Data
          */
-        sumData : function(){
+        sum: function(){
             var d = 0;
             this.eachElement(function(item){
                 d += item.data;
             });
             return d;
         },
+
         /**
-         * Get the Biggest Data
+         * Get the Biggest Data from element
          */
         max : function(){
             return this._max;
         },
 
-        look: function(){
+        /**
+         * get the default color depending on idx and length, and types of chart 
+         * @param {Number} index of element
+         * @param {Number} length of element
+         */
+        getDefaultColor : function (idx,length){
+            var h = Math.floor(idx/3)/length + 1/(idx%3 + 1),
+                s = .7,
+                b = 1,
+                l = b - s/2;
 
+            return P.Color.hsl(h,s,l).hexTriplet();
         },
+
+
         /**
          * execuse fn on each Element item
          */
@@ -113,12 +136,11 @@ KISSY.add("gallery/chart/data",function(S){
          */
         _initElementItem: function(){
             var self = this;
-            self.max = null;
+            self._max = null;
 
             self.eachElement(function(elem,idx,idx2){
-                if(self.max === null){
-                    self.max = elem.data;
-                }
+                if(idx === 0 && (!idx2) )self._max = elem.data || 0;
+
                 elem.data = S.isNumber(elem.data)? elem.data : 0;
                 elem.format = elem.format || Data.DEFAULT_FORMAT;
                 elem.label = elem.label || Data.DEFAULT_LABEL;
@@ -127,24 +149,27 @@ KISSY.add("gallery/chart/data",function(S){
             });
         },
 
+        /**
+         * expand the sub element
+         * @param {Object} the Element Object
+         * @private
+         */
         _expandElement : function(data){
             var datas,
                 itemdata,
                 self = this;
-
             S.each(data, function(item,idx){
                 if(S.isArray(item.datas)){
                     item.items = item.items || [];
-
                     S.each(item.datas, function(d,n){
                         itemdata = {
                             name : item.name,
                             data : d
-                        }
-
+                        };
                         if(item.labels && S.isString(item.labels[n])){
                             itemdata.label = item.labels[n];
                         }
+
                         if(item.label){
                             itemdata.label = item.label;
                         }
@@ -175,7 +200,6 @@ KISSY.add("gallery/chart/data",function(S){
                 self = this,
                 newe;
             var keys = ["name","names","data", "datas","label","labels","format","formats"];
-
             if(!data.elements && data.element && (data.element.names instanceof Array)){
                 elements = [];
                 elem = data.element;

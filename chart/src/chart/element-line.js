@@ -6,52 +6,58 @@ KISSY.add("gallery/chart/element-pie",function(S){
      * class Element for Line chart
      */
     function LineElement(data,chart,drawcfg){
-        LineElement.superclass.constructor.call(this,data,chart,drawcfg);
-        this._current = -1;
-        this.anim = new P.Anim(0.4,"easeInStrong");
-        this.anim.init();
+        var self = this;
+        self.chart = chart;
+        self.data = data;
+        self.elements = data.elements();
+        self._current = -1;
+        self.drawcfg = drawcfg;
+        self.initdata(drawcfg);
+        self.init();
+
+        self.anim = new P.Anim(0.4,"easeInStrong");
+        self.anim.init();
     }
 
-    S.extend(LineElement,P.Element,{
+    S.extend(LineElement, P.Element, {
+        /**
+         * 根据数据源，生成图形数据
+         */
         initdata : function(cfg){
             var self = this,
-                ml = self.maxlength,
                 data = self.data,
+                elements = self.elements,
+                ml = data.maxElementLength(),
                 left = cfg.left,
                 bottom = cfg.bottom,
                 width = cfg.right - cfg.left,
                 height = cfg.bottom - cfg.top,
-                maxtop,xtop,
                 gap = width/(ml-1),
-                i,j;
-            S.each(data,function(element,idx){
-                if(element.notdraw){
-                    return;
+                maxtop, i,j;
+            var items = [];
+            self.items = items;
+
+            data.eachElement(function(elem,idx,idx2){
+                if(!items[idx]){
+                    items[idx] = {
+                        _points : [],
+                        _labels : [],
+                        _color : data.getColor(idx),
+                        _maxtop : bottom
+                    };
                 }
-                element._points = [];
-                element._maxtop = bottom;
-                for(i=0; i< ml; i++){
-                    ptop = Math.max(bottom - element.data[i]*height/cfg.max, cfg.top - 5);
-                    element._maxtop = Math.min(element._maxtop, ptop);
-                    element._points.push({
-                        x : left + gap*i,
-                        y : ptop,
-                        bottom : bottom
-                    });
-                }
+                var element = items[idx];
+                ptop = Math.max(bottom - elem.data*height / cfg.max, cfg.top - 5);
+                element._maxtop = Math.min(element._maxtop, ptop);
+                element._labels[idx2] = elem.label;
+                element._points[idx2] = {
+                    x : left + gap*idx2,
+                    y : ptop,
+                    bottom : bottom
+                };
+
             });
-            //x top
-            self._xtop = [];
-            for(i = 0; i < ml; i++){
-                xtop = bottom;
-                S.each(data,function(element,idx){
-                    if(element.notdraw){
-                        return;
-                    }
-                    xtop = Math.min(element._points[i].y, xtop);
-                });
-                self._xtop.push(xtop);
-            }
+
         },
         draw : function(ctx,cfg){
             var self = this,
@@ -62,22 +68,31 @@ KISSY.add("gallery/chart/element-pie",function(S){
                 bottom = cfg.bottom,
                 height = bottom - top,
                 max = cfg.max,
-                colors = P.colors,
                 color,
-                maxtop,
                 ptop,
                 points,i,l,t,
                 k = self.anim.get(), gradiet;
-            self.drawNames(ctx,cfg);
-            if(this._ready_idx !== data.length-1 || k!==1){
-                this.fire("redraw");
+
+            if(data.config.showLabels){
+                self.drawNames(ctx,cfg);
             }
-            if(k === 1 && this._ready_idx < data.length -1){
-                self._ready_idx ++;
-                self.anim.init();
-                k = self.anim.get();
-            }
-            S.each(data,function(linecfg,idx){
+
+            // the animation
+            //if(k === 1 && this._ready_idx < data.length -1){
+                //self._ready_idx ++;
+                //self.anim.init();
+                //k = self.anim.get();
+            //}
+
+            //if(this._ready_idx !== data.length-1 || k!==1){
+                //this.fire("redraw");
+            //}
+            
+            k = 1;
+            self._ready_idx = 100;
+
+
+            S.each(self.items,function(linecfg,idx){
                 if(linecfg.notdraw){
                     return;
                 }
@@ -86,7 +101,7 @@ KISSY.add("gallery/chart/element-pie",function(S){
                 }else{
                     t = k;
                 }
-                color = colors[idx];
+                color = linecfg._color;
                 points = linecfg._points;
                 //draw bg
                 if(linecfg.drawbg){
@@ -94,7 +109,7 @@ KISSY.add("gallery/chart/element-pie",function(S){
                     ctx.globalAlpha = 0.4;
                     maxtop = bottom - (bottom - linecfg._maxtop)*t;
                     gradiet = ctx.createLinearGradient( left, maxtop, left, bottom);
-                    gradiet.addColorStop(0,color.c);
+                    gradiet.addColorStop(0,color);
                     gradiet.addColorStop(1,"rgb(255,255,255)");
                     ctx.fillStyle = gradiet;
                     ctx.beginPath();
@@ -113,7 +128,7 @@ KISSY.add("gallery/chart/element-pie",function(S){
                 //draw line
                 ctx.save();
                 l = points.length;
-                ctx.strokeStyle = color.c;
+                ctx.strokeStyle = color;
                 ctx.lineWidth = 2;
                 ctx.beginPath();
                 for(i = 0; i < l; i++){
@@ -134,7 +149,7 @@ KISSY.add("gallery/chart/element-pie",function(S){
                     p = points[i];
                     ptop = bottom - (bottom - p.y)*t;
                     //circle outter
-                    ctx.fillStyle = color.c;
+                    ctx.fillStyle = color;
                     ctx.beginPath();
                     ctx.arc(p.x,ptop,5,0,Math.PI*2,true);
                     ctx.closePath();
@@ -166,8 +181,6 @@ KISSY.add("gallery/chart/element-pie",function(S){
                 this._current = idx;
                 this.fire("redraw");
                 this.fire("showtooltip",{
-                    left : e.x,
-                    top : this._xtop[idx],
                     message : this.getTooltip(idx)
                 });
             }
@@ -181,24 +194,15 @@ KISSY.add("gallery/chart/element-pie",function(S){
          * @return {object:dom}
          **/
         getTooltip : function(index){
-            var self = this,
-                data = self.data,
-                type = data[0].data.length === 1 ? 0:1,
-                colors = P.colors,
-                ul,
-                elid = "tooltip"+index,
-                li;
-            //if(self._elcache[elid]) return this._elcache[elid];
-            ul = Dom.create("<ul>");
-            S.each(data,function(item,idx){
-                li = Dom.create("<li>");
-                Dom.html(li,
-                    "<p style='font-weight:bold;color:"+colors[idx].c+"'>"+
-                    item.label[index] +
-                    "</p>");
-                ul.appendChild(li);
+            var self = this, ul, li;
+            ul= "<ul>";
+            S.each(self.items, function(item,idx){
+                li = "<li><p style='font-weight:bold;color:" + item._color + "'>" +
+                        item._labels[index] +
+                    "</p></li>";
+                ul += li
             });
-            //self._elcache[elid] = ul;
+            ul += "</ul>";
             return ul;
         }
     });

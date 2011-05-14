@@ -1,24 +1,23 @@
 KISSY.add("gallery/chart/axis", function(S) {
     var P = KISSY.namespace("Gallery.Chart"),
         Event = S.Event,
-        ATYPE = {
-            LINE : 0,
-            BAR : 1
-        };
+        LINE = 'line',
+        BAR = 'bar';
 
-    function Axis(data, chart, cfg, type) {
+    function Axis(data, chart, cfg) {
         var self = this,
             label,cfgitem;
         this.chart = chart;
-        this.type = (type === "line") ? ATYPE.LINE : ATYPE.BAR;
+        this.type = data.type;
         self.data = data;
+        self.axisData = data.axis();
         self.cfg = cfg;
         self.current_x = -1;
         self.initEvent();
-        S.each(data, function(item, label) {
+        S.each(self.axisData, function(item, label) {
             item.name = ("name" in item) && S.isString(item) && item.name.length > 0 ? "(" + item.name + ")" : false;
         });
-        self.initdata(data, cfg);
+        self.initdata(self.axisData, cfg);
     }
 
     S.mix(Axis, {
@@ -43,6 +42,7 @@ KISSY.add("gallery/chart/axis", function(S) {
             return g * n;
         }
     });
+
     S.augment(Axis, S.EventTarget, {
         initYLabel : function(data, cfg) {
             if (data.y.labels) {
@@ -57,10 +57,10 @@ KISSY.add("gallery/chart/axis", function(S) {
             }
             data.y.labels = labels
         },
-        initdata : function(data, cfg) {
-            this.initYLabel(data, cfg);
-            var xd = data.x,
-                yd = data.y,
+        initdata : function(axisData, cfg) {
+            this.initYLabel(axisData, cfg);
+            var xd = axisData.x,
+                yd = axisData.y,
                 xl = xd.labels.length,
                 yl = yd.labels.length,
                 right = cfg.right,
@@ -80,7 +80,7 @@ KISSY.add("gallery/chart/axis", function(S) {
             xd._area = [];
             xd._showlabel = [];
             for (i = 0; i < xl; i++) {
-                if (this.type === ATYPE.LINE) {
+                if (this.type === LINE) {
                     xgap = width / (xl - 1);
                     pathx = left + i * xgap;
                     pathleft = (i === 0) ? pathx : pathx - xgap / 2;
@@ -116,7 +116,7 @@ KISSY.add("gallery/chart/axis", function(S) {
             }
         },
         initEvent : function() {
-            if (this.type === ATYPE.LINE) {
+            if (this.type === LINE) {
                 Event.on(this.chart, "mousemove", this.chartMouseMove, this);
                 Event.on(this.chart, "mouseleave", this.chartMouseLeave, this);
             }
@@ -129,10 +129,10 @@ KISSY.add("gallery/chart/axis", function(S) {
         },
         chartMouseMove : function(ev) {
             var self = this;
-            S.each(self.data.x._area, function(path, idx) {
+            S.each(self.axisData.x._area, function(path, idx) {
                 if (idx !== self.current_x && path.inpath(ev.x, ev.y)) {
                     self.current_x = idx;
-                    self.fire("xaxishover", {index : idx, x : self.data.x._path[idx].x});
+                    self.fire("xaxishover", {index : idx, x : self.axisData.x._path[idx].x});
                     self.fire("redraw");
                 }
             });
@@ -144,13 +144,14 @@ KISSY.add("gallery/chart/axis", function(S) {
         },
         draw : function(ctx) {
             var self = this,
-                cfgx = this.data.x,
-                cfgy = this.data.y,
+                axisData = self.data.axis(),
+                cfgx = axisData.x,
+                cfgy = axisData.y,
                 lx = cfgx.labels.length,
                 ly = cfgy.labels.length,
                 label,gridleft,
-                isline = self.type === ATYPE.LINE,
-                isbar = self.type === ATYPE.BAR,
+                isline = self.type === LINE,
+                isbar = self.type === BAR,
                 i, iscurrent,px,py,textwidth,labelx,showlabel;
             ctx.save();
             //draw y axis
@@ -244,7 +245,7 @@ KISSY.add("gallery/chart/axis", function(S) {
         },
         drawLabels : function(ctx) {
             var self = this,
-                data = self.data,
+                data = self.data.axis(),
                 yname = data.y.name,
                 xname = data.x.name,
                 px = data.x._lpath,

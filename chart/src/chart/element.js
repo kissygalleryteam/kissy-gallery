@@ -45,18 +45,18 @@ KISSY.add("gallery/chart/element",function(S){
         drawNames : function(ctx){
             var self = this,
                 cfg = self.drawcfg,
-                data = self.data || self.data.elements(),
+                data = self.data.elements(),
                 l = data.length,
                 i = l - 1,
-                d,c,
                 br = cfg.right,
-                by = cfg.top/2;
+                by = cfg.top/2,
+                d,c;
             for(; i>=0; i--){
                 d = data[i];
                 if(d.notdraw){
                     continue;
                 }
-                c = P.colors[i].c;
+                c = self.data.getColor(i);
                 //draw text
                 ctx.save();
                 ctx.textAlign = "end";

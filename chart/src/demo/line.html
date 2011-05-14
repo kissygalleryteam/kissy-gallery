@@ -14,7 +14,7 @@
     <script src="../chart/colors.js"></script>
     <script src="../chart/data.js"></script>
     <script src="../chart/element.js"></script>
-    <script src="../chart/element-pie.js"></script>
+    <script src="../chart/element-line.js"></script>
     <script src="../chart/frame.js"></script>
     <script src="../chart/axis.js"></script>
     <script src="../chart/simpletooltip.js"></script>
@@ -27,14 +27,34 @@
 KISSY.use("gallery/chart", function(S,Chart){
     var P = S.namespace("Gallery.Chart");
     var pie = new P.Chart("#chart1",{
-        type : "pie",
-        element : {
-            datas : [1,2,4,5,6,7,8],
-            names : ["AAA","BBB","CCC","DDD","EEE","FFF","GGG"]
+        type : "line",
+        elements : [{
+            name : "接待人数",
+            datas : [10,17,19,10,13],
+            label : "{name} : {data}人"
+        },
+        {
+            name : "回复人数",
+            datas : [22,12,18,27,21],
+            label : "{name} : {data}人"
+        },
+        {
+            name : "回复人数",
+            datas : [32,33,23,34,10],
+            label : "{name} : {data}人"
+        }],
+        axis : {
+            x : {
+                name : "时间",
+                labels : ["2011-1-10","2011-1-11","2011-1-12","2011-1-13","2011-1-14"]
+            },
+            y : {
+                name : "人数"
+            }
         },
         config : {
             //colors : ["#aaa","#999","#666"],
-            showLabels : true
+            left : 30
         }
     });
 });

@@ -22,7 +22,7 @@ KISSY.add("gallery/chart/element-pie",function(S){
                 color,
                 pecent,pecentStart;
 
-            self._x = data.showLabels ? cfg.width * 0.618 /2 : cfg.width/2;
+            self._x = data.config.showLabels ? cfg.width * 0.618 /2 : cfg.width/2;
             self._y = cfg.height/2;
             self._r = Math.min(cfg.bottom - cfg.top, cfg.right - cfg.left)/2;
             self._lx = cfg.width*0.618;
@@ -30,7 +30,7 @@ KISSY.add("gallery/chart/element-pie",function(S){
             self.antiClock = true;
             self.items = [];
             self._currentIndex = -1;
-            total = data.sumData();
+            total = data.sum();
 
             pecentStart = 0;
             S.each(data.elements(),function(item,idx){
@@ -90,7 +90,7 @@ KISSY.add("gallery/chart/element-pie",function(S){
             if(k < 1){
                 self.fire("redraw");
             }
-            if(self.data.showLabels){
+            if(self.data.config.showLabels){
                 self.drawLabels(ctx);
             }
             S.each(self.items, function(p, idx){

@@ -24,62 +24,88 @@ KISSY.add("gallery/chart/element-pie",function(S,Element){
 
     S.extend(BarElement, P.Element,{
         initData : function(cfg){
-            var self = this,
-                data = self.data.elements(),
-                ml = this.maxlength,
-                n = data.length,
-                itemwidth = (cfg.right - cfg.left)/ml,
-                gap = itemwidth/5/n,
-                padding = itemwidth/3/n,
-                barwidth = (itemwidth - (n-1) * gap - 2*padding)/n,
-                barheight,barleft,bartop;
-            self.items = [];
-            S.each(data, function(dataitem,eidx){
-                element = {};
-                element._x = [];
-                element._top = [];
-                element._left = [];
-                element._height = [];
-                element._width = [];
-                element._path = [];
-                for(i = 0; i< ml; i++){
-                    barheight = (cfg.bottom - cfg.top)* dataitem.data[i] / cfg.max;
-                    barleft = cfg.left + i * itemwidth + padding + eidx * (barwidth + gap);
-                    bartop = cfg.bottom - barheight;
-                    element._left[i] = barleft;
-                    element._top[i] = bartop;
-                    element._width[i] = barwidth;
-                    element._height[i] = barheight;
-                    element._path[i] = new P.RectPath(barleft,bartop,barwidth,barheight);
-                    element._x[i] = barleft+barwidth/2;
+            var self      = this,
+                data      = self.data,
+                elemLength         = data.elements().length,
+                maxlength = data.maxElementLength(),
+                itemwidth = (cfg.right - cfg.left)/maxlength,
+                gap = itemwidth/5/elemLength,//gap between bars
+                padding = itemwidth/3/elemLength,
+                barwidth = (itemwidth - (elemLength - 1) * gap - 2*padding)/elemLength,
+                barheight,barleft,bartop,color,
+                items = [];
+            self.maxLength = maxlength;
+
+            self.items = items;
+            self.data.eachElement(function(elem,idx,idx2){
+                if(!items[idx]){
+                    items[idx] = {
+                        _x : [],
+                        _top  :  [],
+                        _left  :  [],
+                        _path  :  [],
+                        _width  :  [],
+                        _height  :  [],
+                        _colors : [],
+                        _dcolors : []
+                    }
                 }
-                self.items.push(element);
+                var element = items[idx];
+
+                barheight = (cfg.bottom - cfg.top) * elem.data / cfg.max;
+                barleft = cfg.left + idx2 * itemwidth + padding + idx * (barwidth + gap);
+                bartop = cfg.bottom - barheight;
+
+                color = P.Color(self.data.getColor(idx,"bar"));
+                colord = darker(color);
+
+                element._left[idx2] = barleft;
+                element._top[idx2] = bartop;
+                element._width[idx2] = barwidth;
+                element._height[idx2] = barheight;
+                element._path[idx2] = new P.RectPath(barleft,bartop,barwidth,barheight);
+                element._x[idx2] = barleft+barwidth/2;
+                element._colors[idx2] = color;
+                element._dcolors[idx2] = colord;
             });
+
         },
+
+        /**
+         * draw the barElement
+         * @param {Object} Canvas Object
+         */
         draw : function(ctx){
             var self = this,
                 data = self.items,
-                n = data.length,
-                ml=self.maxlength,
+                ml = self.maxLength,
                 color,gradiet,colord,chsl,
                 barheight,cheight,barleft,bartop,
                 //for anim
-                k = self.anim.get(), i;
-            self.drawNames(ctx);
-            S.each(data, function(bar,idx){
-                color = new P.Color(P.colors[idx].c);
-                colord = darker(color);
+                k = self.anim.get(),
+                i;
+
+            if(self.data.config.showLabels){
+                self.drawNames(ctx);
+            }
+
+            S.each(data, function(bar, idx){
                 for(i = 0; i< ml; i++){
                     barleft = bar._left[i];
                     barheight = bar._height[i];
                     cheight = barheight * k;
                     bartop = bar._top[i] + barheight - cheight;
                     barwidth = bar._width[i];
+                    color =    bar._colors[i];
+                    dcolor =    bar._dcolors[i];
+
                     //draw backgraound
                     gradiet = ctx.createLinearGradient(barleft,bartop,barleft,bartop + cheight);
                     gradiet.addColorStop(0,color.css());
-                    gradiet.addColorStop(1,colord.css());
+                    gradiet.addColorStop(1,dcolor.css());
+
                     ctx.fillStyle = gradiet;
+                    //ctx.fillStyle = color;
                     ctx.fillRect(barleft,bartop,barwidth,cheight);
                     //draw label on the bar
                     if(ml === 1 && barheight > 25){
@@ -94,7 +120,8 @@ KISSY.add("gallery/chart/element-pie",function(S,Element){
                 }
 
             });
-            if(k !== 1) {
+
+            if(k < 1) {
                 self.fire("redraw");
             }
         },
@@ -111,9 +138,9 @@ KISSY.add("gallery/chart/element-pie",function(S,Element){
 
         chartMouseMove : function(ev){
             var current = [-1,-1],
-                data = this.data;
+                items = this.items;
 
-            S.each(this.data,function(bar,idx){
+            S.each(this.items, function(bar,idx){
                 S.each(bar._path, function(path,index){
                     if(path.inpath(ev.x,ev.y)){
                         current = [idx,index];
@@ -130,8 +157,8 @@ KISSY.add("gallery/chart/element-pie",function(S,Element){
             if(current[0] + current[1] >= 0){
                 this.fire("barhover",{index:current});
                 this.fire("showtooltip",{
-                    top : data[current[0]]._top[current[1]],
-                    left : data[current[0]]._x[current[1]],
+                    top : items[current[0]]._top[current[1]],
+                    left : items[current[0]]._x[current[1]],
                     message : this.getTooltip(current)
                 });
             }else{
@@ -149,17 +176,15 @@ KISSY.add("gallery/chart/element-pie",function(S,Element){
             var self = this,
                 eidx = index[0],
                 didx = index[1],
-                data = self.data,
+                elements = self.data.elements(),
                 colors = P.colors,
                 container,
                 elid = "tooltip"+index,
                 li;
-            container = Dom.create("<div>");
-            Dom.addClass(container ,"bartip");
-            Dom.html(container,
+            var msg = "<div class='bartip'>"+
                 "<span style='color:"+colors[eidx].c+";'>"+
-                this.data[eidx].label[didx]+"</span>");
-            return container;
+                elements[eidx].items[didx].label+"</span>";
+            return msg;
         }
     });
 

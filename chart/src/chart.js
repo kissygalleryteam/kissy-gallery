@@ -38,7 +38,6 @@ KISSY.add("gallery/chart", function(S) {
 
         self._stooltip = Chart.getTooltip();
         self._chartAnim = new P.Anim(0.3, "easeIn");
-        S.log(1);
         if(data){
             self.data = data;
             self._initContext();
@@ -64,8 +63,7 @@ KISSY.add("gallery/chart", function(S) {
          * @param {Object} the chart data
          */
         render : function(data) {
-            var self = this,
-                type = data.type;
+            var self = this;
 
             // ensure we have got context here
             if(self.ctx == -1){
@@ -78,42 +76,34 @@ KISSY.add("gallery/chart", function(S) {
                 self.data = data;
                 return;
             }
-            S.log(2)
+            self._data = new P.Data(data);
+            if(!self._data) return;
+            data = self._data;
 
-            self.init();
-
-            if (!type) {
-                return;
-            }
-
-            data = S.clone(data);
-
-            self.data = data;
-
+            self.initChart();
+            //绘图相关属性
             self._drawcfg = S.merge(defaultCfg, data.config, {
                 width:self.width,
                 height : self.height,
                 right : self.width - 10,
-                bottom : self.height - 20
+                bottom : self.height - 30
             });
-            S.log(3,type);
 
 
-            self._data = new P.Data(data);
+            if (data.type === "bar" || data.type === "line") {
 
-            if (type === "bar" || type === "line") {
-                //self._drawcfg.max = data.axis.y.max || P.Axis.getMax(P.Element.getMax(data.elements), self._drawcfg);
-                self.axis = new P.Axis(data.axis, self, self._drawcfg, type);
+                //generate the max of Y axis
+                self._drawcfg.max = P.Axis.getMax(data.max(), self._drawcfg);
+
+                self.axis = new P.Axis(data, self, self._drawcfg);
                 self._frame = new P.Frame(self._drawcfg);
                 self.layers.push(self.axis);
                 self.layers.push(self._frame);
-                self.element = P.Element.getElement(self._data, self, self._drawcfg);
-                self.layers.push(self.element);
-            }if(type === 'pie'){
-                S.log(4);
-                self.element = P.Element.getElement(self._data, self, self._drawcfg);
-                self.layers.push(self.element);
+
             }
+
+            self.element = P.Element.getElement(self._data, self, self._drawcfg);
+            self.layers.push(self.element);
 
             setTimeout(function() {
                 self._redraw();
@@ -185,7 +175,7 @@ KISSY.add("gallery/chart", function(S) {
          * this will remove all the event
          * @private
          */
-        init : function() {
+        initChart : function() {
             this._chartAnim.init();
             this.layers = [];
             this.offset = Dom.offset(this.elCanvas);

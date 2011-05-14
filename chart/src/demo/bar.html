@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!--<!DOCTYPE HTML>-->
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -22,7 +22,7 @@
     <script src="../chart/anim.js"></script>
 </head>
 <body>
-<canvas style="background:#ddd;" id="chart1" width="600" height="400"></canvas>
+<canvas style="background:#fff;" id="chart1" width="600" height="400"></canvas>
 <script>
 KISSY.use("gallery/chart", function(S,Chart){
     var P = S.namespace("Gallery.Chart");
@@ -30,17 +30,17 @@ KISSY.use("gallery/chart", function(S,Chart){
         type : "bar",
         elements : [{
             name : "接待人数",
-            data : [10,10,10,10,10],
+            datas : [10,10,10,10,10],
+            label : "<span style=\"font-weight:bold\"> {name} : {d}人</span>"
+        },
+        {
+            name : "回复人数",
+            datas : [20,20,20,20,20],
             label : "{name} : {d}人"
         },
         {
             name : "回复人数",
-            data : [10,10,10,10,10],
-            label : "{name} : {d}人"
-        },
-        {
-            name : "回复人数",
-            data : [20,20,20,20,20],
+            datas : [30,30,30,30,30],
             label : "{name} : {d}人"
         }],
         axis : {
@@ -53,6 +53,8 @@ KISSY.use("gallery/chart", function(S,Chart){
             }
         },
         config : {
+            //colors : ["#aaa","#999","#666"],
+            //showLabels : false,
             left : 60
         }
     });
