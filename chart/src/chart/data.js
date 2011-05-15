@@ -146,18 +146,18 @@ KISSY.add("gallery/chart/data",function(S){
             var colorgap = 1/3,
                 //h = Math.floor(idx/3)/length + 1/(idx%3 + 1)*colorgap,
                 h = colorgap * idx, //h of color hsl
-                s = .6, // s of color hsl
+                s = .7, // s of color hsl
                 b = 1,//b of  color hsb
                 l = b - s*.5, //l of color hsl
                 i, j, k;
 
             if(idx < 3){
-                h = colorgap * idx;
+                h = idx === 3 ? 0.6 : colorgap * idx;
             }else{
                 //防止最后一个颜色落在第3区间
                 if(length % 3 == 0){
                     if(idx === length -1){
-                        idx = length -2;
+                        idx = length - 2;
                     }else
                     if(idx === length - 2){
                         idx = length - 1;
@@ -167,6 +167,9 @@ KISSY.add("gallery/chart/data",function(S){
                 j = Math.ceil(length/3);
                 k = Math.ceil((idx + 1)/3);
                 h = i*colorgap + colorgap/j * (k-1);
+            }
+            if(idx === 3){
+                console.log(h);
             }
 
             return P.Color.hsl(h,s,l).hexTriplet();

@@ -3,8 +3,12 @@ KISSY.add("gallery/chart/element-bar",function(S,Element){
         Dom = S.DOM,
         Event = S.Event,
         darker = function(c){
-            var hsl = c.hslData();
-            return new P.Color.hsl(hsl[0],hsl[1],hsl[2]*0.6);
+            var hsl = c.hslData(),
+                l = hsl[2],
+                s = hsl[1],
+                b  = (l + s/2) * 0.6,
+            l = b - s/2;
+            return new P.Color.hsl(hsl[0],s,l);
         };
     /**
      * class BarElement for Bar Chart
