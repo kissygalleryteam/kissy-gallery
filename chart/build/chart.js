@@ -893,8 +893,8 @@ KISSY.add("gallery/chart/data",function(S){
             var colorgap = 1/3,
                 //h = Math.floor(idx/3)/length + 1/(idx%3 + 1)*colorgap,
                 h = colorgap * idx, //h of color hsl
-                s = .7, // s of color hsl
-                b = .9,//b of  color hsb
+                s = .6, // s of color hsl
+                b = 1,//b of  color hsb
                 l = b - s*.5, //l of color hsl
                 i, j, k;
 
