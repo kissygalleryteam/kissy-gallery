@@ -65,11 +65,11 @@ describe("Chart Data",function(){
             elements : [
                 {
                     name : "muti_1",
-                    datas : [1,2,3,4,5],
+                    datas : [1,2,3,4,5]
                 },
                 {
                     name : "muti_2",
-                    datas : [11,12,13,14,15],
+                    datas : [11,12,13,14,15]
                 }
             ]
         };
@@ -90,5 +90,17 @@ describe("Chart Data",function(){
             expect(elem.length).toEqual(2);
             expect(elem[0].items.length).toEqual(5);
         })
+    });
+
+    describe("test the default color getter", function(){
+        var json = {
+            type : "Line",
+            element : {
+                datas : [1,2,3,4],
+                labels : ["n","b","n","c"],
+                names : ["a1","a2","a3","a4"],
+                format : "0.00"
+            }
+        };
     });
 });

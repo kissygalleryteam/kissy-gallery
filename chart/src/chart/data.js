@@ -1,8 +1,8 @@
 KISSY.add("gallery/chart/data",function(S){
     var P = S.namespace("Gallery.Chart");
+
     /**
-     * 图表数据
-     * @constructor
+     * 图表默认配置
      */
     var defaultConfig= {
         left : 20,
@@ -15,16 +15,23 @@ KISSY.add("gallery/chart/data",function(S){
         animationEasing : "easeInStrong"
     };
 
+    /**
+     * 特定图标配置
+     */
     var specificConfig = {
         'line' : { },
         'bar' : { },
         'pie' : {
             animationDuration : 2,
             animationEasing : "bounceOut"
-        },
-    }
+        }
+    };
+
+    /**
+     * 数据默认配置
+     */
     var defaultChartConfig = {
-        default : {
+        'default' : {
             format : "0",
             label : "{name} -  {data}"
         },
@@ -38,6 +45,11 @@ KISSY.add("gallery/chart/data",function(S){
         }
     };
 
+    /**
+     * 图表数据
+     * @constructor
+     * @param {Object} 输入的图表JSON数据
+     */
     function Data(data){
         if(!data || !data.type) return;
         if(!this instanceof Data) return new Data(data);
@@ -54,12 +66,7 @@ KISSY.add("gallery/chart/data",function(S){
         self.config = S.merge(defaultConfig, specificConfig[self.type], data.config);
     }
 
-    S.mix( Data, {
-        DEFAULT_LABEL : "{name} : {data}",
-        DEFAULT_FORMAT: "0.00"
-    });
-
-    S.augment(Data, {
+    S.augment(Data, /**@lends Data.protoptype*/{
         /**
          * get the AxisData
          */
@@ -89,9 +96,10 @@ KISSY.add("gallery/chart/data",function(S){
 
 
         /**
-         * get the color from the user config or the default
+         * Get the color for the Element
+         * from the user config or the default
          * color
-         * @param {Number} idx
+         * @param {Number} the index of the element
          * @param {String} type of Chart
          */
         getColor : function(idx,type){
@@ -100,9 +108,13 @@ KISSY.add("gallery/chart/data",function(S){
             if(S.isArray(usercolor) && usercolor[idx]){
                 return usercolor[idx];
             }
+
+            //getColor frome user defined function
             if(S.isFunction(usercolor)){
                 return usercolor(idx);
             }
+
+            //get color from default Color getter
             return this.getDefaultColor(idx,length,type);
         },
 
@@ -130,10 +142,32 @@ KISSY.add("gallery/chart/data",function(S){
          * @param {Number} length of element
          */
         getDefaultColor : function (idx,length){
-            var h = Math.floor(idx/3)/length + 1/(idx%3 + 1),
-                s = .7,
-                b = 1,
-                l = b - s/2;
+            //在色相环上取色
+            var colorgap = 1/3,
+                //h = Math.floor(idx/3)/length + 1/(idx%3 + 1)*colorgap,
+                h = colorgap * idx, //h of color hsl
+                s = .6, // s of color hsl
+                b = 1,//b of  color hsb
+                l = b - s*.5, //l of color hsl
+                i, j, k;
+
+            if(idx < 3){
+                h = colorgap * idx;
+            }else{
+                //防止最后一个颜色落在第3区间
+                if(length % 3 == 0){
+                    if(idx === length -1){
+                        idx = length -2;
+                    }else
+                    if(idx === length - 2){
+                        idx = length - 1;
+                    }
+                }
+                i = idx % 3;
+                j = Math.ceil(length/3);
+                k = Math.ceil((idx + 1)/3);
+                h = i*colorgap + colorgap/j * (k-1);
+            }
 
             return P.Color.hsl(h,s,l).hexTriplet();
         },
@@ -278,4 +312,6 @@ KISSY.add("gallery/chart/data",function(S){
     });
 
     P.Data = Data;
-});
+
+    return Data;
+},{requires : ["./color"]});
