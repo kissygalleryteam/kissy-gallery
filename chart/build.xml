@@ -4,7 +4,6 @@
     </description>
   <property name="src" location="src"/>
   <property name="build" location="build"/>
-
   <target name="init">
     <tstamp/>
     <mkdir dir="${build}"/>
@@ -26,13 +25,16 @@
               <file name="chart.js" />
               <file name="chart/format.js" />
               <file name="chart/color.js" />
-              <file name="chart/colors.js" />
+              <file name="chart/data.js" />
               <file name="chart/path.js" />
               <file name="chart/frame.js" />
               <file name="chart/anim.js" />
               <file name="chart/simpletooltip.js" />
               <file name="chart/axis.js" />
               <file name="chart/element.js" />
+              <file name="chart/element-line.js" />
+              <file name="chart/element-bar.js" />
+              <file name="chart/element-pie.js" />
           </filelist>
       </path>
    </concat>

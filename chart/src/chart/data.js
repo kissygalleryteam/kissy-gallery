@@ -11,6 +11,20 @@ KISSY.add("gallery/chart/data",function(S){
         showLabels : true,
         colors : []
     }
+    var defaultChartConfig = {
+        default : {
+            format : "0",
+            label : "{name} -  {data}"
+        },
+        'line':{
+        },
+        "pie" : {
+            format : "0.00"
+        },
+        "bar" : {
+            format : "0"
+        }
+    };
 
     function Data(data){
         if(!data || !data.type) return;
@@ -30,7 +44,7 @@ KISSY.add("gallery/chart/data",function(S){
 
     S.mix( Data, {
         DEFAULT_LABEL : "{name} : {data}",
-        DEFAULT_FORMAT: "0"
+        DEFAULT_FORMAT: "0.00"
     });
 
     S.augment(Data, {
@@ -105,7 +119,7 @@ KISSY.add("gallery/chart/data",function(S){
          */
         getDefaultColor : function (idx,length){
             var h = Math.floor(idx/3)/length + 1/(idx%3 + 1),
-                s = .7,
+                s = .8,
                 b = 1,
                 l = b - s/2;
 
@@ -141,10 +155,17 @@ KISSY.add("gallery/chart/data",function(S){
             self.eachElement(function(elem,idx,idx2){
                 if(idx === 0 && (!idx2) )self._max = elem.data || 0;
 
-                elem.data = S.isNumber(elem.data)? elem.data : 0;
-                elem.format = elem.format || Data.DEFAULT_FORMAT;
-                elem.label = elem.label || Data.DEFAULT_LABEL;
-                elem.label = S.substitute(elem.label, elem);
+                var defaultElem = S.merge(defaultChartConfig['default'], defaultChartConfig[self.type]||{});
+                elem.data = S.isNumber(elem.data) ? elem.data : 0;
+                elem.format = elem.format || defaultElem.format;
+                elem.label = elem.label || defaultElem.label;
+                elem.label = S.substitute(
+                    elem.label,
+                    {
+                        name : elem.name,
+                        data : P.format(elem.data, elem.format)
+                    }
+                );
                 self._max = Math.max(self._max, elem.data);
             });
         },
@@ -208,7 +229,7 @@ KISSY.add("gallery/chart/data",function(S){
                         name   : d,
                         data   : self._getLabel(elem.datas, n),
                         label  : self._getLabel(elem.labels, n),
-                        format : self._getLabel(elem.format,n) || Data.DEFAULT_FORMAT
+                        format : self._getLabel(elem.format,n)
                     });
                 });
             }

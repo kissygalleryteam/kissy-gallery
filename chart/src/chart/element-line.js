@@ -1,4 +1,4 @@
-KISSY.add("gallery/chart/element-pie",function(S){
+KISSY.add("gallery/chart/element-line",function(S){
     var P = S.namespace("Gallery.Chart"),
         Dom = S.DOM,
         Event = S.Event;

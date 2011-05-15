@@ -58,6 +58,8 @@ KISSY.add("gallery/chart/element-pie",function(S){
                 data = self.data,
                 items = self.items,
                 item,
+                sum = data.sum(),
+                labelText,
                 labelX , labelY;
             ctx.save();
             ctx.textBaseline = 'middle';
@@ -73,7 +75,8 @@ KISSY.add("gallery/chart/element-pie",function(S){
                 ctx.fillRect(labelX - 10,labelY-5,10,10);
                 ctx.closePath();
                 ctx.fillStyle = items[idx].textColor;
-                ctx.fillText(elem.name, labelX - 15, labelY);
+                labelText = S.substitute("{name} ({data})",{data:P.format(elem.data,elem.format),name:elem.name}) + " - " + P.format(elem.data/sum * 100,"0.00") + "%";
+                ctx.fillText(labelText, labelX - 15, labelY);
             });
             ctx.restore();
         },
@@ -131,7 +134,6 @@ KISSY.add("gallery/chart/element-pie",function(S){
 
             // if mouse out of pie
             if(dx*dx + dy*dy > pr*pr){
-                S.log("out")
                 self.fire("hidetooltip");
                 self._currentIndex = -1;
                 return;

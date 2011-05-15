@@ -1,4 +1,4 @@
-KISSY.add("gallery/chart/element-pie",function(S,Element){
+KISSY.add("gallery/chart/element-bar",function(S,Element){
     var P = S.namespace("Gallery.Chart"),
         Dom = S.DOM,
         Event = S.Event,
@@ -47,7 +47,8 @@ KISSY.add("gallery/chart/element-pie",function(S,Element){
                         _width  :  [],
                         _height  :  [],
                         _colors : [],
-                        _dcolors : []
+                        _dcolors : [],
+                        _labels : []
                     }
                 }
                 var element = items[idx];
@@ -67,6 +68,7 @@ KISSY.add("gallery/chart/element-pie",function(S,Element){
                 element._x[idx2] = barleft+barwidth/2;
                 element._colors[idx2] = color;
                 element._dcolors[idx2] = colord;
+                element._labels[idx2] = elem.label;
             });
 
         },
@@ -176,14 +178,10 @@ KISSY.add("gallery/chart/element-pie",function(S,Element){
             var self = this,
                 eidx = index[0],
                 didx = index[1],
-                elements = self.data.elements(),
-                colors = P.colors,
-                container,
-                elid = "tooltip"+index,
-                li;
-            var msg = "<div class='bartip'>"+
-                "<span style='color:"+colors[eidx].c+";'>"+
-                elements[eidx].items[didx].label+"</span>";
+                item = self.items[eidx],
+                msg = "<div class='bartip'>"+
+                    "<span style='color:"+item._colors[didx].css()+";'>"+
+                    item._labels[didx]+"</span>";
             return msg;
         }
     });
