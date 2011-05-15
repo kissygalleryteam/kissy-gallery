@@ -117,14 +117,14 @@ KISSY.add("gallery/chart/axis", function(S) {
         },
         initEvent : function() {
             if (this.type === LINE) {
-                Event.on(this.chart, "mousemove", this.chartMouseMove, this);
-                Event.on(this.chart, "mouseleave", this.chartMouseLeave, this);
+                Event.on(this.chart, P.Chart.MOUSE_MOVE, this.chartMouseMove, this);
+                Event.on(this.chart, P.Chart.MOUSE_LEAVE, this.chartMouseLeave, this);
             }
         },
         destory : function() {
             if (this.type === ATYPE.LINE) {
-                Event.remove(this.chart, "mousemove", this.chartMouseMove);
-                Event.remove(this.chart, "mouseleave", this.chartMouseLeave, this);
+                Event.remove(this.chart, P.Chart.MOUSE_MOVE, this.chartMouseMove);
+                Event.remove(this.chart, P.Chart.MOUSE_LEAVE, this.chartMouseLeave, this);
             }
         },
         chartMouseMove : function(ev) {

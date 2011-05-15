@@ -1,17 +1,27 @@
 KISSY.add("gallery/chart/element-pie",function(S){
     var P = S.namespace("Gallery.Chart"),
-        Dom = S.DOM,
-        Event = S.Event;
+        Event = S.Event,
+        lighter = function(c){
+            if(S.isString(c)){
+                c = P.Color(c)
+            };
+            var hsl = c.hslData(),
+                s = hsl[1],
+                l = hsl[2]*1.2;
+            return new P.Color.hsl(hsl[0],s,l);
+        };
 
     function PieElement(data,chart,drawcfg){
-        this.data = data;
-        this.chart = chart;
-        this.type = 0;
-        this.drawcfg = drawcfg;
-        this.initdata(drawcfg);
-        this.init();
-        this.anim = new P.Anim(1,"bounceOut");
-        this.anim.init();
+        var self = this;
+        self.data = data;
+        self.chart = chart;
+        self.type = 0;
+        self.config = data.config;
+        self.drawcfg = drawcfg;
+        self.initdata(drawcfg);
+        self.init();
+        self.anim = new P.Anim(self.config.animationDuration,self.config.animationEasing)//,1,"bounceOut");
+        self.anim.init();
     }
 
     S.extend(PieElement,P.Element,{
@@ -36,10 +46,12 @@ KISSY.add("gallery/chart/element-pie",function(S){
             S.each(data.elements(),function(item,idx){
                 pecent   = item.data/total;
                 end = pecentStart + pecent;
+                color = data.getColor(idx);
                 self.items.push({
                     start : pecentStart,
                     end : end,
-                    color : data.getColor(idx, data.elements().length),
+                    color : color,
+                    color2 : lighter(color).css(),
                     textColor : "#999",
                     labelRight : cfg.width - 50,
                     labelY : 50 + 20 * idx
@@ -101,7 +113,7 @@ KISSY.add("gallery/chart/element-pie",function(S){
                 end = p.end* k * 2 * Math.PI;
                 ctx.save();
                 ctx.lineWidth = 0.5;
-                ctx.fillStyle = p.color;
+                ctx.fillStyle = idx === self._currentIndex? p.color2: p.color;
                 ctx.strokeStyle = "#fff";
                 ctx.beginPath();
                 ctx.moveTo(px,py);
@@ -116,12 +128,12 @@ KISSY.add("gallery/chart/element-pie",function(S){
         },
 
         init : function(){
-            Event.on(this.chart,"mousemove",this.chartMouseMove,this);
-            Event.on(this.chart,"mouseleave",this.chartMouseLeave,this);
+            Event.on(this.chart,P.Chart.MOUSE_MOVE,this.chartMouseMove,this);
+            Event.on(this.chart,P.Chart.MOUSE_LEAVE,this.chartMouseLeave,this);
         },
         destory : function(){
-            Event.remove(this.chart,"mousemove",this.chartMouseMove);
-            Event.remove(this.chart,"mouseleave",this.chartMouseLeave);
+            Event.remove(this.chart,P.Chart.MOUSE_MOVE,this.chartMouseMove);
+            Event.remove(this.chart,P.Chart.MOUSE_LEAVE,this.chartMouseLeave);
         },
         chartMouseMove : function(ev){
             var self = this,
@@ -136,6 +148,7 @@ KISSY.add("gallery/chart/element-pie",function(S){
             if(dx*dx + dy*dy > pr*pr){
                 self.fire("hidetooltip");
                 self._currentIndex = -1;
+                self.fire("redraw");
                 return;
             };
 
@@ -179,6 +192,7 @@ KISSY.add("gallery/chart/element-pie",function(S){
 
                 if(angle > anglestart && angle < anglestart + t && i !== self._currentIndex){
                     self._currentIndex = i;
+                    self.fire("redraw");
                     self.fire("showtooltip",{
                         message : self.data.elements()[i].label
                     });
@@ -189,6 +203,7 @@ KISSY.add("gallery/chart/element-pie",function(S){
         chartMouseLeave : function(ev){
             this._currentIndex = -1;
             this.fire("hidetooltip");
+            this.fire("redraw");
         }
     });
 

@@ -10,16 +10,18 @@ KISSY.add("gallery/chart/element-bar",function(S,Element){
      * class BarElement for Bar Chart
      */
     function BarElement(data,chart,drawcfg){
-        this.data = data;
-        this.chart = chart;
-        this.drawcfg = drawcfg;
+        var self = this;
+        self.data = data;
+        self.chart = chart;
+        self.drawcfg = drawcfg;
+        self.config = data.config;
 
-        this.initData(drawcfg);
-        this.initEvent();
+        self.initData(drawcfg);
+        self.initEvent();
 
-        this.current = [-1,-1];
-        this.anim = new P.Anim(0.5,"easeInStrong");
-        this.anim.init();
+        self.current = [-1,-1];
+        self.anim = new P.Anim(self.config.animationDuration,self.config.animationEasing)//,1,"bounceOut");
+        self.anim.init();
     }
 
     S.extend(BarElement, P.Element,{
@@ -129,13 +131,13 @@ KISSY.add("gallery/chart/element-bar",function(S,Element){
         },
 
         initEvent : function(){
-            Event.on(this.chart,"mousemove",this.chartMouseMove,this);
-            Event.on(this.chart,"mouseleave",this.chartMouseLeave,this);
+            Event.on(this.chart,P.Chart.MOUSE_MOVE,this.chartMouseMove,this);
+            Event.on(this.chart,P.Chart.MOUSE_LEAVE,this.chartMouseLeave,this);
         },
 
         destory : function(){
-            Event.remove(this.chart,"mousemove",this.chartMouseMove);
-            Event.remove(this.chart,"mouseleave",this.chartMouseLeave);
+            Event.remove(this.chart,P.Chart.MOUSE_MOVE,this.chartMouseMove);
+            Event.remove(this.chart,P.Chart.MOUSE_LEAVE,this.chartMouseLeave);
         },
 
         chartMouseMove : function(ev){

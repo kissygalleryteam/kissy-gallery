@@ -54,6 +54,15 @@ KISSY.add("gallery/chart", function(S) {
         }
         return Chart.tooltip;
     }
+    /**
+     * Event Mouse leave
+     */
+    Chart.MOUSE_LEAVE = "mouse_leave";
+
+    /**
+     * Event Mouse move
+     */
+    Chart.MOUSE_MOVE= "mouse_move";
 
     S.augment(Chart,
         S.EventTarget, /**@lends Chart.prototype*/{
@@ -193,7 +202,7 @@ KISSY.add("gallery/chart", function(S) {
             if (this._event_inited) {
                 Event.remove(this.elCanvas, "mousemove", this._mousemoveHandle);
                 Event.remove(this.elCanvas, "mouseleave", this._mouseLeaveHandle);
-                Event.remove(this, "mouseleave", this._drawAreaLeave);
+                Event.remove(this, Chart.MOUSE_LEAVE, this._drawAreaLeave);
             }
             this._stooltip.hide();
         },
@@ -203,20 +212,25 @@ KISSY.add("gallery/chart", function(S) {
 
             Event.on(this.elCanvas, "mousemove", this._mousemoveHandle, this);
             Event.on(this.elCanvas, "mouseleave", this._mouseLeaveHandle, this);
-            Event.on(this, "mouseleave", this._drawAreaLeave, this);
+            Event.on(this, Chart.MOUSE_LEAVE, this._drawAreaLeave, this);
+
             if (this.type === "bar") {
                 Event.on(this.element, "barhover", this._barHover, this);
             }
+
             if (this.axis) {
                 Event.on(this.axis, "xaxishover", this._xAxisHover, this);
                 Event.on(this.axis, "leave", this._xAxisLeave, this);
                 Event.on(this.axis, "redraw", this._redraw, this);
             }
+
             Event.on(this.element, "redraw", this._redraw, this);
+
             Event.on(this.element, "showtooltip", function(e) {
                 var msg = S.isString(e.message)?e.message:e.message.innerHTML;
                 this._stooltip.show(msg);
             }, this);
+
             Event.on(this.element, "hidetooltip", function(e) {
                 this._stooltip.hide();
             }, this);
@@ -320,10 +334,11 @@ KISSY.add("gallery/chart", function(S) {
         _mousemoveHandle : function(e) {
             var ox = e.offsetX || e.pageX - this.offset.left,
                 oy = e.offsetY || e.pageY - this.offset.top;
+
             if(this._frame && this._frame.path && this._frame.path.inpath(ox,oy) || !this._frame){
-                this.fire("mousemove", {x:ox,y:oy});
+                this.fire(Chart.MOUSE_MOVE, {x:ox,y:oy});
             }else{
-                this.fire("mouseleave");
+                this.fire(Chart.MOUSE_LEAVE);
             }
         },
         /**
@@ -331,13 +346,7 @@ KISSY.add("gallery/chart", function(S) {
          * @private
          */
         _mouseLeaveHandle : function(ev) {
-            //var to = ev.toElement || ev.relatedTarget,
-            //t = to!== this._tooltip.el,
-            //c = to!==this.elCanvas,
-            //t2 = !Dom.contains(this._tooltip.el, to);
-            //if( c && t && t2){
-            this.fire("mouseleave");
-            //}
+            this.fire(Chart.MOUSE_LEAVE, ev);
         }
     });
 
@@ -742,12 +751,24 @@ KISSY.add("gallery/chart/data",function(S){
      * 图表数据
      * @constructor
      */
-    var defaultData = {
+    var defaultConfig= {
         left : 20,
         right : 20,
         bottom : 20,
         showLabels : true,
-        colors : []
+        colors : [],
+        drawbg : -1,
+        animationDuration : .5,
+        animationEasing : "easeInStrong"
+    };
+
+    var specificConfig = {
+        'line' : { },
+        'bar' : { },
+        'pie' : {
+            animationDuration : 2,
+            animationEasing : "bounceOut"
+        },
     }
     var defaultChartConfig = {
         default : {
@@ -777,7 +798,7 @@ KISSY.add("gallery/chart/data",function(S){
         self._initElementItem();
         self._axis = data.axis;
         self._design = data.design;
-        self.config = S.merge(defaultData, data.config||{});
+        self.config = S.merge(defaultConfig, specificConfig[self.type], data.config);
     }
 
     S.mix( Data, {
@@ -857,7 +878,7 @@ KISSY.add("gallery/chart/data",function(S){
          */
         getDefaultColor : function (idx,length){
             var h = Math.floor(idx/3)/length + 1/(idx%3 + 1),
-                s = .8,
+                s = .7,
                 b = 1,
                 l = b - s/2;
 
@@ -1329,14 +1350,14 @@ KISSY.add("gallery/chart/axis", function(S) {
         },
         initEvent : function() {
             if (this.type === LINE) {
-                Event.on(this.chart, "mousemove", this.chartMouseMove, this);
-                Event.on(this.chart, "mouseleave", this.chartMouseLeave, this);
+                Event.on(this.chart, P.Chart.MOUSE_MOVE, this.chartMouseMove, this);
+                Event.on(this.chart, P.Chart.MOUSE_LEAVE, this.chartMouseLeave, this);
             }
         },
         destory : function() {
             if (this.type === ATYPE.LINE) {
-                Event.remove(this.chart, "mousemove", this.chartMouseMove);
-                Event.remove(this.chart, "mouseleave", this.chartMouseLeave, this);
+                Event.remove(this.chart, P.Chart.MOUSE_MOVE, this.chartMouseMove);
+                Event.remove(this.chart, P.Chart.MOUSE_LEAVE, this.chartMouseLeave, this);
             }
         },
         chartMouseMove : function(ev) {
@@ -1588,11 +1609,13 @@ KISSY.add("gallery/chart/element-line",function(S){
         self.data = data;
         self.elements = data.elements();
         self._current = -1;
+        self.config = data.config;
         self.drawcfg = drawcfg;
         self.initdata(drawcfg);
+        self._ready_idx = -1;
         self.init();
 
-        self.anim = new P.Anim(0.4,"easeInStrong");
+        self.anim = new P.Anim(self.config.animationDuration,self.config.animationEasing);
         self.anim.init();
     }
 
@@ -1620,7 +1643,8 @@ KISSY.add("gallery/chart/element-line",function(S){
                         _points : [],
                         _labels : [],
                         _color : data.getColor(idx),
-                        _maxtop : bottom
+                        _maxtop : bottom,
+                        _drawbg : idx === data.config.drawbg
                     };
                 }
                 var element = items[idx];
@@ -1655,33 +1679,27 @@ KISSY.add("gallery/chart/element-line",function(S){
             }
 
             // the animation
-            //if(k === 1 && this._ready_idx < data.length -1){
-                //self._ready_idx ++;
-                //self.anim.init();
-                //k = self.anim.get();
-            //}
+            if(k >= 1 && this._ready_idx < self.items.length -1){
+                self._ready_idx ++;
+                self.anim.init();
+                k = self.anim.get();
+            }
 
-            //if(this._ready_idx !== data.length-1 || k!==1){
-                //this.fire("redraw");
-            //}
-            
-            k = 1;
-            self._ready_idx = 100;
-
+            if(this._ready_idx !== data.length-1 || k!==1){
+                this.fire("redraw");
+            }
 
             S.each(self.items,function(linecfg,idx){
-                if(linecfg.notdraw){
-                    return;
-                }
                 if (idx !== self._ready_idx) {
                     t = (idx > self._ready_idx)?0:1;
                 }else{
                     t = k;
                 }
+
                 color = linecfg._color;
                 points = linecfg._points;
                 //draw bg
-                if(linecfg.drawbg){
+                if(linecfg._drawbg){
                     ctx.save();
                     ctx.globalAlpha = 0.4;
                     maxtop = bottom - (bottom - linecfg._maxtop)*t;
@@ -1774,7 +1792,7 @@ KISSY.add("gallery/chart/element-line",function(S){
             var self = this, ul, li;
             ul= "<ul>";
             S.each(self.items, function(item,idx){
-                li = "<li><p style='font-weight:bold;color:" + item._color + "'>" +
+                li = "<li><p style='color:" + item._color + "'>" +
                         item._labels[index] +
                     "</p></li>";
                 ul += li
@@ -1803,16 +1821,18 @@ KISSY.add("gallery/chart/element-bar",function(S,Element){
      * class BarElement for Bar Chart
      */
     function BarElement(data,chart,drawcfg){
-        this.data = data;
-        this.chart = chart;
-        this.drawcfg = drawcfg;
+        var self = this;
+        self.data = data;
+        self.chart = chart;
+        self.drawcfg = drawcfg;
+        self.config = data.config;
 
-        this.initData(drawcfg);
-        this.initEvent();
+        self.initData(drawcfg);
+        self.initEvent();
 
-        this.current = [-1,-1];
-        this.anim = new P.Anim(0.5,"easeInStrong");
-        this.anim.init();
+        self.current = [-1,-1];
+        self.anim = new P.Anim(self.config.animationDuration,self.config.animationEasing)//,1,"bounceOut");
+        self.anim.init();
     }
 
     S.extend(BarElement, P.Element,{
@@ -1922,13 +1942,13 @@ KISSY.add("gallery/chart/element-bar",function(S,Element){
         },
 
         initEvent : function(){
-            Event.on(this.chart,"mousemove",this.chartMouseMove,this);
-            Event.on(this.chart,"mouseleave",this.chartMouseLeave,this);
+            Event.on(this.chart,P.Chart.MOUSE_MOVE,this.chartMouseMove,this);
+            Event.on(this.chart,P.Chart.MOUSE_LEAVE,this.chartMouseLeave,this);
         },
 
         destory : function(){
-            Event.remove(this.chart,"mousemove",this.chartMouseMove);
-            Event.remove(this.chart,"mouseleave",this.chartMouseLeave);
+            Event.remove(this.chart,P.Chart.MOUSE_MOVE,this.chartMouseMove);
+            Event.remove(this.chart,P.Chart.MOUSE_LEAVE,this.chartMouseLeave);
         },
 
         chartMouseMove : function(ev){
@@ -1986,18 +2006,28 @@ KISSY.add("gallery/chart/element-bar",function(S,Element){
 });
 KISSY.add("gallery/chart/element-pie",function(S){
     var P = S.namespace("Gallery.Chart"),
-        Dom = S.DOM,
-        Event = S.Event;
+        Event = S.Event,
+        lighter = function(c){
+            if(S.isString(c)){
+                c = P.Color(c)
+            };
+            var hsl = c.hslData(),
+                s = hsl[1],
+                l = hsl[2]*1.2;
+            return new P.Color.hsl(hsl[0],s,l);
+        };
 
     function PieElement(data,chart,drawcfg){
-        this.data = data;
-        this.chart = chart;
-        this.type = 0;
-        this.drawcfg = drawcfg;
-        this.initdata(drawcfg);
-        this.init();
-        this.anim = new P.Anim(1,"bounceOut");
-        this.anim.init();
+        var self = this;
+        self.data = data;
+        self.chart = chart;
+        self.type = 0;
+        self.config = data.config;
+        self.drawcfg = drawcfg;
+        self.initdata(drawcfg);
+        self.init();
+        self.anim = new P.Anim(self.config.animationDuration,self.config.animationEasing)//,1,"bounceOut");
+        self.anim.init();
     }
 
     S.extend(PieElement,P.Element,{
@@ -2022,10 +2052,12 @@ KISSY.add("gallery/chart/element-pie",function(S){
             S.each(data.elements(),function(item,idx){
                 pecent   = item.data/total;
                 end = pecentStart + pecent;
+                color = data.getColor(idx);
                 self.items.push({
                     start : pecentStart,
                     end : end,
-                    color : data.getColor(idx, data.elements().length),
+                    color : color,
+                    color2 : lighter(color).css(),
                     textColor : "#999",
                     labelRight : cfg.width - 50,
                     labelY : 50 + 20 * idx
@@ -2087,7 +2119,7 @@ KISSY.add("gallery/chart/element-pie",function(S){
                 end = p.end* k * 2 * Math.PI;
                 ctx.save();
                 ctx.lineWidth = 0.5;
-                ctx.fillStyle = p.color;
+                ctx.fillStyle = idx === self._currentIndex? p.color2: p.color;
                 ctx.strokeStyle = "#fff";
                 ctx.beginPath();
                 ctx.moveTo(px,py);
@@ -2102,12 +2134,12 @@ KISSY.add("gallery/chart/element-pie",function(S){
         },
 
         init : function(){
-            Event.on(this.chart,"mousemove",this.chartMouseMove,this);
-            Event.on(this.chart,"mouseleave",this.chartMouseLeave,this);
+            Event.on(this.chart,P.Chart.MOUSE_MOVE,this.chartMouseMove,this);
+            Event.on(this.chart,P.Chart.MOUSE_LEAVE,this.chartMouseLeave,this);
         },
         destory : function(){
-            Event.remove(this.chart,"mousemove",this.chartMouseMove);
-            Event.remove(this.chart,"mouseleave",this.chartMouseLeave);
+            Event.remove(this.chart,P.Chart.MOUSE_MOVE,this.chartMouseMove);
+            Event.remove(this.chart,P.Chart.MOUSE_LEAVE,this.chartMouseLeave);
         },
         chartMouseMove : function(ev){
             var self = this,
@@ -2122,6 +2154,7 @@ KISSY.add("gallery/chart/element-pie",function(S){
             if(dx*dx + dy*dy > pr*pr){
                 self.fire("hidetooltip");
                 self._currentIndex = -1;
+                self.fire("redraw");
                 return;
             };
 
@@ -2165,6 +2198,7 @@ KISSY.add("gallery/chart/element-pie",function(S){
 
                 if(angle > anglestart && angle < anglestart + t && i !== self._currentIndex){
                     self._currentIndex = i;
+                    self.fire("redraw");
                     self.fire("showtooltip",{
                         message : self.data.elements()[i].label
                     });
@@ -2175,6 +2209,7 @@ KISSY.add("gallery/chart/element-pie",function(S){
         chartMouseLeave : function(ev){
             this._currentIndex = -1;
             this.fire("hidetooltip");
+            this.fire("redraw");
         }
     });
 

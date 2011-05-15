@@ -40,7 +40,7 @@ KISSY.use("gallery/chart", function(S,Chart){
         },
         {
             name : "回复人数",
-            datas : [32,33,23,34,10],
+            datas : [4,10,6,17,9],
             label : "{name} : {data}人"
         }],
         axis : {
@@ -54,27 +54,12 @@ KISSY.use("gallery/chart", function(S,Chart){
         },
         config : {
             //colors : ["#aaa","#999","#666"],
+            drawbg : 2,
             left : 30
         }
     });
 });
 
 </script>
-<!--
-<canvas style="background:#ddd;" id="chart2" width="800" height="300"></canvas>
-<script>
-KISSY.use("gallery/chart", function(S,Chart){
-    var P = S.namespace("Gallery.Chart");
-    var pie = new P.Chart("#chart2",{
-        type : "pie",
-        element : {
-            datas : [1,2,4,5,6,7,7,8,9],
-            names : ["A","B","C","D","E","F","G","H","I"]
-        }
-    });
-});
-
-</script>
--->
 </body>
 </html>

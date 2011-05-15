@@ -4,12 +4,24 @@ KISSY.add("gallery/chart/data",function(S){
      * 图表数据
      * @constructor
      */
-    var defaultData = {
+    var defaultConfig= {
         left : 20,
         right : 20,
         bottom : 20,
         showLabels : true,
-        colors : []
+        colors : [],
+        drawbg : -1,
+        animationDuration : .5,
+        animationEasing : "easeInStrong"
+    };
+
+    var specificConfig = {
+        'line' : { },
+        'bar' : { },
+        'pie' : {
+            animationDuration : 2,
+            animationEasing : "bounceOut"
+        },
     }
     var defaultChartConfig = {
         default : {
@@ -39,7 +51,7 @@ KISSY.add("gallery/chart/data",function(S){
         self._initElementItem();
         self._axis = data.axis;
         self._design = data.design;
-        self.config = S.merge(defaultData, data.config||{});
+        self.config = S.merge(defaultConfig, specificConfig[self.type], data.config);
     }
 
     S.mix( Data, {
@@ -119,7 +131,7 @@ KISSY.add("gallery/chart/data",function(S){
          */
         getDefaultColor : function (idx,length){
             var h = Math.floor(idx/3)/length + 1/(idx%3 + 1),
-                s = .8,
+                s = .7,
                 b = 1,
                 l = b - s/2;
 

@@ -11,11 +11,13 @@ KISSY.add("gallery/chart/element-line",function(S){
         self.data = data;
         self.elements = data.elements();
         self._current = -1;
+        self.config = data.config;
         self.drawcfg = drawcfg;
         self.initdata(drawcfg);
+        self._ready_idx = -1;
         self.init();
 
-        self.anim = new P.Anim(0.4,"easeInStrong");
+        self.anim = new P.Anim(self.config.animationDuration,self.config.animationEasing);
         self.anim.init();
     }
 
@@ -43,7 +45,8 @@ KISSY.add("gallery/chart/element-line",function(S){
                         _points : [],
                         _labels : [],
                         _color : data.getColor(idx),
-                        _maxtop : bottom
+                        _maxtop : bottom,
+                        _drawbg : idx === data.config.drawbg
                     };
                 }
                 var element = items[idx];
@@ -78,33 +81,27 @@ KISSY.add("gallery/chart/element-line",function(S){
             }
 
             // the animation
-            //if(k === 1 && this._ready_idx < data.length -1){
-                //self._ready_idx ++;
-                //self.anim.init();
-                //k = self.anim.get();
-            //}
+            if(k >= 1 && this._ready_idx < self.items.length -1){
+                self._ready_idx ++;
+                self.anim.init();
+                k = self.anim.get();
+            }
 
-            //if(this._ready_idx !== data.length-1 || k!==1){
-                //this.fire("redraw");
-            //}
-            
-            k = 1;
-            self._ready_idx = 100;
-
+            if(this._ready_idx !== data.length-1 || k!==1){
+                this.fire("redraw");
+            }
 
             S.each(self.items,function(linecfg,idx){
-                if(linecfg.notdraw){
-                    return;
-                }
                 if (idx !== self._ready_idx) {
                     t = (idx > self._ready_idx)?0:1;
                 }else{
                     t = k;
                 }
+
                 color = linecfg._color;
                 points = linecfg._points;
                 //draw bg
-                if(linecfg.drawbg){
+                if(linecfg._drawbg){
                     ctx.save();
                     ctx.globalAlpha = 0.4;
                     maxtop = bottom - (bottom - linecfg._maxtop)*t;
@@ -197,7 +194,7 @@ KISSY.add("gallery/chart/element-line",function(S){
             var self = this, ul, li;
             ul= "<ul>";
             S.each(self.items, function(item,idx){
-                li = "<li><p style='font-weight:bold;color:" + item._color + "'>" +
+                li = "<li><p style='color:" + item._color + "'>" +
                         item._labels[index] +
                     "</p></li>";
                 ul += li

@@ -54,6 +54,15 @@ KISSY.add("gallery/chart", function(S) {
         }
         return Chart.tooltip;
     }
+    /**
+     * Event Mouse leave
+     */
+    Chart.MOUSE_LEAVE = "mouse_leave";
+
+    /**
+     * Event Mouse move
+     */
+    Chart.MOUSE_MOVE= "mouse_move";
 
     S.augment(Chart,
         S.EventTarget, /**@lends Chart.prototype*/{
@@ -193,7 +202,7 @@ KISSY.add("gallery/chart", function(S) {
             if (this._event_inited) {
                 Event.remove(this.elCanvas, "mousemove", this._mousemoveHandle);
                 Event.remove(this.elCanvas, "mouseleave", this._mouseLeaveHandle);
-                Event.remove(this, "mouseleave", this._drawAreaLeave);
+                Event.remove(this, Chart.MOUSE_LEAVE, this._drawAreaLeave);
             }
             this._stooltip.hide();
         },
@@ -203,20 +212,25 @@ KISSY.add("gallery/chart", function(S) {
 
             Event.on(this.elCanvas, "mousemove", this._mousemoveHandle, this);
             Event.on(this.elCanvas, "mouseleave", this._mouseLeaveHandle, this);
-            Event.on(this, "mouseleave", this._drawAreaLeave, this);
+            Event.on(this, Chart.MOUSE_LEAVE, this._drawAreaLeave, this);
+
             if (this.type === "bar") {
                 Event.on(this.element, "barhover", this._barHover, this);
             }
+
             if (this.axis) {
                 Event.on(this.axis, "xaxishover", this._xAxisHover, this);
                 Event.on(this.axis, "leave", this._xAxisLeave, this);
                 Event.on(this.axis, "redraw", this._redraw, this);
             }
+
             Event.on(this.element, "redraw", this._redraw, this);
+
             Event.on(this.element, "showtooltip", function(e) {
                 var msg = S.isString(e.message)?e.message:e.message.innerHTML;
                 this._stooltip.show(msg);
             }, this);
+
             Event.on(this.element, "hidetooltip", function(e) {
                 this._stooltip.hide();
             }, this);
@@ -320,10 +334,11 @@ KISSY.add("gallery/chart", function(S) {
         _mousemoveHandle : function(e) {
             var ox = e.offsetX || e.pageX - this.offset.left,
                 oy = e.offsetY || e.pageY - this.offset.top;
+
             if(this._frame && this._frame.path && this._frame.path.inpath(ox,oy) || !this._frame){
-                this.fire("mousemove", {x:ox,y:oy});
+                this.fire(Chart.MOUSE_MOVE, {x:ox,y:oy});
             }else{
-                this.fire("mouseleave");
+                this.fire(Chart.MOUSE_LEAVE);
             }
         },
         /**
@@ -331,13 +346,7 @@ KISSY.add("gallery/chart", function(S) {
          * @private
          */
         _mouseLeaveHandle : function(ev) {
-            //var to = ev.toElement || ev.relatedTarget,
-            //t = to!== this._tooltip.el,
-            //c = to!==this.elCanvas,
-            //t2 = !Dom.contains(this._tooltip.el, to);
-            //if( c && t && t2){
-            this.fire("mouseleave");
-            //}
+            this.fire(Chart.MOUSE_LEAVE, ev);
         }
     });
 
