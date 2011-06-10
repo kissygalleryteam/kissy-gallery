@@ -11,6 +11,25 @@
 <link rel="stylesheet" href="../../kissy-dpl/base/assets/reset.css"/>
 <link rel="stylesheet" href="../../kissy-dpl/base/assets/kissy-docs.css"/>
 <link rel="stylesheet" href="build/chart.css"/>
+<style>
+    .s-demo pre{
+        background:#f2f2f2;
+        color:#999;
+    }
+    .features {
+        margin-left:10px;
+    }
+    .features li {
+        list-style:square inside;
+    }
+    .s-demo h4 {
+        font-weight:bold;
+        margin:20px 10px;
+    }
+    .s-demo canvas {
+        border:1px dashed #ddd;
+    }
+</style>
 <script src="../../kissy-dpl/base/assets/kissy.js"></script>
 <script src="../../kissy-dpl/base/assets/kissy-docs.js"></script>
 <script src="build/chart.js"></script>
@@ -48,29 +67,9 @@
         <li>Y坐标自适应</li>
         <li>多种JSON数据定义格式</li>
     </ul>
-    <h3 class="s-title">Demo</h3>
+    <h3 class="s-title">Demo - 条形图（Bar Chart）</h3>
     <div class="s-section">
-        <style>
-            .s-demo pre{
-                background:#f2f2f2;
-                color:#999;
-            }
-            .features {
-                margin-left:10px;
-            }
-            .features li {
-                list-style:square inside;
-            }
-            .s-demo h4 {
-                font-weight:bold;
-                margin:20px 10px;
-            }
-            .s-demo canvas {
-                border:1px dashed #ddd;
-            }
-        </style>
         <div class="s-demo">
-                <h4>条形图（Bar Chart）</h4>
                 <canvas id="chart1" width="800" height="300"></canvas>
                 <pre id="chartdata1">{
     type : "bar",
@@ -108,9 +107,14 @@
                     new Chart("#chart1", d1);
                 });
             </script>
-                <h4>折线图(Line Chart)</h4>
-                <canvas id="chart2" width="800" height="300"></canvas>
-                <pre id="chartdata2" >{
+        </div>
+        <a class="s-view-code" href="#">显示源码</a>
+    </div>
+    <h3 class="s-title">Demo - 折线图(Line Chart)</h3>
+    <div class="s-section">
+        <div class="s-demo">
+            <canvas id="chart2" width="800" height="300"></canvas>
+            <pre id="chartdata2" >{
     type : "line",
     elements : [
         {
@@ -150,8 +154,12 @@
                     new Chart("#chart2", d2);
                 });
             </script>
-
-            <h4>饼图(Pie Chart)</h4>
+        </div>
+        <a class="s-view-code" href="#">显示源码</a>
+    </div>
+    <h3 class="s-title">Demo - 饼图(Pie Chart)</h3>
+    <div class="s-section">
+        <div class="s-demo">
             <canvas id="chart3" width="800" height="300"></canvas>
             <pre id="chartdata3" >{
     type : "pie",
@@ -171,9 +179,9 @@
                 });
             </script>
         </div>
-        <a class="s-view-code" href="#">显示源码</a><!--点击该链接自动帮你显示s=demo里的内容，如不需要，去除链接即可-->
+        <a class="s-view-code" href="#">显示源码</a>
     </div>
-
+    
     <h3 class="s-title">API</h3>
     <div class="s-section">
         <h4 class="s-api-title">方法</h4>
