@@ -1,6 +1,6 @@
 /*
- digital clock emulation
- @author yiminghe@gmail.com(chengyu)
+ digital clock emulation for fun
+ @author yiminghe@gmail.com
  */
 KISSY.add("gallery/digital-clock", function(S) {
 
@@ -256,16 +256,7 @@ KISSY.add("gallery/digital-clock", function(S) {
             var self = this,el = self.get("el"),c;
             self._ns = [];
             var ns = self._ns,zoomLimit = self.get("zoomLimit");
-            for (i = 0; i < 2; i++) {
-                var s = new ClockNumber({
-                    zoomLimit:zoomLimit,
-                    render:el,
-                    elOrder:0,
-                    autoRender:true
-                });
-                s.get("el").addClass("ks-digitalclock-seconds");
-                ns.unshift(s);
-            }
+
             for (i = 0; i < 2; i++) {
                 ns.unshift(new ClockNumber({
                     zoomLimit:zoomLimit,
@@ -274,7 +265,7 @@ KISSY.add("gallery/digital-clock", function(S) {
                     autoRender:true
                 }));
             }
-            self._colon = new Node(COLON).prependTo(el);
+            self._colon = new Node(COLON).appendTo(el);
             self._colonVisible = true;
             for (var i = 0; i < 2; i++) {
                 ns.unshift(new ClockNumber({
@@ -284,13 +275,23 @@ KISSY.add("gallery/digital-clock", function(S) {
                     autoRender:true
                 }));
             }
+		    for (i = 0; i < 2; i++) {
+                var s = new ClockNumber({
+                    zoomLimit:zoomLimit,
+                    render:el,
+                    elOrder:0,
+                    autoRender:true
+                });
+                s.get("el").addClass("ks-digitalclock-seconds");
+                ns.unshift(s);
+            }
         },
         _uiSetZoom: function (z) {
             var self = this,i,ns = self._ns,_colon = self._colon;
-            for (i = 0; i < 4; i++)
-                ns[i].set("zoom", z);
-            for (i = 4; i < 6; i++)
+            for (i = 0; i < 2; i++)
                 ns[i].set("zoom", z * S_ZOOM);
+            for (i = 2; i < 6; i++)
+                ns[i].set("zoom", z );
             _colon.css(WIDTH, COLON_WIDTH * z + "px");
             _colon.css(HEIGHT, C_HEIGHT * z + "px");
             _colon.all(ks_digitalclock_colon_top).each(function (node) {
@@ -313,12 +314,13 @@ KISSY.add("gallery/digital-clock", function(S) {
                 _colonVisible = self._colonVisible,
                 m = d.getMinutes(),
                 s = d.getSeconds();
-            _ns[0].set(VALUE, Math.floor(h / 10));
-            _ns[1].set(VALUE, Math.floor(h % 10));
-            _ns[2].set(VALUE, Math.floor(m / 10));
-            _ns[3].set(VALUE, Math.floor(m % 10));
-            _ns[4].set(VALUE, Math.floor(s / 10));
-            _ns[5].set(VALUE, Math.floor(s % 10));
+            _ns[5].set(VALUE, Math.floor(h / 10));
+            _ns[4].set(VALUE, Math.floor(h % 10));
+			
+            _ns[3].set(VALUE, Math.floor(m / 10));
+            _ns[2].set(VALUE, Math.floor(m % 10));
+            _ns[1].set(VALUE, Math.floor(s / 10));
+            _ns[0].set(VALUE, Math.floor(s % 10));
             _colonVisible = !_colonVisible;
             self._colon.css("visibility", _colonVisible ? "visible" : "hidden");
             self._colonVisible = _colonVisible;
@@ -353,3 +355,7 @@ KISSY.add("gallery/digital-clock", function(S) {
 }, {
     requires:['node','uibase']
 });
+
+/**
+2011-07  fixed by lizehua(ljacky@163.com)
+**/
