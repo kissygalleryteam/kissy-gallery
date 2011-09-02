@@ -1,6 +1,6 @@
 /**
  * 倒计时组件
- * @author jide<jide@taobao.com>
+ * @author jide<jide@taobao.com> 基德
  * [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
  * [*] 2011-01-13
