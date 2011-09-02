@@ -1,6 +1,6 @@
 ﻿/**
  * @fileoverview Countdown
- * @desc function 倒计时组件
+ * @desc function 实用的倒计时组件
  * @author 常胤<satans17@gmail.com>
  */
  
