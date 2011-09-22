@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>KISSY gallery - Pagenation</title>
+<link rel="shortcut icon" href="../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../kissy-dpl/base/assets/kissy-docs.css"/>
+<link rel="stylesheet" href="pagenation.css"/>
+<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+<script src="../../kissy-dpl/base/assets/kissy-docs.js"></script>
+<script src="pagenation.js"></script>
+</head>
+<body>
+<div id="header">
+    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../kissy-dpl/base/assets/logo.png"/></a></h1>
+    <div class="sub-title">Gallery</div>
+    <ul class="navigation">
+        <li><a href="http://blog.kissyui.com/">博客</a></li>
+        <li><a href="http://github.com/kissyteam">源码</a></li>
+    </ul>
+
+</div>
+<div id="content">
+    <div class="s-crumbs">
+        <span>当前位置：</span>
+        <a href="http://kissyui.com/">KISSY</a>
+        <a href="../index.html">Gallery</a>
+        <span>Pagenation</span>
+    </div>
+			<pre class="s-section">				
+作者：shengyan1985@gmail.com(乔花)
+功能：function
+描述：function description
+源码：<a href="pagenation.js">pagenation.js</a></pre>
+
+    <h3 class="s-title">Demo - 不含数字的分页</h3>
+    <div class="s-section">
+        <div class="s-demo">
+            <div class="page-content" id="page-content-1">
+                第0页的内容
+            </div>
+            <div class="pagenation" id="page1"></div>
+            <script>
+                KISSY.use('gallery/pagenation', function(S, P) {
+                    var content = S.one('#page-content-1'),
+                        pagenation = new P({
+                            container: '#page1',
+                            load_first_page: false,
+                            max_display_page_count: 0,
+                            callback: function(idx, pg, ready) {
+                                S.log('加载第' + idx + '页');
+
+                                // 清空当前HTML
+                                content.html('第' + idx + '页的内容');
+                                pg.set('has_next', idx < 8);
+                                ready(idx);
+                                return false;
+                            }
+                        });
+
+                    pagenation.on('afterCurrent_pageChange', function(v) {
+                        S.log('当前页: ' + v.newVal);
+                    })
+                });
+            </script>
+        </div>
+        <a class="s-view-code" href="#">显示源码</a>
+    </div>
+
+    <h3 class="s-title">Demo - 含数字的分页</h3>
+    <div class="s-section">
+        <div class="s-demo">
+            <div class="page-content" id="page-content-2">
+            </div>
+            <div class="pagenation" id="page2"></div>
+            <script>
+                KISSY.use('gallery/pagenation', function(S, P) {
+                    var content = S.one('#page-content-2'),
+                        pagenation = new P({
+                            container: '#page2',
+                            total_page: 10,
+                            callback: function(idx, pg, ready) {
+                                S.log('加载第' + idx + '页');
+
+                                // 清空当前HTML
+                                content.html('第' + idx + '页的内容');
+                                pg.set('has_next', idx < 8);
+                                ready(idx);
+                                return false;
+                            }
+                        });
+
+                    pagenation.on('afterCurrent_pageChange', function(v) {
+                        S.log('当前页: ' + v.newVal);
+                    })
+                });
+            </script>
+        </div>
+        <a class="s-view-code" href="#">显示源码</a>
+    </div>
+
+    <h3 class="s-title">API</h3>
+    <div class="s-section">
+        <h4 class="s-api-title">方法</h4>
+        <div class="s-api-method">KISSY.gallery.Pagenation ( cfg )</div>
+        <h4 class="s-api-title">配置项</h4>
+        <div class="s-api-params">
+            <ul class="s-list">
+                <li>{String|HTMLElement|KISSY.Node} [ <em>container</em> ] 必设. 分页的 DOM 容器</li>
+                <li>{String} [ <em>cls</em> = 'pg-' ] 样式前缀</li>
+                <li>{Function} [ <em>callback</em> ] 点击分页项时, 调用的函数, 其带三个参数:
+<pre>
+    *  - idx: 新页号
+    *  - pg obj: 当前分页对象
+    *  - ready: fn 供外部调用者, 当切换好页时, 更新分页HTML等后续操作
+    * note: 当 callback 返回 false 时, 停止事件冒泡
+</pre>
+                </li>
+                <li>{Number} [ <em>current_page</em> = 0 ] 当前页序号, 从0开始计</li>
+                <li>{Number} [ <em>max_display_page_count</em> = 5] 显示多少页. 务必取奇数, 当为0时, 表示只显示上一页/下一页</li>
+                <li>{Number} [ <em>total_page</em> ] 总共多少页, 当不设时, 不能计算出数字</li>
+                <li>{Boolean} [ <em>has_next</em> = true ] 是否有下一页, 供那些不明确页数情况下使用</li>
+                <li>{Number} [ <em>first_page</em> = 0 ] 首页序号从哪边开始计</li>
+                <li>{String} [ <em>next_text</em> = '下一页' ] 下一页文案</li>
+                <li>{String} [ <em>prev_text</em> = '上一页' ] 上一页文案</li>
+                <li>{Boolean} [ <em>ellipse_text</em> = true ] 是否出现省略符号 </li>
+                <li>{Boolean} [ <em>load_first_page</em> = true ] 是否初始加载第一页 </li>
+            </ul>
+        </div>
+        <h4 class="s-api-title">方法</h4>
+        <div class="s-api-params">
+            <ul class="s-list">
+                <li>page(idx): 跳转到指定页.</li>
+            </ul>
+        </div>
+    </div>
+
+    <h3 class="s-title">Note</h3>
+    <div class="s-section">
+        <ul class="s-list">
+            <li>有问题反馈给乔花</li>
+        </ul>
+    </div>
+</div>
+<div id="footer">
+    &copy; Copyright 2010~2011, KISSY Team.
+</div>
+</body>
+</html>
