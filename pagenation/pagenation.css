@@ -1,0 +1,51 @@
+.page-content {
+    padding: 10px;
+    border: 2px solid #e0f0ef;
+}
+
+
+/** ∑÷“≥–≈œ¢ **/
+.pagenation {
+    text-align: right;
+    margin: 10px 0;
+}
+.pagenation .pg-item,
+.pagenation .pg-prev, .pagenation .pg-next, .pagenation .pg-item {
+    margin-left: 8px;
+}
+
+.pagenation .pg-disabled {
+    visibility: hidden;
+}
+.pagenation a:hover {
+    text-decoration: none;
+}
+
+.pagenation .pg-prev, .pagenation .pg-next, .pagenation .pg-item {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    border: 1px solid #c7e5ff;
+    background-color: #eff6ff;
+    padding: 3px 6px;
+    color: #444;
+}
+.pagenation .pg-page:hover, .pagenation .pg-prev:hover, .pagenation .pg-next:hover {
+    border-color: #c7e5ff;
+}
+
+.pagenation .pg-page:active, .pagenation .pg-prev:active, .pagenation .pg-next:active {
+    border-color: #2f96ff;
+}
+.pagenation .pg-prev,
+.pagenation .pg-next {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.pagenation .pg-current {
+    background: none;
+    font-weight: bold;
+    border: none;
+}
