@@ -28,7 +28,7 @@
 			margin: 0 0 0 30px;
 		}
 	</style>
-	<script src="../../kissy-dpl/base/assets/kissy.js"></script> 
+	<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script> 
 	<script src="../../kissy-dpl/base/assets/kissy-docs.js"></script> 
 	<script src="countdown.js"></script> 
 </head>
@@ -61,7 +61,7 @@
 
 
 			
-			<h3 class="s-title">使用KISSY.Gallery.Countdown.autoRender();自动渲染组件</h3>
+			<h3 class="s-title">使用KISSY.Gallery.Countdown2.autoRender();自动渲染组件</h3>
 
 			
 			<div class="s-section">
@@ -191,7 +191,7 @@
 
 					<script>
 						KISSY.ready(function(S){
-							S.Gallery.Countdown.autoRender();
+							S.Gallery.Countdown2.autoRender();
 						})						
 					</script>
 				</div>
@@ -200,7 +200,7 @@
 			
 			
 			
-			<h3 class="s-title">自己实例化KISSY.Gallery.Countdown();</h3>
+			<h3 class="s-title">自己实例化KISSY.Gallery.Countdown2();</h3>
 			<div class="s-section">
 				<div class="s-demo">
 				
@@ -222,7 +222,7 @@
 					
 					<script>
 						KISSY.ready(function(S){
-							new S.Gallery.Countdown("#J_demo2","2012-8-1 12:12:12",{
+							new S.Gallery.Countdown2("#J_demo2","2012-8-1 12:12:12",{
 								interval:500
 							})
 						})						
@@ -276,7 +276,7 @@
 					
 					<script>
 						KISSY.ready(function(S){
-							var test = new S.Gallery.Countdown.Core("2012-8-1 12:12:12");
+							var test = new S.Gallery.Countdown2.Core("2012-8-1 12:12:12");
 							
 							test.fetch(500,function(remain){
 								S.get("#J_d11").innerHTML = remain

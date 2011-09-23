@@ -6,7 +6,7 @@
  
 
 
-KISSY.add("gallery/countdown",function(S){
+KISSY.add("gallery/countdown2",function(S){
     
     var DOM = S.DOM,
         timeUnits = {
@@ -271,7 +271,7 @@ KISSY.add("gallery/countdown",function(S){
     Countdown.getServerTime = getServerTime;
     //S.Countdown = Countdown;
 	S.namespace('Gallery');
-	S.Gallery.Countdown = Countdown;
+	S.Gallery.Countdown2 = Countdown;
     return Countdown;
 
 });

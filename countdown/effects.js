@@ -6,9 +6,9 @@
  */
 /*global KISSY */
 
-KISSY.add('CountdownEffects', function (S) {
+KISSY.add('gallert/countdown/effects', function (S) {
     var D = S.DOM,
-        Countdown = S.Countdown;
+        Countdown = S.Gallery.Countdown;
 
     /**
      * Static attributes

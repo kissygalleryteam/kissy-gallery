@@ -11,7 +11,7 @@
  */
 /*global KISSY */
 
-KISSY.add('Countdown', function (S) {
+KISSY.add('gallery/countdown', function (S) {
     var D = S.DOM,
         EVENT_AFTER_PAINT = 'afterPaint';
 
@@ -319,6 +319,6 @@ KISSY.add('Countdown', function (S) {
             return this;
         }//}}}
     });
-
-    S.Countdown = Countdown;
+    S.Gallery=S.Gallery||{};
+    S.Gallery.Countdown = Countdown;
 });

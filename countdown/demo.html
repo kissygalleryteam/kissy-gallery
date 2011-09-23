@@ -2,7 +2,7 @@
 <meta charset="gbk" />
 <title>countdown</title>
 <link href="countdown.css" rel="stylesheet" />
-<script src="http://a.tbcdn.cn/s/kissy/1.1.6/kissy.js"></script>
+<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
 <script src="countdown.js"></script>
 <script src="effects.js"></script>
 <div id="demo">
@@ -27,8 +27,11 @@
 </div>
 
 <script>
-    var S = KISSY,
-        Countdown = S.Countdown,
+    var S = KISSY;
+    
+    S.use("gallery/countdown",function(){
+    
+        Countdown = S.Gallery.Countdown,
         slides = [],
         flips = [];
 
@@ -45,4 +48,5 @@
     S.all('.cd-lite').each(factory);
     S.all('.cd-medium').each(factory);
     S.all('.cd-large').each(factory);
+    });
 </script>
