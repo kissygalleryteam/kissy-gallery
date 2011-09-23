@@ -254,7 +254,7 @@ KISSY.add("gallery/countdown2",function(S){
                 if(timeBegin && S.isDate(timeBegin)){
                     config.timeBegin = timeBegin;
                 }
-                new S.Gallery.Countdown(elem,config.endTime,config);
+                new Countdown(elem,config.endTime,config);
             });
         };
         if(url){
