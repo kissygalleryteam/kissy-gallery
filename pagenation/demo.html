@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="../../kissy-dpl/base/assets/reset.css"/>
 <link rel="stylesheet" href="../../kissy-dpl/base/assets/kissy-docs.css"/>
 <link rel="stylesheet" href="pagenation.css"/>
+<link rel="stylesheet" href="../../kissy-dpl/base/build/css/pagination.css"/>
 <script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
 <script src="../../kissy-dpl/base/assets/kissy-docs.js"></script>
 <script src="pagenation.js"></script>
@@ -94,6 +95,53 @@
                     pagenation.on('afterCurrent_pageChange', function(v) {
                         S.log('当前页: ' + v.newVal);
                     })
+                });
+            </script>
+        </div>
+        <a class="s-view-code" href="#">显示源码</a>
+    </div>
+
+
+    <h3 class="s-title">Demo - 含数字的分页(KISSY DPL样式)</h3>
+    <div class="s-section">
+        <div class="s-demo">
+            <style>
+                .pagination .item {
+                    float: left;
+                    height: 20px;
+                    margin-left: 3px;
+                    line-height: 20px;
+                    padding: 0 7px;
+                }
+
+                .pagination .current {
+                    color: #f60;
+                    border: 1px solid #f60;
+                    background-color: #ffede1;
+                }
+            </style>
+            <div class="page-content" id="page-content-3">
+            </div>
+            <div class="pagination pagination-normal">
+                 <div class="pagination-wrapper" id="page3"></div>
+            </div>
+            <script>
+                KISSY.use('gallery/pagenation', function(S, P) {
+                    var content = S.one('#page-content-3'),
+                        pagenation = new P({
+                            cls: '',
+                            container: '#page3',
+                            total_page: 10,
+                            callback: function(idx, pg, ready) {
+                                S.log('加载第' + idx + '页');
+
+                                // 清空当前HTML
+                                content.html('第' + idx + '页的内容');
+                                pg.set('has_next', idx < 8);
+                                ready(idx);
+                                return false;
+                            }
+                        });
                 });
             </script>
         </div>
