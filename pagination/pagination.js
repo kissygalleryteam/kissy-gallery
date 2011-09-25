@@ -5,7 +5,7 @@
  */
  
 
-KISSY.add('gallery/pagenation', function(S, undefined) {
+KISSY.add('gallery/pagination', function(S, undefined) {
 
     var D = S.DOM, E = S.Event, doc = document;
 	
@@ -16,13 +16,13 @@ KISSY.add('gallery/pagenation', function(S, undefined) {
 	 * @param {Object} cfg 配置参数
 	 * @return
 	 */
-    function Pagenation(cfg) {
-        Pagenation.superclass.constructor.apply(this, arguments);
+    function Pagination(cfg) {
+        Pagination.superclass.constructor.apply(this, arguments);
         this._init();
     }
 	
 	//配置项
-    Pagenation.ATTRS = {
+    Pagination.ATTRS = {
         /**
          * 分页的 DOM 容器
          * @type String|HTMLElement|KISSY.Node
@@ -129,7 +129,7 @@ KISSY.add('gallery/pagenation', function(S, undefined) {
             value: true
         }
     };
-    S.extend(Pagenation, S.Base, {
+    S.extend(Pagination, S.Base, {
         _init: function() {
             var self = this;
 
@@ -224,9 +224,9 @@ KISSY.add('gallery/pagenation', function(S, undefined) {
 
     //兼容 1.1.6
     S.namespace('Gallery');
-    S.Gallery.Pagenation = Pagenation;
+    S.Gallery.Pagination = Pagination;
 
-    return Pagenation;
+    return Pagination;
 }, {
     requires: ["core"]
 });

@@ -2,15 +2,15 @@
 <html>
 <head>
 <meta charset="utf-8"/>
-<title>KISSY gallery - Pagenation</title>
+<title>KISSY gallery - Pagination</title>
 <link rel="shortcut icon" href="../../kissy-dpl/base/assets/favicon.ico"/>
 <link rel="stylesheet" href="../../kissy-dpl/base/assets/reset.css"/>
 <link rel="stylesheet" href="../../kissy-dpl/base/assets/kissy-docs.css"/>
-<link rel="stylesheet" href="pagenation.css"/>
+<link rel="stylesheet" href="pagination.css"/>
 <link rel="stylesheet" href="../../kissy-dpl/base/build/css/pagination.css"/>
 <script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
 <script src="../../kissy-dpl/base/assets/kissy-docs.js"></script>
-<script src="pagenation.js"></script>
+<script src="pagination.js"></script>
 </head>
 <body>
 <div id="header">
@@ -27,13 +27,13 @@
         <span>当前位置：</span>
         <a href="http://kissyui.com/">KISSY</a>
         <a href="../index.html">Gallery</a>
-        <span>Pagenation</span>
+        <span>Pagination</span>
     </div>
 			<pre class="s-section">				
 作者：shengyan1985@gmail.com(乔花)
 功能：function
 描述：function description
-源码：<a href="pagenation.js">pagenation.js</a></pre>
+源码：<a href="pagination.js">pagination.js</a></pre>
 
     <h3 class="s-title">Demo - 不含数字的分页</h3>
     <div class="s-section">
@@ -43,9 +43,9 @@
             </div>
             <div class="pagenation" id="page1"></div>
             <script>
-                KISSY.use('gallery/pagenation', function(S, P) {
+                KISSY.use('gallery/pagination', function(S, P) {
                     var content = S.one('#page-content-1'),
-                        pagenation = new P({
+                        pagination = new P({
                             container: '#page1',
                             load_first_page: false,
                             max_display_page_count: 0,
@@ -60,7 +60,7 @@
                             }
                         });
 
-                    pagenation.on('afterCurrent_pageChange', function(v) {
+                    pagination.on('afterCurrent_pageChange', function(v) {
                         S.log('当前页: ' + v.newVal);
                     })
                 });
@@ -76,9 +76,9 @@
             </div>
             <div class="pagenation" id="page2"></div>
             <script>
-                KISSY.use('gallery/pagenation', function(S, P) {
+                KISSY.use('gallery/pagination', function(S, P) {
                     var content = S.one('#page-content-2'),
-                        pagenation = new P({
+                        pagination = new P({
                             container: '#page2',
                             total_page: 10,
                             callback: function(idx, pg, ready) {
@@ -92,7 +92,7 @@
                             }
                         });
 
-                    pagenation.on('afterCurrent_pageChange', function(v) {
+                    pagination.on('afterCurrent_pageChange', function(v) {
                         S.log('当前页: ' + v.newVal);
                     })
                 });
@@ -126,9 +126,9 @@
                  <div class="pagination-wrapper" id="page3"></div>
             </div>
             <script>
-                KISSY.use('gallery/pagenation', function(S, P) {
+                KISSY.use('gallery/pagination', function(S, P) {
                     var content = S.one('#page-content-3'),
-                        pagenation = new P({
+                        pagination = new P({
                             cls: '',
                             container: '#page3',
                             total_page: 10,
@@ -151,7 +151,7 @@
     <h3 class="s-title">API</h3>
     <div class="s-section">
         <h4 class="s-api-title">方法</h4>
-        <div class="s-api-method">KISSY.gallery.Pagenation ( cfg )</div>
+        <div class="s-api-method">KISSY.gallery.Pagination ( cfg )</div>
         <h4 class="s-api-title">配置项</h4>
         <div class="s-api-params">
             <ul class="s-list">
