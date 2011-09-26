@@ -47,8 +47,8 @@
                     var content = S.one('#page-content-1'),
                         pagination = new P({
                             container: '#page1',
-                            load_first_page: false,
-                            max_display_page_count: 0,
+                            loadFirstPage: false,
+                            maxDisplayPageCount: 0,
                             callback: function(idx, pg, ready) {
                                 S.log('加载第' + idx + '页');
 
@@ -60,7 +60,7 @@
                             }
                         });
 
-                    pagination.on('afterCurrent_pageChange', function(v) {
+                    pagination.on('afterCurrentPageChange', function(v) {
                         S.log('当前页: ' + v.newVal);
                     })
                 });
@@ -80,7 +80,7 @@
                     var content = S.one('#page-content-2'),
                         pagination = new P({
                             container: '#page2',
-                            total_page: 10,
+                            totalPage: 10,
                             callback: function(idx, pg, ready) {
                                 S.log('加载第' + idx + '页');
 
@@ -92,7 +92,7 @@
                             }
                         });
 
-                    pagination.on('afterCurrent_pageChange', function(v) {
+                    pagination.on('afterCurrentPageChange', function(v) {
                         S.log('当前页: ' + v.newVal);
                     })
                 });
@@ -131,7 +131,7 @@
                         pagination = new P({
                             cls: '',
                             container: '#page3',
-                            total_page: 10,
+                            totalPage: 10,
                             callback: function(idx, pg, ready) {
                                 S.log('加载第' + idx + '页');
 
@@ -165,15 +165,15 @@
     * note: 当 callback 返回 false 时, 停止事件冒泡
 </pre>
                 </li>
-                <li>{Number} [ <em>current_page</em> = 0 ] 当前页序号, 从0开始计</li>
-                <li>{Number} [ <em>max_display_page_count</em> = 5] 显示多少页. 务必取奇数, 当为0时, 表示只显示上一页/下一页</li>
-                <li>{Number} [ <em>total_page</em> ] 总共多少页, 当不设时, 不能计算出数字</li>
-                <li>{Boolean} [ <em>has_next</em> = true ] 是否有下一页, 供那些不明确页数情况下使用</li>
-                <li>{Number} [ <em>first_page</em> = 0 ] 首页序号从哪边开始计</li>
-                <li>{String} [ <em>next_text</em> = '下一页' ] 下一页文案</li>
-                <li>{String} [ <em>prev_text</em> = '上一页' ] 上一页文案</li>
-                <li>{Boolean} [ <em>ellipse_text</em> = true ] 是否出现省略符号 </li>
-                <li>{Boolean} [ <em>load_first_page</em> = true ] 是否初始加载第一页 </li>
+                <li>{Number} [ <em>currentPage</em> = 0 ] 当前页序号, 从0开始计</li>
+                <li>{Number} [ <em>maxDisplayPageCount</em> = 5] 显示多少页. 务必取奇数, 当为0时, 表示只显示上一页/下一页</li>
+                <li>{Number} [ <em>totalPage</em> ] 总共多少页, 当不设时, 不能计算出数字</li>
+                <li>{Boolean} [ <em>hasNext</em> = true ] 是否有下一页, 供那些不明确页数情况下使用</li>
+                <li>{Number} [ <em>firstPage</em> = 0 ] 首页序号从哪边开始计</li>
+                <li>{String} [ <em>nextText</em> = '下一页' ] 下一页文案</li>
+                <li>{String} [ <em>prevText</em> = '上一页' ] 上一页文案</li>
+                <li>{Boolean} [ <em>ellipseText</em> = true ] 是否出现省略符号 </li>
+                <li>{Boolean} [ <em>loadFirstPage</em> = true ] 是否初始加载第一页 </li>
             </ul>
         </div>
         <h4 class="s-api-title">方法</h4>
