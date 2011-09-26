@@ -62,8 +62,9 @@ KISSY.add('gallery/reflection',function(S) {
                 context.scale(1, -1);
                 context.drawImage(p, 0, 0, reflectionWidth, p.height);
                 context.restore();
+                // https://developer.mozilla.org/samples/canvas-tutorial/6_1_canvas_composite.html
                 context.globalCompositeOperation = "destination-out";
-                var gradient = context.createLinearGradient(0, 0, 0, reflectionHeight);
+                var gradient = context.createLinearGradient(0, 0, 0, reflectionHeight);                
                 gradient.addColorStop(0, "rgba(255, 255, 255, " + (1 - options['opacity']) + ")");
                 gradient.addColorStop(1, "rgba(255, 255, 255, 1.0)");
                 context.fillStyle = gradient;
@@ -86,7 +87,8 @@ KISSY.add('gallery/reflection',function(S) {
                 reflection.style.display = 'block';
                 reflection.style.height = p.height + "px";
                 reflection.style.marginBottom = "-" + (p.height - reflectionHeight) + 'px';
-                reflection.style.filter = 'flipv progid:DXImageTransform.Microsoft.Alpha(opacity=' + (options['opacity'] * 100) + ', style=1, finishOpacity=0, startx=0, starty=0, finishx=0, finishy=' + (options['height'] * 100) + ')';
+                // http://msdn.microsoft.com/en-us/library/ms532972(v=vs.85).aspx
+                reflection.style.filter = 'progid:DXImageTransform.Microsoft.BasicImage(mirror=1,rotation=2) progid:DXImageTransform.Microsoft.Alpha(opacity=' + (options['opacity'] * 100) + ', style=1, finishOpacity=0, startx=0, starty=0, finishx=0, finishy=' + (options['height'] * 100) + ')';
                 d.style.width = reflectionWidth + 'px';
                 d.style.height = divHeight + 'px';
                 p.parentNode.replaceChild(d, p);
@@ -134,8 +136,7 @@ KISSY.add('gallery/reflection',function(S) {
     };
 
 	S.namespace('Gallery');
-    S.Gallery.Reflection = Reflection;
-    return Reflection;
+    S.Gallery.Reflection = Reflection;   
     
     function imgReady(img ,fn){
         if(img.complete){
@@ -144,6 +145,8 @@ KISSY.add('gallery/reflection',function(S) {
             S.Event.on(img,"load",fn);
         }
     }
+    
+    return Reflection;
 }, {
     requires: ["core"]
 });
