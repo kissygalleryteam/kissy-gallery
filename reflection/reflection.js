@@ -122,11 +122,13 @@ KISSY.add('gallery/reflection',function(S) {
         var rimages = D.query(selectors);
         var _this = this;
         S.each(rimages,  function(img, index) {
-            var rheight = parseFloat(D.attr(img, 'data-rheight'));
-            var ropacity = parseFloat(D.attr(img, 'data-ropacity'));
-            _this._addOne(img, option || {
-                'height': rheight,
-                'opacity': ropacity
+            imgReady(img,function(){
+                var rheight = parseFloat(D.attr(img, 'data-rheight'));
+                var ropacity = parseFloat(D.attr(img, 'data-ropacity'));
+                _this._addOne(img, option || {
+                    'height': rheight,
+                    'opacity': ropacity
+                });
             });
         });
     };
@@ -134,6 +136,14 @@ KISSY.add('gallery/reflection',function(S) {
 	S.namespace('Gallery');
     S.Gallery.Reflection = Reflection;
     return Reflection;
+    
+    function imgReady(img ,fn){
+        if(img.complete){
+            fn();
+        }else{
+            S.Event.on(img,"load",fn);
+        }
+    }
 }, {
     requires: ["core"]
 });
