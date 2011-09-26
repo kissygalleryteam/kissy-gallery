@@ -3,14 +3,7 @@
  * @desc 分页组件
  * @author 乔花<shengyan1985@gmail.com>
  */
- 
-
 KISSY.add('gallery/pagination', function(S, undefined) {
-
-    var D = S.DOM, E = S.Event, doc = document;
-	
-	//定义变量和常量
-
     /**
 	 * 构造器
 	 * @param {Object} cfg 配置参数
@@ -62,13 +55,13 @@ KISSY.add('gallery/pagination', function(S, undefined) {
          * 当前页序号
          * @type Number 从0开始计
          */
-        current_page: {
+        currentPage: {
             value: 0
         },
         /**
          * 点击页号时, url 变化, 暂时不实现
          */
-        link_to: {
+        linkTo: {
             value: '#'
         },
         /**
@@ -77,55 +70,55 @@ KISSY.add('gallery/pagination', function(S, undefined) {
          * - 当为0时, 表示只显示上一页/下一页
          * @type Number
          */
-        max_display_page_count: {
+        maxDisplayPageCount: {
             value: 5
         },
         /**
          * 总共多少页, 可不设
          * @type Number
          */
-        total_page: {
+        totalPage: {
         },
         /**
          * 首页序号从哪边开始计
          * @type Number
          */
-        first_page: {
+        firstPage: {
             value: 0
         },
         /**
          * 下一页文案
          * @type String
          */
-        next_text: {
+        nextText: {
             value: '下一页'
         },
         /**
          * 是否有下一页, 供那些不明确页数情况下使用
          * @type Boolean
          */
-        has_next: {
+        hasNext: {
             value: true
         },
         /**
          * 上一页文案
          * @type String
          */
-        prev_text: {
+        prevText: {
             value: '上一页'
         },
         /**
          * 是否省略多页
          * @type Boolean
          */
-        ellipse_text: {
+        ellipseText: {
             value: true
         },
         /**
          * 是否初始加载第一页
          * @type Boolean
          */
-        load_first_page: {
+        loadFirstPage: {
             value: true
         }
     };
@@ -137,8 +130,8 @@ KISSY.add('gallery/pagination', function(S, undefined) {
             self._bind();
 
             // 载入第一页
-            if (self.get('load_first_page')) {
-                self.page(self.get('first_page'));
+            if (self.get('loadFirstPage')) {
+                self.page(self.get('firstPage'));
             }
         },
         /**
@@ -146,37 +139,37 @@ KISSY.add('gallery/pagination', function(S, undefined) {
          */
         update: function() {
             var self = this,
-                current_page = self.get('current_page'),
+                currentPage = self.get('currentPage'),
                 cls = self.get('cls'),
-                count = self.get('max_display_page_count'),
-                a = '', i, start, end, first_page = self.get('first_page'), end_page = self.get('total_page');
+                count = self.get('maxDisplayPageCount'),
+                a = '', i, start, end, firstPage = self.get('firstPage'), end_page = self.get('totalPage');
 
-            a += '<a href="#" class="' + cls + 'prev ' + (current_page <= first_page ? cls + 'disabled' : '') + '">' + self.get('prev_text') + '</a>';
+            a += '<a href="#" class="' + cls + 'prev ' + (currentPage <= firstPage ? cls + 'disabled' : '') + '">' + self.get('prevText') + '</a>';
             if (count) {
                 end_page -= 1;
-                start = Math.max(first_page, parseInt(current_page - count / 2));
+                start = Math.max(firstPage, parseInt(currentPage - count / 2));
                 end = Math.min(end_page, start + count);
 
-                if (self.get('ellipse_text') && start > first_page) {
+                if (self.get('ellipseText') && start > firstPage) {
                     a += '<span class="' + cls + 'item">...</span>';
                 }
 
                 for (i = start; i <= end; i++) {
-                    if (i !== current_page) {
+                    if (i !== currentPage) {
                         a += '<a href="#" class="' + cls + 'page ' + cls + 'item">' + (i + 1) + '</a>';
                     } else {
                         a += '<span class="' + cls + 'current ' + cls + 'item">' + (i + 1) + '</span>';
                     }
                 }
-                if (self.get('ellipse_text') && end < end_page) {
+                if (self.get('ellipseText') && end < end_page) {
                     a += '<span class="' + cls + 'item">...</span>';
                 }
 
                 // 判断是否具有下一页
-                if (current_page < end_page) self.set('has_next', true);
+                if (currentPage < end_page) self.set('hasNext', true);
             }
 
-            a += '<a href="#" class="' + cls + 'next ' + (!self.get('has_next') ? cls + 'disabled' : '') + '">' + self.get('next_text') + '</a>';
+            a += '<a href="#" class="' + cls + 'next ' + (!self.get('hasNext') ? cls + 'disabled' : '') + '">' + self.get('nextText') + '</a>';
 
             self.get('container').html(a);
         },
@@ -188,7 +181,7 @@ KISSY.add('gallery/pagination', function(S, undefined) {
                 cls = self.get('cls');
 
             self.get('container').on('click', function(e) {
-                var target = new S.Node(e.target), idx = self.get('current_page');
+                var target = new S.Node(e.target), idx = self.get('currentPage');
                 if (target.hasClass(cls + 'disabled') || self.__loading) {
                     e.preventDefault();
                     return;
@@ -211,7 +204,7 @@ KISSY.add('gallery/pagination', function(S, undefined) {
 
             // 加载完某页后续工作
             function ready(idx) {
-                self.set('current_page', idx);
+                self.set('currentPage', idx);
                 self.update();
                 self.__loading = false;
             }
