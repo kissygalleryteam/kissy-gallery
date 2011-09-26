@@ -2,6 +2,8 @@
  * @fileoverview Pagenation
  * @desc 分页组件
  * @author 乔花<shengyan1985@gmail.com>
+ * @date 20110918
+ * @version 1.0
  */
 KISSY.add('gallery/pagination', function(S, undefined) {
     /**
@@ -224,3 +226,10 @@ KISSY.add('gallery/pagination', function(S, undefined) {
 }, {
     requires: ["core"]
 });
+
+
+/**
+ * - 抽离分页HTML模板, 更加定制;
+ * - 起始页/最终页;
+ * - 跳转页框;
+ */
