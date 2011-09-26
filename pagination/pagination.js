@@ -142,13 +142,14 @@ KISSY.add('gallery/pagination', function(S, undefined) {
                 currentPage = self.get('currentPage'),
                 cls = self.get('cls'),
                 count = self.get('maxDisplayPageCount'),
-                a = '', i, start, end, firstPage = self.get('firstPage'), end_page = self.get('totalPage');
+                a = '', i, start, end, firstPage = self.get('firstPage'), endPage = self.get('totalPage');
 
             a += '<a href="#" class="' + cls + 'prev ' + (currentPage <= firstPage ? cls + 'disabled' : '') + '">' + self.get('prevText') + '</a>';
             if (count) {
-                end_page -= 1;
+                endPage -= 1;
                 start = Math.max(firstPage, parseInt(currentPage - count / 2));
-                end = Math.min(end_page, start + count);
+                end = Math.min(endPage, start + count);
+                S.log([start, firstPage, end, endPage]);
 
                 if (self.get('ellipseText') && start > firstPage) {
                     a += '<span class="' + cls + 'item">...</span>';
@@ -161,12 +162,12 @@ KISSY.add('gallery/pagination', function(S, undefined) {
                         a += '<span class="' + cls + 'current ' + cls + 'item">' + (i + 1) + '</span>';
                     }
                 }
-                if (self.get('ellipseText') && end < end_page) {
+                if (self.get('ellipseText') && end < endPage) {
                     a += '<span class="' + cls + 'item">...</span>';
                 }
 
                 // 判断是否具有下一页
-                if (currentPage < end_page) self.set('hasNext', true);
+                if (currentPage < endPage) self.set('hasNext', true);
             }
 
             a += '<a href="#" class="' + cls + 'next ' + (!self.get('hasNext') ? cls + 'disabled' : '') + '">' + self.get('nextText') + '</a>';
