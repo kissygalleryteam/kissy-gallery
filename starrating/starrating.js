@@ -5,9 +5,7 @@
  */
 
 KISSY.add('gallery/starrating', function(S, undefined) {
-
-    var DOM = S.DOM, Event = S.Event,
-        DOT = '.', EMPTY = '';
+    var DOT = '.', EMPTY = '';
 
     function StarRating(config) {
         StarRating.superclass.constructor.apply(this, arguments);
@@ -33,14 +31,14 @@ KISSY.add('gallery/starrating', function(S, undefined) {
          * @type Array<String>
          */
         reason: {
-
+            value: []
         },
         /**
          * 满意程度描述列表
          * @type Array<String>
          */
         level: {
-
+            value: []
         },
         /**
          * 提示浮层类
