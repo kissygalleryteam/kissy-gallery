@@ -1,10 +1,42 @@
 <!doctype html>
-<meta charset="gbk" />
-<title>countdown</title>
-<link href="countdown.css" rel="stylesheet" />
-<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
-<script src="countdown.js"></script>
-<script src="effects.js"></script>
+<html>
+<head>
+<meta charset="gbk"/>
+<title>KISSY gallery - countdown</title>
+<link rel="shortcut icon" href="../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../kissy-dpl/base/assets/kissy-docs.css"/>
+<script src="../../kissy/build/kissy.js"></script>
+<link href="gallery/countdown/countdown.css" rel="stylesheet" />
+<script src="gallery/countdown.js"></script>
+<script src="gallery/countdown/effects.js"></script>
+</head>
+<body>
+<div id="header">
+    <h1 class="logo"><a href="http://kissyui.com/"><img src="../../kissy-dpl/base/assets/logo.png" alt="KISSY"/></a></h1>
+    <div class="sub-title">Gallery</div>
+    <ul class="navigation">
+        <li><a href="http://blog.kissyui.com/">博客</a></li>
+        <li><a href="http://github.com/kissyteam">源码</a></li>
+    </ul>
+</div>
+<div id="content">
+<div class="s-crumbs">
+    <span>当前位置：</span>
+    <a href="http://kissyui.com/">KISSY</a>
+    <a href="../index.html">Gallery</a>
+    <span>countdown</span>
+</div>
+
+<pre class="s-section">				
+作者： jide<jide@taobao.com> 基德
+功能： 倒计时
+描述： 倒计时
+源码：<a href="gallery/countdown.js">countdown.js</a></pre>
+</pre>
+
+<h1>demo :</h1>
+
 <div id="demo">
     <p>1</p>
     <div class="cd-lite" data-time="1121685000">剩余时间：${d}天${h}时${m}分</div>
@@ -50,3 +82,5 @@
     S.all('.cd-large').each(factory);
     });
 </script>
+</body>
+</html>
