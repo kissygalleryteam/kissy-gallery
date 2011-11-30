@@ -267,7 +267,7 @@
 <pre>
     - 点击页码, 刷新页面;
     - 刷新后, 需要设置 currentPage 为当前页;
-    - loadFirstPage 必须为 false;
+    - loadCurrentPage 必须为 false;
 </pre>
         </div>
         <div class="pagination" id="page2"></div>
@@ -283,9 +283,9 @@
                             totalPage: 10,
                             template: S.one('#default-pagination-tpl').html(),
                             currentPage: getCurrentPage(),
-                            loadFirstPage: false,
+                            loadCurrentPage: false,
                             callback: function(idx, pg, ready) {
-                                // 同步刷新方式, 注意 loadFirstPage 必须设为 false
+                                // 同步刷新方式, 注意 loadCurrentPage 必须设为 false
                                 var url = window.location.href,
                                         anchor = '',
                                         anchorIndex = url.indexOf('#');
@@ -520,7 +520,7 @@
             <li>{Boolean} [ <em>hasNext</em> = true ] 是否有下一页, 供那些不明确页数情况下使用</li>
             <li>{Number} [ <em>firstPage</em> = 1 ] 首页序号从哪边开始计</li>
             <li>{Boolean} [ <em>ellipseText</em> = true ] 是否出现省略符号</li>
-            <li>{Boolean} [ <em>loadFirstPage</em> = true ] 是否初始加载第一页</li>
+            <li>{Boolean} [ <em>loadCurrentPage</em> = true ] 是否初始加载当前页</li>
             <li>{String} [ <em>template</em> = '' ] 分页模板</li>
             <li>{String} [ <em>pageRedirectHook</em> = 'data-page' ] 钩子标志, 点击元素上如果有该标志, 需要跳转到特定页</li>
             <li>{Object} [ <em>events</em> = {} ] 定制事件支持. 例如:

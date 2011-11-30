@@ -139,7 +139,7 @@ KISSY.add('gallery/pagination', function(S, Template, undefined) {
          * 是否初始加载第一页
          * @type Boolean
          */
-        loadFirstPage: {
+        loadCurrentPage: {
             value: true
         },
         /**
@@ -179,6 +179,7 @@ KISSY.add('gallery/pagination', function(S, Template, undefined) {
          * }
          */
         events: {
+            value: {}
         }
     };
     S.extend(Pagination, S.Base, {
@@ -186,8 +187,8 @@ KISSY.add('gallery/pagination', function(S, Template, undefined) {
             var self = this;
 
             // 载入第一页
-            if (self.get('loadFirstPage')) {
-                self.page(self.get('firstPage'));
+            if (self.get('loadCurrentPage')) {
+                self.page(self.get('currentPage'));
             } else {
                 self.update();
             }
