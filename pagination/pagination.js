@@ -213,7 +213,7 @@ KISSY.add('gallery/pagination', function(S, Template, undefined) {
 
             // 需要显示省略号时, 需要确定显示页码区间
             if (endPage && ellipseText) {
-                startIndex = Math.min(Math.max(firstPage, parseInt(currentPage - displayPageCount)), endPage - displayPageCount*2);
+                startIndex = Math.max(Math.max(firstPage, parseInt(currentPage - displayPageCount)), endPage - displayPageCount*2);
                 endIndex = Math.min(endPage, startIndex + displayPageCount*2);
             }
             // 否则就是全部显示页码, 且此时 alwaysDisplayCount 无效,
