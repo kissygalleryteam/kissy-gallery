@@ -1,9 +1,9 @@
 /**
- * @fileoverview Pagenation
+ * @fileoverview Pagination
  * @desc 分页组件
  * @author 乔花<shengyan1985@gmail.com>
  * @date 20110918
- * @version 1.0
+ * @version 2.0
  * @depends kissy, template
  */
 KISSY.add('gallery/pagination', function(S, Template, undefined) {
