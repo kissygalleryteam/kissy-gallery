@@ -230,8 +230,8 @@ KISSY.add('gallery/pagination', function(S, Template, undefined) {
                 endPage: endPage,
                 alwaysDisplayCount: alwaysDisplayCount,
                 showPageNum: !!displayPageCount,
-                startIndex: startIndex,
-                endIndex: endIndex,
+                startIndex: Math.max(startIndex, firstPage),
+                endIndex: Math.min(endIndex, endPage),
                 hasNext: self.get('hasNext')
             }));
 
