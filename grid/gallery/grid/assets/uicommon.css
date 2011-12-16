@@ -1,0 +1,288 @@
+﻿/*Menu*/
+.menu-container{ height:100%;width:190px; background-color:#e2eaf4; margin:0 auto;margin-top:5px; border:1px solid #99BCE8; text-align:left; color:#263E74; overflow:hidden;}
+	.menu-ul li
+	{
+		background:#e2eaf4;
+		float:left;
+		width:100%;
+		position:relative;
+	}
+	.menu-li
+	{
+		padding-top:1px;
+	}
+	.menu-item
+	{
+		margin:0px 1px 0 1px;
+		background:#c1d5ec;
+		height:25px;
+		text-indent:1.7em;
+		color:#263e74;
+		line-height:24px;
+		font-weight:bold;
+		
+	}
+	 .menu-sp
+	{
+		border-top:1px solid #94b2d9;
+		border-bottom:1px solid #c6d4e6;
+	}
+.menu-ul-next
+{
+	margin-top:5px;
+}
+.menu-li a{
+	display:block;
+	*zoom:1;
+}
+.menu-li a:link{ text-decoration:none; color:#263e74;}
+.menu-li a:hover{ text-decoration:none; color:#ff0000;}
+.menu-li a:active{ text-decoration:none; color:#263e74;}
+.menu-li a:visited{ text-decoration:none; color:#263e74;}
+
+.menu-item-next,.menu-item-active,.menu-plus,.menu-minus{ background:url(http://img02.taobaocdn.com/tps/i2/T16zJ5XnxBXXXXXXXX-180-100.png) -9999px -9999px no-repeat;  }
+.menu-plus{ position:absolute; top:10px; left:10px; background-position:0 0; width:9px; height:9px; display:block;}
+.menu-minus{ position:absolute; top:10px; left:10px; background-position:-57px 0; width:9px; height:9px; display:block;}
+.menu-item-next{height:26px;  background-position:-154px 4px; text-indent:2.5em; float:left;font-family:simsun;  width:100%;  padding-top:1px;  background-position:-154px 3px \9;}
+.menu-item-active{height:26px;  text-indent:2.5em;  color:#fff; font-weight:bold;font-family:simsun;width:100%;padding-top:1px;}
+
+.menu-item-active .menu-p-lf,.menu-item-active .menu-p-content,.menu-item-active .menu-p-rt{ background:url(http://img04.taobaocdn.com/tps/i4/T1bJCkXjNeXXXXXXXX-2000-93.png) -9999px -9999px no-repeat;
+height:20px; line-height:20px;
+}
+.menu-item-next .menu-p-lf,.menu-item-next .menu-p-rt{display:none;}
+.menu-item-active .menu-p-lf{ width:13px; background-position:0 -2px; float:left; margin-left:11px; display:inline; }
+.menu-item-active .menu-p-content{ width:126px;  background-position:0 -37px; float:left; display:block; text-align:left; overflow:hidden;text-indent:0.5em;  overflow:hidden;}
+.menu-item-active .menu-p-rt{ width:13px; background-position:-39px -2px; float:left; display:block; }
+
+.menu-ul-next-close{ display:none; }
+/*Menu End 孙炯军  红燕 */
+
+/*Form element*/
+.lp-form-text-field{
+	border:1px solid #7EADD9;
+}
+/*Form End*/
+/*Mask*/
+
+
+.lp-el-mask {
+    height:100%;
+    left:0;
+    opacity:0.5;
+    position:absolute;
+    top:0;
+    width:100%;
+    z-index:100;
+    filter: alpha(opacity=50);
+}
+
+.lp-el-mask {
+    background-color: #ccc;
+}
+
+.x-masked SELECT{
+    _visibility: hidden;
+}
+
+.x-masked .window-default SELECT{
+	_visibility: visible;
+}
+.x-masked-relative {
+    position: relative !important;
+}
+
+.lp-el-mask-msg {
+    background:none repeat-x scroll 0 -16px transparent;
+    border:1px solid;
+    left:0;
+    padding:2px;
+    position:absolute;
+    top:0;
+    z-index:20001;
+}
+
+.lp-el-mask-msg {
+    border-color:#6593cf;
+    background-color:#c3daf9;
+   
+}
+
+.lp-el-mask-msg div {
+    border:1px solid;
+    cursor:wait;
+    padding:5px 10px;
+}
+
+.x-mask-loading div {
+    background:none no-repeat scroll 5px 5px transparent;
+    line-height:16px;
+    padding:5px 10px 5px 25px;
+}
+
+.lp-el-mask-msg div {
+    background-color: #eee;
+    border-color:#a3bad9;
+    color:#222;
+    font:normal 12px tahoma, arial, helvetica, sans-serif;
+}
+
+.x-mask-loading div {
+    background-color:#fbfbfb;
+    background-image:url(./loader.gif);
+}
+
+/*mask end*/
+
+/* tab by fuzheng - begin */
+/* tab-base */
+.lpui-tab-container{
+}
+
+.lpui-tab-nav{
+	position:relative;
+	width:100%;
+	z-index: 1;
+}
+.lpui-tab-nav .lpui-tab-nav-arror{
+	display:block;
+	position:absolute;
+	text-decoration: none;
+	overflow:hidden;
+}
+.lpui-tab-nav .lpui-tab-nav-arror-active{
+	cursor: pointer;
+}
+.lpui-tab-nav .lpui-tab-nav-arror-left{
+	left:0px;
+}
+.lpui-tab-nav .lpui-tab-nav-arror-right{
+	right:0px;
+}
+.lpui-tab-nav .lpui-tab-nav-border{
+	margin:0 23px;
+}
+.lpui-tab-nav .lpui-tab-nav-con{
+	margin:0 2px;
+	overflow:hidden;
+	position: relative;
+	_width: expression(this.parentNode.parentNode.offsetWidth - 50 + "px");
+}
+.lpui-tab-nav .lpui-tab-nav-con-inner{
+	position:relative;
+	left:0px;
+}
+
+.lpui-tab-nav .lpui-tab-nav-item{
+	float:left;
+	display:inline;
+	width:87px;
+	height:22px;
+	line-height:20px;
+	margin-right:-12px;
+	position:relative;
+	cursor: pointer;
+	padding:0 33px 0 20px;
+	z-index:1;
+	overflow:hidden;
+}
+.lpui-tab-nav .lpui-tab-nav-active{
+}
+
+.lpui-tab-nav .lpui-tab-nav-item .lpui-tab-nav-close{
+	display:block;
+	position:absolute;
+	text-decoration: none;
+	overflow:hidden;
+	cursor: pointer;
+}
+
+
+.lpui-tab-con{
+	width:100%;
+	padding: 10px 0;
+}
+.lpui-tab-con .lpui-tab-con-item{
+	display:none;
+}
+.lpui-tab-con .lpui-tab-con-active{
+	display:block;
+}
+
+
+
+/* tab-skin */
+.lpui-tab-nav,
+.lpui-tab-nav .lpui-tab-nav-arror,
+.lpui-tab-nav .lpui-tab-nav-item,
+.lpui-tab-nav .lpui-tab-nav-item .lpui-tab-nav-close,
+.lpui-tab-nav .lpui-tab-nav-border,
+.lpui-tab-nav .lpui-tab-nav-con{
+	background:url('http://img02.taobaocdn.com/tps/i2/T1_IykXnJiXXXXXXXX-140-120.gif') no-repeat;
+}
+.lpui-tab-nav{
+	height:22px;
+	background-position:0 20px;
+	background-repeat: repeat-x;
+}
+.lpui-tab-nav .lpui-tab-nav-arror{
+	width:13px;
+	height:13px;
+	text-indent:-99px;
+	top:4px;
+
+}
+.lpui-tab-nav .lpui-tab-nav-arror-left{
+	background-position:0px -60px;
+	left:5px;
+}
+.lpui-tab-nav .lpui-tab-nav-arror-right{
+	background-position:-20px -60px;
+	right:5px;
+}
+.lpui-tab-nav .lpui-tab-nav-arror-active.lpui-tab-nav-arror-left{
+	background-position:-40px -60px;
+}
+.lpui-tab-nav .lpui-tab-nav-arror-active.lpui-tab-nav-arror-right{
+	background-position:-60px -60px;
+}
+.lpui-tab-nav .lpui-tab-nav-arror-active.lpui-tab-nav-arror-left:hover{
+	background-position:-80px -60px;
+}
+.lpui-tab-nav .lpui-tab-nav-arror-active.lpui-tab-nav-arror-right:hover{
+	background-position:-100px -60px;
+}
+
+.lpui-tab-nav .lpui-tab-nav-border{
+	background-position:0 -100px;
+	background-repeat: repeat-x;
+}
+.lpui-tab-nav .lpui-tab-nav-con{
+	background-position:0 20px;
+	background-repeat: repeat-x;
+	background-color:#E0EAF7;
+}
+.lpui-tab-nav .lpui-tab-nav-item{
+	color:#263E74;
+	background-position:0 -5px;
+}
+.lpui-tab-nav .lpui-tab-nav-active{
+	background-position:0 -30px;
+	z-index:2;
+}
+.lpui-tab-nav .lpui-tab-nav-item .lpui-tab-nav-close{
+	width:13px;
+	height:13px;
+	text-indent:-99px;
+	top:4px;
+	right:17px;
+	background-position:0 -80px;
+}
+.lpui-tab-nav .lpui-tab-nav-item .lpui-tab-nav-close:hover{
+	background-position:-20px -80px;
+}
+
+.lpui-tab-con{
+	
+}
+
+/* tab by fuzheng - end */
