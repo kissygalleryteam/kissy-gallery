@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8"/>
 <title>KISSY Gallery - SlidingLabels</title>
-<link rel="shortcut icon" href="../../kissy-dpl/base/assets/favicon.ico"/>
-<link rel="stylesheet" href="../../kissy-dpl/base/assets/reset.css"/>
-<link rel="stylesheet" href="../../kissy-dpl/base/assets/kissy-docs.css"/>
+<link rel="shortcut icon" href="../../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../../kissy-dpl/base/assets/kissy-docs.css"/>
 <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
-<script src="../../kissy-dpl/base/assets/kissy-docs.js"></script>
+<script src="../../../kissy-dpl/base/assets/kissy-docs.js"></script>
 <style>
     form {
         width: 380px;
@@ -63,12 +63,22 @@
         margin-top: 1px;
     }
 </style>
-<script src="sliding-labels.js"></script>
-<script src="../../kissy-util/view-code/view-code.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
 </head>
 <body>
 <div id="header">
-    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../kissy-dpl/base/assets/logo.png"/></a></h1>
+    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../kissy-dpl/base/assets/logo.png"/></a></h1>
     <div class="sub-title">Gallery</div>
     <ul class="navigation">
         <li><a href="http://blog.kissyui.com/">博客</a></li>
@@ -82,7 +92,7 @@
     <div class="s-crumbs">
         <span>当前位置：</span>
         <a href="http://kissyui.com/">KISSY</a>
-        <a href="../index.html">Gallery </a>
+        <a href="../../index.html">Gallery </a>
         <span>Sliding Labels</span>
     </div>
 <pre class="s-section">
@@ -94,7 +104,7 @@
     <h3 class="s-title">Demo</h3>
     <div class="s-section">
     	<div class="s-demo">
-	        <form action="" method="post" id="info">
+	        <form action="../" method="post" id="info">
 	            <div id="name-wrap" class="slider">
 	                <label for="name">Name</label>
 	                <input type="text" id="name" name="name"/>
@@ -123,7 +133,7 @@
 	        </form>
 	
 	        <script>
-	            KISSY.use('gallary/sliding-labels', function(S, SL) {
+	            KISSY.use('gallery/sliding-labels/1.0/sliding-labels', function(S, SL) {
                     // 1.2.0
                     new SL('#info', {
 	                    blurStyle: {
@@ -146,7 +156,7 @@
 	            });
 	        </script>
     	</div>        
-        <a class="s-view-code" href="#">显示源码</a>
+        <a class="s-view-code" href="demo.html#">显示源码</a>
     </div>
     <h3 class="s-title">API</h3>
     <div class="s-section">

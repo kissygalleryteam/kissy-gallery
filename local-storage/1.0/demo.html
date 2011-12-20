@@ -3,16 +3,27 @@
 <head>
     <meta charset="utf-8"/>
     <title>KISSY gallery - Local Storage</title>
-	<link rel="shortcut icon" href="../../kissy-dpl/base/assets/favicon.ico"/> 
-	<link rel="stylesheet" href="../../kissy-dpl/base/assets/reset.css"/> 
-	<link rel="stylesheet" href="../../kissy-dpl/base/assets/kissy-docs.css"/> 	
+	<link rel="shortcut icon" href="../../../kissy-dpl/base/assets/favicon.ico"/>
+	<link rel="stylesheet" href="../../../kissy-dpl/base/assets/reset.css"/>
+	<link rel="stylesheet" href="../../../kissy-dpl/base/assets/kissy-docs.css"/>
 	<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script> 
-	<script src="../../kissy-dpl/base/assets/kissy-docs.js"></script> 
-	<script src="local-storage.js"></script>
+	<script src="../../../kissy-dpl/base/assets/kissy-docs.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
 </head>
 <body>
     <div id="header"> 
-		<h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../kissy-dpl/base/assets/logo.png"/></a></h1> 
+		<h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../kissy-dpl/base/assets/logo.png"/></a></h1>
 		<div class="sub-title">Gallery</div>
 		<ul class="navigation"> 
 			<li><a href="http://blog.kissyui.com/">博客</a></li> 
@@ -24,7 +35,7 @@
 		<div class="s-crumbs">
 			<span>当前位置：</span>
 			<a href="http://kissyui.com/">KISSY</a>
-			<a href="../index.html">Gallery</a>
+			<a href="../../index.html">Gallery</a>
 			<span>Local Storage</span>
 		</div>
 			<pre class="s-section">				
@@ -32,8 +43,6 @@
 功能：function
 描述：本地存储封装
 源码：<a href="local-storage.js">local-storage.js</a></pre>
-			
-
 			
 			<h3 class="s-title">API</h3>			
 			<div class="s-section">

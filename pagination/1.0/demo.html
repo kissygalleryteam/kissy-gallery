@@ -3,15 +3,24 @@
 <head>
 <meta charset="utf-8"/>
 <title>KISSY gallery - Pagination</title>
-<link rel="shortcut icon" href="../../kissy-dpl/base/assets/favicon.ico"/>
-<link rel="stylesheet" href="../../kissy-dpl/base/assets/reset.css"/>
-<link rel="stylesheet" href="../../kissy-dpl/base/assets/kissy-docs.css"/>
+<link rel="shortcut icon" href="../../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../../kissy-dpl/base/assets/kissy-docs.css"/>
 <link rel="stylesheet" href="http://docs.kissyui.com/docs/html/static/demo/menu/assets/c2c-ui.css"/>
-<link rel="stylesheet" href="pagination.css"/>
 <script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
-<script src="../../kissy-dpl/base/assets/kissy-docs.js"></script>
-<script src="pagination.js"></script>
-
+<script src="../../../kissy-dpl/base/assets/kissy-docs.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
 <script type="text/template" id="default-pagination-tpl-simple">
     {{#! 显示上一页 }}
     {{#if currentPage === startPage }}
@@ -181,11 +190,10 @@
         <option value="50">50</option>
     </select>
 </script>
-
 </head>
 <body>
 <div id="header">
-    <h1 class="logo"><a href="http://kissyui.com/"><img src="../../kissy-dpl/base/assets/logo.png" alt="KISSY"/></a></h1>
+    <h1 class="logo"><a href="http://kissyui.com/"><img src="../../../kissy-dpl/base/assets/logo.png" alt="KISSY"/></a></h1>
     <div class="sub-title">Gallery</div>
     <ul class="navigation">
         <li><a href="http://blog.kissyui.com/">博客</a></li>
@@ -196,7 +204,7 @@
 <div class="s-crumbs">
     <span>当前位置：</span>
     <a href="http://kissyui.com/">KISSY</a>
-    <a href="../index.html">Gallery</a>
+    <a href="../../index.html">Gallery</a>
     <span>Pagination</span>
 </div>
 			<pre class="s-section">				
@@ -223,9 +231,8 @@
             </li>
         </script>
         <div class="pagination" id="page1"></div>
-        <script src="friends.js"></script>
         <script>
-            KISSY.use('gallery/pagination', function(S, P) {
+            KISSY.use('gallery/pagination/1.0/pagination,gallery/pagination/1.0/tmp/friends,gallery/pagination/1.0/tmp/demo.css,gallery/pagination/1.0/assets/pagination.css', function(S, P, FriendList, undefined) {
                 var tpl = S.Template(S.one('#friend-item-tpl').html()),
                         pagesize = 5,  // 设置页数
                         tp = parseInt((FriendList.friendList.length + pagesize - 0.5) / pagesize),// 计算总共页数
@@ -272,7 +279,7 @@
         </div>
         <div class="pagination" id="page2"></div>
         <script>
-            KISSY.use('gallery/pagination', function(S, P) {
+            KISSY.use('gallery/pagination/1.0/pagination', function(S, P) {
                 function getCurrentPage() {
                     return S.unparam(window.location.search.substring(1)).page || 1;
                 }
@@ -319,7 +326,7 @@
         <div class="page-content" id="page-content-4"></div>
         <div class="pagination" id="page4"></div>
         <script>
-            KISSY.use('gallery/pagination', function(S, P) {
+            KISSY.use('gallery/pagination/1.0/pagination', function(S, P) {
                 var content = S.one('#page-content-4'),
 
                         pagination = new P({
@@ -380,7 +387,7 @@
             <div class="pagination-wrapper" id="page3"></div>
         </div>
         <script>
-            KISSY.use('gallery/pagination', function(S, P) {
+            KISSY.use('gallery/pagination/1.0/pagination', function(S, P) {
                 var content = S.one('#page-content-3'),
                         pagination = new P({
                             container: '#page3',
@@ -406,7 +413,7 @@
         <div class="page-content" id="page-content-5"></div>
         <div class="pagination" id="page5"></div>
         <script>
-            KISSY.use('gallery/pagination, menubutton', function(S, P, MenuButton) {
+            KISSY.use('gallery/pagination/1.0/pagination, menubutton', function(S, P, MenuButton) {
                 var content = S.one('#page-content-5'),
                         pagesize = 10,
                         pagination = new P({

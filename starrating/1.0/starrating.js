@@ -4,7 +4,7 @@
  * @author 乔花<shengyan1985@gmail.com>
  */
 
-KISSY.add('gallery/starrating', function(S, undefined) {
+KISSY.add('gallery/starrating/1.0/starrating', function(S, undefined) {
     var DOT = '.', EMPTY = '';
 
     function StarRating(config) {
@@ -88,7 +88,7 @@ KISSY.add('gallery/starrating', function(S, undefined) {
         _init: function() {
             var self = this;
 
-            var container = this.get('container');
+            var container = self.get('container');
             if (!container) return;
 
             var reason = self.get('reason'), level = self.get('level'),
@@ -116,14 +116,15 @@ KISSY.add('gallery/starrating', function(S, undefined) {
                         self.fire('rating', {idx: i, score: sc});
 
                     }).on('mouseenter', function(e) {
-                        var offset = this.offset(),
+                        var obj = new S.Node(e.currentTarget),
+                            offset = obj.offset(),
                             coffset = container.offset();
 
                         container.all(DOT+self.get('popCls'))
                             .html('<span><em>' + sc + '</em> 分 ' + level[j] + '</span><strong>' + rs + '</strong>')
                             .css({
-                                'left': offset.left + this.width() - coffset.left - 100+ 'px',
-                                'top': offset.top - coffset.top + this.height() + 'px'
+                                'left': offset.left + obj.width() - coffset.left - 100+ 'px',
+                                'top': offset.top - coffset.top + obj.height() + 'px'
                             }).show();
                     }).on('mouseleave', function() {
                         container.all(DOT+self.get('popCls')).hide();

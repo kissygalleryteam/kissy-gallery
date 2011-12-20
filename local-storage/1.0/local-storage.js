@@ -24,7 +24,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-KISSY.add('gallery/local-storage', function(S, undefined) {
+KISSY.add('gallery/1.0/local-storage', function(S, undefined) {
     var win = S.__HOST,
         doc = document, useObject = doc.documentElement;
     useObject.style.behavior = 'url(#default#userData)';
@@ -103,16 +103,5 @@ KISSY.add('gallery/local-storage', function(S, undefined) {
             } catch (e) {}
         }
     };
-
-    //兼容 1.1.6
-    S.namespace('Gallery');
-
-    S.Gallery.localStorage = /*return*/ S.merge(/** @lends localStorage */{
-        /**
-         * IE Only，userData所在地元素
-         */
-        element: useObject
-    }, (win.localStorage ? localStorage : userBehavor));
-
     return localStorage;
 });

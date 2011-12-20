@@ -3,17 +3,18 @@
  * @desc 分页组件
  * @author 乔花<shengyan1985@gmail.com>
  * @date 20110918
- * @version 2.0
+ * @version 1.0
  * @depends kissy, template
  */
-KISSY.add('gallery/pagination', function(S, Template, undefined) {
+KISSY.add('gallery/pagination/1.0/pagination', function(S, Template, undefined) {
     var EVENT_PAGE_BEFORE = 'beforePageChange',
         EVENT_PAGE_AFTER = 'afterPageChange',  // 其实是和 afterCurrentPageChange 等价的
         ENTER = 13,
 
         DEFAULT_TPL = '';
 
-    S.Template.addStatement('for', {
+    // 添加for语句
+    Template.addStatement('for', {
         start: 'for(KS_TEMPL_STAT_PARAM){',
         end: '}'
     });
@@ -213,8 +214,8 @@ KISSY.add('gallery/pagination', function(S, Template, undefined) {
 
             // 需要显示省略号时, 需要确定显示页码区间
             if (endPage && ellipseText) {
-                startIndex = Math.max(Math.max(firstPage, parseInt(currentPage - displayPageCount)), endPage - displayPageCount*2);
-                endIndex = Math.min(endPage, startIndex + displayPageCount*2);
+                startIndex = Math.min(Math.max(firstPage, parseInt(currentPage - displayPageCount)), endPage - displayPageCount * 2);
+                endIndex = Math.min(endPage, startIndex + displayPageCount * 2);
             }
             // 否则就是全部显示页码, 且此时 alwaysDisplayCount 无效,
             // displayPageCount 只取 0 或非 0. falsy 不显示页码, truth 显示页码
@@ -223,7 +224,8 @@ KISSY.add('gallery/pagination', function(S, Template, undefined) {
                 endIndex = endPage;
             }
 
-            self.get('container').html(S.Template(self.get('template')).render({
+            S.log([currentPage, ellipseText, firstPage, endPage, alwaysDisplayCount, !!displayPageCount, Math.max(startIndex, firstPage), Math.min(endIndex, endPage), self.get('hasNext')]);
+            self.get('container').html(Template(self.get('template')).render({
                 currentPage: currentPage,
                 ellipseText: ellipseText,
                 startPage: firstPage,
@@ -248,7 +250,7 @@ KISSY.add('gallery/pagination', function(S, Template, undefined) {
                         hook = parseInt(target.attr(self.get('pageRedirectHook')));
                     if (isNaN(hook)) return;
 
-                    e.halt();
+                    e.preventDefault();
                     if (self.get('isLoading')) return;
 
                     self.page(hook);
@@ -337,16 +339,10 @@ KISSY.add('gallery/pagination', function(S, Template, undefined) {
         }
     });
 
-    //兼容 1.1.6
-    S.namespace('Gallery');
-    S.Gallery.Pagination = Pagination;
-
     return Pagination;
 }, {
     requires: ["template"]
 });
-
-
 /**
  * - 抽离分页HTML模板, 更加定制 --- 20111108 Done;
  * - 起始页/最终页 --- 20111109 Done;

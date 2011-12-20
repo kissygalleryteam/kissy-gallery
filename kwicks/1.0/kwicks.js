@@ -4,7 +4,7 @@
  * @author 乔花<qiaohua@taobao.com>
  */
  
-KISSY.add('gallery/kwicks', function(S, Switchable) {
+KISSY.add('gallery/kwicks/1.0/kwicks', function(S, Switchable) {
 
     var DOM = S.DOM, Event = S.Event, doc = document,
 

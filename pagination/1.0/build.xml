@@ -1,0 +1,82 @@
+<project name="pagination.build" default="build" basedir=".">
+    <description>Component Build File</description>
+
+    <property name="charset" value="utf-8"/>
+    <property name="gallery.dir" location="../../"/>
+	<property name="gallery.build.dir" location="${gallery.dir}/../gallery-build/"/>
+    <property name="kissy-tools.dir" location="${gallery.dir}/../kissy-tools/"/>
+
+    <property name="src.dir" location="."/>
+    <property name="component.build.dir" location="${gallery.build.dir}/pagination/1.0"/>
+    <property name="component.build.dir.tmp" value="${component.build.dir}/tmp"/>
+
+    <target name="clear">
+        <delete includeemptydirs="true">
+            <fileset dir="${component.build.dir}" includes="**/*"/>
+        </delete>
+    </target>
+
+    <target name="concat" >
+        <mkdir dir="${component.build.dir}"/>
+        <concat destfile="${component.build.dir}/index.js"
+                encoding="utf-8"
+                outputencoding="utf-8">
+            <fileset dir="${src.dir}" includes="*.js" />
+            <filterchain>
+                <deletecharacters chars="&#xFEFF;"/>
+            </filterchain>
+        </concat>
+
+        <copydir  dest="${component.build.dir}/assets" src="${src.dir}/assets" />
+    </target>
+
+    <target name="compress">
+        <!-- 用 YUICompressor 压缩 CSS -->
+        <apply executable="java" verbose="true"
+               dest="${component.build.dir}">
+            <fileset dir="${component.build.dir}"
+                     includes="**/*.css"/>
+            <arg line="-jar"/>
+            <arg path="${kissy-tools.dir}/yuicompressor/yuicompressor.jar"/>
+            <arg line="--charset ${charset}"/>
+            <srcfile/>
+            <arg line="-o"/>
+            <targetfile/>
+            <mapper type="regexp" from="^(.*)\.(css|js)$" to="\1-min.\2"/>
+        </apply>
+
+        <!-- 用 Closure Compiler 压缩 JS -->
+        <apply executable="java" verbose="true"
+               dest="${component.build.dir}">
+            <fileset dir="${component.build.dir}"
+                     includes="**/*.js"
+                    />
+            <arg line="-jar"/>
+            <arg path="${kissy-tools.dir}/closure-compiler/compiler.jar"/>
+            <arg line="--charset ${charset}"/>
+            <arg value="--warning_level"/>
+            <arg value="QUIET"/>
+            <arg value="--js"/>
+            <srcfile/>
+            <arg value="--js_output_file"/>
+            <targetfile/>
+            <mapper type="regexp" from="^(.*)\.(css|js)$" to="\1-min.\2"/>
+        </apply>
+    </target>
+
+    <!-- 对 JS 文件 ASCII 化 -->
+    <target name="native2ascii" depends="compress">
+        <mkdir dir="${component.build.dir.tmp}"/>
+        <move todir="${component.build.dir.tmp}">
+            <fileset dir="${component.build.dir}" includes="*-min.js"/>
+        </move>
+        <native2ascii encoding="${charset}"
+                      src="${component.build.dir.tmp}"
+                      dest="${component.build.dir}"
+                      includes="*.js"/>
+        <delete dir="${component.build.dir.tmp}"/>
+    </target>
+
+    <target name="build" depends="clear,concat,compress,native2ascii">
+    </target>
+</project>
