@@ -6,9 +6,7 @@
  */
 /*global KISSY */
 
-KISSY.add('gallert/countdown/effects', function (S) {
-    var D = S.DOM,
-        Countdown = S.Gallery.Countdown;
+KISSY.add('gallery/countdown/1.0/effects', function (S, Countdown) {
 
     /**
      * Static attributes
@@ -186,4 +184,6 @@ KISSY.add('gallert/countdown/effects', function (S) {
         }
     };
 
+}, {
+    requires: ["./countdown"]
 });

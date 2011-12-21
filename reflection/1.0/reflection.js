@@ -144,6 +144,4 @@ KISSY.add('gallery/reflection/1.0/reflection',function(S) {
     }
     
     return Reflection;
-}, {
-    requires: ["core"]
 });

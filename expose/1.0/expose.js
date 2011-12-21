@@ -5,7 +5,7 @@
  * @blog http://lzlu.com
  */
  
-KISSY.add('gallery/expose', function(S, undefined) {
+KISSY.add('gallery/expose/1.0/expose', function(S, undefined) {
 
 	var DOM = S.DOM, Event = S.Event,
 	
@@ -140,19 +140,6 @@ KISSY.add('gallery/expose', function(S, undefined) {
 		}
 	
 	});
-	
-	
-	
-	
-	
-	
-	//私有方法
-
-    //兼容 1.1.6
-    S.namespace('Gallery');
-    S.Gallery.Expose = Expose;
 
     return Expose;
-}, {
-    requires: ["core"]
 });

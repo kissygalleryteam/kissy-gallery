@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8"/>
     <title>KISSY gallery - Expose</title> 
-	<link rel="shortcut icon" href="../../kissy-dpl/base/assets/favicon.ico"/> 
-	<link rel="stylesheet" href="../../kissy-dpl/base/assets/reset.css"/> 
-	<link rel="stylesheet" href="../../kissy-dpl/base/assets/kissy-docs.css"/> 
+	<link rel="shortcut icon" href="../../../kissy-dpl/base/assets/favicon.ico"/>
+	<link rel="stylesheet" href="../../../kissy-dpl/base/assets/reset.css"/>
+	<link rel="stylesheet" href="../../../kissy-dpl/base/assets/kissy-docs.css"/>
 	<style>
 		.title{
 			padding:10px 0;
@@ -45,13 +45,24 @@
 
 		.a{font-size:12px;font-weight:normal;}
 	</style>	
-	<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
-	<script src="../../kissy-dpl/base/assets/kissy-docs.js"></script> 
-	<script src="expose.js"></script> 
+    <script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+	<script src="../../../kissy-dpl/base/assets/kissy-docs.js"></script>
 </head>
 <body>
     <div id="header"> 
-		<h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../kissy-dpl/base/assets/logo.png"/></a></h1> 
+		<h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../kissy-dpl/base/assets/logo.png"/></a></h1>
 		<div class="sub-title">Gallery</div>
 		<ul class="navigation"> 
 			<li><a href="http://blog.kissyui.com/">博客</a></li> 
@@ -63,7 +74,7 @@
 		<div class="s-crumbs">
 			<span>当前位置：</span>
 			<a href="http://kissyui.com/">KISSY</a>
-			<a href="../index.html">Gallery</a>
+			<a href="../../index.html">Gallery</a>
 			<span>Expose</span>
 		</div>
 			<pre class="s-section">				
@@ -76,7 +87,7 @@
 			<h3 class="s-title">Demo1 - 视频关灯</h3>			
 			<div class="s-section" id="demo1">
 				<div class="s-demo">
-						<h1 class="title">刘德华 -世界第一等 <a href="#" class="turnoff a">关灯</a></h1>
+						<h1 class="title">刘德华 -世界第一等 <a href="demo.html#" class="turnoff a">关灯</a></h1>
 						<div id="player" class="player">
 							<embed width="610" height="498"  pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="ShowId=0&amp;Cp=0&amp;Tid=0&amp;VideoIDS=XMjM2MTg2OTcy&amp;isAutoPlay=true&amp;Version=/v1.0.0647&amp;winType=interior&amp;iku_num=2" allowscriptaccess="always" allowfullscreen="true" quality="high" bgcolor="#FFFFFF" name="movie_player" id="movie_player" src="http://static.youku.com/v1.0.0141/v/swf/qplayer.swf" type="application/x-shockwave-flash">
 							<div class="ft">
@@ -85,10 +96,10 @@
 						</div>
 
 						<script>
-							KISSY.ready(function(S){
+							KISSY.use('gallery/expose/1.0/expose',function(S, Expose){
 								var DOM = S.DOM, Event = S.Event;
 								
-								var a = new S.Gallery.Expose("#player", {
+								var a = new Expose("#player", {
 									//遮罩颜色
 									bgcolor: "#000",
 									//遮罩透明度
@@ -103,7 +114,7 @@
 							});
 						</script>
 				</div>
-				<a class="s-view-code" href="#">显示源码</a>
+				<a class="s-view-code" href="demo.html#">显示源码</a>
 			</div>
 			
 			
@@ -120,12 +131,12 @@
 						
 						<script>
 
-							KISSY.ready(function(S){
+							KISSY.use('gallery/expose/1.0/expose',function(S, Expose){
 								var DOM = S.DOM, Event = S.Event;
 
 								//评论
 								var div = DOM.get("#comment"),
-									b = new S.Gallery.Expose(div, {
+									b = new  Expose(div, {
 											bgcolor: "#aaa"
 										});
 								
@@ -154,7 +165,7 @@
 						</script>		
 
 				</div>
-				<a class="s-view-code" href="#">显示源码</a>
+				<a class="s-view-code" href="demo.html#">显示源码</a>
 			</div>
 			
 			
@@ -165,7 +176,7 @@
 			<h3 class="s-title">API</h3>			
 			<div class="s-section">
 				<h4 class="s-api-title">方法</h4>
-				<div class="s-api-method">KISSY.gallery.Expose ( target, config )</div>
+				<div class="s-api-method"> Expose ( target, config )</div>
 				
 				<h4 class="s-api-title">参数</h4>
 				<div class="s-api-params">

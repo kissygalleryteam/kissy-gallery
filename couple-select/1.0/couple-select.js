@@ -6,7 +6,7 @@
  
 
 
-KISSY.add('gallery/couple-select', function(S, undefined) {
+KISSY.add('gallery/couple-select/1.0/couple-select', function(S, undefined) {
 
     var DOM = S.DOM, Event = S.Event,
         DOT = '.',
@@ -246,14 +246,6 @@ KISSY.add('gallery/couple-select', function(S, undefined) {
 		
 		
 	});
-	
-
-
-    //兼容 1.1.6
-    S.namespace('Gallery');
-    S.Gallery.Coupleselect = Coupleselect;
 
     return Coupleselect;
-}, {
-    requires: ["core"]
 });

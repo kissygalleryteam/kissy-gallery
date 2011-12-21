@@ -198,6 +198,4 @@ KISSY.add('gallery/sliding-labels/1.0/sliding-labels', function(S, core, undefin
         }
     });
     return SlidingLabels;
-}, {
-    requires: ["core"]
 });

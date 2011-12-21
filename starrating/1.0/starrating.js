@@ -146,6 +146,4 @@ KISSY.add('gallery/starrating/1.0/starrating', function(S, undefined) {
     S.Gallery.StarRating = StarRating;
 
     return StarRating;
-}, {
-    requires: ["core"]
 });

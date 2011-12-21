@@ -3,17 +3,26 @@
 <head>
 <meta charset="gbk"/>
 <title>KISSY gallery - countdown</title>
-<link rel="shortcut icon" href="../../kissy-dpl/base/assets/favicon.ico"/>
-<link rel="stylesheet" href="../../kissy-dpl/base/assets/reset.css"/>
-<link rel="stylesheet" href="../../kissy-dpl/base/assets/kissy-docs.css"/>
-<script src="../../kissy/build/kissy.js"></script>
-<link href="gallery/countdown/countdown.css" rel="stylesheet" />
-<script src="gallery/countdown.js"></script>
-<script src="gallery/countdown/effects.js"></script>
+<link rel="shortcut icon" href="../../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../../kissy-dpl/base/assets/kissy-docs.css"/>
+    <script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
 </head>
 <body>
 <div id="header">
-    <h1 class="logo"><a href="http://kissyui.com/"><img src="../../kissy-dpl/base/assets/logo.png" alt="KISSY"/></a></h1>
+    <h1 class="logo"><a href="http://kissyui.com/"><img src="../../../kissy-dpl/base/assets/logo.png" alt="KISSY"/></a></h1>
     <div class="sub-title">Gallery</div>
     <ul class="navigation">
         <li><a href="http://blog.kissyui.com/">博客</a></li>
@@ -24,7 +33,7 @@
 <div class="s-crumbs">
     <span>当前位置：</span>
     <a href="http://kissyui.com/">KISSY</a>
-    <a href="../index.html">Gallery</a>
+    <a href="../../index.html">Gallery</a>
     <span>countdown</span>
 </div>
 
@@ -32,7 +41,7 @@
 作者： jide<jide@taobao.com> 基德
 功能： 倒计时
 描述： 倒计时
-源码：<a href="gallery/countdown.js">countdown.js</a></pre>
+源码：<a href="countdown.js">countdown.js</a></pre>
 </pre>
 
 <h1>demo :</h1>
@@ -61,10 +70,9 @@
 <script>
     var S = KISSY;
     
-    S.use("gallery/countdown",function(){
+    S.use("gallery/countdown/1.0/countdown, gallery/countdown/1.0/effects, gallery/countdown/1.0/assets/countdown.css",function(S, Countdown){
     
-        Countdown = S.Gallery.Countdown,
-        slides = [],
+        var slides = [],
         flips = [];
 
     function factory(cd) {
@@ -82,5 +90,6 @@
     S.all('.cd-large').each(factory);
     });
 </script>
+    </div>
 </body>
 </html>

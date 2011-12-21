@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8"/>
     <title>KISSY gallery - yourGallery</title> 
-	<link rel="shortcut icon" href="../../kissy-dpl/base/assets/favicon.ico"/> 
-	<link rel="stylesheet" href="../../kissy-dpl/base/assets/reset.css"/> 
-	<link rel="stylesheet" href="../../kissy-dpl/base/assets/kissy-docs.css"/> 	
+	<link rel="shortcut icon" href="../../../kissy-dpl/base/assets/favicon.ico"/>
+	<link rel="stylesheet" href="../../../kissy-dpl/base/assets/reset.css"/>
+	<link rel="stylesheet" href="../../../kissy-dpl/base/assets/kissy-docs.css"/>
 	
 	<style>
 	button{
@@ -33,7 +33,7 @@
 		.multipleselect {
 			position:relative;
 			width:650px;height:228px;overflow:hidden;
-			background:url(src/multipleselect.png) no-repeat;
+			background:url(tmp/multipleselect.png) no-repeat;
 		}
 		
 		.multipleselect .panel{
@@ -106,15 +106,24 @@
 	
 
 	</style>
-	
-	
-	<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
-	<script src="../../kissy-dpl/base/assets/kissy-docs.js"></script> 
-	<script src="couple-select.js"></script> 
+<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+	<script src="../../../kissy-dpl/base/assets/kissy-docs.js"></script>
 </head>
 <body>
     <div id="header"> 
-		<h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../kissy-dpl/base/assets/logo.png"/></a></h1> 
+		<h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../kissy-dpl/base/assets/logo.png"/></a></h1>
 		<div class="sub-title">Gallery</div>
 		<ul class="navigation"> 
 			<li><a href="http://blog.kissyui.com/">博客</a></li> 
@@ -126,7 +135,7 @@
 		<div class="s-crumbs">
 			<span>当前位置：</span>
 			<a href="http://kissyui.com/">KISSY</a>
-			<a href="../index.html">Gallery</a>
+			<a href="../../index.html">Gallery</a>
 			<span>couple-select</span>
 		</div>
 			<pre class="s-section">				
@@ -176,8 +185,8 @@
 					
 					
 					<script>
-					KISSY.ready(function(S){
-						var d = new S.Gallery.Coupleselect("#demo1");
+					KISSY.use('gallery/couple-select/1.0/couple-select', function(S, Coupleselect){
+						var d = new Coupleselect("#demo1");
 						
 						d.on("change",function(ev){
 							var arr = []
@@ -192,7 +201,7 @@
 					
 					
 				</div>
-				<a class="s-view-code" href="#">显示源码</a><!--点击该链接自动帮你显示s=demo里的内容，如不需要，去除链接即可-->
+				<a class="s-view-code" href="demo.html#">显示源码</a><!--点击该链接自动帮你显示s=demo里的内容，如不需要，去除链接即可-->
 			</div>
 			
 			
@@ -239,8 +248,8 @@
 				</div>
 
 				<script>
-				KISSY.ready(function(S){
-					var d2 = new S.Gallery.Coupleselect("#demo2");
+				KISSY.use('gallery/couple-select/1.0/couple-select', function(S, Coupleselect){
+					var d2 = new Coupleselect("#demo2");
 
 					//增加事件
 					d2.on("add",function(ev){
@@ -285,7 +294,7 @@
 					
 					
 				</div>
-				<a class="s-view-code" href="#">显示源码</a><!--点击该链接自动帮你显示s=demo里的内容，如不需要，去除链接即可-->
+				<a class="s-view-code" href="demo.html#">显示源码</a><!--点击该链接自动帮你显示s=demo里的内容，如不需要，去除链接即可-->
 			</div>
 
 			
