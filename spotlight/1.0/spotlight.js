@@ -1,4 +1,4 @@
-KISSY.add('gallery/spotlight',function(S){
+KISSY.add('gallery/spotlight/1.0/spotlight',function(S){
 	var DOM = S.DOM
 		,Event = S.Event
 		,EVENT_NEXT='nextFocus'
@@ -29,14 +29,14 @@ KISSY.add('gallery/spotlight',function(S){
 		,anim:{
 			duration:.2
 		}
-		,initIndex:0//Ä¬ÈÏµÄ½¹µãÏÂ±êÖµ
-		,lazyInit:true//ÊµÀý»¯×é½¨µÄÊ±ºòÊÇ·ñÖ±½ÓäÖÈ¾ËùÐèÔªËØ ·ñÔòµÈ´ýÊÖ¶¯¼¤»îµÄÊ±ºò²ÅäÖÈ¾
-		,clickOnHide:true//µã»÷¿Õ°×´¦Òþ²Ømask
-		,lastOnEnd:true//µ½´ï×îºóÒ»¸öÖ®ºó Èç¹ûÔÚÖ´ÐÐnextµÄ»° »áÇå³ýmask
-		,resizeBuffer:50//´°¿ÚresizeÊÂ¼þµÄÊ±ºò»º³åÖ´ÐÐÊÊÓ¦º¯ÊýµÄÊ±¼ä
+		,initIndex:0//é»˜è®¤çš„ç„¦ç‚¹ä¸‹æ ‡å€¼
+		,lazyInit:true//å®žä¾‹åŒ–ç»„å»ºçš„æ—¶å€™æ˜¯å¦ç›´æŽ¥æ¸²æŸ“æ‰€éœ€å…ƒç´  å¦åˆ™ç­‰å¾…æ‰‹åŠ¨æ¿€æ´»çš„æ—¶å€™æ‰æ¸²æŸ“
+		,clickOnHide:true//ç‚¹å‡»ç©ºç™½å¤„éšè—mask
+		,lastOnEnd:true//åˆ°è¾¾æœ€åŽä¸€ä¸ªä¹‹åŽ å¦‚æžœåœ¨æ‰§è¡Œnextçš„è¯ ä¼šæ¸…é™¤mask
+		,resizeBuffer:50//çª—å£resizeäº‹ä»¶çš„æ—¶å€™ç¼“å†²æ‰§è¡Œé€‚åº”å‡½æ•°çš„æ—¶é—´
 		,clickOnHideTip:''
-		,toggleOnAnim:false//ÉÏÒ»¸öÏÂÒ»¸öÇÐ»»µÄÊ±ºòÊÇ·ñÎª¶¯»­ÐÎÊ½
-		,focusBorder:null//ÏÔÊ¾½¹µãµÄÊ±ºòÔÚÖÜÎ§Ìí¼Ó±ß¿òµÄÅäÖÃ
+		,toggleOnAnim:false//ä¸Šä¸€ä¸ªä¸‹ä¸€ä¸ªåˆ‡æ¢çš„æ—¶å€™æ˜¯å¦ä¸ºåŠ¨ç”»å½¢å¼
+		,focusBorder:null//æ˜¾ç¤ºç„¦ç‚¹çš„æ—¶å€™åœ¨å‘¨å›´æ·»åŠ è¾¹æ¡†çš„é…ç½®
 		,listeners:null
 	};
 	S.augment(Spotlight,S.EventTarget,{
@@ -57,7 +57,7 @@ KISSY.add('gallery/spotlight',function(S){
 				,left = doc.createElement('div')
 				,top = doc.createElement('div')
 				,right = doc.createElement('div')
-				,bottom = doc.createElement('div') 
+				,bottom = doc.createElement('div')
 				,fragment = doc.createDocumentFragment()
 				,cfg = me.config
 				,maskCls = cfg.maskCls
@@ -67,10 +67,10 @@ KISSY.add('gallery/spotlight',function(S){
 			fragment.appendChild(right);
 			fragment.appendChild(bottom);
 			left.title = top.title = right.title = bottom.title = cfg.clickOnHideTip;
-			left.style.position = top.style.position = right.style.position = bottom.style.position = 'absolute';	
-			left.style.backgroundColor = top.style.backgroundColor = right.style.backgroundColor = bottom.style.backgroundColor = cfg.bgColor;	
-			left.style.opacity = top.style.opacity = right.style.opacity = bottom.style.opacity = cfg.opacity;	
-			left.style.filter = top.style.filter = right.style.filter = bottom.style.filter = 'alpha(opacity='+parseFloat(cfg.opacity)*100+')';	
+			left.style.position = top.style.position = right.style.position = bottom.style.position = 'absolute';
+			left.style.backgroundColor = top.style.backgroundColor = right.style.backgroundColor = bottom.style.backgroundColor = cfg.bgColor;
+			left.style.opacity = top.style.opacity = right.style.opacity = bottom.style.opacity = cfg.opacity;
+			left.style.filter = top.style.filter = right.style.filter = bottom.style.filter = 'alpha(opacity='+parseFloat(cfg.opacity)*100+')';
 			left.style.zIndex = top.style.zIndex = right.style.zIndex = bottom.style.zIndex = cfg.zIndex;
 			left.className = top.className = right.className = bottom.className = maskCls;
 			left.className+=' '+maskCls+'-left';
@@ -92,7 +92,7 @@ KISSY.add('gallery/spotlight',function(S){
 			me.left = left;
 			me.top = top;
 			me.right = right;
-			me.bottom = bottom;	
+			me.bottom = bottom;
 			if(cfg.clickOnHide === true){
 				Event.delegate(doc.body,'click','.'+cfg.maskCls,me.hide,me)
 			}
@@ -148,7 +148,7 @@ KISSY.add('gallery/spotlight',function(S){
 				}
 				,bottom:{
 					height:bottomHeight
-					,width:dWidth-leftWidth 
+					,width:dWidth-leftWidth
 					,top:topHeight+height
 				}
 			}
@@ -212,7 +212,7 @@ KISSY.add('gallery/spotlight',function(S){
 			return !!this.quene[this.currentIndex + 1]
 		}
 		,canPrevious:function(){
-			return !!this.quene[this.currentIndex - 1] 
+			return !!this.quene[this.currentIndex - 1]
 		}
 		,hide:function(){
 			this._unmask();
@@ -262,7 +262,7 @@ KISSY.add('gallery/spotlight',function(S){
 				,boxOpt = me._getMaskBoxSize(node)
 				,offset = DOM.offset(node)
 				,top = offset.top
-				,vHeight = DOM.viewportHeight() 
+				,vHeight = DOM.viewportHeight()
 				,scrollTop = DOM.scrollTop()
 				,notVisible = top > (vHeight + scrollTop)
 				;

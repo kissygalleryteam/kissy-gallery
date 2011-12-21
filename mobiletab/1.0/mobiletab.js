@@ -1,4 +1,4 @@
-KISSY.add('gallery/mobiletab/mobiletab', function(S, DOM, Event, Switchable, undefined){
+KISSY.add('gallery/mobiletab/1.0/mobiletab', function(S, DOM, Event, Switchable, undefined){
    
     var D = DOM;
     var E = Event;

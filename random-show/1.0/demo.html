@@ -3,17 +3,28 @@
 <head>
     <meta charset="utf-8"/>
     <title>KISSY gallery - yourGallery</title>
-    <link rel="shortcut icon" href="../../kissy-dpl/base/assets/favicon.ico"/>
-    <link rel="stylesheet" href="../../kissy-dpl/base/assets/reset.css"/>
-    <link rel="stylesheet" href="../../kissy-dpl/base/assets/kissy-docs.css"/>
-    <script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
-    <script src="../../kissy-dpl/base/assets/kissy-docs.js"></script>
-    <script src="random-region.js"></script>
-    <script src="random-show.js"></script>
+    <link rel="shortcut icon" href="../../../kissy-dpl/base/assets/favicon.ico"/>
+    <link rel="stylesheet" href="../../../kissy-dpl/base/assets/reset.css"/>
+    <link rel="stylesheet" href="../../../kissy-dpl/base/assets/kissy-docs.css"/>
+
+<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+<script src="../../../kissy-dpl/base/assets/kissy-docs.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
 </head>
 <body>
 <div id="header">
-    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../kissy-dpl/base/assets/logo.png"/></a>
+    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../kissy-dpl/base/assets/logo.png"/></a>
     </h1>
 
     <div class="sub-title">Gallery</div>
@@ -27,7 +38,7 @@
     <div class="s-crumbs">
         <span>当前位置：</span>
         <a href="http://kissyui.com/">KISSY</a>
-        <a href="../index.html">Gallery</a>
+        <a href="../../index.html">Gallery</a>
         <span>random-show</span>
     </div>
 			<pre class="s-section">				
@@ -60,12 +71,12 @@
 
             <div class="brandshow">
 
-                    <a href=""></a><a href=""></a><a href=""></a><a href=""></a><a href=""></a><a
-                        href=""></a><a href=""></a><a href=""></a><a href=""></a><a href=""></a><a href=""></a><a href=""></a><a href=""></a><a href=""> </a>
+                    <a href="../"></a><a href="../"></a><a href="../"></a><a href="../"></a><a href="../"></a><a
+                        href="../"></a><a href="../"></a><a href="../"></a><a href="../"></a><a href="../"></a><a href="../"></a><a href="../"></a><a href="../"></a><a href="../"> </a>
             </div>
             <script>
-                KISSY.ready(function(S) {
-                    var rs = new S.Gallery.RandomShow('.brandshow');
+                KISSY.use('gallery/random-show/1.0/random-show',function(S, RandomShow){
+                    var rs = new RandomShow('.brandshow');
                     rs.run();
                 })
             </script>
@@ -95,14 +106,14 @@
                         href=""></a><a href=""></a><a href=""></a><a href=""></a><a href=""></a><a href=""></a><a href=""></a><a href=""></a><a href=""> </a>
             </div>
             <script>
-                KISSY.ready(function(S) {
-                    var rs = new S.Gallery.RandomShow('.brandshow');
+                KISSY.use('gallery/random-show/1.0/random-show',function(S, RandomShow){
+                    var rs = new RandomShow('.brandshow');
                     rs.run();
                 })
             </script>
             -->
         </div>
-        <a class="s-view-code" href="#">显示源码</a>
+        <a class="s-view-code" href="demo.html#">显示源码</a>
     </div>
 
     <h3 class="s-title">API</h3>

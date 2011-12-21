@@ -3,7 +3,7 @@
 * @author ԪȪ<yuanquan.wxr@taobao.com>
 * @version:1-0-0
 */
-KISSY.add('gallery/reflection',function(S) {
+KISSY.add('gallery/reflection/1.0/reflection',function(S) {
     var D = S.DOM;
     /**
 	* Reflection Class
@@ -135,9 +135,6 @@ KISSY.add('gallery/reflection',function(S) {
         });
     };
 
-	S.namespace('Gallery');
-    S.Gallery.Reflection = Reflection;   
-    
     function imgReady(img ,fn){
         if(img.complete){
             fn();

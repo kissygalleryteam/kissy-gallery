@@ -4,7 +4,7 @@
  * @Date:       11-10-18
  * @Log:
  */
-KISSY.add('gallery/random-show', function(S) {
+KISSY.add('gallery/random-show/1.0/random-show', function(S, Core, RandomRegion, undefined) {
 
     var D = S.DOM,
         RATIO_SHOW = 0.5;
@@ -20,7 +20,7 @@ KISSY.add('gallery/random-show', function(S) {
                 height: cfg.height || container.clientHeight,
                 sizes: cfg.sizes || {baseWidth:children[0].offsetWidth,baseHeight:children[0].offsetHeight,minRatio:0.6}
             },
-            rs = new S.Gallery.RandomRegion(rrCfg).getRegions(children.length),
+            rs = new RandomRegion(rrCfg).getRegions(children.length),
             fixW = children[0].offsetWidth - children[0].clientWidth
                 + parseInt(D.css(children[0],'padding-left'))
                 + parseInt(D.css(children[0],'padding-right')),
@@ -72,9 +72,6 @@ KISSY.add('gallery/random-show', function(S) {
         }
     });
 
-	//兼容 1.1.6
-    S.namespace('Gallery');
-    S.Gallery.RandomShow = RandomShow;
     return RandomShow;
 
 }, {

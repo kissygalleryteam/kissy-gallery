@@ -1,0 +1,269 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>KISSY gallery - 触屏版switchable</title>
+<meta name="viewport" content="width=440"/>
+<link rel="shortcut icon" href="../../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../../kissy-dpl/base/assets/kissy-docs.css"/>
+<link rel="stylesheet" href="tmp/tabs.css"/>
+<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+</head>
+<body>
+<div id="header">
+    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../kissy-dpl/base/assets/logo.png"/></a></h1>
+    <div class="sub-title">
+        Gallery
+    </div>
+    <ul class="navigation">
+        <li>
+            <a href="http://blog.kissyui.com/">博客</a>
+        </li>
+        <li>
+            <a href="http://github.com/kissyteam">源码</a>
+        </li>
+    </ul>
+</div>
+<div id="content">
+<div class="s-crumbs">
+    <span>mobileTab(供移动版WEB开发使用，请用手机访问)</span>
+</div>
+            <pre class="s-section">				
+作者：diji@taobao.com(地极)
+功能：触屏用switchable组件
+描述：对switchable组件扩展了对touch事件
+的交互响应
+源码：<a href="mobiletab.js">mobiletab.js</a></pre>
+<h3 class="s-title">Demo1 - 可左右拖动内容切换标签</h3>
+<div class="s-section">
+    <div class="s-demo">
+        <div id="demo1">
+            <!-- {{{ tabs -->
+            <div class="tabs">
+
+                <div class="triggerwrap">
+                    <ul class="tabs-hd">
+                        <li class="trigger current">
+                            <i></i>
+                            <h3>初始化</h3>
+                        </li>
+                        <li class="trigger">
+                            <i></i>
+                            <h3>DOM结构</h3>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tabs-bd">
+                    <div class="scroll-wrap">
+                        <div class="tabs-panel">
+<pre>
+KISSY.use("sizzle,gallery/mobiletab/1.0/mobiletab", function(S,_,mtab){
+                            var D = S.DOM, E = S.Event;
+                            var tabs = mtab("#demo1", {
+                                panelCls: "tabs-panel",
+                                triggerCls: "trigger",
+                                activeTriggerCls: "current",
+                                beforeStart: function(){
+                                    //若是panel使用百分比做宽度，则需要先固定宽度
+                                    S.each(D.query("#demo1 .tabs-panel"), function(o){
+                                        D.width(o, D.width("#demo1"));
+                                    });
+                                    //固定内容高度
+                                    D.height("#demo1 .tabs-bd", D.height("#demo1 .tabs-panel"));
+                                }
+                            });
+                            E.on(window, "resize", function(){
+                                tabs.reload();
+                            })
+                        })
+</pre>
+                        </div>
+                        <div class="tabs-panel">
+<pre>
+&lt;div class="container">
+    &lt;div class="tabs">
+        &lt;ul class="tabwrap">
+            &lt;li class="tabs">
+            &lt;/li>
+        &lt;/ul>
+    &lt;/div>
+    &lt;div class="panels">
+        &lt;div class="panelswrap">
+            &lt;div class="panel">
+            &lt;/div>
+            &lt;div class="panel">
+            &lt;/div>
+            &lt;div class="panel">
+            &lt;/div>
+        &lt;/div>
+    &lt;/div>
+&lt;/div>
+</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- tabs }}} -->
+        </div>
+        <script s=demo>
+            KISSY.use("sizzle,gallery/mobiletab/1.0/mobiletab", function(S, _, mtab) {
+                var D = S.DOM, E = S.Event;
+                var tabs = mtab("#demo1", {
+                    panelCls: "tabs-panel",
+                    triggerCls: "trigger",
+                    activeTriggerCls: "current",
+                    beforeStart: function() {
+                        //若是panel使用百分比做宽度，则需要先固定宽度
+                        S.each(D.query("#demo1 .tabs-panel"), function(o) {
+                            D.width(o, D.width("#demo1"));
+                        });
+                        //固定内容高度
+                        D.height("#demo1 .tabs-bd", D.height("#demo1 .tabs-panel"));
+                    }
+                });
+                E.on(window, "resize", function() {
+                    tabs.reload();
+                })
+            })
+        </script>
+    </div>
+    <!--点击该链接自动帮你显示s=demo里的内容，如不需要，去除链接即可-->
+</div>
+<h3 class="s-title">Demo2 - 标签比较多时可使标签滚动</h3>
+<div class="s-section">
+    <div class="s-demo">
+        <div id="demo2">
+            <!-- {{{ tabs -->
+            <div class="tabs">
+                <div class="triggerwrap">
+                    <ul class="tabs-hd">
+                        <li class="trigger current">
+                            <i></i>
+                            <h3>Tab1</h3>
+                        </li>
+                        <li class="trigger">
+                            <i></i>
+                            <h3>Tab2</h3>
+                        </li>
+                        <li class="trigger">
+                            <i></i>
+                            <h3>Tab3</h3>
+                        </li>
+                        <li class="trigger">
+                            <i></i>
+                            <h3>Tab4</h3>
+                        </li>
+                        <li class="trigger">
+                            <i></i>
+                            <h3>Tab4</h3>
+                        </li>
+                        <li class="trigger">
+                            <i></i>
+                            <h3>Tab4</h3>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tabs-bd">
+                    <div class="scroll-wrap">
+                        <div class="tabs-panel">
+                            <p><img src="http://img02.taobaocdn.com/tps/i2/T1ufCHXg0jXXXXXXXX-80-80.png" alt=""/></p>
+                        </div>
+                        <div class="tabs-panel">
+                            <p><img src="http://img03.taobaocdn.com/tps/i3/T1AqiEXnVoXXXXXXXX-80-80.png" alt=""/></p>
+                        </div>
+                        <div class="tabs-panel">
+                            <p><img src="http://img01.taobaocdn.com/tps/i1/T1DPiHXkdXXXXXXXXX-80-80.png" alt=""/></p>
+                        </div>
+                        <div class="tabs-panel">
+                            <p><img src="http://img03.taobaocdn.com/imgextra/i3/732953576/T2uWufXcpaXXXXXXXX_!!732953576.png" alt=""/></p>
+                        </div>
+                        <div class="tabs-panel">
+                            <p><img src="http://img01.taobaocdn.com/tps/i1/T1DPiHXkdXXXXXXXXX-80-80.png" alt=""/></p>
+                        </div>
+                        <div class="tabs-panel">
+                            <p><img src="http://img04.taobaocdn.com/tps/i4/T1eP1HXctXXXXXXXXX-80-80.png" alt=""/></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- tabs }}} -->
+        </div>
+        <script>
+            KISSY.use("sizzle,gallery/mobiletab/1.0/mobiletab", function(S, _, mtab) {
+                var D = S.DOM, E = S.Event;
+                if (S.UA.mobile || true) {
+                    var tabs = mtab("#demo2", {
+                        panelCls: "tabs-panel",
+                        triggerCls: "trigger",
+                        activeTriggerCls: "current",
+                        scrolltab: true,
+                        beforeStart:function() {
+                            //若是panel使用百分比做宽度，则需要先固定宽度
+                            S.each(D.query("#demo2 .tabs-panel"), function(o) {
+                                D.width(o, D.width(o));
+                            });
+                            //固定内容容器高度,否则会失去高度，也可以在CSS样式中设置
+                            D.height("#demo2 .tabs-bd", D.height("#demo2 .tabs-panel"));
+                        }
+                    });
+                    E.on(window, "resize", function() {
+                        tabs.reload();
+                    })
+                }
+            })
+        </script>
+    </div>
+
+</div>
+<h3 class="s-title">说明</h3>
+<div class="s-section">
+    <h4 class="s-api-title">初使化</h4>
+    <div class="s-api-method">
+        KISSY.use("gallery/mobiletab/1.0/mobiletab",function(S,MobileTab){
+        MobileTab ( container,config );
+        });
+    </div>
+    <div class="s-api-method">
+        提供reload方法，重置组件，可在旋转手机时使用（绑定在resize事件上即可）
+    </div>
+
+    <h4 class="s-api-title">初始化方法参考<a href="http://fed.ued.taobao.net/kissy-team/kissyteam/docs/html/api/component/switchable/switchable.html">Switchable API</a>，config中的参数有以下两点不同：</h4>
+    <div class="s-api-params">
+        <ul class="s-list">
+            <li>
+                config比标准switchable多了scrolltab,默认为false,改为true的话可放置宽度大于容器的标签，
+                在切换时会滚动到可视区，并且tab区也可以左右拖拉，效果参考DEMO2
+            </li>
+            <li>
+                config比标准switchable多了beforeStart <em>{Function}</em>,用来在初始化组件前做固定流式布局的尺寸等工作
+            </li>
+        </ul>
+    </div>
+</div>
+<h3 class="s-title">Note</h3>
+<div class="s-section">
+    <ul class="s-list">
+        <li>
+
+        </li>
+    </ul>
+</div>
+</div>
+<div id="footer">
+    &copy; Copyright 2010~2011, KISSY Team.
+</div>
+</body>
+</html>

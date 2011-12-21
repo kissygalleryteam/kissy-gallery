@@ -34,25 +34,25 @@ border-spacing: 0;
     width: 19px;
 }
 .popup td#topleft {
-    background-image: url(images/bubble-1.png);
+    background-image: url(tmp/images/bubble-1.png);
 }
 .popup td.top {
-    background-image: url(images/bubble-2.png);
+    background-image: url(tmp/images/bubble-2.png);
 }
 .popup td#topright {
-    background-image: url(images/bubble-3.png);
+    background-image: url(tmp/images/bubble-3.png);
 }
 .popup td.left {
-    background-image: url(images/bubble-4.png);
+    background-image: url(tmp/images/bubble-4.png);
 }
 .popup td.right {
-    background-image: url(images/bubble-5.png);
+    background-image: url(tmp/images/bubble-5.png);
 }
 .popup td#bottomleft {
-    background-image: url(images/bubble-6.png);
+    background-image: url(tmp/images/bubble-6.png);
 }
 .popup td.bottom {
-    background-image: url(images/bubble-7.png);
+    background-image: url(tmp/images/bubble-7.png);
     text-align: center;
 }
 .popup td.bottom img {
@@ -60,7 +60,7 @@ border-spacing: 0;
     margin: 0 auto;
 }
 .popup td#bottomright {
-    background-image: url(images/bubble-8.png);
+    background-image: url(tmp/images/bubble-8.png);
 }
 .popup table.popup-contents {
     font-size: 12px;
@@ -96,15 +96,18 @@ tr#release-notes td a {
 </style>
 <script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
 <script>
-KISSY.config({
-	packages:[{
-		name:'gallery'
-		,path:'../'
-		,tag:'20111123'
-		,charset:'GBK'
-	}]
-});
-KISSY.use('gallery/spotlight,overlay',function(S,Spotlight,overlay){
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+
+KISSY.use('gallery/spotlight/1.0/spotlight,overlay',function(S,Spotlight,overlay){
 	S.ready(function(){
 		var nodes = S.DOM.query('.mask-target')
 			,arrNode = []
@@ -261,7 +264,7 @@ KISSY.use('gallery/spotlight,overlay',function(S,Spotlight,overlay){
         </tr>
         <tr>
             <td id="bottomleft" class="corner"></td>
-            <td class="bottom"><img src="images/bubble-tail2.png" width="30" height="29" alt="popup tail"></td>
+            <td class="bottom"><img src="tmp/images/bubble-tail2.png" width="30" height="29" alt="popup tail"></td>
             <td class="corner" id="bottomright"></td>
         </tr>
     </tbody></table>

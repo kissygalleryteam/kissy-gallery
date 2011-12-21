@@ -8,7 +8,7 @@
 
 
 
-KISSY.add('gallery/random-region', function(S) {
+KISSY.add('gallery/random-show/1.0/random-region', function(S) {
 
 
     function RandomRegion(cfg) {
@@ -110,11 +110,6 @@ KISSY.add('gallery/random-region', function(S) {
             return this.regions;
         }
     });
-
-
-    //兼容 1.1.6
-    S.namespace('Gallery');
-    S.Gallery.RandomRegion = RandomRegion;
 
     return RandomRegion;
 });
