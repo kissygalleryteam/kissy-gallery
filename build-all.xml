@@ -1,11 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<project name="kissy-gallery-build" default="build-packages" xmlns:ac="antlib:net.sf.antcontrib">
+<project name="kissy-gallery-build" default="build" xmlns:ac="antlib:net.sf.antcontrib">
     <description>Gallery Build</description>
 
-    <property name="charset" value="utf-8"/>
     <property name="gallery.dir" location="."/>
 	<property name="gallery.build.dir" location="${gallery.dir}/../gallery-build/"/>
-    <property name="tools.dir" location="${gallery.dir}/../kissy-tools/"/>
+
+    <target name="dircheck">
+        <condition property="gallery.build.dir.exists">
+            <available file="${gallery.build.dir}" type="dir"/>
+        </condition>
+    </target>
+
+    <target name="del" if="gallery.build.dir.exists" depends="dircheck">
+        <delete includeemptydirs="true" >
+            <fileset dir="${gallery.build.dir}"  includes="**/*" />
+        </delete>
+    </target>
+
+    <target name="prepare">
+        <mkdir dir="${gallery.build.dir}"/>
+    </target>
 
     <target name="build-all">
         <subant target="" failonerror="false" inheritall="false">
@@ -13,10 +27,6 @@
         </subant>
     </target>
 
-    <target name="clean">
-        <delete dir="${gallery.build.dir}"/>
-    </target>
-
-    <target name="build" depends="build-all,clean"> </target>
+    <target name="build" depends="del,prepare,build-all"> </target>
 
 </project>
