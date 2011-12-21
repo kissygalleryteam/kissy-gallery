@@ -2,7 +2,7 @@
  digital clock emulation for fun
  @author yiminghe@gmail.com
  */
-KISSY.add("gallery/digital-clock", function(S) {
+KISSY.add("gallery/digital-clock/1.0/digital-clock-js", function(S) {
 
     //clock number markup
     var CLOCK_NUMBER = ('<div class="Kelement  Kvertical Ke1">'
@@ -349,8 +349,6 @@ KISSY.add("gallery/digital-clock", function(S) {
             }
         }
     });
-    S.namespace("Gallery");
-    S.Gallery.DigitalClock = DigitalClock;
     return DigitalClock;
 }, {
     requires:['node','uibase']

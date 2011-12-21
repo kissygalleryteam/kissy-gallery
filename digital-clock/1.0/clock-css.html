@@ -3,10 +3,19 @@
 <head>
 <meta charset="utf-8"/>
 <title>电子时钟</title>
-<link href="digital-clock.css" rel="stylesheet" type="text/css"/>
-<script src="http://yiminghe.github.com/kissy/build/kissy.js"></script>
-<script src="http://yiminghe.github.com/kissy/build/uibase.js"></script>
-<script type="text/javascript" src="digital-clock.js"></script>
+<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
 <script type="text/javascript" src="http://yui.yahooapis.com/3.1.1/build/yui/yui-min.js"></script>
 
 </head>
@@ -26,7 +35,7 @@
 
 <script type="text/javascript">
     KISSY.ready(function (S) {
-        S.use("gallery/digital-clock", function(S, DigitalClock) {
+        S.use("gallery/digital-clock/1.0/digital-clock, gallery/digital-clock/1.0/assets/digital-clock.css", function(S, DigitalClock) {
             // DigitalClock =S.Gallery.DigitalClock;
             var clock = new DigitalClock({
                 render: S.one("#clock_con"),
