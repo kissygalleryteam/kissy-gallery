@@ -1,5 +1,5 @@
 /** @fileOverview 对KISSY进行扩展的一些帮助函数
-* 包括：屏蔽层，格式化函数，Form帮助类，数据缓冲类
+* 包括：屏蔽层，格式化函数，Form帮助类
 * @author <a href="mailto:dxq613@gmail.com">董晓庆 旺旺：dxq613</a>  
 * @version 1.0.1  
 */
