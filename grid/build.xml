@@ -1,0 +1,101 @@
+<project name="Grid" default="build" basedir=".">
+    <description>
+        Build Kissy Grid
+    </description>
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="tools" location="../../kissy-tools/yuicompressor"/>
+  <property name="charset" value="utf-8"/>
+
+ 
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${build}/gallery/grid/1.0"/>
+	<mkdir dir="${build}/gallery/grid/1.0/assets"/>
+  </target>
+
+  <target name="clear" depends="init">
+    <delete includeemptydirs="true">
+        <fileset dir="${build}" includes="**/*"/>
+    </delete>
+  </target>
+
+  <target name="concat" depends="clear" description="concat the source " >  
+   <concat destfile="${build}/gallery/grid/1.0/grid.js"
+            encoding="utf-8"
+            outputencoding="utf-8">
+		  <path>
+			  <filelist dir="${src}/gallery/grid/1.0">
+				  <file name="util.js" />
+				  <file name="bar.js" />
+				  <file name="barItem.js" />
+				  <file name="buttonBar.js" />
+				  <file name="calendar.js" />
+				  <file name="loadMask.js" />
+				  <file name="paggingBar.js" />
+				  <file name="store.js" />
+				  <file name="grid.js" />
+				  
+          </filelist>
+      </path>
+	</concat>
+
+	<concat destfile="${build}/gallery/grid/1.0/editGrid.js"
+            encoding="utf-8"
+            outputencoding="utf-8">
+		  <path>
+			  <filelist dir="${src}/gallery/grid/1.0">
+				  <file name="editGrid.js" />
+				  <file name="gridEditor.js" />
+          </filelist>
+      </path>
+	</concat>
+	<concat destfile="${build}/gallery/grid/1.0/assets/base.css" encoding="utf-8" outputencoding="utf-8">
+	  <path>
+		  <filelist dir="${src}/gallery/grid/1.0/assets">
+			  <file name="uicommon.css" />
+			  <file name="grid.css" />
+			  <file name="bar.css" />
+		  </filelist>
+      </path>
+   </concat>
+  </target>
+
+  <target name="cssbuild" depends="clear">
+	  <mkdir dir="${build}/gallery/grid/1.0/assets/img"/>
+      <copy todir="${build}/gallery/grid/1.0/assets/img">
+		 <fileset dir="${src}/gallery/grid/1.0/assets/img" includes="**/*"/>
+	  </copy>
+  </target>
+  <target name="build" depends = "concat,cssbuild,compress.js,compress.css">
+  </target>
+
+  <!-- 用 YUICompressor 压缩 js -->
+    <target name="compress.js"> 	        
+        <apply executable="java" verbose="true" dest="${build}/gallery/grid/1.0/">
+            <fileset dir="${build}/gallery/grid/1.0/" includes="**/*.js"/>
+            <arg line="-jar"/>
+            <arg path="${tools}/yuicompressor.jar"/>
+            <arg line="--charset ${charset}"/>
+            <srcfile/>
+            <arg line="-o"/>
+            <targetfile/>
+            <mapper type="regexp" from="^(.*)\.(js)$" to="\1-min.\2"/>
+        </apply>
+    </target>
+
+	<!-- 用 YUICompressor 压缩 CSS -->
+    <target name="compress.css"> 	        
+        <apply executable="java" verbose="true" dest="${build}/gallery/grid/1.0/assets">
+			<fileset dir="${build}/gallery/grid/1.0/assets" includes="**/*.css"/>
+            <arg line="-jar"/>
+            <arg path="${tools}/yuicompressor.jar"/>
+            <arg line="--charset ${charset}"/>
+            <srcfile/>
+            <arg line="-o"/>
+            <targetfile/>
+            <mapper type="regexp" from="^(.*)\.(css)$" to="\1-min.\2"/>
+        </apply>
+    </target>
+
+</project>

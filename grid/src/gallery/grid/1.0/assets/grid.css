@@ -22,13 +22,13 @@
 }
 
 .pagging-bar, .grid-header-th-inner{
-	background: url("./grid-back.gif") repeat-x scroll 0 0 transparent;
+	background: url("./img/grid-back.gif") repeat-x scroll 0 0 transparent;
 }
 
 .pb-page-first ,.pb-page-last,.pb-page-next,.pb-page-prev,.pb-page-ok,.pb-item-input,.bar-item-separator,.pagging-bar .bar-item-over ,
 .sorted-asc .grid-header-sort-icon,.sorted-desc .grid-header-sort-icon,.grid-cell-error-icon,.grid-error-editor-icon,
 .bar-btn-add,.bar-btn-del,.bar-btn-close,.bar-btn-import,.bar-btn-export,.bar-btn-save,.bar-btn-create{
-	background-image:url("./grid.gif");
+	background-image:url("./img/grid.gif");
 	background-repeat: no-repeat;
 }
 
@@ -119,7 +119,6 @@
  {
      border-left-color: #AACCF6;
      border-right-color: #AACCF6;
-     /*background: url("../images/grid3-hrow-over.gif") repeat-x scroll 0 0 transparent;*/
  }
  .hover .grid-header-th-inner {
 	background-position: 0 -70px;
@@ -272,7 +271,7 @@
 
 
 .grid-dirty-cell{
-	background: url("./dirty.gif") no-repeat 0 0 transparent;
+	background: url("./img/dirty.gif") no-repeat 0 0 transparent;
 }
 
 .grid-body-cell,.grid-body-cell-empty{
@@ -392,6 +391,19 @@
 	line-height: 22px;
 	background: url('http://img02.taobaocdn.com/tps/i2/T10eWkXb0IXXXXXXXX-200-25.png') no-repeat right top;
 	margin-left: 2px;
+}
+
+/* 日期编辑 */
+.ks-select-calendar{
+    width:70px;
+    height:20px;
+    line-height: 20px;
+    vertical-align: middle;
+    padding-left: 2px;
+    border:1px #7eadd9 solid;
+    background:url("./calendar-icon.png") no-repeat right center;
+    background-color:#fff;
+    padding-right:12px;
 }
 
 
