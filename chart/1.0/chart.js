@@ -1,4 +1,4 @@
-KISSY.add("gallery/chart", function(S) {
+KISSY.add("gallery/chart/1.0/chart", function(S, Anim, Axis, SimpleTooltip, Frame, Element, Data, undefined) {
     var Event = S.Event,
         Dom = S.DOM;
 
@@ -418,7 +418,7 @@ KISSY.add("gallery/chart", function(S) {
  * @return {string} the formatted number
  * @public
  */
-KISSY.add("gallery/chart/format", function(S) {
+KISSY.add("gallery/chart/1.0/format", function(S) {
     var format = function(that,format) {
         if (typeof format !== "string") {
             return;
@@ -497,7 +497,7 @@ KISSY.add("gallery/chart/format", function(S) {
 /*jslint undef: true, nomen: true, eqeqeq: true, regexp: true, strict: true, newcap: true, immed: true */
 
 /*! @source http://purl.eligrey.com/github/color.js/blob/master/color.js*/
-KISSY.add("gallery/chart/color", function(S) {
+KISSY.add("gallery/chart/1.0/color", function(S) {
     var Color = (function () {
         var str = "string",
             Color = function Color(r, g, b, a) {
@@ -780,7 +780,7 @@ KISSY.add("gallery/chart/color", function(S) {
     return Color;
 });
 
-KISSY.add("gallery/chart/data",function(S){
+KISSY.add("gallery/chart/1.0/data",function(S, Color){
     var P = S.namespace("Gallery.Chart");
 
     /**
@@ -1150,7 +1150,7 @@ KISSY.add("gallery/chart/data",function(S){
 
     return Data;
 },{requires : ["./color"]});
-KISSY.add("gallery/chart/path",function(S){
+KISSY.add("gallery/chart/1.0/path",function(S){
     var ie = S.UA.ie,
         P = S.namespace("Gallery.Chart");
 
@@ -1237,7 +1237,7 @@ KISSY.add("gallery/chart/path",function(S){
         ArcPath:ArcPath
     };
 });
-KISSY.add("gallery/chart/frame",function(S){
+KISSY.add("gallery/chart/1.0/frame",function(S){
     var P = S.namespace("Gallery.Chart");
 
     /**
@@ -1265,7 +1265,7 @@ KISSY.add("gallery/chart/frame",function(S){
     P.Frame = Frame;
     return Frame;
 });
-KISSY.add("gallery/chart/anim",function(S){
+KISSY.add("gallery/chart/1.0/anim",function(S){
     var P = S.namespace("Gallery.Chart"),
         Easing = S.Easing;
     function Anim(duration,easing){
@@ -1289,7 +1289,7 @@ KISSY.add("gallery/chart/anim",function(S){
     P.Anim = Anim;
     return Anim;
 });
-KISSY.add("gallery/chart/simpletooltip",function(S){
+KISSY.add("gallery/chart/1.0/simpletooltip",function(S){
     var P     = S.namespace("Gallery.Chart"),
         Dom   = S.DOM,
         Event = S.Event;
@@ -1360,7 +1360,7 @@ KISSY.add("gallery/chart/simpletooltip",function(S){
     P.SimpleTooltip = SimpleTooltip;
     return SimpleTooltip;
 });
-KISSY.add("gallery/chart/axis", function(S) {
+KISSY.add("gallery/chart/1.0/axis", function(S) {
     var P = KISSY.namespace("Gallery.Chart"),
         Event = S.Event,
         LINE = 'line',
@@ -1679,7 +1679,7 @@ KISSY.add("gallery/chart/axis", function(S) {
     P.Axis = Axis;
     return Axis;
 });
-KISSY.add("gallery/chart/element",function(S){
+KISSY.add("gallery/chart/1.0/element",function(S){
     var P = S.namespace("Gallery.Chart"),
         Dom = S.DOM,
         Event = S.Event;
@@ -1772,7 +1772,7 @@ KISSY.add("gallery/chart/element",function(S){
     P.Element = Element;
     return Element;
 });
-KISSY.add("gallery/chart/element-line",function(S){
+KISSY.add("gallery/chart/1.0/element-line",function(S,Element){
     var P = S.namespace("Gallery.Chart"),
         Dom = S.DOM,
         Event = S.Event;
@@ -1999,7 +1999,7 @@ KISSY.add("gallery/chart/element-line",function(S){
         "./element"
     ]
 });
-KISSY.add("gallery/chart/element-bar",function(S,Element){
+KISSY.add("gallery/chart/1.0/element-bar",function(S,Element){
     var P = S.namespace("Gallery.Chart"),
         Dom = S.DOM,
         Event = S.Event,
@@ -2205,7 +2205,7 @@ KISSY.add("gallery/chart/element-bar",function(S,Element){
 },{
     requires : ["./element"]
 });
-KISSY.add("gallery/chart/element-pie",function(S){
+KISSY.add("gallery/chart/1.0/element-pie",function(S,Element){
     var P = S.namespace("Gallery.Chart"),
         Event = S.Event,
         lighter = function(c){
