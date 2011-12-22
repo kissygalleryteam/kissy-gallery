@@ -6,6 +6,7 @@ KISSY Gallery 说明
 组件目录结构
 -------------------------------
 
+0) **assets 统一使用 UTF-8**;
 
 1) github上 Gallery 目录结构说明:
 
