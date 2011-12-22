@@ -1,0 +1,43 @@
+<!--<!DOCTYPE HTML>-->
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+	<title>chart demo</title>
+    <link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.2.0/cssreset/reset-min.css" />
+	<link rel="stylesheet" href="../assets/uicommon.css" />
+    <script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+
+</head>
+<body>
+<div id="mask" style="width:200px;height:200px;"></div>
+<button id = "btnmask">屏蔽</button>
+<button id = "btnunmask">解除屏蔽</button>
+<script>
+	KISSY.config({
+	        packages:[{
+        		name:"gallery",
+        		tag:"201112081542",
+        		path:"../../../../",
+        		charset:'utf-8'
+        	}]
+	    });
+	
+
+	KISSY.use("gallery/grid/1.0/",function(S,Grid){
+		var lm = new Grid.LoadMask('#mask',{msg:'正在加载。。。'});
+
+		S.one('#btnmask').on('click',function(){
+			lm.show();
+		});
+
+		S.one('#btnunmask').on('click',function(){
+			lm.hide();
+		});
+	});
+
+	
+</script>
+
+</body>
+</html>

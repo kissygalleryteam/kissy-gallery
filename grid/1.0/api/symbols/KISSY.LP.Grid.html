@@ -1,0 +1,1648 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=GBK" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>JsDoc Reference - KISSY.LP.Grid</title>
+
+		<style type="text/css">
+			/* default.css */
+body
+{
+	font: 12px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
+	width: 800px;
+}
+
+.header
+{
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1
+{
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px solid #7F8FB1;
+	height: 1px;
+}
+
+pre.code
+{
+	display: block;
+	padding: 8px;
+	border: 1px dashed #ccc;
+}
+
+#index
+{
+	margin-top: 24px;
+	float: left;
+	width: 160px;
+	position: absolute;
+	left: 8px;
+	background-color: #F3F3F3;
+	padding: 8px;
+}
+
+#content
+{
+	margin-left: 190px;
+	width: 600px;
+}
+
+.classList
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0 0 0 8px;
+	font-family: arial, sans-serif;
+	font-size: 1em;
+	overflow: auto;
+}
+
+.classList li
+{
+	padding: 0;
+	margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+	font-size:170%;
+	line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+	background-color: #7F8FB1;
+	color: #fff;
+	font-size:130%;
+	text-align: left;
+	padding: 2px 6px 2px 6px;
+	border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #7F8FB1 solid;
+	border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+	border-left: 1px #7F8FB1 solid;
+	width: 140px;
+	text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+	line-height: 15px;
+	color: #002EBE;
+	font-family: "Courier New",Courier,monospace;
+	font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+	text-align: left;
+	font-size: 13px;
+	line-height: 15px;
+}
+
+.summaryTable td.nameDescription, .description
+{
+	line-height: 15px;
+	padding: 4px;
+	padding-left: 4px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px; 
+	line-height: 15px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+	color: #777;
+	font-style: italic;
+}
+
+.fineprint
+{
+	text-align: right;
+	font-size: 10px;
+}
+		</style>
+	</head>
+
+	<body>
+<!-- ============================== header ================================= -->	
+		<!-- begin static/header.html -->
+		<div id="header">
+</div>
+		<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center"><a href="../index.html">Class Index</a>
+| <a href="../files.html">File Index</a></div>
+<hr />
+<h2>Classes</h2>
+<ul class="classList">
+	
+	<li><i><a href="_global_.html">_global_</a></i></li>
+	
+	<li><a href="KISSY.LP.html">KISSY.LP</a></li>
+	
+	<li><a href="KISSY.LP.ButtonBar.html">KISSY.LP.ButtonBar</a></li>
+	
+	<li><a href="KISSY.LP.EditGrid.html">KISSY.LP.EditGrid</a></li>
+	
+	<li><a href="KISSY.LP.Format.html">KISSY.LP.Format</a></li>
+	
+	<li><a href="KISSY.LP.FormHelpr.html">KISSY.LP.FormHelpr</a></li>
+	
+	<li><a href="../symbols/KISSY.LP.Grid.html">KISSY.LP.Grid</a></li>
+	
+	<li><a href="KISSY.LP.LoadMask.html">KISSY.LP.LoadMask</a></li>
+	
+	<li><a href="KISSY.LP.PaggingBar.html">KISSY.LP.PaggingBar</a></li>
+	
+	<li><a href="KISSY.LP.Store.html">KISSY.LP.Store</a></li>
+	
+</ul>
+<hr />
+			<!-- end publish.classesIndex -->
+		</div>
+		
+		<div id="content">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class KISSY.LP.Grid
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				
+			
+				表格控件类
+				
+				
+					<br /><i>Defined in: </i> <a href="src/src_grid.js.html">grid.js</a>.
+				
+			</p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class KISSY.LP.Grid.">
+				<caption>Class Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/KISSY.LP.Grid.html#constructor">KISSY.LP.Grid</a></b>(config)
+							</div>
+							<div class="description">表格控件
+用于展示数据</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class KISSY.LP.Grid.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#addSummary">addSummary</a></b>(summary)
+								</div>
+								<div class="description">添加汇总数据</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#clearData">clearData</a></b>()
+								</div>
+								<div class="description">清空表格</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#clearSelection">clearSelection</a></b>()
+								</div>
+								<div class="description">取消选中的记录</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#destory">destory</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#filter">filter</a></b>(field, 过滤字段的值，或者匹配函数)
+								</div>
+								<div class="description">过滤显示数据，根据字段名和字段值过滤数据</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#getSelected">getSelected</a></b>()
+								</div>
+								<div class="description">获取选中的第一条数据</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#getSelection">getSelection</a></b>()
+								</div>
+								<div class="description">获取选中的数据</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#getWidth">getWidth</a></b>()
+								</div>
+								<div class="description">获取表格宽度</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#setHeight">setHeight</a></b>(设置表格的高度)
+								</div>
+								<div class="description">设置表格高度</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#setSelection">setSelection</a></b>(field, values)
+								</div>
+								<div class="description">设置选中的数据</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#showData">showData</a></b>(data)
+								</div>
+								<div class="description">显示数据</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+<!-- ============================== events summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the events documented in the class KISSY.LP.Grid.">
+					<caption>Event Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Event Attributes</th>
+							<th scope="col">Event Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#event:afterappend">afterappend</a></b>(e)
+								</div>
+								<div class="description">附加数据完成</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#event:aftershow">aftershow</a></b>(e)
+								</div>
+								<div class="description">显示数据完成，一般是数据源加载完数据，并在表格上显示完成</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#event:beforepagechange">beforepagechange</a></b>(e)
+								</div>
+								<div class="description">翻页前触发，可以通过 return false ,阻止翻页</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#event:beginappend">beginappend</a></b>(e)
+								</div>
+								<div class="description">开始附加数据</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#event:beginshow">beginshow</a></b>(e)
+								</div>
+								<div class="description">开始显示数据，一般是数据源加载完数据，开始在表格上显示数据</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#event:cellclick">cellclick</a></b>(e)
+								</div>
+								<div class="description">单元格点击事件</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#event:rowclick">rowclick</a></b>(e)
+								</div>
+								<div class="description">行点击事件</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#event:rowcreated">rowcreated</a></b>(e)
+								</div>
+								<div class="description">添加行，一般是数据源添加数据、加载数据后，表格显示对应的行后触发</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#event:rowremoved">rowremoved</a></b>(e)
+								</div>
+								<div class="description">移除行，一般是数据源移除数据后，表格移除对应的行数据</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#event:rowselected">rowselected</a></b>(e, field)
+								</div>
+								<div class="description">行选中事件</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.Grid.html#event:rowunselected">rowunselected</a></b>(e)
+								</div>
+								<div class="description">行取消选中事件</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Class Detail
+				</div>
+				
+				<div class="fixedFont">
+						<b>KISSY.LP.Grid</b>(config)
+				</div>
+				
+				<div class="description">
+					表格控件
+用于展示数据
+					
+				</div>
+				
+				
+				
+				<pre class="code">
+//列配置
+columns:[
+     { title: '点击', sortable: true,  dataIndex: 'Clicks',  showTip: true,renderer:function(value,obj){
+              return value + obj.TotalCost;
+     } },
+     { title: '总花费', sortable: true,  dataIndex: 'TotalCost',cls :'custom1,custom2'}
+     
+},</pre>
+				
+				<pre class="code">//分页栏配置
+tbar:{pageSize : 30}
+//按钮栏配置
+tbar:{buttons:[{id:' ',text:'添加一项',handler:function(event){},css:'bar-btn-add'}]</pre>
+				
+				<pre class="code">
+表格配置项
+var config = {
+	renderTo:'mygrid', //容器Id
+	width:500,// 宽度
+	height:300,//高度
+	checkable:true,//是否允许多选
+	columns: [//列定义
+			   { title: ' ', width: 30, sortable: false, dataIndex: 'SearchEngine',hide : true, renderer: function(data){
+						if(data===4){
+								 return '百度';
+						}else{
+								 return '谷歌';
+						}
+			   }
+			   },
+			   { title: '编号', width: 100, sortable: true, dataIndex: 'AccountId', selectable: true },
+	 
+			   { title: '账户', width: 200, sortable: false, dataIndex: 'AccountName', selectable: true,renderer:function(value){
+						if(S.isArray(value)){
+								 return value.join('');
+						}
+						return value;
+			   } },
+			   { title: '点击', sortable: true,  dataIndex: 'Clicks',  showTip: true,renderer:function(value,obj){
+						return value + obj.TotalCost;
+			   } },
+			   { title: '总花费', sortable: true,  dataIndex: 'TotalCost',editor:{type:'number'}
+			   },
+			   { title: '总花费', sortable: true,  dataIndex: 'sum',renderer:function(value,obj){
+								 return obj.TotalCost *2;
+						}
+			   }       
+			  
+	],
+	forceFit:true,//强制列自适应，使表格无滚动条
+	store:store,//数据缓冲对象
+	tbar:{buttons:[{id:' ',text:'添加一项',handler:function(event){},css:'bar-btn-add'}]
+	},//上面按钮栏
+	bbar:{pageSize:30},//下面翻页栏
+	loadMask:true//是否显示加载，当加载数据时，会屏蔽表格并显示，Loading...信息
+	};</pre>
+				
+				
+				
+				
+					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{Object}</span>  <b>config</b>
+								
+							</dt>
+								<dd>配置项</dd>
+						
+							<dt>
+								<span class="light fixedFont">{String}</span>  <b>config.renderTo</b>
+								
+							</dt>
+								<dd>渲染到目标的Id</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Array}</span>  <b>config.columns</b>
+								
+							</dt>
+								<dd>列的配置项</dd>
+						
+							<dt>
+								<span class="light fixedFont">{String}</span>  <b>config.columns[0].title</b>
+								
+							</dt>
+								<dd>标题</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Number}</span>  <b>config.columns[0].width</b>
+								<i>Optional, Default: 80</i>
+							</dt>
+								<dd>列宽度</dd>
+						
+							<dt>
+								<span class="light fixedFont">{String}</span>  <b>config.columns[0].dataIndex</b>
+								
+							</dt>
+								<dd>对应的列字段</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Boolean}</span>  <b>config.columns[0].sortable</b>
+								<i>Optional, Default: false</i>
+							</dt>
+								<dd>此列是否可排序</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Boolean}</span>  <b>config.columns[0].hide</b>
+								<i>Optional, Default:  false</i>
+							</dt>
+								<dd>是否隐藏此列</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Function}</span>  <b>config.columns[0].renderer</b>
+								<i>Optional</i>
+							</dt>
+								<dd>一个格式化函数，将数据转换成对应的格式显示，或者提供具体的Dom结构。</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Boolean}</span>  <b>config.columns[0].showTip</b>
+								<i>Optional, Default: false</i>
+							</dt>
+								<dd>显示完整信息，截断文本时使用</dd>
+						
+							<dt>
+								<span class="light fixedFont">{String}</span>  <b>config.columns[0].cls</b>
+								<i>Optional</i>
+							</dt>
+								<dd>表头应用的样式，多个样式用 “,” 分割</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Number}</span>  <b>config.width</b>
+								<i>Optional</i>
+							</dt>
+								<dd>表格宽度，默认下表格的宽度等于父元素的宽度，如果内容宽度超过设置的宽度，会出现横向滚动条</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Number}</span>  <b>config.height</b>
+								<i>Optional</i>
+							</dt>
+								<dd>表格高度，默认状态表格高度根据内容自动扩展，如果内容高度超过设置的宽度，会出现纵向滚动条</dd>
+						
+							<dt>
+								<span class="light fixedFont">{S.LP.Store}</span>  <b>config.store</b>
+								<i>Optional</i>
+							</dt>
+								<dd>数据缓冲对象，对数据的操作集成在此对象中 @see S.LP.Store</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Bar}</span>  <b>config.tbar</b>
+								<i>Optional</i>
+							</dt>
+								<dd>表格上部的按钮栏，如果内部包含 pageSize属性则为分页栏，否则为普通按钮栏</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Number}</span>  <b>config.tbar.pageSize</b>
+								<i>Optional</i>
+							</dt>
+								<dd>分页栏的单页记录条数，用于计算分页</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Array}</span>  <b>config.tbar.buttons</b>
+								<i>Optional</i>
+							</dt>
+								<dd>按钮栏的按钮配置</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Bar}</span>  <b>config.bbar</b>
+								
+							</dt>
+								<dd>同 config.tbar</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Boolean}</span>  <b>config.loadMask</b>
+								<i>Optional, Default:  true</i>
+							</dt>
+								<dd>加载数据时，是否显示屏蔽,</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Boolean}</span>  <b>config.checkable</b>
+								<i>Optional, Default:  false</i>
+							</dt>
+								<dd>: 是否多选，显示选择框,</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Boolean}</span>  <b>config.forceFit</b>
+								<i>Optional, Default: false</i>
+							</dt>
+								<dd>: 当指定了表格宽度时，有时候会出现横向滚动条，此配置项强制列适应表格宽度</dd>
+						
+						</dl>
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name="addSummary"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>addSummary</b>(summary)
+					
+					</div>
+					<div class="description">
+						添加汇总数据
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>summary</b>
+									
+								</dt>
+								<dd>汇总数据</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="clearData"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>clearData</b>()
+					
+					</div>
+					<div class="description">
+						清空表格
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="clearSelection"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>clearSelection</b>()
+					
+					</div>
+					<div class="description">
+						取消选中的记录
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="destory"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>destory</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="filter"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>filter</b>(field, 过滤字段的值，或者匹配函数)
+					
+					</div>
+					<div class="description">
+						过滤显示数据，根据字段名和字段值过滤数据
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">
+	grid.filter('id',124); //仅显示 id ==124的行
+	
+	grid.filter('id',function(value){
+		if(value>124)
+			return true;//返回true显示
+		return false;	//返回false 不显示
+	});</pre>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>field</b>
+									
+								</dt>
+								<dd>字段名</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object|Function}</span> <b>过滤字段的值，或者匹配函数</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getSelected"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Object}</span>
+					<b>getSelected</b>()
+					
+					</div>
+					<div class="description">
+						获取选中的第一条数据
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> 返回选中的第一条数据</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getSelection"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Array}</span>
+					<b>getSelection</b>()
+					
+					</div>
+					<div class="description">
+						获取选中的数据
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Array}</span> 返回选中的数据</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getWidth"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getWidth</b>()
+					
+					</div>
+					<div class="description">
+						获取表格宽度
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="setHeight"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setHeight</b>(设置表格的高度)
+					
+					</div>
+					<div class="description">
+						设置表格高度
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>设置表格的高度</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setSelection"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setSelection</b>(field, values)
+					
+					</div>
+					<div class="description">
+						设置选中的数据
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">	grid.setSelection('id',['123','22']);</pre>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>field</b>
+									
+								</dt>
+								<dd>字段名称</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Array}</span> <b>values</b>
+									
+								</dt>
+								<dd>选中行的对应字段的值</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="showData"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>showData</b>(data)
+					
+					</div>
+					<div class="description">
+						显示数据
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Array}</span> <b>data</b>
+									
+								</dt>
+								<dd>显示的数据</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					
+				
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+				<div class="sectionTitle">
+					Event Detail
+				</div>
+				
+					<a name="event:afterappend"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>afterappend</b>(e)
+					
+					</div>
+					<div class="description">
+						附加数据完成
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{event}</span> <b>e</b>
+									
+								</dt>
+								<dd>事件对象</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Array}</span> <b>e.data</b>
+									
+								</dt>
+								<dd>附加显示的数据</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Array}</span> <b>e.rows</b>
+									
+								</dt>
+								<dd>附加显示的数据行DOM结构</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="event:aftershow"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>aftershow</b>(e)
+					
+					</div>
+					<div class="description">
+						显示数据完成，一般是数据源加载完数据，并在表格上显示完成
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{event}</span> <b>e</b>
+									
+								</dt>
+								<dd>事件对象</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="event:beforepagechange"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>beforepagechange</b>(e)
+					
+					</div>
+					<div class="description">
+						翻页前触发，可以通过 return false ,阻止翻页
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{event}</span> <b>e</b>
+									
+								</dt>
+								<dd>事件对象</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>e.from</b>
+									
+								</dt>
+								<dd>当前页</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>e.to</b>
+									
+								</dt>
+								<dd>目标页</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="event:beginappend"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>beginappend</b>(e)
+					
+					</div>
+					<div class="description">
+						开始附加数据
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{event}</span> <b>e</b>
+									
+								</dt>
+								<dd>事件对象</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Array}</span> <b>e.data</b>
+									
+								</dt>
+								<dd>附加显示的数据</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="event:beginshow"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>beginshow</b>(e)
+					
+					</div>
+					<div class="description">
+						开始显示数据，一般是数据源加载完数据，开始在表格上显示数据
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{event}</span> <b>e</b>
+									
+								</dt>
+								<dd>事件对象</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="event:cellclick"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>cellclick</b>(e)
+					
+					</div>
+					<div class="description">
+						单元格点击事件
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{event}</span> <b>e</b>
+									
+								</dt>
+								<dd>事件对象</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>e.data</b>
+									
+								</dt>
+								<dd>行对应的记录</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>e.row</b>
+									
+								</dt>
+								<dd>点击行对应的DOM对象</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="event:rowclick"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>rowclick</b>(e)
+					
+					</div>
+					<div class="description">
+						行点击事件
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{event}</span> <b>e</b>
+									
+								</dt>
+								<dd>事件对象</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>e.data</b>
+									
+								</dt>
+								<dd>行对应的记录</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>e.row</b>
+									
+								</dt>
+								<dd>行对应的DOM对象</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="event:rowcreated"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>rowcreated</b>(e)
+					
+					</div>
+					<div class="description">
+						添加行，一般是数据源添加数据、加载数据后，表格显示对应的行后触发
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{event}</span> <b>e</b>
+									
+								</dt>
+								<dd>事件对象</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>e.data</b>
+									
+								</dt>
+								<dd>行对应的记录</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>e.row</b>
+									
+								</dt>
+								<dd>行对应的DOM对象</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="event:rowremoved"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>rowremoved</b>(e)
+					
+					</div>
+					<div class="description">
+						移除行，一般是数据源移除数据后，表格移除对应的行数据
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{event}</span> <b>e</b>
+									
+								</dt>
+								<dd>事件对象</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>e.data</b>
+									
+								</dt>
+								<dd>行对应的记录</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>e.row</b>
+									
+								</dt>
+								<dd>行对应的DOM对象</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="event:rowselected"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>rowselected</b>(e, field)
+					
+					</div>
+					<div class="description">
+						行选中事件
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{event}</span> <b>e</b>
+									
+								</dt>
+								<dd>事件对象</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>e.data</b>
+									
+								</dt>
+								<dd>行对应的记录</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>e.row</b>
+									
+								</dt>
+								<dd>行对应的DOM对象</dd>
+							
+								<dt>
+									<span class="light fixedFont">{DOM}</span> <b>e.cell</b>
+									
+								</dt>
+								<dd>点击的单元格对应的DOM对象</dd>
+							
+								<dt>
+									<span class="light fixedFont">{DOM}</span> <b>e.domTarget</b>
+									
+								</dt>
+								<dd>触发事件的DOM对象 等同浏览器事件中的e.target</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>field</b>
+									
+								</dt>
+								<dd>此单元格对应的字段名</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="event:rowunselected"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>rowunselected</b>(e)
+					
+					</div>
+					<div class="description">
+						行取消选中事件
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{event}</span> <b>e</b>
+									
+								</dt>
+								<dd>事件对象</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>e.data</b>
+									
+								</dt>
+								<dd>行对应的记录</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>e.row</b>
+									
+								</dt>
+								<dd>行对应的DOM对象</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					
+				
+			
+			
+			<hr />
+		</div>
+
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu Dec 15 2011 13:56:01 GMT+0800 (CST)
+		</div>
+	</body>
+</html>

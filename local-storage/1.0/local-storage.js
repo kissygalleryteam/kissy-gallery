@@ -24,7 +24,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-KISSY.add('gallery/1.0/local-storage', function(S, undefined) {
+KISSY.add('gallery/local-storage/1.0/local-storage', function(S, undefined) {
     var win = S.__HOST,
         doc = document, useObject = doc.documentElement;
     useObject.style.behavior = 'url(#default#userData)';
