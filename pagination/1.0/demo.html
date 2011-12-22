@@ -1,0 +1,586 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>KISSY gallery - Pagination</title>
+<link rel="shortcut icon" href="../../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../../kissy-dpl/base/assets/kissy-docs.css"/>
+<link rel="stylesheet" href="http://docs.kissyui.com/docs/html/static/demo/menu/assets/c2c-ui.css"/>
+<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+<script src="../../../kissy-dpl/base/assets/kissy-docs.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+<script type="text/template" id="default-pagination-tpl-simple">
+    {{#! 显示上一页 }}
+    {{#if currentPage === startPage }}
+    <a class="pg-prev pg-disabled">上一页</a>
+    {{#else}}
+    <a class="pg-prev" href="#" data-page="{{ currentPage - 1 }}">上一页</a>
+    {{/if}}
+
+    {{#! 显示下一页 }}
+    {{#if !hasNext }}
+    <a class="pg-next pg-disabled">下一页</a>
+    {{#else}}
+    <a class="pg-next" href="#" data-page="{{ currentPage + 1 }}">下一页</a>
+    {{/if}}
+</script>
+<script type="text/template" id="default-pagination-tpl">
+    {{#! 显示首页 }}
+    {{#if currentPage === startPage }}
+    <a class="pg-prev pg-first pg-disabled" href="#">首页</a>
+    {{#else}}
+    <a class="pg-prev pg-first" href="#" data-page="{{ startPage }}">首页</a>
+    {{/if}}
+
+    {{#! 显示上一页 }}
+    {{#if currentPage === startPage }}
+    <a class="pg-prev pg-disabled">上一页</a>
+    {{#else}}
+    <a class="pg-prev" href="#" data-page="{{ currentPage - 1 }}">上一页</a>
+    {{/if}}
+
+    {{#if showPageNum }}
+    {{#! 左边固定显示几页, 如固定显示 1 和 2 }}
+    {{#if currentPage > startPage + alwaysDisplayCount - 1}}
+    {{#for var i = 0; i < alwaysDisplayCount; i++ }}
+    {{#! 避免后面重复显示 }}
+    {{#if i + startPage < startIndex }}
+    <a class="pg-page pg-item" href="#" data-page="{{ i + startPage }}">{{ i + startPage }}</a>
+    {{/if}}
+    {{/for}}
+    {{/if}}
+
+    {{#! 是否显示省略号 }}
+    {{#if ellipseText && startIndex > startPage + alwaysDisplayCount }}
+    <span class="pg-item">…</span>
+    {{/if}}
+
+    {{#! 显示页数 }}
+    {{#for var i = startIndex; i <= endIndex; i++ }}
+    {{#if currentPage !== i }}
+    <a class="pg-page pg-item" href="#" data-page="{{ i }}">{{ i }}</a>
+    {{#else}}
+    <span class="pg-current pg-item">{{ i }}</span>
+    {{/if}}
+    {{/for}}
+
+    {{#! 是否显示省略号 }}
+    {{#if ellipseText && endIndex < endPage - alwaysDisplayCount }}
+    <span class="pg-item">…</span>
+    {{/if}}
+
+    {{#! 右边固定显示几页 }}
+    {{#if currentPage < endPage - alwaysDisplayCount + 1 }}
+    {{#for var i = endPage - alwaysDisplayCount + 1; i <= endPage; i++ }}
+    {{#if i > endIndex }}
+    <a class="pg-page pg-item" href="#" data-page="{{ i }}">{{ i }}</a>
+    {{/if}}
+    {{/for}}
+    {{/if}}
+    {{/if}}
+
+    {{#! 显示下一页 }}
+    {{#if currentPage === endPage }}
+    <a class="pg-next pg-disabled">下一页</a>
+    {{#else}}
+    <a class="pg-next" href="#" data-page="{{ currentPage + 1 }}">下一页</a>
+    {{/if}}
+
+    {{#! 显示末页 }}
+    {{#if currentPage === endPage }}
+    <a class="pg-next pg-last pg-disabled" href="#">末页</a>
+    {{#else}}
+    <a class="pg-next pg-last" href="#" data-page="{{ endPage }}">末页</a>
+    {{/if}}
+</script>
+<script type="text/template" id="default-pagination-tpl-2">
+    {{#! 显示首页 }}
+    {{#if currentPage === startPage }}
+    <a class="pg-prev pg-first pg-disabled" href="#">首页</a>
+    {{#else}}
+    <a class="pg-prev pg-first" href="#" data-page="{{ startPage }}">首页</a>
+    {{/if}}
+
+    {{#! 显示上一页 }}
+    {{#if currentPage === startPage }}
+    <a class="pg-prev pg-disabled">上一页</a>
+    {{#else}}
+    <a class="pg-prev" href="#" data-page="{{ currentPage - 1 }}">上一页</a>
+    {{/if}}
+
+    {{#if showPageNum }}
+    {{#! 左边固定显示几页, 如固定显示 1 和 2 }}
+    {{#if currentPage > startPage + alwaysDisplayCount - 1}}
+    {{#for var i = 0; i < alwaysDisplayCount; i++ }}
+    {{#! 避免后面重复显示 }}
+    {{#if i + startPage < startIndex }}
+    <a class="pg-page pg-item" href="#" data-page="{{ i + startPage }}">{{ i + startPage }}</a>
+    {{/if}}
+    {{/for}}
+    {{/if}}
+
+    {{#! 是否显示省略号 }}
+    {{#if ellipseText && startIndex > startPage + alwaysDisplayCount }}
+    <span class="pg-item">…</span>
+    {{/if}}
+
+    {{#! 显示页数 }}
+    {{#for var i = startIndex; i <= endIndex; i++ }}
+    {{#if currentPage !== i }}
+    <a class="pg-page pg-item" href="#" data-page="{{ i }}">{{ i }}</a>
+    {{#else}}
+    <span class="pg-current pg-item">{{ i }}</span>
+    {{/if}}
+    {{/for}}
+
+    {{#! 是否显示省略号 }}
+    {{#if ellipseText && endIndex < endPage - alwaysDisplayCount }}
+    <span class="pg-item">…</span>
+    {{/if}}
+
+    {{#! 右边固定显示几页 }}
+    {{#if currentPage < endPage - alwaysDisplayCount + 1 }}
+    {{#for var i = endPage - alwaysDisplayCount + 1; i <= endPage; i++ }}
+    {{#if i > endIndex }}
+    <a class="pg-page pg-item" href="#" data-page="{{ i }}">{{ i }}</a>
+    {{/if}}
+    {{/for}}
+    {{/if}}
+    {{/if}}
+
+    {{#! 显示下一页 }}
+    {{#if currentPage === endPage }}
+    <a class="pg-next pg-disabled">下一页</a>
+    {{#else}}
+    <a class="pg-next" href="#" data-page="{{ currentPage + 1 }}">下一页</a>
+    {{/if}}
+
+    {{#! 显示末页 }}
+    {{#if currentPage === endPage }}
+    <a class="pg-next pg-last pg-disabled" href="#">末页</a>
+    {{#else}}
+    <a class="pg-next pg-last" href="#" data-page="{{ endPage }}">末页</a>
+    {{/if}}
+
+    {{#! 显示当前页和总页数}}
+    <span class="pg-skip">
+        共{{ endPage - startPage + 1 }}页 到第
+        <!--<form method="get" action="/search?q=mp3&amp;tab=all" >-->
+            <input type="text" id="J_jumpTo" size="2" class="pg-jump" value="{{ currentPage }}"/>页
+            <button type="submit" class="J_jumpToBtn pg-next">确定</button>
+        <!--</form>-->
+    </span>
+    <select name="decorateSelect" id="decorateSelect">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+    </select>
+</script>
+</head>
+<body>
+<div id="header">
+    <h1 class="logo"><a href="http://kissyui.com/"><img src="../../../kissy-dpl/base/assets/logo.png" alt="KISSY"/></a></h1>
+    <div class="sub-title">Gallery</div>
+    <ul class="navigation">
+        <li><a href="http://blog.kissyui.com/">博客</a></li>
+        <li><a href="http://github.com/kissyteam">源码</a></li>
+    </ul>
+</div>
+<div id="content">
+<div class="s-crumbs">
+    <span>当前位置：</span>
+    <a href="http://kissyui.com/">KISSY</a>
+    <a href="../../index.html">Gallery</a>
+    <span>Pagination</span>
+</div>
+			<pre class="s-section">				
+作者：shengyan1985@gmail.com(乔花)
+功能：function
+描述：function description
+源码：<a href="pagination.js">pagination.js</a></pre>
+
+<h3 class="s-title">Demo - 客户端翻页+完全显示页码</h3>
+<div class="s-section">
+    <div class="s-demo">
+        <ul class="friends-list ks-clear" id="J_FriendsList"></ul>
+        <script id="friend-item-tpl" type="text/template">
+            <li class="friends-items tl-follow-items">
+                <p class="pic">
+                    <a href="{{spaceUrl}}" target="_blank"> <img width="60" height="60" src="{{userPicUrl}}" alt="{{userRealName}}"/></a>
+                </p>
+                <p class="name">
+                    <a href="{{spaceUrl}}" target="_blank" title="{{showTitle}}">{{showTitle}}<span class="J_WangWang" data-nick="{{userNick}}" data-icon="small"></span></a>
+                </p>
+                <p class="add-friend" data-param="{'starId':'{{userId}}'}">
+                    <a class="tl-button tl-gray-bt" href="#" data-friendId="{{userId}}"><span class="tl-focus J_tl-focus">加为好友</span></a>
+                </p>
+            </li>
+        </script>
+        <div class="pagination" id="page1"></div>
+        <script>
+            KISSY.use('gallery/pagination/1.0/pagination,gallery/pagination/1.0/tmp/friends,gallery/pagination/1.0/tmp/demo.css,gallery/pagination/1.0/assets/pagination.css', function(S, P, FriendList, undefined) {
+                var tpl = S.Template(S.one('#friend-item-tpl').html()),
+                        pagesize = 5,  // 设置页数
+                        tp = parseInt((FriendList.friendList.length + pagesize - 0.5) / pagesize),// 计算总共页数
+                        content = S.one('#J_FriendsList'),
+                        pagination = new P({
+                            container: '#page1',
+                            totalPage: tp,
+                            template: S.one('#default-pagination-tpl').html(),
+                            ellipseText: false,
+                            callback: function(idx, pg, ready) {
+                                // 更新数据
+                                content.html('');
+                                for (var i = (idx - 1) * pagesize; i < Math.min(idx * pagesize, FriendList.friendList.length); i++) {
+                                    content.append(new S.Node(tpl.render(FriendList.friendList[i])));
+                                }
+                                // 加载完内容后, 通知下分页器更新加载状态
+                                ready(idx);
+                                return false;
+                            }
+                        });
+
+                // 事件支持
+                pagination.on('beforePageChange', function(v) {
+                    S.log(v.idx);
+                });
+                pagination.on('afterPageChange', function(v) {
+                    S.log(v.idx);
+                });
+            });
+        </script>
+    </div>
+    <a class="s-view-code" href="#">显示源码</a>
+</div>
+
+<h3 class="s-title">Demo - 服务器端同步翻页</h3>
+<div class="s-section">
+    <div class="s-demo">
+        <div class="page-content" id="page-content-2">
+<pre>
+    - 点击页码, 刷新页面;
+    - 刷新后, 需要设置 currentPage 为当前页;
+    - loadCurrentPage 必须为 false;
+</pre>
+        </div>
+        <div class="pagination" id="page2"></div>
+        <script>
+            KISSY.use('gallery/pagination/1.0/pagination', function(S, P) {
+                function getCurrentPage() {
+                    return S.unparam(window.location.search.substring(1)).page || 1;
+                }
+
+                var content = S.one('#page-content-2'),
+                        pagination = new P({
+                            container: '#page2',
+                            totalPage: 10,
+                            template: S.one('#default-pagination-tpl').html(),
+                            currentPage: getCurrentPage(),
+                            loadCurrentPage: false,
+                            callback: function(idx, pg, ready) {
+                                // 同步刷新方式, 注意 loadCurrentPage 必须设为 false
+                                var url = window.location.href,
+                                        anchor = '',
+                                        anchorIndex = url.indexOf('#');
+
+                                if (anchorIndex > -1) {
+                                    anchor = url.substring(anchorIndex);
+                                    url = url.substring(0, anchorIndex);
+                                }
+
+                                if (url.indexOf('?') === -1) url += '?';
+                                else url += '&';
+
+                                url = url.replace(/page=\-?\d+&*/ig, "");
+
+                                // 加载完内容后, 通知下分页器更新加载状态
+                                ready(idx);
+
+                                // 页面跳转
+                                window.location.href = url + 'page=' + idx + anchor;
+                            }
+                        });
+            });
+        </script>
+    </div>
+    <a class="s-view-code" href="#">显示源码</a>
+</div>
+
+<h3 class="s-title">Demo - 服务器端异步翻页</h3>
+<div class="s-section">
+    <div class="s-demo">
+        <div class="page-content" id="page-content-4"></div>
+        <div class="pagination" id="page4"></div>
+        <script>
+            KISSY.use('gallery/pagination/1.0/pagination', function(S, P) {
+                var content = S.one('#page-content-4'),
+
+                        pagination = new P({
+                            container: '#page4',
+                            totalPage: 10,
+                            template: S.one('#default-pagination-tpl').html(),
+                            callback: function(idx, pg, ready) {
+                                // show loading
+                                content.html('').addClass('loading');
+
+                                S.ajax({
+                                    url: 'http://api.flickr.com/services/rest/',
+                                    dataType: 'jsonp',
+                                    data: {
+                                        'method': 'flickr.favorites.getPublicList',
+                                        'api_key': '5d93c2e473e39e9307e86d4a01381266',
+                                        'user_id': '26211501@N07',
+                                        'per_page': 10,
+                                        'format': 'json',
+                                        'page': idx
+                                    },
+                                    jsonp: 'jsoncallback',
+                                    //jsonpCallback: 'getFavorites',
+                                    success: function(data) {
+                                        var html = 'Fetch photo failed, pls try again!';
+
+                                        if (data.stat === 'ok') {
+                                            html = '';
+                                            S.each(data.photos.photo, function(item, i) {
+                                                html += '<img src="http://farm' + item.farm + '.static.flickr.com/'
+                                                        + item.server + '/' + item.id + '_' + item.secret + '_t.jpg" />';
+                                            });
+                                        }
+                                        content.removeClass('loading').html(html);
+
+                                        // 加载完内容后, 通知下分页器更新加载状态
+                                        ready(idx);
+                                    },
+                                    error: function(data) {
+                                        content.removeClass('loading').html('error in request data.');
+                                        ready(idx);
+                                    }
+                                });
+                            }
+                        });
+            });
+        </script>
+    </div>
+    <a class="s-view-code" href="#">显示源码</a>
+</div>
+
+<h3 class="s-title">Demo - 无法确定总页数时的分页器</h3>
+<div class="s-section">
+    <div class="s-demo">
+        <div class="page-content" id="page-content-3">
+        </div>
+        <div class="pagination pagination-normal">
+            <div class="pagination-wrapper" id="page3"></div>
+        </div>
+        <script>
+            KISSY.use('gallery/pagination/1.0/pagination', function(S, P) {
+                var content = S.one('#page-content-3'),
+                        pagination = new P({
+                            container: '#page3',
+                            template: S.one('#default-pagination-tpl-simple').html(),
+                            callback: function(idx, pg, ready) {
+                                // 清空当前HTML
+                                content.html('第' + idx + '页的内容');
+
+                                // 注意: 无法确定总页数时, 务必手工更新 hasNext 标志
+                                pg.set('hasNext', idx < 10);
+                                ready(idx);
+                            }
+                        });
+            });
+        </script>
+    </div>
+    <a class="s-view-code" href="#">显示源码</a>
+</div>
+
+<h3 class="s-title">Demo - 更多定制</h3>
+<div class="s-section">
+    <div class="s-demo">
+        <div class="page-content" id="page-content-5"></div>
+        <div class="pagination" id="page5"></div>
+        <script>
+            KISSY.use('gallery/pagination/1.0/pagination, menubutton', function(S, P, MenuButton) {
+                var content = S.one('#page-content-5'),
+                        pagesize = 10,
+                        pagination = new P({
+                            container: '#page5',
+                            totalPage: 10,
+                            template: S.one('#default-pagination-tpl-2').html(),
+                            callback: function(idx, pg, ready) {
+                                // show loading
+                                content.html('').addClass('loading');
+
+                                S.ajax({
+                                    url: 'http://api.flickr.com/services/rest/',
+                                    dataType: 'jsonp',
+                                    data: {
+                                        'method': 'flickr.favorites.getPublicList',
+                                        'api_key': '5d93c2e473e39e9307e86d4a01381266',
+                                        'user_id': '26211501@N07',
+                                        'per_page': pagesize,
+                                        'format': 'json',
+                                        'page': idx
+                                    },
+                                    jsonp: 'jsoncallback',
+                                    //jsonpCallback: 'getFavorites',
+                                    success: function(data) {
+                                        var html = 'Fetch photo failed, pls try again!';
+
+                                        if (data.stat === 'ok') {
+                                            html = '';
+                                            S.each(data.photos.photo, function(item, i) {
+                                                html += '<img src="http://farm' + item.farm + '.static.flickr.com/'
+                                                        + item.server + '/' + item.id + '_' + item.secret + '_t.jpg" />';
+                                            });
+                                        }
+                                        content.removeClass('loading').html(html);
+
+                                        // 加载完内容后, 通知下分页器更新加载状态
+                                        ready(idx);
+                                    },
+                                    error: function(data) {
+                                        content.removeClass('loading').html('error in request data.');
+                                        ready(idx);
+                                    }
+                                });
+                            },
+                            events: {
+                                'J_jumpToBtn': {
+                                    click: function(e) {
+                                        var pg = this;
+                                        pg.page(pg.get('container').one('#J_jumpTo').val());
+                                    }
+                                }
+                            }
+                        }),
+                        newSelect = function() {
+                            var select = MenuButton.Select.decorate('#decorateSelect', {
+                                prefixCls:"c2c-",
+                                menuAlign:{
+                                    offset:[0,-1]
+                                },
+                                menuCfg:{
+                                    width:82,
+                                    height:150,
+                                    elStyle:{
+                                        overflow:"auto",
+                                        overflowX:"hidden"
+                                    }
+                                }
+                            });
+                            select.on("click", function(e) {
+                                pagesize = select.get("value");
+                                // 更新页码后, 重新获取数据;
+                                pagination.page(pagination.get('currentPage'));
+                            });
+                            select.set("value", pagesize);
+                            return select;
+                        },
+                        select = newSelect();
+
+                pagination.on('beforePageChange', function(v) {
+                    // 更新分页器前, 销毁其他组件
+                    select && select.destroy();
+                });
+                pagination.on('afterPageChange', function(v) {
+                    // 重新初始化 select
+                    select = newSelect();
+                });
+            });
+        </script>
+    </div>
+    <a class="s-view-code" href="#">显示源码</a>
+</div>
+<h3 class="s-title">API</h3>
+<div class="s-section">
+    <h4 class="s-api-title">方法</h4>
+    <div class="s-api-method">KISSY.gallery.Pagination ( cfg )</div>
+    <h4 class="s-api-title">配置项</h4>
+    <div class="s-api-params">
+        <ul class="s-list">
+            <li>{String|HTMLElement|KISSY.Node} [ <em>container</em> ] 必设. 分页的 DOM 容器</li>
+            <li>{Function} [ <em>callback</em> ] 点击分页项时, 调用的函数, 其带三个参数:
+<pre>
+    *  - idx: 新页号
+    *  - pg obj: 当前分页对象
+    *  - ready: fn 供外部调用者, 当切换好页时, 更新分页HTML等后续操作
+</pre>
+            </li>
+            <li>{Number} [ <em>currentPage</em> = 1 ] 当前页序号</li>
+            <li>{Number} [ <em>displayPageCount</em> = 2] 显示多少页. 当为0时, 表示只显示上一页/下一页; 默认为2, 例如 prev1 prev2 current next1 next2 </li>
+            <li>{Number} [ <em>alwaysDisplayCount</em> = 1] 总是显示前x页或后x页. </li>
+            <li>{Number} [ <em>totalPage</em> ] 总共多少页, 当不设值该值时, 不能计算页码, 只能显示上一页和下一页</li>
+            <li>{Boolean} [ <em>hasNext</em> = true ] 是否有下一页, 供那些不明确页数情况下使用</li>
+            <li>{Number} [ <em>firstPage</em> = 1 ] 首页序号从哪边开始计</li>
+            <li>{Boolean} [ <em>ellipseText</em> = true ] 是否出现省略符号</li>
+            <li>{Boolean} [ <em>loadCurrentPage</em> = true ] 是否初始加载当前页</li>
+            <li>{String} [ <em>template</em> = '' ] 分页模板</li>
+            <li>{String} [ <em>pageRedirectHook</em> = 'data-page' ] 钩子标志, 点击元素上如果有该标志, 需要跳转到特定页</li>
+            <li>{Object} [ <em>events</em> = {} ] 定制事件支持. 例如:
+            <pre>
+{
+  'J_className1': {
+      click: function(e) {
+           // do sth
+      }
+  }
+  'J_className2': {
+      click: "page"
+  }
+}
+            </pre>
+            </li>
+        </ul>
+    </div>
+    <h4 class="s-api-title">模板</h4>
+    <div class="s-api-params">
+        <pre>
+    // 参考该页源码头部的几个 script type="text/template"
+</pre>
+    </div>
+    <h4 class="s-api-title">方法</h4>
+    <div class="s-api-params">
+        <ul class="s-list">
+            <li>page(idx): 跳转到指定页.</li>
+            <li>update(): 根据当前状态更新分页器.</li>
+            <li>destroy(idx): 销毁.</li>
+        </ul>
+    </div>
+    <h4 class="s-api-title">事件</h4>
+    <div class="s-api-params">
+        <ul class="s-list">
+            <li>继承于 S.Base, 所以支持各个配置项的 beforeAttrChange/afterAttrChange 事件.</li>
+            <li>beforePageChange: 在分页跳转之前触发, return false 阻止此次页面跳转.</li>
+            <li>afterPageChange: 在分页器更新之后触发.</li>
+        </ul>
+    </div>
+</div>
+
+<h3 class="s-title">Note</h3>
+<div class="s-section">
+    <ul class="s-list">
+        <li>1) 增加模板支持, 各种定制需求和样式定义完全由用户决定;</li>
+        <li>2) 支持前端分页/客户端分页;</li>
+        <li>3) ... </li>
+    </ul>
+</div>
+</div>
+<div id="footer">
+    &copy; Copyright 2010~2011, KISSY Team.
+</div>
+</body>
+</html>
