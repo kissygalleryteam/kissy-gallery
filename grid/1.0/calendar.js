@@ -1,7 +1,7 @@
 ﻿/*
 *
 */
-KISSY.add("gallery/grid/calendar",function(S){
+KISSY.add("gallery/grid/1.0/calendar",function(S){
 	function calendar(list){
 		var DOM = S.DOM 
 			Event = S.Event,
@@ -32,24 +32,7 @@ KISSY.add("gallery/grid/calendar",function(S){
 			if(item.config){
 				datatime = new S.Calendar(item.selector,item.config) ;
 			}
-			/*else if(item.rangeSelect){
-				var selector = S.one(item.selector),
-					start = selector.parent().one('.range-start').val(),
-					end = selector.parent().one('.range-end').val(),
-					range = {start : showdate(-1,new Date(start)),end : showdate(-1,new Date(end))};
-				DOM.val(item.selector,start+' 到 '+end);
-				datatime = new S.Calendar(item.selector,{
-					minDate:min,
-					maxDate:max,
-					showTime:item.showTime,
-					popup:true,
-					pages:2,
-					range :range,
-					rangeSelect:true,
-					triggerType:['click']
-				});		
-				
-			}*/else{
+			else{
 				var selected = Date.parse(DOM.val(item.selector).replace(/\-/g,"/"));
 				datatime = new S.Calendar(item.selector,{
 					minDate:min,
@@ -60,24 +43,13 @@ KISSY.add("gallery/grid/calendar",function(S){
 					triggerType:['click']
 				});
 			}
-			/*if(item.rangeSelect){
-				datatime.on('rangeSelect', function(e) {
-					var selector = S.one(item.selector);
-					selector.val(getDate(e.start) + ' 到 ' + getDate(e.end)),
-					selector.parent().one('.range-start').val(getDate(e.start)),
-					selector.parent().one('.range-end').val(getDate(e.end));
-					datatime.hide();
-				});
-			}else{*/
-				datatime.on(method,function(ev){
-					var p = DOM.get(item.selector) ;
-					DOM.val(p,getDate(ev.date)) ;
-					this.hide();
-					p.focus();
-				});
-			/*}	*/		
-			
-			
+			datatime.on(method,function(ev){
+				var p = DOM.get(item.selector) ;
+				DOM.val(p,getDate(ev.date)) ;
+				this.hide();
+				p.focus();
+			});
+
 			Event.on(item.selector,"valuechange",function(ev){
 				if(!(ev.keyCode == 8 || ev.keyCode == 46)){
 					DOM.val(this,"");
@@ -102,4 +74,4 @@ KISSY.add("gallery/grid/calendar",function(S){
 
 	return calendar;
 
-},{requires: ["core","calendar","./validation","calendar/assets/base.css"]});
+},{requires: ["core","calendar"]});

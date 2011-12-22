@@ -2,9 +2,15 @@
 <html>
 <head>
 <title>新增供货商</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="http://assets.lp.alibaba.com/s/lpsp/base-min.css" rel="stylesheet" type="text/css" />
-<link href="http://assets.lp.alibaba.com/s/lplib/lpassert/css/lp-page-min.css" rel="stylesheet" type="text/css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="http://assets.lp.alibaba.com/s/lpsp/base-min.css" rel="stylesheet" type="text/css" />
+	<link href="http://assets.lp.alibaba.com/s/lplib/lpassert/css/lp-page-min.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.2.0/calendar/assets/base.css" />
+	<link rel="stylesheet" href="../assets/uicommon.css" />
+	<link rel="stylesheet" href="../assets/grid.css" />
+	<link rel="stylesheet" href="../assets/bar.css" />
+	
+	
 <style>
 	XMP{
 		border:1px solid #ccc;
@@ -193,18 +199,18 @@
 	<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
 	<script>
 	    KISSY.config({
-	        packages:[{
-        		name:"gallery",
-        		tag:"201112081542",
-        		path:"../",
-        		charset:'utf-8'
-        	}]
-	    });
-		KISSY.use('gallery/grid/grid',function(S){
+			packages:[{
+				name:"gallery",
+				tag:"201112081542",
+				path:"../../../../",
+				charset:'utf-8'
+			}]
+		});
+		KISSY.use('gallery/grid/1.0/editGrid,gallery/grid/1.0/store,gallery/grid/1.0/util',function(S,EditGrid,Store,Util){
 			var nameFiled = "name",
 				typeEnum = {"1":"高级","2":"普通","3":"初级"},//[{id:'',value:''},{}]
 				saleEnum = {"1":"零售","2":"分销","3":"团购"},
-				store = new S.LP.Store({
+				store = new Store({
 					autoLoad:false
 				}),
 				records = [{id:1,name:'渠道1',type:"1",time : 1218276186951,sale:["1","2"]},{id:2,name:'渠道2',type:"1",time : 1322460376800,editable:true},{id:3,name:'渠道2',type:"2",time : 1322460376800}],
@@ -243,7 +249,7 @@
 					tbar:{buttons:[{id:'addchanel',text:'添加渠道',handler:addChanel,css:'bar-btn-add'}]}
 				};
 
-			var grid = new S.LP.EditGrid(config);
+			var grid = new EditGrid(config);
 			store.setResult(records);
 			
 			//删除
