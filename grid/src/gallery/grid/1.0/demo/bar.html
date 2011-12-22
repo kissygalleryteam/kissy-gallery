@@ -1,0 +1,85 @@
+<!--<!DOCTYPE HTML>-->
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+	<title>chart demo</title>
+    <link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.2.0/cssreset/reset-min.css" />
+	<link rel="stylesheet" href="../assets/bar.css" />
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+</head>
+<body>
+<div id="bar"></div>
+<div id="btnbar"></div>
+<div id="pagebar"></div>
+<script>
+	KISSY.config({
+	        packages:[{
+        		name:"gallery",
+        		tag:"201112081542",
+        		path:"../../../../",
+        		charset:'utf-8'
+        	}]
+	    });
+	KISSY.use("gallery/grid/1.0/bar",function(S,bar){
+		var items = [{
+						type:'text',
+						text:'测试一'
+					},
+					{
+						id:'btn1',
+						type:'button',
+						text:'按钮1',
+						handler:function(event){
+							alert('按钮1');
+						}
+					},
+					{
+						id:'btn2',
+						type:'custom',
+						text:'按钮2',
+						disabled:'true',
+						template : '<a href = "#">adfasdfa</a>',
+						handler:function(event){
+							alert('按钮2');
+						}
+					},{
+						type:'seperator'
+					},{
+						id:'btn3',
+						type:'button',
+						text:'按钮3',
+						handler:function(event){
+							alert('按钮3');
+						}
+					},{
+						id:'lnk1',
+						type:'link',
+						text:'链接1',
+						handler:function(event){
+							event.preventDefault();
+						}
+					}
+				];
+			new bar({
+				renderTo:'bar',
+				items:items
+			});
+	});
+
+	KISSY.use("gallery/grid/1.0/buttonBar",function(S,buttonBar){
+		new buttonBar({
+				renderTo:'btnbar',
+				items:[{text:'按钮1'},{text:'按钮2'}]
+			});
+	});
+
+	KISSY.use("gallery/grid/1.0/paggingBar",function(S,paggingBar){
+		new paggingBar({
+				renderTo:'pagebar'
+			});
+	});
+</script>
+
+</body>
+</html>
