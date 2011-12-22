@@ -14,17 +14,17 @@
 <button id = "btnunmask">解除屏蔽</button>
 <script>
 	KISSY.config({
-		packages:[{
-			name:"gallery",
-			tag:"201112081542",
-			path:"../../../../",
-			charset:'utf-8'
-		}]
-	});
+	        packages:[{
+        		name:"gallery",
+        		tag:"201112081542",
+        		path:"../../../../",
+        		charset:'utf-8'
+        	}]
+	    });
 	
 
-	KISSY.use("gallery/grid/1.0/loadMask",function(S,loadMask){
-		var lm = new loadMask('#mask',{msg:'正在加载。。。'});
+	KISSY.use("gallery/grid/1.0/",function(S,Grid){
+		var lm = new Grid.LoadMask('#mask',{msg:'正在加载。。。'});
 
 		S.one('#btnmask').on('click',function(){
 			lm.show();

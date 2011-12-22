@@ -32,10 +32,8 @@
 	<div class="form-line ks-clear">
 
 		<XMP> 
-			//Grid 表格模块
-			//Store 数据缓冲类模块，将数据层和表现层分离
-			//Util 帮助类模块
-			KISSY.use('gallery/grid/1.0/grid,gallery/grid/1.0/store,gallery/grid/1.0/util',function(S,Grid,Store,Util){
+			//Grid 模块入口
+			KISSY.use('gallery/grid/1.0/',function(S,Grid){
 				
 			});
 		</XMP> 
@@ -58,7 +56,7 @@
 	<div class="form-line ks-clear">
 		<h4> JS配置:</h4>
 			<XMP> 
-				var store = new Store({
+				var store = new Grid.Store({
 					url:'data.html',
 					autoLoad:true
 				}),
@@ -79,7 +77,7 @@
 					bbar:{pageSize : 20}
 				};
 
-				var grid = new Grid(config);
+				var grid = new Grid.Grid(config);
 			</XMP> 
 		 </div>
 	</div>
@@ -100,7 +98,7 @@
 	<div class="form-line ks-clear">
 		<h4> JS配置:</h4>
 			<XMP> 
-				var store = new Store({
+				var store = new Grid.Store({
 					autoLoad:false
 				}),
 				config = {
@@ -119,7 +117,7 @@
 					tbar:{buttons:[{id:'addchanel',text:'添加渠道',handler:addChanel,css:'bar-btn-add'}]}
 				};
 
-				var grid = new Grid(config);
+				var grid = new Grid.Grid(config);
 			</XMP> 
 		 </div>
 	</div>
@@ -138,11 +136,11 @@
 				charset:'utf-8'
 			}]
 		});
-		KISSY.use('gallery/grid/1.0/grid,gallery/grid/1.0/store,gallery/grid/1.0/util',function(S,Grid,Store,Util){
+		KISSY.use('gallery/grid/1.0/',function(S,Grid){
 
 			var typeEnum = {"1":"高级","2":"普通","3":"初级"},//[{id:'',value:''},{}]
 				saleEnum = {"1":"零售","2":"分销","3":"团购"},
-				asyncStore = new Store({
+				asyncStore = new Grid.Store({
 					url:'data.html',
 					autoLoad:true
 				}),
@@ -150,9 +148,9 @@
 					renderTo:'J_async_grid',
 					columns:[
 						{ title: '渠道名称',width: 150,sortable :true, dataIndex: 'name'},
-						{ title: '渠道类型',width: 150, dataIndex: 'type',renderer:Util.Format.enumRenderer(typeEnum)},
-						{ title : '创建时间',width:100,dataIndex : 'time',renderer : Util.Format.dateRenderer},
-						{ title: '销售方式',width: 150, dataIndex: 'sale',renderer:Util.Format.multipleItemsRenderer(saleEnum)},
+						{ title: '渠道类型',width: 150, dataIndex: 'type',renderer:Grid.Util.Format.enumRenderer(typeEnum)},
+						{ title : '创建时间',width:100,dataIndex : 'time',renderer : Grid.Util.Format.dateRenderer},
+						{ title: '销售方式',width: 150, dataIndex: 'sale',renderer:Grid.Util.Format.multipleItemsRenderer(saleEnum)},
 						{ title: '操作',width: 100, dataIndex: 'isDelete',renderer:function(value){
 							return '<span class="grid-command btn-del">删除</span>';
 						}}
@@ -163,7 +161,7 @@
 					bbar:{pageSize : 20}
 				};
 
-			var asyncGrid = new Grid(asyncConfig);
+			var asyncGrid = new Grid.Grid(asyncConfig);
 
 			asyncGrid.on('cellclick',function(event){
 
@@ -175,7 +173,7 @@
 			});
 
 			var 
-				store = new Store({
+				store = new Grid.Store({
 					autoLoad:false
 				}),
 				records = [{id:1,name:'渠道1',type:"1",time : 1218276186951,sale:["1","2"]},{id:2,name:'渠道2',type:"1",time : 1322460376800,editable:true},{id:3,name:'渠道2',type:"2",time : 1322460376800}],
@@ -183,9 +181,9 @@
 					renderTo:'J_sync_grid',
 					columns:[
 						{ title: '渠道名称',width: 150,sortable :true, dataIndex: 'name'},
-						{ title: '渠道类型',width: 150, dataIndex: 'type',renderer:Util.Format.enumRenderer(typeEnum)},
-						{ title : '创建时间',width:100,dataIndex : 'time',renderer : Util.Format.dateRenderer},
-						{ title: '销售方式',width: 150, dataIndex: 'sale',renderer:Util.Format.multipleItemsRenderer(saleEnum)},
+						{ title: '渠道类型',width: 150, dataIndex: 'type',renderer:Grid.Util.Format.enumRenderer(typeEnum)},
+						{ title : '创建时间',width:100,dataIndex : 'time',renderer : Grid.Util.Format.dateRenderer},
+						{ title: '销售方式',width: 150, dataIndex: 'sale',renderer:Grid.Util.Format.multipleItemsRenderer(saleEnum)},
 						{ title: '操作',width: 100, dataIndex: 'isDelete',renderer:function(value){
 							return '<span class="grid-command btn-del">删除</span>';
 						}}
@@ -195,7 +193,7 @@
 					tbar:{buttons:[{id:'addchanel',text:'添加渠道',handler:addChanel,css:'bar-btn-add'}]}
 				};
 
-			var grid = new Grid(config);
+			var grid = new Grid.Grid(config);
 			store.setResult(records);
 			
 			

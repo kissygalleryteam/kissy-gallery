@@ -206,11 +206,11 @@
 				charset:'utf-8'
 			}]
 		});
-		KISSY.use('gallery/grid/1.0/editGrid,gallery/grid/1.0/store,gallery/grid/1.0/util',function(S,EditGrid,Store,Util){
+		KISSY.use('gallery/grid/1.0/',function(S,Grid){
 			var nameFiled = "name",
 				typeEnum = {"1":"高级","2":"普通","3":"初级"},//[{id:'',value:''},{}]
 				saleEnum = {"1":"零售","2":"分销","3":"团购"},
-				store = new Store({
+				store = new Grid.Store({
 					autoLoad:false
 				}),
 				records = [{id:1,name:'渠道1',type:"1",time : 1218276186951,sale:["1","2"]},{id:2,name:'渠道2',type:"1",time : 1322460376800,editable:true},{id:3,name:'渠道2',type:"2",time : 1322460376800}],
@@ -232,14 +232,14 @@
 							}
 							
 						}}},
-						{ title: '渠道类型',width: 150, dataIndex: 'type',editor:{type:'select',items : typeEnum},renderer:S.LP.Format.enumRenderer(typeEnum)},
+						{ title: '渠道类型',width: 150, dataIndex: 'type',editor:{type:'select',items : typeEnum},renderer:Grid.Util.Format.enumRenderer(typeEnum)},
 						{ title : '创建时间',width:100,dataIndex : 'time',editor : {type : 'date',validator:function(value,obj){
 							if(value > new Date().getTime())
 							{
 								return '日期不能大于当天';
 							}
 						}},renderer : S.LP.Format.dateRenderer},
-						{ title: '销售方式',width: 150, dataIndex: 'sale',editor:{type:'multipleSelect',items : saleEnum},renderer:S.LP.Format.multipleItemsRenderer(saleEnum)},
+						{ title: '销售方式',width: 150, dataIndex: 'sale',editor:{type:'multipleSelect',items : saleEnum},renderer:Grid.Util.Format.multipleItemsRenderer(saleEnum)},
 						{ title: '操作',width: 100, dataIndex: 'isDelete',renderer:function(value){
 							return '<span class="grid-command btn-del">删除</span>';
 						}}
@@ -249,7 +249,7 @@
 					tbar:{buttons:[{id:'addchanel',text:'添加渠道',handler:addChanel,css:'bar-btn-add'}]}
 				};
 
-			var grid = new EditGrid(config);
+			var grid = new Grid.EditGrid(config);
 			store.setResult(records);
 			
 			//删除
