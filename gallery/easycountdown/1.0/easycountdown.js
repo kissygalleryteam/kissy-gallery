@@ -6,7 +6,7 @@
  *       2.回调中操作耗时，会导致倒计时不准。请参考定时器工作原理http://www.cnblogs.com/rainman/archive/2008/12/26/1363321.html
  *       simplecountdown实现原理很简单，实例化的时候记录开始时间和结束时间，可能根据实际情况实时fetch剩余事件
  * @author 常胤<satans17@gmail.com>
- * @date 20110601
+ * @date 20110602
  * @version 1.0
  * @depends kissy core
  */
