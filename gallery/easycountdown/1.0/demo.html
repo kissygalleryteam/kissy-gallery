@@ -3,11 +3,9 @@
 <head>
     <meta charset="utf-8"/>
     <title>KISSY.gallery.Countdown 倒计时组件</title> 
-<link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/>
-<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/>
-<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
-<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
-<script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script>
+	<link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/> 
+	<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/> 
+	<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
 	<style>
 		.box{
 			padding:10px;
@@ -30,12 +28,17 @@
 			margin: 0 0 0 30px;
 		}
 	</style>
+	<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script> 
+	<script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script> 
+	<script src="easycountdown.js"></script> 
 
-	<script src="countdown.js"></script> 
+	
+	
+	
 </head>
 <body>
     <div id="header"> 
-		<h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png"/></a></h1>
+		<h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png"/></a></h1> 
 		<div class="sub-title">Gallery</div>
 		<ul class="navigation"> 
 			<li><a href="http://blog.kissyui.com/">博客</a></li> 
@@ -47,14 +50,14 @@
 		<div class="s-crumbs">
 			<span>当前位置：</span>
 			<a href="http://kissyui.com/">KISSY</a>
-			<a href="../../index.html">Gallery</a>
+			<a href="../../../index.html">Gallery</a>
 			<span>Countdown</span>
 		</div>
 			<pre class="s-section">				
 作者：satans17@gmail.com(常胤)
 功能：到计时组件
 描述：Countdown的实现不同于传统的倒计时组件，剩余时间根据需要去fetch,而不是依赖setInterval,所以容易扩展或者定制有特殊需求的倒计时。
-源码：<a href="countdown.js">countdown.js</a></pre>
+源码：<a href="easycountdown.js">easycountdown.js</a></pre>
 
 
 <div style="margin:20px 0;">下面的demo我没有在UI上花功夫，因为每个人的要求都不一样，我只展示了Countdown的功能，相信无论怎么特殊的要求都能满足你。</div>
@@ -187,21 +190,22 @@
 							<div  class="ks-countdown-end" style="color:red;">倒计时完了，我也显示了</div>
 						</div>
 					</div>
-					
-					
+						
 
 					<script>
 						KISSY.ready(function(S){
-							S.Gallery.Countdown2.autoRender();
+							S.use("gallery/simplecountdown/1.0/easycountdown", function(S,EasyCountdown){
+								EasyCountdown.autoRender();
+							})
 						})						
 					</script>
 				</div>
-				<a class="s-view-code" href="demo.html#">显示源码</a>
+				<a class="s-view-code" href="#">显示源码</a>
 			</div>
 			
 			
 			
-			<h3 class="s-title">自己实例化KISSY.Gallery.Countdown2();</h3>
+			<h3 class="s-title">自己实例化EasyCountdown();</h3>
 			<div class="s-section">
 				<div class="s-demo">
 				
@@ -223,8 +227,10 @@
 					
 					<script>
 						KISSY.ready(function(S){
-							new S.Gallery.Countdown2("#J_demo2","2012-8-1 12:12:12",{
-								interval:500
+							S.use("gallery/simplecountdown/1.0/easycountdown", function(S,EasyCountdown){
+								new EasyCountdown("#J_demo2","2012-8-1 12:12:12",{
+									interval:500
+								})
 							})
 						})						
 					</script>
@@ -232,7 +238,7 @@
 					
 					
 				</div>
-				<a class="s-view-code" href="demo.html#">显示源码</a>
+				<a class="s-view-code" href="#">显示源码</a>
 			</div>
 			
 			
@@ -277,29 +283,35 @@
 					
 					<script>
 						KISSY.ready(function(S){
-							var test = new S.Gallery.Countdown2.Core("2012-8-1 12:12:12");
-							
-							test.fetch(500,function(remain){
-								S.get("#J_d11").innerHTML = remain
-							})
-							
-							setInterval(function(){
-								S.get("#J_d12").innerHTML = parseInt(test.getRemain()/1000);
-							},500);
-							
-							
-							test.fetch(500,function(remain){
-								S.get("#J_d13").innerHTML = test.format(remain,"d","h","m","s","i").join(" , ");
+							S.use("gallery/simplecountdown/1.0/easycountdown", function(S,EasyCountdown){
+								var test = new EasyCountdown.Core("2012-8-1 12:12:12");
+								
+								test.fetch(500,function(remain){
+									S.get("#J_d11").innerHTML = remain
+								})
+								
+								setInterval(function(){
+									S.get("#J_d12").innerHTML = parseInt(test.getRemain()/1000);
+								},500);
+								
+								
+								test.fetch(500,function(remain){
+									S.get("#J_d13").innerHTML = test.format(remain,"d","h","m","s","i").join(" , ");
+									
+								})
 								
 							})
-							
+						
+						
+
+								
 							
 						})						
 					</script>
 
 					
 				</div>
-				<a class="s-view-code" href="demo.html#">显示源码</a>
+				<a class="s-view-code" href="#">显示源码</a>
 			</div>
 			
 			
