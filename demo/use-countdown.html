@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>KISSY Gallery CountDown 组件完整示例</title>
+<link rel="shortcut icon" href="../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../kissy-dpl/base/assets/kissy-docs.css"/>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111223",
+                path:"http://assets.daily.taobao.net/s/kissy/",
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+</head>
+<body>
+<div id="header">
+    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../kissy-dpl/base/assets/logo.png"/></a></h1>
+    <p class="sub-title">Gallery</p>
+    <ul class="navigation">
+        <li><a href="http://blog.kissyui.com/">博客</a></li>
+        <li><a href="http://github.com/kissyteam">源码</a></li>
+    </ul>
+</div>
+<div id="content">
+    <div class="s-crumbs">
+        <span>当前位置：</span>
+        <a href="http://kissyui.com/">KISSY</a>
+        <a href="../index.html">Gallery</a>
+        <span>Chart Demo</span>
+    </div>
+    <div class="layout grid-m">
+        <div class="col-main">
+            <div class="s-section">
+                <div class="cd-lite cd-slide" data-time="1121685000">剩余时间：${h}时${m}分${s}秒</div>
+                <script>
+                    KISSY.use("gallery/countdown/1.0/, gallery/countdown/1.0/assets/countdown.css", function(S, Countdown) {
+
+                        var slides = [],
+                                flips = [];
+
+                        function factory(cd) {
+                            if (cd.hasClass('cd-slide')) {
+                                slides.push(Countdown(cd, {effect: 'slide'}));
+                            } else if (cd.hasClass('cd-flip')) {
+                                flips.push(Countdown(cd, {effect: 'flip'}));
+                            } else {
+                                Countdown(cd);
+                            }
+                        }
+
+                        S.all('.cd-lite').each(factory);
+                    });
+
+                </script>
+
+                <pre>
+1) 引入 &lt;script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js">&lt;/script>
+2) 配置
+    &lt;script>
+        KISSY.config({
+            packages:[
+                {
+                    name:"gallery",
+                    tag:"20111223",
+                    path:"http://assets.daily.taobao.net/s/kissy/",
+                    charset:"utf-8"
+                }
+            ]
+        });
+    &lt;/script>
+3) 使用:
+    &lt;script>
+        KISSY.use("gallery/countdown/1.0/, gallery/countdown/1.0/assets/countdown.css", function(S, Countdown) {
+
+            var slides = [],
+                    flips = [];
+
+            function factory(cd) {
+                if (cd.hasClass('cd-slide')) {
+                    slides.push(Countdown(cd, {effect: 'slide'}));
+                } else if (cd.hasClass('cd-flip')) {
+                    flips.push(Countdown(cd, {effect: 'flip'}));
+                } else {
+                    Countdown(cd);
+                }
+            }
+
+            S.all('.cd-lite').each(factory);
+        });
+
+    &lt;/script>
+</pre>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer">
+    &copy; Copyright 2010~2011, KISSY Team.
+</div>
+</body>
+</html>
