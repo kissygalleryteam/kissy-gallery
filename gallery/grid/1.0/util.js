@@ -8,28 +8,28 @@ KISSY.add("gallery/grid/1.0/util",function(S){
 	var DOM = S.DOM, Event = S.Event,
         win = window, doc = document,UA=S.UA;
 
-	/** 
-		@namespace 良权限控件命名控件
-		@exports S.LP as KISSY.LP
-		@description 所有良权限控件库的命名控件
+	/**
+	* @memberOf Grid
+	* @name Util
+	* @class
 	*/
-	S.LP = S.namespace('LP');
+	var Util = {};
 
-	S.mix(S.LP,
-	/** @lends  S.LP */
+	S.mix(Util,
+	/** @lends  Grid.Util */
 	{
 		/**
 		* @description 屏蔽整个页面: <br> 1）ie 6,ie 7下设置100%无效 <br> 2) 兼容浏览器的可视区域和内容区域
 		* @example 
-		*	S.LP.mask();	//屏蔽窗口
-		*	S.LP.unmask();	//解除屏蔽窗口
+		*	Grid.Util.mask();	//屏蔽窗口
+		*	Grid.Util.unmask();	//解除屏蔽窗口
 		*/
 		mask : function(){
 			var bodyEl = S.one('body'),
 				bodyHeight = bodyEl.height(),
 				viewHeight = DOM.viewportHeight(),
 				height = bodyHeight > viewHeight ?bodyHeight :viewHeight,
-				maskEl = S.LP.maskElement(bodyEl);
+				maskEl = Util.maskElement(bodyEl);
 			
 			maskEl.height(height);
 			Event.on(win,'resize',resizeEvent);
@@ -61,7 +61,7 @@ KISSY.add("gallery/grid/1.0/util",function(S){
 				Event.remove(win,'resize',func);
 				maskEl.data('reszieFunc',null);
 			}
-			S.LP.unmaskElement(bodyEl);
+			Util.unmaskElement(bodyEl);
 		},
 		/**
 		* @description 屏蔽指定元素
@@ -69,7 +69,7 @@ KISSY.add("gallery/grid/1.0/util",function(S){
 		* @param {String} msg 屏蔽层上显示的信息，可以为空
 		* @param {String} msgCls 屏蔽信息上应用的CSS,可以为空，此项仅在 msg有效时起作用
 		* @example 
-		*	S.LP.maskElement('#domId');	//屏蔽元素，暂时只屏蔽选择器的第一个元素
+		*	Grid.Util.maskElement('#domId');	//屏蔽元素，暂时只屏蔽选择器的第一个元素
 		*/
 		maskElement: function (element, msg, msgCls) {
 			var maskedEl = S.one(element),
@@ -102,7 +102,7 @@ KISSY.add("gallery/grid/1.0/util",function(S){
 		* @description 解除对应元素的屏蔽
 		* @param {[String|DOM|Node]} element 屏蔽的元素，可以使用选择器、Dom元素，Node元素
 		* @example 
-		*	S.LP.unmaskElement('#domId');	//解除屏蔽元素，暂时只支持选择器的第一个元素
+		*	Grid.Util.unmaskElement('#domId');	//解除屏蔽元素，暂时只支持选择器的第一个元素
 		*/ 
 		unmaskElement: function (element) {
 			var maskedEl = S.one(element),
@@ -121,12 +121,12 @@ KISSY.add("gallery/grid/1.0/util",function(S){
 	});
 	
 	/**
-		格式化数据的帮助方法
-		@description 用于格式化文本，常用于表格
-		@class 格式化帮助类
+	* 格式化数据的帮助方法
+	* @class 格式化函数
+	* @name Grid.Util.Format
 	*/
-	S.LP.Format = function(){
-		/** @lends  S.LP.Format */	
+	Util.Format = function(){
+		/** @lends  Grid.Util.Format */	
 		return {
 			/**
 				@description 日期格式化函数
@@ -134,9 +134,9 @@ KISSY.add("gallery/grid/1.0/util",function(S){
 				@return {String} 格式化后的日期格式为 2011-10-31
 				@example
 			* 一般用法：<br> 
-			* S.LP.Format.dateRenderer(1320049890544);输出：2011-10-31 <br>
+			* Grid.Util.Format.dateRenderer(1320049890544);输出：2011-10-31 <br>
 			* 表格中用于渲染列：<br>
-			* {title:"出库日期",dataIndex:"date",renderer:S.LP.Format.dateRenderer}
+			* {title:"出库日期",dataIndex:"date",renderer:Util.Format.dateRenderer}
 			*/
 			dateRenderer: function (d) {
 				if(!d){
@@ -191,7 +191,7 @@ KISSY.add("gallery/grid/1.0/util",function(S){
 			* @return {Function} 返回指定枚举的格式化函数
 			* @example 
 			* //Grid 的列定义
-			*  {title:"状态",dataIndex:"status",renderer:S.LP.Format.enumRenderer({"1":"入库","2":"出库"})}
+			*  {title:"状态",dataIndex:"status",renderer:Grid.Util.Format.enumRenderer({"1":"入库","2":"出库"})}
 			*/
 			enumRenderer : function(enumObj){
 				return function(value){
@@ -204,11 +204,11 @@ KISSY.add("gallery/grid/1.0/util",function(S){
 			* @return {Function} 返回指定枚举的格式化函数
 			* @example 
 			* //Grid 的列定义
-			*  {title:"状态",dataIndex:"status",renderer:S.LP.Format.multipleItemsRenderer({"1":"入库","2":"出库","3":"退货"})}
+			*  {title:"状态",dataIndex:"status",renderer:Grid.Util.multipleItemsRenderer({"1":"入库","2":"出库","3":"退货"})}
 			*  //数据源是[1,2] 时，则返回 "入库,出库"
 			*/
 			multipleItemsRenderer : function(enumObj){
-				var enumFun = S.LP.Format.enumRenderer(enumObj);
+				var enumFun = Util.Format.enumRenderer(enumObj);
 				return function(values){
 					if(!values)
 						return '';
@@ -228,16 +228,19 @@ KISSY.add("gallery/grid/1.0/util",function(S){
 	
 	/**
 	* 表单的一些工具方法
-	* @class 表单帮助类
+	* @class 格式化函数
+	* @name  Grid.Util.FormHelpr
 	*/
-	S.LP.FormHelpr={
+	Util.FormHelpr = 
+	/** @lends  Grid.Util.FormHelpr */		
+	{
 		/**
 		* 将表单数据序列化成为字符串
 		* @param {HTMLForm} form 表单元素
 		* @return {String} 序列化的字符串
 		*/
 		serialize:function(form){
-			return S.param(S.LP.FormHelpr.serializeToObject(form));
+			return S.param(Util.FormHelpr.serializeToObject(form));
 		},
 		/**
 		* 将表单数据序列化成对象
@@ -281,7 +284,7 @@ KISSY.add("gallery/grid/1.0/util",function(S){
 		}
 	};
 		
-	return S.LP;
+	return Util;
 }, {
     requires: ["core","calendar"]
 });

@@ -1,12 +1,9 @@
 /** @fileOverview 表格控件
-* 包括：表格，可编辑表格，表格编辑器
+* 包括：表格
 * @author <a href="mailto:dxq613@gmail.com">董晓庆 旺旺：dxq613</a>  
 * @version 1.0.1  
 */
 KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
-	/** 
-		@exports S.LP as KISSY.LP
-	*/
 
 	var DOM = S.DOM,
 		UA = S.UA,
@@ -40,7 +37,8 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 		COLUMN_WIDTH_EMPTY = 15;
 	/**
 	* 表格控件
-	* @memberOf S.LP
+	* @memberOf Grid
+	* @name Grid
 	* @description 用于展示数据
 	* @class 表格控件类
 	* @param {Object} config 配置项
@@ -65,7 +63,7 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 	* },
 	* @param {Number} [config.width] 表格宽度，默认下表格的宽度等于父元素的宽度，如果内容宽度超过设置的宽度，会出现横向滚动条
 	* @param {Number} [config.height] 表格高度，默认状态表格高度根据内容自动扩展，如果内容高度超过设置的宽度，会出现纵向滚动条
-	* @param {S.LP.Store} [config.store] 数据缓冲对象，对数据的操作集成在此对象中 @see S.LP.Store
+	* @param {Grid.Store} [config.store] 数据缓冲对象，对数据的操作集成在此对象中 @see Grid.Store
 	* @param {Bar} [config.tbar] 表格上部的按钮栏，如果内部包含 pageSize属性则为分页栏，否则为普通按钮栏
 	* @param {Number} [config.tbar.pageSize] 分页栏的单页记录条数，用于计算分页
 	* @param {Array} [config.tbar.buttons] 按钮栏的按钮配置
@@ -134,7 +132,7 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 		_self.events = [
 			/**  
 			* 开始附加数据
-			* @name S.LP.Grid#beginappend 
+			* @name Grid.Grid#beginappend 
 			* @event  
 			* @param {event} e  事件对象
 			* @param {Array} e.data 附加显示的数据
@@ -142,7 +140,7 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			'beginappend',
 			/**  
 			* 附加数据完成
-			* @name S.LP.Grid#afterappend 
+			* @name Grid.Grid#afterappend 
 			* @event  
 			* @param {event} e  事件对象
 			* @param {Array} e.data 附加显示的数据
@@ -151,21 +149,21 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			'afterappend',
 			/**  
 			* 开始显示数据，一般是数据源加载完数据，开始在表格上显示数据
-			* @name S.LP.Grid#beginshow
+			* @name Grid.Grid#beginshow
 			* @event  
 			* @param {event} e  事件对象
 			*/
 			'beginshow',
 			/**  
 			* 显示数据完成，一般是数据源加载完数据，并在表格上显示完成
-			* @name S.LP.Grid#aftershow
+			* @name Grid.Grid#aftershow
 			* @event  
 			* @param {event} e  事件对象
 			*/
 			'aftershow',
 			/**  
 			* 移除行，一般是数据源移除数据后，表格移除对应的行数据
-			* @name S.LP.Grid#rowremoved
+			* @name Grid.Grid#rowremoved
 			* @event  
 			* @param {event} e  事件对象
 			* @param {Object} e.data 行对应的记录
@@ -174,7 +172,7 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			'rowremoved',
 			/**  
 			* 添加行，一般是数据源添加数据、加载数据后，表格显示对应的行后触发
-			* @name S.LP.Grid#rowcreated
+			* @name Grid.Grid#rowcreated
 			* @event  
 			* @param {event} e  事件对象
 			* @param {Object} e.data 行对应的记录
@@ -183,7 +181,7 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			'rowcreated',
 			/**  
 			* 翻页前触发，可以通过 return false ,阻止翻页
-			* @name S.LP.Grid#beforepagechange
+			* @name Grid.Grid#beforepagechange
 			* @event  
 			* @param {event} e  事件对象
 			* @param {Number} e.from 当前页
@@ -192,7 +190,7 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			'beforepagechange',
 			/**  
 			* 行点击事件
-			* @name S.LP.Grid#rowclick
+			* @name Grid.Grid#rowclick
 			* @event  
 			* @param {event} e  事件对象
 			* @param {Object} e.data 行对应的记录
@@ -202,7 +200,7 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			'rowclick',
 			/**  
 			* 单元格点击事件
-			* @name S.LP.Grid#cellclick
+			* @name Grid.Grid#cellclick
 			* @event  
 			* @param {event} e  事件对象
 			* @param {Object} e.data 行对应的记录
@@ -211,7 +209,7 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			'cellclick',
 			/**  
 			* 行选中事件
-			* @name S.LP.Grid#rowselected
+			* @name Grid.Grid#rowselected
 			* @event  
 			* @param {event} e  事件对象
 			* @param {Object} e.data 行对应的记录
@@ -223,7 +221,7 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			'rowselected',
 			/**  
 			* 行取消选中事件
-			* @name S.LP.Grid#rowunselected
+			* @name Grid.Grid#rowunselected
 			* @event  
 			* @param {event} e  事件对象
 			* @param {Object} e.data 行对应的记录
@@ -239,7 +237,7 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 	};
 	S.extend(Grid, S.Base);
 	S.augment(Grid, 
-	/** @lends  S.LP.Grid.prototype */		
+	/** @lends  Grid.Grid.prototype */		
 	{
 		/**
 		* 附加数据
@@ -1191,8 +1189,8 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 		}
 	});
 
-	S.namespace('LP');
-	S.LP.Grid = Grid;
+	//S.namespace('LP');
+	//Grid.Grid = Grid;
 
 	return Grid;
 }, {

@@ -6,12 +6,12 @@ KISSY.add("gallery/grid/1.0/store",function(S){
 
 	/**
 	* 数据缓冲类，缓存数据在浏览器中
-	* @memberOf S.LP
+	* @name Grid.Store
 	* @class 数据缓冲类
 	* @param {Object} config 配置项，store上面的field字段可以传入配置项中
 	* @property {String} url 是字段 proxy.url的简写方式，可以直接写在配置信息中
 	* @example 
-	* var store = new S.LP.Store({
+	* var store = new  Grid.Store({
 	*	url : 'data.php',
 	*	autoLoad : true
 	*});
@@ -22,7 +22,7 @@ KISSY.add("gallery/grid/1.0/store",function(S){
 		config = config || {};
 
 		config = S.merge(
-		/** @lends S.LP.Store.prototype */	
+		/** @lends  Grid.Store.prototype */	
 		{
 			/**
 			* 加载数据时，返回数据的根目录
@@ -63,7 +63,7 @@ KISSY.add("gallery/grid/1.0/store",function(S){
 			* @type Object
 			* @default { field: '', direction: 'ASC' }
 			* @example 
-			* var store = new S.LP.Store({
+			* var store = new Grid.Store({
 			*		url : 'data.php',
 			*		autoLoad : true,
 			*		sortInfo: { field: 'name', direction: 'DESC' }//按照'name' 字段降序排序
@@ -78,7 +78,7 @@ KISSY.add("gallery/grid/1.0/store",function(S){
 			* @type Object
 			* @default { method: 'post' }
 			* @example 
-			* var store = new S.LP.Store({
+			* var store = new Grid.Store({
 			*		autoLoad : true,
 			*		proxy: {url : 'data.php', method: 'get' }//按照'name' 字段降序排序
 			*	});
@@ -89,7 +89,7 @@ KISSY.add("gallery/grid/1.0/store",function(S){
 			* @field
 			* @type Object
 			* @example
-			* var store = new S.LP.Store({
+			* var store = new Grid.Store({
 			*		url :'data',
 			*		autoLoad : true,
 			*		params: {id:'124',type:1}//自定义参数
@@ -148,7 +148,7 @@ KISSY.add("gallery/grid/1.0/store",function(S){
 		_self.events = [
 			/**  
 			* 当数据加载完成后
-			* @name S.LP.Store#load  
+			* @name Grid.Store#load  
 			* @event  
 			* @param {event} e  事件对象，包含加载数据时的参数
 			*/
@@ -156,14 +156,14 @@ KISSY.add("gallery/grid/1.0/store",function(S){
 
 			/**  
 			* 当数据加载前
-			* @name S.LP.Store#beforeload
+			* @name Grid.Store#beforeload
 			* @event  
 			*/
 			'beforeload',
 
 			/**  
 			* 发生在，beforeload和load中间，数据已经获取完成，但是还未触发load事件，用于获取返回的原始数据
-			* @name S.LP.Store#beforeProcessLoad
+			* @name Grid.Store#beforeProcessLoad
 			* @event  
 			* @param {event} e  事件对象
 			* @param {Object} e.data 从服务器端返回的数据
@@ -172,7 +172,7 @@ KISSY.add("gallery/grid/1.0/store",function(S){
 			
 			/**  
 			* 当添加数据时触发该事件
-			* @name S.LP.Store#addrecords  
+			* @name Grid.Store#addrecords  
 			* @event  
 			* @param {event} e  事件对象
 			* @param {Array} e.data 添加的数据集合
@@ -184,7 +184,7 @@ KISSY.add("gallery/grid/1.0/store",function(S){
 			'exception',
 			/**  
 			* 当删除数据是触发该事件
-			* @name S.LP.Store#removerecords  
+			* @name Grid.Store#removerecords  
 			* @event  
 			* @param {event} e  事件对象
 			* @param {Array} e.data 删除的数据集合
@@ -193,7 +193,7 @@ KISSY.add("gallery/grid/1.0/store",function(S){
 			
 			/**  
 			* 当更新数据指定字段时触发该事件
-			* @name S.LP.Store#updaterecord  
+			* @name Grid.Store#updaterecord  
 			* @event  
 			* @param {event} e  事件对象
 			* @param {Object} e.record 更新的数据
@@ -203,7 +203,7 @@ KISSY.add("gallery/grid/1.0/store",function(S){
 			'updaterecord',
 			/**  
 			* 前端发生排序时触发
-			* @name S.LP.Store#localsort
+			* @name Grid.Store#localsort
 			* @event  
 			* @param {event} e  事件对象
 			* @param {Object} e.field 排序的字段
@@ -216,7 +216,7 @@ KISSY.add("gallery/grid/1.0/store",function(S){
 	S.augment(Store,S.EventTarget);
 
 	S.augment(Store, 
-	/** @lends S.LP.Store.prototype */	
+	/** @lends Grid.Store.prototype */	
 	{
 		/**
 		* 添加记录
@@ -562,8 +562,8 @@ KISSY.add("gallery/grid/1.0/store",function(S){
 		}
 	});
 
-	S.namespace('LP');
-	S.LP.Store = Store;
+	//S.namespace('LP');
+	//Grid.Store = Store;
 
 	return Store;
 

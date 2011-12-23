@@ -1,4 +1,4 @@
-KISSY.add("gallery/grid/1.0/gridEditor",function (S) {
+KISSY.add("gallery/grid/1.0/gridEditor",function (S,Util) {
 
 	var DOM = S.DOM,
 		UA = S.UA,
@@ -441,7 +441,7 @@ KISSY.add("gallery/grid/1.0/gridEditor",function (S) {
 		_setValue : function(value,editElemnt){
 			var _self = this,
 				editElemnt = editElemnt || _self.get('editEl'),
-				valueText = S.LP.Format.dateRenderer(value),
+				valueText = Util.Format.dateRenderer(value),
 				datepicker = _self.get('datepicker');
 
 			editElemnt.val(valueText);
@@ -515,7 +515,7 @@ KISSY.add("gallery/grid/1.0/gridEditor",function (S) {
 				items = _self.items,
 				renderer = _self.get('renderer');
 			if(!renderer){
-				renderer = S.LP.Format.multipleItemsRenderer(items);
+				renderer = Util.Format.multipleItemsRenderer(items);
 				_self.set('renderer',renderer);
 			}
 
@@ -663,5 +663,5 @@ KISSY.add("gallery/grid/1.0/gridEditor",function (S) {
 
 	return gridEditor;
 }, {
-    requires : []
+    requires : ["./util"]
 });
