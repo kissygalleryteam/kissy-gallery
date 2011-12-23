@@ -10,7 +10,7 @@
  * @version 1.0
  * @depends kissy core
  */
-KISSY.add("gallery/simplecountdown/1.0/easycountdown",function(S, undefined){
+KISSY.add("gallery/easycountdown/1.0/easycountdown",function(S, undefined){
     var $ = S.all, DOM = S.DOM,
 		//时间单位
 		timeUnitsKey = ["d","h","m","s","i"],
