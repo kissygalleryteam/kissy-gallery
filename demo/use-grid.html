@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>KISSY Gallery Grid 组件完整示例</title>
+<link rel="shortcut icon" href="../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../kissy-dpl/base/assets/kissy-docs.css"/>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111223",
+                path:"http://assets.daily.taobao.net/s/kissy/",
+                charset:"utf-8"
+            }
+        ],
+        map:[
+            [/http:\/\/assets.daily.taobao.net\/s\/kissy\/gallery\/grid\/1.0\/assets\/(?:uicommon|grid|bar).css(.+)$/, "http://assets.daily.taobao.net/s/kissy/gallery/grid/1.0/assets/??uicommon.css,grid.css,bar.css$1"],
+            [/http:\/\/a.tbcdn.cn\/s\/kissy\/1.2.0\/(?:calendar).js(.+)$/, "http://assets.daily.taobao.net/s/kissy/1.2.0/calendar-min.js$1"]
+        ]
+    });
+</script>
+</head>
+<body>
+<div id="header">
+    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../kissy-dpl/base/assets/logo.png"/></a></h1>
+    <p class="sub-title">Gallery</p>
+    <ul class="navigation">
+        <li><a href="http://blog.kissyui.com/">博客</a></li>
+        <li><a href="http://github.com/kissyteam">源码</a></li>
+    </ul>
+</div>
+<div id="content">
+    <div class="s-crumbs">
+        <span>当前位置：</span>
+        <a href="http://kissyui.com/">KISSY</a>
+        <a href="../index.html">Gallery</a>
+        <span>Grid Demo</span>
+    </div>
+    <div class="layout grid-m">
+        <div class="col-main">
+            <div class="s-section">
+                <div id="J_async_grid"></div>
+                <script>
+                    KISSY.use('gallery/grid/1.0/,gallery/grid/1.0/assets/uicommon.css,gallery/grid/1.0/assets/grid.css,gallery/grid/1.0/assets/bar.css', function(S, Grid) {
+
+                        var typeEnum = {"1":"高级","2":"普通","3":"初级"},
+                                saleEnum = {"1":"零售","2":"分销","3":"团购"},
+                                asyncStore = new Grid.Store({
+                                    url:'data',
+                                    autoLoad:true
+                                }),
+                                asyncConfig = {
+                                    renderTo:'J_async_grid',
+                                    columns:[
+                                        { title: '渠道名称',width: 150,sortable :true, dataIndex: 'name'},
+                                        { title: '渠道类型',width: 150, dataIndex: 'type',renderer:Grid.Util.Format.enumRenderer(typeEnum)},
+                                        { title : '创建时间',width:100,dataIndex : 'time',renderer : Grid.Util.Format.dateRenderer},
+                                        { title: '销售方式',width: 150, dataIndex: 'sale',renderer:Grid.Util.Format.multipleItemsRenderer(saleEnum)},
+                                        { title: '操作',width: 100, dataIndex: 'isDelete',renderer:function(value) {
+                                            return '<span class="grid-command btn-del">删除</span>';
+                                        }}
+                                    ],
+                                    loadMask:true,
+                                    store:asyncStore,
+                                    tbar:{buttons:[
+                                        {id:'addchanel',text:'添加渠道',handler:function() {
+                                            alert('异步添加');
+                                        },css:'bar-btn-add'}
+                                    ]},
+                                    bbar:{pageSize : 20}
+                                };
+
+                        var asyncGrid = new Grid.Grid(asyncConfig);
+
+                        asyncGrid.on('cellclick', function(event) {
+
+                            var sender = S.one(event.domTarget);
+                            if (sender.hasClass('btn-del')) {
+                                alert('异步删除');
+                            }
+                        });
+                    });
+                </script>
+                <pre>
+1) 引入 &lt;script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js">&lt;/script>
+2) 配置
+    &lt;script>
+        KISSY.config({
+            packages:[
+                {
+                    name:"gallery",
+                    tag:"20111223",
+                    path:"http://assets.daily.taobao.net/s/kissy/",
+                    charset:"utf-8"
+                }
+            ],
+            // 通过 map 规则支持 cdn combo, 可以减少请求数
+            map:[
+                [/http:\/\/assets.daily.taobao.net\/s\/kissy\/gallery\/grid\/1.0\/assets\/(?:uicommon|grid|bar).css(.+)$/, "http://assets.daily.taobao.net/s/kissy/gallery/grid/1.0/assets/??uicommon.css,grid.css,bar.css$1"],
+                [/http:\/\/a.tbcdn.cn\/s\/kissy\/1.2.0\/(?:calendar).js(.+)$/, "http://assets.daily.taobao.net/s/kissy/1.2.0/calendar-min.js$1"]
+            ]
+        });
+    &lt;/script>
+3) 使用:
+    &lt;script>
+        KISSY.use('gallery/grid/1.0/, gallery/grid/1.0/assets/uicommon.css, gallery/grid/1.0/assets/grid.css, gallery/grid/1.0/assets/bar.css', function(S, Grid) {
+
+            var typeEnum = {"1":"高级","2":"普通","3":"初级"},
+                    saleEnum = {"1":"零售","2":"分销","3":"团购"},
+                    asyncStore = new Grid.Store({
+                        url:'data',
+                        autoLoad:true
+                    }),
+                    asyncConfig = {
+                        renderTo:'J_async_grid',
+                        columns:[
+                            { title: '渠道名称',width: 150,sortable :true, dataIndex: 'name'},
+                            { title: '渠道类型',width: 150, dataIndex: 'type',renderer:Grid.Util.Format.enumRenderer(typeEnum)},
+                            { title : '创建时间',width:100,dataIndex : 'time',renderer : Grid.Util.Format.dateRenderer},
+                            { title: '销售方式',width: 150, dataIndex: 'sale',renderer:Grid.Util.Format.multipleItemsRenderer(saleEnum)},
+                            { title: '操作',width: 100, dataIndex: 'isDelete',renderer:function(value) {
+                                return '<span class="grid-command btn-del">删除</span>';
+                            }}
+                        ],
+                        loadMask:true,
+                        store:asyncStore,
+                        tbar:{buttons:[
+                            {id:'addchanel',text:'添加渠道',handler:function() {
+                                alert('异步添加');
+                            },css:'bar-btn-add'}
+                        ]},
+                        bbar:{pageSize : 20}
+                    };
+
+            var asyncGrid = new Grid.Grid(asyncConfig);
+
+            asyncGrid.on('cellclick', function(event) {
+
+                var sender = S.one(event.domTarget);
+                if (sender.hasClass('btn-del')) {
+                    alert('异步删除');
+                }
+            });
+        });
+    &lt;/script>
+</pre>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer">
+    &copy; Copyright 2010~2011, KISSY Team.
+</div>
+</body>
+</html>

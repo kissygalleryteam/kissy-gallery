@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>KISSY gallery - yourGallery</title>
+<link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
+<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+<script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+</head>
+<body>
+<div id="header">
+    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png"/></a></h1>
+    <div class="sub-title">Gallery</div>
+    <ul class="navigation">
+        <li><a href="http://blog.kissyui.com/">博客</a></li>
+        <li><a href="http://github.com/kissyteam">源码</a></li>
+    </ul>
+
+</div>
+<div id="content">
+    <div class="s-crumbs">
+        <span>当前位置：</span>
+        <a href="http://kissyui.com/">KISSY</a>
+        <a href="../../../index.html">Gallery</a>
+        <span>yourGallery</span>
+    </div>
+			<pre class="s-section">				
+作者：your-email(your-name)
+功能：function
+描述：function description
+源码：<a href="yours.js">yours.js</a></pre>
+
+    <h3 class="s-title">Demo - 功能点</h3>
+    <div class="s-section">
+        <div class="s-demo">
+            <div>DOM内容</div>
+            <script>
+                KISSY.use('gallery/yours/versionid/yours, gallery/yours/versionid/assets/yours.css', function(S, Yours) {
+                    (new Yours()).sayhi();
+                });
+            </script>
+        </div>
+        <a class="s-view-code" href="demo.html#">显示源码</a><!--点击该链接自动帮你显示s=demo里的内容，如不需要，去除链接即可-->
+    </div>
+
+    <h3 class="s-title">API</h3>
+    <div class="s-section">
+        <h4 class="s-api-title">方法</h4>
+        <div class="s-api-method">
+            KISSY.use('gallery/yours/versionid/yours, gallery/yours/versionid/assets/yours.css', function(S, Yours){
+                (new Yours()).sayhi();
+            });
+        </div>
+        <h4 class="s-api-title">参数</h4>
+        <div class="s-api-params">
+            <ul class="s-list">
+                <li>{String} [ <em>param</em> = 'S_ViewCode' ] 触发元素的class。注释具体格式参见jsdoc规范。</li>
+            </ul>
+        </div>
+        <h4 class="s-api-title">返回</h4>
+        <div class="s-api-return">null</div>
+    </div>
+
+    <h3 class="s-title">Note</h3>
+    <div class="s-section">
+        <ul class="s-list">
+            <li>your note</li>
+        </ul>
+    </div>
+</div>
+<div id="footer">
+    &copy; Copyright 2010~2011, KISSY Team.
+</div>
+</body>
+</html>

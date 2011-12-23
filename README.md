@@ -55,14 +55,19 @@ use时, KISSY.use('gallery/pagination/1.0/pagination,gallery/pagination/1.0/tmp/
 
 
 3)	还有几个注意点:
+    3.0) gallery-build 打包目录;
     3.1) 打包规则:
     - 各个组件通过各自的 build.xml 统一build 到外面, 不需要组件开发者手工build, 我们会定时统一build好提交到cdn上, 这个打包规则应该能够满足90%的需求, 如果某些特殊, 可以自行编写 build.xml;
 
     3.2) 提交新组件时:
-    - 务必在 clone  kissy-gallery 到本地后, 将根目录名重命名为 gallery.
     - 务必gallery 中组件使用 1.2.0 Loader 的写法. 不考虑 1.1.6. 如果其他人要用该组件, 自行拷贝修改;
     - 提交到 KISSY Gallery 请参考 yours.7z 中目录结构;
     3.3) 修改组件时:
        - 小修改/bugfix, 保持兼容且适当写上changelog;
        - 大修改或者接口不兼容, 建议新起版本号, 并注明升级注意点;
 
+
+TODO
+---------------------------------------
+
+chart 组织路径不对, 通知文龙

@@ -1,0 +1,325 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>KISSY gallery - Couple Select</title>
+<link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
+<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+<script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script>
+<style>
+    button {
+        padding: 0px 5px;
+    }
+
+    hr {
+        margin: 20px 0;
+    }
+
+    .btn {
+        margin: 10px 0;
+    }
+
+    .result {
+        padding: 10px 0;
+    }
+
+    .result em {
+        color: #ccc;
+    }
+
+    /* Modules:= multipleselect {{{ */
+
+    .multipleselect {
+        position: relative;
+        width: 650px;
+        height: 228px;
+        overflow: hidden;
+        background: url(tmp/multipleselect.png) no-repeat;
+    }
+
+    .multipleselect .panel {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 268px;
+        height: 210px;
+        overflow: hidden;
+    }
+
+    .multipleselect .s {
+        left: 21px;
+    }
+
+    .multipleselect .t {
+        left: 362px;
+    }
+
+    .multipleselect .handler {
+        width: 56px;
+        top: 70px;
+        left: 298px;
+    }
+
+    .multipleselect .handler button {
+        display: block;
+        width: 50px;
+        height: 25px;
+    }
+
+    .multipleselect .panel h4 {
+        height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .multipleselect .panel ul {
+        width: 248px;
+        height: 150px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        margin: 10px;
+    }
+
+    .multipleselect .panel li {
+        margin: 2px 0;
+        padding: 2px 0px 2px 5px;
+        cursor: pointer;
+    }
+
+    .multipleselect li.select {
+        background-color: #cce7f7;
+    }
+
+    /* }}} */
+
+    .demo2 {
+        height: 100px;
+        padding-bottom: 10px;
+    }
+
+    .demo2 a {
+        margin-right: 5px;
+    }
+
+    .demo2 a.select {
+        background: blue;
+        color: #fff;
+    }
+
+    .demo2 .source, .demo2 .target {
+        float: left;
+        width: 200px;
+        height: 100px;
+        padding: 5px;
+    }
+
+    .demo2 .source {
+        background: #ccc;
+        margin-right: 20px;
+    }
+
+    .demo2 .target {
+        background: #ccc;
+    }
+
+
+</style>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+</head>
+<body>
+<div id="header">
+    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png"/></a></h1>
+    <div class="sub-title">Gallery</div>
+    <ul class="navigation">
+        <li><a href="http://blog.kissyui.com/">博客</a></li>
+        <li><a href="http://github.com/kissyteam">源码</a></li>
+    </ul>
+
+</div>
+<div id="content">
+<div class="s-crumbs">
+    <span>当前位置：</span>
+    <a href="http://kissyui.com/">KISSY</a>
+    <a href="../../../index.html">Gallery</a>
+    <span>couple-select</span>
+</div>
+			<pre class="s-section">				
+作者：satans17@gmail.com(常胤)
+功能：MultiSelect
+描述：模拟MultiSelect的功能，能排除已选择的项，有单选，全选的功能。
+源码：<a href="couple-select.js">couple-select.js</a></pre>
+
+
+<h3 class="s-title">Demo1 - 模拟复选框</h3>
+<div class="s-section">
+    <div class="s-demo">
+
+
+        <div id="demo1" class="multipleselect">
+            <div class="panel s">
+                <h4>选择类目</h4>
+                <ul class="source">
+                    <li class="option selected" data-id="1">这是一个类目1已选择</li>
+                    <li class="option selected" data-id="2">这是一个类目2已选择</li>
+                    <li class="option" data-id="3">这是一个类目3</li>
+                    <li class="option" data-id="4">这是一个类目4</li>
+                    <li class="option" data-id="5">这是一个类目5</li>
+                    <li class="option" data-id="6">这是一个类目6</li>
+                    <li class="option" data-id="7">这是一个类目7</li>
+                    <li class="option" data-id="8">这是一个类目8</li>
+                </ul>
+            </div>
+            <div class="panel t">
+                <h4>已选择类目</h4>
+                <ul class="target">
+                </ul>
+            </div>
+            <div class="panel handler">
+                <button class="J_add">&gt;</button>
+                <button class="J_addall">&gt;&gt;</button>
+                <button class="J_removeall">&lt;&lt;</button>
+                <button class="J_remove">&lt;</button>
+            </div>
+        </div>
+
+        <div class="result">
+            已选择：<input type="text" id="ds"/> <em>双击可以选中/移除对应的option</em>
+        </div>
+
+
+        <script>
+            KISSY.use('gallery/couple-select/1.0/couple-select', function(S, Coupleselect) {
+                var d = new Coupleselect("#demo1");
+
+                d.on("change", function(ev) {
+                    var arr = []
+                    S.each(ev.selected, function(item) {
+                        arr.push(item[0]);
+                    });
+                    S.one("#ds").val(arr.join(","));
+                });
+            });
+        </script>
+
+
+    </div>
+    <a class="s-view-code" href="demo.html#">显示源码</a><!--点击该链接自动帮你显示s=demo里的内容，如不需要，去除链接即可-->
+</div>
+
+
+<h3 class="s-title">Demo2 - 全功能展示</h3>
+<div class="s-section">
+    <div class="s-demo">
+
+
+        <div id="demo2">
+            <div class="demo2">
+                <div class="source">
+                    <a class="option" data-id="1">鼠标</a>
+                    <a class="option" data-id="2">笔记本</a>
+                    <a class="option" data-id="3">照相机</a>
+                    <a class="option" data-id="4">手机</a>
+                    <a class="option" data-id="5">收音机</a>
+                    <a class="option" data-id="6">留声机</a>
+                    <a class="option" data-id="7">拖拉机</a>
+                </div>
+                <div class="target"></div>
+            </div>
+
+            <p class="btn">
+                <button id="add" type="button">增加</button>
+                <button id="remove" type="button">移除</button>
+                <button id="addall" type="button">增加所有</button>
+                <button id="removeall" type="button">移除所有</button>
+            </p>
+
+            <p>当前增加：<span id="a"></span></p>
+            <p>当前移除：<span id="b"></span></p>
+            <p>所有已选择：<span id="c"></span></p>
+
+        </div>
+
+        <script>
+            KISSY.use('gallery/couple-select/1.0/couple-select', function(S, Coupleselect) {
+                var d2 = new Coupleselect("#demo2");
+
+                //增加事件
+                d2.on("add", function(ev) {
+                    S.one("#a").text(ev.id + ":" + ev.text);
+                });
+
+                //增加已经选择
+                S.one("#add").on("click", function() {
+                    d2.add(".select");
+                });
+
+                //移除已选择
+                S.one("#remove").on("click", function() {
+                    d2.remove(".select");
+                });
+
+                //增加所有
+                S.one("#addall").on("click", function() {
+                    d2.add();
+                });
+
+                //移除所有
+                S.one("#removeall").on("click", function() {
+                    d2.remove();
+                });
+
+
+                //移除事件
+                d2.on("remove", function(ev) {
+                    S.one("#b").text(ev.id + ":" + ev.text);
+                });
+
+                //有改变事件
+                d2.on("change", function(ev) {
+                    S.one("#c").text(ev.selected.join(","));
+                });
+
+            });
+        </script>
+
+
+    </div>
+    <a class="s-view-code" href="demo.html#">显示源码</a><!--点击该链接自动帮你显示s=demo里的内容，如不需要，去除链接即可-->
+</div>
+
+
+<h3 class="s-title">API</h3>
+<div class="s-section">
+    <h4 class="s-api-title">方法</h4>
+    <div class="s-api-method">直接看源码和示例吧</div>
+
+
+</div>
+
+
+<h3 class="s-title">Note</h3>
+<div class="s-section">
+    <ul class="s-list">
+        <li>能满足自己项目的需求，没有经过效率等严格的测试</li>
+    </ul>
+</div>
+</div>
+<div id="footer">
+    &copy; Copyright 2010~2011, KISSY Team.
+</div>
+</body>
+</html>

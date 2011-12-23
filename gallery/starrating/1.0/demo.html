@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>KISSY gallery - Star Rating</title>
+<link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
+<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+<script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+<style>
+    .s-demo {
+        height: 120px;
+    }
+</style>
+</head>
+<body>
+    <div id="header"> 
+		<h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png"/></a></h1>
+		<div class="sub-title">Gallery</div>
+		<ul class="navigation"> 
+			<li><a href="http://blog.kissyui.com/">博客</a></li> 
+			<li><a href="http://github.com/kissyteam">源码</a></li> 		
+		</ul>
+		
+	</div> 
+    <div id="content">
+		<div class="s-crumbs">
+			<span>当前位置：</span>
+			<a href="http://kissyui.com/">KISSY</a>
+			<a href="../../../index.html">Gallery</a>
+			<span>starrating</span>
+		</div>
+			<pre class="s-section">				
+作者：shengyan1985@gmail.com(乔花)
+功能：function 评价星
+源码：<a href="starrating.js">starrating.js</a></pre>
+			
+			<h3 class="s-title">Demo - 功能点</h3>			
+			<div class="s-section">
+				<div id="J_Rating" class="rating-bd s-demo">
+                    <div class="rating-tips">
+                        <h5>小提示：</h5>
+                        <p>点击星星就能打分了, 该打分完全是匿名滴. </p>
+                    </div>
+                    <div class="shop-rating">
+                        <span class="title">设计美观:</span>
+                        <ul class="rating-level">
+                            <li><a href="demo.html#" data-star-value="1" class="one-star">1</a></li>
+                            <li><a href="demo.html#" data-star-value="2" class="two-stars">2</a></li>
+                            <li><a href="demo.html#" data-star-value="3" class="three-stars">3</a></li>
+                            <li><a href="demo.html#" data-star-value="4" class="four-stars">4</a></li>
+                            <li><a href="demo.html#" data-star-value="5" class="five-stars">5</a></li>
+                        </ul>
+                        <span class="result"></span>
+                        <input type="hidden" size="2" value="" name="dsr1" />
+                    </div>
+
+                    <div class="shop-rating">
+                        <span class="title">维护简易:</span>
+                        <ul class="rating-level">
+                            <li><a href="demo.html#" data-star-value="1" class="one-star">1</a></li>
+                            <li><a href="demo.html#" data-star-value="2" class="two-stars">2</a></li>
+                            <li><a href="demo.html#" data-star-value="3" class="three-stars">3</a></li>
+                            <li><a href="demo.html#" data-star-value="4" class="four-stars">4</a></li>
+                            <li><a href="demo.html#" data-star-value="5" class="five-stars">5</a></li>
+                        </ul>
+                        <span class="result"></span>
+                        <input type="hidden" size="2" value="" name="dsr2" />
+                    </div>
+
+                    <div class="shop-rating">
+                        <span class="title">加载迅速:</span>
+                        <ul class="rating-level">
+                            <li><a href="demo.html#" data-star-value="1" class="one-star">1</a></li>
+                            <li><a href="demo.html#" data-star-value="2" class="two-stars">2</a></li>
+                            <li><a href="demo.html#" data-star-value="3" class="three-stars">3</a></li>
+                            <li><a href="demo.html#" data-star-value="4" class="four-stars">4</a></li>
+                            <li><a href="demo.html#" data-star-value="5" class="five-stars">5</a></li>
+                        </ul>
+                        <span class="result"></span>
+                        <input type="hidden" size="2" value="" name="dsr3" />
+                    </div>
+                    <div class="rating-pop-tip" style="display: none;"></div>
+                    <!-- <p class="msg"><span class="error"></span></p> -->
+                    <script>
+                        KISSY.use('gallery/starrating/1.0/starrating, gallery/starrating/1.0/assets/starrating.css', function(S, StarRating) {
+                            var a = new StarRating({
+                                container: '#J_Rating',
+                                reason: [['太丑了', '不好看', '一般般', '很漂亮', '哇!非常漂亮'],
+                                            ['太难维护了', '不好维护', '一般般', '维护很简单', '维护超级容易'],
+                                            ['太慢了', '有点小慢', '一般般', '挺快的', '超级快!']],
+                                level: ['非常不满意','很不满意','一般','很满意','非常满意']
+                            });
+                            a.on('rating', function(ev) {
+                                S.log('给第' + (ev.idx+1) + '项打分为' + ev.score);
+                            });
+                        });
+                    </script>
+				</div>
+				<a class="s-view-code" href="demo.html#">显示源码</a><!--点击该链接自动帮你显示s=demo里的内容，如不需要，去除链接即可-->
+			</div>
+			
+			<h3 class="s-title">API</h3>			
+			<div class="s-section">
+				<h4 class="s-api-title">方法</h4>
+				<div class="s-api-method">KISSY.gallery.StarRating ( param )</div>
+				<h4 class="s-api-title">参数</h4>
+				<div class="s-api-params">
+					<ul class="s-list">
+						<li>{String|HTMLElement|KISSY.Node} [ <em>container</em> ] 打分容器, 必设</li>
+                        <li>{Array&lt;String>} [ <em>reason</em> ] 默认的原因列表</li>
+                        <li>{Array&lt;String>} [ <em>level</em> ] 满意程度描述列表</li>
+					</ul>
+				</div>
+				<h4 class="s-api-title">返回</h4>
+				<div class="s-api-return">{Object}</div>
+			</div>
+
+        <h3 class="s-title">Note</h3>
+        <div class="s-section">
+            <ul class="s-list">
+                <li>需要自行定义样式, 参考 <a href="assets/starrating.css">starrating.css</a>.</li>
+            </ul>
+        </div>
+    </div>
+    <div id="footer">
+        &copy; Copyright 2010~2011, KISSY Team.
+    </div>
+</body>
+</html>
