@@ -4,7 +4,7 @@
     <property name="charset" value="utf-8"/>
     <property name="gallery.dir" location="${ant.file.common-build}/../"/>
 	<property name="gallery.build.dir" location="${gallery.dir}/../gallery-build/"/>
-    <property name="kissy-tools.dir" location="${gallery.dir}/../kissy-tools/"/>
+    <property name="kissy-tools.dir" location="${gallery.dir}/../../kissy-tools/"/>
 
     <property name="src.dir" value="src.dir.need.override"/>
     <property name="component.name" value="component.name.need.override"/>
