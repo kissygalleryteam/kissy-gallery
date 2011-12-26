@@ -3,9 +3,6 @@ KISSY.add("gallery/grid/1.0/editGrid",function (S,Grid,GridEditor) {
 		UA = S.UA,
         Node = S.Node;
 
-	/** 
-		@exports S.LP as KISSY.LP
-	*/
 	var ATTR_COLUMN_NAME = 'data-column-name',
 		DATA_ELEMENT = 'row-element',
 		CLS_CELL_TEXT = 'grid-body-cell-text',
@@ -20,10 +17,11 @@ KISSY.add("gallery/grid/1.0/editGrid",function (S,Grid,GridEditor) {
 
 	/**
 	* 可编辑表格控件
-	* @memberOf S.LP
+	* @memberOf Grid
+	* @name EidtGrid
 	* @description 编辑表格数据
 	* @class 可编辑的表格类
-	* @augments KISSY.LP.Grid 
+	* @augments Grid.Grid 
 	* @param {Object} conifg 配置项,同父类{@link KISSY.LP.Grid},差别在于列的配置上
 	* @param {Object} conifg.showError 是否直接在列表中显示错误提示
 	* @param {Object} conifg.columns[0].editor 列上的编辑器配置<br>
@@ -42,14 +40,14 @@ KISSY.add("gallery/grid/1.0/editGrid",function (S,Grid,GridEditor) {
 	* }
 	* //下拉列表编辑器
 	* { title: '选择', sortable: true,  dataIndex: 'check',editor:{type:'select',items:[{name:'选择1',value:'1'},{name:'选择2',value:'2'}]}}
-	* @see KISSY.LP.Grid
+	* @see Grid.Grid
 	*/
 	function EditGrid(config) {
 		EditGrid.superclass.constructor.call(this, config);
 	}
 
 	S.extend(EditGrid, Grid, 
-	/** @lends S.LP.EditGrid.prototype */	
+	/** @lends Grid.EidtGrid.prototype */	
 	{
 		/**
 		* 清除错误，如果还处于编辑状态，则取消编辑状态
@@ -373,9 +371,9 @@ KISSY.add("gallery/grid/1.0/editGrid",function (S,Grid,GridEditor) {
 		}
 	});
 
-	S.namespace('LP');
+	//S.namespace('LP');
 
-	S.LP.EditGrid = EditGrid;
+	//S.LP.EditGrid = EditGrid;
 
 	return EditGrid;
 }, {

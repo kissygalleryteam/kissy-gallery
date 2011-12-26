@@ -19,12 +19,26 @@ KISSY.add("gallery/grid/1.0/paggingBar",function(S,bar){
 	//分页栏
 	/**
 	* 翻页时触发
-	* @name S.LP.PaggingBar#beforepagechange
+	* @name Grid.PaggingBar#beforepagechange
 	* @event  
 	* @param {event} e  事件对象
 	* @param {event} e.from  起始页
 	* @param {event} e.to  目标页
 	* @return {Boolean} 如果返回false则，取消翻页
+	*/
+
+	/**
+	* 分页控件
+	* @name Grid.PaggingBar
+	* @class
+	* @param {object} config 分页栏的配置项
+	* @param {Number} config.pageSize 单页数据量
+	* @param {Grid.Store} config.store 数据缓冲对象
+	* @example
+	* //应用于表格、列表时，会默认添加表格、列表的数据源，添加容器的编号
+	* tbar : {pageSize:20}
+	* //独立生成分页栏
+	* new Grid.PaggingBar({renderTo:'pbar',store:store,pageSize:20});
 	*/
 	function paggingBar(config){
 		var _self = this;
@@ -41,7 +55,7 @@ KISSY.add("gallery/grid/1.0/paggingBar",function(S,bar){
 	
 	S.extend(paggingBar, bar);
 	S.augment(paggingBar,
-	/** @lends S.LP.PaggingBar.prototype */	
+	/** @lends Grid.PaggingBar.prototype */	
 	{
 		CLS_BAR : CLS_PAGGING_BAR,
 		//数据加载完成后，更新状态
@@ -250,23 +264,7 @@ KISSY.add("gallery/grid/1.0/paggingBar",function(S,bar){
 		}
 	});
 	
-	S.namespace('LP');
-	
-	/**
-	* 分页栏
-	* @description 用于分页，配置项config:<br>
-	* 1) pageSize : 单页记录数<br>
-	* 2) store : 数据源<br>
-	* 3) renderTo :附加到容器的编号<br>
-	* @class 分页控件
-	* @param {Object} config 配置参数
-	* @example
-	* //应用于表格、列表时，会默认添加表格、列表的数据源，添加容器的编号
-	* tbar : {pageSize:20}
-	* //独立生成分页栏
-	* new S.LP.PaggingBar({renderTo:'pbar',store:store,pageSize:20});
-	*/
-	S.LP.PaggingBar = paggingBar;
+	//S.namespace('LP');
 
 	return paggingBar;
 }, {requires : ["./bar"]});

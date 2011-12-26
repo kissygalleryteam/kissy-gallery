@@ -1,12 +1,9 @@
 KISSY.add("gallery/grid/1.0/loadMask",function(S,util){	
 
-	/** 
-		@exports S.LP as KISSY.LP
-	*/
-
 	/**
 	* 屏蔽指定元素，并显示加载信息
-	* @memberOf S.LP
+	* @memberOf Grid
+	* @name LoadMask
 	* @class 加载屏蔽类
 	* @property {String|DOM|Node} el 要屏蔽的元素，选择器、Dom元素或Node元素
 	* @param {String|DOM|Node} element 要屏蔽的元素，选择器、Dom元素或Node元素
@@ -25,7 +22,7 @@ KISSY.add("gallery/grid/1.0/loadMask",function(S,util){
 	S.extend(LoadMask, S.Base);
     //对象原型
     S.augment(LoadMask, 
-	/** @lends S.LP.LoadMask.prototype */	
+	/** @lends Grid.LoadMask.prototype */	
 	{
 		/**
 		* 加载时显示的加载信息
@@ -101,7 +98,7 @@ KISSY.add("gallery/grid/1.0/loadMask",function(S,util){
         }
     });
 
-	S.LP.LoadMask = LoadMask;
+	//S.LP.LoadMask = LoadMask;
 
 	return LoadMask;
 }, {requires : ["./util"]});
