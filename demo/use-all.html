@@ -112,16 +112,16 @@
     <script type="text/template" id="default-pagination-tpl-2">
         {{#! 显示首页 }}
         {{#if currentPage === startPage }}
-        <a class="pg-prev pg-first pg-disabled" href="demo.html#">首页</a>
+        <a class="pg-prev pg-first pg-disabled" href="#">首页</a>
         {{#else}}
-        <a class="pg-prev pg-first" href="demo.html#" data-page="{{ startPage }}">首页</a>
+        <a class="pg-prev pg-first" href="#" data-page="{{ startPage }}">首页</a>
         {{/if}}
 
         {{#! 显示上一页 }}
         {{#if currentPage === startPage }}
         <a class="pg-prev pg-disabled">上一页</a>
         {{#else}}
-        <a class="pg-prev" href="demo.html#" data-page="{{ currentPage - 1 }}">上一页</a>
+        <a class="pg-prev" href="#" data-page="{{ currentPage - 1 }}">上一页</a>
         {{/if}}
 
         {{#if showPageNum }}
@@ -130,7 +130,7 @@
         {{#for var i = 0; i < alwaysDisplayCount; i++ }}
         {{#! 避免后面重复显示 }}
         {{#if i + startPage < startIndex }}
-        <a class="pg-page pg-item" href="demo.html#" data-page="{{ i + startPage }}">{{ i + startPage }}</a>
+        <a class="pg-page pg-item" href="#" data-page="{{ i + startPage }}">{{ i + startPage }}</a>
         {{/if}}
         {{/for}}
         {{/if}}
@@ -143,7 +143,7 @@
         {{#! 显示页数 }}
         {{#for var i = startIndex; i <= endIndex; i++ }}
         {{#if currentPage !== i }}
-        <a class="pg-page pg-item" href="demo.html#" data-page="{{ i }}">{{ i }}</a>
+        <a class="pg-page pg-item" href="#" data-page="{{ i }}">{{ i }}</a>
         {{#else}}
         <span class="pg-current pg-item">{{ i }}</span>
         {{/if}}
@@ -158,7 +158,7 @@
         {{#if currentPage < endPage - alwaysDisplayCount + 1 }}
         {{#for var i = endPage - alwaysDisplayCount + 1; i <= endPage; i++ }}
         {{#if i > endIndex }}
-        <a class="pg-page pg-item" href="demo.html#" data-page="{{ i }}">{{ i }}</a>
+        <a class="pg-page pg-item" href="#" data-page="{{ i }}">{{ i }}</a>
         {{/if}}
         {{/for}}
         {{/if}}
@@ -168,14 +168,14 @@
         {{#if currentPage === endPage }}
         <a class="pg-next pg-disabled">下一页</a>
         {{#else}}
-        <a class="pg-next" href="demo.html#" data-page="{{ currentPage + 1 }}">下一页</a>
+        <a class="pg-next" href="#" data-page="{{ currentPage + 1 }}">下一页</a>
         {{/if}}
 
         {{#! 显示末页 }}
         {{#if currentPage === endPage }}
-        <a class="pg-next pg-last pg-disabled" href="demo.html#">末页</a>
+        <a class="pg-next pg-last pg-disabled" href="#">末页</a>
         {{#else}}
-        <a class="pg-next pg-last" href="demo.html#" data-page="{{ endPage }}">末页</a>
+        <a class="pg-next pg-last" href="#" data-page="{{ endPage }}">末页</a>
         {{/if}}
 
         {{#! 显示当前页和总页数}}
