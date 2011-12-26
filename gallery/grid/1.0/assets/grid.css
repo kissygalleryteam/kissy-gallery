@@ -95,13 +95,13 @@
 }
 
 .pagging-bar, .grid-header-th-inner{
-	background: url("img/grid-back.gif") repeat-x scroll 0 0 transparent;
+	background: url("./img/grid-back.gif") repeat-x scroll 0 0 transparent;
 }
 
 .pb-page-first ,.pb-page-last,.pb-page-next,.pb-page-prev,.pb-page-ok,.pb-item-input,.bar-item-separator,.pagging-bar .bar-item-over ,
 .sorted-asc .grid-header-sort-icon,.sorted-desc .grid-header-sort-icon,.grid-cell-error-icon,.grid-error-editor-icon,
 .bar-btn-add,.bar-btn-del,.bar-btn-close,.bar-btn-import,.bar-btn-export,.bar-btn-save,.bar-btn-create{
-	background-image:url("img/grid.gif");
+	background-image:url("./img/grid.gif");
 	background-repeat: no-repeat;
 }
 
@@ -484,7 +484,7 @@
 
 .pb-page-first ,.pb-page-last,.pb-page-next,.pb-page-prev,.pb-page-ok,.pb-item-input,.bar-item-separator,.pagging-bar .bar-item-over ,
 .bar-btn-add,.bar-btn-del{
-	background-image:url("img/grid.gif");
+	background-image:url("./img/grid.gif");
 }
 
 /*bar*/
