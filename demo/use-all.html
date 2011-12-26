@@ -20,12 +20,12 @@
             }
         ],
         map:[
-                // Gallery 组件js combo 成一个
-                [/http:\/\/assets.daily.taobao.net\/s\/kissy\/gallery\/(?:.+)\.js(.+)$/, "http://assets.daily.taobao.net/s/kissy/gallery/??countdown/1.0/index.js,random-show/1.0/index.js,couple-select/1.0/index.js,kwicks/1.0/index.js,reflection/1.0/index.js,starrating/1.0/index.js,grid/1.0/index.js,digital-clock/1.0/index.js,pagination/1.0/index.js$1"],
-                // Gallery 组件CSS combo 成一个
-                [/http:\/\/assets.daily.taobao.net\/s\/kissy\/gallery\/(?:.+)\.css(.+)$/, "http://assets.daily.taobao.net/s/kissy/gallery/??grid/1.0/assets/uicommon.css,grid/1.0/assets/grid.css,grid/1.0/assets/bar.css,countdown/1.0/assets/countdown.css,pagination/1.0/assets/pagination.css,starrating/1.0/assets/starrating.css,digital-clock/1.0/assets/digital-clock-js.css$1"],
-                // KISSY 组件 js combo 成一个
-                [/http:\/\/assets.daily.taobao.net\/s\/kissy\/1.2.0\/(?:calendar|template|uibase|component|button|menu|menubutton|switchable).js(.+)$/, "http://assets.daily.taobao.net/s/kissy/1.2.0/??calendar-min.js,template-min.js,uibase-min.js,component-min.js,button-min.js,menu-min.js,menubutton-min.js,switchable-min.js$1"]
+                // Gallery 组件 JS combo 成一个
+                [/http:\/\/assets.daily.taobao.net\/s\/kissy\/gallery\/(?:countdown|random-show|couple-select|kwicks|reflection|starrating|grid|digital-clock|pagination)\/1.0\/index(-min)?\.js(.+)$/, "http://assets.daily.taobao.net/s/kissy/gallery/??countdown/1.0/index$1.js,random-show/1.0/index$1.js,couple-select/1.0/index$1.js,kwicks/1.0/index$1.js,reflection/1.0/index$1.js,starrating/1.0/index$1.js,grid/1.0/index$1.js,digital-clock/1.0/index$1.js,pagination/1.0/index$1.js$2"],
+                // Gallery 组件 CSS combo 成一个
+                [/http:\/\/assets.daily.taobao.net\/s\/kissy\/gallery\/(?:grid|countdown|pagination|starrating|digital-clock)\/1.0\/assets\/(?:uicommon|grid|bar|countdown|pagination|starrating|digital-clock-js)(-min)?\.css(.+)$/, "http://assets.daily.taobao.net/s/kissy/gallery/??grid/1.0/assets/uicommon$1.css,grid/1.0/assets/grid$1.css,grid/1.0/assets/bar$1.css,countdown/1.0/assets/countdown$1.css,pagination/1.0/assets/pagination$1.css,starrating/1.0/assets/starrating$1.css,digital-clock/1.0/assets/digital-clock-js$1.css$2"],
+                // KISSY 组件 JS combo 成一个
+                [/http:\/\/assets.daily.taobao.net\/s\/kissy\/1.2.0\/(?:calendar|template|uibase|component|button|menu|menubutton|switchable)(-min)?.js(.+)$/, "http://assets.daily.taobao.net/s/kissy/1.2.0/??calendar$1.js,template$1.js,uibase$1.js,component$1.js,button$1.js,menu$1.js,menubutton$1.js,switchable$1.js$2"]
         ]
     });
 </script>
@@ -643,49 +643,55 @@
         });
     </script>
 </div>
-
+<div class="s-section">
+    <h4 class="s-title"><a href="http://docs.kissyui.com/kissy-gallery/gallery/index.html">查看更多 Gallery 组件</a></h4>
+</div>
 <pre>
-1) 引入 &lt;script src="http://assets.daily.taobao.net/s/kissy/1.2.0/kissy.js">&lt;/script>
-2) 配置
-&lt;script>
-KISSY.config({
-packages:[
-{
-    name:"gallery",
-    tag:"20111223",
-    path:"http://assets.daily.taobao.net/s/kissy/",
-    charset:"utf-8"
-}
-],
-// 通过 map 规则支持 cdn combo, 可以减少请求数, 根据需要合并assets请求!!
-map:[
-    // Gallery 组件js combo 成一个
-    [/http:\/\/assets.daily.taobao.net\/s\/kissy\/gallery\/(?:.+)\.js(.+)$/, "http://assets.daily.taobao.net/s/kissy/gallery/??countdown/1.0/index.js,random-show/1.0/index.js,couple-select/1.0/index.js,kwicks/1.0/index.js,reflection/1.0/index.js,starrating/1.0/index.js,grid/1.0/index.js,digital-clock/1.0/index.js,pagination/1.0/index.js$1"],
-    // Gallery 组件CSS combo 成一个
-    [/http:\/\/assets.daily.taobao.net\/s\/kissy\/gallery\/(?:.+)\.css(.+)$/, "http://assets.daily.taobao.net/s/kissy/gallery/??grid/1.0/assets/uicommon.css,grid/1.0/assets/grid.css,grid/1.0/assets/bar.css,countdown/1.0/assets/countdown.css,pagination/1.0/assets/pagination.css,starrating/1.0/assets/starrating.css,digital-clock/1.0/assets/digital-clock-js.css$1"],
-    // KISSY 组件 js combo 成一个
-    [/http:\/\/assets.daily.taobao.net\/s\/kissy\/1.2.0\/(?:calendar|template|uibase|component|button|menu|menubutton|switchable).js(.+)$/, "http://assets.daily.taobao.net/s/kissy/1.2.0/??calendar-min.js,template-min.js,uibase-min.js,component-min.js,button-min.js,menu-min.js,menubutton-min.js,switchable-min.js$1"]
-]
-});
-&lt;/script>
-3) 使用各个组件, 那倒计时为例:
-&lt;script>
-KISSY.ready(function (S) {
-S.use("gallery/digital-clock/1.0/, gallery/digital-clock/1.0/assets/digital-clock-js.css", function(S, DC) {
-var clock = new DC.DigitalClockJS({
-    render: S.one("#clock_con"),
-    zoomLimit: S.UA.ie == 6 ? 0.2 : 0.15,
-    autoRender:true,
-    zoom:1
-});
+Gallery 组件使用说明:
+
+    1) 引入 &lt;script src="http://assets.daily.taobao.net/s/kissy/1.2.0/kissy.js">&lt;/script>
+    2) 全局配置
+    &lt;script>
+        KISSY.config({
+        // 添加 gallery 包配置, !!需要指定绝对路径
+        packages:[
+        {
+            name:"gallery",
+            tag:"20111223",
+            path:"http://assets.daily.taobao.net/s/kissy/",
+            charset:"utf-8"
+        }
+        ],
+        // 通过 map 规则支持 cdn combo, 可以减少请求数, 根据需要合并assets请求. 注意: 用到哪些 assets 就 combo 那些. 慎用通配符进行映射!!
+        map:[
+            // Gallery 组件 JS combo 成一个
+            [/http:\/\/assets.daily.taobao.net\/s\/kissy\/gallery\/(?:countdown|random-show|couple-select|kwicks|reflection|starrating|grid|digital-clock|pagination)\/1.0\/index(-min)?\.js(.+)$/, "http://assets.daily.taobao.net/s/kissy/gallery/??countdown/1.0/index$1.js,random-show/1.0/index$1.js,couple-select/1.0/index$1.js,kwicks/1.0/index$1.js,reflection/1.0/index$1.js,starrating/1.0/index$1.js,grid/1.0/index$1.js,digital-clock/1.0/index$1.js,pagination/1.0/index$1.js$2"],
+            // Gallery 组件 CSS combo 成一个
+            [/http:\/\/assets.daily.taobao.net\/s\/kissy\/gallery\/(?:grid|countdown|pagination|starrating|digital-clock)\/1.0\/assets\/(?:uicommon|grid|bar|countdown|pagination|starrating|digital-clock-js)(-min)?\.css(.+)$/, "http://assets.daily.taobao.net/s/kissy/gallery/??grid/1.0/assets/uicommon$1.css,grid/1.0/assets/grid$1.css,grid/1.0/assets/bar$1.css,countdown/1.0/assets/countdown$1.css,pagination/1.0/assets/pagination$1.css,starrating/1.0/assets/starrating$1.css,digital-clock/1.0/assets/digital-clock-js$1.css$2"],
+            // KISSY 组件 JS combo 成一个
+            [/http:\/\/assets.daily.taobao.net\/s\/kissy\/1.2.0\/(?:calendar|template|uibase|component|button|menu|menubutton|switchable)(-min)?.js(.+)$/, "http://assets.daily.taobao.net/s/kissy/1.2.0/??calendar$1.js,template$1.js,uibase$1.js,component$1.js,button$1.js,menu$1.js,menubutton$1.js,switchable$1.js$2"]
+        ]
+        });
+    &lt;/script>
+    3) 使用各个组件, 那倒计时为例:
+    &lt;script>
+        KISSY.ready(function (S) {
+            S.use("gallery/digital-clock/1.0/, gallery/digital-clock/1.0/assets/digital-clock-js.css", function(S, DC) {
+                // 初始化倒计时
+                var clock = new DC.DigitalClockJS({
+                    render: S.one("#clock_con"),
+                    zoomLimit: S.UA.ie == 6 ? 0.2 : 0.15,
+                    autoRender:true,
+                    zoom:1
+                });
 
 
-setInterval(function () {
-    clock.set("date", new Date());
-}, 1000);
-});
-});
-&lt;/script>
+                setInterval(function () {
+                    clock.set("date", new Date());
+                }, 1000);
+            });
+        });
+    &lt;/script>
 </pre>
 
 </div>
