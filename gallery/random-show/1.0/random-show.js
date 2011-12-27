@@ -4,7 +4,7 @@
  * @Date:       11-10-18
  * @Log:
  */
-KISSY.add('gallery/random-show/1.0/random-show', function(S, Core, RandomRegion, undefined) {
+KISSY.add('gallery/random-show/1.0/random-show', function(S, RandomRegion, undefined) {
 
     var D = S.DOM,
         RATIO_SHOW = 0.5;
@@ -75,5 +75,5 @@ KISSY.add('gallery/random-show/1.0/random-show', function(S, Core, RandomRegion,
     return RandomShow;
 
 }, {
-    requires:['core','./random-region']
+    requires:['./random-region']
 });

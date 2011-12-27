@@ -57,5 +57,5 @@ KISSY.add('gallery/yours/versionid/yours', function(S, undefined) {
     //私有方法
     return Yours;
 }, {
-    requires: ["core"]
+    requires: []
 });
