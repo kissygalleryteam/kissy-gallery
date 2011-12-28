@@ -230,7 +230,6 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			'rowunselected'
 		];
 		_self._init();
-
 	}
 
 	Grid.config = {
@@ -348,6 +347,12 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			return row ? DOM.data(row, DATA_ELEMENT) : null;
 		},
 		/**
+		* 设置选中所有行
+		*/
+		setAllSelection :function(){
+			this._setAllRowsSelected(true);
+		},
+		/**
 		* 设置选中的数据
 		* @param {String} field 字段名称 
 		* @param {Array} values 选中行的对应字段的值
@@ -397,11 +402,22 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 		setWidth : function (width) {
 			var _self = this,
 				body = _self.get('body'),
-				gridEl = _self.get('gridEl');
+				gridEl = _self.get('gridEl'),
+				columns = _self.get('columns'),
+				forceFit = _self.get('forceFit');
+			_self.set('width',width);
 			gridEl.width(width);
 			S.one(body).width(width - 2);
 			gridEl.children('.grid-view').width(width - 2);
+			//如果表格列自适应宽度
+			if(forceFit){
+				_self._forceFitColumns();
+				S.each(columns,function(column){
+					_self._setColumnWidth(column);
+				});
+			}
 
+			_self._autoSetInnerWidth(width);
 		},
 		/**
 		* 
@@ -734,6 +750,9 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			_self.set('tbody', table.tBodies[0]);
 			_self.set('tfoot', table.tFoot);
 			_self.set('thead', headerTable.tHead);
+
+			_self._initHeader();
+
 			if (!_self._isAutoFitWidth()) {//如果设置了宽度，则使用此宽度
 				width = _self.get('width');
 				_self.setWidth(width);
@@ -745,8 +764,8 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			if (height) {
 				_self.setHeight(height);
 			}
+
 			_self._initListeners();
-			_self._initHeader();
 			_self._initPaggingBar();
 			_self._initData();
 			_self._initEvent();
@@ -898,7 +917,7 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
                                                 sortIcon , '</div>',
                                             '</th>'].join(''),
 					thEl = new Node(temp);
-				thEl.width(width);
+				thEl.attr('width',width+'px');
 				thEl.appendTo(tr);
 			}
 
@@ -906,9 +925,9 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 				checkColumnTemplate = _self._getCheckedCellTemplate('grid-header-checked-column', CLS_HEADER_TH);
                 new Node(checkColumnTemplate).appendTo(tr);
 			}
-			if (_self.get('forceFit')) {
+			/*if (_self.get('forceFit')) {
 				_self._forceFitColumns();
-			}
+			}*/
 			//创建列头，计算宽度
 			S.each(columns, function (column) {
 				var width =  column.width || COLUMN_DEFAULT_WIDTH;
@@ -918,7 +937,7 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			if (!_self._isAutoFitWidth()) {
 				emptyTh = new Node('<th class="' + CLS_HEADER_TH + ' grid-header-th-empty"><div class ="' + CLS_HEADER_TH + '-inner"></div></th>');
 				emptyTh.appendTo(tr);
-				_self._autoSetInnerWidth();
+				//_self._autoSetInnerWidth();
 			}
 		},
 		//初始化事件处理函数
@@ -938,6 +957,9 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			var _self = this,
 				header = _self.get('thead'),
 				emptyEl = S.one('.' + CLS_HEADER_TH_EMPTY, header);
+			if(!emptyEl){
+				return;
+			}
 			if (emptyWidth <= 0) {
 				emptyEl.hide();
 			} else {
@@ -963,7 +985,7 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			_self._setEmptyHeadCellWidth(emptyWidth);
 			headerWidth = width + (emptyWidth ? emptyWidth + 2 : 0);
 			S.one(header).parent().width(headerWidth);
-			if (height) {
+			if (height && !UA.firefox) {
 				width -= (COLUMN_WIDTH_EMPTY + 2);
 			}
 			S.one(body).parent().width(width);
@@ -1135,13 +1157,21 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			var _self = this,
 				field = column.dataIndex,
 				clsTh = '.grid-header-column-' + field,
-				clsTd = '.grid-body-td' + field,
+				clsTd = '.grid-body-td-' + field,
 				thead = _self.get('thead'),
-				tbody = _self.get('tbody');
+				tbody = _self.get('tbody'),
+				cellList = null;
 			if(column.width != width){
-				column.width = width;
-				S.one(clsTh,thead).width(width);
-				S.all(clsTd,tbody).width(width).children('.grid-body-cell-inner').width(width);
+				if(width){
+					column.width = width;
+				}else{
+					 width = column.width;
+				}
+				S.one(clsTh,thead).attr('width',width + 'px');
+				cellList = S.all(clsTd,tbody);
+				cellList.each(function(cell){
+					cell.attr('width',width + 'px').children('.grid-body-cell-inner').width(width);
+				});
 			}
 		},
 		//设置表头选中状态
@@ -1163,7 +1193,12 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			if (hasSelected === selected) {
 				return;
 			}
+			
 			if (checkbox) {
+				//如果选择框不可用，此行不能选中
+				if(DOM.attr(checkbox,'disabled')){
+					return;
+				}
 				checkbox.checked = selected;
 			}
 			if (selected) {
