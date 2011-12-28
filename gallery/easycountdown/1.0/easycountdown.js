@@ -6,11 +6,11 @@
  *       2.回调中操作耗时，会导致倒计时不准。请参考定时器工作原理http://www.cnblogs.com/rainman/archive/2008/12/26/1363321.html
  *       simplecountdown实现原理很简单，实例化的时候记录开始时间和结束时间，可能根据实际情况实时fetch剩余事件
  * @author 常胤<satans17@gmail.com>
- * @date 20110601
+ * @date 20110604
  * @version 1.0
  * @depends kissy core
  */
-KISSY.add("gallery/simplecountdown/1.0/easycountdown",function(S, undefined){
+KISSY.add("gallery/easycountdown/1.0/easycountdown",function(S, undefined){
     var $ = S.all, DOM = S.DOM,
 		//时间单位
 		timeUnitsKey = ["d","h","m","s","i"],

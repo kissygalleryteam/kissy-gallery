@@ -30,7 +30,21 @@
 	</style>
 	<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script> 
 	<script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script> 
+	<!--
 	<script src="easycountdown.js"></script> 
+	-->
+	<script>
+		KISSY.config({
+			packages:[
+				{
+					name:"gallery",
+					tag:"20111224",
+					path:"../../../",  // cdn上适当修改对应路径
+					charset:"gbk"
+				}
+			]
+		});
+	</script>
 
 	
 	
@@ -65,7 +79,7 @@
 
 
 			
-			<h3 class="s-title">使用KISSY.Gallery.Countdown2.autoRender();自动渲染组件</h3>
+			<h3 class="s-title">使用Easycountdown.autoRender();自动渲染组件</h3>
 
 			
 			<div class="s-section">
@@ -194,7 +208,7 @@
 
 					<script>
 						KISSY.ready(function(S){
-							S.use("gallery/simplecountdown/1.0/easycountdown", function(S,EasyCountdown){
+							S.use("gallery/easycountdown/1.0/easycountdown", function(S,EasyCountdown){
 								EasyCountdown.autoRender();
 							})
 						})						
@@ -227,7 +241,7 @@
 					
 					<script>
 						KISSY.ready(function(S){
-							S.use("gallery/simplecountdown/1.0/easycountdown", function(S,EasyCountdown){
+							S.use("gallery/easycountdown/1.0/easycountdown", function(S,EasyCountdown){
 								new EasyCountdown("#J_demo2","2012-8-1 12:12:12",{
 									interval:500
 								})
@@ -251,7 +265,7 @@
 			
 			
 			
-			<h3 class="s-title">KISSY.Gallery.Countdown2.Core();</h3>
+			<h3 class="s-title">使用Easycountdown.Core();</h3>
 			<div class="s-section">
 				<div class="s-demo">
 				
@@ -283,7 +297,7 @@
 					
 					<script>
 						KISSY.ready(function(S){
-							S.use("gallery/simplecountdown/1.0/easycountdown", function(S,EasyCountdown){
+							S.use("gallery/easycountdown/1.0/easycountdown", function(S,EasyCountdown){
 								var test = new EasyCountdown.Core("2012-8-1 12:12:12");
 								
 								test.fetch(500,function(remain){

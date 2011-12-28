@@ -286,5 +286,5 @@ KISSY.add("gallery/grid/1.0/util",function(S){
 		
 	return Util;
 }, {
-    requires: ["core","calendar"]
+    requires: ["calendar"]
 });
