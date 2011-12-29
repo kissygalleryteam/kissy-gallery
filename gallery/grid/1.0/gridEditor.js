@@ -271,13 +271,13 @@ KISSY.add("gallery/grid/1.0/gridEditor",function (S,Util) {
 	S.augment(textGridEditor, {
 		_basicFormat : function(value){
 			if(value){
-				value =  value.replace('<','&lt;').replace('>','&gt;').replace('"','&quot;');
+				value =  value.replace(/\</g,'&lt;').replace(/\>/,'&gt;').replace(/\"/,'&quot;');
 			}
 			return value;
 		},
 		_setValue : function(value,editElemnt){
 			if(value){
-				value =  value.replace('&lt;','<').replace('&gt;','>').replace('&quot;','"');
+				value =  value.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"');
 			}
 			this.constructor.superclass._setValue.call(this,value,editElemnt);
 		}

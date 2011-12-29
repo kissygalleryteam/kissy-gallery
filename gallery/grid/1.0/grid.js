@@ -347,6 +347,13 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			return row ? DOM.data(row, DATA_ELEMENT) : null;
 		},
 		/**
+		* 隐藏列
+		* @param {String} field 要隐藏列的字段名称 
+		*/
+		hideColumn : function(field){
+			this._setColumnVisible(field,false);
+		},
+		/**
 		* 设置选中所有行
 		*/
 		setAllSelection :function(){
@@ -396,14 +403,14 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			}
 		},
 		/**
-		* @private
 		* 设置表格宽度
+		* @param {Number} 设置表格的宽度
 		*/
 		setWidth : function (width) {
 			var _self = this,
 				body = _self.get('body'),
 				gridEl = _self.get('gridEl'),
-				columns = _self.get('columns'),
+				
 				forceFit = _self.get('forceFit');
 			_self.set('width',width);
 			gridEl.width(width);
@@ -411,13 +418,17 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			gridEl.children('.grid-view').width(width - 2);
 			//如果表格列自适应宽度
 			if(forceFit){
-				_self._forceFitColumns();
-				S.each(columns,function(column){
-					_self._setColumnWidth(column);
-				});
+				_self._forceFitWidth();
 			}
 
 			_self._autoSetInnerWidth(width);
+		},
+		/**
+		* 显示列
+		* @param {String} field 列对应的字段值
+		*/
+		showColumn : function(field){
+			this._setColumnVisible(field,true);
 		},
 		/**
 		* 
@@ -604,6 +615,14 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 				}
 			}
 		},
+		_forceFitWidth : function(){
+			var _self = this,
+				columns = _self.get('columns');
+			_self._forceFitColumns();
+			S.each(columns,function(column){
+				_self._setColumnWidth(column);
+			});
+		},
 		_getCheckedCellTemplate : function (clsCheck, clscell) {
 			return ['<td width="30px" align="center" class="', clsCheck, ' ', clscell, '"><div class="', clscell, '-inner"><span class="gwt-CheckBox"><input type="checkbox" class="', CLS_CHECKBOX, '" tabindex="0"></span></div></td>'].join('');
 		},
@@ -691,7 +710,7 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			var dataIndex = column.dataIndex,
 				width = column.width,
 				tipText = column.showTip ? 'title = "' + (value||'') + '"' : '',
-				hideText = column.hide ? 'ks-hidden' : '',
+				hideText = column.hide ? CLS_HIDDEN : '',
 				template = ['<td  class="grid-body-cell grid-body-td-', dataIndex, ' ', hideText, '" data-column-name="', dataIndex, '" colindex="', colindex, '" width="', width, 'px">',
 						'<div class="', CLS_GRID_CELL_INNER ,'" style="width : ', width, 'px"><span class="', CLS_CELL_TEXT, ' " ' , tipText, '>', text, '</span></div></td>'].join('');
 			return template;
@@ -712,6 +731,7 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			});
 			return totalWidth;
 		},
+		
 		//初始化Grid
 		_init : function () {
 			var _self = this,
@@ -909,7 +929,7 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 			function createColumn(column) {
 				var sortable = column.sortable ? CLS_SORT : '',
 					sortIcon = sortable ? '<span class="grid-header-sort-icon">&nbsp;</span>' : '',
-					hideText = column.hide ? 'ks-hidden' : '',
+					hideText = column.hide ? CLS_HIDDEN : '',
 					width = column.width,
 					cls = column.cls,
 					temp = ['<th align="left" class="', CLS_HEADER_TH, ' ', hideText, ' grid-header-column-', column.dataIndex, ' ', sortable, '" data-column-name="', column.dataIndex, '">',
@@ -1172,6 +1192,34 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 				cellList.each(function(cell){
 					cell.attr('width',width + 'px').children('.grid-body-cell-inner').width(width);
 				});
+			}
+		},
+		//设置列是否可见
+		_setColumnVisible : function(column,visible){
+			if(typeof(column) ==='string'){
+				column = this._getColumn(column);
+			}
+			if(column){
+				var _self = this,
+					field = column.dataIndex,
+					forceFit = _self.get('forceFit'),
+					clsTh = '.grid-header-column-' + field,
+					clsTd = '.grid-body-td-' + field,
+					thead = _self.get('thead'),
+					tbody = _self.get('tbody');
+				if(visible){
+					column.hide = false;
+					S.one(clsTh,thead).removeClass(CLS_HIDDEN);
+					S.all(clsTd,tbody).removeClass(CLS_HIDDEN);
+				}else{
+					column.hide = true;
+					S.one(clsTh,thead).addClass(CLS_HIDDEN);
+					S.all(clsTd,tbody).addClass(CLS_HIDDEN);
+				}
+				//如果表格列自适应宽度
+				if(forceFit){
+					_self._forceFitWidth();
+				}
 			}
 		},
 		//设置表头选中状态
