@@ -1,0 +1,336 @@
+ 
+<!doctype html>
+<html>
+<head>
+	<title>select</title>
+	<meta charset="gbk"/>
+	<link rel="stylesheet" type="text/css" href="http://a.tbcdn.cn/tbsp/tbsp.css" />
+	<style type="text/css">
+		body {
+			margin:1em 2em;
+		}
+		
+		h1,h4 {
+			font-family:'MicroSoft YaHei';
+			padding:10px;
+			margin:10px 0;
+		}
+		
+		h1{
+			font-size:36px;
+			padding-bottom:10px;
+			border-bottom:1px solid #ccc;
+		}
+		
+		h4{
+			font-size:24px;
+		}
+		
+		button {
+			padding:5px 10px;
+			margin-top:10px;
+		}
+		
+		select {
+			padding:2px;
+		}
+		
+		.section {
+			background:#efefef;
+			padding:10px;
+			margin-bottom:10px;
+			border-radius:5px;
+		}
+	
+		h4 {
+			padding-bottom:5px;
+			border-bottom:1px solid #ccc;
+		}
+		
+		
+	/* Modules:= tree {{{ */
+			.tree .bd{
+				width:200px;
+				padding:5px 5px 10px;
+				border:1px solid #ccc;
+				background:#fff;
+			}
+			
+			.tree .bd #datatree {
+				height:350px;
+				overflow:auto;
+			}
+			
+			.tree .bd ul{
+				margin:0 0 0 10px;
+			}
+			
+			.tree .bd ul li a{
+				font-size:14px;
+				color:#000;
+			}
+			
+			.tree .bd ul li s{
+				display:inline-block;
+				width:9px;height:9px;
+				margin-right:5px;
+				background-image:url('http://img02.taobaocdn.com/tps/i2/T1FkilXaJBXXXXXXXX-9-18.png');
+				background-position:0 0;
+				cursor:pointer;
+			}
+	
+			.tree .bd ul li s.expand{
+				background-position:0 -9px;
+			}
+	/* }}} */
+
+		
+
+		
+		
+		
+	</style>
+	
+	<script src="http://assets.taobaocdn.com/s/kissy/1.2.0/kissy.js"></script>
+	<script>
+		KISSY.add({
+			//无限级联动联动组件
+			"linkselect":{
+				fullpath:"./linkselect.js"
+			},
+			//原生省市区数据
+			"provincearray": {
+				fullpath:"./china-data.json"
+			},
+			//省市区联动组件
+			"province": {
+				fullpath:"./province.js"
+			},
+			//格式化后的省市区数据
+			"provincedata": {
+				fullpath:"./province.json"
+			}
+		})
+	</script>
+
+	
+
+	
+</head>
+<body>
+
+
+
+
+<h1>数据最全的中国省市区联动</h1>
+
+
+
+<div class="section">
+<ul>
+	<li>作者：常胤 (satans17@gmail.com)</li>
+	<li>功能：中国省市区联动数据库，提供多种调用方式</li>
+	<li>数据来源：<a href="http://www.stats.gov.cn/tjbz/xzqhdm/t20110726_402742468.htm">国家统计局</a></li>
+	<li>数据更新：截止2010年12月31日</li>
+</ul>
+</div>
+
+
+<div class="section">
+
+	<h4>原生数据格式+无限级联动组件</h4>
+
+	<select id="s1"></select>
+	<select id="s2"></select>
+	<select id="s3"></select>
+	
+	<p><button id="go1" type="button">聚焦到红安县</button> <button id="go2" type="button">聚焦到杭州市</button><p>
+
+	
+	<script>
+
+
+	
+	KISSY.use("linkselect, provincearray", function(S,LinkSelect,data){
+		var $=S.all;
+
+		var a = new S.LinkSelect(["#s1","#s2","#s3"],data, {
+			rootid: 0 //根节点的ID，默认为0
+		});
+		
+		$("#go1").on("click",function(){
+			a.focus(2,"421122");
+		});
+		
+		
+		$("#go2").on("click",function(){
+			a.focus(1,"330100");
+		});
+	})
+	
+	</script>
+	
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="section">
+
+	<h4>格式化后的数据+省市区联动组件</h4>
+	
+
+
+
+	<div id="test">
+		<select></select>
+		<select></select>
+		<select></select>
+	</div>
+
+	<p><button id="go3" type="button">聚焦到红安县</button> <button id="go4" type="button">聚焦到杭州市</button><p>
+
+	<script>
+	
+	KISSY.use("province, provincedata", function(S,Province,ProvinceData){
+		var $=S.all;
+		var t = new Province("#test",ProvinceData);
+		//t.init();
+		//t.renderFirst();
+		t.focus(2,"421122");
+		//t.focus(1,"421100");
+		
+		$("#go3").on("click",function(){
+			t.focus(2,"421122");
+		});
+		
+		
+		$("#go4").on("click",function(){
+			t.focus(1,"330100");
+		});
+		
+	})
+
+
+	</script>
+
+
+
+	
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section">
+
+	<h4>原生数据格式+tree组件 （渲染好慢）</h4>
+	
+
+
+	<div class="tree">
+		<div class="bd">
+			<div id="datatree"></div>
+		</div>
+	</div>
+
+	<button id="tree">开始渲染吧</button>
+
+	<script>
+
+		KISSY.add('provincetree', function(S, Node, Overlay,data) {
+			function haschild(pid){
+				for(var id in data){
+					if(data[id][1]==pid) return true;
+				}
+				return false;
+			}
+			
+			(function(node,pid){
+				var ul = new Node('<ul></ul>')
+				for(var id in data){
+					if(data[id][1]==pid){
+						var li = new Node('<li><a href="#">'+data[id][0]+'</a></li>');
+						li.appendTo(ul);
+						if(haschild(id)){
+							var handler = new Node('<s></s>').addClass("expand").on("click",function(){
+								Node.one(this).toggleClass("expand")
+								Node.one(this).parent().one("ul").toggle(0.2);
+							});
+							li.prepend(handler);
+							arguments.callee(li,id)
+						}
+					}
+				}
+				ul.appendTo(node);
+			})(Node.one("#datatree"),"0")
+
+		},{
+			attach:false,
+			requires:['node','overlay','provincearray']
+		});
+
+		var $=KISSY.all;
+		$("#tree").on("click", function(){
+			
+			KISSY.use('provincetree');
+			
+		})
+
+	</script>
+
+
+
+	
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
