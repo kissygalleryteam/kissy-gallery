@@ -1,8 +1,8 @@
-KISSY.use("selectable", function () {
+KISSY.use("gallery/selectable/1.0/", function (S, SLT) {
 
 
     describe('selectable', function () {
-        var S = KISSY, D = S.DOM, E = S.Event,
+        var D = S.DOM, E = S.Event,
             tempList, VALUE_KEY = 'ks-data',
             SELECTED_ITEM_CLS = 'selected';
 
@@ -37,7 +37,7 @@ KISSY.use("selectable", function () {
         describe('初始化方法', function () {
             var testList
             beforeEach(function () {
-                testList = new S.Selectable('#KS_List', {
+                testList = new SLT.Selectable('#KS_List', {
                     valueKey:VALUE_KEY,
                     selectedItemCls:SELECTED_ITEM_CLS
                 });
@@ -69,7 +69,7 @@ KISSY.use("selectable", function () {
         describe('prev方法', function () {
             var testList;
             beforeEach(function () {
-                testList = new S.Selectable('#KS_List', {
+                testList = new SLT.Selectable('#KS_List', {
                     valueKey:VALUE_KEY,
                     selectedItemCls:SELECTED_ITEM_CLS
                 });
@@ -155,7 +155,7 @@ KISSY.use("selectable", function () {
         describe('next方法', function () {
             var testList;
             beforeEach(function () {
-                testList = new S.Selectable('#KS_List', {
+                testList = new SLT.Selectable('#KS_List', {
                     valueKey:VALUE_KEY,
                     selectedItemCls:SELECTED_ITEM_CLS
                 });
@@ -241,7 +241,7 @@ KISSY.use("selectable", function () {
         describe('index方法(传入参数)', function () {
             var testList;
             beforeEach(function () {
-                testList = new S.Selectable('#KS_List', {
+                testList = new SLT.Selectable('#KS_List', {
                     valueKey:VALUE_KEY,
                     selectedItemCls:SELECTED_ITEM_CLS
                 });
@@ -359,7 +359,7 @@ KISSY.use("selectable", function () {
         describe('value方法(传入参数)', function () {
             var testList;
             beforeEach(function () {
-                testList = new S.Selectable('#KS_List', {
+                testList = new SLT.Selectable('#KS_List', {
                     valueKey:VALUE_KEY,
                     selectedItemCls:SELECTED_ITEM_CLS
                 });
@@ -502,7 +502,7 @@ KISSY.use("selectable", function () {
         describe('value方法(不传参数)', function () {
             var testList;
             beforeEach(function () {
-                testList = new S.Selectable('#KS_List', {
+                testList = new SLT.Selectable('#KS_List', {
                     valueKey:VALUE_KEY,
                     selectedItemCls:SELECTED_ITEM_CLS
                 });
@@ -542,7 +542,7 @@ KISSY.use("selectable", function () {
         describe('item方法', function () {
             var testList;
             beforeEach(function () {
-                testList = new S.Selectable('#KS_List', {
+                testList = new SLT.Selectable('#KS_List', {
                     valueKey:VALUE_KEY,
                     selectedItemCls:SELECTED_ITEM_CLS
                 });
@@ -582,7 +582,7 @@ KISSY.use("selectable", function () {
         describe('filter方法', function () {
             var testList;
             beforeEach(function () {
-                testList = new S.Selectable('#KS_List', {
+                testList = new SLT.Selectable('#KS_List', {
                     valueKey:VALUE_KEY,
                     selectedItemCls:SELECTED_ITEM_CLS
                 });
@@ -669,7 +669,7 @@ KISSY.use("selectable", function () {
         describe('clearFilter方法', function () {
             var testList;
             beforeEach(function () {
-                testList = new S.Selectable('#KS_List', {
+                testList = new SLT.Selectable('#KS_List', {
                     valueKey:VALUE_KEY,
                     selectedItemCls:SELECTED_ITEM_CLS
                 });
