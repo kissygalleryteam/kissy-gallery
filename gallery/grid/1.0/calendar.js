@@ -28,11 +28,11 @@ KISSY.add("gallery/grid/1.0/calendar",function(S,Calendar){
 				max = item.max ? showdate(item.max, new Date()) : (item.max == 0 ? new Date() : null );
 				
 			if(item.config){
-				datatime = new S.Calendar(item.selector,item.config) ;
+				datatime = new Calendar(item.selector,item.config) ;
 			}
 			else{
 				var selected = Date.parse(DOM.val(item.selector).replace(/\-/g,"/"));
-				datatime = new S.Calendar(item.selector,{
+				datatime = new Calendar(item.selector,{
 					minDate:min,
 					maxDate:max,
 					selected:selected ? new Date(selected) : null ,
