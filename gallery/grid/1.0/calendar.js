@@ -72,4 +72,4 @@ KISSY.add("gallery/grid/1.0/calendar",function(S,Calendar){
 
 	return calendar;
 
-},{requires: ["calendar"]});
+},{requires: ["calendar","calendar/assets/base.css"]});
