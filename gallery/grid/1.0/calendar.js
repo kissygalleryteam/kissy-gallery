@@ -1,5 +1,5 @@
 
-KISSY.add("gallery/grid/1.0/calendar",function(S){
+KISSY.add("gallery/grid/1.0/calendar",function(S,Calendar){
 	function calendar(list){
 		var DOM = S.DOM 
 			Event = S.Event,
@@ -55,7 +55,7 @@ KISSY.add("gallery/grid/1.0/calendar",function(S){
 			});
 
 			function getDate(date){
-				return S.Date.format(date,format)
+				return Calendar.Date.format(date,format)
 			}
 
 			date[item.selector] = datatime ;

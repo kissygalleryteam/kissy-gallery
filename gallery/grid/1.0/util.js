@@ -3,7 +3,7 @@
 * @author <a href="mailto:dxq613@gmail.com">董晓庆 旺旺：dxq613</a>  
 * @version 1.0.1  
 */
-KISSY.add("gallery/grid/1.0/util",function(S){
+KISSY.add("gallery/grid/1.0/util",function(S,Calendar){
 	
 	var DOM = S.DOM, Event = S.Event,
         win = window, doc = document,UA=S.UA;
@@ -149,7 +149,7 @@ KISSY.add("gallery/grid/1.0/util",function(S){
                 }
                 if (!date || !date.getFullYear)
                     return "";
-                return S.Date.format(d,"yyyy-mm-dd");
+                return Calendar.Date.format(d,"yyyy-mm-dd");
             },
 			/**
 				@description 日期时间格式化函数
@@ -167,7 +167,7 @@ KISSY.add("gallery/grid/1.0/util",function(S){
                 }
                 if (!date || !date.getFullYear)
                     return "";
-				var dateString = S.Date.format(d,"yyyy-mm-dd HH:MM:ss");
+				var dateString = Calendar.Date.format(d,"yyyy-mm-dd HH:MM:ss");
 				//var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + ' ' + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
                 return dateString;//.replace(/(\s)(\d):/,' 0$2:').replace(/:(\d):/,':0$1:').replace(/:(\d)$/,':0$1'));
 			},
