@@ -1,231 +1,194 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="gbk"/>
-<title>画报详情页</title>
-<base target="_self"/>
-<link rel="stylesheet" href="http://a.tbcdn.cn/tbsp/tbsp.css">
-<style type="text/css">
-    #page {
-        width: 100%;
-        background-color: #000;
-        font-family: georgia, "microsoft yahei", serif;
-        color: #a1a1a1;
-    }
+    <meta charset="gbk"/>
+    <title>画报详情页</title>
+    <base target="_self"/>
+    <link rel="stylesheet" href="http://a.tbcdn.cn/tbsp/tbsp.css">
+    <link rel="stylesheet" href="assets/base.css">
+    <style type="text/css">
+        #huabao {
+            width: 950px;
+            margin: 20px auto;
+        }
 
-    #header {
-        height: 80px;
-        background-color: #262626;
-        border-bottom: 1px solid #484848;
-    }
+        .section {
+            background-color: #262626;
+            border: 1px solid #484848;
+            margin: 20px 0;
+        }
 
-    #header h1 {
-        width: 960px;
-        height: 30px;
-        line-height: 30px;
-        font-size: 30px;
-        color: #848484;
-        margin: 0 auto;
-        padding: 25px 0;
-        font-family: Vivaldi, fantasy;
-        position: relative;
-    }
+        .nav-area {
+            text-align: center;
+        }
 
-    #header .beta {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        padding: 25px 0;
-        font-family: Parchment, fantasy;
-    }
+        .nav-area .switcher {
+            width: 45px;
+            height: 40px;
+            display: inline-block;
+            *display: inline;
+            *zoom: 1;
+            vertical-align: middle;
+        }
 
-    #footer {
-        height: 60px;
-        background-color: #262626;
-        border-top: 1px solid #484848;
-    }
+        .nav-area .switcher .trigger {
+            cursor: pointer;
+            display: inline-block;
+            *display: inline;
+            *zoom: 1;
+            vertical-align: middle;
+            background: url("assets/sprites.png");
+        }
 
-    #footer p {
-        width: 960px;
-        height: 20px;
-        line-height: 20px;
-        color: #696969;
-        margin: 0 auto;
-        padding: 20px 0;
-        text-align: center;
-    }
+        .nav-area .switcher .prev-page,
+        .nav-area .switcher .next-page {
+            width: 13px;
+            height: 26px;
+        }
 
-    #huabao {
-        width: 960px;
-        margin: 20px auto;
-    }
+        .nav-area .switcher .prev-pic,
+        .nav-area .switcher .next-pic {
+            width: 13px;
+            height: 26px;
+        }
 
-    .section {
-        background-color: #262626;
-        border: 1px solid #484848;
-        margin: 20px 0;
-    }
+        .nav-area .switcher .prev-pic {
+            margin-left: 5px;
+        }
 
-    .nav-area {
-        text-align: center;
-    }
+        .nav-area .switcher .next-pic {
+            margin-right: 5px;
+        }
 
-    .nav-area .switcher {
-        width: 50px;
-        height: 40px;
-        display: inline-block;
-        *display: inline;
-        *zoom: 1;
-        vertical-align: middle;
-    }
+        .nav-area .switcher .prev-page {
+            background-position: 0 0;
+        }
 
-    .nav-area .switcher .trigger {
-        cursor: pointer;
-        display: inline-block;
-        *display: inline;
-        *zoom: 1;
-        vertical-align: middle;
-        text-indent: -9999em;
-        background: url("assets/detail.png");
-    }
+        .nav-area .switcher .prev-page:hover {
+            background-position: 0 -26px;
+        }
 
-    .nav-area .switcher .prev-page,
-    .nav-area .switcher .next-page {
-        width: 13px;
-        height: 26px;
-    }
+        .nav-area .switcher .next-page {
+            background-position: -13px 0;
+        }
 
-    .nav-area .switcher .prev-pic,
-    .nav-area .switcher .next-pic {
-        width: 7px;
-        height: 14px;
-    }
+        .nav-area .switcher .next-page:hover {
+            background-position: -13px -26px;
+        }
 
-    .nav-area .switcher .prev-pic {
-        margin-left: 8px;
-    }
+        .nav-area .switcher .prev-pic {
+            background-position: -26px 0;
+        }
 
-    .nav-area .switcher .next-pic {
-        margin-right: 8px;
-    }
+        .nav-area .switcher .prev-pic:hover {
+            background-position: -26px -26px;
+        }
 
-    .nav-area .switcher .prev-page {
-        background-position: 0 0;
-    }
+        .nav-area .switcher .next-pic {
+            background-position: -39px 0;
+        }
 
-    .nav-area .switcher .prev-page:hover {
-        background-position: 0 -26px;
-    }
+        .nav-area .switcher .next-pic:hover {
+            background-position: -39px -26px;
+        }
 
-    .nav-area .switcher .next-page {
-        background-position: -13px 0;
-    }
+        .nav-area .ks-huabao-content li img {
+            vertical-align: top;
+        }
 
-    .nav-area .switcher .next-page:hover {
-        background-position: -13px -26px;
-    }
+        .nav-area .nav-wrap {
+            display: inline-block;
+            *display: inline;
+            *zoom: 1;
+            vertical-align: middle;
+            width: 848px;
+            height: 106px;
+            _height: 108px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
 
-    .nav-area .switcher .prev-pic {
-        background-position: -6px -52px;
-    }
+        .nav-area .ks-huabao-nav {
+            position: absolute;
+            left: 0;
+        }
 
-    .nav-area .switcher .prev-pic:hover {
-        background-position: -6px -66px;
-    }
+        .nav-area .ks-huabao-nav li {
+            display: inline-block;
+            *display: inline;
+            *zoom: 1;
+            width: 100px;
+            height: 100px;
+            text-align: center;
+            border: 3px solid transparent;
+            _border-color: #262626;
+        }
 
-    .nav-area .switcher .next-pic {
-        background-position: -13px -52px;
-    }
+        .nav-area .ks-huabao-nav li.ks-active {
+            border-color: #fff;
+        }
 
-    .nav-area .switcher .next-pic:hover {
-        background-position: -13px -66px;
-    }
+        .content-area {
+            width: 618px;
+            float: left;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
 
-    .nav-area .ks-huabao-content li img {
-        vertical-align: middle;
-    }
+        .content-area .content-wrap {
+            height: 600px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
 
-    .nav-area .nav-wrap {
-        display: inline-block;
-        *display: inline;
-        *zoom: 1;
-        vertical-align: middle;
-        width: 848px;
-        height: 106px;
-        margin: 20px 0;
-        overflow: hidden;
-    }
+        .content-area .ks-huabao-content li {
+            width: 618px;
+            min-height: 320px;
+            overflow: hidden;
+            text-align: center;
+        }
 
-    .nav-area .ks-huabao-nav li {
-        display: inline-block;
-        *display: inline;
-        *zoom: 1;
-        width: 100px;
-        height: 100px;
-        text-align: center;
-        border: 3px solid transparent;
-    }
+        .content-area .ks-huabao-content img {
+            border: 1px solid #484848;
+        }
 
-    .nav-area .ks-huabao-nav li.ks-active {
-        border-color: #fff;
-    }
+        .attachment-area {
+            width: 308px;
+            float: left;
+            margin-left: 20px;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
 
-    .content-area {
-        width: 618px;
-        float: left;
-        margin-top: 0;
-        margin-bottom: 0;
-    }
+        .attachment-area h2 {
+            padding: 10px;
+        }
 
-    .content-area .content-wrap {
-        height: 600px;
-        overflow: hidden;
-        margin: 20px 0;
-    }
+        .attachment-area .info-wrap {
+            padding: 10px;
+        }
 
-    .content-area .ks-huabao-content li {
-        width: 618px;
-        min-height: 320px;
-        overflow: hidden;
-        text-align: center;
-    }
-
-    .content-area .ks-huabao-content img {
-        border: 1px solid #484848;
-    }
-
-    .attachment-area {
-        width: 318px;
-        float: left;
-        margin-left: 20px;
-        margin-top: 0;
-        margin-bottom: 0;
-    }
-
-    .attachment-area h2 {
-        padding: 10px;
-    }
-
-    .attachment-area .info-wrap {
-        padding: 10px;
-    }
-
-</style>
-<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
-
-<script type="text/javascript" src="../src/model/poster.js"></script>
-<script type="text/javascript" src="../src/model/pic.js"></script>
-
-<script type="text/javascript" src="../src/ui.js"></script>
-
-<script type="text/javascript" src="../src/huabao.js"></script>
+    </style>
+    <script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+    <script>
+        KISSY.config({
+            packages: [
+                {
+                    name:"gallery",
+                    tag:"20120101",
+                    path:"../../../../", // 线上使用 http://a.tbcdn.cn/s/kissy/
+                    charset:"utf-8"
+                }
+            ]
+        });
+    </script>
 
 </head>
 <body>
 
 <div id="page">
     <div id="header">
-        <h1>A Huabao-detail Demo Using the Huabao widget<span class="beta">on Beta</span></h1>
+        <h1>A Basic Demo Using the Huabao widget<a class="view-list" title="列表展示" href="list.html">列表展示</a></h1>
 
     </div>
     <div id="content">
@@ -233,8 +196,8 @@
 
             <div class="nav-area section">
                 <div class="switcher prev">
-                    <span class="prev-page trigger">上一页</span>
-                    <span class="prev-pic trigger">上一张</span>
+                    <div class="prev-page trigger"></div>
+                    <div class="prev-pic trigger"></div>
                 </div>
 
                 <div class="nav-wrap">
@@ -243,8 +206,8 @@
                 </div>
 
                 <div class="switcher next">
-                    <span class="next-pic trigger">下一张</span>
-                    <span class="next-page trigger">下一页</span>
+                    <div class="next-pic trigger"></div>
+                    <div class="next-page trigger"></div>
                 </div>
 
             </div>
@@ -271,882 +234,882 @@
 
 <script type="text/javascript">
 var tempMarkersData = {
-    "asyncStatus": "success",
-    "asyncMsg": "",
-    "posterId": "488989",
-    "markerData": [
+    "asyncStatus":"success",
+    "asyncMsg":"",
+    "posterId":"488989",
+    "markerData":[
         {
-            "picId": "10930637",
-            "markers": [
+            "picId":"10930637",
+            "markers":[
 
                 {
-                    "markerId": "6340584",
-                    "markerItemId": "12829220037",
-                    "markerSize": ["346", "412", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "2011&#23567;&#36771;&#26898;&#27611;&#39046;&#20462;&#36523;&#27454;",
-                    "markerItemPicSrc": "http://img04.taobaocdn.com/bao/uploaded/i4/T10TavXepDXXb4z7ZV_021434.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXnxUyoQpvyFCqE%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "2011\u5C0F\u8FA3\u6912\u6BDB\u9886\u4FEE\u8EAB\u6B3E",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "668.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "880",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=2011%D0%A1%C0%B1%BD%B7&catid=16\/50008900&propertyid=28341",
-                    "markerItemOwnerId": "212654635"
+                    "markerId":"6340584",
+                    "markerItemId":"12829220037",
+                    "markerSize":["346", "412", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"2011&#23567;&#36771;&#26898;&#27611;&#39046;&#20462;&#36523;&#27454;",
+                    "markerItemPicSrc":"http://img04.taobaocdn.com/bao/uploaded/i4/T10TavXepDXXb4z7ZV_021434.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXnxUyoQpvyFCqE%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"2011\u5C0F\u8FA3\u6912\u6BDB\u9886\u4FEE\u8EAB\u6B3E",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"668.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"880",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=2011%D0%A1%C0%B1%BD%B7&catid=16\/50008900&propertyid=28341",
+                    "markerItemOwnerId":"212654635"
                 }
                 ,
                 {
-                    "markerId": "6340592",
-                    "markerItemId": "8949268270",
-                    "markerSize": ["115", "165", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#30524;&#38236;&#26694;&#38750;&#20027;&#27969;&#30524;&#30555;&#26694;&#30524;&#38236;&#26550;",
-                    "markerItemPicSrc": "http://img01.taobaocdn.com/bao/uploaded/i1/T1leqDXa4oXXbx2AE4_053606.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTZTYw08wv%2BDkMDSVqY2roDd8ORM1Wych50u70&p=mm_13016281_0_0",
-                    "markerItemDesc": "\u773C\u955C\u6846\u975E\u4E3B\u6D41\u773C\u775B\u6846\u773C\u955C\u67B6",
-                    "isTmallBrand": "1",
-                    "markerItemPrice": "98.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "2556",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%B7%C7%D6%F7%C1%F7%D1%DB%BE%B5%BC%DC&catid=28\/50011894&propertyid=",
-                    "markerItemOwnerId": "506921075"
+                    "markerId":"6340592",
+                    "markerItemId":"8949268270",
+                    "markerSize":["115", "165", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#30524;&#38236;&#26694;&#38750;&#20027;&#27969;&#30524;&#30555;&#26694;&#30524;&#38236;&#26550;",
+                    "markerItemPicSrc":"http://img01.taobaocdn.com/bao/uploaded/i1/T1leqDXa4oXXbx2AE4_053606.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTZTYw08wv%2BDkMDSVqY2roDd8ORM1Wych50u70&p=mm_13016281_0_0",
+                    "markerItemDesc":"\u773C\u955C\u6846\u975E\u4E3B\u6D41\u773C\u775B\u6846\u773C\u955C\u67B6",
+                    "isTmallBrand":"1",
+                    "markerItemPrice":"98.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"2556",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%B7%C7%D6%F7%C1%F7%D1%DB%BE%B5%BC%DC&catid=28\/50011894&propertyid=",
+                    "markerItemOwnerId":"506921075"
                 }
                 ,
                 {
-                    "markerId": "6340599",
-                    "markerItemId": "13227934806",
-                    "markerSize": ["165", "453", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "issdm&#26085;&#21333;&#27874;&#26222;&#27611;&#34915;",
-                    "markerItemPicSrc": "http://img04.taobaocdn.com/bao/uploaded/i4/T1bRGAXfNwXXclkEg6_063227.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXjYaNAExVyxBU0%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "issdm\u65E5\u5355\u6CE2\u666E\u6BDB\u8863",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "85.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "283",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%C8%D5%B5%A5%C3%AB%D2%C2&catid=16\/162103&propertyid=28341",
-                    "markerItemOwnerId": "356292901"
+                    "markerId":"6340599",
+                    "markerItemId":"13227934806",
+                    "markerSize":["165", "453", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"issdm&#26085;&#21333;&#27874;&#26222;&#27611;&#34915;",
+                    "markerItemPicSrc":"http://img04.taobaocdn.com/bao/uploaded/i4/T1bRGAXfNwXXclkEg6_063227.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXjYaNAExVyxBU0%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"issdm\u65E5\u5355\u6CE2\u666E\u6BDB\u8863",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"85.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"283",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%C8%D5%B5%A5%C3%AB%D2%C2&catid=16\/162103&propertyid=28341",
+                    "markerItemOwnerId":"356292901"
                 }
             ]
 
         }
         ,
         {
-            "picId": "10930638",
-            "markers": [
+            "picId":"10930638",
+            "markers":[
 
                 {
-                    "markerId": "6340603",
-                    "markerItemId": "10340502550",
-                    "markerSize": ["231", "6", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#33406;&#34183;&#33609;&#24125;&#28180;&#22827;&#24125;&#36974;&#38451;&#24125;",
-                    "markerItemPicSrc": "http://img03.taobaocdn.com/bao/uploaded/i3/T1UoyaXi4nXXacHlLa_122158.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTbIA9ST2FdKeatvzPysaUejxA4yJ4uiNGAWWr9g%3D%3D&p=mm_13016281_0_0",
-                    "markerItemDesc": "\u827E\u8587\u8349\u5E3D\u6E14\u592B\u5E3D\u906E\u9633\u5E3D",
-                    "isTmallBrand": "1",
-                    "markerItemPrice": "35.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "1606",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%D3%E6%B7%F2%C3%B1%D5%DA%D1%F4%C3%B1&catid=50010404\/302910&propertyid=3232483",
-                    "markerItemOwnerId": "640106608"
+                    "markerId":"6340603",
+                    "markerItemId":"10340502550",
+                    "markerSize":["231", "6", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#33406;&#34183;&#33609;&#24125;&#28180;&#22827;&#24125;&#36974;&#38451;&#24125;",
+                    "markerItemPicSrc":"http://img03.taobaocdn.com/bao/uploaded/i3/T1UoyaXi4nXXacHlLa_122158.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTbIA9ST2FdKeatvzPysaUejxA4yJ4uiNGAWWr9g%3D%3D&p=mm_13016281_0_0",
+                    "markerItemDesc":"\u827E\u8587\u8349\u5E3D\u6E14\u592B\u5E3D\u906E\u9633\u5E3D",
+                    "isTmallBrand":"1",
+                    "markerItemPrice":"35.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"1606",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%D3%E6%B7%F2%C3%B1%D5%DA%D1%F4%C3%B1&catid=50010404\/302910&propertyid=3232483",
+                    "markerItemOwnerId":"640106608"
                 }
                 ,
                 {
-                    "markerId": "6340610",
-                    "markerItemId": "13681344739",
-                    "markerSize": ["393", "417", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "dove&#38024;&#32455;&#34923;&#24320;&#34923;&#22806;&#22871;",
-                    "markerItemPicSrc": "http://img04.taobaocdn.com/bao/uploaded/i4/T1pCCyXi0wXXbrICzb_125217.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXjcBEfe2kCRq%2Fc%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "dove\u9488\u7EC7\u886B\u5F00\u886B\u5916\u5957",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "98.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "182",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=dove%CD%E2%CC%D7&catid=16\/162103&propertyid=28340",
-                    "markerItemOwnerId": "13453616"
+                    "markerId":"6340610",
+                    "markerItemId":"13681344739",
+                    "markerSize":["393", "417", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"dove&#38024;&#32455;&#34923;&#24320;&#34923;&#22806;&#22871;",
+                    "markerItemPicSrc":"http://img04.taobaocdn.com/bao/uploaded/i4/T1pCCyXi0wXXbrICzb_125217.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXjcBEfe2kCRq%2Fc%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"dove\u9488\u7EC7\u886B\u5F00\u886B\u5916\u5957",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"98.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"182",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=dove%CD%E2%CC%D7&catid=16\/162103&propertyid=28340",
+                    "markerItemOwnerId":"13453616"
                 }
                 ,
                 {
-                    "markerId": "6340616",
-                    "markerItemId": "8303346458",
-                    "markerSize": ["157", "408", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#30007;&#20154;&#24110;2011&#22260;&#24062;&#25259;&#32937;",
-                    "markerItemPicSrc": "http://img02.taobaocdn.com/bao/uploaded/i2/T13i1nXaXzXXc1VxbX_115350.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=oBHR1jL13Nhj4w%3D%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "\u7537\u4EBA\u5E2E2011\u56F4\u5DFE\u62AB\u80A9",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "39.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "847",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=2011%CE%A7%BD%ED&catid=50010404\/50007003&propertyid=107121",
-                    "markerItemOwnerId": "119453410"
+                    "markerId":"6340616",
+                    "markerItemId":"8303346458",
+                    "markerSize":["157", "408", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#30007;&#20154;&#24110;2011&#22260;&#24062;&#25259;&#32937;",
+                    "markerItemPicSrc":"http://img02.taobaocdn.com/bao/uploaded/i2/T13i1nXaXzXXc1VxbX_115350.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=oBHR1jL13Nhj4w%3D%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"\u7537\u4EBA\u5E2E2011\u56F4\u5DFE\u62AB\u80A9",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"39.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"847",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=2011%CE%A7%BD%ED&catid=50010404\/50007003&propertyid=107121",
+                    "markerItemOwnerId":"119453410"
                 }
             ]
 
         }
         ,
         {
-            "picId": "10930639",
-            "markers": [
+            "picId":"10930639",
+            "markers":[
 
                 {
-                    "markerId": "6340636",
-                    "markerItemId": "13338856500",
-                    "markerSize": ["158", "337", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#22899;&#33394;&#24037;&#35013;&#20891;&#32511;&#33394;&#20462;&#36523;&#22806;&#22871;",
-                    "markerItemPicSrc": "http://img01.taobaocdn.com/bao/uploaded/i1/T13HGpXlJhXXapK13U_014438.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXjZ7iNe0%2FG9CuE%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "\u5973\u8272\u5DE5\u88C5\u519B\u7EFF\u8272\u4FEE\u8EAB\u5916\u5957",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "155.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "8",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%B9%A4%D7%B0%CD%E2%CC%D7&catid=16\/50008901&propertyid=3232483",
-                    "markerItemOwnerId": "72610143"
+                    "markerId":"6340636",
+                    "markerItemId":"13338856500",
+                    "markerSize":["158", "337", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#22899;&#33394;&#24037;&#35013;&#20891;&#32511;&#33394;&#20462;&#36523;&#22806;&#22871;",
+                    "markerItemPicSrc":"http://img01.taobaocdn.com/bao/uploaded/i1/T13HGpXlJhXXapK13U_014438.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXjZ7iNe0%2FG9CuE%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"\u5973\u8272\u5DE5\u88C5\u519B\u7EFF\u8272\u4FEE\u8EAB\u5916\u5957",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"155.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"8",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%B9%A4%D7%B0%CD%E2%CC%D7&catid=16\/50008901&propertyid=3232483",
+                    "markerItemOwnerId":"72610143"
                 }
                 ,
                 {
-                    "markerId": "6340643",
-                    "markerItemId": "13291776259",
-                    "markerSize": ["134", "554", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "2011&#21253;&#33216;&#23567;&#33050;&#30382;&#35044;&#38271;&#35044;",
-                    "markerItemPicSrc": "http://img03.taobaocdn.com/bao/uploaded/i3/T1M1ioXbVIXXadbEc8_072104.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXjYYwyD6AzFwBg%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "2011\u5305\u81C0\u5C0F\u811A\u76AE\u88E4\u957F\u88E4",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "105.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "347",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=2011%C6%A4%BF%E3&catid=16\/1622\/162201&propertyid=28417",
-                    "markerItemOwnerId": "13025907"
+                    "markerId":"6340643",
+                    "markerItemId":"13291776259",
+                    "markerSize":["134", "554", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"2011&#21253;&#33216;&#23567;&#33050;&#30382;&#35044;&#38271;&#35044;",
+                    "markerItemPicSrc":"http://img03.taobaocdn.com/bao/uploaded/i3/T1M1ioXbVIXXadbEc8_072104.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXjYYwyD6AzFwBg%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"2011\u5305\u81C0\u5C0F\u811A\u76AE\u88E4\u957F\u88E4",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"105.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"347",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=2011%C6%A4%BF%E3&catid=16\/1622\/162201&propertyid=28417",
+                    "markerItemOwnerId":"13025907"
                 }
                 ,
                 {
-                    "markerId": "6340650",
-                    "markerItemId": "8134559622",
-                    "markerSize": ["59", "528", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#24052;&#40654;&#19990;&#23478;city",
-                    "markerItemPicSrc": "http://img01.taobaocdn.com/bao/uploaded/i1/T1WMNPXjdhXXak_h7W_023716.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=oBOtA3Bjl28aSw%3D%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "\u5DF4\u9ECE\u4E16\u5BB6city",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "10600.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "0",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%B0%CD%C0%E8%CA%C0%BC%D2city&catid=50006842\/50012010&propertyid=",
-                    "markerItemOwnerId": "24702089"
+                    "markerId":"6340650",
+                    "markerItemId":"8134559622",
+                    "markerSize":["59", "528", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#24052;&#40654;&#19990;&#23478;city",
+                    "markerItemPicSrc":"http://img01.taobaocdn.com/bao/uploaded/i1/T1WMNPXjdhXXak_h7W_023716.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=oBOtA3Bjl28aSw%3D%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"\u5DF4\u9ECE\u4E16\u5BB6city",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"10600.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"0",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%B0%CD%C0%E8%CA%C0%BC%D2city&catid=50006842\/50012010&propertyid=",
+                    "markerItemOwnerId":"24702089"
                 }
             ]
 
         }
         ,
         {
-            "picId": "10930640",
-            "markers": [
+            "picId":"10930640",
+            "markers":[
 
                 {
-                    "markerId": "6340655",
-                    "markerItemId": "13159057074",
-                    "markerSize": ["215", "294", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "2011&#27611;&#39046;&#20462;&#36523;&#30382;&#34915;&#22806;&#22871;",
-                    "markerItemPicSrc": "http://img04.taobaocdn.com/bao/uploaded/i4/570390225/T2fM4_XmJXXXXXXXXX_!!570390225.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTbIOXvHeC9x3BPL6KN7qeI%2FmshqElxf9VinXhOA%3D%3D&p=mm_13016281_0_0",
-                    "markerItemDesc": "2011\u6BDB\u9886\u4FEE\u8EAB\u76AE\u8863\u5916\u5957",
-                    "isTmallBrand": "1",
-                    "markerItemPrice": "198.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "10",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=2011%C6%A4%D2%C2&catid=16\/50008904&propertyid=28332",
-                    "markerItemOwnerId": "570390225"
+                    "markerId":"6340655",
+                    "markerItemId":"13159057074",
+                    "markerSize":["215", "294", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"2011&#27611;&#39046;&#20462;&#36523;&#30382;&#34915;&#22806;&#22871;",
+                    "markerItemPicSrc":"http://img04.taobaocdn.com/bao/uploaded/i4/570390225/T2fM4_XmJXXXXXXXXX_!!570390225.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTbIOXvHeC9x3BPL6KN7qeI%2FmshqElxf9VinXhOA%3D%3D&p=mm_13016281_0_0",
+                    "markerItemDesc":"2011\u6BDB\u9886\u4FEE\u8EAB\u76AE\u8863\u5916\u5957",
+                    "isTmallBrand":"1",
+                    "markerItemPrice":"198.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"10",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=2011%C6%A4%D2%C2&catid=16\/50008904&propertyid=28332",
+                    "markerItemOwnerId":"570390225"
                 }
                 ,
                 {
-                    "markerId": "6340677",
-                    "markerItemId": "8740432746",
-                    "markerSize": ["155", "470", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#22825;&#40517;&#32466;&#32441;&#33394;&#28857;&#28857;&#19997;&#34972;&#36830;&#35044;&#34972;",
-                    "markerItemPicSrc": "http://img04.taobaocdn.com/bao/uploaded/i4/T1_RqpXkXkXXaHAATa_091749.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=oBVyMUxvTvWRpw%3D%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "\u5929\u9E45\u7ED2\u7EB9\u8272\u70B9\u70B9\u4E1D\u889C\u8FDE\u88E4\u889C",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "15.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "288",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%B5%E3%B5%E3%CB%BF%CD%E0&catid=1625\/50006846&propertyid=28332",
-                    "markerItemOwnerId": "23915098"
+                    "markerId":"6340677",
+                    "markerItemId":"8740432746",
+                    "markerSize":["155", "470", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#22825;&#40517;&#32466;&#32441;&#33394;&#28857;&#28857;&#19997;&#34972;&#36830;&#35044;&#34972;",
+                    "markerItemPicSrc":"http://img04.taobaocdn.com/bao/uploaded/i4/T1_RqpXkXkXXaHAATa_091749.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=oBVyMUxvTvWRpw%3D%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"\u5929\u9E45\u7ED2\u7EB9\u8272\u70B9\u70B9\u4E1D\u889C\u8FDE\u88E4\u889C",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"15.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"288",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%B5%E3%B5%E3%CB%BF%CD%E0&catid=1625\/50006846&propertyid=28332",
+                    "markerItemOwnerId":"23915098"
                 }
                 ,
                 {
-                    "markerId": "6340683",
-                    "markerItemId": "14098440681",
-                    "markerSize": ["109", "568", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#40657;&#33394;sth&#27611;&#27611;&#20013;&#31570;&#38772;&#32454;&#33410;",
-                    "markerItemPicSrc": "http://img02.taobaocdn.com/bao/uploaded/i2/T15ZayXlXEXXbhRJYX_114637.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qX904TS%2Bf34AWLA%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "\u9ED1\u8272sth\u6BDB\u6BDB\u4E2D\u7B52\u9774\u7EC6\u8282",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "680.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "116",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%C3%AB%C3%AB%D6%D0%CD%B2%D1%A5&catid=50006843\/50012028&propertyid=28341",
-                    "markerItemOwnerId": "25004642"
+                    "markerId":"6340683",
+                    "markerItemId":"14098440681",
+                    "markerSize":["109", "568", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#40657;&#33394;sth&#27611;&#27611;&#20013;&#31570;&#38772;&#32454;&#33410;",
+                    "markerItemPicSrc":"http://img02.taobaocdn.com/bao/uploaded/i2/T15ZayXlXEXXbhRJYX_114637.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qX904TS%2Bf34AWLA%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"\u9ED1\u8272sth\u6BDB\u6BDB\u4E2D\u7B52\u9774\u7EC6\u8282",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"680.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"116",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%C3%AB%C3%AB%D6%D0%CD%B2%D1%A5&catid=50006843\/50012028&propertyid=28341",
+                    "markerItemOwnerId":"25004642"
                 }
             ]
 
         }
         ,
         {
-            "picId": "10930641",
-            "markers": [
+            "picId":"10930641",
+            "markers":[
 
                 {
-                    "markerId": "6340689",
-                    "markerItemId": "12363863827",
-                    "markerSize": ["203", "150", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#26102;&#20195;&#23485;&#26465;&#32441;&#36830;&#24125;&#27611;&#21602;&#22806;&#22871;",
-                    "markerItemPicSrc": "http://img02.taobaocdn.com/bao/uploaded/i2/T1g8ijXltdXXXmNifa_121430.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXn6geI3Zxh3rlo%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "\u65F6\u4EE3\u5BBD\u6761\u7EB9\u8FDE\u5E3D\u6BDB\u5462\u5916\u5957",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "258.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "99",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%CA%B1%B4%FA%CD%E2%CC%D7&catid=16\/50013194&propertyid=28340",
-                    "markerItemOwnerId": "59011791"
+                    "markerId":"6340689",
+                    "markerItemId":"12363863827",
+                    "markerSize":["203", "150", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#26102;&#20195;&#23485;&#26465;&#32441;&#36830;&#24125;&#27611;&#21602;&#22806;&#22871;",
+                    "markerItemPicSrc":"http://img02.taobaocdn.com/bao/uploaded/i2/T1g8ijXltdXXXmNifa_121430.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXn6geI3Zxh3rlo%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"\u65F6\u4EE3\u5BBD\u6761\u7EB9\u8FDE\u5E3D\u6BDB\u5462\u5916\u5957",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"258.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"99",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%CA%B1%B4%FA%CD%E2%CC%D7&catid=16\/50013194&propertyid=28340",
+                    "markerItemOwnerId":"59011791"
                 }
                 ,
                 {
-                    "markerId": "6340693",
-                    "markerItemId": "9311111451",
-                    "markerSize": ["185", "356", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#19997;&#34972;&#32654;&#23572;&#30246;&#33151;&#34972;&#36830;&#35044;&#34972;",
-                    "markerItemPicSrc": "http://img03.taobaocdn.com/bao/uploaded/i3/T1ARiDXipmXXbxazs1_041627.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTZPpklzBGGNCAzVPmDJ2TyHVG3JGfcvxLOuCy&p=mm_13016281_0_0",
-                    "markerItemDesc": "\u4E1D\u889C\u7F8E\u5C14\u7626\u817F\u889C\u8FDE\u88E4\u889C",
-                    "isTmallBrand": "1",
-                    "markerItemPrice": "126.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "74335",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%C3%C0%B6%FB%CB%BF%CD%E0&catid=1625\/50006846&propertyid=28335",
-                    "markerItemOwnerId": "669399858"
+                    "markerId":"6340693",
+                    "markerItemId":"9311111451",
+                    "markerSize":["185", "356", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#19997;&#34972;&#32654;&#23572;&#30246;&#33151;&#34972;&#36830;&#35044;&#34972;",
+                    "markerItemPicSrc":"http://img03.taobaocdn.com/bao/uploaded/i3/T1ARiDXipmXXbxazs1_041627.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTZPpklzBGGNCAzVPmDJ2TyHVG3JGfcvxLOuCy&p=mm_13016281_0_0",
+                    "markerItemDesc":"\u4E1D\u889C\u7F8E\u5C14\u7626\u817F\u889C\u8FDE\u88E4\u889C",
+                    "isTmallBrand":"1",
+                    "markerItemPrice":"126.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"74335",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%C3%C0%B6%FB%CB%BF%CD%E0&catid=1625\/50006846&propertyid=28335",
+                    "markerItemOwnerId":"669399858"
                 }
                 ,
                 {
-                    "markerId": "6340699",
-                    "markerItemId": "14019516884",
-                    "markerSize": ["182", "481", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "2011&#38772;&#24179;&#36319;&#39640;&#31570;&#38772;&#38271;&#38772;",
-                    "markerItemPicSrc": "http://img03.taobaocdn.com/bao/uploaded/i3/T1YAiEXbBxXXXCphAW_023640.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qX906TpMPtvk4F8%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "2011\u9774\u5E73\u8DDF\u9AD8\u7B52\u9774\u957F\u9774",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "540.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "64",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=2011%C6%BD%B8%FA&catid=50006843\/50012028&propertyid=28341",
-                    "markerItemOwnerId": "13581846"
+                    "markerId":"6340699",
+                    "markerItemId":"14019516884",
+                    "markerSize":["182", "481", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"2011&#38772;&#24179;&#36319;&#39640;&#31570;&#38772;&#38271;&#38772;",
+                    "markerItemPicSrc":"http://img03.taobaocdn.com/bao/uploaded/i3/T1YAiEXbBxXXXCphAW_023640.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qX906TpMPtvk4F8%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"2011\u9774\u5E73\u8DDF\u9AD8\u7B52\u9774\u957F\u9774",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"540.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"64",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=2011%C6%BD%B8%FA&catid=50006843\/50012028&propertyid=28341",
+                    "markerItemOwnerId":"13581846"
                 }
             ]
 
         }
         ,
         {
-            "picId": "10930642",
-            "markers": [
+            "picId":"10930642",
+            "markers":[
 
                 {
-                    "markerId": "6340703",
-                    "markerItemId": "13024030928",
-                    "markerSize": ["197", "203", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#22823;&#29260;&#22823;&#32763;&#39046;&#27611;&#21602;&#22823;&#34915;&#25163;&#22871;",
-                    "markerItemPicSrc": "http://img01.taobaocdn.com/bao/uploaded/i1/T1kN5vXmFGXXXteBg4_053657.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXjaMvsdDBc9Otk%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "\u5927\u724C\u5927\u7FFB\u9886\u6BDB\u5462\u5927\u8863\u624B\u5957",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "208.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "7",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%B4%F3%C5%C6%B4%F3%D2%C2&catid=16\/50013194&propertyid=90554",
-                    "markerItemOwnerId": "89750295"
+                    "markerId":"6340703",
+                    "markerItemId":"13024030928",
+                    "markerSize":["197", "203", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#22823;&#29260;&#22823;&#32763;&#39046;&#27611;&#21602;&#22823;&#34915;&#25163;&#22871;",
+                    "markerItemPicSrc":"http://img01.taobaocdn.com/bao/uploaded/i1/T1kN5vXmFGXXXteBg4_053657.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXjaMvsdDBc9Otk%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"\u5927\u724C\u5927\u7FFB\u9886\u6BDB\u5462\u5927\u8863\u624B\u5957",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"208.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"7",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%B4%F3%C5%C6%B4%F3%D2%C2&catid=16\/50013194&propertyid=90554",
+                    "markerItemOwnerId":"89750295"
                 }
                 ,
                 {
-                    "markerId": "6340707",
-                    "markerItemId": "9311111451",
-                    "markerSize": ["183", "375", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#19997;&#34972;&#32654;&#23572;&#30246;&#33151;&#34972;&#36830;&#35044;&#34972;",
-                    "markerItemPicSrc": "http://img03.taobaocdn.com/bao/uploaded/i3/T1ARiDXipmXXbxazs1_041627.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTZPpklzBGGNCAzVPmDJ2TyHVG3JGfcvxLOuCy&p=mm_13016281_0_0",
-                    "markerItemDesc": "\u4E1D\u889C\u7F8E\u5C14\u7626\u817F\u889C\u8FDE\u88E4\u889C",
-                    "isTmallBrand": "1",
-                    "markerItemPrice": "126.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "74335",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%C3%C0%B6%FB%CB%BF%CD%E0&catid=1625\/50006846&propertyid=28335",
-                    "markerItemOwnerId": "669399858"
+                    "markerId":"6340707",
+                    "markerItemId":"9311111451",
+                    "markerSize":["183", "375", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#19997;&#34972;&#32654;&#23572;&#30246;&#33151;&#34972;&#36830;&#35044;&#34972;",
+                    "markerItemPicSrc":"http://img03.taobaocdn.com/bao/uploaded/i3/T1ARiDXipmXXbxazs1_041627.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTZPpklzBGGNCAzVPmDJ2TyHVG3JGfcvxLOuCy&p=mm_13016281_0_0",
+                    "markerItemDesc":"\u4E1D\u889C\u7F8E\u5C14\u7626\u817F\u889C\u8FDE\u88E4\u889C",
+                    "isTmallBrand":"1",
+                    "markerItemPrice":"126.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"74335",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%C3%C0%B6%FB%CB%BF%CD%E0&catid=1625\/50006846&propertyid=28335",
+                    "markerItemOwnerId":"669399858"
                 }
                 ,
                 {
-                    "markerId": "6340713",
-                    "markerItemId": "12520845244",
-                    "markerSize": ["209", "522", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "40 35&#27491;&#21697;&#39640;&#36319;&#20013;&#31570;&#38772;",
-                    "markerItemPicSrc": "http://img06.taobaocdn.com/bao/uploaded/i6/T1g6elXnXQXXX396M9_104158.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXn8IZuJQmMx1Lk%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "40 35\u6B63\u54C1\u9AD8\u8DDF\u4E2D\u7B52\u9774",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "180.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "56",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%D5%FD%C6%B7%D6%D0%CD%B2%D1%A5&catid=50006843\/50012028&propertyid=3232481",
-                    "markerItemOwnerId": "67645527"
+                    "markerId":"6340713",
+                    "markerItemId":"12520845244",
+                    "markerSize":["209", "522", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"40 35&#27491;&#21697;&#39640;&#36319;&#20013;&#31570;&#38772;",
+                    "markerItemPicSrc":"http://img06.taobaocdn.com/bao/uploaded/i6/T1g6elXnXQXXX396M9_104158.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXn8IZuJQmMx1Lk%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"40 35\u6B63\u54C1\u9AD8\u8DDF\u4E2D\u7B52\u9774",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"180.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"56",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%D5%FD%C6%B7%D6%D0%CD%B2%D1%A5&catid=50006843\/50012028&propertyid=3232481",
+                    "markerItemOwnerId":"67645527"
                 }
             ]
 
         }
         ,
         {
-            "picId": "10930643",
-            "markers": [
+            "picId":"10930643",
+            "markers":[
 
                 {
-                    "markerId": "6340720",
-                    "markerItemId": "12894449030",
-                    "markerSize": ["231", "142", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#30382;&#33609;&#39532;&#22841;&#22806;&#22871;&#40501;&#40479;&#27611;&#20013;&#38271;&#27454;",
-                    "markerItemPicSrc": "http://img01.taobaocdn.com/bao/uploaded/i1/T145ysXgNpXXbs19va_092257.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXnxWHw2ZLYX3UU%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "\u76AE\u8349\u9A6C\u5939\u5916\u5957\u9E35\u9E1F\u6BDB\u4E2D\u957F\u6B3E",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "397.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "63",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%CD%E2%CC%D7%CD%D2%C4%F1%C3%AB&catid=16\/50008905&propertyid=3232479",
-                    "markerItemOwnerId": "21968005"
+                    "markerId":"6340720",
+                    "markerItemId":"12894449030",
+                    "markerSize":["231", "142", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#30382;&#33609;&#39532;&#22841;&#22806;&#22871;&#40501;&#40479;&#27611;&#20013;&#38271;&#27454;",
+                    "markerItemPicSrc":"http://img01.taobaocdn.com/bao/uploaded/i1/T145ysXgNpXXbs19va_092257.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXnxWHw2ZLYX3UU%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"\u76AE\u8349\u9A6C\u5939\u5916\u5957\u9E35\u9E1F\u6BDB\u4E2D\u957F\u6B3E",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"397.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"63",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%CD%E2%CC%D7%CD%D2%C4%F1%C3%AB&catid=16\/50008905&propertyid=3232479",
+                    "markerItemOwnerId":"21968005"
                 }
                 ,
                 {
-                    "markerId": "6340722",
-                    "markerItemId": "9311111451",
-                    "markerSize": ["215", "374", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#19997;&#34972;&#32654;&#23572;&#30246;&#33151;&#34972;&#36830;&#35044;&#34972;",
-                    "markerItemPicSrc": "http://img03.taobaocdn.com/bao/uploaded/i3/T1ARiDXipmXXbxazs1_041627.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTZPpklzBGGNCAzVPmDJ2TyHVG3JGfcvxLOuCy&p=mm_13016281_0_0",
-                    "markerItemDesc": "\u4E1D\u889C\u7F8E\u5C14\u7626\u817F\u889C\u8FDE\u88E4\u889C",
-                    "isTmallBrand": "1",
-                    "markerItemPrice": "126.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "74335",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%C3%C0%B6%FB%CB%BF%CD%E0&catid=1625\/50006846&propertyid=28335",
-                    "markerItemOwnerId": "669399858"
+                    "markerId":"6340722",
+                    "markerItemId":"9311111451",
+                    "markerSize":["215", "374", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#19997;&#34972;&#32654;&#23572;&#30246;&#33151;&#34972;&#36830;&#35044;&#34972;",
+                    "markerItemPicSrc":"http://img03.taobaocdn.com/bao/uploaded/i3/T1ARiDXipmXXbxazs1_041627.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTZPpklzBGGNCAzVPmDJ2TyHVG3JGfcvxLOuCy&p=mm_13016281_0_0",
+                    "markerItemDesc":"\u4E1D\u889C\u7F8E\u5C14\u7626\u817F\u889C\u8FDE\u88E4\u889C",
+                    "isTmallBrand":"1",
+                    "markerItemPrice":"126.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"74335",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%C3%C0%B6%FB%CB%BF%CD%E0&catid=1625\/50006846&propertyid=28335",
+                    "markerItemOwnerId":"669399858"
                 }
                 ,
                 {
-                    "markerId": "6340730",
-                    "markerItemId": "5019204453",
-                    "markerSize": ["119", "441", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "chanel&#33620;&#26525;&#21333;&#32937;&#21253;",
-                    "markerItemPicSrc": "http://img02.taobaocdn.com/bao/uploaded/i2/T15h1pXllmXXc2eCw4_054131.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=rW6SfMHM3xD5rw%3D%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "chanel\u8354\u679D\u5355\u80A9\u5305",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "31000.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "6",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=chanel%B5%A5%BC%E7%B0%FC&catid=50006842\/50012010&propertyid=28341",
-                    "markerItemOwnerId": "256608491"
+                    "markerId":"6340730",
+                    "markerItemId":"5019204453",
+                    "markerSize":["119", "441", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"chanel&#33620;&#26525;&#21333;&#32937;&#21253;",
+                    "markerItemPicSrc":"http://img02.taobaocdn.com/bao/uploaded/i2/T15h1pXllmXXc2eCw4_054131.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=rW6SfMHM3xD5rw%3D%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"chanel\u8354\u679D\u5355\u80A9\u5305",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"31000.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"6",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=chanel%B5%A5%BC%E7%B0%FC&catid=50006842\/50012010&propertyid=28341",
+                    "markerItemOwnerId":"256608491"
                 }
             ]
 
         }
         ,
         {
-            "picId": "10930644",
-            "markers": [
+            "picId":"10930644",
+            "markers":[
 
                 {
-                    "markerId": "6340734",
-                    "markerItemId": "12829220037",
-                    "markerSize": ["222", "177", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "2011&#23567;&#36771;&#26898;&#27611;&#39046;&#20462;&#36523;&#27454;",
-                    "markerItemPicSrc": "http://img04.taobaocdn.com/bao/uploaded/i4/T10TavXepDXXb4z7ZV_021434.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXnxUyoQpvyFCqE%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "2011\u5C0F\u8FA3\u6912\u6BDB\u9886\u4FEE\u8EAB\u6B3E",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "668.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "880",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=2011%D0%A1%C0%B1%BD%B7&catid=16\/50008900&propertyid=28341",
-                    "markerItemOwnerId": "212654635"
+                    "markerId":"6340734",
+                    "markerItemId":"12829220037",
+                    "markerSize":["222", "177", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"2011&#23567;&#36771;&#26898;&#27611;&#39046;&#20462;&#36523;&#27454;",
+                    "markerItemPicSrc":"http://img04.taobaocdn.com/bao/uploaded/i4/T10TavXepDXXb4z7ZV_021434.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXnxUyoQpvyFCqE%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"2011\u5C0F\u8FA3\u6912\u6BDB\u9886\u4FEE\u8EAB\u6B3E",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"668.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"880",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=2011%D0%A1%C0%B1%BD%B7&catid=16\/50008900&propertyid=28341",
+                    "markerItemOwnerId":"212654635"
                 }
                 ,
                 {
-                    "markerId": "6340739",
-                    "markerItemId": "3599278492",
-                    "markerSize": ["209", "449", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#31192;&#31821;2011&#22899;&#35013;&#25171;&#24213;&#35044;",
-                    "markerItemPicSrc": "http://img04.taobaocdn.com/bao/uploaded/i4/T1eNKpXdFSXXbUuL32_044128.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTbjWOSqFZRDSfaPPqqLCk1tTSiX4w%2F8IZNr4%3D&p=mm_13016281_0_0",
-                    "markerItemDesc": "\u79D8\u7C4D2011\u5973\u88C5\u6253\u5E95\u88E4",
-                    "isTmallBrand": "1",
-                    "markerItemPrice": "98.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "181817",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=2011%B4%F2%B5%D7%BF%E3&catid=16\/1622\/50007068&propertyid=132069",
-                    "markerItemOwnerId": "94153930"
+                    "markerId":"6340739",
+                    "markerItemId":"3599278492",
+                    "markerSize":["209", "449", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#31192;&#31821;2011&#22899;&#35013;&#25171;&#24213;&#35044;",
+                    "markerItemPicSrc":"http://img04.taobaocdn.com/bao/uploaded/i4/T1eNKpXdFSXXbUuL32_044128.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTbjWOSqFZRDSfaPPqqLCk1tTSiX4w%2F8IZNr4%3D&p=mm_13016281_0_0",
+                    "markerItemDesc":"\u79D8\u7C4D2011\u5973\u88C5\u6253\u5E95\u88E4",
+                    "isTmallBrand":"1",
+                    "markerItemPrice":"98.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"181817",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=2011%B4%F2%B5%D7%BF%E3&catid=16\/1622\/50007068&propertyid=132069",
+                    "markerItemOwnerId":"94153930"
                 }
                 ,
                 {
-                    "markerId": "6340742",
-                    "markerItemId": "12684442852",
-                    "markerSize": ["232", "575", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "vivi&#26434;&#24535;&#29275;&#31563;&#24213;&#39640;&#36319;&#38772;",
-                    "markerItemPicSrc": "http://img03.taobaocdn.com/bao/uploaded/i3/T1qpawXaJUXXcuvNk._082432.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXn%2F53Ebx84yHZE%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "vivi\u6742\u5FD7\u725B\u7B4B\u5E95\u9AD8\u8DDF\u9774",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "90.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "20",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=vivi%D4%D3%D6%BE&catid=50006843\/50012028&propertyid=3232483",
-                    "markerItemOwnerId": "373397553"
+                    "markerId":"6340742",
+                    "markerItemId":"12684442852",
+                    "markerSize":["232", "575", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"vivi&#26434;&#24535;&#29275;&#31563;&#24213;&#39640;&#36319;&#38772;",
+                    "markerItemPicSrc":"http://img03.taobaocdn.com/bao/uploaded/i3/T1qpawXaJUXXcuvNk._082432.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXn%2F53Ebx84yHZE%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"vivi\u6742\u5FD7\u725B\u7B4B\u5E95\u9AD8\u8DDF\u9774",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"90.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"20",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=vivi%D4%D3%D6%BE&catid=50006843\/50012028&propertyid=3232483",
+                    "markerItemOwnerId":"373397553"
                 }
             ]
 
         }
         ,
         {
-            "picId": "10930645",
-            "markers": [
+            "picId":"10930645",
+            "markers":[
 
                 {
-                    "markerId": "6340747",
-                    "markerItemId": "3932195194",
-                    "markerSize": ["127", "14", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#20551;&#21457;&#21367;&#34028;&#26494;&#40784;&#21016;&#28023;&#38271;&#21367;&#21457;",
-                    "markerItemPicSrc": "http://img03.taobaocdn.com/bao/uploaded/i3/T1T99lXiJfXXX6GYs6_060707.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTbjlCo274iNdIKawyO%2FKoeydpptymKPIYUU0V&p=mm_13016281_0_0",
-                    "markerItemDesc": "\u5047\u53D1\u5377\u84EC\u677E\u9F50\u5218\u6D77\u957F\u5377\u53D1",
-                    "isTmallBrand": "1",
-                    "markerItemPrice": "66.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "1970",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%BC%D9%B7%A2%BE%ED&catid=50023282\/50023283\/50023284&propertyid=",
-                    "markerItemOwnerId": "351900862"
+                    "markerId":"6340747",
+                    "markerItemId":"3932195194",
+                    "markerSize":["127", "14", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#20551;&#21457;&#21367;&#34028;&#26494;&#40784;&#21016;&#28023;&#38271;&#21367;&#21457;",
+                    "markerItemPicSrc":"http://img03.taobaocdn.com/bao/uploaded/i3/T1T99lXiJfXXX6GYs6_060707.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTbjlCo274iNdIKawyO%2FKoeydpptymKPIYUU0V&p=mm_13016281_0_0",
+                    "markerItemDesc":"\u5047\u53D1\u5377\u84EC\u677E\u9F50\u5218\u6D77\u957F\u5377\u53D1",
+                    "isTmallBrand":"1",
+                    "markerItemPrice":"66.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"1970",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%BC%D9%B7%A2%BE%ED&catid=50023282\/50023283\/50023284&propertyid=",
+                    "markerItemOwnerId":"351900862"
                 }
                 ,
                 {
-                    "markerId": "6340752",
-                    "markerItemId": "12492117598",
-                    "markerSize": ["278", "339", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#26089;&#31179;&#20869;&#34915;&#31934;&#27833;&#35843;&#25972;&#22411;&#25991;&#33016;",
-                    "markerItemPicSrc": "http://img03.taobaocdn.com/bao/uploaded/i3/T1JdKmXXJLXXXbMkM9_104306.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTbIKnUXWVxpX9C%2F1pv7npXIFZF6XRYoyRBgfNtA%3D%3D&p=mm_13016281_0_0",
-                    "markerItemDesc": "\u65E9\u79CB\u5185\u8863\u7CBE\u6CB9\u8C03\u6574\u578B\u6587\u80F8",
-                    "isTmallBrand": "1",
-                    "markerItemPrice": "118.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "9276",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%C4%DA%D2%C2%CE%C4%D0%D8&catid=1625\/50008881&propertyid=28332",
-                    "markerItemOwnerId": "303451657"
+                    "markerId":"6340752",
+                    "markerItemId":"12492117598",
+                    "markerSize":["278", "339", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#26089;&#31179;&#20869;&#34915;&#31934;&#27833;&#35843;&#25972;&#22411;&#25991;&#33016;",
+                    "markerItemPicSrc":"http://img03.taobaocdn.com/bao/uploaded/i3/T1JdKmXXJLXXXbMkM9_104306.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTbIKnUXWVxpX9C%2F1pv7npXIFZF6XRYoyRBgfNtA%3D%3D&p=mm_13016281_0_0",
+                    "markerItemDesc":"\u65E9\u79CB\u5185\u8863\u7CBE\u6CB9\u8C03\u6574\u578B\u6587\u80F8",
+                    "isTmallBrand":"1",
+                    "markerItemPrice":"118.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"9276",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%C4%DA%D2%C2%CE%C4%D0%D8&catid=1625\/50008881&propertyid=28332",
+                    "markerItemOwnerId":"303451657"
                 }
                 ,
                 {
-                    "markerId": "6340754",
-                    "markerItemId": "12605642748",
-                    "markerSize": ["135", "490", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#38024;&#32455;&#39640;&#33136;&#36830;&#34915;&#35033;",
-                    "markerItemPicSrc": "http://img01.taobaocdn.com/bao/uploaded/i1/T1eOmiXbtgXXacR8.4_053801.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXn%2F73drQS9kYP8%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "\u9488\u7EC7\u9AD8\u8170\u8FDE\u8863\u88D9",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "128.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "305",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%B8%DF%D1%FC%C1%AC%D2%C2%C8%B9&catid=16\/50010850&propertyid=28324",
-                    "markerItemOwnerId": "103915621"
+                    "markerId":"6340754",
+                    "markerItemId":"12605642748",
+                    "markerSize":["135", "490", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#38024;&#32455;&#39640;&#33136;&#36830;&#34915;&#35033;",
+                    "markerItemPicSrc":"http://img01.taobaocdn.com/bao/uploaded/i1/T1eOmiXbtgXXacR8.4_053801.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXn%2F73drQS9kYP8%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"\u9488\u7EC7\u9AD8\u8170\u8FDE\u8863\u88D9",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"128.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"305",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%B8%DF%D1%FC%C1%AC%D2%C2%C8%B9&catid=16\/50010850&propertyid=28324",
+                    "markerItemOwnerId":"103915621"
                 }
             ]
 
         }
         ,
         {
-            "picId": "10930646",
-            "markers": [
+            "picId":"10930646",
+            "markers":[
 
                 {
-                    "markerId": "6340756",
-                    "markerItemId": "4352102946",
-                    "markerSize": ["176", "60", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#20336;&#32654;&#20551;&#21457;&#40784;&#21016;&#28023;&#22899;&#29983;&#34028;&#26494;",
-                    "markerItemPicSrc": "http://img03.taobaocdn.com/bao/uploaded/i3/T1dyunXbtYXXc6WdI9_103107.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTaWMnzfsBg0aFrsrOWpSaApinXcfJhb02WmO0&p=mm_13016281_0_0",
-                    "markerItemDesc": "\u4F70\u7F8E\u5047\u53D1\u9F50\u5218\u6D77\u5973\u751F\u84EC\u677E",
-                    "isTmallBrand": "1",
-                    "markerItemPrice": "68.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "11056",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%C5%AE%C9%FA%BC%D9%B7%A2&catid=50023282\/50023283\/50023284&propertyid=",
-                    "markerItemOwnerId": "351900862"
+                    "markerId":"6340756",
+                    "markerItemId":"4352102946",
+                    "markerSize":["176", "60", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#20336;&#32654;&#20551;&#21457;&#40784;&#21016;&#28023;&#22899;&#29983;&#34028;&#26494;",
+                    "markerItemPicSrc":"http://img03.taobaocdn.com/bao/uploaded/i3/T1dyunXbtYXXc6WdI9_103107.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTaWMnzfsBg0aFrsrOWpSaApinXcfJhb02WmO0&p=mm_13016281_0_0",
+                    "markerItemDesc":"\u4F70\u7F8E\u5047\u53D1\u9F50\u5218\u6D77\u5973\u751F\u84EC\u677E",
+                    "isTmallBrand":"1",
+                    "markerItemPrice":"68.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"11056",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%C5%AE%C9%FA%BC%D9%B7%A2&catid=50023282\/50023283\/50023284&propertyid=",
+                    "markerItemOwnerId":"351900862"
                 }
                 ,
                 {
-                    "markerId": "6340761",
-                    "markerItemId": "12804012717",
-                    "markerSize": ["195", "233", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#28201;&#26262;&#23433;&#21733;&#25289;&#39640;&#31471;&#30382;&#33609;&#22823;&#34915;",
-                    "markerItemPicSrc": "http://img03.taobaocdn.com/bao/uploaded/i3/T1mDikXg4tXXbnbhoU_015037.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXnxUSEUef0JiyQ%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "\u6E29\u6696\u5B89\u54E5\u62C9\u9AD8\u7AEF\u76AE\u8349\u5927\u8863",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "1180.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "301",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%CE%C2%C5%AF%B4%F3%D2%C2&catid=16\/50008905&propertyid=28329",
-                    "markerItemOwnerId": "139885587"
+                    "markerId":"6340761",
+                    "markerItemId":"12804012717",
+                    "markerSize":["195", "233", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#28201;&#26262;&#23433;&#21733;&#25289;&#39640;&#31471;&#30382;&#33609;&#22823;&#34915;",
+                    "markerItemPicSrc":"http://img03.taobaocdn.com/bao/uploaded/i3/T1mDikXg4tXXbnbhoU_015037.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXnxUSEUef0JiyQ%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"\u6E29\u6696\u5B89\u54E5\u62C9\u9AD8\u7AEF\u76AE\u8349\u5927\u8863",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"1180.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"301",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%CE%C2%C5%AF%B4%F3%D2%C2&catid=16\/50008905&propertyid=28329",
+                    "markerItemOwnerId":"139885587"
                 }
                 ,
                 {
-                    "markerId": "6340763",
-                    "markerItemId": "13291776259",
-                    "markerSize": ["213", "434", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "2011&#21253;&#33216;&#23567;&#33050;&#30382;&#35044;&#38271;&#35044;",
-                    "markerItemPicSrc": "http://img03.taobaocdn.com/bao/uploaded/i3/T1M1ioXbVIXXadbEc8_072104.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXjYYwyD6AzFwBg%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "2011\u5305\u81C0\u5C0F\u811A\u76AE\u88E4\u957F\u88E4",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "105.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "347",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=2011%C6%A4%BF%E3&catid=16\/1622\/162201&propertyid=28417",
-                    "markerItemOwnerId": "13025907"
+                    "markerId":"6340763",
+                    "markerItemId":"13291776259",
+                    "markerSize":["213", "434", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"2011&#21253;&#33216;&#23567;&#33050;&#30382;&#35044;&#38271;&#35044;",
+                    "markerItemPicSrc":"http://img03.taobaocdn.com/bao/uploaded/i3/T1M1ioXbVIXXadbEc8_072104.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXjYYwyD6AzFwBg%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"2011\u5305\u81C0\u5C0F\u811A\u76AE\u88E4\u957F\u88E4",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"105.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"347",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=2011%C6%A4%BF%E3&catid=16\/1622\/162201&propertyid=28417",
+                    "markerItemOwnerId":"13025907"
                 }
             ]
 
         }
         ,
         {
-            "picId": "10930647",
-            "markers": [
+            "picId":"10930647",
+            "markers":[
 
                 {
-                    "markerId": "6340766",
-                    "markerItemId": "204507214",
-                    "markerSize": ["225", "216", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "2011&#20013;&#38271;&#27454;&#20462;&#36523;&#35199;&#35013;",
-                    "markerItemPicSrc": "http://img01.taobaocdn.com/bao/uploaded/i1/T1LhX2XhNGXXb0Ekk8_101312.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qvYuR5pZ3Zix&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "2011\u4E2D\u957F\u6B3E\u4FEE\u8EAB\u897F\u88C5",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "139.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "378",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=2011%CE%F7%D7%B0&catid=16\/50008897&propertyid=28381",
-                    "markerItemOwnerId": "46832528"
+                    "markerId":"6340766",
+                    "markerItemId":"204507214",
+                    "markerSize":["225", "216", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"2011&#20013;&#38271;&#27454;&#20462;&#36523;&#35199;&#35013;",
+                    "markerItemPicSrc":"http://img01.taobaocdn.com/bao/uploaded/i1/T1LhX2XhNGXXb0Ekk8_101312.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qvYuR5pZ3Zix&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"2011\u4E2D\u957F\u6B3E\u4FEE\u8EAB\u897F\u88C5",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"139.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"378",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=2011%CE%F7%D7%B0&catid=16\/50008897&propertyid=28381",
+                    "markerItemOwnerId":"46832528"
                 }
                 ,
                 {
-                    "markerId": "6340795",
-                    "markerItemId": "12987120775",
-                    "markerSize": ["206", "353", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "ck&#38085;&#31508;&#35044;&#23567;&#33050;&#35044;&#29275;&#20180;&#35044;",
-                    "markerItemPicSrc": "http://img07.taobaocdn.com/bao/uploaded/i7/T1mRCdXotsXXXXi6cW_023843.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXnw99oQu5%2B%2BeE0%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "ck\u94C5\u7B14\u88E4\u5C0F\u811A\u88E4\u725B\u4ED4\u88E4",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "135.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "77",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=ck%D0%A1%BD%C5%BF%E3&catid=16\/162205&propertyid=28417",
-                    "markerItemOwnerId": "13025907"
+                    "markerId":"6340795",
+                    "markerItemId":"12987120775",
+                    "markerSize":["206", "353", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"ck&#38085;&#31508;&#35044;&#23567;&#33050;&#35044;&#29275;&#20180;&#35044;",
+                    "markerItemPicSrc":"http://img07.taobaocdn.com/bao/uploaded/i7/T1mRCdXotsXXXXi6cW_023843.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXnw99oQu5%2B%2BeE0%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"ck\u94C5\u7B14\u88E4\u5C0F\u811A\u88E4\u725B\u4ED4\u88E4",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"135.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"77",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=ck%D0%A1%BD%C5%BF%E3&catid=16\/162205&propertyid=28417",
+                    "markerItemOwnerId":"13025907"
                 }
                 ,
                 {
-                    "markerId": "6340798",
-                    "markerItemId": "12951526860",
-                    "markerSize": ["193", "462", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#32650;&#32660;&#27611;&#30701;&#38772;&#39640;&#36319;&#36381;&#38772;&#22899;&#38772;",
-                    "markerItemPicSrc": "http://img07.taobaocdn.com/bao/uploaded/i7/T1MoqtXnpoXXcRPw.0_035411.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXnw%2BvvrrR7gq84%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "\u7F8A\u7F94\u6BDB\u77ED\u9774\u9AD8\u8DDF\u8E1D\u9774\u5973\u9774",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "148.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "565",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%B6%CC%D1%A5%C5%AE%D1%A5&catid=50006843\/50012028&propertyid=28341",
-                    "markerItemOwnerId": "34760577"
+                    "markerId":"6340798",
+                    "markerItemId":"12951526860",
+                    "markerSize":["193", "462", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#32650;&#32660;&#27611;&#30701;&#38772;&#39640;&#36319;&#36381;&#38772;&#22899;&#38772;",
+                    "markerItemPicSrc":"http://img07.taobaocdn.com/bao/uploaded/i7/T1MoqtXnpoXXcRPw.0_035411.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXnw%2BvvrrR7gq84%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"\u7F8A\u7F94\u6BDB\u77ED\u9774\u9AD8\u8DDF\u8E1D\u9774\u5973\u9774",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"148.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"565",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%B6%CC%D1%A5%C5%AE%D1%A5&catid=50006843\/50012028&propertyid=28341",
+                    "markerItemOwnerId":"34760577"
                 }
             ]
 
         }
         ,
         {
-            "picId": "10930648",
-            "markers": [
+            "picId":"10930648",
+            "markers":[
 
                 {
-                    "markerId": "6340802",
-                    "markerItemId": "13338856500",
-                    "markerSize": ["165", "164", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#22899;&#33394;&#24037;&#35013;&#20891;&#32511;&#33394;&#20462;&#36523;&#22806;&#22871;",
-                    "markerItemPicSrc": "http://img01.taobaocdn.com/bao/uploaded/i1/T13HGpXlJhXXapK13U_014438.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXjZ7iNe0%2FG9CuE%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "\u5973\u8272\u5DE5\u88C5\u519B\u7EFF\u8272\u4FEE\u8EAB\u5916\u5957",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "155.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "8",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%B9%A4%D7%B0%CD%E2%CC%D7&catid=16\/50008901&propertyid=3232483",
-                    "markerItemOwnerId": "72610143"
+                    "markerId":"6340802",
+                    "markerItemId":"13338856500",
+                    "markerSize":["165", "164", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#22899;&#33394;&#24037;&#35013;&#20891;&#32511;&#33394;&#20462;&#36523;&#22806;&#22871;",
+                    "markerItemPicSrc":"http://img01.taobaocdn.com/bao/uploaded/i1/T13HGpXlJhXXapK13U_014438.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXjZ7iNe0%2FG9CuE%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"\u5973\u8272\u5DE5\u88C5\u519B\u7EFF\u8272\u4FEE\u8EAB\u5916\u5957",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"155.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"8",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%B9%A4%D7%B0%CD%E2%CC%D7&catid=16\/50008901&propertyid=3232483",
+                    "markerItemOwnerId":"72610143"
                 }
                 ,
                 {
-                    "markerId": "6340806",
-                    "markerItemId": "12913525411",
-                    "markerSize": ["198", "332", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "13c&#22909;&#21697;&#36136;&#20462;&#36523;&#25171;&#24213;&#33394;&#20837;",
-                    "markerItemPicSrc": "http://img04.taobaocdn.com/bao/uploaded/i4/T11SOsXjpJXXc6Tp3__075255.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXnw%2Fkd%2FdK2WQUY%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "13c\u597D\u54C1\u8D28\u4FEE\u8EAB\u6253\u5E95\u8272\u5165",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "35.9",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "145",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=13c%BA%C3%C6%B7%D6%CA&catid=16\/50000671&propertyid=28332",
-                    "markerItemOwnerId": "39090641"
+                    "markerId":"6340806",
+                    "markerItemId":"12913525411",
+                    "markerSize":["198", "332", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"13c&#22909;&#21697;&#36136;&#20462;&#36523;&#25171;&#24213;&#33394;&#20837;",
+                    "markerItemPicSrc":"http://img04.taobaocdn.com/bao/uploaded/i4/T11SOsXjpJXXc6Tp3__075255.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXnw%2Fkd%2FdK2WQUY%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"13c\u597D\u54C1\u8D28\u4FEE\u8EAB\u6253\u5E95\u8272\u5165",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"35.9",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"145",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=13c%BA%C3%C6%B7%D6%CA&catid=16\/50000671&propertyid=28332",
+                    "markerItemOwnerId":"39090641"
                 }
                 ,
                 {
-                    "markerId": "6340810",
-                    "markerItemId": "13201347474",
-                    "markerSize": ["131", "483", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#39532;&#19969;&#38772;&#24179;&#24213;&#30701;&#38772;&#21402;&#24213;&#38795;",
-                    "markerItemPicSrc": "http://img01.taobaocdn.com/bao/uploaded/i1/T1hIuAXalYXXc5Gxs9_103559.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTbIOU7ATKhobbL8pyi8AUD9oXx7IU%2FvW7hlmGCA%3D%3D&p=mm_13016281_0_0",
-                    "markerItemDesc": "\u9A6C\u4E01\u9774\u5E73\u5E95\u77ED\u9774\u539A\u5E95\u978B",
-                    "isTmallBrand": "1",
-                    "markerItemPrice": "225.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "4505",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%C2%ED%B6%A1%D1%A5&catid=50006843\/50012028&propertyid=3232483",
-                    "markerItemOwnerId": "761699250"
+                    "markerId":"6340810",
+                    "markerItemId":"13201347474",
+                    "markerSize":["131", "483", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#39532;&#19969;&#38772;&#24179;&#24213;&#30701;&#38772;&#21402;&#24213;&#38795;",
+                    "markerItemPicSrc":"http://img01.taobaocdn.com/bao/uploaded/i1/T1hIuAXalYXXc5Gxs9_103559.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTbIOU7ATKhobbL8pyi8AUD9oXx7IU%2FvW7hlmGCA%3D%3D&p=mm_13016281_0_0",
+                    "markerItemDesc":"\u9A6C\u4E01\u9774\u5E73\u5E95\u77ED\u9774\u539A\u5E95\u978B",
+                    "isTmallBrand":"1",
+                    "markerItemPrice":"225.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"4505",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%C2%ED%B6%A1%D1%A5&catid=50006843\/50012028&propertyid=3232483",
+                    "markerItemOwnerId":"761699250"
                 }
             ]
 
         }
         ,
         {
-            "picId": "10930649",
-            "markers": [
+            "picId":"10930649",
+            "markers":[
 
                 {
-                    "markerId": "6340814",
-                    "markerItemId": "14324548065",
-                    "markerSize": ["237", "175", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#22810;&#22810;&#22797;&#21476;&#39118;&#40635;&#33457;&#23485;&#26494;&#27611;&#34915;",
-                    "markerItemPicSrc": "http://img04.taobaocdn.com/bao/uploaded/i4/T1dnGAXc4iXXX6hYU7_064002.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qX93eQiwLsnm1Co%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "\u591A\u591A\u590D\u53E4\u98CE\u9EBB\u82B1\u5BBD\u677E\u6BDB\u8863",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "88.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "1561",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%B6%E0%B6%E0%C3%AB%D2%C2&catid=16\/162103&propertyid=28341",
-                    "markerItemOwnerId": "133795489"
+                    "markerId":"6340814",
+                    "markerItemId":"14324548065",
+                    "markerSize":["237", "175", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#22810;&#22810;&#22797;&#21476;&#39118;&#40635;&#33457;&#23485;&#26494;&#27611;&#34915;",
+                    "markerItemPicSrc":"http://img04.taobaocdn.com/bao/uploaded/i4/T1dnGAXc4iXXX6hYU7_064002.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qX93eQiwLsnm1Co%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"\u591A\u591A\u590D\u53E4\u98CE\u9EBB\u82B1\u5BBD\u677E\u6BDB\u8863",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"88.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"1561",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%B6%E0%B6%E0%C3%AB%D2%C2&catid=16\/162103&propertyid=28341",
+                    "markerItemOwnerId":"133795489"
                 }
                 ,
                 {
-                    "markerId": "6340841",
-                    "markerItemId": "13021079028",
-                    "markerSize": ["219", "396", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "2011&#20462;&#36523;&#23567;&#33050;&#35044;&#29275;&#20180;&#35044;",
-                    "markerItemPicSrc": "http://img03.taobaocdn.com/bao/uploaded/i3/T1lKCqXc4GXXap8TE6_063146.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXjaMv6onI3vxc4%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "2011\u4FEE\u8EAB\u5C0F\u811A\u88E4\u725B\u4ED4\u88E4",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "129.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "16",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=2011%D0%A1%BD%C5%BF%E3&catid=16\/1622\/162201&propertyid=28417",
-                    "markerItemOwnerId": "13025907"
+                    "markerId":"6340841",
+                    "markerItemId":"13021079028",
+                    "markerSize":["219", "396", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"2011&#20462;&#36523;&#23567;&#33050;&#35044;&#29275;&#20180;&#35044;",
+                    "markerItemPicSrc":"http://img03.taobaocdn.com/bao/uploaded/i3/T1lKCqXc4GXXap8TE6_063146.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXjaMv6onI3vxc4%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"2011\u4FEE\u8EAB\u5C0F\u811A\u88E4\u725B\u4ED4\u88E4",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"129.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"16",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=2011%D0%A1%BD%C5%BF%E3&catid=16\/1622\/162201&propertyid=28417",
+                    "markerItemOwnerId":"13025907"
                 }
                 ,
                 {
-                    "markerId": "6340845",
-                    "markerItemId": "12988279697",
-                    "markerSize": ["102", "528", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "2011&#30701;&#38772;&#36381;&#38772;&#38772;&#36141;&#20837;",
-                    "markerItemPicSrc": "http://img03.taobaocdn.com/bao/uploaded/i3/T1IKWqXjlUXXX_x2Pa_120818.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXnw99Vqf8%2F0nBk%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "2011\u77ED\u9774\u8E1D\u9774\u9774\u8D2D\u5165",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "320.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "20",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=2011%B9%BA%C8%EB&catid=50006843\/50012028&propertyid=28341",
-                    "markerItemOwnerId": "153361988"
+                    "markerId":"6340845",
+                    "markerItemId":"12988279697",
+                    "markerSize":["102", "528", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"2011&#30701;&#38772;&#36381;&#38772;&#38772;&#36141;&#20837;",
+                    "markerItemPicSrc":"http://img03.taobaocdn.com/bao/uploaded/i3/T1IKWqXjlUXXX_x2Pa_120818.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXnw99Vqf8%2F0nBk%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"2011\u77ED\u9774\u8E1D\u9774\u9774\u8D2D\u5165",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"320.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"20",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=2011%B9%BA%C8%EB&catid=50006843\/50012028&propertyid=28341",
+                    "markerItemOwnerId":"153361988"
                 }
             ]
 
         }
         ,
         {
-            "picId": "10930650",
-            "markers": [
+            "picId":"10930650",
+            "markers":[
 
                 {
-                    "markerId": "6340854",
-                    "markerItemId": "13440935466",
-                    "markerSize": ["220", "213", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "2011&#40501;&#40479;&#27611;&#30382;&#33609;&#22806;&#22871;",
-                    "markerItemPicSrc": "http://img01.taobaocdn.com/bao/uploaded/i1/T1S1eyXXXsXXamj0zb_123454.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_1?i=qXjeO4riVX9Zj0g%3D&p=mm_13016281_0_0&n=11",
-                    "markerItemDesc": "2011\u9E35\u9E1F\u6BDB\u76AE\u8349\u5916\u5957",
-                    "isTmallBrand": "0",
-                    "markerItemPrice": "370.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "57",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=2011%CD%D2%C4%F1%C3%AB&catid=16\/50008905&propertyid=28320",
-                    "markerItemOwnerId": "98460471"
+                    "markerId":"6340854",
+                    "markerItemId":"13440935466",
+                    "markerSize":["220", "213", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"2011&#40501;&#40479;&#27611;&#30382;&#33609;&#22806;&#22871;",
+                    "markerItemPicSrc":"http://img01.taobaocdn.com/bao/uploaded/i1/T1S1eyXXXsXXamj0zb_123454.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_1?i=qXjeO4riVX9Zj0g%3D&p=mm_13016281_0_0&n=11",
+                    "markerItemDesc":"2011\u9E35\u9E1F\u6BDB\u76AE\u8349\u5916\u5957",
+                    "isTmallBrand":"0",
+                    "markerItemPrice":"370.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"57",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=2011%CD%D2%C4%F1%C3%AB&catid=16\/50008905&propertyid=28320",
+                    "markerItemOwnerId":"98460471"
                 }
                 ,
                 {
-                    "markerId": "6340859",
-                    "markerItemId": "9627970986",
-                    "markerSize": ["82", "212", 32, 32],
-                    "markerItemStatus": "0",
-                    "markerItemTitle": "&#24773;&#20387;&#23545;&#25106;",
-                    "markerItemPicSrc": "http://img01.taobaocdn.com/bao/uploaded/i1/T1XvylXg0dXXaar733_051012.jpg",
-                    "markerItemLink": "http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTZP8A4p75LUwWjHj1AEZ4%2F3herERYuKr8MUA%3D&p=mm_13016281_0_0",
-                    "markerItemDesc": "\u60C5\u4FA3\u5BF9\u6212",
-                    "isTmallBrand": "1",
-                    "markerItemPrice": "9999.0",
-                    "markerItemPosterPrice": "",
-                    "markerItemSaleVolume": "44",
-                    "markerItemViews": "200",
-                    "markerItemCommentPageLink": "",
-                    "markerP4PKeyword": "keyword=%C7%E9%C2%C2%D7%EA%BD%E4&catid=50011397\/50011398&propertyid=",
-                    "markerItemOwnerId": "93733656"
+                    "markerId":"6340859",
+                    "markerItemId":"9627970986",
+                    "markerSize":["82", "212", 32, 32],
+                    "markerItemStatus":"0",
+                    "markerItemTitle":"&#24773;&#20387;&#23545;&#25106;",
+                    "markerItemPicSrc":"http://img01.taobaocdn.com/bao/uploaded/i1/T1XvylXg0dXXaar733_051012.jpg",
+                    "markerItemLink":"http:\/\/s.click.taobao.com\/t_8?e=7HZ6jHSTZP8A4p75LUwWjHj1AEZ4%2F3herERYuKr8MUA%3D&p=mm_13016281_0_0",
+                    "markerItemDesc":"\u60C5\u4FA3\u5BF9\u6212",
+                    "isTmallBrand":"1",
+                    "markerItemPrice":"9999.0",
+                    "markerItemPosterPrice":"",
+                    "markerItemSaleVolume":"44",
+                    "markerItemViews":"200",
+                    "markerItemCommentPageLink":"",
+                    "markerP4PKeyword":"keyword=%C7%E9%C2%C2%D7%EA%BD%E4&catid=50011397\/50011398&propertyid=",
+                    "markerItemOwnerId":"93733656"
                 }
                 ,
                 {
@@ -1385,6 +1348,7 @@ var tempMarkersData = {
                     "markerP4PKeyword": "keyword=%B4%F3%C5%C62011&catid=16\/50008904&propertyid=3232483",
                     "markerItemOwnerId": "106174419"
                 }
+
                 ,
                 {
                     "markerId": "6340903",
@@ -4814,35 +4778,67 @@ var tempPicsData = {
 
 <script type="text/javascript">
 
-    // data from json in page
-    KISSY.use("huabao, dom, event, template, datalazyload", function (S, Huabao, DOM, Event, Template, DataLazyload) {
+    KISSY.use("gallery/huabao/1.0/, " +
+            "gallery/huabao/1.0/ui/detail, " + // 使用画报详情页的 ui 装饰器，里面封装了基本的 ui action logic
+            "dom, " +
+            "event, " +
+            "template, " +
+            "datalazyload", function (S, Huabao, ui, DOM, Event, Template, DataLazyload) {
 
-        var PAGE_NUM = 8, ACTIVE_CLS = "ks-active";
+        // 以下 demo 代码段平坦罗列，并且有顺序要求
 
-        // new Huabao instance
+        // 1. 重写 model 的 parser
+        S.augment(Huabao.model.Poster, {
+            parse: function (dataSource) {
+                return {
+                    id: dataSource.posterId,
+                    title: dataSource.title,
+                    shortTitle: dataSource.shortTitle,
+                    tags: dataSource.tags,
+                    coverPicSrc: dataSource.coverPicPath
+                };
+            }
+        });
+        S.augment(Huabao.model.Pic, {
+            parse: function (dataSource) {
+                return {
+                    id: dataSource.picId,
+                    picSrc: dataSource.picSrc,
+                    width: dataSource.picSize[0] - 0,
+                    height: dataSource.picSize[1] - 0,
+                    desc: dataSource.picDesc
+                };
+            }
+        });
+
+        // 2. 生成画报对象
         var huabao = new Huabao("#huabao", {
             navCls: "ks-huabao-nav",
             contentCls: "ks-huabao-content",
 
+            // 数据源来自页面内 json
             dataSource: {
                 poster: tempPosterData,
                 pics: tempPicsData.imageData
             },
 
-            // custom template
+            // 此成员提供给缩略图的 ui 使用，同时一般和 carousel 的 steps 相同
+            pageSize: 8,
+
+            // 使用自定义模板，不自动渲染
             autoRendering: false
         });
 
-        // render
+        // 3. 自定义的模板，使用懒加载
         var TEMPLATE = {
             CONTENT: '{{#each pics as pic}}' +
                     '<li>' +
-                    '<img data-ks-lazyload-custom="{{pic.picUrl}}" width="{{pic.width}}" height="{{pic.height}}">' +
+                    '<img data-ks-lazyload-custom="{{pic.picSrc}}" width="{{pic.width}}" height="{{pic.height}}">' +
                     '</li>' +
                     '{{/each}}',
             NAV: '{{#each pics as pic index}}' +
-                    '<li data-index="{{index}}">' +
-                    '<img data-ks-lazyload-custom="{{pic.picUrl}}_100x100.jpg"' +
+                    '<li>' +
+                    '<img data-ks-lazyload-custom="{{pic.picSrc}}_100x100.jpg"' +
                     '</li>' +
                     '{{/each}}',
             PIC_DESC: '<p>{{pic.desc}}</p>'
@@ -4850,44 +4846,48 @@ var tempPicsData = {
         huabao.render(huabao.get("content"), TEMPLATE.CONTENT);
         huabao.render(huabao.get("nav"), TEMPLATE.NAV);
 
-        // first panel img load and active
-        DataLazyload.loadCustomLazyData(huabao.get("panels")[0], "img-src");
-        for (var i = 0; i < PAGE_NUM; i++) {
-            DataLazyload.loadCustomLazyData(huabao.get("triggers")[i], "img-src");
-        }
+        // 这些变量提供给缩略图部分的滚动逻辑使用
+        var ACTIVE_POSITION = 3, // 当前高亮框定位到第 4 个位置（在页首和页尾除外）
+                ACTIVE_CLS = "ks-active",
+                PAGE_SIZE = huabao.get("pageSize"), // 一页大小为 8
+                ACTIVE_THRESHOLD = ACTIVE_POSITION / PAGE_SIZE, // 滚动判断的阈值
+                MAX_PAGE_INDEX = huabao.get("pageLength") - 1; // 最大页码
 
-        // core event binding - attr change leads to main logic
+        // 4. 添加业务逻辑，务必在装饰 ui 前添加，因为 ui 初始化的时候也会触发有关 attrChange——如此就不必再在初始化的时候调用一遍业务逻辑
         huabao.on("afterActiveIndexChange", function (e) {
-            var i = e.newVal, prevI = e.prevVal;
+            var i = e.newVal,
+                    prevI = e.prevVal;
 
-            // switch content to selected panel
-            content && content.switchTo(i);
-
-            // activate selected item
-            DOM.addClass(huabao.get("triggers")[i], ACTIVE_CLS);
-            DOM.removeClass(huabao.get("triggers")[prevI], ACTIVE_CLS);
-
-            // render desc
+            // 渲染描述
             huabao.render(".info-wrap", TEMPLATE.PIC_DESC);
 
-            // content-wrap height fix
+            // content-wrap 高度修正
             var height = huabao.getPics()[i].get("height");
             DOM.css(".content-wrap", "height", height);
-        });
-        huabao.on("afterPageIndexChange", function (e) {
-            var i = e.newVal;
+
+            // 缩略图部分随着大图切换而滚动，滚动的具体策略不用深究
+            var pageIndex = (i / PAGE_SIZE);
+            var pageIndexAmended = (pageIndex - ACTIVE_THRESHOLD < 0) ?
+                    0 :
+                    ((pageIndex - ACTIVE_THRESHOLD - MAX_PAGE_INDEX > 0) ?
+                            MAX_PAGE_INDEX :
+                            (pageIndex - ACTIVE_THRESHOLD));
+            huabao.pageTo(pageIndexAmended);
         });
 
-        // decorate ui
-        var content = huabao.decorate("slide-content", {
+        // 5. 添加 ui 装饰
+        var content = ui.decorate(huabao, {
+            target: "content",
             triggerType: "click",
             effect: "fade",
             autoplay: false,
-            lazyDataType: 'img-src'
+            lazyDataType: 'img-src',
+            prevBtnCls: "prev-pic",
+            nextBtnCls: "next-pic"
         });
-
-        var nav = huabao.decorate("carousel-nav", {
-            steps: PAGE_NUM,
+        var nav = ui.decorate(huabao, {
+            target: "nav",
+            steps: 8,
             effect: "scrollx",
             hasTriggers: false,
             circular: false,
@@ -4896,18 +4896,16 @@ var tempPicsData = {
             lazyDataType: 'img-src'
         });
 
-        // ui actions cause attr change
-        Event.on("#huabao .prev-pic", "click", function (e) {
-            huabao.prev();
-        });
-        Event.on("#huabao .next-pic", "click", function (e) {
-            huabao.next();
-        });
-        nav.on("itemSelected", function (e) {
-            var target = e.item;
-            var index = DOM.attr(target, "data-index");
-            huabao.switchTo(index);
-        });
+        // 6. 初始化时附加的一些其他逻辑……本 demo 的 list 页中，可以指定页面载入时便定位到指定的位置
+        var indexInit = S.unparam(location.search.split("?")[1]).index;
+        if (indexInit) {
+            huabao.switchTo(indexInit);
+        }
+        // 同时由于使用了 switchable 的懒加载，第一屏的图片需要手动加载一下 T.T
+        DataLazyload.loadCustomLazyData(huabao.get("panels")[0], "img-src");
+        for (var i = 0; i < PAGE_SIZE; i++) {
+            DataLazyload.loadCustomLazyData(huabao.get("triggers")[i], "img-src");
+        }
 
     });
 

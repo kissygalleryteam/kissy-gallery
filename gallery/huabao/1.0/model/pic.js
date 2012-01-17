@@ -3,7 +3,7 @@
  *
  * @author  fahai
  */
-KISSY.add("huabao/model/pic", function (S, Base) {
+KISSY.add("gallery/huabao/1.0/model/pic", function (S, Base) {
 
     function Pic(config) {
         config = this.parse(config);
@@ -14,18 +14,11 @@ KISSY.add("huabao/model/pic", function (S, Base) {
     S.extend(Pic, Base, {
         /**
          * Data-source adaptor. This method can be override to customise.
-         * It parses huabao detail data by default.
          *
          * @param dataSource
          */
         parse: function (dataSource) {
-            return {
-                id: dataSource.picId,
-                picUrl: dataSource.picSrc,
-                width: dataSource.picSize[0] - 0,
-                height: dataSource.picSize[1] - 0,
-                desc: dataSource.picDesc
-            };
+            return dataSource;
         }
     }, {});
 
@@ -33,7 +26,7 @@ KISSY.add("huabao/model/pic", function (S, Base) {
         id: {
             value: 0
         },
-        picUrl: {
+        picSrc: {
             value: ""
         },
         width: {
@@ -45,11 +38,8 @@ KISSY.add("huabao/model/pic", function (S, Base) {
         desc: {
             value: ""
         },
-        createDate: {
-            value: "2000-01-01 00:00:00"
-        },
-        modifiedDate: {
-            value: "2000-01-01 00:00:00"
+        tags: {
+            value: []
         },
         rawData: {
             value: null

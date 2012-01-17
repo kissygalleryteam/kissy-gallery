@@ -15,7 +15,7 @@
                 name:"gallery",
                 tag:"20111220",
                 path:"../../../",  // cdn上适当修改对应路径
-                charset:"utf-8"
+                charset:"gbk"
             }
         ]
     });
@@ -51,13 +51,13 @@
 功能：图片标记组件
 描述：对图片上面进行标点
 源码：<a href="image-tagging.js">image-tagging.js</a></pre>
-			
+
 			<h3 class="s-title">Demo1 - 数据预先加载并渲染图片</h3>
 			<div class="s-section">
 				<div class="s-demo">
 					<div>
                         <img id="huabao" width="400" src="http://img01.taobaocdn.com/poster_pic/i1/T1EGiHXiVbXXaH.X6X.JPEG_620x10000.jpg" alt="">
-                        <img id="huabao1" width="400" src="http://img01.taobaocdn.com/poster_pic/i1/T1bz5FXchrXXaH.X6X.JPEG_620x10000.jpg" alt="包包">
+                        <!--<img id="huabao1" width="400" src="http://img01.taobaocdn.com/poster_pic/i1/T1bz5FXchrXXaH.X6X.JPEG_620x10000.jpg" alt="包包">-->
                     </div>
 					<script>
                         KISSY.use('gallery/image-tagging/1.0/', function(S, ImageTag) {
@@ -68,18 +68,54 @@
                             ], {
                                 tagContent:'+'
                             });
+//
+                        })
+                    </script>
+				</div>
+				<a class="s-view-code" href="demo.html#">显示源码</a><!--点击该链接自动帮你显示s=demo里的内容，如不需要，去除链接即可-->
+			</div>
+
+        <h3 class="s-title">Demo2 - 一个图上面会有多种标记，怎么办？你可以利用tagContent和tagClass配置单个标记，或者对一张图生成多个ImageTag</h3>
+			<div class="s-section">
+				<div class="s-demo">
+					<div>
+                        <img id="example2" width="400" src="http://img01.taobaocdn.com/poster_pic/i1/T1bz5FXchrXXaH.X6X.JPEG_620x10000.jpg" alt="包包">
+                        <img id="example3" width="400" src="http://img01.taobaocdn.com/poster_pic/i1/T1bz5FXchrXXaH.X6X.JPEG_620x10000.jpg" alt="包包">
+                    </div>
+					<script>
+                        KISSY.use('gallery/image-tagging/1.0/', function(S, ImageTag) {
+                            new ImageTag('#example2', [
+                                {top:50,left:300},
+                                {top:200,left:150}
+                            ], {
+                                tagContent:function(el) {
+                                    if (el.index == 1) {
+                                        return '红点';
+                                    } else {
+                                        return '黑点';
+                                    }
+                                },
+                                tagClass: function(el) {
+                                    if (el.index == 1) {
+                                        return 'redTag';
+                                    } else {
+                                        return 'blackTag';
+                                    }
+                                }
+                            });
+
                             var anotherConfig = {
-                                tagClass: customClassName,
+                                tagClass: 'greenTag',
                                 tagContent: '绿'
                             };
-                            new ImageTag('#huabao1',[
+                            new ImageTag('#example3',[
                                     {top:250,left:200}
                                 ], anotherConfig);
                             var andOneMoreConfig = {
                                 tagClass: 'redTag',
                                 tagContent: '红'
                             };
-                            new ImageTag('#huabao1', [
+                            new ImageTag('#example3', [
                                 {top:200,left:150}
                             ], andOneMoreConfig);
                         })
@@ -88,8 +124,9 @@
 				<a class="s-view-code" href="demo.html#">显示源码</a><!--点击该链接自动帮你显示s=demo里的内容，如不需要，去除链接即可-->
 			</div>
 
-            <h3 class="s-title">Demo2 - 标记数据异步载入(第二张图片的打点在3秒后加载)</h3>
+            <h3 class="s-title">Demo3 - 标记数据异步载入(第二张图片的打点在3秒后加载)</h3>
             <div class="s-section" id="asynHuabao">
+            <div class="s-demo">
                 <div>
                     <img src="http://img01.taobaocdn.com/poster_pic/i1/T1mimFXdluXXaH.X6X.JPEG_620x10000.jpg">
                     <img src="http://img03.taobaocdn.com/poster_pic/i3/T1kmyFXlBgXXaH.X6X.JPEG_620x10000.jpg">
@@ -109,7 +146,7 @@
                             };
                             if (index == 1) {
                                 S.later(function(){
-                                    S.jsonp('http://qiaofu/kissy-gallery/image-tagging/render.php', reqObject, function(el) {
+                                    S.jsonp('http://www.taobao.com/go/act/kissy-gallery-image-tagging/render.php', reqObject, function(el) {
                                     new ImageTag(imgEl, el.coords,{
                                                 tagClass: 'redTag',
                                                 tagContent: '+'
@@ -117,7 +154,7 @@
                                     });
                                 }, 3000);
                             } else {
-                                S.jsonp('http://qiaofu/kissy-gallery/image-tagging/render.php', reqObject, function(el) {
+                                S.jsonp('http://www.taobao.com/go/act/kissy-gallery-image-tagging/render.php', reqObject, function(el) {
                                     new ImageTag(imgEl, el.coords, {
                                         tagContent: '+'
                                     });
@@ -126,10 +163,13 @@
                         });
                     });
                 </script>
+                </div>
+                <a class="s-view-code" href="demo.html#">显示源码</a>
             </div>
 
-            <h3 class="s-title">Demo3 - 图片广告效果</h3>
+            <h3 class="s-title">Demo4 - 图片广告效果</h3>
             <div class="s-section">
+                <div class="s-demo">
                 <div>
                     <img id="advertiser" src="http://img04.taobaocdn.com/poster_pic/i4/677250084/T24IN0XnhbXXXXXXXX_!!677250084.jpg_620x10000.jpg">
                 </div>
@@ -168,50 +208,92 @@
                             tagClass:'ad-tag'
                         });
                         E.on(D.get('body'),'click',function(el) {
-
                             if (D.hasClass(el.target, 'tag-close')) {
-                            anAdvertise.hide();
-//                                var targetParent = D.parent(el.target, '.ad-tag');
-//                                D.css(targetParent,{display:'none'});
+                                anAdvertise.hideAll();
                             }
                         });
                     });
                 </script>
+                </div>
+                <a class="s-view-code" href="demo.html#">显示源码</a>
             </div>
 
-            <h3 class="s-title">Demo4 - tag + tip效果</h3>
+            <h3 class="s-title">Demo5 - tag + tip效果</h3>
             <div class="s-section">
+                <div class="s-demo">
                 <div>
                     <img id="J_tagandtip" src="http://img03.taobaocdn.com/tps/i3/T1uveJXchfXXXXXXXX-620-404.jpg" />
                 </div>
                 <script type="text/javascript">
-                    KISSY.use('gallery/image-tagging/1.0/',function(S,ImageTag) {
+                    KISSY.use('gallery/image-tagging/1.0/, overlay',function(S, ImageTag, Overlay) {
                         var D = S.DOM, E = S.Event;
                         var FaceTag = new ImageTag('#J_tagandtip',[
                             {top:60,left:40},
                             {top:30,left:200},
                             {top:40,left:400}
                         ],{
-                            tagClass:'tag-face'
+                            tagClass:'tag-face',
+                            tagContent:function(el) {
+                                if (el.index == 0) {
+                                    return '<a class="face-tag-popup" href="#" title="大家没觉得我很帅？"></a><span class="face-tip">大家没觉得我很帅？</span>';
+                                } else if (el.index == 1) {
+                                    return '<a class="face-tag-popup" href="#" title="......"></a><span class="face-tip">......</span>';
+                                } else {
+                                    return '<a class="face-tag-popup" href="#" title="翔哥，等我！！"></a><span class="face-tip">翔哥，等我！！</span>';
+                                }
+                            }
                         });
 
-                        var i = 1;
-
-                        E.on('#J_tagandtip', 'mouseenter', function(ev) {
-                            FaceTag.show();
+                        E.on('#J_tagandtip', 'mouseover', function(ev) {
+                            if (ev.target.id == 'J_tagandtip') {
+                                FaceTag.showAll();
+                                D.css('.face-tag-popup', 'opacity', 1);
+                            }
                         });
 
-                        E.on('#J_tagandtip', 'mouseleave', function(ev) {
-                            FaceTag.hide();
+                        E.on('#J_tagandtip', 'mouseout', function(ev) {
+                            if (ev.target.id == 'J_tagandtip' && D.contains(ev.relatedTarget, '#J_tagandtip')) {
+                                FaceTag.hideAll();
+                                D.css('.face-tag-popup', 'opacity', 0);
+                            }
                         });
-                        
+
+                        E.on(FaceTag.wrapNode, 'mouseover', function(ev) {
+                            if (D.hasClass(ev.target, 'tag-face') || D.parent(ev.target, '.tag-face')) {
+                                var target = D.hasClass(ev.target, 'tag-face') || D.parent(ev.target, '.tag-face');
+                                var index = D.attr(target, 'tagindex');
+                                S.each(FaceTag.getTagNodes(), function(el, i) {
+                                    if (i != index) {
+                                        el.hide();
+                                    } else {
+                                        D.css(D.get('.face-tip',el.getContentElement()),'visibility','visible');
+                                    }
+                                });
+                            }
+                        });
+
+                        E.on(FaceTag.wrapNode, 'mouseout', function(ev) {
+                            if (D.hasClass(ev.target, 'tag-face') || D.parent(ev.target, '.tag-face')) {
+                                var target = D.hasClass(ev.target, 'tag-face') || D.parent(ev.target, '.tag-face');
+                                var index = D.attr(target, 'tagindex');
+                                S.each(FaceTag.getTagNodes(), function(el, i) {
+                                    if (i == index) {
+                                        D.css(D.get('.face-tip',el.getContentElement()),'visibility','hidden');
+                                    }
+                                });
+                            }
+                        });
+
+
                     });
                 </script>
+                    </div>
+                <a class="s-view-code" href="demo.html#">显示源码</a>
             </div>
 
 			<h3 class="s-title">API</h3>			
 			<div class="s-section">
-				<h4 class="s-api-title">方法</h4>
+				<h4 class="s-api-title">构造器</h4>
 				<div class="s-api-method"> ImageTag( picNode, coords [, Config ]);</div>
                 <h4 class="s-api-title">示例</h4>
 				<div>
@@ -238,9 +320,32 @@
 					</ul>
 				</div>
 				<h4 class="s-api-title">返回</h4>
-				<div class="s-api-return">null</div>
+				<div class="s-api-return">ImageTag实例</div>
 			</div>
-			
+            <div class="s-section">
+                <h4 class="s-api-title">方法</h4>
+                <div class="s-api-method"> showAll() 显示图片对应的所有tag</div>
+                <h4 class="s-api-title">参数</h4>
+                <div class="s-api-return">无</div>
+                <h4 class="s-api-title">返回</h4>
+                <div class="s-api-return">无</div>
+            </div>
+            <div class="s-section">
+                <h4 class="s-api-title">方法</h4>
+                <div class="s-api-method"> hideAll() 隐藏图片对应的所有tag</div>
+                <h4 class="s-api-title">参数</h4>
+                <div class="s-api-return">无</div>
+                <h4 class="s-api-title">返回</h4>
+                <div class="s-api-return">无</div>
+            </div>
+            <div class="s-section">
+                <h4 class="s-api-title">方法</h4>
+                <div class="s-api-method"> getTagNodes() 获取图片对应的所有tag</div>
+                <h4 class="s-api-title">参数</h4>
+                <div class="s-api-return">无</div>
+                <h4 class="s-api-title">返回</h4>
+                <div class="s-api-return">{Array} - 图片对应的所有tag（每一个节点均为一个<a target="_blank" href="http://docs.kissyui.com/docs/html/api/component/overlay/overlay.html">Overlay</a>实例）</div>
+            </div>
 			<h3 class="s-title">Note</h3>			
 			<div class="s-section">
 				<ul class="s-list">
@@ -250,7 +355,7 @@
 			</div>
     </div>
     <div id="footer">
-        &copy; Copyright 2010~2011, KISSY Team.
+        &copy; Copyright 2010~2012, KISSY Team.
     </div>
 </body>
 </html>

@@ -3,37 +3,33 @@
  * @desc function description
  * @author qiaofu@taobao.com
  */
-
-//ä»£ç å¼€å‘é˜¶æ®µåuè¯·ä¿ç•™æ–‡ä»¶å¤¹çš„â€œ.devâ€åç¼€
-//ä»£ç å®Œæˆå¼€å‘åï¼Œå³å¯å»æ‰æ–‡ä»¶å¤¹çš„â€œ.devâ€åç¼€ï¼Œå¹¶åœ¨kissy-utilæ–‡ä»¶å¤¹ä¸‹çš„index.htmlé‡Œæ·»åŠ ä¸Šä½ çš„é“¾æ¥
-//å¦‚æœä½ çš„demoéœ€è¦ç¼–å†™DOMï¼Œå»ºè®®ä½¿ç”¨kissy-dpl/base/é‡Œçš„ä»£ç ä»¥èŠ‚çº¦å¼€å‘æ—¶é—´
-KISSY.add('gallery/image-tagging/1.0/image-tagging', function(S, Overlay) {
+KISSY.add('gallery/image-tagging/1.0/image-tagging', function (S, Overlay) {
     var D = S.DOM, E = S.Event, doc = document;
 
-    //å®šä¹‰å˜é‡å’Œå¸¸é‡
+    //¶¨Òå±äÁ¿ºÍ³£Á¿
     var taggingContainer = null,
         _globalTimer = {
-            timer: null,
-            used: false
+            timer:null,
+            used:false
         },
-        _processStatus = 0,// é»˜è®¤ä¸º0,è¡¨ç¤ºæ²¡æœ‰å¼€å§‹ï¼Œè¿›è¡Œä¸­ä¸º1ï¼Œç»“æŸä¸º0
-        _processQueue = [],// å¾…å¤„ç†çš„å›¾ç‰‡çš„æ•°ç»„
-        _completeQueue = [],// å·²å®Œæˆçš„ImageTagçš„æ•°ç»„
-        _taggingIndex = 0;// è®°å½•imageTagçš„å”¯ä¸€æ•°å­—id
+        _processStatus = 0, // Ä¬ÈÏÎª0,±íÊ¾Ã»ÓĞ¿ªÊ¼£¬½øĞĞÖĞÎª1£¬½áÊøÎª0
+        _processQueue = [], // ´ı´¦ÀíµÄÍ¼Æ¬µÄÊı×é
+        _completeQueue = [], // ÒÑÍê³ÉµÄImageTagµÄÊı×é
+        _taggingIndex = 0;// ¼ÇÂ¼imageTagµÄÎ¨Ò»Êı×Öid
 
-    S.mix(_globalTimer, S.EventTarget);// ä½¿globalTimerå…·æœ‰AOPçš„æ€§è´¨
+    S.mix(_globalTimer, S.EventTarget);// Ê¹globalTimer¾ßÓĞAOPµÄĞÔÖÊ
 
-    var _timerQueueRun = function() {
+    var _timerQueueRun = function () {
         _globalTimer.fire('globalInterval');
-    },
-        _waitForProcess = function(config, context) {
+        },
+        _waitForProcess = function (config, context) {
             _processQueue.push([config, context]);
-            if (!_processStatus) {// åˆæ¬¡åšä¸€ä¸ªç»‘å®š
+            if (!_processStatus) {// ³õ´Î×öÒ»¸ö°ó¶¨
                 _globalTimer.on('globalInterval', _checkForComplete);
                 _processStatus = 1;
             }
         },
-        _checkForComplete = function() {
+        _checkForComplete = function () {
             for (var i = 0; i < _processQueue.length; i++) {
                 if (_processQueue[i][0].picNode.complete) {
                     _processQueue[i][1]._renderPic(_processQueue[i][0]);
@@ -45,7 +41,7 @@ KISSY.add('gallery/image-tagging/1.0/image-tagging', function(S, Overlay) {
                 _processStatus = 0;
             }
         },
-        _reRenderPic = function(config) {
+        _reRenderPic = function (config) {
             var pic = config.img,
                 wrapNode = config.wrapNode,
                 paddingTop = parseInt(D.css(pic, 'paddingTop'), 10),
@@ -57,22 +53,25 @@ KISSY.add('gallery/image-tagging/1.0/image-tagging', function(S, Overlay) {
                 ol = offset.left;
             D.css(wrapNode, {'top':ot + paddingTop + borderTop, 'left':ol + paddingLeft + borderLeft});
         },
-        _processImage = function() {
-            S.each(_completeQueue, function(el) {
+        _processImage = function () {
+            S.log('process Run');
+            S.each(_completeQueue, function (el) {
                 _reRenderPic(el);
             });
         }
 
     /**
-     * åŠŸèƒ½
-     * @param {Object} [triggerCls = 'S_ViewCode'] è§¦å‘å…ƒç´ çš„classã€‚æ³¨é‡Šå…·ä½“æ ¼å¼å‚è§jsdocè§„èŒƒã€‚
-     * @return ä¸€ä¸ªImageTagå®ä¾‹
+     * ¹¦ÄÜ
+     * @param {HTMLElement|String} picNode Í¼Æ¬dom½Úµã»òÕßÍ¼Æ¬½ÚµãµÄÑ¡ÔñÆ÷
+     * @param {Array} coords ±ê¼ÇÊı¾İµÄÊı×é£¬µ¥¸ö±ê¼ÇÖ§³Ö{top:value,left:value},{bottom:value,left:value}Á½ÖÖ¶¨Î»·½Ê½
+     * @param {Object} _config Ïà¹ØÅäÖÃ
+     * @return Ò»¸öImageTagÊµÀı
      */
     function ImageTag(picNode, coords, _config) {
-        // åœ¨åˆå§‹åŒ–ç¬¬ä¸€ä¸ªImageTagçš„æ—¶å€™è¿›è¡Œç”¨æˆ·é…ç½®å’Œé»˜è®¤é…ç½®çš„åˆå¹¶
-        // ä½†æ˜¯åº”è¯¥æ²¡æœ‰äººä¼šå»é‡å†™ä¸€ä¸ªåŸç”Ÿçš„å¯¹è±¡å§ï¼Ÿ
+        // ÔÚ³õÊ¼»¯µÚÒ»¸öImageTagµÄÊ±ºò½øĞĞÓÃ»§ÅäÖÃºÍÄ¬ÈÏÅäÖÃµÄºÏ²¢
+        // µ«ÊÇÓ¦¸ÃÃ»ÓĞÈË»áÈ¥ÖØĞ´Ò»¸öÔ­ÉúµÄ¶ÔÏó°É£¿
 
-        // dynamic çš„é…ç½®åº”è¯¥é’ˆå¯¹å…¨å±€
+        // dynamic µÄÅäÖÃÓ¦¸ÃÕë¶ÔÈ«¾Ö
         if (ImageTag.Config.dynamic && !_globalTimer.used) {
             _globalTimer.used = true;
             _globalTimer.on('globalInterval', _processImage);
@@ -81,71 +80,70 @@ KISSY.add('gallery/image-tagging/1.0/image-tagging', function(S, Overlay) {
 
         var self = this;
 
-        //å‚æ•°å¤„ç†
+        //²ÎÊı´¦Àí
         var config = {};
         S.mix(config, _config);
-        //å¯¹è±¡å±æ€§èµ‹å€¼
+        //¶ÔÏóÊôĞÔ¸³Öµ
         config.picNode = D.get(picNode);
         picNode = config.picNode;
         config.coords = coords;
         this.tagNodes = [];
-        //åˆå§‹åŒ–
+        this.wrapNode = null;
+        //³õÊ¼»¯
         if (picNode && coords) {
-            // åœ¨ç¬¬ä¸€ä¸ªImageTagåˆå§‹åŒ–çš„æ—¶å€™ï¼Œè¿›è¡ŒtagContainerçš„DOMåˆå§‹åŒ–
+            // ÔÚµÚÒ»¸öImageTag³õÊ¼»¯µÄÊ±ºò£¬½øĞĞtagContainerµÄDOM³õÊ¼»¯
             if (!taggingContainer) {
                 taggingContainer = D.create('<div class="ks-tagging-container"></div>');
                 D.addStyleSheet('.ks-tagging-container {position:absolute;top:0;left:0;}');
                 D.append(taggingContainer, D.get('body'));
                 D.addStyleSheet('.ks-tag-wrap {position:absolute;}');
             }
-            // åœ¨ç¬¬ä¸€ä¸ªImageTagåˆå§‹åŒ–çš„æ—¶å€™ï¼Œè¿›è¡Œè®¡æ—¶å™¨çš„åˆå§‹åŒ–
+            // ÔÚµÚÒ»¸öImageTag³õÊ¼»¯µÄÊ±ºò£¬½øĞĞ¼ÆÊ±Æ÷µÄ³õÊ¼»¯
             if (!_globalTimer.timer) {
-                // ç”Ÿæˆä¸»å¿ƒè·³
-                _globalTimer.timer = S.later(function() {
+                // Éú³ÉÖ÷ĞÄÌø
+                _globalTimer.timer = S.later(function () {
                     _timerQueueRun();
-                }, 250, true);
+                }, this.constructor.Config.timerInterval, true);
             }
-            if (!picNode.complete) {// å¦åˆ™æ¨å…¥æ•°ç»„è¿›è¡Œç­‰å¾…å†å¤„ç†
-                _waitForProcess(config, self);// å¾…å¤„ç†çš„å›¾ç‰‡ç”± _waitForProcess å‡½æ•°äº¤äºä¸»å¿ƒè·³æ¥å¤„ç†
-            } else {// å¦‚æœå›¾ç‰‡completeï¼Œå°±å¯¹ä»–æ¸²æŸ“
-//                self.render(
-//
-//                );
+            if (!picNode.complete) {// ·ñÔòÍÆÈëÊı×é½øĞĞµÈ´ıÔÙ´¦Àí
+                _waitForProcess(config, self);// ´ı´¦ÀíµÄÍ¼Æ¬ÓÉ _waitForProcess º¯Êı½»ÓÚÖ÷ĞÄÌøÀ´´¦Àí
+            } else {// Èç¹ûÍ¼Æ¬complete£¬¾Í¶ÔËûäÖÈ¾
+                S.log('Render Run');
                 self._renderPic(config);
             }
         }
     }
 
-    //é»˜è®¤é…ç½®
+    //Ä¬ÈÏÅäÖÃ
     var globalConfig = {
-        dynamic: true,// å¦‚æœdynamicä¸ºçœŸï¼Œä¼šæœ‰ä¸€ä¸ªå®šæ—¶å™¨æ¥åŠ¨æ€ä¿®æ­£æ ‡ç‚¹çš„ä½ç½®
-        timerInterval: 250,// ä¿®æ­£æ ‡ç‚¹çš„æ—¶é—´é—´éš”
-        rules:{// é»˜è®¤æŠ“å–è§„åˆ™
-            container: '',// å›¾ç‰‡å®¹å™¨çš„idæˆ–è€…Element
-            imageClass: '',// è®¾ç½®å¯è¢«æŠ“å–å›¾ç‰‡çš„class
-            imageIgnoreClass: '', // å…·æœ‰è¯¥classçš„å›¾ç‰‡ä¼šè¢«ç­›é€‰å¿½ç•¥
-            minWidth: 400,// æœ€å°å®½åº¦
-            minHeight: 400,// æœ€å°é«˜åº¦
-            ratio: 0.5// é«˜å®½æ¯”æˆ–è€…å®½é«˜æ¯”
+        dynamic:true, // Èç¹ûdynamicÎªÕæ£¬»áÓĞÒ»¸ö¶¨Ê±Æ÷À´¶¯Ì¬ĞŞÕı±êµãµÄÎ»ÖÃ
+        timerInterval:250, // ĞŞÕı±êµãµÄÊ±¼ä¼ä¸ô
+        rules:{// Ä¬ÈÏ×¥È¡¹æÔò
+            container:'', // Í¼Æ¬ÈİÆ÷µÄid»òÕßElement
+            imageClass:'', // ÉèÖÃ¿É±»×¥È¡Í¼Æ¬µÄclass
+            imageIgnoreClass:'', // ¾ßÓĞ¸ÃclassµÄÍ¼Æ¬»á±»É¸Ñ¡ºöÂÔ
+            minWidth:400, // ×îĞ¡¿í¶È
+            minHeight:400, // ×îĞ¡¸ß¶È
+            ratio:0.5// ¸ß¿í±È»òÕß¿í¸ß±È
         }
     };
-    //ç±»ç»§æ‰¿
+    //Àà¼Ì³Ğ
     //S.extend(YourGallery, S.Base);
     ImageTag.Config = S.mix({}, globalConfig);
 
-    //åŸå‹æ‰©å±•
+    //Ô­ĞÍÀ©Õ¹
     S.augment(ImageTag, S.EventTarget, {
         /**
-         * private function
+         * private _renderPic äÖÈ¾ËùÓĞµÄÍ¼Æ¬
          * @param config
          */
-        _renderPic: function(config) {
+        _renderPic:function (config) {
             var self = this,
                 pic = config.picNode,
                 coords = config.coords,
                 width = D.width(pic),
                 height = D.height(pic);
-            // å¯¹å›¾ç‰‡çš„ç­›é€‰
+            // ¶ÔÍ¼Æ¬µÄÉ¸Ñ¡
             if (width < ImageTag.Config.rules.minWidth) {
                 return;
             }
@@ -172,14 +170,14 @@ KISSY.add('gallery/image-tagging/1.0/image-tagging', function(S, Overlay) {
                 ot = offset.top,
                 ol = offset.left,
                 wrapNode = D.create('<div class="ks-tag-wrap"></div>'),
-                wrapBottomNode = D.create('<div class="ks-tag-btnwrap"></div>'),// ç”Ÿæˆä¸€ä¸ªç”¨äºåº•éƒ¨å®šä½çš„å®¹å™¨,ä»¥åº”å¯¹éœ€è¦åº•éƒ¨å®šä½çš„
-                tagNodeClass = config.tagClass ? config.tagClass : 'ks-tag',// tagClassæ”¯æŒfunctionè¿”å›
-                tagContent = config.tagContent ? config.tagContent : '',// tagContentæ”¯æŒfunctionè¿”å›
+                wrapBottomNode = D.create('<div class="ks-tag-btnwrap"></div>'), // Éú³ÉÒ»¸öÓÃÓÚµ×²¿¶¨Î»µÄÈİÆ÷,ÒÔÓ¦¶ÔĞèÒªµ×²¿¶¨Î»µÄ
+                tagNodeClass = config.tagClass ? config.tagClass : 'ks-tag', // tagClassÖ§³Öfunction·µ»Ø
+                tagContent = config.tagContent ? config.tagContent : '', // tagContentÖ§³Öfunction·µ»Ø
                 _tagContent = '',
                 _tagNodeClass = '',
                 tagNode = null;
 
-            // å¯¹å›¾ç‰‡åŠ ä¸€ä¸ªè‡ªå®šä¹‰å±æ€§æ ‡è®°
+            // ¶ÔÍ¼Æ¬¼ÓÒ»¸ö×Ô¶¨ÒåÊôĞÔ±ê¼Ç
             D.addClass(wrapNode, 'ks-tagindex-' + _taggingIndex++);
             D.css(wrapNode, {top:ot + paddingTop + borderTop, left:ol + paddingLeft + borderLeft});
             D.css(wrapBottomNode, {position:'absolute', top:height, left:0});
@@ -190,84 +188,82 @@ KISSY.add('gallery/image-tagging/1.0/image-tagging', function(S, Overlay) {
             for (var i = 0; i < coords.length; i++) {
                 if (!S.isFunction(tagContent)) {
                     _tagContent = tagContent;
-                } else {// å¦‚æœtagContentæ˜¯ä¸€ä¸ªfunctionçš„è¯
+                } else {// Èç¹ûtagContentÊÇÒ»¸öfunctionµÄ»°
                     _tagContent = tagContent({'index':i});
+                    !_tagContent && (_tagContent = '');
                 }
                 if (!S.isFunction(tagNodeClass)) {
                     _tagNodeClass = tagNodeClass;
-                } else {// å¦‚æœtagNodeClassæ˜¯ä¸€ä¸ªfunctionçš„è¯
+                } else {// Èç¹ûtagNodeClassÊÇÒ»¸öfunctionµÄ»°
                     _tagNodeClass = tagNodeClass({'index':i});
+                    !_tagNodeClass && (_tagNodeClass = '');
                 }
 
-                tagNode = D.create('<div class="' + _tagNodeClass + '">' + _tagContent + '</div>');
+                tagNode = D.create('<div class="' + _tagNodeClass + '" tagindex="' + i + '">' + _tagContent + '</div>');
 
                 if (S.isNumber(coords[i].bottom) && !isNaN(coords[i].bottom)) {
                     D.append(tagNode, wrapBottomNode);
-                    D.css(tagNode, {'position':'absolute','bottom':coords[i].bottom,'left':coords[i].left});
+                    D.css(tagNode, {'position':'absolute', 'bottom':coords[i].bottom, 'left':coords[i].left});
                     overlayNode = new Overlay({
-                        srcNode: tagNode,
-                        elCls: _tagNodeClass,
-                        content: _tagContent,
-                        closable:false,
+                        srcNode:tagNode,
+                        elCls:_tagNodeClass,
+                        content:_tagContent,
                         align:{
                             node:wrapBottomNode,
-                            points:['bl','bl'],
+                            points:['bl', 'bl'],
                             offset:[coords[i].left, coords[i].bottom]
                         }
                     });
-                    overlayNode.show();
+
                 } else {
                     D.append(tagNode, wrapNode);
-                    D.css(tagNode, {'position':'absolute','top':coords[i].top,'left':coords[i].left});
+                    D.css(tagNode, {'position':'absolute', 'top':coords[i].top, 'left':coords[i].left});
                     overlayNode = new Overlay({
-                        srcNode: tagNode,
-                        elCls: _tagNodeClass,
-                        content: _tagContent,
-                        closable:false,
+                        srcNode:tagNode,
+                        elCls:_tagNodeClass,
+                        content:_tagContent,
                         align:{
                             node:wrapNode,
-                            points:['tl','tl'],
+                            points:['tl', 'tl'],
                             offset:[coords[i].left, coords[i].top]
                         }
                     });
-                    overlayNode.show();
                 }
+                overlayNode.render();
                 this.tagNodes.push(overlayNode);
             }
-
-            _completeQueue.push({img:pic,wrapNode:wrapNode});
+            this.wrapNode = wrapNode;
+            _completeQueue.push({img:pic, wrapNode:wrapNode});
         },
         /**
-         * public show
+         * public showAll ÏÔÊ¾ËùÓĞµÄtag
          * @param {number} index
-         * @return
          */
-        show:function(index, anim) {
-            if (index) {
-                this.tagNodes[index].show();
-            } else {
-                S.each(this.tagNodes, function(el) {
-                    el.show();
-                });
-            }
+        showAll:function (index, anim) {
+            S.each(this.tagNodes, function (el) {
+                el.show();
+            });
         },
         /**
-         * public hide
+         * public hideAll Òş²ØÈ«²¿µÄtag
          * @param {number} index
-         * @return
          */
-        hide:function(index, anim) {
-            if (index) {
-                this.tagNodes[index].hide();
-            } else {
-                S.each(this.tagNodes, function(el) {
-                    el.hide();
-                });
-            }
+        hideAll:function (index, anim) {
+            S.each(this.tagNodes, function (el) {
+                el.hide();
+            });
+        },
+        /**
+         * public getTagNode »ñÈ¡Ä³Ò»¸ötag,²»´ø²ÎÊıÔò·µ»ØËùÓĞµÄtagNodes
+         * @param {number} index
+         * @return tagNode
+         */
+        getTagNodes:function() {
+            return this.tagNodes;
         }
     });
 
     return ImageTag;
 }, {
-    requires: ["overlay"]
+    requires:["overlay"]
 });

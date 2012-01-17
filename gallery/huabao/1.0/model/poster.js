@@ -3,8 +3,12 @@
  *
  * @author  fahai
  */
-KISSY.add("huabao/model/poster", function (S, Base) {
+KISSY.add("gallery/huabao/1.0/model/poster", function (S, Base) {
 
+    /**
+     * @constructor Poster
+     * @param config
+     */
     function Poster(config) {
         config = this.parse(config);
         this.constructor.superclass.constructor.call(this, config);
@@ -14,18 +18,11 @@ KISSY.add("huabao/model/poster", function (S, Base) {
     S.extend(Poster, Base, {
         /**
          * Data-source adaptor. This method can be override to customise.
-         * It parses huabao detail data by default.
          *
          * @param dataSource
          */
         parse: function (dataSource) {
-            return  {
-                id: dataSource.posterId,
-                title: dataSource.title,
-                shortTitle: dataSource.shortTitle,
-                tags: dataSource.tags,
-                coverPicUrl: dataSource.coverPicPath
-            };
+            return  dataSource;
         }
     }, {});
 
@@ -45,7 +42,7 @@ KISSY.add("huabao/model/poster", function (S, Base) {
         weight: {
             value: 0
         },
-        coverPicUrl: {
+        coverPicSrc: {
             value: ""
         },
         channelId: {
@@ -53,12 +50,6 @@ KISSY.add("huabao/model/poster", function (S, Base) {
         },
         hits: {
             value: 0
-        },
-        createDate: {
-            value: "2000-01-01 00:00:00"
-        },
-        modifiedDate: {
-            value: "2000-01-01 00:00:00"
         },
         rawData: {
             value: null
