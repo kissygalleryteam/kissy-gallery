@@ -514,6 +514,7 @@ KISSY.add("gallery/grid/1.0/grid",function (S,ButtonBar,PaggingBar,LoadMask) {
 				bodyEl = S.one(body),
 				height,
 				bodyWidth,
+				tbodyHeight,
 				bodyScroolWidth;
 			if (UA.ie === 6 || UA.ie === 7) {
 				height = _self.get('height');

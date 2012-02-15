@@ -91,7 +91,7 @@ KISSY.add("gallery/grid/1.0/editGrid",function (S,Grid,GridEditor) {
 				result = !! S.one(tbody).one('.' + CLS_CELL_ERROR);
 			}
 			if(!result){
-				columns = _self.get('columns')
+				columns = _self.get('columns');
 				S.each(columns,function(column){
 					var editor = column.editor;
 					if(editor && !editor.isHide() && editor.hasError()){
@@ -137,7 +137,7 @@ KISSY.add("gallery/grid/1.0/editGrid",function (S,Grid,GridEditor) {
 				if(record[field] !== value){
 					store.setValue(record, field, value);
 				}
-			}
+			};
 		},
 		//展示错误信息
 		_addError : function (cell, msg) {
@@ -162,7 +162,7 @@ KISSY.add("gallery/grid/1.0/editGrid",function (S,Grid,GridEditor) {
 		},
 		//获取编辑器
 		_getEditor : function (field) {
-			var _self = this
+			var _self = this,
 				columns = _self.get('columns'),
 				editor = null;
 			S.each(columns, function(column){
@@ -345,7 +345,7 @@ KISSY.add("gallery/grid/1.0/editGrid",function (S,Grid,GridEditor) {
 				});
 			}
 		},
-		_showEditor : function (eidtor,cell, value,record) {
+		_showEditor : function (editor,cell, value,record) {
 			var _self = this,
 				offset = DOM.offset(cell),
 				width = DOM.width(cell),
@@ -360,14 +360,14 @@ KISSY.add("gallery/grid/1.0/editGrid",function (S,Grid,GridEditor) {
 			_self.set('editRecord',record);
 			_self.set('editor',editor);
 			if(UA.ie == 7){
-				eidtor.setWidth(width - 4);
+				editor.setWidth(width - 4);
 			}else{
-				eidtor.setWidth(width - 2);
+				editor.setWidth(width - 2);
 			}
 			//eidtor.setHeight(height - 2);
-			eidtor.setValue(value,record);
+			editor.setValue(value,record);
 			//eidtor.show(offset);
-			eidtor.show({container:inner,left:0,top:2});
+			editor.show({container:inner,left:0,top:2});
 		}
 	});
 

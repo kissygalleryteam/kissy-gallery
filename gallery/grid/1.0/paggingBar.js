@@ -4,11 +4,15 @@ KISSY.add("gallery/grid/1.0/paggingBar",function(S,bar){
 		@exports S.LP as KISSY.LP
 	*/
 
-	var CLS_BTN_CUSTOM = "bar-btn-custom",//自定义按钮，不应用一般按钮的悬浮效果
+	var DOM = S.DOM,
+	
+		CLS_BTN_CUSTOM = "bar-btn-custom",//自定义按钮，不应用一般按钮的悬浮效果
 		CLS_INPUT_CONTAINER = 'pb-input-container',
 		CLS_IEXT_CONTAINER = 'pb-text-container',
 		CLS_TEXT_COUNT = 'pb-total-count',
 		CLS_TEXT_PAGE = 'pb-total-page',
+		CLS_ITEM_INPUT = 'pb-item-input',
+		CLS_DISABLE = 'lp-item-disabled',//禁用按钮样式
 		CLS_FIRST = 'pb-page-first',
 		CLS_LAST = 'pb-page-last',
 		CLS_NEXT = 'pb-page-next',
@@ -192,7 +196,7 @@ KISSY.add("gallery/grid/1.0/paggingBar",function(S,bar){
 			} else if (btnEl.hasClass(CLS_LAST)) {
 				page = _self.totalPage;
 			} else if (btnEl.hasClass(CLS_OK)) {
-				var bar = _self.get('bar');
+				var bar = _self.get('bar'),
 					inputEl = bar.one('.' + CLS_ITEM_INPUT),
 					value = parseInt(inputEl.val(), 10);
 				if(_self._isPageAllowRedirect(value)){
@@ -252,11 +256,13 @@ KISSY.add("gallery/grid/1.0/paggingBar",function(S,bar){
 			var _self = this,
 				bar = _self.get('bar'),
 				input = bar.one('.' + CLS_ITEM_INPUT),
-				text = bar.one('.' + CLS_TEXT_PAGE),
-				totalEl = bar.one('.' + CLS_TEXT_COUNT);
-			if (input && text) {
+				textEl = bar.one('.' + CLS_TEXT_PAGE),
+				totalEl = bar.one('.' + CLS_TEXT_COUNT),
+				text = null;
+			if (input && textEl) {
 				input.val(_self.curPage);
-				text.text('页 共 ' + _self.totalPage + ' 页');
+				text = '页 共 ' + _self.totalPage + ' 页';
+				textEl.text(text);
 			}
 			if (totalEl) {
 				totalEl.text(_self.totalCount);

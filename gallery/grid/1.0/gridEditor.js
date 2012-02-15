@@ -237,7 +237,7 @@ KISSY.add("gallery/grid/1.0/gridEditor",function (S,Util) {
 		_setValue : function(value,editElemnt){
 			var _self = this;
 			editElemnt = editElemnt || _self.get('editEl');
-			editElemnt.val(value)
+			editElemnt.val(value);
 		},
 		//验证编辑器
 		_validate : function(value,obj){
@@ -266,7 +266,7 @@ KISSY.add("gallery/grid/1.0/gridEditor",function (S,Util) {
 	
 	var textGridEditor = function(config){
 		textGridEditor.superclass.constructor.call(this, config);
-	}
+	};
 	S.extend(textGridEditor, gridEditor);
 	S.augment(textGridEditor, {
 		_basicFormat : function(value){
@@ -285,7 +285,7 @@ KISSY.add("gallery/grid/1.0/gridEditor",function (S,Util) {
 
 	var numberGridEditor = function(config){
 		numberGridEditor.superclass.constructor.call(this, config);
-	}
+	};
 	S.extend(numberGridEditor, gridEditor);
 	S.augment(numberGridEditor, {
 		_basicFormat : function(value){
@@ -308,7 +308,7 @@ KISSY.add("gallery/grid/1.0/gridEditor",function (S,Util) {
 	*/
 	var checkGridEditor = function(config){
 		checkGridEditor.superclass.constructor.call(this, config);
-	}
+	};
 	S.extend(checkGridEditor, gridEditor);
 	S.augment(checkGridEditor,{
 		CHANGE_EVENT : 'change',
@@ -332,14 +332,14 @@ KISSY.add("gallery/grid/1.0/gridEditor",function (S,Util) {
 		_setValue : function(value,editElemnt){
 			var _self = this;
 			editElemnt = editElemnt || _self.get('editEl');
-			editElemnt.attr('checked', value)
+			editElemnt.attr('checked', value);
 		}
 	});
 
 	//下拉选择框
 	var selectGridEditor = function(config){
 		selectGridEditor.superclass.constructor.call(this, config);
-	}
+	};
 	S.extend(selectGridEditor, gridEditor);
 	S.augment(selectGridEditor,{
 		
@@ -379,7 +379,7 @@ KISSY.add("gallery/grid/1.0/gridEditor",function (S,Util) {
 	//日期选择器
 	var dateGridEditor = function(config){
 		dateGridEditor.superclass.constructor.call(this, config);
-	}
+	};
 	S.extend(dateGridEditor, gridEditor);
 	S.augment(dateGridEditor,{
 		CHANGE_EVENT : 'select',
@@ -409,8 +409,8 @@ KISSY.add("gallery/grid/1.0/gridEditor",function (S,Util) {
 			var _self = this;
 			S.use('gallery/grid/1.0/calendar',function(S,Calendar){
 				_self.set('Calendar',Calendar);
-				_self.constructor.superclass._init.call(_self)
-			})
+				_self.constructor.superclass._init.call(_self);
+			});
 			
 		},
 		_initDom : function(){
@@ -530,7 +530,7 @@ KISSY.add("gallery/grid/1.0/gridEditor",function (S,Util) {
 				_self.set('renderer',renderer);
 			}
 
-			return renderer(value)
+			return renderer(value);
 		},
 		//选择选中的值
 		_getValue : function(){
@@ -635,7 +635,7 @@ KISSY.add("gallery/grid/1.0/gridEditor",function (S,Util) {
 				return S.inArray(checkbox.name,value);
 			});
 
-			S.all(selectChecks).attr('checked','checked')
+			S.all(selectChecks).attr('checked','checked');
 		},
 		//设置编辑器值，覆盖父类
 		_setValue : function(value){

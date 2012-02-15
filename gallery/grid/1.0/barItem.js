@@ -20,7 +20,7 @@ KISSY.add("gallery/grid/1.0/barItem",function(S){
 		CLS_BTN_CUSTOM = "bar-btn-custom",//自定义按钮，不应用一般按钮的悬浮效果
 		CLS_ITEM_BTN = 'bar-item-btn',
 		CLS_ITEM_OVER = 'bar-item-over',
-		CLS_ITEM_SEPERATOR = 'bar-item-separator';
+		CLS_ITEM_SEPERATOR = 'bar-item-separator',
 		CLS_ITEM_INPUT = 'pb-item-input',
 		CLS_BAR_ICON = 'bar-icon';
 		

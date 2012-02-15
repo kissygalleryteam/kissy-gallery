@@ -1,12 +1,13 @@
-
 KISSY.add("gallery/grid/1.0/calendar",function(S,Calendar){
 	function calendar(list){
-		var DOM = S.DOM 
+		var DOM = S.DOM ,
 			Event = S.Event,
 			date = {} ;
 		S.each(list,function(item){
 			var node = DOM.get(item.selector);
-			if(!node) return ;
+			if(!node){ 
+				return ;
+			}
 			
 			//给时间控件添加小按钮，设置长度,取消只读
 			var timeInput = S.one(item.selector);
@@ -55,7 +56,7 @@ KISSY.add("gallery/grid/1.0/calendar",function(S,Calendar){
 			});
 
 			function getDate(date){
-				return Calendar.Date.format(date,format)
+				return Calendar.Date.format(date,format);
 			}
 
 			date[item.selector] = datatime ;
@@ -68,7 +69,7 @@ KISSY.add("gallery/grid/1.0/calendar",function(S,Calendar){
         var uom = new Date(d - 0 + n * 86400000);
         uom = uom.getFullYear() + "/" + (uom.getMonth() + 1) + "/" + uom.getDate();
         return new Date(uom);
-	}
+	};
 
 	return calendar;
 
