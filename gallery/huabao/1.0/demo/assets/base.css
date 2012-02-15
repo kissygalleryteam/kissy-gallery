@@ -1,0 +1,81 @@
+/**
+* Styles for demos
+*
+* @author      fahai <fahai@taobao.com>
+* @version     1.0.0 build 11-12-23
+*/
+
+html,
+body {
+    background-color: #000;
+}
+
+#page {
+    width: 100%;
+    background-color: #000;
+    font-family: georgia, "microsoft yahei", serif;
+    color: #a1a1a1;
+}
+
+#header {
+    height: 80px;
+    background-color: #262626;
+    border-bottom: 1px solid #484848;
+}
+
+#header h1 {
+    width: 950px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 30px;
+    color: #848484;
+    margin: 0 auto;
+    padding: 25px 0;
+    font-family: Vivaldi, "microsoft yahei", fantasy;
+    position: relative;
+}
+
+#header .view-list,
+#header .view-detail {
+    position: absolute;
+    display: block;
+    width: 31px;
+    height: 31px;
+    right: 0;
+    bottom: 0;
+    margin: 25px 0;
+    background: url("sprites.png");
+    text-indent: -9999em;
+}
+
+#header .view-list {
+    background-position: 0 -60px;
+}
+
+#header .view-list:hover {
+    background-position: -31px -60px;
+}
+
+#header .view-detail {
+    background-position: 0 -91px;
+}
+
+#header .view-detail:hover {
+    background-position: -31px -91px;
+}
+
+#footer {
+    height: 60px;
+    background-color: #262626;
+    border-top: 1px solid #484848;
+}
+
+#footer p {
+    width: 950px;
+    height: 20px;
+    line-height: 20px;
+    color: #696969;
+    margin: 0 auto;
+    padding: 20px 0;
+    text-align: center;
+}

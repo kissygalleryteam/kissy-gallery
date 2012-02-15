@@ -69,5 +69,5 @@ use时, KISSY.use('gallery/pagination/1.0/pagination,gallery/pagination/1.0/tmp/
 
 TODO
 ---------------------------------------
-
-chart 组织路径不对, 通知文龙
+- province  常胤修改
+- poster 龙刚修改

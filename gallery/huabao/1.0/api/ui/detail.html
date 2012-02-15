@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>KISSY gallery - Huabao - API</title>
+    <link rel="shortcut icon" href="../../../../../../kissy-dpl/base/assets/favicon.ico"/>
+    <link rel="stylesheet" href="../../../../../../kissy-dpl/base/assets/reset.css"/>
+    <link rel="stylesheet" href="../../../../../../kissy-dpl/base/assets/kissy-docs.css"/>
+    <script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+    <script src="../../../../../../kissy-dpl/base/assets/kissy-docs.js"></script>
+</head>
+<body>
+<div id="header">
+    <h1 class="logo"><a href="http://kissyui.com/"><img
+            src="../../../../../../kissy-dpl/base/assets/logo.png" alt="KISSY"/></a></h1>
+
+    <div class="sub-title">Gallery</div>
+    <ul class="navigation">
+        <li><a href="http://blog.kissyui.com/">博客</a></li>
+        <li><a href="http://github.com/kissyteam">源码</a></li>
+    </ul>
+
+</div>
+<div id="content">
+    <div class="s-crumbs">
+        <span>当前位置：</span>
+        <a href="http://kissyui.com/">KISSY</a>
+        <a href="../../../../../index.html">Gallery</a>
+        <a href="../../demo.html">Huabao</a>
+        <span>API</span>
+    </div>
+    <pre class="s-section">
+作者：法海 &lt;<a href="mailto:fahai@taobao.com">fahai@taobao.com</a>&gt;
+功能：huabao/ui/detail
+描述：ui 装饰器，单例。提供画报详情页的 ui 风格，包括滚动的缩略图区还有大图区
+源码：<a href="../../ui/detail.js">ui/detail.js</a></pre>
+
+    <h3 class="s-title">API</h3>
+
+    <div class="s-section">
+
+        <h4 class="s-api-title">方法</h4>
+
+        <div class="s-api-method">
+            <code>static Slide | Carousel decorate(huabao, config)</code>
+        </div>
+        <h4 class="s-api-title">参数</h4>
+
+        <div class="s-api-params">
+            <ul class="s-list">
+                <li><code>{Huabao} <em>huabao</em></code> 需要添加装饰的画报对象</li>
+                <li>
+                    <code>{Object} <em>config</em></code> 配置对象
+                    <ul class="s-list">
+                        <li>
+                            <code>{String} <em>target</em></code> 装饰的目标。两个选项：
+                            <code>"content"</code> 画报大图区，内部实现使用 Slide 组件装饰；
+                            <code>"nav"</code> 缩略图导航区，内部实现使用 Carousel 组件装饰；
+                        </li>
+                        <li>
+                            <code>{Array&lt;HTMLElement>} <em>panels</em></code>
+                            对应 switchable 中的 panels，默认为 <code>huabao.get("panels")</code>
+                        </li>
+                        <li>
+                            其他配置项请参考 Slide 和 Carousel
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <h4 class="s-api-title">返回</h4>
+
+        <div class="s-api-return">
+            <ul class="s-list">
+                <li>
+                    <code>{Slide} <em>slide</em></code> 当 target 为 content 时则返回一个 Slide 实例
+                </li>
+                <li>
+                    <code>{Carousel} <em>carousel</em></code> 当 target 为 nav 时则返回一个 Carousel 实例
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="footer">
+    &copy; Copyright 2010~2011, KISSY Team.
+</div>
+</body>
+</html>

@@ -1,5 +1,5 @@
 
-KISSY.add("gallery/grid/1.0/calendar",function(S){
+KISSY.add("gallery/grid/1.0/calendar",function(S,Calendar){
 	function calendar(list){
 		var DOM = S.DOM 
 			Event = S.Event,
@@ -28,11 +28,11 @@ KISSY.add("gallery/grid/1.0/calendar",function(S){
 				max = item.max ? showdate(item.max, new Date()) : (item.max == 0 ? new Date() : null );
 				
 			if(item.config){
-				datatime = new S.Calendar(item.selector,item.config) ;
+				datatime = new Calendar(item.selector,item.config) ;
 			}
 			else{
 				var selected = Date.parse(DOM.val(item.selector).replace(/\-/g,"/"));
-				datatime = new S.Calendar(item.selector,{
+				datatime = new Calendar(item.selector,{
 					minDate:min,
 					maxDate:max,
 					selected:selected ? new Date(selected) : null ,
@@ -55,7 +55,7 @@ KISSY.add("gallery/grid/1.0/calendar",function(S){
 			});
 
 			function getDate(date){
-				return S.Date.format(date,format)
+				return Calendar.Date.format(date,format)
 			}
 
 			date[item.selector] = datatime ;
@@ -72,4 +72,4 @@ KISSY.add("gallery/grid/1.0/calendar",function(S){
 
 	return calendar;
 
-},{requires: ["calendar"]});
+},{requires: ["calendar","calendar/assets/base.css"]});
