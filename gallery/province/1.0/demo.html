@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>KISSY.gallery.Countdown 倒计时组件</title> 
+	<link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/> 
+	<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/> 
+	<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
+	<style>
+		h1,h4 {
+			font-family:'MicroSoft YaHei';
+			padding:10px;
+			margin:10px 0;
+		}
+		
+		h1{
+			font-size:36px;
+			padding-bottom:10px;
+			border-bottom:1px solid #ccc;
+		}
+		
+		h4{
+			font-size:24px;
+		}
+		
+		button {
+			padding:5px 10px;
+			margin-top:10px;
+		}
+		
+		select {
+			padding:2px;
+		}
+		
+		.section {
+			background:#efefef;
+			padding:10px;
+			margin-bottom:10px;
+			border-radius:5px;
+		}
+	
+		h4 {
+			padding-bottom:5px;
+			border-bottom:1px solid #ccc;
+		}
+		
+	</style>
+	<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script> 
+	<script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script> 
+	<script src="http://a.tbcdn.cn/p/address/120214/tdist.js"></script> 
+	<script>
+		KISSY.config({
+			packages:[
+				{
+					name:"gallery",
+					tag:"20111224",
+					path:"../../../",  // cdn上适当修改对应路径
+					charset:"gbk"
+				}
+			]
+		});
+	</script>
+
+	
+	
+	
+</head>
+<body>
+    <div id="header"> 
+		<h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png"/></a></h1> 
+		<div class="sub-title">Gallery</div>
+		<ul class="navigation"> 
+			<li><a href="http://blog.kissyui.com/">博客</a></li> 
+			<li><a href="http://github.com/kissyteam">源码</a></li> 		
+		</ul>
+		
+	</div> 
+    <div id="content">
+		<div class="s-crumbs">
+			<span>当前位置：</span>
+			<a href="http://kissyui.com/">KISSY</a>
+			<a href="../../../index.html">Gallery</a>
+			<span>Province</span>
+		</div>
+			<pre class="s-section">				
+作者：satans17@gmail.com(常胤)
+功能：省市区联动组件
+描述：省市区联动组件，也可以换成别的数据。
+源码：<a href="province.js">province.js</a></pre>
+
+
+
+
+
+
+			<div class="s-section">
+				<div class="s-demo">
+				
+					<div class="box">
+
+
+						<div class="section">
+
+							<h4>淘宝官方省市区数据</h4>
+
+							<select id="s1"></select>
+							<select id="s2"></select>
+							<select id="s3"></select>
+							
+							<p><button id="go1" type="button">聚焦到红安县</button> <button id="go2" type="button">聚焦到杭州市</button><p>
+
+							<script>
+							KISSY.use("gallery/province/1.0/index", function(S,LinkSelect){
+								var $=S.all;
+
+								var a = new S.LinkSelect(["#s1","#s2","#s3"],tdist, {
+									rootid: 1 //根节点的ID，默认为0
+								});
+								
+								$("#go1").on("click",function(){
+									a.focus(2,"421122");
+								});
+								
+								
+								$("#go2").on("click",function(){
+									a.focus(1,"330100");
+								});
+							})
+							
+							</script>
+							
+						</div>
+						
+						
+						
+						
+						
+						<div class="section">
+
+							<h4>淘宝官方省市区数据 - 默认选择第一个</h4>
+
+							<select id="a1"></select>
+							<select id="a2"></select>
+							<select id="a3"></select>
+							
+							<p><button id="go11" type="button">聚焦到红安县</button> <button id="go22" type="button">聚焦到杭州市</button><p>
+
+							<script>
+							KISSY.use("gallery/province/1.0/index", function(S,LinkSelect){
+								var $=S.all;
+
+								var a = new S.LinkSelect(["#a1","#a2","#a3"],tdist, {
+									defval:null,
+									rootid: 1 //根节点的ID，默认为0
+								});
+								
+								$("#go11").on("click",function(){
+									a.focus(2,"421122");
+								});
+								
+								
+								$("#go22").on("click",function(){
+									a.focus(1,"330100");
+								});
+							})
+							
+							</script>
+							
+						</div>
+						
+						
+
+
+					
+					
+					</div>
+					
+					
+					
+
+				</div>
+				<a class="s-view-code" href="#">显示源码</a>
+			</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		
+
+			<h3 class="s-title">Note</h3>			
+			<div class="s-section">
+				<ul class="s-list">
+					<li>your note</li>
+				</ul>
+			</div>
+    </div>
+    <div id="footer">
+        &copy; Copyright 2010~2011, KISSY Team.
+    </div>
+</body>
+</html>
