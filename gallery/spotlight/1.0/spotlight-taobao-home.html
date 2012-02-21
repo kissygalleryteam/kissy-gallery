@@ -145,7 +145,7 @@ KISSY.use('gallery/spotlight/1.0/spotlight,overlay',function(S,Spotlight,overlay
 				,'消保系统为您购物保驾护航!<div class="pn"><span class="prev floatLeft">previous</span><span class="next floatRight">结束</span></div>'
 			]
 			,popup = new overlay.Popup(
-				S.get('#drop')
+				S.one('#drop')
 				,{}
 				)
 			;
@@ -154,10 +154,10 @@ KISSY.use('gallery/spotlight/1.0/spotlight,overlay',function(S,Spotlight,overlay
     				el.stop()
     			    
     				el.css({top:top+20,opacity:0})
-    				S.Anim(el,{
+    				el.animate({
     					opacity:1
     					,top:top
-    				},.2).run()
+    				},.2);
 			
 			})
 		S.each(nodes,function(item,i){
@@ -194,7 +194,7 @@ KISSY.use('gallery/spotlight/1.0/spotlight,overlay',function(S,Spotlight,overlay
 						S.one('#pp-content').html(listText[e.index])
 						setTimeout(function(){
 							popup.align(
-								e.target
+								S.one(e.target)
 								, ['tc', 'bc']
 					            , [0, 20]
 							);
