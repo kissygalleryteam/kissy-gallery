@@ -1,0 +1,314 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>KISSY.gallery.Countdown 倒计时组件</title> 
+	<link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/> 
+	<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/> 
+	<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
+	<style>
+		h1,h4 {
+			font-family:'MicroSoft YaHei';
+			padding:10px;
+			margin:10px 0;
+		}
+		
+		h1{
+			font-size:36px;
+			padding-bottom:10px;
+			border-bottom:1px solid #ccc;
+		}
+		
+		h4{
+			font-size:24px;
+			padding:0 10px;
+			margin:0 0 10px;
+		}
+		h5{
+			font-size:14px;
+			font-weight:bold;
+		}
+		button {
+			padding:5px 10px;
+			margin-top:10px;
+		}
+		
+		select {
+			padding:2px;
+		}
+		
+		.section {
+			border:1px solid #efefef;
+			padding:10px;
+			margin:30px 0;
+			border-radius:5px;
+		}
+	
+		h4 {
+			padding-bottom:5px;
+			border-bottom:1px solid #ccc;
+		}
+		
+		
+		#gj p{
+			display:none;
+			padding:10px 0;
+			font-size:24px;
+			font-weight:bold;
+			font-family:'楷体';
+			color:#c00;
+		}
+		
+	</style>
+	<script src="../../../../kissy/build/kissy.js"></script> 
+	<script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script> 
+	<link rel="stylesheet" href="assets/clear.css"/>
+	<link rel="stylesheet" href="assets/chrome.css"/>
+	<script>
+		KISSY.config({
+			packages:[
+				{
+					name:"gallery",
+					tag:"20111224",
+					path:"../../../",  // cdn上适当修改对应路径
+					charset:"gbk"
+				}
+			]
+		});
+	</script>
+
+	
+	
+	
+</head>
+<body>
+    <div id="header"> 
+		<h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png"/></a></h1> 
+		<div class="sub-title">Gallery</div>
+		<ul class="navigation"> 
+			<li><a href="http://blog.kissyui.com/">博客</a></li> 
+			<li><a href="http://github.com/kissyteam">源码</a></li> 		
+		</ul>
+		
+	</div> 
+    <div id="content">
+		<div class="s-crumbs">
+			<span>当前位置：</span>
+			<a href="http://kissyui.com/">KISSY</a>
+			<a href="../../../index.html">Gallery</a>
+			<span>Province</span>
+		</div>
+			<pre class="s-section">				
+作者：satans17@gmail.com(常胤)
+功能：防滚动条组件。支持滚轮、拖拽、上下箭头加速滚动。样式可定制，支持hover,active两种状态。自适应内容区大小调整。
+源码：<a href="province.js">kscroll.js</a></pre>
+
+
+
+
+
+
+			<div class="s-section">
+				<div class="s-demo">
+				
+					<div class="box">
+
+
+						<div class="section">
+
+							<h4>小清新样式</h4>
+
+							<div id="d1" style="height:300px;">
+							
+							<h5>再别康桥</h5>
+
+								轻轻的我走了，<br>
+								正如我轻轻的来；<br>
+								我轻轻的招手，<br>
+								作别西天的云彩。<br>
+								　<br>
+								那河畔的金柳，<br>
+								是夕阳中的新娘；<br>
+								波光里的艳影，<br>
+								在我的心头荡漾。<br>
+								　<br>
+								软泥上的青荇，<br>
+								油油的在水底招摇；<br>
+								在康河的柔波里，<br>
+								我甘心做一条水草！<br>
+								　<br>
+								那榆荫下的一潭，<br>
+								不是清泉，<br>
+								是天上虹；<br>
+								揉碎在浮藻间，<br>
+								沉淀着彩虹似的梦。<br>
+								　<br>
+								<p id="p" style="color:red">寻梦？撑一支长篙，</p>
+								向青草更青处漫溯；<br>
+								满载一船星辉，<br>
+								在星辉斑斓里放歌。<br>
+								　<br>
+								但我不能放歌，<br>
+								悄悄是别离的笙箫；<br>
+								夏虫也为我沉默，<br>
+								沉默是今晚的康桥！<br>
+								　<br>
+								悄悄的我走了，<br>
+								正如我悄悄的来；<br>
+								我挥一挥衣袖，<br>
+								不带走一片云彩。<br>
+							</div>
+							
+
+							
+						</div>
+						
+													定位：
+							<button id="b2">bottom</button>
+							<button id="b1">top</button>
+							<button id="b3">50%</button>
+							<button id="b4">向上50px</button>
+							<button id="b5">向下50px</button>
+							<button id="b6">寻梦</button>
+							
+							<script>
+							KISSY.use("gallery/kscroll/1.0/kscroll", function(S,Kscroll){
+								var $=S.all,
+									d = new Kscroll($("#d1"),{
+										prefix:"clear-",
+										arrow:false
+									});
+								
+								$("#b1").on("click", function(ev){
+									ev.halt();
+									d.scrollByPercent(0);
+								})
+								$("#b2").on("click", function(ev){
+									ev.halt();
+									d.scrollByPercent(1);
+								})
+								$("#b3").on("click", function(ev){
+									ev.halt();
+									d.scrollByPercent(.5);
+								})
+								$("#b4").on("click", function(ev){
+									ev.halt();
+									d.scrollDistance(50);
+								})
+								$("#b5").on("click", function(ev){
+									ev.halt();
+									d.scrollDistance(-50);
+								})
+								$("#b6").on("click", function(ev){
+									ev.halt();
+									d.toEl("#p");
+								})
+							});
+
+							</script>	
+
+					
+					</div>
+
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			
+			
+
+
+
+			<div class="s-section">
+				<div class="s-demo">
+				
+					<div class="box">
+
+
+						<div class="section" id="gj">
+
+							<h4>仿chrome样式，以假乱真了有木有</h4>
+
+							<div id="d2" style="height:300px;">
+							
+							
+							<div>单机下面的按钮开始播放，注意看滚动条的变化</div>
+							<p style="font-size:32px;">古剑</p>
+							
+							<p class="g">岁月流去了 </p>
+							<p class="g">流不去的是一身锋芒 </p>
+							<p class="g">还是昆仑凝雪 </p>
+							<p class="g">还是南海波光 </p>
+							<p class="g">依稀中原逐鹿古战场 </p>
+							<p class="g">-</p>
+							<p class="g">把杯举起来 </p>
+							<p class="g">把月挑起来 </p>
+							<p class="g">把剑舞起来 </p>
+							<p class="g">愿人生如剑 </p>
+							<p class="g">立起——寒光四射 </p>
+							<p class="g">躺倒——四射寒光 </p>
+							<p class="g">&nbsp;</p>
+							<p class="g">(End)</p>
+							</div>
+
+
+							
+						</div>
+						
+						
+							<button id="b21">点击播放</button> 注意看滚动条的变化
+							<script>
+							KISSY.use("gallery/kscroll/1.0/kscroll,sizzle", function(S,Kscroll){
+								var $=S.all,
+									g = $("#gj")
+									k = new Kscroll($("#d2"),{
+										prefix:"chrome-",
+										arrow:true
+									});
+									
+								$("#b21").on("click", function(ev){
+									ev.halt();
+									var ps = g.all("p"), len = ps.length,
+										f = function(i){
+											if(++i>=len)return;
+											$(ps[i]).slideDown(1,function(){
+												k.resize();
+												k.toEl(ps[i]);
+												f(i);
+											})
+										};
+									
+									f(-1);
+
+								})
+									
+							});
+
+							</script>
+					
+					</div>
+
+				</div>
+			</div>
+			
+			
+			
+			
+			
+		
+
+			<h3 class="s-title">Note</h3>			
+			<div class="s-section">
+				<ul class="s-list">
+					<li>your note</li>
+				</ul>
+			</div>
+    </div>
+    <div id="footer">
+        &copy; Copyright 2010~2011, KISSY Team.
+    </div>
+</body>
+</html>
