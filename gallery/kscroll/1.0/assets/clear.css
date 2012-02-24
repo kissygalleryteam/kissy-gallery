@@ -17,22 +17,47 @@
 /*轨道*/
 .clear-track {
 	width:9px;
-	background-position:0 0;
+	background-position:-18px 0;
 }
 .clear-track-hover {
-	background-position:-9px 0;
+	background-position:-27px 0;
 }
 .clear-track-active {
-	background-position:-9x 0;
+	background-position:-27x 0;
 }
 
 
 
 
 
-/*上下箭头 这个样式木有*/
+/*上下箭头 */
 .clear-arrowup, .clear-arrowdown {
-	display:none;
+	display:block;
+	text-indent: -1000px;
+	width:9px;
+	height:2px;
+	overflow:hidden;
+}
+
+.clear-arrowup {
+	background-position:0 0;
+}
+.clear-arrowup-hover {
+	background-position:-9px 0;
+}
+.clear-arrowup-active {
+	background-position:-9px 0;
+}
+
+
+.clear-arrowdown {
+	background-position:0 -18px;
+}
+.clear-arrowdown-hover {
+	background-position:-9px -18px;
+}
+.clear-arrowdown-active {
+	background-position:-9px -18px;
 }
 
 
@@ -40,7 +65,7 @@
 /*拖拽条*/
 .clear-drag{
 	width:9px;
-	background-position:-36px 0;
+	background-position:-54px 0;
 }
 
 .clear-drag .clear-dragtop{
@@ -48,7 +73,7 @@
 	top:0px;
 	width:9px;
 	height:4px;
-	background-position:-54px 0;
+	background-position:-72px 0;
 }
 
 .clear-drag .clear-dragbottom{
@@ -56,7 +81,7 @@
 	bottom:0px;
 	width:9px;
 	height:4px;
-	background-position:-54px -4px;
+	background-position:-72px -4px;
 }
 
 .clear-drag .clear-dragcenter{
@@ -65,40 +90,40 @@
 	margin-top:-10px;
 	width:9px;
 	height:20px;
-	background-position:-45px 0;
+	background-position:-63px 0;
 }
 
 /*------------*/
 .clear-drag-hover{
-	background-position:-63px 0;
-}
-
-.clear-drag-hover .clear-dragtop{
 	background-position:-81px 0;
 }
 
+.clear-drag-hover .clear-dragtop{
+	background-position:-99px 0;
+}
+
 .clear-drag-hover .clear-dragbottom{
-	background-position:-81px -4px;
+	background-position:-99px -4px;
 }
 
 .clear-drag-hover .clear-dragcenter{
-	background-position:-72px 0;
+	background-position:-90px 0;
 }
 
 /*------------*/
 .clear-drag-active{
-	background-position:-63px 0;
-}
-
-.clear-drag-active .clear-dragtop{
 	background-position:-81px 0;
 }
 
+.clear-drag-active .clear-dragtop{
+	background-position:-99px 0;
+}
+
 .clear-drag-active .clear-dragbottom{
-	background-position:-81px -4px;
+	background-position:-99px -4px;
 }
 
 .clear-drag-active .clear-dragcenter{
-	background-position:-72px 0;
+	background-position:-90px 0;
 }
 

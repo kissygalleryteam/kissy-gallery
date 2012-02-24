@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>KISSY.gallery.Countdown 倒计时组件</title> 
+    <title>KISSY.gallery.kscroll 滚动条组件</title> 
 	<link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/> 
 	<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/> 
 	<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
@@ -62,6 +62,7 @@
 	</style>
 	<script src="../../../../kissy/build/kissy.js"></script> 
 	<script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script> 
+	<link rel="stylesheet" href="assets/scroll.css"/>
 	<link rel="stylesheet" href="assets/clear.css"/>
 	<link rel="stylesheet" href="assets/chrome.css"/>
 	<script>
@@ -100,8 +101,105 @@
 		</div>
 			<pre class="s-section">				
 作者：satans17@gmail.com(常胤)
-功能：防滚动条组件。支持滚轮、拖拽、上下箭头加速滚动。样式可定制，支持hover,active两种状态。自适应内容区大小调整。
+功能：仿滚动条组件。支持滚轮、拖拽、上下箭头加速滚动。样式可定制，支持hover,active两种状态。自适应内容区大小调整。
 源码：<a href="province.js">kscroll.js</a></pre>
+
+
+
+
+
+
+
+
+
+
+			<div class="s-section">
+				<div class="s-demo">
+				
+					<div class="box">
+
+
+						<div class="section">
+
+							<h4>默认样式，纯颜色，可以自己配</h4>
+
+							<div id="d31" style="height:300px;overflow:auto;">
+							
+							<h5>再别康桥</h5>
+
+								轻轻的我走了，<br>
+								正如我轻轻的来；<br>
+								我轻轻的招手，<br>
+								作别西天的云彩。<br>
+								　<br>
+								那河畔的金柳，<br>
+								是夕阳中的新娘；<br>
+								波光里的艳影，<br>
+								在我的心头荡漾。<br>
+								　<br>
+								软泥上的青荇，<br>
+								油油的在水底招摇；<br>
+								在康河的柔波里，<br>
+								我甘心做一条水草！<br>
+								　<br>
+								那榆荫下的一潭，<br>
+								不是清泉，<br>
+								是天上虹；<br>
+								揉碎在浮藻间，<br>
+								沉淀着彩虹似的梦。<br>
+								　<br>
+								<p id="p" style="color:red">寻梦？撑一支长篙，</p>
+								向青草更青处漫溯；<br>
+								满载一船星辉，<br>
+								在星辉斑斓里放歌。<br>
+								　<br>
+								但我不能放歌，<br>
+								悄悄是别离的笙箫；<br>
+								夏虫也为我沉默，<br>
+								沉默是今晚的康桥！<br>
+								　<br>
+								悄悄的我走了，<br>
+								正如我悄悄的来；<br>
+								我挥一挥衣袖，<br>
+								不带走一片云彩。<br>
+							</div>
+							
+
+							
+						</div>
+						
+							<button id="b32">destory</button>
+
+							
+							<script>
+							KISSY.use("gallery/kscroll/1.0/", function(S,Kscroll){
+								var $=S.all,
+									d = new Kscroll($("#d31"),{
+										arrow:true
+									});
+									
+								$("#b32").on("click", function(){
+									d.destory();
+									$(this).detach();
+								})	
+							});
+							</script>	
+
+					
+					</div>
+
+				</div>
+			</div>
+			
+			
+			
+
+
+
+
+
+
+
 
 
 
@@ -172,11 +270,11 @@
 							<button id="b6">寻梦</button>
 							
 							<script>
-							KISSY.use("gallery/kscroll/1.0/kscroll", function(S,Kscroll){
+							KISSY.use("gallery/kscroll/1.0/", function(S,Kscroll){
 								var $=S.all,
 									d = new Kscroll($("#d1"),{
 										prefix:"clear-",
-										arrow:false
+										arrow:true
 									});
 								
 								$("#b1").on("click", function(ev){
@@ -261,7 +359,7 @@
 						
 							<button id="b21">点击播放</button> 注意看滚动条的变化
 							<script>
-							KISSY.use("gallery/kscroll/1.0/kscroll,sizzle", function(S,Kscroll){
+							KISSY.use("gallery/kscroll/1.0/,sizzle", function(S,Kscroll){
 								var $=S.all,
 									g = $("#gj")
 									k = new Kscroll($("#d2"),{
