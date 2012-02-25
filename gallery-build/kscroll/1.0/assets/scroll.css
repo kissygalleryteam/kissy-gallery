@@ -1,0 +1,88 @@
+﻿
+/*轨道*/
+.ks-track, .ks-track-hover, .ks-track-active,
+/*向上箭头*/
+.ks-arrowup, .ks-arrowup-hover, .ks-arrowup-active,
+/*向下箭头*/
+.ks-arrowdown, .ks-arrowdown-hover, .ks-arrowdown-active,
+/*拖拽条*/
+.ks-drag, .ks-drag-hover, .ks-drag-active,
+.ks-dragtop, .ks-dragbottom , .ks-dragcenter {
+	width:10px;
+}
+
+
+/*轨道*/
+.ks-track {
+	background-color:#E3E3E3;
+}
+.ks-track-hover {
+	background-color:#D9D8D8;
+}
+.ks-track-active {
+	background-color:#D9D8D8;
+}
+
+
+
+
+/*上下箭头 */
+.ks-arrowup, .ks-arrowdown {
+	display:block;
+	text-indent: -1000px;
+	width:8px;
+	height:8px;
+	overflow:hidden;
+	border:1px solid #000;
+}
+
+.ks-arrowup {
+	background-color:#959695;
+}
+.ks-arrowup-hover {
+	background-color:#9CCAE3;
+}
+.ks-arrowup-active {
+	background-color:#3C7FB1;
+}
+
+
+.ks-arrowdown {
+	background-color:#959695;
+}
+.ks-arrowdown-hover {
+	background-color:#9CCAE3;
+}
+.ks-arrowdown-active {
+	background-color:#3C7FB1;
+}
+
+
+
+/*拖拽条*/
+.ks-drag{
+	background-color:#979797;
+}
+
+.ks-drag .ks-dragtop, .ks-drag .ks-dragbottom{
+	display:none;
+}
+
+.ks-drag .ks-dragcenter{
+	position:absolute;
+	top:50%;
+	margin-top:-10px;
+	height:20px;
+	background-color::#18598A;
+}
+
+/*------------*/
+.ks-drag-hover{
+	background-color:#9CCAE3;
+}
+
+/*------------*/
+.ks-drag-active{
+	background-color:#3C7FB1;
+}
+
