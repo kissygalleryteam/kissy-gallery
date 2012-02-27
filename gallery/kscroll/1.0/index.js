@@ -10,6 +10,10 @@ KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
             return n < 0 ? -n : n;
         },
 
+        toInt = function(n){
+            return isNaN(parseInt(n))?0:parseInt(n);
+        },
+
         SCROLL_HTML = '<div class="{prefix}track" ' +
             'style="position: absolute;right:0;">' +
             '<div class="{prefix}drag" ' +
@@ -110,6 +114,11 @@ KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
             var self = this,
                 prefix = self.get("prefix"),
                 wrap = $("<div></div>");
+
+            //ie6下自动扩展问题
+            if(S.UA.ie==6){
+                container.css({"overflow":"auto"});
+            }
 
             //panel wrap
             wrap.insertAfter(container).append(container);
@@ -297,9 +306,25 @@ KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
         },
 
         _bindContainer:function () {
-            var self = this;//滚轮事件
+            var self = this,
+                //在最上或者最下再滚动，不要阻止浏览器默认事件
+                body = self.get("body"),
+                container = self.get("container"),
+                canMousewheel = function(direction){
+                    var position = toInt(body.css("top"));
+                    if(direction>0 && position>=0){
+                        return false;
+                    }
+                    if(direction<0 && position+body.outerHeight()<=container.outerHeight()){
+                        return false;
+                    }
+                    return true;
+                };
+            //滚轮事件
             self.get("container").on("mousewheel", function (ev) {
-                ev.halt();
+                if(canMousewheel(ev.deltaY)){
+                    ev.halt();
+                }
                 var sh = self.get("step");
                 self.scrollByDistance(ev.deltaY > 0 ? sh : -sh);
             });
@@ -463,4 +488,7 @@ KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
  *  - review and refactor by yiminghe@gmail.com
  *  - 1.0 to cdn
  *  - TODO for changyin : 横向模拟滚动条
+ *  2012-02-25
+ *  - bugfix ie6自动扩展问题，加上overflow:auto
+ *  - 清羽的建议，组件不能滚动时，不要阻止浏览器默认事件
  **/
