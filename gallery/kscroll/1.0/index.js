@@ -372,7 +372,7 @@ KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
                 drag = self.get("drag"),
                 ah = self.arrowUpHeight + self.arrowDownHeight;
 
-            if (bh < ch || ch < ah) {
+            if (bh <= ch || ch < ah) {
                 track.hide();
                 if (arrowUp) {
                     arrowUp.hide();
