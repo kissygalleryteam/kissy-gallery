@@ -648,7 +648,7 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
             } else {
                 var msg = result.msg || EMPTY;
                 //修改队列中文件的状态为error（上传失败）
-                queue.fileStatus(index, Uploader.status.ERROR, msg);
+                queue.fileStatus(index, Uploader.status.ERROR, {msg:msg});
                 self.fire(event.ERROR, {status:status});
             }
             //置空当前上传的文件在队列中的索引值
