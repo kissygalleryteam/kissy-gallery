@@ -1,0 +1,2 @@
+KISSY.add("gallery/form/1.0/uploader/themes/default/index",function(d,e,f,g){function c(a){c.superclass.constructor.call(this,a);this._init()}var h=e.all;d.extend(c,f,{_init:function(){var a=this.get("queueTarget"),b=d.parseConfig(a,"data-queue-config");this.set("queue",new g(a,b))},afterUploaderRender:function(a){var b=h(this.get("elUploadFiles"));b.length&&b.on("click",function(){a.uploadFiles()})}},{ATTRS:{elUploadFiles:{value:""},queueTarget:{value:""},queue:{value:""}}});return c},{requires:["node",
+"base","../../queue/base","./style.css"]});
