@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>queue队列方法测试</title>
+<link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
+<link rel="stylesheet" type="text/css" href="assets/demo.css"/>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+</head>
+<body>
+<article id="doc">
+    <h4>queue队列方法测试</h4>
+    <p>这个demo只单独使用queue模板，测试queue的方法和属性。</p>
+    <!-- 队列 -->
+    <ul id="J_Queue">
+
+    </ul>
+    <div class="btn-wrapper">
+        <input id="J_Add" type="button" value="添加一个文件">
+        ` <input id="J_DelFirst" type="button" value="删除第一个文件">
+        <input id="J_Clear" type="button" value="删除所有文件">
+        <input id="J_GetAll" type="button" value="获取所有文件id">
+        <input id="J_ChangeStatus" type="button" value="改变第一个文件状态为success">
+        <input id="J_GetStatusFileIds" type="button" value="获取所有等待状态的文件id">
+        <input id="J_GetStatusFilesIndex" type="button" value="获取所有等待状态文件index">
+    </div>
+    <h5>实例化queue</h5>
+    <p>一般不单独实例化queue，这里为了方便测试。</p>
+    <pre class='brush: js; '>
+        S.use('gallery/form/1.0/uploader/queue/base', function (S, Queue) {
+            var queue = new Queue('#J_Queue');
+            queue.render();
+        })
+     </pre>
+    <h5>最关键属性——files：队列内的文件数据对象集合数组</h5>
+    <pre class='brush: js;highlight:[2]'>
+        var ids = [],
+            files = queue.get('files');
+        S.each(files, function (file) {
+            ids.push(file.id);
+        });
+        alert('所有文件id：' + ids);
+    </pre>
+    <p>queue继承于Base，所以需要使用get()方法来获取属性。</p>
+    <p>每个文件添加到队列后都会有个唯一的文件id，file.id。</p>
+    <p>file.status是每个文件对应的状态类实例，如果你想要获取该文件的当前状态使用：file.status.get('curType')。</p>
+    <h5>add()：向队列添加文件</h5>
+    <pre class='brush: js;highlight:[8] '>
+        //测试文件数据
+        var testFile = {'name':'test.jpg',
+            'size':2000,
+            'input':{},
+            'file':{'name':'test.jpg', 'type':'image/jpeg', 'size':2000}
+        };
+        //向队列添加文件
+        queue.add(testFile);
+    </pre>
+    <h5>remove(id)：删除队列中的文件</h5>
+    <pre class='brush: js;'>
+        queue.remove(0);
+    </pre>
+    <p>留意remove()的参数可以是队列数组的索引，比如上面代码的0，是取队列第一个文件数据；也可以是文件的id（唯一），比如remove('file-26')</p>
+    <h5>clear()：删除队列内的所有文件</h5>
+    <pre class='brush: js;'>
+        queue.clear();
+    </pre>
+    <h5>fileStatus(index, status, args):改变文件状态</h5>
+    <pre class='brush: js;'>
+        queue.fileStatus(0, 'success');
+    </pre>
+    <p>改变第一个文件状态为“成功”。</p>
+    <p>默认的主题共有以下文件状态：'waiting'、'start'、'progress'、'success'、'cancel'、'error'</p>
+    <p>每种状态的dom情况都不同，刷新文件状态时候同时刷新状态容器类下的DOM节点内容。</p>
+    <p>不同的主题拥有的状态情况可能存在差异。</p>
+    <h5>getFiles(type):获取指定状态下的文件</h5>
+    比如你要获取等待中的所有文件：
+    <pre class='brush: js;'>
+        var files = queue.getFiles('waiting');
+    </pre>
+    <h5>getIndexs(type):获取等指定状态的文件对应的文件数组索引值组成的数组</h5>
+    <pre class='brush: js;'>
+        var indexs = queue.getFileIds('waiting');
+    </pre>
+    <p>getFiles()和getFileIds()的作用是不同的，getFiles()类似过滤数组，获取的是指定状态的文件数据，而getFileIds()只是获取指定状态下的文件对应的在文件数组内的索引值。</p>
+</article>
+<script>
+    var S = KISSY, $ = S.Node.all;
+    S.config({
+        packages:[
+            {
+                name:"gallery",
+                path:"../../../",
+                charset:"utf-8"
+            }
+        ]
+    });
+    //加载队列模块
+    S.use('gallery/form/1.0/uploader/queue/base,gallery/form/1.0/uploader/themes/default/style.css', function (S, Queue) {
+        var queue = new Queue('#J_Queue');
+        queue.render();
+
+        $('#J_Add').on('click', function (ev) {
+            //测试文件数据
+            var testFile = {'name':'test.jpg',
+                'size':2000,
+                'input':{},
+                'file':{'name':'test.jpg', 'type':'image/jpeg', 'size':2000}
+            };
+            //向队列添加文件
+            queue.add(testFile);
+        });
+        $('#J_DelFirst').on('click', function (ev) {
+            queue.remove(0);
+        });
+        $('#J_Clear').on('click', function (ev) {
+            queue.clear();
+        });
+        $('#J_GetAll').on('click', function (ev) {
+            var ids = [],
+                files = queue.get('files');
+            S.each(files, function (file) {
+                ids.push(file.id);
+            });
+            alert('所有文件id：' + ids);
+        });
+        $('#J_ChangeStatus').on('click', function (ev) {
+            queue.fileStatus(0, 'success');
+        });
+        $('#J_GetStatusFileIds').on('click', function (ev) {
+            var files = queue.getFiles('waiting'),
+                    ids = [];
+            S.each(files, function (file) {
+                ids.push(file.id);
+            });
+            alert('所有等待中的文件id为：' + ids);
+        });
+        $('#J_GetStatusFilesIndex').on('click', function () {
+            var indexs = queue.getIndexs('waiting');
+            alert('所有等待中的文件index为：' + indexs);
+        })
+    })
+</script>
+
+<!-- 代码高亮 START  -->
+<link href='./assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="./assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+</body>
+</html>
