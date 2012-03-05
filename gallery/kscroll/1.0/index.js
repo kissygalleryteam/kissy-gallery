@@ -1,4 +1,4 @@
-/**
+﻿/**
  * scrollbar for kissy
  * @author changyin@taobao.com,yiminghe@gmail.com
  */
