@@ -32,9 +32,10 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
 		afterUploaderRender: function(uploader){
 			var self = this,
 				queueTarget = self.get('queueTarget'),
-				elemButtonTarget = uploader.get('buttonTarget'),
+				// elemButtonTarget = uploader.get('buttonTarget'),
                 queue = uploader.get('queue'),
                 button = uploader.get('button'),
+                elemButtonTarget = button.get('target'),
                 auth = uploader.get('auth'),
                 elemTempFileInput = $('.original-file-input', elemButtonTarget),
                 elemFileInput = button.get('fileInput'),
@@ -54,9 +55,12 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
             // 初始化一些附加模块+插件
             var preview = new Preview(),
             	message = new Message({
-	            	'msgContainer': uploader.get('msgContainer')
+	            	'msgContainer': self.get('msgContainer'),
+	            	'successMsgCls': self.get('successMsgCls'),
+	            	'hintMsgCls': self.get('hintMsgCls'),
+	            	'errorMsgCls': self.get('errorMsgCls')
 	            }),
-	            setMainPic = new SetMainPic('#J_UploaderForm', self.get('queueTarget'));
+	            setMainPic = new SetMainPic(self.get('form'), self.get('queueTarget'));
             // message.set('msgContainer', '#J_MsgBoxUpload');
             uploader.set('message', message);
             
@@ -77,10 +81,9 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
             	$(self.get('queueTarget')).addClass('advance-queue');
             }
             
-            S.log(message, 'dir');
-            
             // 删除图片
             $(queueTarget).delegate('click', '.J_DeleltePic', function(e){
+            	e.preventDefault();
             	var delBtn = e.currentTarget,
             		fileid = $(delBtn).attr('data-file-id');
         		queue.remove(fileid);
@@ -95,6 +98,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
             
             // 设置主图
             $(queueTarget).delegate('click', '.J_SetMainPic', function(e){
+            	e.preventDefault();
             	var setMainPicBtn = e.currentTarget,
             		// fileid = $(setMainPicBtn).attr('data-file-id'),
             		// fileIndex = queue.getFileIndex(fileid),
@@ -130,11 +134,30 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
 		}
 	}, {
 		ATTRS: {
+			// 消息容器，为空则不初始化消息
+			'msgContainer': {
+				value: '#J_MsgBoxUpload'
+			},
+			// 默认消息
 			'defaultMsg': {
 				value: '最多上传{max}张照片，每张图片小于5M'
 			},
+			// 剩余多少张的消息
 			'leftMsg': {
 				value: '还可以上传{left}张图片，每张小于5M。主图将在搜索结果中展示，请认真设置。'
+			},
+			'successMsgCls': {
+				value: 'msg-success'
+			},
+			'hintMsgCls': {
+				value: 'msg-hint'
+			},
+			'errorMsgCls': {
+				value: 'msg-error'
+			},
+			// 设置主图的input，如果不存在，则不初始化设置主图功能
+			'mainPicInput': {
+				value: '#J_UploaderForm'
 			}
 		}
 	})

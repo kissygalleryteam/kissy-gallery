@@ -7,30 +7,23 @@
 KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/setMainPic', function(S, Node){
 	
 	var $ = Node.all,
-		LOG_PRE = '[LineQueue: setMainPic] '
-		_config = {
-			'mainPicInput': 'main-pic',
-			'tpl': '<input id="J_UploadMainPicInput" name="{name}" type="hidden" value="" />'
-		};
+		LOG_PRE = '[LineQueue: setMainPic] ';
 	
-	function SetMainPic(container, queueContainer, config){
+	function SetMainPic(mainPicInput, queueContainer){
 		var self = this,
-			container = $(container),
+			mainPicInput = $(mainPicInput),
 			queueContainer = $(queueContainer);
-		config = S.mix(_config, config);
-		if(!container || container.length <= 0){
-			S.log(LOG_PRE + 'cannot find container');
+		// config = S.mix(_config, config);
+		if(!mainPicInput || mainPicInput.length <= 0){
+			S.log(LOG_PRE + 'cannot find mainPicInput, SetMainPic function disabled.');
 			return false;
 		}
 		if(!queueContainer || queueContainer.length <= 0){
 			S.log(LOG_PRE + 'cannot find queue container');
 			return false;
 		}
-		self.container = container;
 		self.queueContainer = queueContainer;
-		self.input = $(S.substitute(config.tpl, {
-			'name': config.mainPicInput
-		})).appendTo(self.container);
+		self.input = mainPicInput;
 	}
 	
 	S.augment(SetMainPic, {
