@@ -283,7 +283,7 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
          */
         getFiles:function (status) {
             var self = this, files = self.get('files'), oStatus, statusFiles = [];
-            if (!files.length) return false;
+            if (!files.length) return [];
             S.each(files, function (file) {
                 if (file) {
                     oStatus = file.status;
