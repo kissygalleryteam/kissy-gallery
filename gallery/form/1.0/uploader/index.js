@@ -110,7 +110,7 @@ KISSY.add('gallery/form/1.0/uploader/index',function (S, Base, Node, Uploader, B
             if($(buttonTarget).attr(dataName.AUTH)){
                 rules = S.parseConfig(buttonTarget,dataName.AUTH);
                 auth = new Auth(uploader,{rules : rules});
-                self.set('auth',auth);
+                uploader.set('auth',auth);
             }
         }
     }, {
