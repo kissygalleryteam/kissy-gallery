@@ -37,6 +37,7 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
             }
             //如果已经存在隐藏域，那么不自动创建
             if(elInput){
+            	S.log(LOG_PREFIX + 'urls input found');
                 self.set('input',$(elInput));
             }else{
                 self._create();
@@ -82,6 +83,17 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
             return urls;
         },
         /**
+         * 解析input的值，取得文件路径
+         */
+        parse: function(){
+        	var self = this,
+        		input = self.get('input');
+    		if(input){
+    			var val = $(input).val();
+    			
+    		}
+        },
+        /**
          * 设置隐藏域的值
          * @return {String} 
          */
@@ -113,10 +125,16 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
          * 创建隐藏域
          */
         _create : function() {
-            var self = this,container = self.get('wrapper'),
+            var self = this,
+            	container = self.get('wrapper'),
                 tpl = self.get('tpl'),
-                name = self.get('name'), urls = self.get('urls'),
+                name = self.get('name'), 
+                urls = self.get('urls'),
                 input;
+            if(!container || container.length <= 0){
+            	S.log(LOG_PREFIX + 'UrlsInput container not specified!', 'warn');
+            	return false;
+            }
             if (!S.isString(tpl) || !S.isString('name')){
                 S.log(LOG_PREFIX + '_create()，tpl和name属性不合法！');
                 return false;
@@ -124,6 +142,7 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
             input = $(S.substitute(tpl, {name : name,value : urls}));
             container.append(input);
             self.set('input', input);
+            S.log(LOG_PREFIX + 'input created.');
             return input;
         }
 
