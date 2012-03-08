@@ -32,9 +32,10 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
 		afterUploaderRender: function(uploader){
 			var self = this,
 				queueTarget = self.get('queueTarget'),
-				elemButtonTarget = uploader.get('buttonTarget'),
+				// elemButtonTarget = uploader.get('buttonTarget'),
                 queue = uploader.get('queue'),
                 button = uploader.get('button'),
+                elemButtonTarget = button.get('target'),
                 auth = uploader.get('auth'),
                 elemTempFileInput = $('.original-file-input', elemButtonTarget),
                 elemFileInput = button.get('fileInput'),
@@ -54,9 +55,9 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
             // 初始化一些附加模块+插件
             var preview = new Preview(),
             	message = new Message({
-	            	'msgContainer': uploader.get('msgContainer')
+	            	'msgContainer': self.get('msgContainer')
 	            }),
-	            setMainPic = new SetMainPic('#J_UploaderForm', self.get('queueTarget'));
+	            setMainPic = new SetMainPic(self.get('form'), self.get('queueTarget'));
             // message.set('msgContainer', '#J_MsgBoxUpload');
             uploader.set('message', message);
             
@@ -76,8 +77,6 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
             	S.log(LOG_PRE + 'advance queue');
             	$(self.get('queueTarget')).addClass('advance-queue');
             }
-            
-            S.log(message, 'dir');
             
             // 删除图片
             $(queueTarget).delegate('click', '.J_DeleltePic', function(e){
@@ -132,11 +131,21 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
 		}
 	}, {
 		ATTRS: {
+			// 消息容器
+			'msgContainer': {
+				value: '#J_MsgBoxUpload'
+			},
+			// 默认消息
 			'defaultMsg': {
 				value: '最多上传{max}张照片，每张图片小于5M'
 			},
+			// 剩余多少张的消息
 			'leftMsg': {
 				value: '还可以上传{left}张图片，每张小于5M。主图将在搜索结果中展示，请认真设置。'
+			},
+			// 整个form的id或者class
+			'form': {
+				value: '#J_UploaderForm'
 			}
 		}
 	})
