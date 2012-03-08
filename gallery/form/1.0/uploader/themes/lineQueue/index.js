@@ -60,7 +60,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
 	            	'hintMsgCls': self.get('hintMsgCls'),
 	            	'errorMsgCls': self.get('errorMsgCls')
 	            }),
-	            setMainPic = new SetMainPic(self.get('form'), self.get('queueTarget'));
+	            setMainPic = new SetMainPic(self.get('mainPicInput'), self.get('queueTarget'));
             // message.set('msgContainer', '#J_MsgBoxUpload');
             uploader.set('message', message);
             
