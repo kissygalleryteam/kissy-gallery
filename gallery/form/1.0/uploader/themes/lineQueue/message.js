@@ -3,18 +3,24 @@
  * @author 紫英（橘子）<daxingplay@gmail.com>
  * @date 2012-01-11
  */
-KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/message', function(S, Node, Base){
+KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/message', function(S, Node){
 	
 	var $ = Node.all,
 		LOG_PRE = '[LineQueue: Message] ';
 	
 	function Message(config){
 		var self = this;
-		Message.superclass.constructor.call(self, config);
+		self.config = S.mix({
+			msgContainer: '#J_MsgBoxUpload',
+			successMsgCls: 'msg-success',
+			hintMsgCls: 'msg-hint',
+			errorMsgCls: 'msg-error'
+		}, config);
+		// Message.superclass.constructor.call(self, config);
 		S.log(LOG_PRE + 'Constructed');
 	}
 	
-	S.extend(Message, Base, {
+	S.augment(Message, {
 		
 		/**
 		 * 向msg容器发送消息
@@ -25,11 +31,11 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/message', function(S, Node
 				S.log(LOG_PRE + 'You did not tell me what to show.');
 				return false;
 			}
-			var msgBox = self.get('msgContainer'),
-				newClsName = self.get(type + 'Cls'),
-				successCls = self.get('successCls'),
-				hintCls = self.get('hintCls'),
-				errorCls = self.get('errorCls');
+			var msgBox = self.config.msgContainer,
+				newClsName = self.config[type + 'MsgCls'],
+				successCls = self.config.successMsgCls,
+				hintCls = self.config.hintMsgCls,
+				errorCls = self.config.errorMsgCls;
 			if(msgBox){
 				switch(type){
 					case 'success':
@@ -47,34 +53,12 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/message', function(S, Node
 			}
 		}
 		
-	}, {
-		ATTRS: {
-			msgContainer: {
-				value: '#J_MsgBoxUpload',
-				setter: function(v){
-					if(v){
-						return v;
-					}
-					return '#J_MsgBoxUpload'
-				}
-			},
-			successCls: {
-				value: 'msg-success'
-			},
-			hintCls: {
-				value: 'msg-hint'
-			},
-			errorCls: {
-				value: 'msg-error'
-			}
-		}
 	});
 	
 	return Message;
 	
 }, {
 	requires: [
-		'node',
-		'base'
+		'node'
 	]
 });
