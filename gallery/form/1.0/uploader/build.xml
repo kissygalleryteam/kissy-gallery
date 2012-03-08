@@ -2,7 +2,7 @@
     <description>Uploader Build File</description>
 
     <property name="charset" value="utf-8"/>
-    <property name="tool.dir" location="../../../../tool"/>
+    <property name="tool.dir" location="../../../../../kissy-tools"/>
     <property name="compiler" location="${tool.dir}/closure-compiler/compiler.jar"/>
     <property name="form.build.dir" location="../../../../gallery-build/form/1.0"/>
     <property name="src.dir" location="."/>

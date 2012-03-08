@@ -1,4 +1,7 @@
 <?php
+
+error_reporting(0);
+
 //得到目录下的文件总数
 function get_file_count($dir_name){
 	$files = 0;
@@ -10,7 +13,7 @@ function get_file_count($dir_name){
 	}
 	return $files;
 }
-//循环删除目录和文件函�?
+//循环删除目录和文件函�?
 function delDirAndFile($dirName){
 	if ($handle = opendir($dirName) ) {
 	   while ( false !== ( $item = readdir($handle) ) ){
