@@ -81,6 +81,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
             
             // 删除图片
             $(queueTarget).delegate('click', '.J_DeleltePic', function(e){
+            	e.preventDefault();
             	var delBtn = e.currentTarget,
             		fileid = $(delBtn).attr('data-file-id');
         		queue.remove(fileid);
@@ -95,6 +96,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
             
             // 设置主图
             $(queueTarget).delegate('click', '.J_SetMainPic', function(e){
+            	e.preventDefault();
             	var setMainPicBtn = e.currentTarget,
             		// fileid = $(setMainPicBtn).attr('data-file-id'),
             		// fileIndex = queue.getFileIndex(fileid),
