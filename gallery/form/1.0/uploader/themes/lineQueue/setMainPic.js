@@ -63,6 +63,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/setMainPic', function(S, N
 			$(liElem).addClass('main-pic');
 			$(mainPicLogo).appendTo(liWrapper);
 			$(self.input).val(mainPicUrl);
+			S.log(LOG_PRE + 'write main pic url to :' + mainPicUrl);
 			return liElem;
 		},
 		
