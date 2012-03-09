@@ -24,6 +24,12 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
             queue = new Queue(queueTarget);
             self.set('queue',queue);
             // S.log(queue);
+            var setMainPic = new SetMainPic(self.get('mainPicInput'), self.get('queueTarget'));
+            self.set('setMainPic', setMainPic);
+            queue.on('restore', function(e){
+            	var curMainPicUrl = setMainPic.getMainPicUrl();
+            	setMainPic.setMainPic(curMainPicUrl);
+            });
             S.log(LOG_PRE + 'inited.');
 		},
 		/**
@@ -60,7 +66,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
 	            	'hintMsgCls': self.get('hintMsgCls'),
 	            	'errorMsgCls': self.get('errorMsgCls')
 	            }),
-	            setMainPic = new SetMainPic(self.get('mainPicInput'), self.get('queueTarget'));
+	            setMainPic = self.get('setMainPic');
             // message.set('msgContainer', '#J_MsgBoxUpload');
             uploader.set('message', message);
             
@@ -134,7 +140,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
     			$(curQueueItem).attr('data-url', serverUrl);
             	setMainPic.setMainPic();
             	// message.send();
-            })
+            });
 		}
 	}, {
 		ATTRS: {
@@ -298,7 +304,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/queue',function(S, Node, Q
         	value: ['<li id="J_LineQueue-{id}" data-file-id="{id}" data-url="{sUrl}" data-name="{name}" data-size="{textSize}">',
 						'<div class="J_Wrapper wrapper">',
 							'<div class="tb-pic120">',
-								'<a href="javascript:void(0);"><img class="J_ItemPic" src="{url}" /></a>',
+								'<a href="javascript:void(0);"><img class="J_ItemPic" src="{sUrl}" /></a>',
 							'</div>',
 							'<div class="pic-mask"></div>',
 							'<div class="tips-uploading"><div class="progress-bar J_ProgressBar"><span class="progress-mask J_UploadingProgress"></span></div><p class="tips-text">上传中，请稍候</p></div>',
@@ -358,10 +364,20 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/setMainPic', function(S, N
 			var self = this,
 				// container = self.container,
 				queueContainer = self.queueContainer,
-				curMainPic = self.getMainPic(),
+				uploadQueue = $('li', queueContainer);
+			if(S.isString(liElem)){
+				S.each(uploadQueue, function(item, index){
+					var url = $(item).attr('data-url');
+					if(url == liElem){
+						liElem = item;
+						return true;
+					}
+				});
+			}
+			var	curMainPic = self.getMainPic(),
 				liElem = $(liElem);
 			if(!liElem || liElem.length <= 0){
-				var uploadQueue = $('li', queueContainer);
+				// var uploadQueue = $('li', queueContainer);
 				if(!uploadQueue[0]){
 					S.log(LOG_PRE + 'There is no pic. I cannot set any pic as main pic. So I will empty the main pic input.');
 					$(self.input).val('');
@@ -557,8 +573,15 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/status',function(S, Node, 
 				// }
 			}, 1000);
 			// S.log(uploader.get('queue'), 'dir');
-       },
-       /**
+        },
+        _restore: function(){
+       		var self = this, 
+                curQueueItem = self.get('file'),
+                uploader = self.get('uploader'),
+                loaded = uploader.get('loaded');
+            $(curQueueItem).replaceClass('upload-waiting', 'upload-done');
+        },
+        /**
          * 上传失败后改成状态层内容
          */
         _error : function(data) {

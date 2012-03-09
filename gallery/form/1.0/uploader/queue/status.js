@@ -192,7 +192,7 @@ KISSY.add('gallery/form/1.0/uploader/queue/status',function(S, Node, Base,Progre
          * 文件恢复到队列中
          */
         _restore: function(){
-        	
+            this._success();
         },
         /**
          * 取消上传后改成状态层内容

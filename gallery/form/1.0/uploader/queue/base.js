@@ -203,6 +203,11 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
         		filesData = [];
         	if(files && files.length > 0){
         		S.each(files, function(url, index){
+                    var s = url.split(':'),name = EMPTY;
+                    if(s.length > 1){
+                        url = s[1];
+                        name = s[0];
+                    }
 	        		if(url){
 	        			var file = {
 	        				input: null,
