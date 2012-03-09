@@ -389,11 +389,11 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
             if (!S.isObject(data)) return false;
             var self = this, url = data.url,
                 urlsInput = self.get('urlsInput'),
-                fileId = self.get('curUploadId'),
+                fileIndex = self.get('curUploadIndex'),
                 queue = self.get('queue');
             if (!S.isString(url) || !S.isObject(urlsInput)) return false;
             //追加服务器端返回的文件url
-            queue.updateFile(fileId, {'sUrl':url});
+            queue.updateFile(fileIndex, {'sUrl':url});
             //向路径隐藏域添加路径
             urlsInput.add(url);
         }

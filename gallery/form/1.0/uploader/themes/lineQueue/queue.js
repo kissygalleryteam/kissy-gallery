@@ -50,7 +50,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/queue',function(S, Node, Q
          * 模板
          */
         tpl: {
-        	value: ['<li id="J_LineQueue-{id}" data-file-id="{id}" data-url="{url}" data-name="{name}" data-size="{textSize}">',
+        	value: ['<li id="J_LineQueue-{id}" data-file-id="{id}" data-url="{sUrl}" data-name="{name}" data-size="{textSize}">',
 						'<div class="J_Wrapper wrapper">',
 							'<div class="tb-pic120">',
 								'<a href="javascript:void(0);"><img class="J_ItemPic" src="{url}" /></a>',
