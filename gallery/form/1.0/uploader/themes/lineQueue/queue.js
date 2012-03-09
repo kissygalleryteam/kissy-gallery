@@ -53,7 +53,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/queue',function(S, Node, Q
         	value: ['<li id="J_LineQueue-{id}" data-file-id="{id}" data-url="{sUrl}" data-name="{name}" data-size="{textSize}">',
 						'<div class="J_Wrapper wrapper">',
 							'<div class="tb-pic120">',
-								'<a href="javascript:void(0);"><img class="J_ItemPic" src="{url}" /></a>',
+								'<a href="javascript:void(0);"><img class="J_ItemPic" src="{sUrl}" /></a>',
 							'</div>',
 							'<div class="pic-mask"></div>',
 							'<div class="tips-uploading"><div class="progress-bar J_ProgressBar"><span class="progress-mask J_UploadingProgress"></span></div><p class="tips-text">上传中，请稍候</p></div>',
