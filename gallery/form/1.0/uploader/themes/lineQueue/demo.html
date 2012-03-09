@@ -30,7 +30,7 @@
     <div class="demo-wrapper">
         <form id="J_UploaderForm" action="test.php">
             <div class="form-area">
-                <a id="J_UploadBtn" href="#upload()" data-config='{"theme" : "gallery/form/1.0/uploader/themes/lineQueue", "serverConfig":{"action":"../../../demo/form/uploader/upload.php","data":{"dir":"files/"},"dataType" : "json"}, "name":"Filedata", "urlsInputName":"fileUrls"}' data-auth='{"max":[5, "每次最多上传{max}个文件！"]}' class="upload-btn">
+                <a id="J_UploadBtn" href="#upload()" data-config='{"theme" : "gallery/form/1.0/uploader/themes/lineQueue", "urlsInputName":"urlsInput", "serverConfig":{"action":"../../../demo/form/uploader/upload.php","data":{"dir":"files/"},"dataType" : "json"}, "name":"Filedata"}' data-auth='{"max":[5, "每次最多上传{max}个文件！"]}' class="upload-btn">
                     上传图片
                     <input type="file" name="Filedata" hidefoucs="true" class="original-file-input">
                 </a>
@@ -42,6 +42,7 @@
                 </ul>
             </div>
             <input id="J_MainPicUrl" type="hidden" name="mainPicUrl" value="" />
+            <input id="J_UrlsInput" type="hidden" name="urlsInput" value="" />
         </form>
     </div>
 </article>
