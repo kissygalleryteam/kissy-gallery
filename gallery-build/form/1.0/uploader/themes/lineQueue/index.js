@@ -128,6 +128,10 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
             	// debugger;
             	// var successFiles = queue.getFiles('success'),
             		// successFilesLength = successFiles ? successFiles.length : 0;
+        		var file = e.file,
+        			curQueueItem = file.target,
+        			serverUrl = file.sUrl;
+    			$(curQueueItem).attr('data-url', serverUrl);
             	setMainPic.setMainPic();
             	// message.send();
             })
@@ -157,7 +161,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
 			},
 			// 设置主图的input，如果不存在，则不初始化设置主图功能
 			'mainPicInput': {
-				value: '#J_UploaderForm'
+				value: '#J_MainPicUrl'
 			}
 		}
 	})
@@ -291,7 +295,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/queue',function(S, Node, Q
          * 模板
          */
         tpl: {
-        	value: ['<li id="J_LineQueue-{id}" data-file-id="{id}" data-url="{url}" data-name="{name}" data-size="{textSize}">',
+        	value: ['<li id="J_LineQueue-{id}" data-file-id="{id}" data-url="{sUrl}" data-name="{name}" data-size="{textSize}">',
 						'<div class="J_Wrapper wrapper">',
 							'<div class="tb-pic120">',
 								'<a href="javascript:void(0);"><img class="J_ItemPic" src="{url}" /></a>',
@@ -382,6 +386,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/setMainPic', function(S, N
 			$(liElem).addClass('main-pic');
 			$(mainPicLogo).appendTo(liWrapper);
 			$(self.input).val(mainPicUrl);
+			S.log(LOG_PRE + 'write main pic url to :' + mainPicUrl);
 			return liElem;
 		},
 		

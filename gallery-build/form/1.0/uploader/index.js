@@ -632,7 +632,7 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
          * 向上传按钮容器内增加用于存储文件路径的input
          */
         _renderUrlsInput:function () {
-            var self = this, button = self.get('button'), inputWrapper = button.target,
+            var self = this, button = self.get('button'), inputWrapper = button.get('target'),
                 name = self.get('urlsInputName'),
                 urlsInput = new UrlsInput(inputWrapper, {name:name});
             urlsInput.render();
@@ -705,11 +705,11 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
             if (!S.isObject(data)) return false;
             var self = this, url = data.url,
                 urlsInput = self.get('urlsInput'),
-                fileId = self.get('curUploadId'),
+                fileIndex = self.get('curUploadIndex'),
                 queue = self.get('queue');
             if (!S.isString(url) || !S.isObject(urlsInput)) return false;
             //追加服务器端返回的文件url
-            queue.updateFile(fileId, {'sUrl':url});
+            queue.updateFile(fileIndex, {'sUrl':url});
             //向路径隐藏域添加路径
             urlsInput.add(url);
         }
@@ -2070,15 +2070,20 @@ KISSY.add('gallery/form/1.0/uploader/plugins/preview/preview', function(S, D, E)
 	 * @param {Number} maxHeight 最大高度
 	 */
 	function showPreviewImage(imgElem, data, width, height){
+		if(!imgElem){
+			return false;
+		}
 		if(_mode != 'filter'){
-			imgElem.src = data;
+			imgElem.src = data || _transparentImg;
 		}else{
 			imgElem.src = _transparentImg;
-			data = data.replace(/[)'"%]/g, function(s){
-				return escape(escape(s)); 
-			});
-			imgElem.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale',src=\"" + data + "\")";
-			imgElem.zoom = 1;
+			if(data){
+				data = data.replace(/[)'"%]/g, function(s){
+					return escape(escape(s)); 
+				});
+				imgElem.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale',src=\"" + data + "\")";
+				imgElem.zoom = 1;
+			}
 		}
 		return true;
 	}
@@ -2136,6 +2141,7 @@ KISSY.add('gallery/form/1.0/uploader/plugins/preview/preview', function(S, D, E)
 						self.data = fileInput.files[0].getAsDataURL();
 						break;
 					case 'filter':
+						// fileInput.focus();
 						fileInput.select();
 						try{
 							self.data = doc.selection.createRange().text;
@@ -2144,6 +2150,9 @@ KISSY.add('gallery/form/1.0/uploader/plugins/preview/preview', function(S, D, E)
 							S.log(e, 'dir');
 						}finally{
 							doc.selection.empty();
+						}
+						if(!self.data){
+							self.data = fileInput.value;
 						}
 						break;
 					case 'html5':
@@ -2171,6 +2180,7 @@ KISSY.add('gallery/form/1.0/uploader/plugins/preview/preview', function(S, D, E)
 					onsuccess();
 				}else if(_mode != 'html5'){
 					S.log(LOG_PRE + 'Retrive Data error.');
+					showPreviewImage(imgElem);
 					self.fire(_eventList.error);
 				}
 			}else{
@@ -3091,6 +3101,13 @@ KISSY.add('gallery/form/1.0/uploader/type/ajax',function(S, Node, UploadType) {
             };
             xhr.open("POST", action, true);
             xhr.send(data);
+            // send之后清空FormData
+            try{
+            	self.set('formData', new FormData());
+            }catch(e){
+            	S.log(LOG_PREFIX + 'something error when reset FormData.');
+            	S.log(e, 'dir');
+            }
             self.set('xhr',xhr);
             return self;
         },
@@ -3601,6 +3618,7 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
             }
             //如果已经存在隐藏域，那么不自动创建
             if(elInput){
+            	S.log(LOG_PREFIX + 'urls input found');
                 self.set('input',$(elInput));
             }else{
                 self._create();
@@ -3646,6 +3664,17 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
             return urls;
         },
         /**
+         * 解析input的值，取得文件路径
+         */
+        parse: function(){
+        	var self = this,
+        		input = self.get('input');
+    		if(input){
+    			var val = $(input).val();
+    			
+    		}
+        },
+        /**
          * 设置隐藏域的值
          * @return {String} 
          */
@@ -3677,10 +3706,16 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
          * 创建隐藏域
          */
         _create : function() {
-            var self = this,container = self.get('wrapper'),
+            var self = this,
+            	container = self.get('wrapper'),
                 tpl = self.get('tpl'),
-                name = self.get('name'), urls = self.get('urls'),
+                name = self.get('name'), 
+                urls = self.get('urls'),
                 input;
+            if(!container || container.length <= 0){
+            	S.log(LOG_PREFIX + 'UrlsInput container not specified!', 'warn');
+            	return false;
+            }
             if (!S.isString(tpl) || !S.isString('name')){
                 S.log(LOG_PREFIX + '_create()，tpl和name属性不合法！');
                 return false;
@@ -3688,6 +3723,7 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
             input = $(S.substitute(tpl, {name : name,value : urls}));
             container.append(input);
             self.set('input', input);
+            S.log(LOG_PREFIX + 'input created.');
             return input;
         }
 
