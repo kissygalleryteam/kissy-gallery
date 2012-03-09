@@ -24,6 +24,11 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
             queue = new Queue(queueTarget);
             self.set('queue',queue);
             // S.log(queue);
+            var setMainPic = new SetMainPic(self.get('mainPicInput'), self.get('queueTarget'));
+            self.set('setMainPic', setMainPic);
+            queue.on('restore', function(e){
+            	setMainPic.setMainPic();
+            });
             S.log(LOG_PRE + 'inited.');
 		},
 		/**
@@ -60,7 +65,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
 	            	'hintMsgCls': self.get('hintMsgCls'),
 	            	'errorMsgCls': self.get('errorMsgCls')
 	            }),
-	            setMainPic = new SetMainPic(self.get('mainPicInput'), self.get('queueTarget'));
+	            setMainPic = self.get('setMainPic');
             // message.set('msgContainer', '#J_MsgBoxUpload');
             uploader.set('message', message);
             
@@ -134,7 +139,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
     			$(curQueueItem).attr('data-url', serverUrl);
             	setMainPic.setMainPic();
             	// message.send();
-            })
+            });
 		}
 	}, {
 		ATTRS: {

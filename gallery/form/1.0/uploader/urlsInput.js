@@ -83,14 +83,21 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
             return urls;
         },
         /**
-         * 解析input的值，取得文件路径
+         * 解析当前input的值，取得文件路径
+         * @return {Array}
          */
         parse: function(){
         	var self = this,
         		input = self.get('input');
     		if(input){
-    			var val = $(input).val();
-    			
+    			var urls = $(input).val(),
+    				split = self.get('split'),
+    				files;
+    			files = urls.split(split);
+    			return files;
+    		}else{
+    			S.log(LOG_PREFIX + 'cannot find urls input.');
+    			return [];
     		}
         },
         /**

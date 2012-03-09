@@ -31,7 +31,8 @@ KISSY.add('gallery/form/1.0/uploader/queue/status',function(S, Node, Base,Progre
             PROGRESS : 'progress',
             SUCCESS : 'success',
             CANCEL : 'cancel',
-            ERROR : 'error'
+            ERROR : 'error',
+            RESTORE: 'restore'
         },
         /**
          * 转换文件大小字节数
@@ -186,6 +187,12 @@ KISSY.add('gallery/form/1.0/uploader/queue/status',function(S, Node, Base,Progre
             },300);
             var $parent = target.parent();
             $parent.removeClass('current-upload-file');
+        },
+        /**
+         * 文件恢复到队列中
+         */
+        _restore: function(){
+        	
         },
         /**
          * 取消上传后改成状态层内容
