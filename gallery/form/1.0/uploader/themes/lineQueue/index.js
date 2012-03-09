@@ -27,7 +27,8 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
             var setMainPic = new SetMainPic(self.get('mainPicInput'), self.get('queueTarget'));
             self.set('setMainPic', setMainPic);
             queue.on('restore', function(e){
-            	setMainPic.setMainPic();
+            	var curMainPicUrl = setMainPic.getMainPicUrl();
+            	setMainPic.setMainPic(curMainPicUrl);
             });
             S.log(LOG_PRE + 'inited.');
 		},
