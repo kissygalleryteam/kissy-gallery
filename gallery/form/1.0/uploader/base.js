@@ -316,7 +316,7 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
          * 向上传按钮容器内增加用于存储文件路径的input
          */
         _renderUrlsInput:function () {
-            var self = this, button = self.get('button'), inputWrapper = button.target,
+            var self = this, button = self.get('button'), inputWrapper = button.get('target'),
                 name = self.get('urlsInputName'),
                 urlsInput = new UrlsInput(inputWrapper, {name:name});
             urlsInput.render();

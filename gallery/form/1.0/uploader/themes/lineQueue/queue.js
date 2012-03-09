@@ -36,7 +36,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/queue',function(S, Node, Q
             	S.log(LOG_PRE + 'Cannot get file data.');
             	return false;
             };
-            S.log(file, 'dir');
+            // S.log(file, 'dir');
             //状态层
             elStatus = file.children('.J_FileStatus');
             //实例化状态类
