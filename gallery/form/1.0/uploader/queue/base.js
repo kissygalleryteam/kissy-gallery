@@ -48,7 +48,9 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
             //当改变文件状态后触发
             FILE_STATUS : 'fileStatus',
             //更新文件数据后触发
-            UPDATE_FILE : 'updateFile'
+            UPDATE_FILE : 'updateFile',
+            // 恢复文件后触发
+            RESTORE: 'restore'
         },
         /**
          * 文件的状态
@@ -96,7 +98,7 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
             }
         },
         /**
-         * 向队列添加个文件
+         * 向队列添加单个文件
          * @param {Object} file 文件数据
          * @param {Function} callback 添加完成后执行的回调函数
          * @return {Object} 文件数据对象
@@ -191,6 +193,38 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
                     _remove();
                 });
             }
+        },
+        /**
+         * 将数据恢复到队列中
+         * @param {Array} 需要恢复的数据
+         */
+        restore: function(files){
+        	var self = this,
+        		filesData = [];
+        	if(files && files.length > 0){
+        		S.each(files, function(url, index){
+	        		if(url){
+	        			var file = {
+	        				input: null,
+	        				name: '',
+	        				sUrl: url,
+	        				size: '',
+	        				type: ''
+	        			};
+	        			var fileData = self._setAddFileData(file),
+			                index = self.getFileIndex(fileData.id);
+			            //更换文件状态为等待
+			            self.fileStatus(index, Queue.status.RESTORE);
+			            //显示文件信息li元素
+			            $(fileData.target).show();
+			            fileData.status.set('curType', Queue.status.SUCCESS);
+			            filesData[index] = fileData;
+	        		}
+	        	});
+        	}
+        	self.fire(Queue.event.RESTORE, {
+            	'files': filesData
+            });
         },
         /**
          * 获取或设置文件状态

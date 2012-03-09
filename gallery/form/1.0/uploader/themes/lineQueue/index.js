@@ -24,6 +24,12 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
             queue = new Queue(queueTarget);
             self.set('queue',queue);
             // S.log(queue);
+            var setMainPic = new SetMainPic(self.get('mainPicInput'), self.get('queueTarget'));
+            self.set('setMainPic', setMainPic);
+            queue.on('restore', function(e){
+            	var curMainPicUrl = setMainPic.getMainPicUrl();
+            	setMainPic.setMainPic(curMainPicUrl);
+            });
             S.log(LOG_PRE + 'inited.');
 		},
 		/**
@@ -60,7 +66,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
 	            	'hintMsgCls': self.get('hintMsgCls'),
 	            	'errorMsgCls': self.get('errorMsgCls')
 	            }),
-	            setMainPic = new SetMainPic(self.get('mainPicInput'), self.get('queueTarget'));
+	            setMainPic = self.get('setMainPic');
             // message.set('msgContainer', '#J_MsgBoxUpload');
             uploader.set('message', message);
             
@@ -128,9 +134,13 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
             	// debugger;
             	// var successFiles = queue.getFiles('success'),
             		// successFilesLength = successFiles ? successFiles.length : 0;
+        		var file = e.file,
+        			curQueueItem = file.target,
+        			serverUrl = file.sUrl;
+    			$(curQueueItem).attr('data-url', serverUrl);
             	setMainPic.setMainPic();
             	// message.send();
-            })
+            });
 		}
 	}, {
 		ATTRS: {
@@ -157,7 +167,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
 			},
 			// 设置主图的input，如果不存在，则不初始化设置主图功能
 			'mainPicInput': {
-				value: '#J_UploaderForm'
+				value: '#J_MainPicUrl'
 			}
 		}
 	})

@@ -104,8 +104,15 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/status',function(S, Node, 
 				// }
 			}, 1000);
 			// S.log(uploader.get('queue'), 'dir');
-       },
-       /**
+        },
+        _restore: function(){
+       		var self = this, 
+                curQueueItem = self.get('file'),
+                uploader = self.get('uploader'),
+                loaded = uploader.get('loaded');
+            $(curQueueItem).replaceClass('upload-waiting', 'upload-done');
+        },
+        /**
          * 上传失败后改成状态层内容
          */
         _error : function(data) {

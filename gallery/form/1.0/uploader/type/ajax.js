@@ -95,6 +95,13 @@ KISSY.add('gallery/form/1.0/uploader/type/ajax',function(S, Node, UploadType) {
             };
             xhr.open("POST", action, true);
             xhr.send(data);
+            // send之后清空FormData
+            try{
+            	self.set('formData', new FormData());
+            }catch(e){
+            	S.log(LOG_PREFIX + 'something error when reset FormData.');
+            	S.log(e, 'dir');
+            }
             self.set('xhr',xhr);
             return self;
         },
