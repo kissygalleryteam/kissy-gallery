@@ -32,9 +32,10 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
 		afterUploaderRender: function(uploader){
 			var self = this,
 				queueTarget = self.get('queueTarget'),
-				elemButtonTarget = uploader.get('buttonTarget'),
+				// elemButtonTarget = uploader.get('buttonTarget'),
                 queue = uploader.get('queue'),
                 button = uploader.get('button'),
+                elemButtonTarget = button.get('target'),
                 auth = uploader.get('auth'),
                 elemTempFileInput = $('.original-file-input', elemButtonTarget),
                 elemFileInput = button.get('fileInput'),
@@ -54,9 +55,12 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
             // 初始化一些附加模块+插件
             var preview = new Preview(),
             	message = new Message({
-	            	'msgContainer': uploader.get('msgContainer')
+	            	'msgContainer': self.get('msgContainer'),
+	            	'successMsgCls': self.get('successMsgCls'),
+	            	'hintMsgCls': self.get('hintMsgCls'),
+	            	'errorMsgCls': self.get('errorMsgCls')
 	            }),
-	            setMainPic = new SetMainPic('#J_UploaderForm', self.get('queueTarget'));
+	            setMainPic = new SetMainPic(self.get('mainPicInput'), self.get('queueTarget'));
             // message.set('msgContainer', '#J_MsgBoxUpload');
             uploader.set('message', message);
             
@@ -77,10 +81,9 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
             	$(self.get('queueTarget')).addClass('advance-queue');
             }
             
-            S.log(message, 'dir');
-            
             // 删除图片
             $(queueTarget).delegate('click', '.J_DeleltePic', function(e){
+            	e.preventDefault();
             	var delBtn = e.currentTarget,
             		fileid = $(delBtn).attr('data-file-id');
         		queue.remove(fileid);
@@ -95,6 +98,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
             
             // 设置主图
             $(queueTarget).delegate('click', '.J_SetMainPic', function(e){
+            	e.preventDefault();
             	var setMainPicBtn = e.currentTarget,
             		// fileid = $(setMainPicBtn).attr('data-file-id'),
             		// fileIndex = queue.getFileIndex(fileid),
@@ -130,11 +134,30 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
 		}
 	}, {
 		ATTRS: {
+			// 消息容器，为空则不初始化消息
+			'msgContainer': {
+				value: '#J_MsgBoxUpload'
+			},
+			// 默认消息
 			'defaultMsg': {
 				value: '最多上传{max}张照片，每张图片小于5M'
 			},
+			// 剩余多少张的消息
 			'leftMsg': {
 				value: '还可以上传{left}张图片，每张小于5M。主图将在搜索结果中展示，请认真设置。'
+			},
+			'successMsgCls': {
+				value: 'msg-success'
+			},
+			'hintMsgCls': {
+				value: 'msg-hint'
+			},
+			'errorMsgCls': {
+				value: 'msg-error'
+			},
+			// 设置主图的input，如果不存在，则不初始化设置主图功能
+			'mainPicInput': {
+				value: '#J_UploaderForm'
 			}
 		}
 	})
@@ -157,18 +180,24 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
  * @author 紫英（橘子）<daxingplay@gmail.com>
  * @date 2012-01-11
  */
-KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/message', function(S, Node, Base){
+KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/message', function(S, Node){
 	
 	var $ = Node.all,
 		LOG_PRE = '[LineQueue: Message] ';
 	
 	function Message(config){
 		var self = this;
-		Message.superclass.constructor.call(self, config);
+		self.config = S.mix({
+			msgContainer: '#J_MsgBoxUpload',
+			successMsgCls: 'msg-success',
+			hintMsgCls: 'msg-hint',
+			errorMsgCls: 'msg-error'
+		}, config);
+		// Message.superclass.constructor.call(self, config);
 		S.log(LOG_PRE + 'Constructed');
 	}
 	
-	S.extend(Message, Base, {
+	S.augment(Message, {
 		
 		/**
 		 * 向msg容器发送消息
@@ -179,11 +208,11 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/message', function(S, Node
 				S.log(LOG_PRE + 'You did not tell me what to show.');
 				return false;
 			}
-			var msgBox = self.get('msgContainer'),
-				newClsName = self.get(type + 'Cls'),
-				successCls = self.get('successCls'),
-				hintCls = self.get('hintCls'),
-				errorCls = self.get('errorCls');
+			var msgBox = self.config.msgContainer,
+				newClsName = self.config[type + 'MsgCls'],
+				successCls = self.config.successMsgCls,
+				hintCls = self.config.hintMsgCls,
+				errorCls = self.config.errorMsgCls;
 			if(msgBox){
 				switch(type){
 					case 'success':
@@ -201,35 +230,13 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/message', function(S, Node
 			}
 		}
 		
-	}, {
-		ATTRS: {
-			msgContainer: {
-				value: '#J_MsgBoxUpload',
-				setter: function(v){
-					if(v){
-						return v;
-					}
-					return '#J_MsgBoxUpload'
-				}
-			},
-			successCls: {
-				value: 'msg-success'
-			},
-			hintCls: {
-				value: 'msg-hint'
-			},
-			errorCls: {
-				value: 'msg-error'
-			}
-		}
 	});
 	
 	return Message;
 	
 }, {
 	requires: [
-		'node',
-		'base'
+		'node'
 	]
 });
 /**
@@ -270,7 +277,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/queue',function(S, Node, Q
             	S.log(LOG_PRE + 'Cannot get file data.');
             	return false;
             };
-            S.log(file, 'dir');
+            // S.log(file, 'dir');
             //状态层
             elStatus = file.children('.J_FileStatus');
             //实例化状态类
@@ -319,30 +326,23 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/queue',function(S, Node, Q
 KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/setMainPic', function(S, Node){
 	
 	var $ = Node.all,
-		LOG_PRE = '[LineQueue: setMainPic] '
-		_config = {
-			'mainPicInput': 'main-pic',
-			'tpl': '<input id="J_UploadMainPicInput" name="{name}" type="hidden" value="" />'
-		};
+		LOG_PRE = '[LineQueue: setMainPic] ';
 	
-	function SetMainPic(container, queueContainer, config){
+	function SetMainPic(mainPicInput, queueContainer){
 		var self = this,
-			container = $(container),
+			mainPicInput = $(mainPicInput),
 			queueContainer = $(queueContainer);
-		config = S.mix(_config, config);
-		if(!container || container.length <= 0){
-			S.log(LOG_PRE + 'cannot find container');
+		// config = S.mix(_config, config);
+		if(!mainPicInput || mainPicInput.length <= 0){
+			S.log(LOG_PRE + 'cannot find mainPicInput, SetMainPic function disabled.');
 			return false;
 		}
 		if(!queueContainer || queueContainer.length <= 0){
 			S.log(LOG_PRE + 'cannot find queue container');
 			return false;
 		}
-		self.container = container;
 		self.queueContainer = queueContainer;
-		self.input = $(S.substitute(config.tpl, {
-			'name': config.mainPicInput
-		})).appendTo(self.container);
+		self.input = mainPicInput;
 	}
 	
 	S.augment(SetMainPic, {
