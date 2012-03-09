@@ -35,10 +35,20 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/setMainPic', function(S, N
 			var self = this,
 				// container = self.container,
 				queueContainer = self.queueContainer,
-				curMainPic = self.getMainPic(),
+				uploadQueue = $('li', queueContainer);
+			if(S.isString(liElem)){
+				S.each(uploadQueue, function(item, index){
+					var url = $(item).attr('data-url');
+					if(url == liElem){
+						liElem = item;
+						return true;
+					}
+				});
+			}
+			var	curMainPic = self.getMainPic(),
 				liElem = $(liElem);
 			if(!liElem || liElem.length <= 0){
-				var uploadQueue = $('li', queueContainer);
+				// var uploadQueue = $('li', queueContainer);
 				if(!uploadQueue[0]){
 					S.log(LOG_PRE + 'There is no pic. I cannot set any pic as main pic. So I will empty the main pic input.');
 					$(self.input).val('');
