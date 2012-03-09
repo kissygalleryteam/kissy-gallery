@@ -2586,7 +2586,7 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
 	        		if(url){
 	        			var file = {
 	        				input: null,
-	        				name: '',
+	        				name: name,
 	        				sUrl: url,
 	        				size: '',
 	        				type: ''
