@@ -128,6 +128,10 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
             	// debugger;
             	// var successFiles = queue.getFiles('success'),
             		// successFilesLength = successFiles ? successFiles.length : 0;
+        		var file = e.file,
+        			curQueueItem = file.target,
+        			serverUrl = file.sUrl;
+    			$(curQueueItem).attr('data-url', serverUrl);
             	setMainPic.setMainPic();
             	// message.send();
             })
@@ -157,7 +161,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
 			},
 			// 设置主图的input，如果不存在，则不初始化设置主图功能
 			'mainPicInput': {
-				value: '#J_UploaderForm'
+				value: '#J_MainPicUrl'
 			}
 		}
 	})
