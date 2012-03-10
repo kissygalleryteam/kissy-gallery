@@ -69,6 +69,7 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
          * @param {String} url 路径
          */
         remove : function(url){
+            if(!url) return false;
             var self = this,urls = self.get('urls'),
                 isExist = self.isExist(url) ,
                 reg = new RegExp(url);
