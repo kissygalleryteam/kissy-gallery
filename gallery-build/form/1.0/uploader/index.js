@@ -3700,6 +3700,8 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
             var self = this,urls = self.get('urls'),
                 //判断路径是否已经存在
                 isExist = self.isExist(url);
+            //TODO:第一个路径会出现为空的情况，日后完善
+            if(urls[0] == EMPTY) urls = [];
             if(isExist){
                 S.log(LOG_PREFIX + 'add()，文件路径已经存在！');
                 return self;

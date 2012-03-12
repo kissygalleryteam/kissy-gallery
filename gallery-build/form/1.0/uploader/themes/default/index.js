@@ -12,6 +12,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/default/index', function (S, Node, B
         var self = this;
         //调用父类构造函数
         DefaultTheme.superclass.constructor.call(self, config);
+        self._LoaderCss();
         self._init();
     }
 
@@ -25,6 +26,18 @@ KISSY.add('gallery/form/1.0/uploader/themes/default/index', function (S, Node, B
                 config = S.parseConfig(queueTarget, 'data-queue-config');
             queue = new Queue(queueTarget, config);
             self.set('queue', queue);
+        },
+        /**
+         * 加载css文件
+         */
+        _LoaderCss : function(){
+            var self = this,
+                isUseCss = self.get('isUseCss'),
+                cssUrl = self.get('cssUrl');
+            //加载css文件
+            if(isUseCss){
+                S.use(cssUrl,function(){ });
+            }
         },
         /**
          * 在上传组件运行完毕后执行的方法（对上传组件所有的控制都应该在这个函数内）
@@ -41,6 +54,14 @@ KISSY.add('gallery/form/1.0/uploader/themes/default/index', function (S, Node, B
         }
     }, {ATTRS:/** @lends DefaultTheme*/{
         /**
+         * 是否引用css文件
+         */
+        isUseCss : {value:true},
+        /**
+         * css模块路径
+         */
+        cssUrl:{value:'gallery/form/1.0/uploader/themes/default/style.css'},
+        /**
          * 上传按钮（上传所有等待的文件）
          */
         elUploadFiles : {value:EMPTY},
@@ -48,4 +69,4 @@ KISSY.add('gallery/form/1.0/uploader/themes/default/index', function (S, Node, B
         queue:{value:EMPTY}
     }});
     return DefaultTheme;
-}, {requires:['node', 'base', '../../queue/base', './style.css']});
+}, {requires:['node', 'base', '../../queue/base']});

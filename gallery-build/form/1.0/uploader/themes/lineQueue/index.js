@@ -144,6 +144,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
 		}
 	}, {
 		ATTRS: {
+            cssUrl:{value:'gallery/form/1.0/uploader/themes/lineQueue/style.css'},
 			// 消息容器，为空则不初始化消息
 			'msgContainer': {
 				value: '#J_MsgBoxUpload'
@@ -170,7 +171,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
 				value: '#J_MainPicUrl'
 			}
 		}
-	})
+	});
 	
 	return LineQueue;
 	
@@ -181,8 +182,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
 		'./queue',
 		'../../plugins/preview/preview',
 		'./message',
-		'./setMainPic',
-		'./style.css'
+		'./setMainPic'
 	]
 });
 /**
