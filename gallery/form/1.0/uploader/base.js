@@ -337,16 +337,16 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
                 //修改队列中文件的状态为success（上传完成）
                 queue.fileStatus(index, Uploader.status.SUCCESS);
                 self._success(result.data);
-                self.fire(event.SUCCESS,{index : index,file : queue.getFile(index)});
+                self.fire(event.SUCCESS,{index : index,file : queue.getFile(index),result:result});
             } else {
                 var msg = result.msg || EMPTY;
                 //修改队列中文件的状态为error（上传失败）
                 queue.fileStatus(index, Uploader.status.ERROR, {msg:msg});
-                self.fire(event.ERROR, {status:status});
+                self.fire(event.ERROR, {status:status,result:result});
             }
             //置空当前上传的文件在队列中的索引值
             self.set('curUploadIndex', EMPTY);
-            self.fire(event.COMPLETE,{index : index,file : queue.getFile(index)});
+            self.fire(event.COMPLETE,{index : index,file : queue.getFile(index),result:result});
             //存在批量上传操作，继续上传
             self._continueUpload();
         },

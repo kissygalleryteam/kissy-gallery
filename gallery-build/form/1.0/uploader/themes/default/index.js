@@ -45,6 +45,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/default/index', function (S, Node, B
          */
         afterUploaderRender:function (uploader) {
             var self = this,$uploadFiles = $(self.get('elUploadFiles'));
+
             //存在上传按钮，用户点击该按钮上传文件
             if($uploadFiles.length){
                 $uploadFiles.on('click',function(){
