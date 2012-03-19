@@ -647,6 +647,8 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
             var self = this, result = ev.result, status, event = Uploader.event,
                 queue = self.get('queue'), index = self.get('curUploadIndex');
             if (!S.isObject(result)) return false;
+            //将服务器端的数据保存到队列中的数据集合
+            queue.updateFile(index,{result:result});
             //文件上传状态
             status = Number(result.status);
             if (status === 1) {
@@ -655,7 +657,7 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
                 self._success(result.data);
                 self.fire(event.SUCCESS,{index : index,file : queue.getFile(index),result:result});
             } else {
-                var msg = result.msg || EMPTY;
+                var msg = result.msg || result.message  || EMPTY;
                 //修改队列中文件的状态为error（上传失败）
                 queue.fileStatus(index, Uploader.status.ERROR, {msg:msg});
                 self.fire(event.ERROR, {status:status,result:result});
