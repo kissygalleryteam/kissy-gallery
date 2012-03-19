@@ -65,7 +65,7 @@ KISSY.add('gallery/form/1.0/uploader/plugins/preview/preview', function(S, D, E)
 				data = data.replace(/[)'"%]/g, function(s){
 					return escape(escape(s)); 
 				});
-				imgElem.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale',src=\"" + data + "\")";
+				imgElem.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale',src='" + data + "')";
 				imgElem.zoom = 1;
 			}
 		}
