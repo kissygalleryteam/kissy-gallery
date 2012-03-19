@@ -16,11 +16,7 @@ KISSY.add('gallery/form/1.0/uploader/type/ajax',function(S, Node, UploadType) {
         var self = this;
         //调用父类构造函数
         AjaxType.superclass.constructor.call(self, config);
-        try{
-            self.set('formData', new FormData());
-        }catch(e){}
-        //处理传递给服务器端的参数
-        self._processData();
+        self._setFormData();
     }
 
     S.mix(AjaxType, /** @lends AjaxType.prototype*/{
@@ -95,15 +91,23 @@ KISSY.add('gallery/form/1.0/uploader/type/ajax',function(S, Node, UploadType) {
             };
             xhr.open("POST", action, true);
             xhr.send(data);
-            // send之后清空FormData
+            // 重置FormData
+            self._setFormData();
+            self.set('xhr',xhr);
+            return self;
+        },
+        /**
+         * 设置FormData数据
+         */
+        _setFormData:function(){
+            var self = this;
             try{
             	self.set('formData', new FormData());
+                self._processData();
             }catch(e){
             	S.log(LOG_PREFIX + 'something error when reset FormData.');
             	S.log(e, 'dir');
-            }
-            self.set('xhr',xhr);
-            return self;
+           }
         },
         /**
          * 处理传递给服务器端的参数

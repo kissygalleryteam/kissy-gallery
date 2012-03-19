@@ -55,6 +55,8 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
             var self = this,urls = self.get('urls'),
                 //判断路径是否已经存在
                 isExist = self.isExist(url);
+            //TODO:第一个路径会出现为空的情况，日后完善
+            if(urls[0] == EMPTY) urls = [];
             if(isExist){
                 S.log(LOG_PREFIX + 'add()，文件路径已经存在！');
                 return self;
@@ -69,14 +71,16 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
          * @param {String} url 路径
          */
         remove : function(url){
+            if(!url) return false;
             var self = this,urls = self.get('urls'),
-                isExist = self.isExist(url) ;
+                isExist = self.isExist(url) ,
+                reg = new RegExp(url);
             if(!isExist){
                 S.log(LOG_PREFIX + 'remove()，不存在该文件路径！');
                 return false;
             }
             urls = S.filter(urls,function(sUrl){
-                return sUrl != url;
+                return !reg.test(sUrl);
             });
             self.set('urls',urls);
             self._val();
@@ -94,6 +98,7 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
     				split = self.get('split'),
     				files;
     			files = urls.split(split);
+                self.set('urls',files);
     			return files;
     		}else{
     			S.log(LOG_PREFIX + 'cannot find urls input.');
@@ -119,10 +124,11 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
          * @return {Boolean}
          */
         isExist : function(url){
-            var self = this,b = false,urls = self.get('urls');
+            var self = this,b = false,urls = self.get('urls'),
+                reg = new RegExp(url);
             if(!urls.length) return false;
             S.each(urls,function(val){
-                if(val == url){
+                if(reg.test(val)){
                     return b = true;
                 }
             });

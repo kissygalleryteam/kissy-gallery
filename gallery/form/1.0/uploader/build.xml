@@ -1,6 +1,6 @@
 <project name="uploader.build" default="build" basedir="." xmlns:ac="antlib:net.sf.antcontrib">
     <description>Uploader Build File</description>
-
+    <propertyfile file="build.properties" />
     <property name="charset" value="utf-8"/>
     <property name="tool.dir" location="../../../../../kissy-tools"/>
     <property name="compiler" location="${tool.dir}/closure-compiler/compiler.jar"/>
@@ -39,6 +39,20 @@
         <delete>
             <fileset dir="${uploader.build.dir}/themes" includes="**/*.html"/>
         </delete>
+    </target>
+    <!--压缩模板css文件-->
+    <target name="minify-theme-css">
+        <apply executable="java" verbose="true" dest="${uploader.build.dir}/themes" failonerror="true" parallel="false">
+            <fileset dir="${uploader.build.dir}/themes" includes="**/*.css" excludes="*-min.css"/>
+            <arg line="-jar"/>
+            <arg path="${tool.dir}/yuicompressor/yuicompressor.jar"/>
+            <arg line="--charset gbk"/>
+            <arg value="--type"/>
+            <arg value="css"/>
+            <arg value="-o"/>
+            <targetfile/>
+            <mapper type="glob" from="*.css" to="*-min.css"/>
+        </apply>
     </target>
     <!--构建模板，合并模板下的js文件，生成index-pkg.js，删除源文件，将index-pkg.js改成index.js-->
     <target name="build-theme" depends="move-theme">

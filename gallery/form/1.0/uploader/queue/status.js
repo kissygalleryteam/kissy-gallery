@@ -192,7 +192,7 @@ KISSY.add('gallery/form/1.0/uploader/queue/status',function(S, Node, Base,Progre
          * 文件恢复到队列中
          */
         _restore: function(){
-        	
+            this._success();
         },
         /**
          * 取消上传后改成状态层内容
@@ -248,7 +248,7 @@ KISSY.add('gallery/form/1.0/uploader/queue/status',function(S, Node, Base,Progre
                     '</div> ',
             success : ' <div class="success-status"><a href="#fileDel" class="J_FileDel">删除</a></div>',
             cancel : '<div class="cancel-status">已经取消上传，<a href="#reUpload" class="J_ReUpload">点此重新上传</a> </div>',
-            error : '<div class="error-status upload-error">{msg}<a href="#fileDel" class="J_FileDel">点此删除</a></div>'
+            error : '<div class="error-status upload-error">{msg}<a href="#fileDel" class="J_FileDel">删除</a></div>'
         } },
         /**
          * 队列实例

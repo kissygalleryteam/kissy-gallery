@@ -384,6 +384,8 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
             self.set('urlsInput', self._renderUrlsInput());
             self._renderQueue();
             button = self._renderButton();
+            // 看看是不是urlsinput里面已经有值了，如果有，恢复到队列中，适用于编辑页面。
+            self._restore();
             //如果是flash异步上传方案，增加swfUploader的实例作为参数
             if (self.get('type') == Uploader.type.FLASH) {
                 S.mix(serverConfig, {swfUploader:button.get('swfUploader')});
@@ -632,7 +634,7 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
          * 向上传按钮容器内增加用于存储文件路径的input
          */
         _renderUrlsInput:function () {
-            var self = this, button = self.get('button'), inputWrapper = button.target,
+            var self = this, button = self.get('button'), inputWrapper = button.get('target'),
                 name = self.get('urlsInputName'),
                 urlsInput = new UrlsInput(inputWrapper, {name:name});
             urlsInput.render();
@@ -646,21 +648,21 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
                 queue = self.get('queue'), index = self.get('curUploadIndex');
             if (!S.isObject(result)) return false;
             //文件上传状态
-            status = result.status;
-            if (status) {
+            status = Number(result.status);
+            if (status === 1) {
                 //修改队列中文件的状态为success（上传完成）
                 queue.fileStatus(index, Uploader.status.SUCCESS);
                 self._success(result.data);
-                self.fire(event.SUCCESS,{index : index,file : queue.getFile(index)});
+                self.fire(event.SUCCESS,{index : index,file : queue.getFile(index),result:result});
             } else {
                 var msg = result.msg || EMPTY;
                 //修改队列中文件的状态为error（上传失败）
                 queue.fileStatus(index, Uploader.status.ERROR, {msg:msg});
-                self.fire(event.ERROR, {status:status});
+                self.fire(event.ERROR, {status:status,result:result});
             }
             //置空当前上传的文件在队列中的索引值
             self.set('curUploadIndex', EMPTY);
-            self.fire(event.COMPLETE,{index : index,file : queue.getFile(index)});
+            self.fire(event.COMPLETE,{index : index,file : queue.getFile(index),result:result});
             //存在批量上传操作，继续上传
             self._continueUpload();
         },
@@ -705,13 +707,25 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
             if (!S.isObject(data)) return false;
             var self = this, url = data.url,
                 urlsInput = self.get('urlsInput'),
-                fileId = self.get('curUploadId'),
+                fileIndex = self.get('curUploadIndex'),
                 queue = self.get('queue');
             if (!S.isString(url) || !S.isObject(urlsInput)) return false;
             //追加服务器端返回的文件url
-            queue.updateFile(fileId, {'sUrl':url});
+            queue.updateFile(fileIndex, {'sUrl':url});
             //向路径隐藏域添加路径
             urlsInput.add(url);
+        },
+        /**
+         * 检查是否有已经存在的图片恢复到队列中
+         */
+        _restore: function(){
+        	var self = this,
+        		urlsInput = self.get('urlsInput'),
+        		filesExists = urlsInput.parse();
+            if(filesExists && filesExists.length > 0){
+            	var queue = self.get('queue');
+            	queue.restore(filesExists);
+            }
         }
     }, {ATTRS:/** @lends Uploader*/{
         /**
@@ -1689,338 +1703,6 @@ KISSY.add('gallery/form/1.0/uploader/plugins/ajbridge/uploader', function(S,flas
  * @requires KISSY 1.2+
  */
 
-KISSY.add(function(S){
-	
-	var D = S.DOM,
-		E = S.Event,
-		LOG_PRE = '[Plugin: Preview] ';
-		
-	function UploaderPreview(config){
-		var self = this,
-			_config = {
-				mode: 'filter',
-				maxWidth: 40,
-				maxHeight: 40,
-				// TODO change it to on and fire
-				// use this to check whether the file uploaded is what you want, for example, I can check whether the file uploaded by user is image.
-				// onCheck: function(){
-					// return 1;
-				// },
-				// onGet: function(){
-					// return 1;
-				// },
-				// // when the thumb of the uploaded image is shown, the function will exec.
-				// onShow: function(){
-					// return 1;
-				// },
-				onError: function(){
-					return 1;
-				},
-				preview: true,
-				destroy: true
-			};
-		
-		self.event = {
-			'check': 'check',
-			'show': 'show',
-			'error': 'error'
-		};
-		
-		// prefer to use html5 file api
-		if(typeof window.FileReader === "undefined"){
-			switch(S.UA.shell){
-				case 'firefox':
-					_config.mode = 'domfile';
-					break;
-				case 'ie':
-					switch(S.UA.ie){
-						case 6:
-							_config.mode = 'simple';
-							break;
-						case 8:
-						case 7:
-						// IE 9 and above should also use filter mode.
-						default:
-							_config.mode = 'filter';
-							break;
-					}
-					break;
-				default:
-					_config.mode = 'simple';
-					_config.preview = false;
-					break;
-			}
-		}else{
-			_config.mode = 'html5';
-		}
-		
-		self.config = S.mix(_config, config);
-		
-		S.log(LOG_PRE + 'Preview initialized.');
-	}
-	
-	S.augment(UploaderPreview, S.EventTarget, {
-		
-		preview: function(file, img){
-			var self = this, 
-				doc = document, 
-				showFunc;
-			
-			// the html element of the input(type="file")
-			self.file = file;
-			// the html element of the thumb image element or preview image element
-			self.img = img;
-			self.preload = null;
-			self.data = null;
-			// self.TRANSPARENT = S.UA.ie == 6 || S.UA.ie == 7 ? "mhtml:" + doc.scripts[doc.scripts.length - 1].getAttribute("src", 4) + "!blankImage" : "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-			// self.TRANSPARENT = S.UA.ie == 6 || S.UA.ie == 7 ? "mhtml:" + window.location.href.replace(/^https?/g,'').replace(/[^\/]+$/,'') + "!blankImage" : "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-			self.TRANSPARENT = S.UA.ie == 6 || S.UA.ie == 7 ? "http://a.tbcdn.cn/p/fp/2011a/assets/space.gif" : "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-			// S.log(self.config, 'dir');
-			
-			function getImgData(){
-				switch(self.config.mode){
-					case 'filter':
-						// S.log(self.file);
-						self.file.select();
-						showFunc = filterPreview;
-						// S.log(doc.selection, 'dir');
-						// return self.file.value();
-						// S.log('Filter data is ' + doc.selection.createRange().text);
-						// S.log(self.file.outerHTML);
-						try{
-							return doc.selection.createRange().text;
-						}catch(e){
-							S.log('[UploadPreview] Get image data error, the error is: ');
-							S.log(e, 'dir');
-						}finally {
-							doc.selection.empty();
-						}
-						break;
-					case 'domfile':
-						showFunc = simplePreview;
-						return self.file.files[0].getAsDataURL();
-						break;
-					case 'html5':
-						// TODO Mathon3
-						var reader = new FileReader();
-						// alert(self.file.files[0]);
-						reader.onload = function(event){
-							// alert(event.target.result);
-							// self.img.src = event.target.result;
-							showImg(event.target.result);
-						}
-						reader.onerror = function(e){
-							S.log('[UploadPreview] File Reader Error. Your browser may not fully support html5 file api', 'warning');
-						}
-						reader.readAsDataURL(self.file.files[0]);
-						// alert(reader.readAsDataURL);
-						// S.log(reader, 'dir');
-						return false;
-						break;
-					case 'remote':
-						showFunc = remotePreview;
-						S.log('[UploadPreview] This function is not supported right now.');
-						return ;
-					case 'simple':
-					default:
-						showFunc = simplePreview;
-						// alert(self.file.value());
-						// S.log('The file previewed is ' + self.file.value());
-						return self.file.value;
-				}
-			}
-			
-			function showImg(src, width, height){
-				self.img.src = src;
-				if(width > 1 && height > 1){
-					var ratio = Math.min( 1,
-                        Math.max( 0, self.config.maxWidth ) / width  || 1,Math.max( 0, self.config.maxHeight ) / height || 1
-                    );
-					self.img.style.width = Math.round( width * ratio ) + "px";
-               		self.img.style.height = Math.round( height * ratio ) + "px";
-               		self.img.setAttribute('data-ratio', ratio);
-				}
-				// for ImageZoom
-				var imagezoomSrc = self.config.mode == 'filter' ? self.data : src;
-				D.attr(self.img, 'data-ks-imagezoom', imagezoomSrc);
-				// self.config.onShow();
-				self.fire(self.event.show);
-			}
-			
-			function onError(){
-				// self.config.onError();
-				self.fire(self.event.error);
-			}
-			
-			function simplePreview(){
-				// S.log('Self.data is '+ self.data);
-				// S.log('Self.preload is '+self.preload);
-				// S.log('Self.img is ' + self.img);
-				// if(!self.preload){
-					// self.preload = new Image();
-					// self.preload.src = self.data;
-					// E.on(self.preload, 'load', function(e){
-						// showImg(self.data);
-					// });
-					// // self.preload.onerror = function(){
-						// // S.log('error');
-					// // };
-				// }
-				// self.img.src = self.data;
-				showImg(self.data);
-			}
-			
-			function filterPreview(){
-				// debugger;
-				if(!self.preload){
-					self.preload = document.createElement("div");
-					D.css(self.preload, {
-						// width: "1px", 
-						// height: "1px",
-                        visibility: "hidden", 
-                        position: "absolute", 
-                        left: "-9999px", 
-                        top: "-9999px",
-                        filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='image')"
-					});
-					//TODO
-					var body = document.body;
-					body.insertBefore( self.preload, body.childNodes[0] );
-					// preload = null;
-					body = null;
-					// self.preload = null;
-				}
-				// var preload = self.preload;
-				self.data = self.data.replace(/[)'"%]/g, function(s){
-					return escape(escape(s)); 
-				});
-				S.log('[UploadPreview] This escaped data is ' + self.data);
-				try{
-					// preload.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='image', src='" + self.data +"')";
-					// self.preload.style.filter ="progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='image',src=\"" + self.data + "\")";
-					self.preload.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = self.data;
-				}catch(e){ 
-					self._error("[UploadPreview] Filter error"); 
-					// return; 
-				}
-				// S.log(self.img, 'dir');
-				// var parent = self.img.parentNode,
-					// tempWrapper = document.createElement("div");
-				
-				self.img.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale',src=\"" + self.data + "\")";
-				self.img.zoom = 1;
-				self.img.setAttribute('data-ks-imagezoom', self.data);
-				// tempWrapper.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale',src=\"" + self.data + "\")";
-				// tempWrapper.style.zoom = 1;
-				// D.append(self.img, tempWrapper);
-				// parent.innerHTML = '';
-				// D.append(tempWrapper, parent);
-				// D.get('img', tempWrapper).setAttribute('data-ks-imagezoom', self.data);
-				// var parent = self.img.parentNode;
-				// parent.innerHTML = '';
-				
-				// D.html(parent, '');
-				// var tempImg = D.create('img');
-				// tempImg.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale',src=\"" + self.data + "\")";
-				// D.append(parent, tempImg);
-				// this.showImg( self.TRANSPARENT, preload.offsetWidth, preload.offsetHeight );
-				// showImg( self.TRANSPARENT, self.preload.offsetWidth, self.preload.offsetHeight );
-				showImg( self.TRANSPARENT, self.preload.offsetWidth, self.preload.offsetHeight );
-			}
-			
-			if(self.file){
-				
-				// alert(self.config.onShow);
-				
-				// S.log(self.config.onCheck());
-				S.log('[UploadPreview] One file selected. Using ' + self.config.mode + ' mode to preview.');
-				// S.log(self.config, 'dir');
-				
-				var checkResult = self.fire(self.event.check);
-				
-				if(checkResult !== false){
-					var data = getImgData();
-					
-					// S.log(data);
-					// alert(data);
-					S.log('[UploadPreview] Get data done. The data is ' + data);
-					
-					if(!!data && data !== self.data){
-						// S.log('[UploadPreview] Self data does not exists');
-						 // && self.config.onGet(data)
-						// var tempImg = new Image();
-							// tempImg.src = data;
-							// fileSize = tempImg.fileSize;
-							// // S.log(tempImg, 'dir');
-							// alert(tempImg.fileSize);
-							// tempImg.onload = function(){
-								// alert(tempImg.fileSize);
-							// }
-							// if(fileSize/1024 > 500){
-								// alert('ͼƬ��С���ܳ���500K!');
-							// }
-							// tempImg = null;
-						self.data = data;
-						data = null;
-						// exec preview show function according to the show type
-						showFunc();
-						// if(self.config.destroy){
-							// self.destroy();
-						// }
-					}
-				}else{
-					S.log('[UploadPreview] Check error.');
-				}
-				
-			}
-			
-		},
-		
-		/*
-		 * set config, this is mainly used for setting functions such as onShow, onCheck after new UploaderPreview;
-		 */
-		setConfig: function(config){
-			// S.log(config, 'dir');
-			self.config = S.mix(self.config, config);
-		},
-		
-		// release memory, prevent memory leak
-		destroy: function() {
-			var self = this;
-			//destroy remote upload objects(only for remote mode).
-			if ( self._upload ) {
-				self._upload.dispose();
-				self._upload = null;
-			}
-			//destroy preload images.
-			// if ( self.preload ) {
-				// var preload = self.preload, 
-					// parent = preload.parentNode;
-				// // self.preload = preload.onload = preload.onerror = null;
-				// self.preload = null;
-				// parent && parent.removeChild(preload);
-			// }
-			//destroy related objects.
-			self.file = self.img = self.data = self.preload = null;
-		},
-		
-		_error: function(e){
-			S.log(e);
-		}
-		
-	})
-	
-	// S.UploaderPreview = UploaderPreview;
-	
-	return UploaderPreview;
-	
-});/**
- * @fileoverview 本地图片预览组件
- * @author 紫英（橘子）<daxingplay@gmail.com>
- * @date 2012-01-10
- * @requires KISSY 1.2+
- */
-
 KISSY.add('gallery/form/1.0/uploader/plugins/preview/preview', function(S, D, E){
 	var doc = document, 
 		LOG_PRE = '[Plugin: Preview] ',
@@ -2070,15 +1752,20 @@ KISSY.add('gallery/form/1.0/uploader/plugins/preview/preview', function(S, D, E)
 	 * @param {Number} maxHeight 最大高度
 	 */
 	function showPreviewImage(imgElem, data, width, height){
+		if(!imgElem){
+			return false;
+		}
 		if(_mode != 'filter'){
-			imgElem.src = data;
+			imgElem.src = data || _transparentImg;
 		}else{
 			imgElem.src = _transparentImg;
-			data = data.replace(/[)'"%]/g, function(s){
-				return escape(escape(s)); 
-			});
-			imgElem.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale',src=\"" + data + "\")";
-			imgElem.zoom = 1;
+			if(data){
+				data = data.replace(/[)'"%]/g, function(s){
+					return escape(escape(s)); 
+				});
+				imgElem.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale',src=\"" + data + "\")";
+				imgElem.zoom = 1;
+			}
 		}
 		return true;
 	}
@@ -2136,6 +1823,7 @@ KISSY.add('gallery/form/1.0/uploader/plugins/preview/preview', function(S, D, E)
 						self.data = fileInput.files[0].getAsDataURL();
 						break;
 					case 'filter':
+						// fileInput.focus();
 						fileInput.select();
 						try{
 							self.data = doc.selection.createRange().text;
@@ -2144,6 +1832,9 @@ KISSY.add('gallery/form/1.0/uploader/plugins/preview/preview', function(S, D, E)
 							S.log(e, 'dir');
 						}finally{
 							doc.selection.empty();
+						}
+						if(!self.data){
+							self.data = fileInput.value;
 						}
 						break;
 					case 'html5':
@@ -2171,6 +1862,7 @@ KISSY.add('gallery/form/1.0/uploader/plugins/preview/preview', function(S, D, E)
 					onsuccess();
 				}else if(_mode != 'html5'){
 					S.log(LOG_PRE + 'Retrive Data error.');
+					showPreviewImage(imgElem);
 					self.fire(_eventList.error);
 				}
 			}else{
@@ -2399,7 +2091,9 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
             //当改变文件状态后触发
             FILE_STATUS : 'fileStatus',
             //更新文件数据后触发
-            UPDATE_FILE : 'updateFile'
+            UPDATE_FILE : 'updateFile',
+            // 恢复文件后触发
+            RESTORE: 'restore'
         },
         /**
          * 文件的状态
@@ -2447,7 +2141,7 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
             }
         },
         /**
-         * 向队列添加个文件
+         * 向队列添加单个文件
          * @param {Object} file 文件数据
          * @param {Function} callback 添加完成后执行的回调函数
          * @return {Object} 文件数据对象
@@ -2542,6 +2236,43 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
                     _remove();
                 });
             }
+        },
+        /**
+         * 将数据恢复到队列中
+         * @param {Array} 需要恢复的数据
+         */
+        restore: function(files){
+        	var self = this,
+        		filesData = [];
+        	if(files && files.length > 0){
+        		S.each(files, function(url, index){
+                    var s = url.split('|'),name = EMPTY;
+                    if(s.length > 1){
+                        url = s[1];
+                        name = s[0];
+                    }
+	        		if(url){
+	        			var file = {
+	        				input: null,
+	        				name: name,
+	        				sUrl: url,
+	        				size: '',
+	        				type: ''
+	        			};
+	        			var fileData = self._setAddFileData(file),
+			                index = self.getFileIndex(fileData.id);
+			            //更换文件状态为等待
+			            self.fileStatus(index, Queue.status.RESTORE);
+			            //显示文件信息li元素
+			            $(fileData.target).show();
+			            fileData.status.set('curType', Queue.status.SUCCESS);
+			            filesData[index] = fileData;
+	        		}
+	        	});
+        	}
+        	self.fire(Queue.event.RESTORE, {
+            	'files': filesData
+            });
         },
         /**
          * 获取或设置文件状态
@@ -2762,7 +2493,8 @@ KISSY.add('gallery/form/1.0/uploader/queue/status',function(S, Node, Base,Progre
             PROGRESS : 'progress',
             SUCCESS : 'success',
             CANCEL : 'cancel',
-            ERROR : 'error'
+            ERROR : 'error',
+            RESTORE: 'restore'
         },
         /**
          * 转换文件大小字节数
@@ -2919,6 +2651,12 @@ KISSY.add('gallery/form/1.0/uploader/queue/status',function(S, Node, Base,Progre
             $parent.removeClass('current-upload-file');
         },
         /**
+         * 文件恢复到队列中
+         */
+        _restore: function(){
+            this._success();
+        },
+        /**
          * 取消上传后改成状态层内容
          */
         _cancel : function() {
@@ -2972,7 +2710,7 @@ KISSY.add('gallery/form/1.0/uploader/queue/status',function(S, Node, Base,Progre
                     '</div> ',
             success : ' <div class="success-status"><a href="#fileDel" class="J_FileDel">删除</a></div>',
             cancel : '<div class="cancel-status">已经取消上传，<a href="#reUpload" class="J_ReUpload">点此重新上传</a> </div>',
-            error : '<div class="error-status upload-error">{msg}<a href="#fileDel" class="J_FileDel">点此删除</a></div>'
+            error : '<div class="error-status upload-error">{msg}<a href="#fileDel" class="J_FileDel">删除</a></div>'
         } },
         /**
          * 队列实例
@@ -3012,11 +2750,7 @@ KISSY.add('gallery/form/1.0/uploader/type/ajax',function(S, Node, UploadType) {
         var self = this;
         //调用父类构造函数
         AjaxType.superclass.constructor.call(self, config);
-        try{
-            self.set('formData', new FormData());
-        }catch(e){}
-        //处理传递给服务器端的参数
-        self._processData();
+        self._setFormData();
     }
 
     S.mix(AjaxType, /** @lends AjaxType.prototype*/{
@@ -3091,8 +2825,23 @@ KISSY.add('gallery/form/1.0/uploader/type/ajax',function(S, Node, UploadType) {
             };
             xhr.open("POST", action, true);
             xhr.send(data);
+            // 重置FormData
+            self._setFormData();
             self.set('xhr',xhr);
             return self;
+        },
+        /**
+         * 设置FormData数据
+         */
+        _setFormData:function(){
+            var self = this;
+            try{
+            	self.set('formData', new FormData());
+                self._processData();
+            }catch(e){
+            	S.log(LOG_PREFIX + 'something error when reset FormData.');
+            	S.log(e, 'dir');
+           }
         },
         /**
          * 处理传递给服务器端的参数
@@ -3601,6 +3350,7 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
             }
             //如果已经存在隐藏域，那么不自动创建
             if(elInput){
+            	S.log(LOG_PREFIX + 'urls input found');
                 self.set('input',$(elInput));
             }else{
                 self._create();
@@ -3618,6 +3368,8 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
             var self = this,urls = self.get('urls'),
                 //判断路径是否已经存在
                 isExist = self.isExist(url);
+            //TODO:第一个路径会出现为空的情况，日后完善
+            if(urls[0] == EMPTY) urls = [];
             if(isExist){
                 S.log(LOG_PREFIX + 'add()，文件路径已经存在！');
                 return self;
@@ -3632,18 +3384,39 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
          * @param {String} url 路径
          */
         remove : function(url){
+            if(!url) return false;
             var self = this,urls = self.get('urls'),
-                isExist = self.isExist(url) ;
+                isExist = self.isExist(url) ,
+                reg = new RegExp(url);
             if(!isExist){
                 S.log(LOG_PREFIX + 'remove()，不存在该文件路径！');
                 return false;
             }
             urls = S.filter(urls,function(sUrl){
-                return sUrl != url;
+                return !reg.test(sUrl);
             });
             self.set('urls',urls);
             self._val();
             return urls;
+        },
+        /**
+         * 解析当前input的值，取得文件路径
+         * @return {Array}
+         */
+        parse: function(){
+        	var self = this,
+        		input = self.get('input');
+    		if(input){
+    			var urls = $(input).val(),
+    				split = self.get('split'),
+    				files;
+    			files = urls.split(split);
+                self.set('urls',files);
+    			return files;
+    		}else{
+    			S.log(LOG_PREFIX + 'cannot find urls input.');
+    			return [];
+    		}
         },
         /**
          * 设置隐藏域的值
@@ -3664,10 +3437,11 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
          * @return {Boolean}
          */
         isExist : function(url){
-            var self = this,b = false,urls = self.get('urls');
+            var self = this,b = false,urls = self.get('urls'),
+                reg = new RegExp(url);
             if(!urls.length) return false;
             S.each(urls,function(val){
-                if(val == url){
+                if(reg.test(val)){
                     return b = true;
                 }
             });
@@ -3677,10 +3451,16 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
          * 创建隐藏域
          */
         _create : function() {
-            var self = this,container = self.get('wrapper'),
+            var self = this,
+            	container = self.get('wrapper'),
                 tpl = self.get('tpl'),
-                name = self.get('name'), urls = self.get('urls'),
+                name = self.get('name'), 
+                urls = self.get('urls'),
                 input;
+            if(!container || container.length <= 0){
+            	S.log(LOG_PREFIX + 'UrlsInput container not specified!', 'warn');
+            	return false;
+            }
             if (!S.isString(tpl) || !S.isString('name')){
                 S.log(LOG_PREFIX + '_create()，tpl和name属性不合法！');
                 return false;
@@ -3688,6 +3468,7 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
             input = $(S.substitute(tpl, {name : name,value : urls}));
             container.append(input);
             self.set('input', input);
+            S.log(LOG_PREFIX + 'input created.');
             return input;
         }
 
