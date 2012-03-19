@@ -97,6 +97,6 @@
             <mapper type="regexp" from="^(.*)\.js$" to="\1-min.js"/>
         </apply>
     </target>
-    <target name="build" depends="concat,clean-build,move,build-theme,minify,move-swf">
+    <target name="build" depends="concat,clean-build,move,build-theme,minify-theme-css,minify,move-swf">
     </target>
 </project>
