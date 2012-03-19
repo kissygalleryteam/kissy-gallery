@@ -29,7 +29,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/setMainPic', function(S, N
 	S.augment(SetMainPic, {
 		/**
 		 * 将队列项设置为主图
-		 * @param {HTMLElement} liElem
+		 * @param {HTMLElement|String} liElem 需要设置主图的li元素或者是主图路径
 		 */
 		setMainPic: function(liElem){
 			var self = this,
