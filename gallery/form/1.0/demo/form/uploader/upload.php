@@ -38,7 +38,10 @@ function uploadFile($file_label){
 
 }
 $fileInput = 'Filedata';
-$dir = $_POST['dir'];
+$dir = './files/';
+
+@mkdir($dir);
+
 $isExceedSize = false;
 /*-----------------*/
 //以下三行代码用于删除文件，实际应用时请予以删除，get_file_count()和delDirAndFile（）函数都可以删掉
@@ -54,20 +57,27 @@ foreach($files_name_arr as $k=>$v){
 		if(file_exists($dir.$pic['name'])){
 			@unlink($dir.$pic['name']);
 		}
-		move_uploaded_file($pic['tmp_name'], $dir.$pic['name']);
+        // 解决中文文件名乱码问题
+        $pic['name'] = iconv('UTF-8', 'GBK', $pic['name']);
+		$result = move_uploaded_file($pic['tmp_name'], $dir.$pic['name']);
 		$files[$k] = $url.$dir.$pic['name'];
 	}
 }
-if(!$isExceedSize){
+if(!$isExceedSize && $result){
     $arr = array(
         'status' => 1,
         'data' => array('name' => $_FILES[$fileInput]['name'],
                         'url' => $dir.$_FILES[$fileInput]['name'])
     );
-}else{
+}else if($isExceedSize){
     $arr = array(
         'status' => 0,
         'msg' => "文件大小超过500kb！"
+    );
+}else{
+    $arr = array(
+        'status' => 0,
+        'msg' => "未知错误！".$result
     );
 }
 
