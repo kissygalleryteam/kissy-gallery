@@ -31,11 +31,32 @@ KISSY.add('gallery/form/1.0/uploader/index',function (S, Base, Node, Uploader, B
 
     /**
      * @name RenderUploader
-     * @class 运行文件上传组件
+     * @class 异步文件上传入口文件，会从按钮的data-config='{}' 伪属性中抓取组件配置
      * @constructor
-     * @param {String | HTMLElement} buttonTarget 上传按钮目标元素
-     * @param {String | HTMLElement} queueTarget 文件队列目标元素
-     * @param {Object} config 配置
+     * @param {String | HTMLElement} buttonTarget *，上传按钮目标元素
+     * @param {String | HTMLElement} queueTarget *，文件队列目标元素
+     * @param {Object} config 配置，该配置好覆盖data-config伪属性中的数据
+     * @requires Uploader,Button,SwfButton,Auth
+     * @example
+     * <a id="J_UploaderBtn" class="uploader-button" data-config=
+     '{"type" : "auto",
+     "serverConfig":{"action":"upload.php"},
+     "name":"Filedata",
+     "urlsInputName":"fileUrls"}'
+     href="#">
+     选择要上传的文件
+     </a>
+     <ul id="J_UploaderQueue">
+
+     </ul>
+     * @example
+     *
+KISSY.use('gallery/form/1.0/uploader/index', function (S, RenderUploader) {
+     var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
+     ru.on("init", function (ev) {
+        var uploader = ev.uploader;
+     })
+})
      */
     function RenderUploader(buttonTarget, queueTarget, config) {
         var self = this;
@@ -48,8 +69,14 @@ KISSY.add('gallery/form/1.0/uploader/index',function (S, Base, Node, Uploader, B
         self.set('uploaderConfig', config);
         self._init();
     }
+    /**
+     * @name RenderUploader#init
+     * @desc 上传组件完全初始化成功后触发，对uploader的操作务必先监听init事件
+     * @event
+     * @param {Uploader} ev.uploader   Uploader的实例
+     */
 
-    S.extend(RenderUploader, Base, {
+    S.extend(RenderUploader, Base, /** @lends RenderUploader.prototype*/{
         /**
          * 初始化组件
          */
@@ -65,6 +92,8 @@ KISSY.add('gallery/form/1.0/uploader/index',function (S, Base, Node, Uploader, B
                 var uploader = new Uploader(uploaderConfig);
                 uploader.render();
                 self.set('uploader', uploader);
+                theme.set('uploader',uploader);
+                theme.set('button',button);
                 if(theme.afterUploaderRender) theme.afterUploaderRender(uploader);
                 self._auth();
                 self.fire('init', {uploader:uploader});
@@ -86,6 +115,10 @@ KISSY.add('gallery/form/1.0/uploader/index',function (S, Base, Node, Uploader, B
             //实例化上传按钮
             return type != 'flash' && new Button(target, config) || new SwfButton(target);
         },
+        /**
+         * 初始化主题
+         * @param {Function} callback 主题加载完成后的执行的回调函数
+         */
         _initThemes:function (callback) {
             var self = this, theme = self.get('theme'),
                 target = self.get('buttonTarget'),
@@ -114,34 +147,53 @@ KISSY.add('gallery/form/1.0/uploader/index',function (S, Base, Node, Uploader, B
             }
         }
     }, {
-        ATTRS:{
+        ATTRS:/** @lends RenderUploader.prototype*/{
+            /**
+             * 主题引用路径
+             * @type String
+             * @default  “gallery/form/1.0/uploader/themes/default”
+             */
             theme:{value:'gallery/form/1.0/uploader/themes/default' },
             /**
              * 按钮目标元素
+             * @type String|HTMLElement|KISSY.Node
+             * @default ""
              */
             buttonTarget:{value:EMPTY},
             /**
              * 队列目标元素
+             * @default ""
+             * @type String|HTMLElement|KISSY.Node
              */
             queueTarget:{value:EMPTY},
             /**
              * 上传组件配置
+             * @type Object
+             * @default {}
              */
             uploaderConfig:{},
             /**
              * Button（上传按钮）的实例
+             * @type Button
+             * @default ""
              */
             button:{value:EMPTY},
             /**
              * Queue（上传队列）的实例
+             * @type Queue
+             * @default ""
              */
             queue:{value:EMPTY},
             /**
              * 上传组件实例
+             * @type Uploader
+             * @default ""
              */
             uploader:{value:EMPTY},
             /**
              * 上传验证实例
+             * @type Auth
+             * @default ""
              */
             auth : {value:EMPTY}
         }

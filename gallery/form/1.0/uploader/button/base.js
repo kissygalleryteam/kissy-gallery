@@ -8,8 +8,8 @@ KISSY.add('gallery/form/1.0/uploader/button/base',function(S, Node, Base) {
         $ = Node.all;
 
     /**
-     * 文件上传按钮
-     * @class Button
+     * @name Button
+     * @class 文件上传按钮
      * @constructor
      * @param {Object} config 配置对象
      */

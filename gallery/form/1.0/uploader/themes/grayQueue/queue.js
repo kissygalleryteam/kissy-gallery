@@ -2,7 +2,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/grayQueue/queue',function(S, Node, Q
     var EMPTY = '',$ = Node.all;
 
     /**
-     * @name Queue
+     * @name grayQueueQueue
      * @class 模板的队列类
      * @constructor
      * @extends Base

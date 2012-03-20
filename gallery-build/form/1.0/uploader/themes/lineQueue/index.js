@@ -259,7 +259,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/queue',function(S, Node, Q
     	LOG_PRE = '[LineQueue:queue] ';
 
     /**
-     * @name Queue
+     * @name LineQueueQueue
      * @class 模板的队列类
      * @constructor
      * @extends Base
@@ -270,9 +270,6 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/queue',function(S, Node, Q
         //调用父类构造函数
         Queue.superclass.constructor.call(self, config);
     }
-
-    Queue.event = QueueBase.event;
-    Queue.status = QueueBase.status;
     S.extend(Queue, QueueBase, /** @lends Queue.prototype*/{
         /**
          * 运行Status
@@ -476,7 +473,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/status',function(S, Node, 
     	LOG_PRE = '[LineQueue: status] ';
     
     /**
-     * @name Status
+     * @name LineQueueStatus
      * @class 状态类
      * @constructor
      * @extends Base

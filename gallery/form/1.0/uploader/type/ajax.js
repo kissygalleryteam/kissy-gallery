@@ -9,8 +9,7 @@ KISSY.add('gallery/form/1.0/uploader/type/ajax',function(S, Node, UploadType) {
      * @name AjaxType
      * @class ajax方案上传
      * @constructor
-     * @extends UploadType
-     * @requires Node
+     * @requires UploadType
      */
     function AjaxType(config) {
         var self = this;

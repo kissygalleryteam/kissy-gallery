@@ -69,7 +69,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/grayQueue/index',function(S, Node, D
     var EMPTY = '',$ = Node.all;
 
     /**
-     * @name Queue
+     * @name grayQueueQueue
      * @class 模板的队列类
      * @constructor
      * @extends Base
@@ -80,9 +80,6 @@ KISSY.add('gallery/form/1.0/uploader/themes/grayQueue/index',function(S, Node, D
         //调用父类构造函数
         Queue.superclass.constructor.call(self, config);
     }
-
-    Queue.event = QueueBase.event;
-    Queue.status = QueueBase.status;
     S.extend(Queue, QueueBase, /** @lends Queue.prototype*/{
         /**
          * 运行Status
@@ -114,7 +111,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/grayQueue/index',function(S, Node, D
     var EMPTY = '',$ = Node.all;
     
     /**
-     * @name Status
+     * @name GrayQueueStatus
      * @class 状态类
      * @constructor
      * @extends Base

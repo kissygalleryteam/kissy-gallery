@@ -7,10 +7,10 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
 
     /**
      * @name Uploader
-     * @class 异步文件上传组件，目前是使用ajax+iframe的方案，日后会加入flash方案
+     * @class 异步文件上传组件，支持ajax、flash、iframe三种方案
      * @constructor
      * @extends Base
-     * @requires Node,UrlsInput,IframeType,AjaxType
+     * @requires UrlsInput,IframeType,AjaxType
      */
     function Uploader(config) {
         var self = this;
@@ -421,44 +421,72 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
             	queue.restore(filesExists);
             }
         }
-    }, {ATTRS:/** @lends Uploader*/{
+    }, {ATTRS:/** @lends Uploader.prototype*/{
         /**
          * Button按钮的实例
+         * @type Button
+         * @default {}
          */
         button:{value:{}},
         /**
          * Queue队列的实例
+         * @type Queue
+         * @default {}
          */
         queue:{value:{}},
         /**
-         * 采用的上传方案，auto：根据浏览器自动选择，iframe：采用iframe方案，ajax：采用ajax方案
+         * 采用的上传方案，当值是数组时，比如“type” : ["flash","ajax","iframe"]，按顺序获取浏览器支持的方式，该配置会优先使用flash上传方式，如果浏览器不支持flash，会降级为ajax，如果还不支持ajax，会降级为iframe；当值是字符串时，比如“type” : “ajax”，表示只使用ajax上传方式。这种方式比较极端，在不支持ajax上传方式的浏览器会不可用；当“type” : “auto”，auto是一种特例，等价于["ajax","iframe"]。
+         * @type String|Array
+         * @default "auto"
          */
         type:{value:Uploader.type.AUTO},
         /**
-         * 服务器端配置
+         * 服务器端配置。action：服务器处理上传的路径；data： post给服务器的参数，通常需要传递用户名、token等信息
+         * @type Object
+         * @default  {action:EMPTY, data:{}, dataType:'json'}
          */
         serverConfig:{value:{action:EMPTY, data:{}, dataType:'json'}},
         /**
          * 是否允许上传文件
+         * @type Boolean
+         * @default true
          */
         isAllowUpload:{value:true},
         /**
          * 是否自动上传
+         * @type Boolean
+         * @default true
          */
         autoUpload:{value:true},
         /**
-         * 允许上传的文件最大大小，iframe上传方式不支持大小验证，务必服务器端也对文件大小进行验证
-         */
-        /*maxSize : {value : 5000},*/
-        /**
          * 存储文件路径的隐藏域的name名
+         * @type String
+         * @default ""
          */
         urlsInputName:{value:EMPTY},
-        //当前上传的文件对应的在数组内的索引值
+        /**
+         *  当前上传的文件对应的在数组内的索引值，如果没有文件正在上传，值为空
+         *  @type Number
+         *  @default ""
+         */
         curUploadIndex:{value:EMPTY},
+        /**
+         * 上传方式实例
+         * @type UploaderType
+         * @default {}
+         */
         uploadType:{value:{}},
+        /**
+         * UrlsInput实例
+         * @type UrlsInput
+         * @default ""
+         */
         urlsInput:{value:EMPTY},
-        //存在批量上传文件时，指定的文件状态
+        /**
+         * 存在批量上传文件时，指定的文件状态
+         * @type String
+         * @default ""
+         */
         uploadFilesStatus:{value:EMPTY}
     }});
 

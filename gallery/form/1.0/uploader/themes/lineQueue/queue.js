@@ -8,7 +8,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/queue',function(S, Node, Q
     	LOG_PRE = '[LineQueue:queue] ';
 
     /**
-     * @name Queue
+     * @name LineQueueQueue
      * @class 模板的队列类
      * @constructor
      * @extends Base

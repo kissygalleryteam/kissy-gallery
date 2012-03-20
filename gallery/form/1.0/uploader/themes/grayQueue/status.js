@@ -2,7 +2,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/grayQueue/status',function(S, Node,P
     var EMPTY = '',$ = Node.all;
     
     /**
-     * @name Status
+     * @name GrayQueueStatus
      * @class 状态类
      * @constructor
      * @extends Base

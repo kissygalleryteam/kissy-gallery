@@ -323,10 +323,10 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
 
     /**
      * @name Uploader
-     * @class 异步文件上传组件，目前是使用ajax+iframe的方案，日后会加入flash方案
+     * @class 异步文件上传组件，支持ajax、flash、iframe三种方案
      * @constructor
      * @extends Base
-     * @requires Node,UrlsInput,IframeType,AjaxType
+     * @requires UrlsInput,IframeType,AjaxType
      */
     function Uploader(config) {
         var self = this;
@@ -365,7 +365,15 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
         /**
          * 文件上传状态
          */
-        status:{}
+        status:{
+            WAITING : 'waiting',
+            START : 'start',
+            PROGRESS : 'progress',
+            SUCCESS : 'success',
+            CANCEL : 'cancel',
+            ERROR : 'error',
+            RESTORE: 'restore'
+        }
     });
     //继承于Base，属性getter和setter委托于Base处理
     S.extend(Uploader, Base, /** @lends Uploader.prototype*/{
@@ -595,12 +603,11 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
             //将上传组件实例传给队列，方便队列内部执行取消、重新上传的操作
             queue.set('uploader', self);
             //监听队列的删除事件
-            queue.on(queue.constructor.event.REMOVE, function (ev) {
+            queue.on('remove', function (ev) {
                 //删除该文件路径，sUrl为服务器端返回的文件路径，而url是客服端文件路径
                 urlsInput.remove(ev.file.sUrl);
             });
             queue.render();
-            Uploader.status = queue.constructor.status;
             return queue;
         },
         /**
@@ -651,6 +658,7 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
             queue.updateFile(index,{result:result});
             //文件上传状态
             status = Number(result.status);
+            // 只有上传状态为1时才是成功的
             if (status === 1) {
                 //修改队列中文件的状态为success（上传完成）
                 queue.fileStatus(index, Uploader.status.SUCCESS);
@@ -729,44 +737,72 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
             	queue.restore(filesExists);
             }
         }
-    }, {ATTRS:/** @lends Uploader*/{
+    }, {ATTRS:/** @lends Uploader.prototype*/{
         /**
          * Button按钮的实例
+         * @type Button
+         * @default {}
          */
         button:{value:{}},
         /**
          * Queue队列的实例
+         * @type Queue
+         * @default {}
          */
         queue:{value:{}},
         /**
-         * 采用的上传方案，auto：根据浏览器自动选择，iframe：采用iframe方案，ajax：采用ajax方案
+         * 采用的上传方案，当值是数组时，比如“type” : ["flash","ajax","iframe"]，按顺序获取浏览器支持的方式，该配置会优先使用flash上传方式，如果浏览器不支持flash，会降级为ajax，如果还不支持ajax，会降级为iframe；当值是字符串时，比如“type” : “ajax”，表示只使用ajax上传方式。这种方式比较极端，在不支持ajax上传方式的浏览器会不可用；当“type” : “auto”，auto是一种特例，等价于["ajax","iframe"]。
+         * @type String|Array
+         * @default "auto"
          */
         type:{value:Uploader.type.AUTO},
         /**
-         * 服务器端配置
+         * 服务器端配置。action：服务器处理上传的路径；data： post给服务器的参数，通常需要传递用户名、token等信息
+         * @type Object
+         * @default  {action:EMPTY, data:{}, dataType:'json'}
          */
         serverConfig:{value:{action:EMPTY, data:{}, dataType:'json'}},
         /**
          * 是否允许上传文件
+         * @type Boolean
+         * @default true
          */
         isAllowUpload:{value:true},
         /**
          * 是否自动上传
+         * @type Boolean
+         * @default true
          */
         autoUpload:{value:true},
         /**
-         * 允许上传的文件最大大小，iframe上传方式不支持大小验证，务必服务器端也对文件大小进行验证
-         */
-        /*maxSize : {value : 5000},*/
-        /**
          * 存储文件路径的隐藏域的name名
+         * @type String
+         * @default ""
          */
         urlsInputName:{value:EMPTY},
-        //当前上传的文件对应的在数组内的索引值
+        /**
+         *  当前上传的文件对应的在数组内的索引值，如果没有文件正在上传，值为空
+         *  @type Number
+         *  @default ""
+         */
         curUploadIndex:{value:EMPTY},
+        /**
+         * 上传方式实例
+         * @type UploaderType
+         * @default {}
+         */
         uploadType:{value:{}},
+        /**
+         * UrlsInput实例
+         * @type UrlsInput
+         * @default ""
+         */
         urlsInput:{value:EMPTY},
-        //存在批量上传文件时，指定的文件状态
+        /**
+         * 存在批量上传文件时，指定的文件状态
+         * @type String
+         * @default ""
+         */
         uploadFilesStatus:{value:EMPTY}
     }});
 
@@ -795,8 +831,8 @@ KISSY.add('gallery/form/1.0/uploader/button/base',function(S, Node, Base) {
         $ = Node.all;
 
     /**
-     * 文件上传按钮
-     * @class Button
+     * @name Button
+     * @class 文件上传按钮
      * @constructor
      * @param {Object} config 配置对象
      */
@@ -1340,11 +1376,32 @@ KISSY.add('gallery/form/1.0/uploader/index',function (S, Base, Node, Uploader, B
 
     /**
      * @name RenderUploader
-     * @class 运行文件上传组件
+     * @class 异步文件上传入口文件，会从按钮的data-config='{}' 伪属性中抓取组件配置
      * @constructor
-     * @param {String | HTMLElement} buttonTarget 上传按钮目标元素
-     * @param {String | HTMLElement} queueTarget 文件队列目标元素
-     * @param {Object} config 配置
+     * @param {String | HTMLElement} buttonTarget *，上传按钮目标元素
+     * @param {String | HTMLElement} queueTarget *，文件队列目标元素
+     * @param {Object} config 配置，该配置好覆盖data-config伪属性中的数据
+     * @requires Uploader,Button,SwfButton,Auth
+     * @example
+     * <a id="J_UploaderBtn" class="uploader-button" data-config=
+     '{"type" : "auto",
+     "serverConfig":{"action":"upload.php"},
+     "name":"Filedata",
+     "urlsInputName":"fileUrls"}'
+     href="#">
+     选择要上传的文件
+     </a>
+     <ul id="J_UploaderQueue">
+
+     </ul>
+     * @example
+     *
+KISSY.use('gallery/form/1.0/uploader/index', function (S, RenderUploader) {
+     var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
+     ru.on("init", function (ev) {
+        var uploader = ev.uploader;
+     })
+})
      */
     function RenderUploader(buttonTarget, queueTarget, config) {
         var self = this;
@@ -1357,8 +1414,14 @@ KISSY.add('gallery/form/1.0/uploader/index',function (S, Base, Node, Uploader, B
         self.set('uploaderConfig', config);
         self._init();
     }
+    /**
+     * @name RenderUploader#init
+     * @desc 上传组件完全初始化成功后触发，对uploader的操作务必先监听init事件
+     * @event
+     * @param {Uploader} ev.uploader   Uploader的实例
+     */
 
-    S.extend(RenderUploader, Base, {
+    S.extend(RenderUploader, Base, /** @lends RenderUploader.prototype*/{
         /**
          * 初始化组件
          */
@@ -1374,6 +1437,8 @@ KISSY.add('gallery/form/1.0/uploader/index',function (S, Base, Node, Uploader, B
                 var uploader = new Uploader(uploaderConfig);
                 uploader.render();
                 self.set('uploader', uploader);
+                theme.set('uploader',uploader);
+                theme.set('button',button);
                 if(theme.afterUploaderRender) theme.afterUploaderRender(uploader);
                 self._auth();
                 self.fire('init', {uploader:uploader});
@@ -1395,6 +1460,10 @@ KISSY.add('gallery/form/1.0/uploader/index',function (S, Base, Node, Uploader, B
             //实例化上传按钮
             return type != 'flash' && new Button(target, config) || new SwfButton(target);
         },
+        /**
+         * 初始化主题
+         * @param {Function} callback 主题加载完成后的执行的回调函数
+         */
         _initThemes:function (callback) {
             var self = this, theme = self.get('theme'),
                 target = self.get('buttonTarget'),
@@ -1423,34 +1492,53 @@ KISSY.add('gallery/form/1.0/uploader/index',function (S, Base, Node, Uploader, B
             }
         }
     }, {
-        ATTRS:{
+        ATTRS:/** @lends RenderUploader.prototype*/{
+            /**
+             * 主题引用路径
+             * @type String
+             * @default  “gallery/form/1.0/uploader/themes/default”
+             */
             theme:{value:'gallery/form/1.0/uploader/themes/default' },
             /**
              * 按钮目标元素
+             * @type String|HTMLElement|KISSY.Node
+             * @default ""
              */
             buttonTarget:{value:EMPTY},
             /**
              * 队列目标元素
+             * @default ""
+             * @type String|HTMLElement|KISSY.Node
              */
             queueTarget:{value:EMPTY},
             /**
              * 上传组件配置
+             * @type Object
+             * @default {}
              */
             uploaderConfig:{},
             /**
              * Button（上传按钮）的实例
+             * @type Button
+             * @default ""
              */
             button:{value:EMPTY},
             /**
              * Queue（上传队列）的实例
+             * @type Queue
+             * @default ""
              */
             queue:{value:EMPTY},
             /**
              * 上传组件实例
+             * @type Uploader
+             * @default ""
              */
             uploader:{value:EMPTY},
             /**
              * 上传验证实例
+             * @type Auth
+             * @default ""
              */
             auth : {value:EMPTY}
         }
@@ -2470,7 +2558,7 @@ KISSY.add('gallery/form/1.0/uploader/queue/status',function(S, Node, Base,Progre
     var EMPTY = '',$ = Node.all,LOG_PREFIX = '[queue-status]:';
 
     /**
-     * @name status
+     * @name Status
      * @class 文件改变状态后改变状态元素的内容
      * @constructor
      * @extends Base
@@ -2745,8 +2833,7 @@ KISSY.add('gallery/form/1.0/uploader/type/ajax',function(S, Node, UploadType) {
      * @name AjaxType
      * @class ajax方案上传
      * @constructor
-     * @extends UploadType
-     * @requires Node
+     * @requires UploadType
      */
     function AjaxType(config) {
         var self = this;

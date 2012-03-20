@@ -7,7 +7,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/status',function(S, Node, 
     	LOG_PRE = '[LineQueue: status] ';
     
     /**
-     * @name Status
+     * @name LineQueueStatus
      * @class 状态类
      * @constructor
      * @extends Base
