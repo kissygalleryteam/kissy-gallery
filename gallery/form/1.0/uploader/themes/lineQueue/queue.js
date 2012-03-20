@@ -19,9 +19,6 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/queue',function(S, Node, Q
         //调用父类构造函数
         Queue.superclass.constructor.call(self, config);
     }
-
-    Queue.event = QueueBase.event;
-    Queue.status = QueueBase.status;
     S.extend(Queue, QueueBase, /** @lends Queue.prototype*/{
         /**
          * 运行Status

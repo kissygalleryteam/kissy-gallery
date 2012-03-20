@@ -49,7 +49,15 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
         /**
          * 文件上传状态
          */
-        status:{}
+        status:{
+            WAITING : 'waiting',
+            START : 'start',
+            PROGRESS : 'progress',
+            SUCCESS : 'success',
+            CANCEL : 'cancel',
+            ERROR : 'error',
+            RESTORE: 'restore'
+        }
     });
     //继承于Base，属性getter和setter委托于Base处理
     S.extend(Uploader, Base, /** @lends Uploader.prototype*/{
@@ -279,12 +287,11 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
             //将上传组件实例传给队列，方便队列内部执行取消、重新上传的操作
             queue.set('uploader', self);
             //监听队列的删除事件
-            queue.on(queue.constructor.event.REMOVE, function (ev) {
+            queue.on('remove', function (ev) {
                 //删除该文件路径，sUrl为服务器端返回的文件路径，而url是客服端文件路径
                 urlsInput.remove(ev.file.sUrl);
             });
             queue.render();
-            Uploader.status = queue.constructor.status;
             return queue;
         },
         /**
@@ -335,6 +342,7 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
             queue.updateFile(index,{result:result});
             //文件上传状态
             status = Number(result.status);
+            // 只有上传状态为1时才是成功的
             if (status === 1) {
                 //修改队列中文件的状态为success（上传完成）
                 queue.fileStatus(index, Uploader.status.SUCCESS);
