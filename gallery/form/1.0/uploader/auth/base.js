@@ -8,11 +8,10 @@ KISSY.add('gallery/form/1.0/uploader/auth/base', function (S, Node,Base) {
 
     /**
      * @name Auth
-     * @class 文件上传验证
+     * @class 文件上传验证，可以从按钮的data-auth伪属性抓取规则配置
      * @constructor
      * @extends Base
-     * @requires Node
-     * @param {Uploader} uploader 上传组件实例
+     * @param {Uploader} uploader *，上传组件实例
      * @param {Object} config 配置
      */
     function Auth(uploader, config) {
@@ -29,6 +28,15 @@ KISSY.add('gallery/form/1.0/uploader/auth/base', function (S, Node,Base) {
             ERROR : 'error'
         }
     });
+    /**
+     * @name Auth#error
+     * @desc  当验证出错时触发
+     * @event
+     * {rule:'require',msg : rule[1],value : isRequire}
+     * @param {String} ev.rule 规则名
+     * @param {String} ev.msg 出错消息
+     * @param {Boolean|String} ev.value 规则值
+     */
     S.extend(Auth, Base, /** @lends Auth.prototype*/{
         /**
          * 初始化
@@ -64,6 +72,7 @@ KISSY.add('gallery/form/1.0/uploader/auth/base', function (S, Node,Base) {
         },
         /**
          * 验证上传数、是否必须上传
+         * @return {Boolean}
          */
         testAll : function(){
             var self = this;
@@ -277,13 +286,18 @@ KISSY.add('gallery/form/1.0/uploader/auth/base', function (S, Node,Base) {
             //改变文件状态为error
             queue.fileStatus(index, queue.constructor.status.ERROR, {msg:msg});
         }
-    }, {ATTRS:/** @lends Auth*/{
+    }, {ATTRS:/** @lends Auth.prototype*/{
         /**
          * 上传组件实例
+         * @type Uploader
+         * @default ""
          */
         uploader:{ value:EMPTY },
         /**
-         * 规则
+         * 上传验证规则，每个规则都是一个数组，数组第一个值为规则，第二个值为错误消息
+         * @type Object
+         * @default  { allowExts:[ {desc:"JPG,JPEG,PNG,GIF,BMP", ext:"*.jpg;*.jpeg;*.png;*.gif;*.bmp"}, '不支持{ext}格式的文件上传！' ], require:[false, '必须至少上传一个文件！'], max:[3, '每次最多上传{max}个文件！'], maxSize:[1000, '文件大小为{size}，文件太大！'], allowRepeat:[false, '该文件已经存在！'] } }
+         *
          */
         rules:{
             value : {

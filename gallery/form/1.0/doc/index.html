@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <title>API Document</title>
-        <meta name="generator" content="JsDoc Toolkit" />
-        <style>
-            /*************************************************************************************
+<head>
+    <meta charset="utf-8" />
+    <title>API Document</title>
+    <meta name="generator" content="JsDoc Toolkit" />
+    <style>
+        /*************************************************************************************
  * Reset
  *************************************************************************************/
 
@@ -233,201 +233,84 @@ dl.data .dd{
 .constructor-box p{
     line-height: 24px;
 }
-        </style>
-    </head>    
-    <body>
-        <div id="page">
-            <div id="header">
+.static-list li{
+    border-bottom: 1px dashed #CCCCCC;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+    </style>
+</head>
+<body>
+<div id="page">
+    <div id="header">
     <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="http://docs.kissyui.com/docs/html/static/logo.png"/></a></h1>
     <p class="sub-title">KF（kissy-form）—API文档</p>
     <ul class="navigation">
         <li><a href="http://blog.kissyui.com/">博客</a></li>
         <li><a href="http://github.com/kissyteam">源码</a></li>
     </ul>
-</div>            
-            <div id="content">
-                <div class="layout">
-                    <div class="col-main">
-                        <div class="main-wrap">
-                            <h2 class="classTitle">Class Index</h2>
-                            <ul class="list detail-list">
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/AjaxType.html">AjaxType</a></b>
-                                    <span class="desc">ajax方案上传</span>
-                                </li>
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/Auth.html">Auth</a></b>
-                                    <span class="desc">文件上传验证</span>
-                                </li>
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/Button.html">Button</a></b>
-                                    <span class="desc">文件上传按钮</span>
-                                </li>
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/DefaultTheme.html">DefaultTheme</a></b>
-                                    <span class="desc">上传组件默认模板</span>
-                                </li>
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/FlashType.html">FlashType</a></b>
-                                    <span class="desc">flash上传方案，基于龙藏写的ajbridge内的uploader</span>
-                                </li>
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/GrayQueue.html">GrayQueue</a></b>
-                                    <span class="desc">上传组件灰色模板</span>
-                                </li>
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/grayQueueQueue.html">grayQueueQueue</a></b>
-                                    <span class="desc">模板的队列类</span>
-                                </li>
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/GrayQueueStatus.html">GrayQueueStatus</a></b>
-                                    <span class="desc">状态类</span>
-                                </li>
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/IframeType.html">IframeType</a></b>
-                                    <span class="desc">iframe方案上传</span>
-                                </li>
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/LineQueueQueue.html">LineQueueQueue</a></b>
-                                    <span class="desc">模板的队列类</span>
-                                </li>
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/LineQueueStatus.html">LineQueueStatus</a></b>
-                                    <span class="desc">状态类</span>
-                                </li>
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/ProgressBar.html">ProgressBar</a></b>
-                                    <span class="desc">进度条</span>
-                                </li>
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/Queue.html">Queue</a></b>
-                                    <span class="desc">文件上传队列</span>
-                                </li>
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/RenderUploader.html">RenderUploader</a></b>
-                                    <span class="desc">异步文件上传入口文件，会从按钮的data-config='{}' 伪属性中抓取组件配置</span>
-                                </li>
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/Status.html">Status</a></b>
-                                    <span class="desc">文件改变状态后改变状态元素的内容</span>
-                                </li>
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/SwfButton.html">SwfButton</a></b>
-                                    <span class="desc">flash上传按钮</span>
-                                </li>
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/Uploader.html">Uploader</a></b>
-                                    <span class="desc">异步文件上传组件，支持ajax、flash、iframe三种方案，</span>
-                                </li>
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/UploadType.html">UploadType</a></b>
-                                    <span class="desc">上传方式类的基类</span>
-                                </li>
-                                
-                                <li>
-                                    <b class="name"><a href="symbols/UrlsInput.html">UrlsInput</a></b>
-                                    <span class="desc">存储文件路径信息的隐藏域</span>
-                                </li>
-                                
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-sub">
-                        <div class="box">
+</div>
+    <div id="content">
+        <div class="layout">
+            <div class="col-main">
+                <div class="main-wrap">
+                    <h2 class="classTitle">Uploader</h2>
+                    <p>Uploader是一个基于kissy1.2的异步文件上传组件，目前不兼容kissy1.1.6，已经实现ajax、iframe、flash三方案异步上传。</p>
+
+                    <ul class="list detail-list">
+                        <li>
+                            <b>版本：</b>1.0
+                        </li>
+                        <li>
+                            <b>作者：</b>明河（剑平）、紫英、飞绿
+                        </li>
+                        <li>
+                            <b>感谢：</b>承玉、苏河给予组件的意见
+                        </li>
+                        <li>
+                            <b>demo：</b><a href="http://www.36ria.com/demo/gal/gallery/form/1.0/demo/form/uploader/index.html" target="_blank">Uploader全部demo</a>
+                        </li>
+                        <li>
+                            <b>使用指南：</b><a href="http://www.36ria.com/5041" target="_blank">Uploader快速使用指南</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="col-sub">
+                <div class="box">
     <div class="box-hd">
-        <h3>Classes</h3>
+        <h3>Uploader</h3>
     </div>
     <div class="box-bd">
         <ul class="list class-list">
-            
-            
-            <li><a href="symbols/AjaxType.html">AjaxType</a></li>
-            
-            
-            <li><a href="symbols/Auth.html">Auth</a></li>
-            
-            
-            <li><a href="symbols/Button.html">Button</a></li>
-            
-            
-            <li><a href="symbols/DefaultTheme.html">DefaultTheme</a></li>
-            
-            
-            <li><a href="symbols/FlashType.html">FlashType</a></li>
-            
-            
-            <li><a href="symbols/GrayQueue.html">GrayQueue</a></li>
-            
-            
-            <li><a href="symbols/grayQueueQueue.html">grayQueueQueue</a></li>
-            
-            
-            <li><a href="symbols/GrayQueueStatus.html">GrayQueueStatus</a></li>
-            
-            
-            <li><a href="symbols/IframeType.html">IframeType</a></li>
-            
-            
-            <li><a href="symbols/LineQueueQueue.html">LineQueueQueue</a></li>
-            
-            
-            <li><a href="symbols/LineQueueStatus.html">LineQueueStatus</a></li>
-            
-            
-            <li><a href="symbols/ProgressBar.html">ProgressBar</a></li>
-            
-            
-            <li><a href="symbols/Queue.html">Queue</a></li>
-            
-            
-            <li><a href="symbols/RenderUploader.html">RenderUploader</a></li>
-            
-            
-            <li><a href="symbols/Status.html">Status</a></li>
-            
-            
-            <li><a href="symbols/SwfButton.html">SwfButton</a></li>
-            
-            
-            <li><a href="symbols/Uploader.html">Uploader</a></li>
-            
-            
-            <li><a href="symbols/UploadType.html">UploadType</a></li>
-            
-            
-            <li><a href="symbols/UrlsInput.html">UrlsInput</a></li>
-            
+            <li><a href="../symbols/RenderUploader.html">RenderUploader</a></li>
+            <li><a href="../symbols/Uploader.html">Uploader</a></li>
+<!--            <li><a href="../symbols/UploadType.html">UploadType</a></li>
+            <li><a href="../symbols/IframeType.html">IframeType</a></li>
+            <li><a href="../symbols/AjaxType.html">AjaxType</a></li>
+            <li><a href="../symbols/FlashType.html">FlashType</a></li>-->
+            <li><a href="../symbols/Button.html">Button</a></li>
+            <li><a href="../symbols/SwfButton.html">SwfButton</a></li>
+            <li><a href="../symbols/Queue.html">Queue</a></li>
+            <li><a href="../symbols/Status.html">Status</a></li>
+            <li><a href="../symbols/Auth.html">Auth</a></li>
+            <li><a href="../symbols/UrlsInput.html">UrlsInput</a></li>
+<!--            <li><a href="../symbols/DefaultTheme.html">DefaultTheme</a></li>
+            <li><a href="../symbols/GrayQueue.html">GrayQueue</a></li>-->
+            <li><a href="../symbols/ProgressBar.html">ProgressBar</a></li>
         </ul>
     </div>
 </div>
-
-                    </div>
-                </div>
             </div>
-            <div id="footer">
+        </div>
+    </div>
+    <div id="footer">
     <div>
         Copyright 2010-2012 , <a href="http://docs.kissyui.com" target="_blank">kissyteam</a>
     </div>
 </div>
 <a class="go-top" href="#page">Top</a>
-        </div>
-    </body>
+</div>
+</body>
 </html>

@@ -28,11 +28,12 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
 
     S.mix(Uploader, /** @lends Uploader*/{
         /**
-         * 上传方式
+         * 上传方式，{AUTO:'auto', IFRAME:'iframe', AJAX:'ajax', FLASH:'flash'}
          */
         type:{AUTO:'auto', IFRAME:'iframe', AJAX:'ajax', FLASH:'flash'},
         /**
-         * 事件
+         * 组件支持的事件列表，{ RENDER:'render', SELECT:'select', START:'start', PROGRESS : 'progress', COMPLETE:'complete', SUCCESS:'success', UPLOAD_FILES:'uploadFiles', CANCEL:'cancel', ERROR:'error' }
+         *
          */
         event:{
             //运行
@@ -55,7 +56,7 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
             ERROR:'error'
         },
         /**
-         * 文件上传状态
+         * 文件上传所有的状态，{ WAITING : 'waiting', START : 'start', PROGRESS : 'progress', SUCCESS : 'success', CANCEL : 'cancel', ERROR : 'error', RESTORE: 'restore' }
          */
         status:{
             WAITING : 'waiting',
@@ -67,10 +68,73 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
             RESTORE: 'restore'
         }
     });
+    /**
+     * @name Uploader#select
+     * @desc  选择完文件后触发
+     * @event
+     * @param {Array} ev.files 文件完文件后返回的文件数据
+     */
+
+    /**
+     * @name Uploader#start
+     * @desc  开始上传后触发
+     * @event
+     * @param {Number} ev.index 要上传的文件在队列中的索引值
+     * @param {Object} ev.file 文件数据
+     */
+
+    /**
+     * @name Uploader#progress
+     * @desc  正在上传中时触发，这个事件在iframe上传方式中不存在
+     * @event
+     * @param {Object} ev.file 文件数据
+     * @param {Number} ev.loaded  已经加载完成的字节数
+     * @param {Number} ev.total  文件总字节数
+     */
+
+    /**
+     * @name Uploader#complete
+     * @desc  上传完成（在上传成功或上传失败后都会触发）
+     * @event
+     * @param {Number} ev.index 上传中的文件在队列中的索引值
+     * @param {Object} ev.file 文件数据
+     * @param {Object} ev.result 服务器端返回的数据
+     */
+
+    /**
+     * @name Uploader#success
+     * @desc  上传成功后触发
+     * @event
+     * @param {Number} ev.index 上传中的文件在队列中的索引值
+     * @param {Object} ev.file 文件数据
+     * @param {Object} ev.result 服务器端返回的数据
+     */
+
+    /**
+     * @name Uploader#error
+     * @desc  上传失败后触发
+     * @event
+     * @param {Number} ev.index 上传中的文件在队列中的索引值
+     * @param {Object} ev.file 文件数据
+     * @param {Object} ev.result 服务器端返回的数据
+     */
+
+    /**
+     * @name Uploader#cancel
+     * @desc  取消上传后触发
+     * @event
+     * @param {Number} ev.index 上传中的文件在队列中的索引值
+     */
+
+    /**
+     * @name Uploader#uploadFiles
+     * @desc  批量上传结束后触发
+     * @event
+     */
     //继承于Base，属性getter和setter委托于Base处理
     S.extend(Uploader, Base, /** @lends Uploader.prototype*/{
         /**
-         * 运行
+         * 运行组件，实例化类后必须调用render()才真正运行组件逻辑
          * @return {Uploader}
          */
         render:function () {
@@ -105,6 +169,9 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
         /**
          * 上传指定队列索引的文件
          * @param {Number} index 文件对应的在上传队列数组内的索引值
+         * @example
+         * //上传队列中的第一个文件，uploader为Uploader的实例
+         * uploader.upload(0)
          */
         upload:function (index) {
             if (!S.isNumber(index)) return false;
@@ -139,7 +206,7 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
             uploadType.upload(uploadParam);
         },
         /**
-         * 取消当前正在上传的文件的上传
+         * 取消文件上传，当index参数不存在时取消当前正在上传的文件的上传。cancel并不会停止其他文件的上传（对应方法是stop）
          * @param {Number} index 队列数组索引
          * @return {Uploader}
          */
@@ -172,6 +239,9 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
          * 批量上传队列中的指定状态下的文件
          * @param {String} status 文件上传状态名
          * @return {Uploader}
+         * @example
+         * //上传队列中所有等待的文件
+         * uploader.uploadFiles("waiting")
          */
         uploadFiles:function (status) {
             var self = this;
@@ -221,6 +291,7 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
         },
         /**
          * 获取上传方式类（共有iframe、ajax、flash三种方式）
+         * @type {String} type 上传方式
          * @return {IframeType|AjaxType|FlashType}
          */
         getUploadType:function (type) {

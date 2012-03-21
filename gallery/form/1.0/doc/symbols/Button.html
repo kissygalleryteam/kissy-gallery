@@ -234,6 +234,11 @@ dl.data .dd{
 .constructor-box p{
     line-height: 24px;
 }
+.static-list li{
+    border-bottom: 1px dashed #CCCCCC;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
         </style>
     </head>
 
@@ -259,7 +264,7 @@ dl.data .dd{
                                 <div class="box-hd">
                                     
                                     <h3><b class="name"><a href="../symbols/Button.html#constructor">Button</a></b>
-                                        <span class="param">(config)</span>
+                                        <span class="param">(target, config)</span>
                                         
                                         
                                         
@@ -268,11 +273,15 @@ dl.data .dd{
                                 </div>
                                 <div class="box-bd">
                                     
-                                        <p class="desc">描述：文件上传按钮</p>
+                                        <p class="desc">描述：文件上传按钮，ajax和iframe上传方式使用</p>
                                     
 
                                     
 
+                                    
+                                        <p>继承自：
+                                            Base
+                                        </p>
                                     
 
                                     
@@ -299,88 +308,138 @@ dl.data .dd{
                                     <div class="box-bd">
                                         <ul class="list summary-list">
                                             
-                                            <li class="li">
-                                                Button.
-                                                <b class="name"><a href="../symbols/Button.html#.cls">cls</a></b>
-                                                <span class="type">{Object}</span>
                                                 
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/Button.html#cls">cls</a></b>
+                                                        <span class="type">{Object}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">样式</span>
+                                                    </li>
                                                 
-                                                <span class="attr">&lt;static&gt;</span>
-                                                
-                                                <span class="desc">样式</span>
-                                            </li>
                                             
-                                            <li class="li">
-                                                Button.
-                                                <b class="name"><a href="../symbols/Button.html#.disabled">disabled</a></b>
-                                                <span class="type">{Boolean}</span>
                                                 
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/Button.html#disabled">disabled</a></b>
+                                                        <span class="type">{Boolean}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">是否可用,false为可用</span>
+                                                    </li>
                                                 
-                                                <span class="attr">&lt;static&gt;</span>
-                                                
-                                                <span class="desc">是否可用,false为可用</span>
-                                            </li>
                                             
-                                            <li class="li">
-                                                Button.
-                                                <b class="name"><a href="../symbols/Button.html#.fileInput">fileInput</a></b>
-                                                <span class="type">{HTMLElement}</span>
                                                 
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/Button.html#fileInput">fileInput</a></b>
+                                                        <span class="type">{KISSY.Node}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">对应的表单上传域</span>
+                                                    </li>
                                                 
-                                                <span class="attr">&lt;static&gt;</span>
-                                                
-                                                <span class="desc">对应的表单上传域</span>
-                                            </li>
                                             
-                                            <li class="li">
-                                                Button.
-                                                <b class="name"><a href="../symbols/Button.html#.multiple">multiple</a></b>
-                                                <span class="type">{}</span>
                                                 
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/Button.html#inputContainer">inputContainer</a></b>
+                                                        <span class="type">{KISSY.Node}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">文件上传域容器</span>
+                                                    </li>
                                                 
-                                                <span class="attr">&lt;static&gt;</span>
-                                                
-                                                <span class="desc">是否开启多选支持</span>
-                                            </li>
                                             
-                                            <li class="li">
-                                                Button.
-                                                <b class="name"><a href="../symbols/Button.html#.name">name</a></b>
-                                                <span class="type">{String}</span>
                                                 
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/Button.html#multiple">multiple</a></b>
+                                                        <span class="type">{Boolean}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">是否开启多选支持，多选目前有兼容性问题，建议禁用</span>
+                                                    </li>
                                                 
-                                                <span class="attr">&lt;static&gt;</span>
-                                                
-                                                <span class="desc">隐藏的表单上传域的name值</span>
-                                            </li>
                                             
-                                            <li class="li">
-                                                Button.
-                                                <b class="name"><a href="../symbols/Button.html#.target">target</a></b>
-                                                <span class="type">{}</span>
                                                 
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/Button.html#name">name</a></b>
+                                                        <span class="type">{String}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">隐藏的表单上传域的name值</span>
+                                                    </li>
                                                 
-                                                <span class="attr">&lt;static&gt;</span>
-                                                
-                                                <span class="desc">target</span>
-                                            </li>
                                             
-                                            <li class="li">
-                                                Button.
-                                                <b class="name"><a href="../symbols/Button.html#.tpl">tpl</a></b>
-                                                <span class="type">{String}</span>
                                                 
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/Button.html#target">target</a></b>
+                                                        <span class="type">{KISSY.Node}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">按钮目标元素</span>
+                                                    </li>
                                                 
-                                                <span class="attr">&lt;static&gt;</span>
+                                            
                                                 
-                                                <span class="desc">隐藏的表单上传域的模板</span>
-                                            </li>
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/Button.html#tpl">tpl</a></b>
+                                                        <span class="type">{String}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">隐藏的表单上传域的模板</span>
+                                                    </li>
+                                                
                                             
                                         </ul>
                                         
                                     </div>
                                 </div>
                                                     
+                            
+                            
+                                
+                                
+                                    <div class="box properties-box">
+                                        <div class="box-hd">
+                                            <h3>Static Properties</h3>
+                                        </div>
+                                        <div class="box-bd">
+                                            <ul class="static-list">
+                                            
+                                                
+                                            
+                                                
+                                            
+                                                
+                                            
+                                                
+                                            
+                                                
+                                            
+                                                
+                                            
+                                                
+                                            
+                                                
+                                            
+                                            </ul>
+                                        </div>
+                                     </div>
+                                
                             
                             <!-- properties END -->
                             
@@ -459,10 +518,10 @@ dl.data .dd{
                                         <li class="li">
                                             <div class="title">
                                                 <b class="name">Button</b>
-                                                <span class="param">(config)</span>
+                                                <span class="param">(target, config)</span>
                                             </div>
                                             
-                                            <div class="desc">文件上传按钮</div>
+                                            <div class="desc">文件上传按钮，ajax和iframe上传方式使用</div>
                                             
                                             <dl>                                                
                                                 
@@ -474,11 +533,47 @@ dl.data .dd{
                                                         
                                                         <li class="li">
                                                             &nbsp;
+                                                                <b>target</b>
+                                                            
+                                                            
+                                                            <span class="type"><span class="light fixedFont">{String}</span> </span>
+                                                            <span class="desc">*，目标元素</span>
+                                                        </li>
+                                                        
+                                                        <li class="li">
+                                                            &nbsp;
                                                                 <b>config</b>
                                                             
                                                             
                                                             <span class="type"><span class="light fixedFont">{Object}</span> </span>
                                                             <span class="desc">配置对象</span>
+                                                        </li>
+                                                        
+                                                        <li class="li">
+                                                            &nbsp;
+                                                                <b>config.name</b>
+                                                            
+                                                            
+                                                            <span class="type"><span class="light fixedFont">{String}</span> </span>
+                                                            <span class="desc">*，隐藏的表单上传域的name值</span>
+                                                        </li>
+                                                        
+                                                        <li class="li">
+                                                            &nbsp;
+                                                                <b>config.disabled</b>
+                                                            
+                                                            
+                                                            <span class="type"><span class="light fixedFont">{Boolean}</span> </span>
+                                                            <span class="desc">是否禁用按钮</span>
+                                                        </li>
+                                                        
+                                                        <li class="li">
+                                                            &nbsp;
+                                                                <b>config.multiple</b>
+                                                            
+                                                            
+                                                            <span class="type"><span class="light fixedFont">{Boolean}</span> </span>
+                                                            <span class="desc">是否开启多选支持</span>
                                                         </li>
                                                         
                                                     </ul>
@@ -511,15 +606,15 @@ dl.data .dd{
                                 <div class="box-bd">
                                     <ul class="list detail-list">
                                     
+                                    
                                         <li class="li">
-                                            <a name=".cls"> </a>
+                                            <a name="cls"> </a>
                                             <div class="title">                                                
-                                                <span>Button.</span>
                                                 <b class="name">cls</b>
                                                 <span class="type">{Object}</span> 
                                                 
                                                 
-                                                <span class="attr">&lt;static&gt;</span>
+                                                
                                                 
                                                 <span class="desc">
                                                     — 样式
@@ -534,15 +629,16 @@ dl.data .dd{
                                             
                                         </li>
                                     
+                                    
+                                    
                                         <li class="li">
-                                            <a name=".disabled"> </a>
+                                            <a name="disabled"> </a>
                                             <div class="title">                                                
-                                                <span>Button.</span>
                                                 <b class="name">disabled</b>
                                                 <span class="type">{Boolean}</span> 
                                                 
                                                 
-                                                <span class="attr">&lt;static&gt;</span>
+                                                
                                                 
                                                 <span class="desc">
                                                     — 是否可用,false为可用
@@ -553,19 +649,22 @@ dl.data .dd{
                                             <!--
                                             -->
                                             
+                                                <div class="member-data"><span>默认值：</span>false</div>
+                                            
                                             
                                             
                                         </li>
                                     
+                                    
+                                    
                                         <li class="li">
-                                            <a name=".fileInput"> </a>
+                                            <a name="fileInput"> </a>
                                             <div class="title">                                                
-                                                <span>Button.</span>
                                                 <b class="name">fileInput</b>
-                                                <span class="type">{HTMLElement}</span> 
+                                                <span class="type">{KISSY.Node}</span> 
                                                 
                                                 
-                                                <span class="attr">&lt;static&gt;</span>
+                                                
                                                 
                                                 <span class="desc">
                                                     — 对应的表单上传域
@@ -576,22 +675,25 @@ dl.data .dd{
                                             <!--
                                             -->
                                             
+                                                <div class="member-data"><span>默认值：</span>""</div>
+                                            
                                             
                                             
                                         </li>
                                     
+                                    
+                                    
                                         <li class="li">
-                                            <a name=".multiple"> </a>
+                                            <a name="inputContainer"> </a>
                                             <div class="title">                                                
-                                                <span>Button.</span>
-                                                <b class="name">multiple</b>
+                                                <b class="name">inputContainer</b>
+                                                <span class="type">{KISSY.Node}</span> 
                                                 
                                                 
                                                 
-                                                <span class="attr">&lt;static&gt;</span>
                                                 
                                                 <span class="desc">
-                                                    — 是否开启多选支持
+                                                    — 文件上传域容器
                                                     
                                                     
                                                 </span>
@@ -599,19 +701,48 @@ dl.data .dd{
                                             <!--
                                             -->
                                             
+                                                <div class="member-data"><span>默认值：</span>""</div>
+                                            
                                             
                                             
                                         </li>
                                     
+                                    
+                                    
                                         <li class="li">
-                                            <a name=".name"> </a>
+                                            <a name="multiple"> </a>
                                             <div class="title">                                                
-                                                <span>Button.</span>
+                                                <b class="name">multiple</b>
+                                                <span class="type">{Boolean}</span> 
+                                                
+                                                
+                                                
+                                                
+                                                <span class="desc">
+                                                    — 是否开启多选支持，多选目前有兼容性问题，建议禁用
+                                                    
+                                                    
+                                                </span>
+                                            </div>
+                                            <!--
+                                            -->
+                                            
+                                                <div class="member-data"><span>默认值：</span>false</div>
+                                            
+                                            
+                                            
+                                        </li>
+                                    
+                                    
+                                    
+                                        <li class="li">
+                                            <a name="name"> </a>
+                                            <div class="title">                                                
                                                 <b class="name">name</b>
                                                 <span class="type">{String}</span> 
                                                 
                                                 
-                                                <span class="attr">&lt;static&gt;</span>
+                                                
                                                 
                                                 <span class="desc">
                                                     — 隐藏的表单上传域的name值
@@ -622,22 +753,25 @@ dl.data .dd{
                                             <!--
                                             -->
                                             
+                                                <div class="member-data"><span>默认值：</span>"fileInput"</div>
+                                            
                                             
                                             
                                         </li>
                                     
+                                    
+                                    
                                         <li class="li">
-                                            <a name=".target"> </a>
+                                            <a name="target"> </a>
                                             <div class="title">                                                
-                                                <span>Button.</span>
                                                 <b class="name">target</b>
+                                                <span class="type">{KISSY.Node}</span> 
                                                 
                                                 
                                                 
-                                                <span class="attr">&lt;static&gt;</span>
                                                 
                                                 <span class="desc">
-                                                    — target
+                                                    — 按钮目标元素
                                                     
                                                     
                                                 </span>
@@ -645,19 +779,22 @@ dl.data .dd{
                                             <!--
                                             -->
                                             
+                                                <div class="member-data"><span>默认值：</span>null</div>
+                                            
                                             
                                             
                                         </li>
                                     
+                                    
+                                    
                                         <li class="li">
-                                            <a name=".tpl"> </a>
+                                            <a name="tpl"> </a>
                                             <div class="title">                                                
-                                                <span>Button.</span>
                                                 <b class="name">tpl</b>
                                                 <span class="type">{String}</span> 
                                                 
                                                 
-                                                <span class="attr">&lt;static&gt;</span>
+                                                
                                                 
                                                 <span class="desc">
                                                     — 隐藏的表单上传域的模板
@@ -671,6 +808,7 @@ dl.data .dd{
                                             
                                             
                                         </li>
+                                    
                                     
                                     </ul>
                                 </div>
@@ -719,7 +857,7 @@ dl.data .dd{
                                                     <ul class="list">
                                                     
                                                         <li class="li">
-                                                            <span class="type">{Object}</span> 
+                                                            <span class="type">{<a href="../symbols/Button.html">Button</a>}</span> 
                                                             <span>Button的实例</span>
                                                         </li>
                                                     
@@ -768,7 +906,7 @@ dl.data .dd{
                                                     <ul class="list">
                                                     
                                                         <li class="li">
-                                                            <span class="type">{Object}</span> 
+                                                            <span class="type">{<a href="../symbols/Button.html">Button</a>}</span> 
                                                             <span>Button的实例</span>
                                                         </li>
                                                     
@@ -817,7 +955,7 @@ dl.data .dd{
                                                     <ul class="list">
                                                     
                                                         <li class="li">
-                                                            <span class="type">{Object}</span> 
+                                                            <span class="type">{<a href="../symbols/Button.html">Button</a>}</span> 
                                                             <span>Button的实例</span>
                                                         </li>
                                                     
@@ -866,7 +1004,7 @@ dl.data .dd{
                                                     <ul class="list">
                                                     
                                                         <li class="li">
-                                                            <span class="type">{Object}</span> 
+                                                            <span class="type">{<a href="../symbols/Button.html">Button</a>}</span> 
                                                             <span>Button的实例</span>
                                                         </li>
                                                     
@@ -904,18 +1042,18 @@ dl.data .dd{
         <ul class="list class-list">
             <li><a href="../symbols/RenderUploader.html">RenderUploader</a></li>
             <li><a href="../symbols/Uploader.html">Uploader</a></li>
-            <li><a href="../symbols/UploadType.html">UploadType</a></li>
+<!--            <li><a href="../symbols/UploadType.html">UploadType</a></li>
             <li><a href="../symbols/IframeType.html">IframeType</a></li>
             <li><a href="../symbols/AjaxType.html">AjaxType</a></li>
-            <li><a href="../symbols/FlashType.html">FlashType</a></li>
-            <li><a href="../symbols/UrlsInput.html">UrlsInput</a></li>
+            <li><a href="../symbols/FlashType.html">FlashType</a></li>-->
             <li><a href="../symbols/Button.html">Button</a></li>
             <li><a href="../symbols/SwfButton.html">SwfButton</a></li>
             <li><a href="../symbols/Queue.html">Queue</a></li>
             <li><a href="../symbols/Status.html">Status</a></li>
             <li><a href="../symbols/Auth.html">Auth</a></li>
-            <li><a href="../symbols/DefaultTheme.html">DefaultTheme</a></li>
-            <li><a href="../symbols/GrayQueue.html">GrayQueue</a></li>
+            <li><a href="../symbols/UrlsInput.html">UrlsInput</a></li>
+<!--            <li><a href="../symbols/DefaultTheme.html">DefaultTheme</a></li>
+            <li><a href="../symbols/GrayQueue.html">GrayQueue</a></li>-->
             <li><a href="../symbols/ProgressBar.html">ProgressBar</a></li>
         </ul>
     </div>
