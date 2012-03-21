@@ -320,19 +320,27 @@ KISSY.add('gallery/form/1.0/uploader/auth/base', function (S, Node,Base) {
  **/
 KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, IframeType, AjaxType, FlashType) {
     var EMPTY = '', $ = Node.all, LOG_PREFIX = '[uploader]:';
-
     /**
      * @name Uploader
      * @class 异步文件上传组件，支持ajax、flash、iframe三种方案
      * @constructor
      * @extends Base
      * @requires UrlsInput,IframeType,AjaxType
+     * @param {Object} config 组件配置（下面的参数为配置项，配置会写入属性，详细的配置说明请看属性部分）
+     * @param {Button} config.button *，Button按钮的实例
+     * @param {Queue} config.queue *，Queue队列的实例
+     * @param {String|Array} config.type *，采用的上传方案
+     * @param {Object} config.serverConfig *，服务器端配置
+     * @param {String} config.urlsInputName *，存储文件路径的隐藏域的name名
+     * @param {Boolean} config.isAllowUpload 是否允许上传文件
+     * @param {Boolean} config.autoUpload 是否自动上传
      */
     function Uploader(config) {
         var self = this;
         //调用父类构造函数
         Uploader.superclass.constructor.call(self, config);
     }
+
 
     S.mix(Uploader, /** @lends Uploader*/{
         /**
@@ -1439,8 +1447,8 @@ KISSY.use('gallery/form/1.0/uploader/index', function (S, RenderUploader) {
                 self.set('uploader', uploader);
                 theme.set('uploader',uploader);
                 theme.set('button',button);
-                if(theme.afterUploaderRender) theme.afterUploaderRender(uploader);
                 self._auth();
+                if(theme.afterUploaderRender) theme.afterUploaderRender(uploader);
                 self.fire('init', {uploader:uploader});
             });
         },

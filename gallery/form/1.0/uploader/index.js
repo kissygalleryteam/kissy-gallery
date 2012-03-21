@@ -94,8 +94,8 @@ KISSY.use('gallery/form/1.0/uploader/index', function (S, RenderUploader) {
                 self.set('uploader', uploader);
                 theme.set('uploader',uploader);
                 theme.set('button',button);
-                if(theme.afterUploaderRender) theme.afterUploaderRender(uploader);
                 self._auth();
+                if(theme.afterUploaderRender) theme.afterUploaderRender(uploader);
                 self.fire('init', {uploader:uploader});
             });
         },
