@@ -6,7 +6,7 @@
 <link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/>
 <link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/>
 <link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
-<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+<script src="../../../..//kissy/build/kissy.js"></script>
 <script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script>
 <style>
     form {
@@ -133,7 +133,7 @@
 	        </form>
 	
 	        <script>
-	            KISSY.use('gallery/sliding-labels/1.0/sliding-labels', function(S, SL) {
+	            KISSY.use('gallery/sliding-labels/1.0/index', function(S, SL) {
                     // 1.2.0
                     new SL('#info', {
 	                    blurStyle: {
@@ -143,16 +143,6 @@
 	                        color: '#000'
 	                    }
 	                });
-
-                    // 或者使用 1.1.6 的方式
-                    /*new S.Gallery.SlidingLabels('#info', {
-	                    blurStyle: {
-	                        color: '#aaa'
-	                    },
-	                    focusStyle: {
-	                        color: '#000'
-	                    }
-	                });*/
 	            });
 	        </script>
     	</div>        
