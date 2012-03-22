@@ -9,8 +9,12 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
      * @class 存储文件路径信息的隐藏域
      * @constructor
      * @extends Base
-     * @requires Node
-     * @param {String} wrapper 容器
+     * @param {String} wrapper 容器钩子
+     * @param {Object} config 组件配置（下面的参数为配置项，配置会写入属性，详细的配置说明请看属性部分）
+     * @param {String} config.name *，隐藏域名称，当此name的隐藏域不存在时组件会创建一个
+     * @param {String} config.split  多个路径间的分隔符
+     * @param {String} config.tpl   隐藏域模板
+     *
      */
     function UrlsInput(wrapper, config) {
         var self = this;
@@ -20,12 +24,17 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
     }
 
     S.mix(UrlsInput, /**@lends UrlsInput*/ {
+        /**
+         * 隐藏域模板， '<input type="hidden" id="{name}" name="{name}" value="{value}" />'
+         *
+         */
         TPL : '<input type="hidden" id="{name}" name="{name}" value="{value}" />'
     });
     //继承于Base，属性getter和setter委托于Base处理
     S.extend(UrlsInput, Base, /** @lends UrlsInput.prototype*/{
         /**
-         * 运行
+         * 运行组件，实例化类后必须调用render()才真正运行组件逻辑
+         * @return {UrlsInput}
          */
         render : function() {
             var self = this,$wrapper = self.get('wrapper'),
@@ -42,10 +51,12 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
             }else{
                 self._create();
             }
+            return self;
         },
         /**
          * 向路径隐藏域添加路径
          * @param {String} url 路径
+         * @return {UrlsInput}
          */
         add : function(url){
             if(!S.isString(url)){
@@ -69,6 +80,7 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
         /**
          * 删除隐藏域内的指定路径
          * @param {String} url 路径
+         * @return {Array} urls 删除后的路径
          */
         remove : function(url){
             if(!url) return false;
@@ -159,18 +171,29 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
             return input;
         }
 
-    }, {ATTRS : /** @lends UrlsInput*/{
+    }, {ATTRS : /** @lends UrlsInput.prototype*/{
+        /**
+         * 隐藏域名称
+         * @type String
+         * @default ""
+         */
         name : {value : EMPTY},
         /**
          * 文件路径
+         * @type Array
+         * @default []
          */
         urls : { value : [] },
         /**
          * input模板
+         * @type String
+         * @default  '<input type="hidden" id="{name}" name="{name}" value="{value}" />'
          */
         tpl : {value : UrlsInput.TPL},
         /**
          * 多个路径间的分隔符
+         * @type String
+         * @default ","
          */
         split : {value : ',',
             setter : function(v){
@@ -181,10 +204,14 @@ KISSY.add('gallery/form/1.0/uploader/urlsInput',function(S, Node, Base) {
         },
         /**
          * 文件路径隐藏input
+         * @type KISSY.Node
+         * @default ""
          */
         input : {value : EMPTY},
         /**
          * 隐藏域容器
+         *@type KISSY.Node
+         * @default ""
          */
         wrapper : {value : EMPTY}
     }});

@@ -2,7 +2,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/grayQueue/queue',function(S, Node, Q
     var EMPTY = '',$ = Node.all;
 
     /**
-     * @name Queue
+     * @name grayQueueQueue
      * @class 模板的队列类
      * @constructor
      * @extends Base
@@ -13,9 +13,6 @@ KISSY.add('gallery/form/1.0/uploader/themes/grayQueue/queue',function(S, Node, Q
         //调用父类构造函数
         Queue.superclass.constructor.call(self, config);
     }
-
-    Queue.event = QueueBase.event;
-    Queue.status = QueueBase.status;
     S.extend(Queue, QueueBase, /** @lends Queue.prototype*/{
         /**
          * 运行Status

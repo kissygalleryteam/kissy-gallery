@@ -6,7 +6,7 @@ KISSY.add('gallery/form/1.0/uploader/queue/status',function(S, Node, Base,Progre
     var EMPTY = '',$ = Node.all,LOG_PREFIX = '[queue-status]:';
 
     /**
-     * @name status
+     * @name Status
      * @class 文件改变状态后改变状态元素的内容
      * @constructor
      * @extends Base

@@ -8,10 +8,9 @@ KISSY.add('gallery/form/1.0/uploader/button/swfButton', function (S, Node, Base,
 
     /**
      * @name SwfButton
-     * @class flash上传按钮
+     * @class flash上传按钮，基于龙藏的AJBrige。只有使用flash上传方式时候才会实例化这个类
      * @constructor
      * @extends Base
-     * @requires Node
      */
     function SwfButton(target, config) {
         var self = this;
@@ -43,7 +42,7 @@ KISSY.add('gallery/form/1.0/uploader/button/swfButton', function (S, Node, Base,
     });
     S.extend(SwfButton, Base, /** @lends SwfButton.prototype*/{
         /**
-         * 运行
+         *  运行，会实例化AJBrige的Uploader，存储为swfUploader属性
          */
         render:function () {
             var self = this,
@@ -158,27 +157,36 @@ KISSY.add('gallery/form/1.0/uploader/button/swfButton', function (S, Node, Base,
             }
             return disabled;
         }
-    }, {ATTRS:/** @lends SwfButton*/{
+    }, {ATTRS:/** @lends SwfButton.prototype*/{
         /**
          * 按钮目标元素
+         * @type KISSY.Node
+         * @default ""
          */
         target:{value:EMPTY},
         /**
          * swf容器
+         * @type KISSY.Node
+         * @default ""
          */
         swfWrapper : {value : EMPTY},
         /**
          * swf容器的id，如果不指定将使用随机id
+         * @type Number
+         * @default ""
          */
         swfWrapperId:{value:EMPTY},
         /**
          * flash容器模板
+         * @type String
          */
         tpl:{
             value:'<div id="{id}" class="uploader-button-swf" style="position: absolute;top:0;left:0;"></div>'
         },
         /**
          * 是否开启多选支持
+         * @type Boolean
+         * @default true
          */
         multiple:{
             value:true,
@@ -192,6 +200,8 @@ KISSY.add('gallery/form/1.0/uploader/button/swfButton', function (S, Node, Base,
         },
         /**
          * 文件过滤，格式类似[{desc:"JPG,JPEG,PNG,GIF,BMP",ext:"*.jpg;*.jpeg;*.png;*.gif;*.bmp"}]
+         * @type Array
+         * @default []
          */
         fileFilters:{
             value:[],
@@ -205,6 +215,8 @@ KISSY.add('gallery/form/1.0/uploader/button/swfButton', function (S, Node, Base,
         },
         /**
          * 禁用按钮
+         * @type Boolean
+         * @default false
          */
         disabled : {
             value : false,
@@ -218,12 +230,17 @@ KISSY.add('gallery/form/1.0/uploader/button/swfButton', function (S, Node, Base,
         },
         /**
          * 样式
+         * @type Object
+         * @default  { disabled:'uploader-button-disabled' }
          */
         cls : {
             value : { disabled:'uploader-button-disabled' }
         },
         /**
-         * flash配置
+         * flash配置，对于swf文件配路径配置非常关键，使用默认cdn上的路径就好
+         * @type Object
+         * @default { src:'http://a.tbcdn.cn/s/kissy/gallery/form/1.0/uploader/plugins/ajbridge/uploader.swf', id:'swfUploader', params:{ bgcolor:"#fff", wmode:"transparent" }, attrs:{ }, hand:true, btn:true }
+             }
          */
         flash:{
             value:{
@@ -243,6 +260,8 @@ KISSY.add('gallery/form/1.0/uploader/button/swfButton', function (S, Node, Base,
         },
         /**
          *  ajbridge的uploader的实例
+         *  @type SwfUploader
+         *  @default ""
          */
         swfUploader:{value:EMPTY}
     }});

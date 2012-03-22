@@ -4,14 +4,18 @@
  **/
 KISSY.add('gallery/form/1.0/uploader/button/base',function(S, Node, Base) {
     var EMPTY = '',
-        LOG_PREFIX = '[AjaxUploader-Button] ',
+        LOG_PREFIX = '[Uploader-Button] ',
         $ = Node.all;
-
     /**
-     * 文件上传按钮
-     * @class Button
+     * @name Button
+     * @class 文件上传按钮，ajax和iframe上传方式使用
      * @constructor
+     * @extends Base
+     * @param {String} target *，目标元素
      * @param {Object} config 配置对象
+     * @param {String} config.name  *，隐藏的表单上传域的name值
+     * @param {Boolean} config.disabled 是否禁用按钮
+     * @param {Boolean} config.multiple 是否开启多选支持
      */
     function Button(target, config) {
         var self = this;
@@ -44,7 +48,7 @@ KISSY.add('gallery/form/1.0/uploader/button/base',function(S, Node, Base) {
     S.extend(Button, Base, /** @lends Button.prototype*/{
         /**
          * 运行
-         * @return {Object} Button的实例
+         * @return {Button} Button的实例
          */
         render : function() {
             var self = this,
@@ -67,7 +71,7 @@ KISSY.add('gallery/form/1.0/uploader/button/base',function(S, Node, Base) {
         },
         /**
          * 显示按钮
-         * @return {Object} Button的实例
+         * @return {Button} Button的实例
          */
         show : function() {
             var self = this, target = self.get('target');
@@ -77,7 +81,7 @@ KISSY.add('gallery/form/1.0/uploader/button/base',function(S, Node, Base) {
         },
         /**
          * 隐藏按钮
-         * @return {Object} Button的实例
+         * @return {Button} Button的实例
          */
         hide : function() {
             var self = this, target = self.get('target');
@@ -87,7 +91,7 @@ KISSY.add('gallery/form/1.0/uploader/button/base',function(S, Node, Base) {
         },
         /**
          * 重置按钮
-         * @return {Object} Button的实例
+         * @return {Button} Button的实例
          */
         reset : function() {
             var self = this,
@@ -193,20 +197,28 @@ KISSY.add('gallery/form/1.0/uploader/button/base',function(S, Node, Base) {
             return multiple;
         }
     }, {
-        ATTRS : /** @lends Button */{
+        ATTRS : /** @lends Button.prototype */{
             /**
-             * target
+             * 按钮目标元素
+             * @type KISSY.Node
+             * @default null
              */
             target: {
                 value: null
             },
             /**
              * 对应的表单上传域
-             * @type HTMLElement
+             * @type KISSY.Node
+             * @default ""
              */
             fileInput: {
                 value: EMPTY
             },
+            /**
+             * 文件上传域容器
+             * @type KISSY.Node
+             * @default ""
+             */
             inputContainer: {
                 value: EMPTY
             },
@@ -220,6 +232,7 @@ KISSY.add('gallery/form/1.0/uploader/button/base',function(S, Node, Base) {
             /**
              * 隐藏的表单上传域的name值
              * @type String
+             * @default "fileInput"
              */
             name : {
                 value : 'fileInput',
@@ -233,6 +246,7 @@ KISSY.add('gallery/form/1.0/uploader/button/base',function(S, Node, Base) {
             /**
              * 是否可用,false为可用
              * @type Boolean
+             * @default false
              */
             disabled : {
                 value : false,
@@ -242,10 +256,12 @@ KISSY.add('gallery/form/1.0/uploader/button/base',function(S, Node, Base) {
                 }
             },
             /**
-             * 是否开启多选支持
+             * 是否开启多选支持，多选目前有兼容性问题，建议禁用
+             * @type Boolean
+             * @default false
              */
             multiple : {
-                value : true,
+                value : false,
                 setter : function(v){
                     this._setMultiple(v);
                     return v;
@@ -254,6 +270,7 @@ KISSY.add('gallery/form/1.0/uploader/button/base',function(S, Node, Base) {
             /**
              * 样式
              * @type Object
+             * @default  { disabled : 'uploader-button-disabled' }
              */
             cls : {
                 value : {
