@@ -23,7 +23,7 @@
     <!-- 上传按钮，组件配置请写在data-config内 -->
     <a id="J_UploaderBtn" class="uploader-button" data-config=
             '{"type" : "flash",
-                "serverConfig":{"action":"http://localhost/gallery/gallery/form/1.0/uploader/demo/upload.php","data":{"dir":"files/"},"dataType" : "json"},
+                "serverConfig":{"action":"http://localhost/gallery/gallery/form/1.0/demo/form/uploader/upload.php","data":{"dir":"files/"},"dataType" : "json"},
                 "name":"Filedata",
                 "urlsInputName":"fileUrls"}'
        href="#">
@@ -43,7 +43,7 @@
     <pre class='brush: xml; highlight: [1,2]'>
         <a id="J_UploaderBtn" class="uploader-button" data-config=
                 '{"type" : "flash",
-                    "serverConfig":{"action":"http://localhost/com/form/src/form/uploader/demo/upload.php","data":{"dir":"files/"},"dataType" : "json"},
+                    "serverConfig":{"action":"http://localhost/gallery/gallery/form/1.0/demo/form/uploader/upload.php","data":{"dir":"files/"},"dataType" : "json"},
                     "name":"Filedata",
                     "urlsInputName":"fileUrls"}'
            href="#">
@@ -102,6 +102,7 @@
            packages:[ {
                name:"gallery",
                path:"http://a.tbcdn.cn/s/kissy/",
+               //path:"../../../../../../",
                charset:"utf-8"
            } ]
     });
