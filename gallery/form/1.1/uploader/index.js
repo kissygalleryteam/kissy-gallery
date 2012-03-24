@@ -2,7 +2,7 @@
  * @fileoverview 运行文件上传组件
  * @author 剑平（明河）<minghe36@126.com>,紫英<daxingplay@gmail.com>
  **/
-KISSY.add('gallery/form/1.0/uploader/index',function (S, Base, Node, Uploader, Button,SwfButton,Auth) {
+KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, Button,SwfButton,Auth) {
     var EMPTY = '', $ = Node.all, LOG_PREFIX = '[uploaderRender]:',
         dataName = {
             CONFIG:'data-config',
@@ -51,7 +51,7 @@ KISSY.add('gallery/form/1.0/uploader/index',function (S, Base, Node, Uploader, B
      </ul>
      * @example
      *
-KISSY.use('gallery/form/1.0/uploader/index', function (S, RenderUploader) {
+KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
      var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
      ru.on("init", function (ev) {
         var uploader = ev.uploader;
@@ -153,9 +153,9 @@ KISSY.use('gallery/form/1.0/uploader/index', function (S, RenderUploader) {
             /**
              * 主题引用路径
              * @type String
-             * @default  “gallery/form/1.0/uploader/themes/default”
+             * @default  “gallery/form/1.1/uploader/themes/default”
              */
-            theme:{value:'gallery/form/1.0/uploader/themes/default' },
+            theme:{value:'gallery/form/1.1/uploader/themes/default' },
             /**
              * 按钮目标元素
              * @type String|HTMLElement|KISSY.Node

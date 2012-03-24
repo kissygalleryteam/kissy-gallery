@@ -2,7 +2,7 @@
  * @fileoverview 文件上传验证
  * @author: 剑平（明河）<minghe36@126.com>
  **/
-KISSY.add('gallery/form/1.0/uploader/auth/base', function (S, Node,Base) {
+KISSY.add('gallery/form/1.1/uploader/auth/base', function (S, Node,Base) {
     var EMPTY = '', $ = Node.all,
         console = console || S, LOG_PREFIX = '[uploader-auth]:';
 

@@ -1,4 +1,4 @@
-KISSY.add('gallery/form/1.0/uploader/themes/grayQueue/status',function(S, Node,ProgressBar, StatusBase) {
+KISSY.add('gallery/form/1.1/uploader/themes/grayQueue/status',function(S, Node,ProgressBar, StatusBase) {
     var EMPTY = '',$ = Node.all;
     
     /**

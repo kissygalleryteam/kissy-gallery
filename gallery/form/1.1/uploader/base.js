@@ -2,7 +2,7 @@
  * @fileoverview 异步文件上传组件
  * @author 剑平（明河）<minghe36@126.com>,紫英<daxingplay@gmail.com>
  **/
-KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, IframeType, AjaxType, FlashType) {
+KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, IframeType, AjaxType, FlashType) {
     var EMPTY = '', $ = Node.all, LOG_PREFIX = '[uploader]:';
     /**
      * @name Uploader
@@ -194,10 +194,9 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
             }
             //文件上传域，如果是flash上传,input为文件数据对象
             uploadParam = file.input.id || file.input;
-            var status = queue.fileStatus(index).get('curType');
-            if(status === 'error'){
+            /*if(file['status'] === 'error'){
                 return false;
-            }
+            }*/
             //触发文件上传前事件
             self.fire(Uploader.event.START, {index:index, file:file});
             //阻止文件上传

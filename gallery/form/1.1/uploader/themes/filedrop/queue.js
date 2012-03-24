@@ -1,4 +1,4 @@
-KISSY.add('gallery/form/1.0/uploader/themes/filedrop/queue',function(S, Node, QueueBase, Status) {
+KISSY.add('gallery/form/1.1/uploader/themes/filedrop/queue',function(S, Node, QueueBase, Status) {
     var EMPTY = '',$ = Node.all;
 
     /**

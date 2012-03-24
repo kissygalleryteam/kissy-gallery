@@ -1,4 +1,4 @@
-KISSY.add('gallery/form/1.0/uploader/themes/filedrop/index', function(S, Node, DefaultTheme, Queue, FD, Template){
+KISSY.add('gallery/form/1.1/uploader/themes/filedrop/index', function(S, Node, DefaultTheme, Queue, FD, Template){
     var $ = Node.all,
         UA = S.UA;
 

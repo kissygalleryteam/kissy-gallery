@@ -6,7 +6,7 @@ build time: Sep 11 10:29
 /**
  * @author kingfo  oicuicu@gmail.com
  */
-KISSY.add('gallery/form/1.0/uploader/plugins/ajbridge/uploader', function(S,flash,A) {
+KISSY.add('gallery/form/1.1/uploader/plugins/ajbridge/uploader', function(S,flash,A) {
 
     /**
      * @constructor

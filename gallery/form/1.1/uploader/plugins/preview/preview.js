@@ -5,7 +5,7 @@
  * @requires KISSY 1.2+
  */
 
-KISSY.add('gallery/form/1.0/uploader/plugins/preview/preview', function(S, D, E){
+KISSY.add('gallery/form/1.1/uploader/plugins/preview/preview', function(S, D, E){
 	var doc = document, 
 		LOG_PRE = '[Plugin: Preview] ',
 		_mode = getPreviewMode(),

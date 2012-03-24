@@ -2,7 +2,7 @@
  * @fileoverview flash上传按钮
  * @author: 紫英(橘子)<daxingplay@gmail.com>, 剑平（明河）<minghe36@126.com>
  **/
-KISSY.add('gallery/form/1.0/uploader/button/swfButton', function (S, Node, Base, SwfUploader) {
+KISSY.add('gallery/form/1.1/uploader/button/swfButton', function (S, Node, Base, SwfUploader) {
     var EMPTY = '', $ = Node.all,
         SWF_WRAPPER_ID_PREVFIX = 'swf-uploader-wrapper-';
 
@@ -239,12 +239,12 @@ KISSY.add('gallery/form/1.0/uploader/button/swfButton', function (S, Node, Base,
         /**
          * flash配置，对于swf文件配路径配置非常关键，使用默认cdn上的路径就好
          * @type Object
-         * @default { src:'http://a.tbcdn.cn/s/kissy/gallery/form/1.0/uploader/plugins/ajbridge/uploader.swf', id:'swfUploader', params:{ bgcolor:"#fff", wmode:"transparent" }, attrs:{ }, hand:true, btn:true }
+         * @default { src:'http://a.tbcdn.cn/s/kissy/gallery/form/1.1/uploader/plugins/ajbridge/uploader.swf', id:'swfUploader', params:{ bgcolor:"#fff", wmode:"transparent" }, attrs:{ }, hand:true, btn:true }
              }
          */
         flash:{
             value:{
-                src:'http://a.tbcdn.cn/s/kissy/gallery/form/1.0/uploader/plugins/ajbridge/uploader.swf',
+                src:'http://a.tbcdn.cn/s/kissy/gallery/form/1.1/uploader/plugins/ajbridge/uploader.swf',
                 id:'swfUploader',
                 params:{
                     bgcolor:"#fff",

@@ -1,4 +1,4 @@
-KISSY.add('gallery/form/1.0/uploader/themes/grayQueue/index',function(S, Node, DefaultTheme,Queue) {
+KISSY.add('gallery/form/1.1/uploader/themes/grayQueue/index',function(S, Node, DefaultTheme,Queue) {
     var EMPTY = '',$ = Node.all;
 
     /**

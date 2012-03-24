@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>如何制作uploader主题</title>
+<link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
+<link rel="stylesheet" type="text/css" href="assets/demo.css"/>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+</head>
+<body>
+<article id="doc">
+    <h4>如何制作uploader主题？</h4>
+    <p>uploader内置的几个主题不一定满足你的定制需求，这时候你可以自己定制主题。</p>
+    <p>接下来通过一个仿著名的flash文件上传组件SWFUpload主题的例子来说明下如何定制主题。</p>
+    <h5>先来看我们完成的主题demo</h5>
+
+    <h5>1.新建一个主题目录</h5>
+    <p>这个主题我们将其命名为：<b>blueUploader</b></p>
+    <p>（ps:你可以直接copy一份grayQueue主题文件夹到本地。)</p>
+    <p>每个主题必须包含三个js文件：</p>
+    <ul>
+        <li>index.js：主题入口文件</li>
+        <li>queue.js：主题对应的队列类</li>
+        <li>status.js：状态变更类，dom的主要操作在这个类里面</li>
+    </ul>
+    <p>最好包含一个<b>demo.html</b>，这样用户可以很方便的知道主题的html结构。</p>
+    <p>主题的html结构还是交给用户来写，主题只负责上传逻辑控制和样式。</p>
+    <h5>2.demo.html</h5>
+
+</article>
+<script>
+    var S = KISSY;
+    S.config({
+           packages:[ {
+               name:"form",
+               path:"http://a.tbcdn.cn/s/kissy/",
+               charset:"utf-8"
+           } ]
+    });
+    //加载上传组件入口文件
+    S.use('form/uploader/index', function (S, RenderUploader) {
+        new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
+    })
+</script>
+
+<!-- 代码高亮 START  -->
+<link href='../../../../tool/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="../../../../tool/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+</body>
+</html>

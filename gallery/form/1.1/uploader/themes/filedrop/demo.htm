@@ -24,7 +24,7 @@
         <div class="demo-wrapper">
             <form action="test.php">
                 <div class="form-area">
-                    <a id="J_UploadBtn" href="#upload()" data-config='{"type":"iframe","theme" : "gallery/form/1.0/uploader/themes/filedrop", "serverConfig":{"action":"../../demo/upload.php","data":{"dir":"http://localhost/project/tps/assets-dev/gallery/form/1.0/uploader/demo/files/"},"dataType" : "json"}, "name":"Filedata", "urlsInputName":"fileUrls", "autoUpload": false}' data-theme-config='{"target": "#J_UploadBtn", "queueTarget": "#J_UploadQueue", "name": "Filedata"}' class="upload-btn">选择文件</a>
+                    <a id="J_UploadBtn" href="#upload()" data-config='{"type":"iframe","theme" : "gallery/form/1.1/uploader/themes/filedrop", "serverConfig":{"action":"../../demo/upload.php","data":{"dir":"http://localhost/project/tps/assets-dev/gallery/form/1.1/uploader/demo/files/"},"dataType" : "json"}, "name":"Filedata", "urlsInputName":"fileUrls", "autoUpload": false}' data-theme-config='{"target": "#J_UploadBtn", "queueTarget": "#J_UploadQueue", "name": "Filedata"}' class="upload-btn">选择文件</a>
                 </div>
                 <div id="J_UploadQueueContainer" class="upload-queue">
                     <ul id="J_UploadQueue">
@@ -42,7 +42,7 @@
                 charset: 'utf-8'
             }]
         });
-        KISSY.use('gallery/form/1.0/uploader/index', function (S, RenderUploader) {
+        KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
             //第一个参数：按钮元素钩子，第二个参数：队列元素钩子
             new RenderUploader('#J_UploadBtn', '#J_UploadQueue');
         });

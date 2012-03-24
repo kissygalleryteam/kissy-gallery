@@ -1,4 +1,4 @@
-KISSY.add('gallery/form/1.0/uploader/themes/filedrop/status', function(S, Node, StatusBase) {
+KISSY.add('gallery/form/1.1/uploader/themes/filedrop/status', function(S, Node, StatusBase) {
     var $ = Node.all;
 
     var Status = function(target, config) {

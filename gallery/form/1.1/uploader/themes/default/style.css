@@ -140,11 +140,13 @@
     height: 16px;
 }
 
-.ks-uploader-queue .file-status {
+.ks-uploader-queue .status-wrapper {
     margin-left: 5px;
 }
-
-.ks-uploader-queue .file-status .uploader-progress {
+.status-wrapper .status{
+    display: none;
+}
+.ks-uploader-queue .status-wrapper .uploader-progress {
     margin-right: 5px;
     margin-top:1px;
     width:16px;
@@ -174,3 +176,4 @@
     height: 100%;
     background-color: #FA9515;
 }
+

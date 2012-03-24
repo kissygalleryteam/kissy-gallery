@@ -1,7 +1,7 @@
 /**
  *
  */
-KISSY.add('gallery/form/1.0/uploader/plugins/filedrop/filedrop', function(S, Node, Base) {
+KISSY.add('gallery/form/1.1/uploader/plugins/filedrop/filedrop', function(S, Node, Base) {
     var EMPTY = '',
         $ = Node.all,
         UA = S.UA;
