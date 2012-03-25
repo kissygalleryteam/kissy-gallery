@@ -1,9 +1,14 @@
-KISSY.add('gallery/form/1.1/uploader/themes/base', function (S, Node, Base, Queue) {
+/**
+ * @fileoverview 上传组件主题基类
+ * @author 剑平（明河）<minghe36@126.com>
+ **/
+
+KISSY.add('gallery/form/1.1/uploader/themes/theme', function (S, Node, Base, Queue) {
     var EMPTY = '', $ = Node.all;
 
     /**
      * @name Theme
-     * @class 上传组件默认模板
+     * @class 上传组件主题基类
      * @constructor
      * @extends Base
      * @requires Node
@@ -158,18 +163,37 @@ KISSY.add('gallery/form/1.1/uploader/themes/base', function (S, Node, Base, Queu
         _restoreHandler:function(ev){
 
         }
-    }, {ATTRS:/** @lends Theme*/{
+    }, {ATTRS:/** @lends Theme.prototype*/{
         /**
          * 是否引用css文件
+         * @type Boolean
+         * @default true
          */
         isUseCss:{value:true},
         /**
          * css模块路径
+         * @type String
+         * @default ""
          */
         cssUrl:{value:EMPTY},
+        /**
+         * 队列使用的模板
+         * @type String
+         * @default ""
+         */
         fileTpl:{value:EMPTY },
+        /**
+         * 队列目标元素（一般是ul），队列的实例化过程在Theme中
+         * @type String
+         * @default ""
+         */
         queueTarget:{value:EMPTY},
+        /**
+         * Queue（上传队列）实例
+         * @type Queue
+         * @default ""
+         */
         queue:{value:EMPTY}
     }});
     return Theme;
-}, {requires:['node', 'base', '../queue/base']});
+}, {requires:['node', 'base', '../queue']});

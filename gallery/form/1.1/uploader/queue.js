@@ -2,7 +2,7 @@
  * @fileoverview 文件上传队列列表显示和处理
  * @author 剑平（明河）<minghe36@126.com>,紫英<daxingplay@gmail.com>
  **/
-KISSY.add('gallery/form/1.1/uploader/queue/base', function (S, Node, Base) {
+KISSY.add('gallery/form/1.1/uploader/queue', function (S, Node, Base) {
     var EMPTY = '', $ = Node.all, LOG_PREFIX = '[uploader-queue]:';
 
     /**
@@ -501,14 +501,6 @@ KISSY.add('gallery/form/1.1/uploader/queue/base', function (S, Node, Base) {
          alert('所有文件id：' + ids);
          */
         files:{value:[]},
-        /**
-         * 状态类配置，queue和file参数会被组件内部覆盖，传递无效
-         * @type Object
-         * @default {}
-         */
-        statusConfig : {
-            value : {}
-        },
         /**
          * 该队列对应的Uploader实例
          * @type Uploader

@@ -119,4 +119,4 @@ KISSY.add('gallery/form/1.1/uploader/themes/default/index', function (S, Node, T
         queue:{value:EMPTY}
     }});
     return DefaultTheme;
-}, {requires:['node', '../base','../../plugins/progressBar/progressBar']});
+}, {requires:['node', '../theme','../../plugins/progressBar/progressBar']});
