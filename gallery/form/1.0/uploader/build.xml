@@ -4,7 +4,7 @@
     <property name="tool.dir" location="../../../../../kissy-tools"/>
     <property name="jsdoc.dir" location="${tool.dir}/jsdoc-toolkit"/>
     <property name="compiler" location="${tool.dir}/closure-compiler/compiler.jar"/>
-    <property name="form.build.dir" location="../../../../gallery-build/form/1.1"/>
+    <property name="form.build.dir" location="../../../../gallery-build/form/1.0"/>
     <property name="src.dir" location="."/>
     <property name="uploader.build.dir" location="${form.build.dir}/uploader"/>
 
