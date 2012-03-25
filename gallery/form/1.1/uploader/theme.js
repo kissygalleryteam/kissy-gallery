@@ -3,7 +3,7 @@
  * @author 剑平（明河）<minghe36@126.com>
  **/
 
-KISSY.add('gallery/form/1.1/uploader/themes/theme', function (S, Node, Base, Queue) {
+KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
     var EMPTY = '', $ = Node.all;
 
     /**
@@ -216,4 +216,4 @@ KISSY.add('gallery/form/1.1/uploader/themes/theme', function (S, Node, Base, Que
         auth:{value:EMPTY}
     }});
     return Theme;
-}, {requires:['node', 'base', '../queue']});
+}, {requires:['node', 'base', './queue']});

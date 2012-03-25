@@ -1,5 +1,6 @@
 /**
- *
+ *  文件拖拽插件
+ *  @author 飞绿
  */
 KISSY.add('gallery/form/1.1/uploader/plugins/filedrop/filedrop', function(S, Node, Base) {
     var EMPTY = '',

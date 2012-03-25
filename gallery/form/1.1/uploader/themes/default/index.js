@@ -138,4 +138,4 @@ KISSY.add('gallery/form/1.1/uploader/themes/default/index', function (S, Node, T
         }
     }});
     return DefaultTheme;
-}, {requires:['node', '../theme','../../plugins/progressBar/progressBar']});
+}, {requires:['node', '../../theme','../../plugins/progressBar/progressBar']});

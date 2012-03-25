@@ -253,4 +253,4 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
         elCount:{value:'#J_UploadCount'}
     }});
     return ImageUploader;
-}, {requires:['node', '../theme', '../../plugins/progressBar/progressBar','../../plugins/preview/preview']});
+}, {requires:['node', '../../theme', '../../plugins/progressBar/progressBar','../../plugins/preview/preview']});
