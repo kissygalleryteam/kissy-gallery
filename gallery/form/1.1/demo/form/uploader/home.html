@@ -13,7 +13,7 @@
         <p><strong>Uploader</strong>是一个基于kissy1.2的异步文件上传组件，目前不兼容kissy1.1.6，已经实现ajax、iframe、flash三方案异步上传。</p>
         <p>（PS:flash上传方案改造自龙藏的ajbridge中的uploader，非常棒的实现，特此感谢。）</p>
         <ul>
-            <li>版本：<b>V1.0</b></li>
+            <li>版本：<b>V1.1</b>，请勿使用v1.0代码</li>
             <li>作者：<b>明河（剑平）、紫英、飞绿</b></li>
             <li>文档：<b><a href="http://www.36ria.com/demo/gal/gallery/form/1.0/doc/index.html" target="_blank">详细API文档</a></b></li>
         </ul>
@@ -27,12 +27,18 @@
             <li>支持上传验证，整合kissy的validation组件</li>
             <li>不错的扩展性，自由定制按钮和队列模板样式</li>
         </ol>
-        <h5>新功能预告</h5>
-        <ol>
-            <li>ajax上传方案，支持拖拉上传</li>
-        </ol>
-        <h5>组件展示</h5>
-        <p><img src="assets/demo-1.png" /></p>
+        <h5 class="classTitle">V1.1 change</h5>
+        <ul class="list detail-list">
+            <li>
+                1.重构主题基类，让主题制作更简单
+            </li>
+            <li>2.去掉难以理解的Status类，状态变更集成到Theme</li>
+            <li>3.增加Theme主题基类，主题不再继承DefaultTheme，导致会加载多余样式</li>
+            <li>4.新增imageUploader主题，先去除不可用的grayQueue和lineQueue主题</li>
+            <li>5.增加拖拽上传插件</li>
+            <li>6.增加拖拽主题</li>
+            <li>7.修正多处兼容性bug</li>
+        </ul>
     </article>
 </body>
 </html>
