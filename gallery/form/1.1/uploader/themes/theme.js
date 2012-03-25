@@ -26,8 +26,15 @@ KISSY.add('gallery/form/1.1/uploader/themes/theme', function (S, Node, Base, Que
          * 初始化
          */
         _init:function () {
-            var self = this;
-            self._initQueue();
+            var self = this,
+                queue = self._initQueue(),
+                name=self.get('name');
+            if(name != EMPTY){
+                var $queueTarget = queue.get('target');
+                if($queueTarget.length){
+                    $queueTarget.addClass(name+'-queue');
+                }
+            }
         },
         /**
          * 初始化队列
@@ -52,6 +59,7 @@ KISSY.add('gallery/form/1.1/uploader/themes/theme', function (S, Node, Base, Que
             queue.on('statusChange',function(ev){
                 self._setStatusVisibility(ev);
             });
+            return queue;
         },
         /**
          * 获取状态容器
@@ -165,6 +173,12 @@ KISSY.add('gallery/form/1.1/uploader/themes/theme', function (S, Node, Base, Que
         }
     }, {ATTRS:/** @lends Theme.prototype*/{
         /**
+         *  主题名
+         * @type String
+         * @default ""
+         */
+        name:{value:EMPTY},
+        /**
          * 是否引用css文件
          * @type Boolean
          * @default true
@@ -193,7 +207,13 @@ KISSY.add('gallery/form/1.1/uploader/themes/theme', function (S, Node, Base, Que
          * @type Queue
          * @default ""
          */
-        queue:{value:EMPTY}
+        queue:{value:EMPTY},
+        /**
+         * Auth（上传验证）实例
+         * @type Auth
+         * @default ""
+         */
+        auth:{value:EMPTY}
     }});
     return Theme;
 }, {requires:['node', 'base', '../queue']});

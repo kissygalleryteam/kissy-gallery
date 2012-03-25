@@ -96,7 +96,8 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
                 self.set('uploader', uploader);
                 theme.set('uploader',uploader);
                 theme.set('button',button);
-                self._auth();
+                var auth = self._auth();
+                theme.set('auth',auth);
                 if(theme.afterUploaderRender) theme.afterUploaderRender(uploader);
                 self.fire('init', {uploader:uploader});
             });
@@ -140,13 +141,14 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
         _auth:function () {
             var self = this,buttonTarget = self.get('buttonTarget'),
                 uploader = self.get('uploader'),
-                rules, auth;
+                rules, auth = EMPTY;
             //存在验证配置
             if($(buttonTarget).attr(dataName.AUTH)){
                 rules = S.parseConfig(buttonTarget,dataName.AUTH);
                 auth = new Auth(uploader,{rules : rules});
                 uploader.set('auth',auth);
             }
+            return auth;
         }
     }, {
         ATTRS:/** @lends RenderUploader.prototype*/{

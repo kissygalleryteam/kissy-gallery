@@ -1,12 +1,18 @@
+/**
+ * @fileoverview 默认主题
+ * @author 剑平（明河）<minghe36@126.com>
+ **/
 KISSY.add('gallery/form/1.1/uploader/themes/default/index', function (S, Node, Theme,ProgressBar) {
     var EMPTY = '', $ = Node.all;
 
     /**
      * @name DefaultTheme
-     * @class 上传组件默认模板
+     * @class 默认主题
      * @constructor
-     * @extends Base
-     * @requires Node
+     * @extends Theme
+     * @requires Theme
+     * @requires  ProgressBar
+     * @author 剑平（明河）<minghe36@126.com>
      */
     function DefaultTheme(config) {
         var self = this;
@@ -86,15 +92,30 @@ KISSY.add('gallery/form/1.1/uploader/themes/default/index', function (S, Node, T
             //打印错误消息
             $('.J_ErrorMsg_' + id).html(msg);
         }
-    }, {ATTRS:/** @lends DefaultTheme*/{
+    }, {ATTRS:/** @lends DefaultTheme.prototype*/{
+        /**
+         *  主题名（文件名）
+         * @type String
+         * @default "defaultTheme"
+         */
+        name:{value:'defaultTheme'},
         /**
          * 是否引用css文件
+         * @type Boolean
+         * @default true
          */
         isUseCss:{value:true},
         /**
          * css模块路径
+         * @type String
+         * @default "gallery/form/1.1/uploader/themes/default/style.css"
          */
         cssUrl:{value:'gallery/form/1.1/uploader/themes/default/style.css'},
+        /**
+         * 队列使用的模板
+         * @type String
+         * @default ""
+         */
         fileTpl:{value:
             '<li id="queue-file-{id}" class="clearfix" data-name="{name}">' +
                 '<div class="f-l sprite file-icon"></div>' +
@@ -114,9 +135,7 @@ KISSY.add('gallery/form/1.1/uploader/themes/default/index', function (S, Node, T
                     '<div class="status error-status upload-error"><span class="J_ErrorMsg_{id}"></span><a href="#fileDel" class="J_Del_{id}">删除</a></div>' +
                 '</div>' +
                 '</li>'
-        },
-        queueTarget:{value:EMPTY},
-        queue:{value:EMPTY}
+        }
     }});
     return DefaultTheme;
 }, {requires:['node', '../theme','../../plugins/progressBar/progressBar']});
