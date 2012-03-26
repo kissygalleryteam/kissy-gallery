@@ -152,41 +152,43 @@
 <span class='line'>145</span> </span><span class="WHIT">						</span><span class="NAME">reader.onload</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>146</span> </span><span class="WHIT">							</span><span class="NAME">self.data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">e.target.result</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>147</span> </span><span class="WHIT">							</span><span class="NAME">onsuccess</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>148</span> </span><span class="WHIT">						</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">						</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>149</span> </span><span class="WHIT">						</span><span class="NAME">reader.onerror</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>150</span> </span><span class="WHIT">							</span><span class="NAME">S.log</span><span class="PUNC">(</span><span class="NAME">LOG_PRE</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'File Reader Error. Your browser may not fully support html5 file api'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'warning'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>151</span> </span><span class="WHIT">							</span><span class="NAME">self.fire</span><span class="PUNC">(</span><span class="NAME">_eventList.error</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>152</span> </span><span class="WHIT">						</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>153</span> </span><span class="WHIT">						</span><span class="NAME">reader.readAsDataURL</span><span class="PUNC">(</span><span class="NAME">fileInput.files</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>154</span> </span><span class="WHIT">						</span><span class="COMM">// alert(reader.readAsDataURL);</span><span class="WHIT">
-<span class='line'>155</span> </span><span class="WHIT">						</span><span class="COMM">// S.log(reader, 'dir');</span><span class="WHIT">
-<span class='line'>156</span> </span><span class="WHIT">						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>157</span> </span><span class="WHIT">					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'simple'</span><span class="PUNC">:</span><span class="WHIT">
-<span class='line'>158</span> </span><span class="WHIT">					</span><span class="KEYW">default</span><span class="PUNC">:</span><span class="WHIT">
-<span class='line'>159</span> </span><span class="WHIT">						</span><span class="NAME">self.data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fileInput.value</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>160</span> </span><span class="WHIT">						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>161</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>162</span> </span><span class="WHIT">				</span><span class="WHIT">
-<span class='line'>163</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">self.data</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>164</span> </span><span class="WHIT">					</span><span class="NAME">onsuccess</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>165</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">_mode</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'html5'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>166</span> </span><span class="WHIT">					</span><span class="NAME">S.log</span><span class="PUNC">(</span><span class="NAME">LOG_PRE</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'Retrive Data error.'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>167</span> </span><span class="WHIT">					</span><span class="NAME">showPreviewImage</span><span class="PUNC">(</span><span class="NAME">imgElem</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>168</span> </span><span class="WHIT">					</span><span class="NAME">self.fire</span><span class="PUNC">(</span><span class="NAME">_eventList.error</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>169</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>170</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="KEYW">else</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>171</span> </span><span class="WHIT">				</span><span class="NAME">S.log</span><span class="PUNC">(</span><span class="NAME">LOG_PRE</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'File Input Element does not exists.'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>172</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>173</span> </span><span class="WHIT">			</span><span class="WHIT">
-<span class='line'>174</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">self.data</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>175</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>176</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'>177</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>178</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Preview</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">						</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">                        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">fileInput.files</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">                            </span><span class="NAME">reader.readAsDataURL</span><span class="PUNC">(</span><span class="NAME">fileInput.files</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">                        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">						</span><span class="COMM">// alert(reader.readAsDataURL);</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">						</span><span class="COMM">// S.log(reader, 'dir');</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'simple'</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">					</span><span class="KEYW">default</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">						</span><span class="NAME">self.data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fileInput.value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">						</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">				</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">self.data</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">					</span><span class="NAME">onsuccess</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">_mode</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'html5'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">					</span><span class="NAME">S.log</span><span class="PUNC">(</span><span class="NAME">LOG_PRE</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'Retrive Data error.'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">					</span><span class="NAME">showPreviewImage</span><span class="PUNC">(</span><span class="NAME">imgElem</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">					</span><span class="NAME">self.fire</span><span class="PUNC">(</span><span class="NAME">_eventList.error</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="KEYW">else</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">				</span><span class="NAME">S.log</span><span class="PUNC">(</span><span class="NAME">LOG_PRE</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'File Input Element does not exists.'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">self.data</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
 <span class='line'>179</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>180</span> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>181</span> </span><span class="WHIT">	</span><span class="NAME">requires</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
-<span class='line'>182</span> </span><span class="WHIT">		</span><span class="STRN">'dom'</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>183</span> </span><span class="WHIT">		</span><span class="STRN">'event'</span><span class="WHIT">
-<span class='line'>184</span> </span><span class="WHIT">	</span><span class="PUNC">]</span><span class="WHIT">
-<span class='line'>185</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
+<span class='line'>180</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Preview</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">	</span><span class="NAME">requires</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">		</span><span class="STRN">'dom'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">		</span><span class="STRN">'event'</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">	</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
