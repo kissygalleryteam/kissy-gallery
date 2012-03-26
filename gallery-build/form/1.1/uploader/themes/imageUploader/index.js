@@ -102,8 +102,10 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
          * 文件处于上传错误状态时触发
          */
         _errorHandler:function (ev) {
-             var self = this,
-                msg = ev.msg;
+            var self = this,msg = ev.msg,
+                id = ev.id;
+            //打印错误消息
+            $('.J_ErrorMsg_' + id).html(msg);
              self._setDisplayMsg(true,ev.file);
              //向控制台打印错误消息
              S.log(msg);
@@ -240,7 +242,8 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
                     '<div class="status success-status tips-upload-success">' +
                       '上传成功！' +
                     '</div>' +
-                    '<div class="status error-status tips-upload-error"><span class="progress-bar"></span><p class="J_TipsError tips-text">上传失败，请重试！</p></div>' +
+                    '<div class="status error-status tips-upload-error">' +
+                        '<p class="J_ErrorMsg_{id} tips-text">上传失败，请重试！</p></div>' +
                 '</div>' +
                 '<a class="J_Del_{id} del-pic" href="#">删除</a>' +
             '</li>'

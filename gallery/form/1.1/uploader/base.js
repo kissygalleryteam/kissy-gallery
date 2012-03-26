@@ -194,9 +194,9 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
             }
             //文件上传域，如果是flash上传,input为文件数据对象
             uploadParam = file.input.id || file.input;
-            /*if(file['status'] === 'error'){
+            if(file['status'] === 'error'){
                 return false;
-            }*/
+            }
             //触发文件上传前事件
             self.fire(Uploader.event.START, {index:index, file:file});
             //阻止文件上传
