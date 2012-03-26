@@ -3044,8 +3044,8 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
          * 添加完文件后触发的监听器
          */
         _addFileHandler:function(ev){
-            var self = this;
-            queue = self.get('queue'),
+            var self = this,
+                queue = self.get('queue'),
                 uploader = ev.uploader,
                 index = ev.index,
                 //文件id
