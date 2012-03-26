@@ -56,9 +56,9 @@ KISSY.add('gallery/form/1.1/uploader/auth/base', function (S, Node,Base) {
                 self.testRepeat(file);
             });
             queue.on('remove',function(ev){
-                var file = ev.file,status = file.status,statusType = status.get('curType');
+                var file = ev.file,status = file.status;
                 //删除的是已经成功上传的文件，需要重新检验最大允许上传数
-                if(statusType == 'success'){
+                if(status == 'success'){
                     self.testMax();
                 }
             });
@@ -1936,16 +1936,6 @@ KISSY.add('gallery/form/1.1/uploader/plugins/ajbridge/uploader', function(S,flas
  * @fileoverview  文件拖拽上传插件
  *  @author 飞绿
  */
-KISSY.add('gallery/form/1.1/uploader/plugins/drop/drop', function (S, Node, Base) {
-    function FileDrop(){
-
-    }
-    return FileDrop;
-}, {requires:['node', 'base']});
-/**
- * @fileoverview  文件拖拽上传插件
- *  @author 飞绿
- */
 KISSY.add('gallery/form/1.1/uploader/plugins/filedrop/filedrop', function (S, Node, Base) {
     var EMPTY = '',
         $ = Node.all,
@@ -1971,7 +1961,7 @@ KISSY.add('gallery/form/1.1/uploader/plugins/filedrop/filedrop', function (S, No
         if (UA.webkit >= 7 || UA.firefox >= 3.6) {
             return 'supportDrop';
         }
-        if (UQ.ie) {
+        if (UA.ie) {
             return 'notSupportDropIe';
         }
         if (UA.webkit < 7 || UA.firefox < 3.6) {

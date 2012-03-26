@@ -27,7 +27,7 @@ KISSY.add('gallery/form/1.1/uploader/plugins/filedrop/filedrop', function (S, No
         if (UA.webkit >= 7 || UA.firefox >= 3.6) {
             return 'supportDrop';
         }
-        if (UQ.ie) {
+        if (UA.ie) {
             return 'notSupportDropIe';
         }
         if (UA.webkit < 7 || UA.firefox < 3.6) {

@@ -56,9 +56,9 @@ KISSY.add('gallery/form/1.1/uploader/auth/base', function (S, Node,Base) {
                 self.testRepeat(file);
             });
             queue.on('remove',function(ev){
-                var file = ev.file,status = file.status,statusType = status.get('curType');
+                var file = ev.file,status = file.status;
                 //删除的是已经成功上传的文件，需要重新检验最大允许上传数
-                if(statusType == 'success'){
+                if(status == 'success'){
                     self.testMax();
                 }
             });

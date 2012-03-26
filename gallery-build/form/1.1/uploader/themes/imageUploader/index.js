@@ -235,7 +235,7 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
             if(!S.isObject(data)) return false;
             url = data.url;
             //不存在预览图片
-            if($img.attr('src') == EMPTY){
+            if($img.attr('src') == EMPTY || S.UA.ie == 8){
                 $img.attr('src',url);
             }
         }

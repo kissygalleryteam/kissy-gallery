@@ -130,6 +130,7 @@
     left:0;
     opacity: 0.7;
     background: #fff;
+    filter: alpha(opacity = 70);
 }
 .imageUploader-queue li .del-pic{
     background-position: -263px -101px;
@@ -205,12 +206,18 @@ imageUploader-queue .ks-progress-bar  .ks-progress-bar-value{
     overflow: hidden;
 }
 .imageUploader-queue .file-input-wrapper .file-input{
-    height:220px;
+    height:500px;
     display: block;
     width:220px;
     cursor: pointer;
     font-size:500px;
     margin-top:-50px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity = 0);
+    z-index: 14;
 }
 .imageUploader-queue .status-wrapper .status{
     text-align: center;
