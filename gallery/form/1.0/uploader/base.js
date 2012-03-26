@@ -9,7 +9,9 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
      * @class 异步文件上传组件，支持ajax、flash、iframe三种方案
      * @constructor
      * @extends Base
-     * @requires UrlsInput,IframeType,AjaxType
+     * @requires UrlsInput
+     * @requires IframeType
+     * @requires  AjaxType
      * @param {Object} config 组件配置（下面的参数为配置项，配置会写入属性，详细的配置说明请看属性部分）
      * @param {Button} config.button *，Button按钮的实例
      * @param {Queue} config.queue *，Queue队列的实例
@@ -18,6 +20,8 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
      * @param {String} config.urlsInputName *，存储文件路径的隐藏域的name名
      * @param {Boolean} config.isAllowUpload 是否允许上传文件
      * @param {Boolean} config.autoUpload 是否自动上传
+     * @example
+     * var uploader = new Uploader({button:button,queue:queue,serverConfig:{action:'test.php'}})
      */
     function Uploader(config) {
         var self = this;
@@ -430,7 +434,7 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
             } else {
                 var msg = result.msg || result.message  || EMPTY;
                 //修改队列中文件的状态为error（上传失败）
-                queue.fileStatus(index, Uploader.status.ERROR, {msg:msg});
+                queue.fileStatus(index, Uploader.status.ERROR, {msg:msg,result:result});
                 self.fire(event.ERROR, {status:status,result:result});
             }
             //置空当前上传的文件在队列中的索引值

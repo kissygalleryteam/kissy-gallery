@@ -82,11 +82,13 @@ KISSY.use('gallery/form/1.0/uploader/index', function (S, RenderUploader) {
          */
         _init:function () {
             var self = this, uploaderConfig = self.get('uploaderConfig'),
+                name = self.get('name'),
                 button = self._initButton(),
                 queue;
             self.set('button', button);
             self._initThemes(function (theme) {
                 queue = theme.get('queue');
+                S.mix(uploaderConfig.serverConfig,{'fileDataName':name});
                 //配置增加按钮实例和队列实例
                 S.mix(uploaderConfig, {button:button, queue:queue});
                 var uploader = new Uploader(uploaderConfig);

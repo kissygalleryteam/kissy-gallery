@@ -1,6 +1,5 @@
 <project name="uploader.build" default="build" basedir="." xmlns:ac="antlib:net.sf.antcontrib">
     <description>Uploader Build File</description>
-    <propertyfile file="build.properties" />
     <property name="charset" value="utf-8"/>
     <property name="tool.dir" location="../../../../../kissy-tools"/>
     <property name="jsdoc.dir" location="${tool.dir}/jsdoc-toolkit"/>

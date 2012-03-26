@@ -92,7 +92,7 @@ KISSY.add('gallery/form/1.0/uploader/type/iframe',function(S, Node, UploadType) 
         _createIframe : function() {
             var self = this,
                 //iframe的id
-                id = self.get('id'),
+                id = ID_PREFIX + S.guid(),
                 //iframe模板
                 tpl = self.get('tpl'),iframeTpl = tpl.IFRAME,
                 existIframe = self.get('iframe'),
@@ -113,6 +113,7 @@ KISSY.add('gallery/form/1.0/uploader/type/iframe',function(S, Node, UploadType) 
             //监听iframe的load事件
             $iframe.on('load', self._iframeLoadHandler, self);
             $('body').append($iframe);
+            self.set('id',id);
             self.set('iframe', $iframe);
             return $iframe;
         },

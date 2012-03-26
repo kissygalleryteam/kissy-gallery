@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>图片上传主题</title>
+<link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
+<link rel="stylesheet" type="text/css" href="assets/demo.css"/>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+</head>
+<body>
+<article id="doc">
+    <h4>模板名：imageUploader</h4>
+    <p>图片上传主题，带图片预览</p>
+    <p>作者：苏河、紫英、明河</p>
+    <p>版本：V1.1</p>
+    <div class="upload-area">
+        <ul class="clearfix" id="J_UploaderQueue">
+            <li>
+                <div id="J_UploadBg" class="unupload-area">
+                    <a class="unupload" id="J_UploaderBtn"
+                       data-config='{
+                             "theme" : "gallery/form/1.1/uploader/themes/imageUploader",
+                             "urlsInputName":"urlsInput",
+                             "serverConfig":{"action":"./upload.php","data":{"iid":77010,"fieldId":132338},"dataType" : "json"},
+                             "name":"Filedata"
+                       }'
+                       data-auth='{
+                             "require":[true,"必须至少上传一个文件！"],
+                                        "maxSize":[30000, "文件大小为{size}，文件太大！"],
+                                        "allowExts":[
+                                            {"desc":"JPG,JPEG,PNG,GIF,BMP", "ext":"*.jpg;*.jpeg;*.png;*.gif;*.bmp"},
+                                            "文件格式错误！"],
+                                        "max":[5,"最多允许上传五张图片！"]
+                       }'
+                       data-button-config='{"multiple":false}'>
+                        <span class="count"> 还可以上传<em id="J_UploadCount">5</em>图片！ </span>
+                        <s class="bg"></s>
+                    </a>
+                </div>
+            </li>
+        </ul>
+        <div class="tips" id="J_UploadTips" style="display:none"></div>
+    </div>
+</article>
+<script>
+    var S = KISSY;
+    S.config({
+        packages:[
+            {
+                name:"gallery",
+                path:"../../../../../../",
+                //path:"http://a.tbcdn.cn/s/kissy/",
+                charset:"utf-8"
+            }
+        ]
+    });
+    //加载上传组件入口文件
+    KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
+        new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
+    })
+</script>
+
+<!-- 代码高亮 START  -->
+<link href='./assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="./assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+</body>
+</html>
