@@ -180,6 +180,7 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
         upload:function (index) {
             if (!S.isNumber(index)) return false;
             var self = this, uploadType = self.get('uploadType'),
+                type=self.get('type'),
                 queue = self.get('queue'),
                 file = queue.get('files')[index],
                 uploadParam;
@@ -194,6 +195,8 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
             }
             //文件上传域，如果是flash上传,input为文件数据对象
             uploadParam = file.input.id || file.input;
+            //如果是ajax上传直接传文件数据
+            if(type == 'ajax') uploadParam = file.data;
             if(file['status'] === 'error'){
                 return false;
             }

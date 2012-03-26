@@ -2,7 +2,7 @@
  * @fileoverview 图片上传主题（带图片预览），第一版由紫英同学完成，苏河同学做了大量优化，明河整理优化
  * @author 苏河、紫英、明河
  **/
-KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, Node, Theme, ProgressBar,Preview) {
+KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, Node, Theme, ProgressBar,Preview,Filedrop) {
     var EMPTY = '', $ = Node.all;
 
     /**
@@ -26,12 +26,14 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
          * @param {Uploader} uploader
          */
         afterUploaderRender:function (uploader) {
-            var self = this, preview = new Preview(),
+            var self = this,
+                preview = new Preview(),
                 queue = self.get('queue');
             //图片预览
             self.set('preview',preview);
            //达到最大允许上传数隐藏上传按钮
             self._maxHideBtn(uploader);
+            self._renderFiledrop();
             queue.on('add',self._queueAddHandler,self);
         },
         /**
@@ -41,6 +43,20 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
          */
         _getStatusWrapper:function (target) {
             return target.children('.J_FileStatus');
+        },
+        /**
+         * 运行文件拖拽插件
+         * @return {Filedrop}
+         */
+        _renderFiledrop:function(){
+            //文件拖拽支持
+            var filedrop = new Filedrop({
+                target:'#J_UploaderBtn',
+                uploader:this.get('uploader'),
+                tpl:{supportDrop:'<div class="drop-wrapper"></div>' }
+            });
+            filedrop.render();
+            return filedrop;
         },
         /**
          * 文件处于等待上传状态时触发
@@ -92,8 +108,12 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
          * 文件处于上传成功状态时触发
          */
         _successHandler:function (ev) {
-            var self = this;
+            var self = this,
+                file = ev.file,
+                //服务器端返回的数据
+                result = file.result;
             self._setCount();
+            if(result) self._changeImageSrc(ev.id,result);
             S.later(function(){
                 self._setDisplayMsg(false,ev.file);
             },500);
@@ -203,6 +223,21 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
             //成功上传的文件数
             successFiles = queue.getFiles(status);
             return successFiles.length;
+        },
+        /**
+         * 将服务器返回的图片路径写到预览图片区域，部分浏览器不支持图片预览
+         * @param {String} id  文件id
+         * @param {Object} result  服务器端返回的结果集
+          */
+        _changeImageSrc:function(id,result){
+            var data = result.data,url,
+                $img = $('.J_Pic_' + id);
+            if(!S.isObject(data)) return false;
+            url = data.url;
+            //不存在预览图片
+            if($img.attr('src') == EMPTY){
+                $img.attr('src',url);
+            }
         }
     }, {ATTRS:/** @lends ImageUploader.prototype*/{
         /**
@@ -231,7 +266,7 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
         fileTpl:{value:
             '<li id="queue-file-{id}" class="clearfix" data-name="{name}">' +
                 '<div class="tb-pic120">' +
-                    '<a href="javascript:void(0);"><img class="J_ItemPic" src="{sUrl}" /></a>' +
+                    '<a href="javascript:void(0);"><img class="J_ItemPic J_Pic_{id}" src="" /></a>' +
                 '</div>' +
                 '<div class=" J_Mask_{id} pic-mask"></div>' +
                 '<div class="status-wrapper J_FileStatus">' +
@@ -256,4 +291,4 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
         elCount:{value:'#J_UploadCount'}
     }});
     return ImageUploader;
-}, {requires:['node', '../../theme', '../../plugins/progressBar/progressBar','../../plugins/preview/preview']});
+}, {requires:['node', '../../theme', '../../plugins/progressBar/progressBar','../../plugins/preview/preview','../../plugins/filedrop/filedrop']});
