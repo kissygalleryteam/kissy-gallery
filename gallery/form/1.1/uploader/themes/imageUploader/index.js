@@ -50,8 +50,10 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
          */
         _renderFiledrop:function(){
             //文件拖拽支持
-            var filedrop = new Filedrop({
-                target:'#J_UploaderBtn',
+            var self = this,button = self.get('button'),
+                target = button.get('target'),
+            filedrop = new Filedrop({
+                target:target,
                 uploader:this.get('uploader'),
                 tpl:{supportDrop:'<div class="drop-wrapper"></div>' }
             });
@@ -64,7 +66,7 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
         _waitingHandler:function (ev) {
             var self = this,preview = self.get('preview'),
                 file = ev.file,input = file.input,
-                $imageWrapper = $('.J_ItemPic', ev.target);
+                $imageWrapper = $('.J_Pic_'+file.id);
             if(preview && input && $imageWrapper.length){
                 preview.preview(ev.file.input, $imageWrapper);
             }
@@ -264,7 +266,7 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
         fileTpl:{value:
             '<li id="queue-file-{id}" class="clearfix" data-name="{name}">' +
                 '<div class="tb-pic120">' +
-                    '<a href="javascript:void(0);"><img class="J_ItemPic J_Pic_{id}" src="" /></a>' +
+                    '<a href="javascript:void(0);"><img class="J_Pic_{id}" src="" /></a>' +
                 '</div>' +
                 '<div class=" J_Mask_{id} pic-mask"></div>' +
                 '<div class="status-wrapper J_FileStatus">' +
