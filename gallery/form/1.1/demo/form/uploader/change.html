@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>组件更新</title>
+<link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
+<link rel="stylesheet" type="text/css" href="assets/demo.css"/>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+</head>
+<body>
+<article id="doc">
+    <h4>组件更新</h4>
+    <h5>V1.1 change</h5>
+    <ol class="list detail-list">
+        <li>
+            重构主题基类，让主题制作更简单
+        </li>
+        <li>去掉难以理解的Status类，状态变更集成到Theme</li>
+        <li>增加Theme主题基类，主题不再继承DefaultTheme，导致会加载多余样式</li>
+        <li>新增imageUploader主题，先去除不可用的grayQueue和lineQueue主题</li>
+        <li>增加拖拽上传插件</li>
+        <li>增加拖拽主题</li>
+        <li>修正多处兼容性bug</li>
+        <li>主题路径，如果使用的是组件内置主题，只要传递主题名就好</li>
+        <li>修正ajax多选上传，只上传一个图片的bug</li>
+        <li>优化拖拽上传插件，支持点击上传</li>
+        <li>修正验证失败依旧上传的bug</li>
+        <li>重写restore方法，可以从页面抓取文件数据，而不是从urlsInput</li>
+    </ol>
+</article>
+<!-- 代码高亮 START  -->
+<link href='./assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="./assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+</body>
+</html>
