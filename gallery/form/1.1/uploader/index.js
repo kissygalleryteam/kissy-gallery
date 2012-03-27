@@ -11,13 +11,14 @@ KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, B
             AUTH : 'data-auth'
         },
         THEME_PREFIX='gallery/form/1.1/uploader/themes/';
+    S.namespace('form');
     /**
      * 解析组件在页面中data-config成为组件的配置
      * @param {String} hook 组件钩子
      * @param {String} dataConfigName 配置名
      * @return {Object}
      */
-    S.parseConfig = function(hook, dataConfigName) {
+    S.form.parseConfig = function(hook, dataConfigName) {
         var config = {}, sConfig, DATA_CONFIG = dataConfigName || dataName.CONFIG;
         sConfig = $(hook).attr(DATA_CONFIG);
         if (!S.isString(sConfig)) return {};
@@ -61,7 +62,7 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
     function RenderUploader(buttonTarget, queueTarget, config) {
         var self = this;
         //合并配置
-        config = S.mix(S.parseConfig(buttonTarget), config);
+        config = S.mix(S.form.parseConfig(buttonTarget), config);
         //超类初始化
         RenderUploader.superclass.constructor.call(self, config);
         self.set('buttonTarget', buttonTarget);
@@ -110,7 +111,7 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
             var self = this,
                 target = self.get('buttonTarget'),
                 //从html标签的伪属性中抓取配置
-                config = S.parseConfig(target,dataName.BUTTON_CONFIG),
+                config = S.form.parseConfig(target,dataName.BUTTON_CONFIG),
                 name = self.get('name'),
                 type = self.get('type');
             //合并配置
@@ -126,7 +127,7 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
             var self = this, theme = self.get('theme'),
                 target = self.get('buttonTarget'),
                 //从html标签的伪属性中抓取配置
-                config = S.parseConfig(target,dataName.THEME_CONFIG),
+                config = S.form.parseConfig(target,dataName.THEME_CONFIG),
                 reg=/\//;
             //如果只是传递主题名，组件自行拼接
             if(!reg.test(theme)){
@@ -151,7 +152,7 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
                 rules, auth = EMPTY;
             //存在验证配置
             if($(buttonTarget).attr(dataName.AUTH)){
-                rules = S.parseConfig(buttonTarget,dataName.AUTH);
+                rules = S.form.parseConfig(buttonTarget,dataName.AUTH);
                 auth = new Auth(uploader,{rules : rules});
                 uploader.set('auth',auth);
             }

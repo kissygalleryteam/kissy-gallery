@@ -44,7 +44,7 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
                 tpl = self.get('fileTpl'),
                 config = {tpl:tpl};
             //合并从伪属性中抓取的配置
-            S.mix(config,S.parseConfig(queueTarget, 'data-queue-config'));
+            S.mix(config,S.form.parseConfig(queueTarget, 'data-queue-config'));
             queue = new Queue(queueTarget, config);
             queue.set('theme',self);
             self.set('queue', queue);
