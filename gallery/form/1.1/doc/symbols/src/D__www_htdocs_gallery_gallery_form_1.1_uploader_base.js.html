@@ -506,95 +506,108 @@
 <span class='line'>499</span>          */</span><span class="WHIT">
 <span class='line'>500</span> </span><span class="WHIT">        </span><span class="NAME">_restore</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>501</span> </span><span class="WHIT">        	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>502</span> </span><span class="WHIT">        		</span><span class="NAME">urlsInput</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">self.get</span><span class="PUNC">(</span><span class="STRN">'urlsInput'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>503</span> </span><span class="WHIT">        		</span><span class="NAME">filesExists</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">urlsInput.parse</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>504</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">filesExists</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">filesExists.length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>505</span> </span><span class="WHIT">            	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">queue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">self.get</span><span class="PUNC">(</span><span class="STRN">'queue'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>506</span> </span><span class="WHIT">            	</span><span class="NAME">queue.restore</span><span class="PUNC">(</span><span class="NAME">filesExists</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>507</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>508</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>509</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">ATTRS</span><span class="PUNC">:</span><span class="COMM">/** @lends Uploader.prototype*/</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>510</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>511</span>          * Button按钮的实例
-<span class='line'>512</span>          * @type Button
-<span class='line'>513</span>          * @default {}
-<span class='line'>514</span>          */</span><span class="WHIT">
-<span class='line'>515</span> </span><span class="WHIT">        </span><span class="NAME">button</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>516</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>517</span>          * Queue队列的实例
-<span class='line'>518</span>          * @type Queue
-<span class='line'>519</span>          * @default {}
-<span class='line'>520</span>          */</span><span class="WHIT">
-<span class='line'>521</span> </span><span class="WHIT">        </span><span class="NAME">queue</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>522</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>523</span>          * 采用的上传方案，当值是数组时，比如“type” : ["flash","ajax","iframe"]，按顺序获取浏览器支持的方式，该配置会优先使用flash上传方式，如果浏览器不支持flash，会降级为ajax，如果还不支持ajax，会降级为iframe；当值是字符串时，比如“type” : “ajax”，表示只使用ajax上传方式。这种方式比较极端，在不支持ajax上传方式的浏览器会不可用；当“type” : “auto”，auto是一种特例，等价于["ajax","iframe"]。
-<span class='line'>524</span>          * @type String|Array
-<span class='line'>525</span>          * @default "auto"
-<span class='line'>526</span>          */</span><span class="WHIT">
-<span class='line'>527</span> </span><span class="WHIT">        </span><span class="NAME">type</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">Uploader.type.AUTO</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>528</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>529</span>          * 服务器端配置。action：服务器处理上传的路径；data： post给服务器的参数，通常需要传递用户名、token等信息
-<span class='line'>530</span>          * @type Object
-<span class='line'>531</span>          * @default  {action:EMPTY, data:{}, dataType:'json'}
-<span class='line'>532</span>          */</span><span class="WHIT">
-<span class='line'>533</span> </span><span class="WHIT">        </span><span class="NAME">serverConfig</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">action</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">dataType</span><span class="PUNC">:</span><span class="STRN">'json'</span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>534</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>535</span>          * 是否允许上传文件
-<span class='line'>536</span>          * @type Boolean
-<span class='line'>537</span>          * @default true
-<span class='line'>538</span>          */</span><span class="WHIT">
-<span class='line'>539</span> </span><span class="WHIT">        </span><span class="NAME">isAllowUpload</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="KEYW">true</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>540</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>541</span>          * 是否自动上传
-<span class='line'>542</span>          * @type Boolean
-<span class='line'>543</span>          * @default true
-<span class='line'>544</span>          */</span><span class="WHIT">
-<span class='line'>545</span> </span><span class="WHIT">        </span><span class="NAME">autoUpload</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="KEYW">true</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>546</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>547</span>          * 存储文件路径的隐藏域的name名
-<span class='line'>548</span>          * @type String
-<span class='line'>549</span>          * @default ""
-<span class='line'>550</span>          */</span><span class="WHIT">
-<span class='line'>551</span> </span><span class="WHIT">        </span><span class="NAME">urlsInputName</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>552</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>553</span>          *  当前上传的文件对应的在数组内的索引值，如果没有文件正在上传，值为空
-<span class='line'>554</span>          *  @type Number
-<span class='line'>555</span>          *  @default ""
-<span class='line'>556</span>          */</span><span class="WHIT">
-<span class='line'>557</span> </span><span class="WHIT">        </span><span class="NAME">curUploadIndex</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>558</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>559</span>          * 上传方式实例
-<span class='line'>560</span>          * @type UploaderType
-<span class='line'>561</span>          * @default {}
-<span class='line'>562</span>          */</span><span class="WHIT">
-<span class='line'>563</span> </span><span class="WHIT">        </span><span class="NAME">uploadType</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>564</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>565</span>          * UrlsInput实例
-<span class='line'>566</span>          * @type UrlsInput
-<span class='line'>567</span>          * @default ""
-<span class='line'>568</span>          */</span><span class="WHIT">
-<span class='line'>569</span> </span><span class="WHIT">        </span><span class="NAME">urlsInput</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>570</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>571</span>          * 存在批量上传文件时，指定的文件状态
-<span class='line'>572</span>          * @type String
-<span class='line'>573</span>          * @default ""
-<span class='line'>574</span>          */</span><span class="WHIT">
-<span class='line'>575</span> </span><span class="WHIT">        </span><span class="NAME">uploadFilesStatus</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>576</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>577</span> 
-<span class='line'>578</span> </span><span class="WHIT">    </span><span class="COMM">/**
-<span class='line'>579</span>      * 转换文件大小字节数
-<span class='line'>580</span>      * @param {Number} bytes 文件大小字节数
-<span class='line'>581</span>      * @return {String} 文件大小
-<span class='line'>582</span>      */</span><span class="WHIT">
-<span class='line'>583</span> </span><span class="WHIT">    </span><span class="NAME">S.convertByteSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">bytes</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>584</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>585</span> </span><span class="WHIT">        </span><span class="KEYW">do</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>586</span> </span><span class="WHIT">            </span><span class="NAME">bytes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">bytes</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">1024</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>587</span> </span><span class="WHIT">            </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>588</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">while</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">bytes</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">99</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>589</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Math.max</span><span class="PUNC">(</span><span class="NAME">bytes</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0.1</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">toFixed</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">'kB'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'MB'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'GB'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'TB'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'PB'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'EB'</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>590</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>591</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Uploader</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>592</span> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">requires</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="STRN">'base'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'node'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'./urlsInput'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'./type/iframe'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'./type/ajax'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'./type/flash'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'flash'</span><span class="PUNC">]</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>593</span> </span></pre></body></html>
+<span class='line'>502</span> </span><span class="WHIT">                </span><span class="NAME">queue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">self.get</span><span class="PUNC">(</span><span class="STRN">'queue'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>503</span> </span><span class="WHIT">                </span><span class="NAME">restoreHook</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">self.get</span><span class="PUNC">(</span><span class="STRN">'restoreHook'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>504</span> </span><span class="WHIT">                </span><span class="NAME">$restore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">restoreHook</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>505</span> </span><span class="WHIT">                </span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>506</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">$restore.length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>507</span> </span><span class="WHIT">            </span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">S.JSON.parse</span><span class="PUNC">(</span><span class="NAME">$restore.html</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>508</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">data.length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>509</span> </span><span class="WHIT">            </span><span class="NAME">S.each</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">,</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>510</span> </span><span class="WHIT">                </span><span class="NAME">queue.add</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">,</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">,</span><span class="NAME">file</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>511</span> </span><span class="WHIT">                    </span><span class="COMM">//改变文件状态为成功</span><span class="WHIT">
+<span class='line'>512</span> </span><span class="WHIT">                    </span><span class="NAME">queue.fileStatus</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">,</span><span class="STRN">'success'</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="NAME">index</span><span class="PUNC">:</span><span class="NAME">index</span><span class="PUNC">,</span><span class="NAME">id</span><span class="PUNC">:</span><span class="NAME">file.id</span><span class="PUNC">,</span><span class="NAME">file</span><span class="PUNC">:</span><span class="NAME">file</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>513</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>514</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>515</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>516</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">ATTRS</span><span class="PUNC">:</span><span class="COMM">/** @lends Uploader.prototype*/</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>517</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>518</span>          * Button按钮的实例
+<span class='line'>519</span>          * @type Button
+<span class='line'>520</span>          * @default {}
+<span class='line'>521</span>          */</span><span class="WHIT">
+<span class='line'>522</span> </span><span class="WHIT">        </span><span class="NAME">button</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>523</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>524</span>          * Queue队列的实例
+<span class='line'>525</span>          * @type Queue
+<span class='line'>526</span>          * @default {}
+<span class='line'>527</span>          */</span><span class="WHIT">
+<span class='line'>528</span> </span><span class="WHIT">        </span><span class="NAME">queue</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>529</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>530</span>          * 采用的上传方案，当值是数组时，比如“type” : ["flash","ajax","iframe"]，按顺序获取浏览器支持的方式，该配置会优先使用flash上传方式，如果浏览器不支持flash，会降级为ajax，如果还不支持ajax，会降级为iframe；当值是字符串时，比如“type” : “ajax”，表示只使用ajax上传方式。这种方式比较极端，在不支持ajax上传方式的浏览器会不可用；当“type” : “auto”，auto是一种特例，等价于["ajax","iframe"]。
+<span class='line'>531</span>          * @type String|Array
+<span class='line'>532</span>          * @default "auto"
+<span class='line'>533</span>          */</span><span class="WHIT">
+<span class='line'>534</span> </span><span class="WHIT">        </span><span class="NAME">type</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">Uploader.type.AUTO</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>535</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>536</span>          * 服务器端配置。action：服务器处理上传的路径；data： post给服务器的参数，通常需要传递用户名、token等信息
+<span class='line'>537</span>          * @type Object
+<span class='line'>538</span>          * @default  {action:EMPTY, data:{}, dataType:'json'}
+<span class='line'>539</span>          */</span><span class="WHIT">
+<span class='line'>540</span> </span><span class="WHIT">        </span><span class="NAME">serverConfig</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">action</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">dataType</span><span class="PUNC">:</span><span class="STRN">'json'</span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>541</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>542</span>          * 是否允许上传文件
+<span class='line'>543</span>          * @type Boolean
+<span class='line'>544</span>          * @default true
+<span class='line'>545</span>          */</span><span class="WHIT">
+<span class='line'>546</span> </span><span class="WHIT">        </span><span class="NAME">isAllowUpload</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="KEYW">true</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>547</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>548</span>          * 是否自动上传
+<span class='line'>549</span>          * @type Boolean
+<span class='line'>550</span>          * @default true
+<span class='line'>551</span>          */</span><span class="WHIT">
+<span class='line'>552</span> </span><span class="WHIT">        </span><span class="NAME">autoUpload</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="KEYW">true</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>553</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>554</span>          * 存储文件路径的隐藏域的name名
+<span class='line'>555</span>          * @type String
+<span class='line'>556</span>          * @default ""
+<span class='line'>557</span>          */</span><span class="WHIT">
+<span class='line'>558</span> </span><span class="WHIT">        </span><span class="NAME">urlsInputName</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>559</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>560</span>          *  当前上传的文件对应的在数组内的索引值，如果没有文件正在上传，值为空
+<span class='line'>561</span>          *  @type Number
+<span class='line'>562</span>          *  @default ""
+<span class='line'>563</span>          */</span><span class="WHIT">
+<span class='line'>564</span> </span><span class="WHIT">        </span><span class="NAME">curUploadIndex</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>565</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>566</span>          * 上传方式实例
+<span class='line'>567</span>          * @type UploaderType
+<span class='line'>568</span>          * @default {}
+<span class='line'>569</span>          */</span><span class="WHIT">
+<span class='line'>570</span> </span><span class="WHIT">        </span><span class="NAME">uploadType</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>571</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>572</span>          * UrlsInput实例
+<span class='line'>573</span>          * @type UrlsInput
+<span class='line'>574</span>          * @default ""
+<span class='line'>575</span>          */</span><span class="WHIT">
+<span class='line'>576</span> </span><span class="WHIT">        </span><span class="NAME">urlsInput</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>577</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>578</span>          * 存在批量上传文件时，指定的文件状态
+<span class='line'>579</span>          * @type String
+<span class='line'>580</span>          * @default ""
+<span class='line'>581</span>          */</span><span class="WHIT">
+<span class='line'>582</span> </span><span class="WHIT">        </span><span class="NAME">uploadFilesStatus</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>583</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>584</span>          * 已经存在的文件数据待提取的容器钩子
+<span class='line'>585</span>          * @type String
+<span class='line'>586</span>          * @default ""
+<span class='line'>587</span>          */</span><span class="WHIT">
+<span class='line'>588</span> </span><span class="WHIT">        </span><span class="NAME">restoreHook</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>589</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>590</span> 
+<span class='line'>591</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>592</span>      * 转换文件大小字节数
+<span class='line'>593</span>      * @param {Number} bytes 文件大小字节数
+<span class='line'>594</span>      * @return {String} 文件大小
+<span class='line'>595</span>      */</span><span class="WHIT">
+<span class='line'>596</span> </span><span class="WHIT">    </span><span class="NAME">S.convertByteSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">bytes</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>597</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>598</span> </span><span class="WHIT">        </span><span class="KEYW">do</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>599</span> </span><span class="WHIT">            </span><span class="NAME">bytes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">bytes</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">1024</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>600</span> </span><span class="WHIT">            </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>601</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">while</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">bytes</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">99</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>602</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Math.max</span><span class="PUNC">(</span><span class="NAME">bytes</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0.1</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">toFixed</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">'kB'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'MB'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'GB'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'TB'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'PB'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'EB'</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>603</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>604</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Uploader</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>605</span> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">requires</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="STRN">'base'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'node'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'./urlsInput'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'./type/iframe'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'./type/ajax'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'./type/flash'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'flash'</span><span class="PUNC">]</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>606</span> </span></pre></body></html>

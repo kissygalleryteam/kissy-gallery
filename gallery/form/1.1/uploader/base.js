@@ -499,12 +499,19 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
          */
         _restore: function(){
         	var self = this,
-        		urlsInput = self.get('urlsInput'),
-        		filesExists = urlsInput.parse();
-            if(filesExists && filesExists.length > 0){
-            	var queue = self.get('queue');
-            	queue.restore(filesExists);
-            }
+                queue = self.get('queue'),
+                restoreHook = self.get('restoreHook'),
+                $restore = $(restoreHook),
+                data = [];
+            if(!$restore.length) return false;
+            data = S.JSON.parse($restore.html());
+            if(!data.length) return false;
+            S.each(data,function(file){
+                queue.add(file,function(index,file){
+                    //改变文件状态为成功
+                    queue.fileStatus(index,'success',{index:index,id:file.id,file:file});
+                });
+            });
         }
     }, {ATTRS:/** @lends Uploader.prototype*/{
         /**
@@ -572,7 +579,13 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
          * @type String
          * @default ""
          */
-        uploadFilesStatus:{value:EMPTY}
+        uploadFilesStatus:{value:EMPTY},
+        /**
+         * 已经存在的文件数据待提取的容器钩子
+         * @type String
+         * @default ""
+         */
+        restoreHook:{value:EMPTY}
     }});
 
     /**

@@ -114,11 +114,9 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
                 result = file.result;
             self._setCount();
             if(result) self._changeImageSrc(ev.id,result);
-            S.later(function(){
-                self._setDisplayMsg(false,ev.file);
-            },500);
+            self._setDisplayMsg(false,ev.file);
         },
-                /**
+         /**
          * 文件处于上传错误状态时触发
          */
         _errorHandler:function (ev) {
@@ -234,7 +232,7 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
                 $img = $('.J_Pic_' + id);
             if(!S.isObject(data)) return false;
             url = data.url;
-            //不存在预览图片
+            //不存在预览图片，IE8使用滤镜处理图片预览有问题
             if($img.attr('src') == EMPTY || S.UA.ie == 8){
                 $img.attr('src',url);
             }

@@ -829,12 +829,19 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
          */
         _restore: function(){
         	var self = this,
-        		urlsInput = self.get('urlsInput'),
-        		filesExists = urlsInput.parse();
-            if(filesExists && filesExists.length > 0){
-            	var queue = self.get('queue');
-            	queue.restore(filesExists);
-            }
+                queue = self.get('queue'),
+                restoreHook = self.get('restoreHook'),
+                $restore = $(restoreHook),
+                data = [];
+            if(!$restore.length) return false;
+            data = S.JSON.parse($restore.html());
+            if(!data.length) return false;
+            S.each(data,function(file){
+                queue.add(file,function(index,file){
+                    //改变文件状态为成功
+                    queue.fileStatus(index,'success',{index:index,id:file.id,file:file});
+                });
+            });
         }
     }, {ATTRS:/** @lends Uploader.prototype*/{
         /**
@@ -902,7 +909,13 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
          * @type String
          * @default ""
          */
-        uploadFilesStatus:{value:EMPTY}
+        uploadFilesStatus:{value:EMPTY},
+        /**
+         * 已经存在的文件数据待提取的容器钩子
+         * @type String
+         * @default ""
+         */
+        restoreHook:{value:EMPTY}
     }});
 
     /**
@@ -2770,43 +2783,6 @@ KISSY.add('gallery/form/1.1/uploader/queue', function (S, Node, Base) {
                     _remove();
                 });
             }
-        },
-        /**
-         * 将数据恢复到队列中
-         * @param {Array} 需要恢复的数据
-         */
-        restore: function(files){
-        	var self = this,
-        		filesData = [];
-        	if(files && files.length > 0){
-        		S.each(files, function(url, index){
-                    var s = url.split('|'),name = EMPTY;
-                    if(s.length > 1){
-                        url = s[1];
-                        name = s[0];
-                    }
-	        		if(url){
-	        			var file = {
-	        				input: null,
-	        				name: name,
-	        				sUrl: url,
-	        				size: '',
-	        				type: ''
-	        			};
-	        			var fileData = self._setAddFileData(file),
-			                index = self.getFileIndex(fileData.id);
-			            //更换文件状态为等待
-			            self.fileStatus(index, Queue.status.RESTORE);
-			            //显示文件信息li元素
-			            $(fileData.target).show();
-			            //fileData.status.set('curType', Queue.status.SUCCESS);
-			            filesData[index] = fileData;
-	        		}
-	        	});
-        	}
-        	self.fire(Queue.event.RESTORE, {
-            	'files': filesData
-            });
         },
         /**
          * 获取或设置文件状态，默认的主题共有以下文件状态：'waiting'、'start'、'progress'、'success'、'cancel'、'error' ,每种状态的dom情况都不同，刷新文件状态时候同时刷新状态容器类下的DOM节点内容。
