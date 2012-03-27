@@ -63,6 +63,7 @@ body {
     margin: 55px 0 0 0;
     overflow: hidden;
     list-style: none;
+    font-size:18px;
 }
 
 #header  .navigation li {

@@ -45,7 +45,7 @@ $dir = './files/';
 $isExceedSize = false;
 /*-----------------*/
 //以下三行代码用于删除文件，实际应用时请予以删除，get_file_count()和delDirAndFile（）函数都可以删掉
-$dirName =  preg_replace('/\//','',$dir);
+$dirName =  'files';
 $size = get_file_count($dirName);
 if($size > 3) delDirAndFile($dirName);
 /*-----------------*/

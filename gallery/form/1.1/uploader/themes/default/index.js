@@ -122,12 +122,8 @@ KISSY.add('gallery/form/1.1/uploader/themes/default/index', function (S, Node, T
                 '<div class="f-l">{name}</div>' +
                 '<div class="f-l status-wrapper J_FileStatus">' +
                     '<div class="status waiting-status">等待上传，<a class="J_Upload_{id}" href="#Upload">点此上传</a> </div>' +
-                    '<div class="status start-status clearfix">' +
-                        '<div class="f-l uploader-progress"><img class="loading" src="http://img01.taobaocdn.com/tps/i1/T1F5tVXjRfXXXXXXXX-16-16.gif" alt="loading" /></div>' +
-                        ' <a  class="J_Cancel_{id} f-l upload-cancel" href="#uploadCancel">取消</a>' +
-                    '</div> ' +
-                    '<div class="status progress-status clearfix">' +
-                        '<div class="J_ProgressBar_{id} f-l uploader-progress"></div>' +
+                    '<div class="status start-status progress-status clearfix">' +
+                        '<div class="J_ProgressBar_{id} f-l uploader-progress"><img class="loading" src="http://img01.taobaocdn.com/tps/i1/T1F5tVXjRfXXXXXXXX-16-16.gif" alt="loading" /></div>' +
                         ' <a  class="J_Cancel_{id} f-l upload-cancel" href="#uploadCancel">取消</a>' +
                     '</div> ' +
                     ' <div class="status success-status"><a href="#fileDel" class="J_Del_{id}">删除</a></div>' +

@@ -180,6 +180,7 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
         upload:function (index) {
             if (!S.isNumber(index)) return false;
             var self = this, uploadType = self.get('uploadType'),
+                type=self.get('type'),
                 queue = self.get('queue'),
                 file = queue.get('files')[index],
                 uploadParam;
@@ -194,9 +195,11 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
             }
             //文件上传域，如果是flash上传,input为文件数据对象
             uploadParam = file.input.id || file.input;
-            /*if(file['status'] === 'error'){
+            //如果是ajax上传直接传文件数据
+            if(type == 'ajax') uploadParam = file.data;
+            if(file['status'] === 'error'){
                 return false;
-            }*/
+            }
             //触发文件上传前事件
             self.fire(Uploader.event.START, {index:index, file:file});
             //阻止文件上传
@@ -496,12 +499,19 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
          */
         _restore: function(){
         	var self = this,
-        		urlsInput = self.get('urlsInput'),
-        		filesExists = urlsInput.parse();
-            if(filesExists && filesExists.length > 0){
-            	var queue = self.get('queue');
-            	queue.restore(filesExists);
-            }
+                queue = self.get('queue'),
+                restoreHook = self.get('restoreHook'),
+                $restore = $(restoreHook),
+                data = [];
+            if(!$restore.length) return false;
+            data = S.JSON.parse($restore.html());
+            if(!data.length) return false;
+            S.each(data,function(file){
+                queue.add(file,function(index,file){
+                    //改变文件状态为成功
+                    queue.fileStatus(index,'success',{index:index,id:file.id,file:file});
+                });
+            });
         }
     }, {ATTRS:/** @lends Uploader.prototype*/{
         /**
@@ -569,7 +579,13 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
          * @type String
          * @default ""
          */
-        uploadFilesStatus:{value:EMPTY}
+        uploadFilesStatus:{value:EMPTY},
+        /**
+         * 已经存在的文件数据待提取的容器钩子
+         * @type String
+         * @default ""
+         */
+        restoreHook:{value:EMPTY}
     }});
 
     /**

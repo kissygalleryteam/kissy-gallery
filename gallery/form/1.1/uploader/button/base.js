@@ -153,7 +153,7 @@ KISSY.add('gallery/form/1.1/uploader/button/base',function(S, Node, Base) {
             if(oFiles){
                 S.each(oFiles,function(v){
                     if(S.isObject(v)){
-                        files.push({'name' : v.name,'type' : v.type,'size' : v.size});
+                        files.push({'name' : v.name,'type' : v.type,'size' : v.size,data:v});
                     }
                 });
             }else{

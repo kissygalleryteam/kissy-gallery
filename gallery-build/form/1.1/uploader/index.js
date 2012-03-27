@@ -56,9 +56,9 @@ KISSY.add('gallery/form/1.1/uploader/auth/base', function (S, Node,Base) {
                 self.testRepeat(file);
             });
             queue.on('remove',function(ev){
-                var file = ev.file,status = file.status,statusType = status.get('curType');
+                var file = ev.file,status = file.status;
                 //删除的是已经成功上传的文件，需要重新检验最大允许上传数
-                if(statusType == 'success'){
+                if(status == 'success'){
                     self.testMax();
                 }
             });
@@ -510,6 +510,7 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
         upload:function (index) {
             if (!S.isNumber(index)) return false;
             var self = this, uploadType = self.get('uploadType'),
+                type=self.get('type'),
                 queue = self.get('queue'),
                 file = queue.get('files')[index],
                 uploadParam;
@@ -524,9 +525,11 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
             }
             //文件上传域，如果是flash上传,input为文件数据对象
             uploadParam = file.input.id || file.input;
-            /*if(file['status'] === 'error'){
+            //如果是ajax上传直接传文件数据
+            if(type == 'ajax') uploadParam = file.data;
+            if(file['status'] === 'error'){
                 return false;
-            }*/
+            }
             //触发文件上传前事件
             self.fire(Uploader.event.START, {index:index, file:file});
             //阻止文件上传
@@ -826,12 +829,19 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
          */
         _restore: function(){
         	var self = this,
-        		urlsInput = self.get('urlsInput'),
-        		filesExists = urlsInput.parse();
-            if(filesExists && filesExists.length > 0){
-            	var queue = self.get('queue');
-            	queue.restore(filesExists);
-            }
+                queue = self.get('queue'),
+                restoreHook = self.get('restoreHook'),
+                $restore = $(restoreHook),
+                data = [];
+            if(!$restore.length) return false;
+            data = S.JSON.parse($restore.html());
+            if(!data.length) return false;
+            S.each(data,function(file){
+                queue.add(file,function(index,file){
+                    //改变文件状态为成功
+                    queue.fileStatus(index,'success',{index:index,id:file.id,file:file});
+                });
+            });
         }
     }, {ATTRS:/** @lends Uploader.prototype*/{
         /**
@@ -899,7 +909,13 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
          * @type String
          * @default ""
          */
-        uploadFilesStatus:{value:EMPTY}
+        uploadFilesStatus:{value:EMPTY},
+        /**
+         * 已经存在的文件数据待提取的容器钩子
+         * @type String
+         * @default ""
+         */
+        restoreHook:{value:EMPTY}
     }});
 
     /**
@@ -1072,7 +1088,7 @@ KISSY.add('gallery/form/1.1/uploader/button/base',function(S, Node, Base) {
             if(oFiles){
                 S.each(oFiles,function(v){
                     if(S.isObject(v)){
-                        files.push({'name' : v.name,'type' : v.type,'size' : v.size});
+                        files.push({'name' : v.name,'type' : v.type,'size' : v.size,data:v});
                     }
                 });
             }else{
@@ -1486,8 +1502,8 @@ KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, B
             BUTTON_CONFIG : 'data-button-config',
             THEME_CONFIG : 'data-theme-config',
             AUTH : 'data-auth'
-        };
-
+        },
+        THEME_PREFIX='gallery/form/1.1/uploader/themes/';
     /**
      * 解析组件在页面中data-config成为组件的配置
      * @param {String} hook 组件钩子
@@ -1603,8 +1619,15 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
             var self = this, theme = self.get('theme'),
                 target = self.get('buttonTarget'),
                 //从html标签的伪属性中抓取配置
-                config = S.parseConfig(target,dataName.THEME_CONFIG);
-            S.use(theme + '/index', function (S, Theme) {
+                config = S.parseConfig(target,dataName.THEME_CONFIG),
+                reg=/\//;
+            //如果只是传递主题名，组件自行拼接
+            if(!reg.test(theme)){
+                theme = THEME_PREFIX + theme;
+            }
+            theme = theme + '/index';
+            self.set('theme',theme);
+            S.use(theme, function (S, Theme) {
                 var queueTarget = self.get('queueTarget'),
                     theme;
                 S.mix(config,{queueTarget:queueTarget});
@@ -1637,7 +1660,7 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
             theme:{value:'gallery/form/1.1/uploader/themes/default' },
             /**
              * 按钮目标元素
-             * @type String|HTMLElement|KISSY.Node
+             * @type String|HTMLElement|KISSY.NodeList
              * @default ""
              */
             buttonTarget:{value:EMPTY},
@@ -1923,15 +1946,23 @@ KISSY.add('gallery/form/1.1/uploader/plugins/ajbridge/uploader', function(S,flas
     return A.Uploader;
 },{ requires:["flash","./ajbridge"] });
 /**
- *  文件拖拽插件
+ * @fileoverview  文件拖拽上传插件
  *  @author 飞绿
  */
-KISSY.add('gallery/form/1.1/uploader/plugins/filedrop/filedrop', function(S, Node, Base) {
+KISSY.add('gallery/form/1.1/uploader/plugins/filedrop/filedrop', function (S, Node, Base) {
     var EMPTY = '',
         $ = Node.all,
         UA = S.UA;
-
-    var FileDrop = function(config) {
+    /**
+     * @name FileDrop
+     * @class 文件拖拽上传插件
+     * @constructor
+     *  @author 飞绿
+     * @extends Base
+     * @param {Object} config 组件配置（下面的参数为配置项，配置会写入属性，详细的配置说明请看属性部分）
+     * @param {Button} config.button *，Button按钮的实例
+     */
+    var FileDrop = function (config) {
         var self = this;
         // console.log(config);
         FileDrop.superclass.constructor.call(self, config);
@@ -1939,37 +1970,53 @@ KISSY.add('gallery/form/1.1/uploader/plugins/filedrop/filedrop', function(S, Nod
         self.set('mode', getMode());
     };
 
-    var getMode = function() {
-        if(UA.webkit >= 7 || UA.firefox >= 3.6 ) {
+    var getMode = function () {
+        if (UA.webkit >= 7 || UA.firefox >= 3.6) {
             return 'supportDrop';
         }
-        if(UQ.ie) {
+        if (UA.ie) {
             return 'notSupportDropIe';
         }
-        if(UA.webkit < 7 || UA.firefox < 3.6) {
+        if (UA.webkit < 7 || UA.firefox < 3.6) {
             return 'notSupportDrop';
         }
     };
-    
+
     S.mix(FileDrop, {
-        event: {
-            'AFTER_DROP': 'afterdrop'       
+        event:{
+            'AFTER_DROP':'afterdrop'
         }
     });
 
-    S.extend(FileDrop, Base, {
-        render: function() {
-//            console.log('render', this.get('target'));        
-            var self = this;
-            self._createDropArea();
+    S.extend(FileDrop, Base, /** @lends FileDrop.prototype*/ {
+        /**
+         * 运行
+         */
+        render:function () {
+//            console.log('render', this.get('target'));
+            var self = this,mode = self.get('mode'),
+                uploader = self.get('uploader'),
+                $dropArea;
+            if(mode != 'supportDrop'){
+                S.log('该浏览器不支持拖拽上传！');
+                return false;
+            }
+            if(!uploader){
+                S.log('缺少Uploader的实例！');
+                return false;
+            }
+            $dropArea = self._createDropArea();
+            if($dropArea.length){
+                $dropArea.on('click',self._clickHandler,self);
+            }
             console.log('after randeer');
             // self.fire('afterRender', {'buttonWrap': self.get('buttonWrap'), 'config': {'tpl' : self.get('btnTpl')}});
-            self.fire('afterRender', {'buttonTarget': self.get('buttonWrap')});
+            self.fire('afterRender', {'buttonTarget':self.get('buttonWrap')});
         },
         /**
          * 显示拖拽区域
          */
-        show: function() {
+        show:function () {
             var self = this,
                 dropContainer = self.get('dropContainer');
             dropContainer.show();
@@ -1977,7 +2024,7 @@ KISSY.add('gallery/form/1.1/uploader/plugins/filedrop/filedrop', function(S, Nod
         /**
          * 隐藏拖拽区域
          */
-        hide: function() {
+        hide:function () {
             var self = this,
                 dropContainer = self.get('dropContainer');
             dropContainer.hide();
@@ -1985,104 +2032,130 @@ KISSY.add('gallery/form/1.1/uploader/plugins/filedrop/filedrop', function(S, Nod
         /**
          * ?
          */
-        reset: function() {},
+        reset:function () {
+        },
         /**
          * 创建拖拽区域
          */
-        _createDropArea: function() {
+        _createDropArea:function () {
             var self = this,
                 target = $(self.get('target')),
                 mode = self.get('mode'),
-                html = S.substitute(self.get('tpl')[mode], {name: self.get('name')}),
-                dropContainer = $(html), 
+                html = S.substitute(self.get('tpl')[mode], {name:self.get('name')}),
+                dropContainer = $(html),
                 buttonWrap = dropContainer.all('.J_ButtonWrap');
             // console.log(buttonWrap);
-            dropContainer.insertAfter(target);
-            dropContainer.on('dragover', function(ev) {
+            dropContainer.appendTo(target);
+            dropContainer.on('dragover', function (ev) {
                 ev.stopPropagation();
                 ev.preventDefault();
             });
-            dropContainer.on('drop', function(ev) {
+            dropContainer.on('drop', function (ev) {
                 ev.stopPropagation();
                 ev.preventDefault();
                 self._dropHandler(ev);
             });
             self.set('dropContainer', dropContainer);
             self.set('buttonWrap', buttonWrap);
+            self._setStyle();
+            return dropContainer;
         },
         /**
-         * 处理拖拽时间 
+         * 设置拖拽层样式
+         * @author 明河新增
          */
-        _dropHandler: function(ev) {
-            console.log('handler');
+        _setStyle:function(){
+             var self = this,$dropContainer = self.get('dropContainer');
+            if(!$dropContainer.length) return false;
+            $dropContainer.parent().css('position','relative');
+            $dropContainer.css({'position':'absolute','top':'0','left':'0',width:'100%',height:'100%','zIndex':'1000'});
+        },
+        /**
+         * 点击拖拽区域后触发
+         * @author 明河新增
+         * @param ev
+         */
+        _clickHandler:function(ev){
+            var self = this,$target = $(ev.target),uploader = self.get('uploader'),
+                button = uploader.get('button'),
+                $input = button.get('fileInput');
+            //触发input的选择文件
+            $input.fire('click');
+        },
+        /**
+         * 处理拖拽时间
+         */
+        _dropHandler:function (ev) {
             var self = this,
                 event = FileDrop.event,
                 fileList = ev.originalEvent.dataTransfer.files,
-                files = [];
-//            console.log(fileList.length);
-            if(fileList.lenght == 0) {return;}
+                files = [],
+                uploader = self.get('uploader');
 
-            S.each(fileList, function(f) {
-                if(S.isObject(f)) {
-                    files.push({'name' : f.name, 'type': f.type, 'size': f.size, 'input': {files:[f]}});
+            if (!fileList.length || uploader == EMPTY)  return false;
+            S.each(fileList, function (f) {
+                if (S.isObject(f)) {
+                    files.push({'name':f.name, 'type':f.type, 'size':f.size,'data':f});
                 }
             });
-            self.fire(event.AFTER_DROP, {files: files});
+            self.fire(event.AFTER_DROP, {files:files});
+            uploader._select({files:files});
         },
-        _setDisabled: function() {}
+        _setDisabled:function () {
+        }
     }, {
-        ATTRS: {
-            target: {
-                value: null        
-            },       
-            fileInput: {
-                value: EMPTY           
+        ATTRS:/** @lends FileDrop.prototype*/{
+            target:{
+                value:EMPTY
             },
-            dropContainer: {
-                value: EMPTY               
+            uploader:{value:EMPTY},
+            dropContainer:{
+                value:EMPTY
             },
-            tpl: {
-                value: {
-                    supportDrop: '<div class="drop-wrapper">' + 
-                                    '<p>直接拖拽图片到这里，</p>' + 
-                                    '<p class="J_ButtonWrap">或者' + 
-                                    '</p>' +
-                                '</div>',
-                    notSupportDropIe: '<div class="drop-wrapper">' + 
-                                        '<p>您的浏览器只支持传统的图片上传，</p>' + 
-                                        '<p class="suggest J_ButtonWrap">推荐使用chrome浏览器或firefox浏览器' + 
-                                        '</p>' + 
-                                    '</div>',
-                    notSupportDrop: '<div class="drop-wrapper">' + 
-                                        '<p>您的浏览器只支持传统的图片上传，</p>' + 
-                                        '<p class="suggest J_ButtonWrap">推荐升级您的浏览器' + 
-                                        '</p>' +
-                                    '</div>'
+            /**
+             * 模板
+             * @type Object
+             * @default {}
+             */
+            tpl:{
+                value:{
+                    supportDrop:'<div class="drop-wrapper">' +
+                        '<p>直接拖拽图片到这里，</p>' +
+                        '<p class="J_ButtonWrap">或者' +
+                        '</p>' +
+                        '</div>',
+                    notSupportDropIe:'<div class="drop-wrapper">' +
+                        '<p>您的浏览器只支持传统的图片上传，</p>' +
+                        '<p class="suggest J_ButtonWrap">推荐使用chrome浏览器或firefox浏览器' +
+                        '</p>' +
+                        '</div>',
+                    notSupportDrop:'<div class="drop-wrapper">' +
+                        '<p>您的浏览器只支持传统的图片上传，</p>' +
+                        '<p class="suggest J_ButtonWrap">推荐升级您的浏览器' +
+                        '</p>' +
+                        '</div>'
                 }
             },
-            btnTpl: {
-                value: '<input type="file" name="dropFile" hidefoucs="true" class="file-input" />'
-            },
-            name: {
-                value: '',
-                setter: function(v) {
+            name:{
+                value:'',
+                setter:function (v) {
                 }
             },
-            disabled: {
-                value: false,
-                setter: function(v) {
+            disabled:{
+                value:false,
+                setter:function (v) {
                     this._setDisabled(v);
                     return v;
                 }
             },
-            cls: {
-                disabled: 'drop-area-disabled'
+            cls:{
+                disabled:'drop-area-disabled'
             }
         }
     });
 
     return FileDrop;
-}, {requires: ['node', 'base']});
+}, {requires:['node', 'base']});
 /**
  * @fileoverview 本地图片预览组件
  * @author 紫英（橘子）<daxingplay@gmail.com>
@@ -2230,12 +2303,14 @@ KISSY.add('gallery/form/1.1/uploader/plugins/preview/preview', function(S, D, E)
 						reader.onload = function(e){
 							self.data = e.target.result;
 							onsuccess();
-						}
+						};
 						reader.onerror = function(e){
 							S.log(LOG_PRE + 'File Reader Error. Your browser may not fully support html5 file api', 'warning');
 							self.fire(_eventList.error);
-						}
-						reader.readAsDataURL(fileInput.files[0]);
+						};
+                        if(fileInput.files){
+                            reader.readAsDataURL(fileInput.files[0]);
+                        }
 						// alert(reader.readAsDataURL);
 						// S.log(reader, 'dir');
 						break;
@@ -2710,43 +2785,6 @@ KISSY.add('gallery/form/1.1/uploader/queue', function (S, Node, Base) {
             }
         },
         /**
-         * 将数据恢复到队列中
-         * @param {Array} 需要恢复的数据
-         */
-        restore: function(files){
-        	var self = this,
-        		filesData = [];
-        	if(files && files.length > 0){
-        		S.each(files, function(url, index){
-                    var s = url.split('|'),name = EMPTY;
-                    if(s.length > 1){
-                        url = s[1];
-                        name = s[0];
-                    }
-	        		if(url){
-	        			var file = {
-	        				input: null,
-	        				name: name,
-	        				sUrl: url,
-	        				size: '',
-	        				type: ''
-	        			};
-	        			var fileData = self._setAddFileData(file),
-			                index = self.getFileIndex(fileData.id);
-			            //更换文件状态为等待
-			            self.fileStatus(index, Queue.status.RESTORE);
-			            //显示文件信息li元素
-			            $(fileData.target).show();
-			            //fileData.status.set('curType', Queue.status.SUCCESS);
-			            filesData[index] = fileData;
-	        		}
-	        	});
-        	}
-        	self.fire(Queue.event.RESTORE, {
-            	'files': filesData
-            });
-        },
-        /**
          * 获取或设置文件状态，默认的主题共有以下文件状态：'waiting'、'start'、'progress'、'success'、'cancel'、'error' ,每种状态的dom情况都不同，刷新文件状态时候同时刷新状态容器类下的DOM节点内容。
          * @param {Number} index 文件数组的索引值
          * @param {String} status 文件状态
@@ -3199,23 +3237,17 @@ KISSY.add('gallery/form/1.1/uploader/type/ajax',function(S, Node, UploadType) {
     S.extend(AjaxType, UploadType, /** @lends AjaxType.prototype*/{
         /**
          * 上传文件
-         * @param {HTMLElement} fileInput 文件input
+         * @param {File} fileData 文件数据
          * @return {AjaxType}
          */
-        upload : function(fileInput) {
+        upload : function(fileData) {
             //不存在文件信息集合直接退出
-            if (!fileInput) {
-                S.log(LOG_PREFIX + 'upload()，fileInput参数有误！');
+            if (!fileData) {
+                S.log(LOG_PREFIX + 'upload()，fileData参数有误！');
                 return false;
             }
-            var self = this, files = fileInput.files, file;
-            //不存在文件信息集合直接退出
-            if (!files.length) {
-                S.log(LOG_PREFIX + 'upload()，不存在要上传的文件！');
-                return false;
-            }
-            file = files[0];
-            self._addFileData(fileInput, file);
+            var self = this;
+            self._addFileData(fileData);
             self.send();
             return self;
         },
@@ -3291,10 +3323,9 @@ KISSY.add('gallery/form/1.1/uploader/type/ajax',function(S, Node, UploadType) {
         },
         /**
          * 将文件信息添加到FormData内
-         * @param {HTMLElement} fileInput 文件上传域
          * @param {Object} file 文件信息
          */
-        _addFileData : function(fileInput, file) {
+        _addFileData : function(file) {
             if (!S.isObject(file)) {
                 S.log(LOG_PREFIX + '_addFileData()，file参数有误！');
                 return false;
@@ -3302,10 +3333,6 @@ KISSY.add('gallery/form/1.1/uploader/type/ajax',function(S, Node, UploadType) {
             var self = this,
                 formData = self.get('formData'),
                 fileDataName = self.get('fileDataName');
-            if (fileDataName == EMPTY) {
-                fileDataName = $(fileInput).attr('name');
-                self.set('fileDataName', fileDataName);
-            }
             formData.append(fileDataName, file);
             self.set('formData', formData);
         }
