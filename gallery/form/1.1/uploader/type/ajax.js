@@ -30,23 +30,17 @@ KISSY.add('gallery/form/1.1/uploader/type/ajax',function(S, Node, UploadType) {
     S.extend(AjaxType, UploadType, /** @lends AjaxType.prototype*/{
         /**
          * 上传文件
-         * @param {HTMLElement} fileInput 文件input
+         * @param {File} fileData 文件数据
          * @return {AjaxType}
          */
-        upload : function(fileInput) {
+        upload : function(fileData) {
             //不存在文件信息集合直接退出
-            if (!fileInput) {
-                S.log(LOG_PREFIX + 'upload()，fileInput参数有误！');
+            if (!fileData) {
+                S.log(LOG_PREFIX + 'upload()，fileData参数有误！');
                 return false;
             }
-            var self = this, files = fileInput.files, file;
-            //不存在文件信息集合直接退出
-            if (!files.length) {
-                S.log(LOG_PREFIX + 'upload()，不存在要上传的文件！');
-                return false;
-            }
-            file = files[0];
-            self._addFileData(fileInput, file);
+            var self = this;
+            self._addFileData(fileData);
             self.send();
             return self;
         },
@@ -122,10 +116,9 @@ KISSY.add('gallery/form/1.1/uploader/type/ajax',function(S, Node, UploadType) {
         },
         /**
          * 将文件信息添加到FormData内
-         * @param {HTMLElement} fileInput 文件上传域
          * @param {Object} file 文件信息
          */
-        _addFileData : function(fileInput, file) {
+        _addFileData : function(file) {
             if (!S.isObject(file)) {
                 S.log(LOG_PREFIX + '_addFileData()，file参数有误！');
                 return false;
@@ -133,10 +126,6 @@ KISSY.add('gallery/form/1.1/uploader/type/ajax',function(S, Node, UploadType) {
             var self = this,
                 formData = self.get('formData'),
                 fileDataName = self.get('fileDataName');
-            if (fileDataName == EMPTY) {
-                fileDataName = $(fileInput).attr('name');
-                self.set('fileDataName', fileDataName);
-            }
             formData.append(fileDataName, file);
             self.set('formData', formData);
         }

@@ -9,8 +9,8 @@ KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, B
             BUTTON_CONFIG : 'data-button-config',
             THEME_CONFIG : 'data-theme-config',
             AUTH : 'data-auth'
-        };
-
+        },
+        THEME_PREFIX='gallery/form/1.1/uploader/themes/';
     /**
      * 解析组件在页面中data-config成为组件的配置
      * @param {String} hook 组件钩子
@@ -126,8 +126,15 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
             var self = this, theme = self.get('theme'),
                 target = self.get('buttonTarget'),
                 //从html标签的伪属性中抓取配置
-                config = S.parseConfig(target,dataName.THEME_CONFIG);
-            S.use(theme + '/index', function (S, Theme) {
+                config = S.parseConfig(target,dataName.THEME_CONFIG),
+                reg=/\//;
+            //如果只是传递主题名，组件自行拼接
+            if(!reg.test(theme)){
+                theme = THEME_PREFIX + theme;
+            }
+            theme = theme + '/index';
+            self.set('theme',theme);
+            S.use(theme, function (S, Theme) {
                 var queueTarget = self.get('queueTarget'),
                     theme;
                 S.mix(config,{queueTarget:queueTarget});
@@ -160,7 +167,7 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
             theme:{value:'gallery/form/1.1/uploader/themes/default' },
             /**
              * 按钮目标元素
-             * @type String|HTMLElement|KISSY.Node
+             * @type String|HTMLElement|KISSY.NodeList
              * @default ""
              */
             buttonTarget:{value:EMPTY},

@@ -280,43 +280,6 @@ KISSY.add('gallery/form/1.1/uploader/queue', function (S, Node, Base) {
             }
         },
         /**
-         * 将数据恢复到队列中
-         * @param {Array} 需要恢复的数据
-         */
-        restore: function(files){
-        	var self = this,
-        		filesData = [];
-        	if(files && files.length > 0){
-        		S.each(files, function(url, index){
-                    var s = url.split('|'),name = EMPTY;
-                    if(s.length > 1){
-                        url = s[1];
-                        name = s[0];
-                    }
-	        		if(url){
-	        			var file = {
-	        				input: null,
-	        				name: name,
-	        				sUrl: url,
-	        				size: '',
-	        				type: ''
-	        			};
-	        			var fileData = self._setAddFileData(file),
-			                index = self.getFileIndex(fileData.id);
-			            //更换文件状态为等待
-			            self.fileStatus(index, Queue.status.RESTORE);
-			            //显示文件信息li元素
-			            $(fileData.target).show();
-			            //fileData.status.set('curType', Queue.status.SUCCESS);
-			            filesData[index] = fileData;
-	        		}
-	        	});
-        	}
-        	self.fire(Queue.event.RESTORE, {
-            	'files': filesData
-            });
-        },
-        /**
          * 获取或设置文件状态，默认的主题共有以下文件状态：'waiting'、'start'、'progress'、'success'、'cancel'、'error' ,每种状态的dom情况都不同，刷新文件状态时候同时刷新状态容器类下的DOM节点内容。
          * @param {Number} index 文件数组的索引值
          * @param {String} status 文件状态

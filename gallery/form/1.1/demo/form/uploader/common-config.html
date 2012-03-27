@@ -15,7 +15,7 @@
     <!-- 上传按钮，组件配置请写在data-config内 -->
     <a id="J_UploaderBtn" class="g-u uploader-button" data-config=
             '{"type" : "ajax",
-                "theme" : "gallery/form/1.1/uploader/themes/default",
+                "theme" : "default",
                 "autoUpload" : false,
                 "serverConfig":{"action":"upload.php","data":{"dir":"files/"},"dataType" : "json"},
                 "name":"Filedata",
@@ -33,9 +33,9 @@
     <h5>组件参数配置情况</h5>
     <ul>
         <li>上传方式：<b id="J_UploadType"></b></li>
-        <li>模板：<b id="J_Theme"></b>，为模板路径</li>
+        <li>主题：<b id="J_Theme"></b>，为主题路径，留意如果你使用的是组件内置主题，只要传递主题名就好，比如"default"，非内置主题使用完整模块路径，不需要（/index）</li>
         <li>自动上传：<b id="J_AutoUpload"></b>，默认是true</li>
-        <li>服务器端配置：<b id="J_ServerConfig"></b></li>
+        <li>服务器端路径：<b id="J_ServerConfig"></b></li>
         <li>文件上传域名：<b id="J_FileName"></b></li>
         <li>路径input名：<b id="J_UrlsInput"></b></li>
     </ul>

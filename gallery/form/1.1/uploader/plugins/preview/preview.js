@@ -145,12 +145,14 @@ KISSY.add('gallery/form/1.1/uploader/plugins/preview/preview', function(S, D, E)
 						reader.onload = function(e){
 							self.data = e.target.result;
 							onsuccess();
-						}
+						};
 						reader.onerror = function(e){
 							S.log(LOG_PRE + 'File Reader Error. Your browser may not fully support html5 file api', 'warning');
 							self.fire(_eventList.error);
-						}
-						reader.readAsDataURL(fileInput.files[0]);
+						};
+                        if(fileInput.files){
+                            reader.readAsDataURL(fileInput.files[0]);
+                        }
 						// alert(reader.readAsDataURL);
 						// S.log(reader, 'dir');
 						break;
