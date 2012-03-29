@@ -24,12 +24,12 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
             queue = new Queue(queueTarget);
             self.set('queue',queue);
             // S.log(queue);
-            var setMainPic = new SetMainPic(self.get('mainPicInput'), self.get('queueTarget'));
-            self.set('setMainPic', setMainPic);
-            queue.on('restore', function(e){
-            	var curMainPicUrl = setMainPic.getMainPicUrl();
-            	setMainPic.setMainPic(curMainPicUrl);
-            });
+            // var setMainPic = new SetMainPic(self.get('mainPicInput'), self.get('queueTarget'));
+            // self.set('setMainPic', setMainPic);
+            // queue.on('restore', function(e){
+            	// var curMainPicUrl = setMainPic.getMainPicUrl();
+            	// setMainPic.setMainPic(curMainPicUrl);
+            // });
             S.log(LOG_PRE + 'inited.');
 		},
 		/**
@@ -64,11 +64,25 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
 	            	'msgContainer': self.get('msgContainer'),
 	            	'successMsgCls': self.get('successMsgCls'),
 	            	'hintMsgCls': self.get('hintMsgCls'),
-	            	'errorMsgCls': self.get('errorMsgCls')
+	            	'errorMsgCls': self.get('errorMsgCls'),
+	            	'defaultMsg': defaultMsg,
+	            	'leftMsg': leftMsg
 	            }),
-	            setMainPic = self.get('setMainPic');
+	            setMainPic = new SetMainPic(self.get('mainPicInput'), self.get('queueTarget'));
             // message.set('msgContainer', '#J_MsgBoxUpload');
             uploader.set('message', message);
+            
+            queue.on('restore', function(e){
+            	var curMainPicUrl = setMainPic.getMainPicUrl(),
+            		successFiles = queue.getFiles('success'),
+            		queueLength = successFiles ? parseInt(successFiles.length, '10') : 0 + parseInt(e.filesData.length, '10');
+            	setMainPic.setMainPic(curMainPicUrl);
+            	if(queueLength){
+        			message.send(S.substitute(leftMsg, {
+	        			'left': maxFileAllowed[0] - queueLength
+	        		}), 'hint');
+        		}
+            });
             
             queue.on('add',function(ev){
             	var elemImg = $('.J_ItemPic', ev.target),
@@ -77,7 +91,7 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/index', function(S, Node, 
         		S.log(LOG_PRE + 'preview done for file: ' + ev.file.id);
         		if(successFiles.length + 1){
         			message.send(S.substitute(leftMsg, {
-	        			'left': maxFileAllowed - successFiles.length - 1
+	        			'left': maxFileAllowed[0] - successFiles.length - 1
 	        		}), 'hint');
         		}
             });
