@@ -54,7 +54,7 @@
     float:left;
     position: relative;
 }
-.imageUploader-queue .unupload{
+.imageUploader-queue .imageUploader-button{
     display: block;
     width:110px;
     height:110px;
@@ -63,7 +63,7 @@
     z-index: 9;
     text-decoration: none;
 }
-.imageUploader-queue .unupload .count{
+.imageUploader-queue .imageUploader-button .count{
     position: absolute;
     z-index: 10;
     top:40px;
@@ -98,10 +98,10 @@
     font-size: 0px;
     line-height: 0px;
 }
-.imageUploader-queue .unupload:hover{
+.imageUploader-queue .imageUploader-button:hover{
     background: #fee7f1;
 }
-.imageUploader-queue .unupload .bg,.imageUploader-queue .go-on .bg{
+.imageUploader-queue .imageUploader-button .bg,.imageUploader-queue .go-on .bg{
     width:110px;
     height:110px;
     display: block;
@@ -110,7 +110,7 @@
     left:5px;
     top:5px;
 }
-.imageUploader-queue .unupload .bg{
+.imageUploader-queue .imageUploader-button .bg{
     background-position: -5px -6px;
 }
 .imageUploader-queue .go-on .bg{

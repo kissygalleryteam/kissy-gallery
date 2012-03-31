@@ -37,7 +37,10 @@ KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, B
      * @param {String | HTMLElement} buttonTarget *，上传按钮目标元素
      * @param {String | HTMLElement} queueTarget *，文件队列目标元素
      * @param {Object} config 配置，该配置好覆盖data-config伪属性中的数据
-     * @requires Uploader,Button,SwfButton,Auth
+     * @requires Uploader
+     * @requires Button
+     * @requires SwfButton
+     * @requires Auth
      * @example
      * <a id="J_UploaderBtn" class="uploader-button" data-config=
      '{"type" : "auto",
@@ -99,8 +102,12 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
                 theme.set('button',button);
                 var auth = self._auth();
                 theme.set('auth',auth);
-                if(theme.afterUploaderRender) theme.afterUploaderRender(uploader);
-                self.fire('init', {uploader:uploader});
+                theme._UploaderRender();
+                theme.afterUploaderRender(uploader);
+                //TODO:用于修正压缩文件不触发init事件的bug by 飞绿
+                S.later(function(){
+                    self.fire('init', {uploader:uploader});
+                })
             });
         },
         /**
