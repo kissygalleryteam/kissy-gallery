@@ -153,7 +153,7 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
             self._renderQueue();
             button = self._renderButton();
             // 看看是不是urlsinput里面已经有值了，如果有，恢复到队列中，适用于编辑页面。
-            self._restore();
+            // self._restore();
             //如果是flash异步上传方案，增加swfUploader的实例作为参数
             if (self.get('type') == Uploader.type.FLASH) {
                 S.mix(serverConfig, {swfUploader:button.get('swfUploader')});
@@ -495,7 +495,7 @@ KISSY.add('gallery/form/1.0/uploader/base', function (S, Base, Node, UrlsInput, 
         /**
          * 检查是否有已经存在的图片恢复到队列中
          */
-        _restore: function(){
+        restore: function(){
         	var self = this,
         		urlsInput = self.get('urlsInput'),
         		filesExists = urlsInput.parse();
