@@ -258,10 +258,10 @@ KISSY.add('gallery/form/1.1/uploader/button/base',function(S, Node, Base) {
             /**
              * 是否开启多选支持，多选目前有兼容性问题，建议禁用
              * @type Boolean
-             * @default false
+             * @default true
              */
             multiple : {
-                value : false,
+                value : true,
                 setter : function(v){
                     this._setMultiple(v);
                     return v;
