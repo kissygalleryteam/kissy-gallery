@@ -10,6 +10,9 @@ KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, B
             THEME_CONFIG : 'data-theme-config',
             AUTH : 'data-auth'
         },
+        //所支持的内置主题
+        THEMES = ['default','imageUploader'],
+        //内置主题路径前缀
         THEME_PREFIX='gallery/form/1.1/uploader/themes/';
     S.namespace('form');
     /**
@@ -134,14 +137,9 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
             var self = this, theme = self.get('theme'),
                 target = self.get('buttonTarget'),
                 //从html标签的伪属性中抓取配置
-                config = S.form.parseConfig(target,dataName.THEME_CONFIG),
-                reg=/\//;
+                config = S.form.parseConfig(target,dataName.THEME_CONFIG);
             //如果只是传递主题名，组件自行拼接
-            if(!reg.test(theme)){
-                theme = THEME_PREFIX + theme;
-            }
-            theme = theme + '/index';
-            self.set('theme',theme);
+            theme = self.getThemeName(theme);
             S.use(theme, function (S, Theme) {
                 var queueTarget = self.get('queueTarget'),
                     theme;
@@ -149,6 +147,21 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
                 theme = new Theme(config);
                 callback && callback.call(self, theme);
             })
+        },
+        /**
+         * 获取正确的主题名
+         * @param {String} theme 主题名
+         * @return {String}
+         */
+        getThemeName:function(theme){
+            var themeName = theme;
+            S.each(THEMES,function(t){
+               if(t == theme){
+                   themeName = THEME_PREFIX + theme;
+               }
+            });
+            themeName = themeName + '/index';
+            return themeName;
         },
         /**
          * 文件上传验证
