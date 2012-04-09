@@ -139,7 +139,7 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
                 //从html标签的伪属性中抓取配置
                 config = S.form.parseConfig(target,dataName.THEME_CONFIG);
             //如果只是传递主题名，组件自行拼接
-            theme = self.getThemeName(theme);
+            theme = self._getThemeName(theme);
             S.use(theme, function (S, Theme) {
                 var queueTarget = self.get('queueTarget'),
                     theme;
@@ -153,7 +153,7 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
          * @param {String} theme 主题名
          * @return {String}
          */
-        getThemeName:function(theme){
+        _getThemeName:function(theme){
             var themeName = theme;
             S.each(THEMES,function(t){
                if(t == theme){
