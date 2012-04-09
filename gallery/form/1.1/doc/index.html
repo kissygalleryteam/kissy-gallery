@@ -260,7 +260,7 @@ dl.data .dd{
 
                     <ul class="list detail-list">
                         <li>
-                            <b>版本：</b>1.1
+                            <b>版本：</b>1.1.2
                         </li>
                         <li>
                             <b>作者：</b>明河（剑平）、紫英、飞绿
@@ -275,6 +275,18 @@ dl.data .dd{
                             <b>使用指南：</b><a href="http://www.36ria.com/5041" target="_blank">Uploader快速使用指南</a>
                         </li>
                     </ul>
+                    <h2 class="classTitle">V1.1.2 change</h2>
+                    <ol class="list detail-list">
+                        <li>
+                            优化Queue类，Queue不再包含dom操作，add事件不再有target参数
+                        </li>
+                        <li>
+                            Queue的dom操作移到theme处理，用户可以自由覆盖控制li元素的显隐，以及是否输出DOM结构
+                        </li>
+                        <li>修正主题引用路径的bug</li>
+                        <li>默认开启文件多选</li>
+                        <li>优化默认主题的样式</li>
+                    </ol>
                     <h2 class="classTitle">V1.1 change</h2>
                     <ul class="list detail-list">
                         <li>
@@ -303,8 +315,7 @@ dl.data .dd{
             <li><a href="symbols/SwfButton.html">SwfButton</a></li>
             <li><a href="symbols/Queue.html">Queue</a></li>
             <li><a href="symbols/Auth.html">Auth</a></li>
-            <li><a href="symbols/DefaultTheme.html">DefaultTheme</a></li>
-            <li><a href="symbols/ImageUploader.html">ImageUploader</a></li>
+            <li><a href="symbols/Theme.html">Theme</a></li>
             <li><a href="symbols/ProgressBar.html">ProgressBar</a></li>
         </ul>
     </div>
