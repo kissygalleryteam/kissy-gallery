@@ -376,7 +376,6 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
                 //删除该文件路径，sUrl为服务器端返回的文件路径，而url是客服端文件路径
                 urlsInput.remove(ev.file.sUrl);
             });
-            queue.render();
             return queue;
         },
         /**
@@ -507,10 +506,10 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
             data = S.JSON.parse($restore.html());
             if(!data.length) return false;
             S.each(data,function(file){
-                queue.add(file,function(index,file){
-                    //改变文件状态为成功
-                    queue.fileStatus(index,'success',{index:index,id:file.id,file:file});
-                });
+                var fileData = queue.add(file),
+                    id = fileData.id,index = queue.getFileIndex(id);
+                //改变文件状态为成功
+                queue.fileStatus(index,'success',{index:index,id:id,file:fileData});
             });
         }
     }, {ATTRS:/** @lends Uploader.prototype*/{
