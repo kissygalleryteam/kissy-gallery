@@ -27,14 +27,33 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
          */
         afterUploaderRender:function (uploader) {
             var self = this,
-                preview = new Preview(),
-                queue = self.get('queue');
+                preview = new Preview();
             //图片预览
             self.set('preview',preview);
            //达到最大允许上传数隐藏上传按钮
             self._maxHideBtn(uploader);
             self._renderFiledrop();
-            queue.on('add',self._queueAddHandler,self);
+        },
+        /**
+         * 在完成文件dom插入后执行的方法
+         * @param {Object} data 数据，类似{index:0,file:{},target:$target}
+         */
+        afterAppendFile:function(data){
+            var self = this,file = data.file,$target = data.target,$delBtn = $('.J_Del_'+file.id),
+                $mask = $('.J_Mask_' + file.id) ;
+            //显示/隐藏删除按钮
+            $target.on('mouseover mouseout',function(ev){
+                if(ev.type == 'mouseover'){
+                    $delBtn.show();
+                    $mask.show();
+                }else{
+                    $delBtn.hide();
+                    $mask.hide();
+                }
+            });
+            $delBtn.data('data-file',file);
+            //点击删除按钮
+            $delBtn.on('click',self._delHandler,self);
         },
         /**
          * 获取状态容器
@@ -178,26 +197,6 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
                     $btn.parent('li').hide();
                 }
             })
-        },
-        /**
-         * 队列文件添加后触发
-         */
-        _queueAddHandler:function(ev){
-            var self = this,file = ev.file,$target = ev.target,$delBtn = $('.J_Del_'+file.id),
-                $mask = $('.J_Mask_' + file.id) ;
-            //显示/隐藏删除按钮
-            $target.on('mouseover mouseout',function(ev){
-                if(ev.type == 'mouseover'){
-                    $delBtn.show();
-                    $mask.show();
-                }else{
-                    $delBtn.hide();
-                    $mask.hide();
-                }
-            });
-            $delBtn.data('data-file',file);
-            //点击删除按钮
-            $delBtn.on('click',self._delHandler,self);
         },
         /**
          * 删除图片后触发
