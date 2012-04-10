@@ -36,6 +36,7 @@ KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, B
     /**
      * @name RenderUploader
      * @class 异步文件上传入口文件，会从按钮的data-config='{}' 伪属性中抓取组件配置
+     * @version 1.1.2
      * @constructor
      * @param {String | HTMLElement} buttonTarget *，上传按钮目标元素
      * @param {String | HTMLElement} queueTarget *，文件队列目标元素
@@ -103,8 +104,9 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
                 self.set('uploader', uploader);
                 theme.set('uploader',uploader);
                 theme.set('button',button);
-                var auth = self._auth();
-                theme.set('auth',auth);
+                theme.set('auth',self._auth());
+                // 抓取restoreHook容器内的数据，生成文件DOM
+                uploader.restore();
                 theme._UploaderRender();
                 theme.afterUploaderRender(uploader);
                 //TODO:用于修正压缩文件不触发init事件的bug by 飞绿
@@ -141,8 +143,7 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
             //如果只是传递主题名，组件自行拼接
             theme = self._getThemeName(theme);
             S.use(theme, function (S, Theme) {
-                var queueTarget = self.get('queueTarget'),
-                    theme;
+                var queueTarget = self.get('queueTarget'), theme;
                 S.mix(config,{queueTarget:queueTarget});
                 theme = new Theme(config);
                 callback && callback.call(self, theme);

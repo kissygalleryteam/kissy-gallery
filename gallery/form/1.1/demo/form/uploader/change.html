@@ -12,15 +12,14 @@
     <h4>组件更新</h4>
     <h5>V1.1.2 change</h5>
     <ol class="list detail-list">
-        <li>
-            优化Queue类，Queue不再包含dom操作，add事件不再有target参数
-        </li>
-        <li>
-           Queue的dom操作移到theme处理，用户可以自由覆盖控制li元素的显隐，以及是否输出DOM结构
-        </li>
+        <li> 优化Queue类，Queue不再包含dom操作</li>
+        <li>Queue配置项，增加fnAdd（添加文件后执行的回调函数）</li>
+        <li>删除与DOM相关的配置项和属性</li>
+        <li> Queue的dom操作移到theme处理，用户可以自由覆盖控制li元素的显隐，以及是否输出DOM结构</li>
         <li>修正主题引用路径的bug</li>
-        <li>默认开启文件多选</li>
+        <li>默认开启文件多选（多选bug已经修复）</li>
         <li>优化默认主题的样式</li>
+        <li>修正imageUploader，默认有数据的情况下统计失败的问题</li>
     </ol>
     <h5>V1.1 change</h5>
     <ol class="list detail-list">

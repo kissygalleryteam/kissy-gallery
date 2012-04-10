@@ -27,19 +27,21 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
          */
         afterUploaderRender:function (uploader) {
             var self = this,
-                preview = new Preview();
+                preview = new Preview(),
+                queue = self.get('queue');
             //图片预览
             self.set('preview',preview);
            //达到最大允许上传数隐藏上传按钮
             self._maxHideBtn(uploader);
             self._renderFiledrop();
+            queue.on('add',self._addFileHandler,self);
         },
         /**
          * 在完成文件dom插入后执行的方法
-         * @param {Object} data 数据，类似{index:0,file:{},target:$target}
+         * @param {Object} ev 类似{index:0,file:{},target:$target}
          */
-        afterAppendFile:function(data){
-            var self = this,file = data.file,$target = data.target,$delBtn = $('.J_Del_'+file.id),
+        _addFileHandler:function(ev){
+            var self = this,file = ev.file,$target = file.target,$delBtn = $('.J_Del_'+file.id),
                 $mask = $('.J_Mask_' + file.id) ;
             //显示/隐藏删除按钮
             $target.on('mouseover mouseout',function(ev){
@@ -209,6 +211,8 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
              if(status == 'start' || status == 'progress'){
                  uploader.cancel(index);
              }
+            //统计允许上传文件个数
+            self._setCount();
         },
         /**
          * 获取成功上传的图片张数，不传参的情况获取成功上传的张数

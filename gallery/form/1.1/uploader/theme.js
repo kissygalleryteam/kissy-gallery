@@ -6,7 +6,7 @@
 KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
     var EMPTY = '', $ = Node.all,
         //主题样式名前缀
-        classSuffix={BUTTON:'-button',QUEUE:'-queue'};
+        classSuffix = {BUTTON:'-button', QUEUE:'-queue'};
 
     /**
      * @name Theme
@@ -22,48 +22,14 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
         self._LoaderCss();
         self._init();
     }
+
     S.extend(Theme, Base, /** @lends Theme.prototype*/{
         /**
-         * 初始化
+         * 在上传组件运行完毕后执行的方法（对上传组件所有的控制都应该在这个函数内）
+         * @param {Uploader} uploader
          */
-        _init:function () {
-            this._initQueue();
-        },
-        /**
-         * uploader实例化后执行
-         */
-        _UploaderRender:function(){
-            this._addThemeCssName();
-        },
-        /**
-         * 将主题名写入到队列和按钮目标容器，作为主题css样式起始
-         */
-        _addThemeCssName:function () {
-            var self = this, name = self.get('name'),
-                queue = self.get('queue'),
-                $queueTarget = $(self.get('queueTarget')),
-                button = self.get('button'),
-                $btn;
-            if(name == EMPTY || !queue || !$queueTarget.length) return false;
-            $queueTarget.addClass(name + classSuffix.QUEUE);
-            if(!button) return false;
-            $btn = button.get('target');
-            $btn.addClass(name + classSuffix.BUTTON);
-        },
-        /**
-         * 初始化队列
-         * @return {Queue}
-         */
-        _initQueue:function () {
-            var self = this, queue = new Queue();
-            queue.set('theme', self);
-            self.set('queue', queue);
-            queue.on('add',self._addFileHandler,self );
-            queue.on('remove',self._removeFileHandler,self);
-            queue.on('statusChange', function (ev) {
-                self._setStatusVisibility(ev);
-            });
-            return queue;
+        afterUploaderRender:function (uploader) {
+
         },
         /**
          * 获取状态容器
@@ -74,133 +40,17 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
             return target.children('.J_FileStatus');
         },
         /**
-         * 加载css文件
-         */
-        _LoaderCss:function () {
-            var self = this,
-                isUseCss = self.get('isUseCss'),
-                cssUrl = self.get('cssUrl');
-            //加载css文件
-            if (!isUseCss) return false;
-            S.use(cssUrl, function () {
-                S.log(cssUrl + '加载成功！');
-            });
-        },
-        /**
-         * 在上传组件运行完毕后执行的方法（对上传组件所有的控制都应该在这个函数内）
-         * @param {Uploader} uploader
-         */
-        afterUploaderRender:function (uploader) {
-
-        },
-        /**
-         * 在完成文件dom插入后执行的方法
-         * @param {Object} data 数据
-         */
-        afterAppendFile:function(data){
-
-        },
-        /**
-         * 向队列添加完文件后触发的监听器
-         */
-        _addFileHandler:function (ev) {
-            var self = this,
-                queue = self.get('queue'),
-                index = ev.index,
-                file = ev.file,
-                $target = self._appendFileDom(file);
-            //将状态层容器写入到file数据
-            queue.updateFile(index, {
-                target : $target,
-                statusWrapper:self._getStatusWrapper($target)
-            });
-            //更换文件状态为等待
-            queue.fileStatus(index, Queue.status.WAITING);
-            self.displayFile(true,$target);
-            //给li下的按钮元素绑定事件
-            self._bindTriggerEvent(ev.index,file);
-            self.afterAppendFile({index:index,file:file,target:$target});
-        },
-        /**
-         * 删除队列中的文件后触发的监听器
-         */
-        _removeFileHandler:function(ev){
-            var self = this,
-                file = ev.file;
-            self.displayFile(false,file.target);
-        },
-        /**
-         * 给删除、上传、取消等按钮元素绑定事件
-         * @param {Number} index 文件索引值
-         * @param {Object} 文件数据
-         */
-        _bindTriggerEvent:function(index,file){
-            var self = this,
-                queue = self.get('queue'),
-                uploader = self.get('uploader'),
-                //文件id
-                fileId = file.id,
-                //上传链接
-                $upload = $('.J_Upload_' + fileId),
-                //取消链接
-                $cancel = $('.J_Cancel_' + fileId),
-                //删除链接
-                $del = $(".J_Del_" + fileId);
-            //点击上传
-            $upload.on('click', function (ev) {
-                ev.preventDefault();
-                if (!S.isObject(uploader)) return false;
-                uploader.upload(index);
-            });
-            //点击取消
-            $cancel.on('click', function (ev) {
-                ev.preventDefault();
-                uploader.cancel(index);
-            });
-            //点击删除
-            $del.on('click', function (ev) {
-                ev.preventDefault();
-                //删除队列中的文件
-                queue.remove(fileId);
-            });
-        },
-        //设置状态层的可见性
-        _setStatusVisibility:function (ev) {
-            var $statusWrapper = ev.file.statusWrapper, $status,
-                file = ev.file, status = file.status;
-            if (!$statusWrapper || !$statusWrapper.length) {
-                S.log('状态容器层不存在！');
-                return false;
-            }
-            $status = $statusWrapper.children('.status');
-            $status.hide();
-            $statusWrapper.children('.' + status + '-status').show();
-        },
-        /**
-         * 当队列添加完文件数据后向队列容器插入文件信息DOM结构
-         * @param {Object} fileData 文件数据
-         * @return {KISSY.NodeList}
-         */
-        _appendFileDom:function(fileData){
-            var self = this,tpl = self.get('fileTpl'),
-                $target = $(self.get('queueTarget')),
-                hFile;
-            if(!$target.length) return false;
-            hFile = S.substitute(tpl, fileData);
-            return $(hFile).hide().appendTo($target).data('data-file', fileData);
-        },
-        /**
          * 控制文件对应的li元素的显影
          * @param {Boolean} isShow 是否认显示
          * @param {NodeList} target li元素
          * @param {Function} callback 回调
          */
-        displayFile:function(isShow,target,callback){
+        displayFile:function (isShow, target, callback) {
             var self = this,
                 duration = self.get('duration');
-            if(!target || !target.length) return false;
-            target[isShow && 'fadeIn' || 'fadeOut'](duration,function(){
-               callback && callback.call(self);
+            if (!target || !target.length) return false;
+            target[isShow && 'fadeIn' || 'fadeOut'](duration, function () {
+                callback && callback.call(self);
             });
         },
         /**
@@ -239,6 +89,156 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
          */
         _restoreHandler:function (ev) {
 
+        },
+        /**
+         * 初始化
+         */
+        _init:function () {
+            this._initQueue();
+        },
+        /**
+         * uploader实例化后执行
+         */
+        _UploaderRender:function () {
+            this._addThemeCssName();
+        },
+        /**
+         * 将主题名写入到队列和按钮目标容器，作为主题css样式起始
+         */
+        _addThemeCssName:function () {
+            var self = this, name = self.get('name'),
+                queue = self.get('queue'),
+                $queueTarget = $(self.get('queueTarget')),
+                button = self.get('button'),
+                $btn;
+            if (name == EMPTY || !queue || !$queueTarget.length) return false;
+            $queueTarget.addClass(name + classSuffix.QUEUE);
+            if (!button) return false;
+            $btn = button.get('target');
+            $btn.addClass(name + classSuffix.BUTTON);
+        },
+        /**
+         * 初始化队列
+         * @return {Queue}
+         */
+        _initQueue:function () {
+            var self = this, queue = new Queue({fnAdd:function (index, file) {
+                return self._addCallback(index, file);
+            }});
+            queue.set('theme', self);
+            self.set('queue', queue);
+            queue.on('add', self._addFileHandler, self);
+            queue.on('remove', self._removeFileHandler, self);
+            queue.on('statusChange', function (ev) {
+                self._setStatusVisibility(ev);
+            });
+            return queue;
+        },
+        /**
+         * 加载css文件
+         */
+        _LoaderCss:function () {
+            var self = this,
+                isUseCss = self.get('isUseCss'),
+                cssUrl = self.get('cssUrl');
+            //加载css文件
+            if (!isUseCss) return false;
+            S.use(cssUrl, function () {
+                S.log(cssUrl + '加载成功！');
+            });
+        },
+        /**
+         * 向队列添加完文件后触发的回调函数（在add事件前触发）
+         * @param {Number} index 文件索引值
+         * @param {Object} file 文件数据
+         * @return {Object} file
+         */
+        _addCallback:function (index, file) {
+            var self = this,
+                queue = self.get('queue'),
+                $target = self._appendFileDom(file);
+            //将状态层容器写入到file数据
+            queue.updateFile(index, {
+                target:$target,
+                statusWrapper:self._getStatusWrapper($target)
+            });
+            //更换文件状态为等待
+            queue.fileStatus(index, Queue.status.WAITING);
+            self.displayFile(true, $target);
+            //给li下的按钮元素绑定事件
+            self._bindTriggerEvent(index, file);
+            return queue.getFile(index);
+        },
+        /**
+         * 删除队列中的文件后触发的监听器
+         */
+        _removeFileHandler:function (ev) {
+            var self = this,
+                file = ev.file;
+            self.displayFile(false, file.target);
+        },
+        /**
+         * 给删除、上传、取消等按钮元素绑定事件
+         * @param {Number} index 文件索引值
+         * @param {Object} 文件数据
+         */
+        _bindTriggerEvent:function (index, file) {
+            var self = this,
+                queue = self.get('queue'),
+                uploader = self.get('uploader'),
+                //文件id
+                fileId = file.id,
+                //上传链接
+                $upload = $('.J_Upload_' + fileId),
+                //取消链接
+                $cancel = $('.J_Cancel_' + fileId),
+                //删除链接
+                $del = $(".J_Del_" + fileId);
+            //点击上传
+            $upload.on('click', function (ev) {
+                ev.preventDefault();
+                if (!S.isObject(uploader)) return false;
+                uploader.upload(index);
+            });
+            //点击取消
+            $cancel.on('click', function (ev) {
+                ev.preventDefault();
+                uploader.cancel(index);
+            });
+            //点击删除
+            $del.on('click', function (ev) {
+                ev.preventDefault();
+                //删除队列中的文件
+                queue.remove(fileId);
+            });
+        },
+        /**
+         * 设置状态层的可见性
+         * @param ev
+         */
+        _setStatusVisibility:function (ev) {
+            var $statusWrapper = ev.file.statusWrapper, $status,
+                file = ev.file, status = file.status;
+            if (!$statusWrapper || !$statusWrapper.length) {
+                S.log('状态容器层不存在！');
+                return false;
+            }
+            $status = $statusWrapper.children('.status');
+            $status.hide();
+            $statusWrapper.children('.' + status + '-status').show();
+        },
+        /**
+         * 当队列添加完文件数据后向队列容器插入文件信息DOM结构
+         * @param {Object} fileData 文件数据
+         * @return {KISSY.NodeList}
+         */
+        _appendFileDom:function (fileData) {
+            var self = this, tpl = self.get('fileTpl'),
+                $target = $(self.get('queueTarget')),
+                hFile;
+            if (!$target.length) return false;
+            hFile = S.substitute(tpl, fileData);
+            return $(hFile).hide().appendTo($target).data('data-file', fileData);
         }
     }, {ATTRS:/** @lends Theme.prototype*/{
         /**

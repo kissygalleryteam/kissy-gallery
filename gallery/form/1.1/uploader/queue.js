@@ -164,7 +164,13 @@ KISSY.add('gallery/form/1.1/uploader/queue', function (S, Node, Base) {
             var self = this,
                 //设置文件对象
                 fileData = self._setAddFileData(file),
-                index = self.getFileIndex(fileData.id);
+                //文件索引
+                index = self.getFileIndex(fileData.id),
+                fnAdd = self.get('fnAdd');
+            //执行用户自定义的回调函数
+            if(S.isFunction(fnAdd)){
+                fileData = fnAdd(index,fileData);
+            }
             self.fire(Queue.event.ADD, {index:index, file:fileData,uploader:self.get('uploader')});
             callback && callback.call(self, index, fileData);
             return fileData;
@@ -358,6 +364,12 @@ KISSY.add('gallery/form/1.1/uploader/queue', function (S, Node, Base) {
             return file;
         }
     }, {ATTRS:/** @lends Queue.prototype*/{
+        /**
+         * 添加完文件数据后执行的回调函数，会在add事件前触发
+         * @type Function
+         * @default  ''
+         */
+        fnAdd:{value:EMPTY},
         /**
          * 队列内所有文件数据集合
          * @type Array

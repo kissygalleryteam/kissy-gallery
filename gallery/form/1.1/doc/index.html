@@ -244,7 +244,7 @@ dl.data .dd{
 <div id="page">
     <div id="header">
     <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="http://docs.kissyui.com/docs/html/static/logo.png"/></a></h1>
-    <p class="sub-title">KF（kissy-form）V1.1—API文档</p>
+    <p class="sub-title">KF（kissy-form）V1.1.2—API文档</p>
     <ul class="navigation">
         <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.1/demo/form/uploader/index.html" target="_blank">demo</a></li>
         <li><a href="http://www.36ria.com/5041">使用指南</a></li>
@@ -277,15 +277,14 @@ dl.data .dd{
                     </ul>
                     <h2 class="classTitle">V1.1.2 change</h2>
                     <ol class="list detail-list">
-                        <li>
-                            优化Queue类，Queue不再包含dom操作，add事件不再有target参数
-                        </li>
-                        <li>
-                            Queue的dom操作移到theme处理，用户可以自由覆盖控制li元素的显隐，以及是否输出DOM结构
-                        </li>
+                        <li> 优化Queue类，Queue不再包含dom操作</li>
+                        <li>Queue配置项，增加fnAdd（添加文件后执行的回调函数）</li>
+                        <li>删除与DOM相关的配置项和属性</li>
+                        <li> Queue的dom操作移到theme处理，用户可以自由覆盖控制li元素的显隐，以及是否输出DOM结构</li>
                         <li>修正主题引用路径的bug</li>
-                        <li>默认开启文件多选</li>
+                        <li>默认开启文件多选（多选bug已经修复）</li>
                         <li>优化默认主题的样式</li>
+                        <li>修正imageUploader，默认有数据的情况下统计失败的问题</li>
                     </ol>
                     <h2 class="classTitle">V1.1 change</h2>
                     <ul class="list detail-list">
