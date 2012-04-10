@@ -99,8 +99,11 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
         /**
          * uploader实例化后执行
          */
-        _UploaderRender:function () {
-            this._addThemeCssName();
+        _UploaderRender:function (callback) {
+            var self = this;
+            self._addThemeCssName();
+            //加载插件
+            self._loadPlugins(callback);
         },
         /**
          * 将主题名写入到队列和按钮目标容器，作为主题css样式起始
@@ -239,6 +242,30 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
             if (!$target.length) return false;
             hFile = S.substitute(tpl, fileData);
             return $(hFile).hide().appendTo($target).data('data-file', fileData);
+        },
+        /**
+         * 根据插件配置加载插件
+         */
+        _loadPlugins:function(callback){
+            var self = this,
+                plugins = self.get('plugins'),
+                oPlugin = self.get('oPlugin'),
+                //模块路径前缀
+                modPrefix = 'gallery/form/1.1/uploader/plugins/',
+                mods = [];
+            if(!plugins.length) return false;
+            //拼接模块路径
+            S.each(plugins,function(plugin){
+                mods.push(modPrefix+plugin+'/' +plugin);
+            });
+            S.use(mods.join(','),function(){
+                 S.each(arguments,function(arg,i){
+                     // 类排除S
+                     if(i>=1) oPlugin[plugins[i-1]] = arg;
+                 });
+                self.set('oPlugin',oPlugin);
+                callback && callback.call(self,oPlugin);
+            })
         }
     }, {ATTRS:/** @lends Theme.prototype*/{
         /**
@@ -265,6 +292,18 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
          * @default ""
          */
         fileTpl:{value:EMPTY },
+        /**
+         * 需要加载的插件，需要手动实例化
+         * @type Array
+         * @default []
+         */
+        plugins:{value:[]},
+        /**
+         * 插件类集合
+         * @type Array
+         * @default []
+         */
+        oPlugin:{value:{}},
         /**
          * 队列目标元素（一般是ul），队列的实例化过程在Theme中
          * @type String

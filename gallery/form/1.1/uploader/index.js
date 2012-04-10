@@ -105,14 +105,15 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
                 theme.set('uploader',uploader);
                 theme.set('button',button);
                 theme.set('auth',self._auth());
-                // 抓取restoreHook容器内的数据，生成文件DOM
-                uploader.restore();
-                theme._UploaderRender();
-                theme.afterUploaderRender(uploader);
-                //TODO:用于修正压缩文件不触发init事件的bug by 飞绿
-                S.later(function(){
-                    self.fire('init', {uploader:uploader});
-                })
+                theme._UploaderRender(function(){
+                    // 抓取restoreHook容器内的数据，生成文件DOM
+                    uploader.restore();
+                    theme.afterUploaderRender(uploader);
+                    //TODO:用于修正压缩文件不触发init事件的bug by 飞绿
+                    S.later(function(){
+                        self.fire('init', {uploader:uploader});
+                    })
+                });
             });
         },
         /**

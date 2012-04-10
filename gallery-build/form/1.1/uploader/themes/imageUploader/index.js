@@ -2,7 +2,7 @@
  * @fileoverview 图片上传主题（带图片预览），第一版由紫英同学完成，苏河同学做了大量优化，明河整理优化
  * @author 苏河、紫英、明河
  **/
-KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, Node, Theme, ProgressBar,Preview,Filedrop) {
+KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, Node, Theme) {
     var EMPTY = '', $ = Node.all;
 
     /**
@@ -27,6 +27,7 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
          */
         afterUploaderRender:function (uploader) {
             var self = this,
+                Preview = self.get('oPlugin').preview,
                 preview = new Preview(),
                 queue = self.get('queue');
             //图片预览
@@ -73,6 +74,7 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
             //文件拖拽支持
             var self = this,button = self.get('button'),
                 target = button.get('target'),
+                Filedrop = self.get('oPlugin').filedrop,
             filedrop = new Filedrop({
                 target:target,
                 uploader:this.get('uploader'),
@@ -105,7 +107,7 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
                 $progressBar = $('.J_ProgressBar_' + ev.id);
             //如果是ajax或flash异步上传，加入进度条
             if(uploadType == 'ajax' || uploadType == 'flash'){
-                var progressBar = new ProgressBar($progressBar);
+                var ProgressBar = self.get('oPlugin').progressBar,progressBar = new ProgressBar($progressBar);
                 progressBar.render();
                 self.set('progressBar',progressBar);
                 //将进度条实例写入到队列的文件数据上备用
@@ -287,6 +289,14 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
             '</li>'
         },
         /**
+         * 需要加载的插件，需要手动实例化
+         * @type Array
+         * @default ['preview','progressBar','filedrop'] 图片预览、进度条、文件拖拽
+         */
+        plugins:{
+          value:['preview','progressBar','filedrop']
+        },
+        /**
          * 统计上传张数的容器
          * @type KISSY.NodeList
          * @default '#J_UploadCount'
@@ -294,4 +304,4 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
         elCount:{value:'#J_UploadCount'}
     }});
     return ImageUploader;
-}, {requires:['node', '../../theme', '../../plugins/progressBar/progressBar','../../plugins/preview/preview','../../plugins/filedrop/filedrop']});
+}, {requires:['node', '../../theme']});
