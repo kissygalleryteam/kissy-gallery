@@ -65,7 +65,7 @@ KISSY.add('gallery/form/1.1/uploader/type/base',function(S, Node, Base) {
         upload : function() {
 
         },
-        /**
+        /** 
          * 停止上传
          */
         stop : function(){

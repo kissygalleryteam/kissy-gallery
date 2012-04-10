@@ -1,11 +1,12 @@
 /*--------- 图片上传主题样式，目前应用于爱逛街 BY 苏河、明河（优化） ---------*/
 /*sprits*/
-.article-bd .imageUploader-queue .tips,.imageUploader-queue .unupload .bg,
+.article-bd .imageUploader-queue .tips, .imageUploader-queue .unupload .bg,
 .imageUploader-queue .go-on .bg,
-.del-pic,.tips-uploading .loading-icon,
-.tips-deleting s{
+.del-pic, .tips-uploading .loading-icon,
+.tips-deleting s {
     background: url(http://img04.taobaocdn.com/tps/i4/T1A8O2XcVxXXXXXXXX-351-305.png) -9999px -9999px no-repeat transparent;
 }
+
 /*图片预览 START*/
 .imageUploader-queue .tb-pic120 {
     *overflow: hidden;
@@ -13,6 +14,7 @@
     text-align: center;
     table-layout: fixed;
 }
+
 .imageUploader-queue .tb-pic120 a {
     display: table-cell; /*非IE、IE8、IE9的主流浏览器识别的垂直居中的方法*/
     vertical-align: middle;
@@ -21,118 +23,146 @@
     *font-family: Arial; /*防止非utf-8引起的hack失效问题，如gbk编码*/
     *line-height: 1; /* 避免行高导致垂直居中有误 */
 }
-.imageUploader-queue .tb-pic120 a { *font-size: 105px; }
+
+.imageUploader-queue .tb-pic120 a {
+    *font-size: 105px;
+}
+
 .imageUploader-queue .tb-pic120 a img {
     vertical-align: middle;
 }
 
-.imageUploader-queue .tb-pic120, .tb-pic120 a { width: 120px; height: 120px; }
+.imageUploader-queue .tb-pic120, .tb-pic120 a {
+    width: 120px;
+    height: 120px;
+}
 
-.imageUploader-queue .tb-pic120 img { max-width: 120px; max-height: 120px; _width: 120px; }
+.imageUploader-queue .tb-pic120 img {
+    max-width: 120px;
+    max-height: 120px;
+    _width: 120px;
+}
+
 /*图片预览 END*/
-.imageUploader-queue{
+
+.imageUploader-queue {
     padding: 15px 25px 5px;
     background: #f4f4f4;
     position: relative;
     z-index: 10;
     margin-bottom: 40px;
     overflow: hidden;
-    width:650px;
+    width: 660px;
 }
-.imageUploader-queue .tips{
+
+.imageUploader-queue .tips {
     position: absolute;
     z-index: 10;
     background-position: 0 -130px;
-    width:350px;
-    height:55px;
-    top:60px;
-    left:200px;
+    width: 350px;
+    height: 55px;
+    top: 60px;
+    left: 200px;
 }
-.imageUploader-queue li{
-    width:120px;
-    height:120px;
-    float:left;
+
+.imageUploader-queue li {
+    width: 120px;
+    height: 120px;
+    float: left;
     position: relative;
 }
-.imageUploader-queue .unupload{
+
+.imageUploader-queue .imageUploader-button {
     display: block;
-    width:110px;
-    height:110px;
-    padding:5px;
+    width: 110px;
+    height: 110px;
+    padding: 5px;
     position: relative;
     z-index: 9;
     text-decoration: none;
 }
-.imageUploader-queue .unupload .count{
+
+.imageUploader-queue .imageUploader-button .count {
     position: absolute;
     z-index: 10;
-    top:40px;
-    left:5px;
-    color:#868887 !important;
-    _width:120px
+    top: 40px;
+    left: 5px;
+    color: #868887 !important;
+    _width: 120px
 }
-.imageUploader-queue li a img{
+
+.imageUploader-queue li a img {
     max-width: 120px;
     max-height: 120px;
 }
-.unimageUploader-queue{
+
+.unimageUploader-queue {
     overflow: hidden;
 
 }
-.imageUploader-queue ul{
-    width:660px;
+
+.imageUploader-queue ul {
+    width: 660px;
     overflow: hidden;
     max-height: 284px;
-    margin:0;
+    margin: 0;
 }
-.imageUploader-queue li{
-    border:solid 1px #e0e0e0;
+
+.imageUploader-queue li {
+    border: solid 1px #e0e0e0;
     background: #fff;
-    margin:0 10px 10px 0;
+    margin: 0 10px 10px 0;
 }
-.imageUploader-queue li.clear{
-    clear:both;
-    height:0px;
-    width:0px;
+
+.imageUploader-queue li.clear {
+    clear: both;
+    height: 0px;
+    width: 0px;
     overflow: hidden;
     font-size: 0px;
     line-height: 0px;
 }
-.imageUploader-queue .unupload:hover{
+
+.imageUploader-queue .imageUploader-button:hover {
     background: #fee7f1;
 }
-.imageUploader-queue .unupload .bg,.imageUploader-queue .go-on .bg{
-    width:110px;
-    height:110px;
+
+.imageUploader-queue .imageUploader-button .bg, .imageUploader-queue .go-on .bg {
+    width: 110px;
+    height: 110px;
     display: block;
     position: absolute;
     z-index: 9;
-    left:5px;
-    top:5px;
+    left: 5px;
+    top: 5px;
 }
-.imageUploader-queue .unupload .bg{
+
+.imageUploader-queue .imageUploader-button .bg {
     background-position: -5px -6px;
 }
-.imageUploader-queue .go-on .bg{
+
+.imageUploader-queue .go-on .bg {
     background-position: -133px -6px;
 }
-.imageUploader-queue li .wrapper{
+
+.imageUploader-queue li .wrapper {
     position: relative;
     z-index: 10;
 }
 
-.imageUploader-queue li .pic-mask{
-    width:120px;
-    height:120px;
+.imageUploader-queue li .pic-mask {
+    width: 120px;
+    height: 120px;
     position: absolute;
     z-index: 10;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     opacity: 0.7;
     background: #fff;
     filter: alpha(opacity = 70);
 }
-.imageUploader-queue li .del-pic{
+
+.imageUploader-queue li .del-pic {
     background-position: -263px -101px;
     color: #676767;
     display: none;
@@ -146,9 +176,10 @@
     width: 60px;
     z-index: 11;
 }
+
 /*上传完成后*/
 .tips-uploading, .tips-upload-error, .tips-upload-success, .tips-upload-waiting,
-.tips-deleting, .tips-delete-error, .tips-delete-success, .tips-delete-waiting{
+.tips-deleting, .tips-delete-error, .tips-delete-success, .tips-delete-waiting {
     left: 0;
     position: absolute;
     top: 50px;
@@ -156,62 +187,70 @@
     z-index: 11;
 }
 
-.tips-text{
-    width:120px;
+.tips-text {
+    width: 120px;
     text-align: center;
 }
-imageUploader-queue li .loading-icon{
-    color:#666;
+
+imageUploader-queue li .loading-icon {
+    color: #666;
     background-position: -337px -101px;
-    width:15px;
-    height:15px;
+    width: 15px;
+    height: 15px;
     display: inline-block;
-    margin-right:2px;
+    margin-right: 2px;
     vertical-align: middle
 }
-.tips-upload-error,.tips-delete-error{
-    color:#eb1176;
+
+.tips-upload-error, .tips-delete-error {
+    color: #eb1176;
 }
-.tips-upload-success,.tips-delete-success{
-    color:#49a417;
+
+.tips-upload-success, .tips-delete-success {
+    color: #49a417;
 }
-.tips-upload-waiting{
-    color:#666;
+
+.tips-upload-waiting {
+    color: #666;
 }
+
 /*进度条*/
 imageUploader-queue  .ks-progress-bar {
     height: 8px;
     width: 90px;
-    background:#b2b2b2;
+    background: #b2b2b2;
     border-radius: 5px;
     display: block;
     overflow: hidden;
-    margin:6px 0 0 15px;
+    margin: 6px 0 0 15px;
 }
-imageUploader-queue .ks-progress-bar  .ks-progress-bar-value{
-    width:0%;
-    height:8px;
+
+imageUploader-queue .ks-progress-bar  .ks-progress-bar-value {
+    width: 0%;
+    height: 8px;
     background: #db0869;
     display: block;
 }
-.imageUploader-queue .file-input-wrapper{
-    width:120px;
-    height:120px;
+
+.imageUploader-queue .file-input-wrapper {
+    width: 120px;
+    height: 120px;
     position: absolute;
     z-index: 12;
-    filter:alpha(opacity=0);
+    filter: alpha(opacity = 0);
     opacity: 0;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     overflow: hidden;
 }
-.imageUploader-queue .file-input-wrapper .file-input{
-    height:500px;
+
+.imageUploader-queue .file-input-wrapper .file-input {
+    height: 500px;
     display: block;
-    width:220px;
+    width: 220px;
     cursor: pointer;
-    font-size:500px;
-    margin-top:-50px;
+    font-size: 500px;
+    margin-top: -50px;
     position: absolute;
     right: 0;
     top: 0;
@@ -219,6 +258,7 @@ imageUploader-queue .ks-progress-bar  .ks-progress-bar-value{
     filter: alpha(opacity = 0);
     z-index: 14;
 }
-.imageUploader-queue .status-wrapper .status{
+
+.imageUploader-queue .status-wrapper .status {
     text-align: center;
 }

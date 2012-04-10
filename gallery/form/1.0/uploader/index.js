@@ -98,6 +98,8 @@ KISSY.use('gallery/form/1.0/uploader/index', function (S, RenderUploader) {
                 theme.set('button',button);
                 self._auth();
                 if(theme.afterUploaderRender) theme.afterUploaderRender(uploader);
+                // 看看是不是urlsinput里面已经有值了，如果有，恢复到队列中，适用于编辑页面。
+                uploader.restore();
                 self.fire('init', {uploader:uploader});
             });
         },

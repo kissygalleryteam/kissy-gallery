@@ -2,7 +2,7 @@
  * @fileoverview 默认主题
  * @author 剑平（明河）<minghe36@126.com>
  **/
-KISSY.add('gallery/form/1.1/uploader/themes/default/index', function (S, Node, Theme,ProgressBar) {
+KISSY.add('gallery/form/1.1/uploader/themes/default/index', function (S, Node, Theme) {
     var EMPTY = '', $ = Node.all;
 
     /**
@@ -55,7 +55,8 @@ KISSY.add('gallery/form/1.1/uploader/themes/default/index', function (S, Node, T
                  $progressBar = $('.J_ProgressBar_' + ev.id);
             //如果是ajax或flash异步上传，加入进度条
             if(uploadType == 'ajax' || uploadType == 'flash'){
-                var progressBar = new ProgressBar($progressBar);
+                var ProgressBar = self.get('oPlugin').progressBar,
+                    progressBar = new ProgressBar($progressBar);
                 progressBar.render();
                 self.set('progressBar',progressBar);
                 //将进度条实例写入到队列的文件数据上备用
@@ -131,7 +132,15 @@ KISSY.add('gallery/form/1.1/uploader/themes/default/index', function (S, Node, T
                     '<div class="status error-status upload-error"><span class="J_ErrorMsg_{id}"></span><a href="#fileDel" class="J_Del_{id}">删除</a></div>' +
                 '</div>' +
                 '</li>'
+        },
+        /**
+         * 需要加载的插件，需要手动实例化
+         * @type Array
+         * @default [''progressBar'] 进度条
+         */
+        plugins:{
+            value:['progressBar']
         }
     }});
     return DefaultTheme;
-}, {requires:['node', '../../theme','../../plugins/progressBar/progressBar']});
+}, {requires:['node', '../../theme']});
