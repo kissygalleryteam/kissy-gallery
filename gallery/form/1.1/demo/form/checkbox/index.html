@@ -60,6 +60,7 @@
             <input type="button" id="J_Five" name="" value="禁用第5个"><br/>
             
             <input type="button" id="J_GetAll" value="获取所有选中checkbox的key"><br/>
+            <input type="button" id="J_Recover" name="" key="1" value="还原checkbox"><br />
             <input type="submit" name="" value="提交表单测试">                        
         </form>
     </div>
@@ -85,7 +86,7 @@
                 btn = $('#J_GetAll'),
                 all = new R('#J_SelectAll input');
             
-            r.render();
+           r.render();
             all.render();
             //获取结果
             btn.on('click',function(){
@@ -103,9 +104,22 @@
                     r.selectAll();
                 }else{
                     r.resetAll();
-                }       
-                
+                }                
                 return false;
+            })
+
+            //还原checkbox
+            $('#J_Recover').on('click',function(){                                 
+                var key = $(this).attr('key');
+                if(key === '1'){
+                    r.recoverCheckbox();
+                    $(this).attr('key',2);
+                    $(this).val('美化checkbox')
+                }else{
+                    r.render();
+                    $(this).attr('key',1);
+                    $(this).val('还原checkbox')
+                }                
             })
         })
     </script>

@@ -17,13 +17,10 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 	 * var ck = new Checkbox('#J_Content input')
 	 */
 	function Checkbox(target, config) {
-		if (!S.isString(target)) {
-			S.log('请传入字符串格式的参数');
-			return false;
-		}
-		this.target = $(target);
-		this.checkboxs = [];
-		Checkbox.superclass.constructor.call(this, config);
+		//调用父类构造器
+		var self = this;
+		Checkbox.superclass.constructor.call(self, config);
+		self.set('target',target);		
 	}
 	//方法
 	S.extend(Checkbox, Base, {
@@ -36,21 +33,20 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 			self._replaceCheckbox();
 			//事件绑定
 			self._bindEvent();
-			//alert(self.get('cls').init);
 		},
 		/**
-		 * 还原checkbox，成为原生的checkbox
+		 * 还原checkbox为原生的checkbox
 		 * @return {Object} return self
 		 */
 		recoverCheckbox: function() {
 			var self = this,
-				targets = self.target,
-				checkboxs = self.checkboxs;
+				targets = self.get('target'),
+				checkboxs = self.get('checkboxs');
 			$(checkboxs).each(function(value, key) {
 				value.hide();
 				$(targets[key]).show();
 			})
-			self.checkboxs = null;
+			//self.set('checkboxs',[]);// = null;
 			return self;
 		},
 		/**
@@ -58,19 +54,18 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 		 */
 		_replaceCheckbox: function() {
 			var self = this,
-				target = self.target,
+				target = self.get('target'),
 				html = self._getHtml(0),
 				disabledHTML = self._getHtml(2),
 				checkedHTML = self._getHtml(1),
-				ksGuid, checkbox, disabledArr = [];
+				checkbox, checkboxArr = [];
 			if (target.length === 0) {
 				return false;
 			}
 			target.each(function(value, key) {
 				value.hide();
 				if (self._isDisabled(value)) {
-					checkbox = $(disabledHTML).insertBefore(value).attr('ks-checkbox-disabled', 'disabled');
-					disabledArr.push(key);
+					checkbox = $(disabledHTML).insertBefore(value).attr('ks-checkbox-disabled', 'disabled');					
 				} else {
 					//如果本身是选中的状态
 					if (self._isChecked(value)) {
@@ -79,8 +74,9 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 						checkbox = $(html).insertBefore(value);
 					}
 				}
-				self.checkboxs.push(checkbox);
+				checkboxArr.push(checkbox);				
 			})
+			self.set('checkboxs',checkboxArr);
 		},
 		/**
 		 * 根据样式返回html字符串
@@ -88,7 +84,6 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 		 * @return {String} 返回html
 		 */
 		_getHtml: function(key) {
-			//alert(this.get('cls').init);
 			var self = this,
 				getClass = self.get('cls'),
 				defaultClass = getClass.init,
@@ -118,7 +113,7 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 		 */
 		_bindEvent: function() {
 			var self = this,
-				checkboxs = $(self.checkboxs),
+				checkboxs = $(self.get('checkboxs')),
 				hoverClass = this.get('cls').hover;
 			checkboxs.each(function(value, key) {
 				value.on('mouseenter mouseleave', function(ev) {
@@ -137,8 +132,7 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 					default:
 						break;
 					}
-				}).on('click', function() {
-
+				}).on('click', function() {					
 					if (self._isDisabled(value)) return;
 					self._clickHandler.call(self, key);
 					//return false;				
@@ -151,12 +145,12 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 		 */
 		_clickHandler: function(targetIndex) {
 			var that = this,
-				targets = that.target,
-				checkbox = $(that.checkboxs[targetIndex]),
+				targets = that.get('target'),
+				checkbox = $(that.get('checkboxs')[targetIndex]),
 				checkedClass = this.get('cls').checked;
 			//触发原生dom节点的点击事件
 			$(targets[targetIndex]).fire('click');
-			checkbox.toggleClass(checkedClass);			
+			checkbox.toggleClass(checkedClass);
 		},
 		/**
 		 * 判断是否处于禁用状态
@@ -184,8 +178,8 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 		 */
 		setDisabled: function(targetElement) {
 			var self = this,
-				checkboxs = self.checkboxs,
-				targets = self.target,
+				checkboxs = self.get('checkboxs'),
+				targets = self.get('target'),
 				checkbox, target, getClass = this.get('cls'),
 				checkedClass = getClass.checked,
 				disabledClass = getClass.disabled,
@@ -205,7 +199,7 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 		 */
 		selectAll: function() {
 			var self = this,
-				checkboxs = self.checkboxs;
+				checkboxs = self.get('checkboxs');
 			$(checkboxs).each(function(value, key) {
 				if (self._isChecked(value)) return;
 				value.fire('click');
@@ -218,8 +212,8 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 		 */
 		resetAll: function() {
 			var self = this,
-				checkboxs = self.checkboxs,
-				hoverClass = this.get('cls').hover;
+				checkboxs = self.get('checkboxs'),
+				hoverClass = self.get('cls').hover;
 			$(checkboxs).each(function(value, key) {
 				if (!self._isChecked(value)) return;
 				value.fire('click').removeClass(hoverClass);
@@ -232,7 +226,7 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 		 */
 		getAllChecked: function() {
 			var self = this,
-				target = this.target,
+				target = self.get('target'),
 				checkedArr = [],
 				value;
 			for (i = 0, len = target.length; i < len; i++) {
@@ -248,11 +242,33 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 		}
 	}, {
 		ATTRS: {
-			 /**
-	         * 采用样式名
-	         * @type Object
-	         * @default cls:{init: 'ks-checkbox',checked: 'ks-checkbox-checked',disabled: 'ks-checkbox-disabled',hover: 'ks-checkbox-hover'}
-	         */
+			/**
+			 * 配置的目标,选择器的字符串
+			 * @type {String}
+			 */
+			target: {
+				value:'',
+				setter: function(v) {	
+					return $(v);
+				},
+				getter: function(v) {					
+					return $(v);
+				}
+			},
+			/**
+			 * 美化后的checkbox数组
+			 * @type {Array}
+			 * @default []
+			 */
+			checkboxs:{
+				value:[]		
+			},	
+			/**
+			 * 样式名
+			 * @type {Object}
+			 * @default cls:{init: 'ks-checkbox',checked: 'ks-checkbox-checked',disabled: 'ks-checkbox-disabled',hover: 'ks-checkbox-hover'}
+			 */
+			
 			cls: {
 				value: {
 					init: 'ks-checkbox',
