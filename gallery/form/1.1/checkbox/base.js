@@ -1,37 +1,32 @@
 /**
  * @fileoverview 多选框美化
- * @author: 伯方<bofang.zxj@taobao.com>
+ * @author 伯方<bofang.zxj@taobao.com>
+ *
  **/
-KISSY.add('gallery/form/1.0/checkbox/base', function(S, Base, Node) {
+KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 	var $ = Node.all;
 	/**
 	 * @name Checkbox
-	 * @class checkbox美化
+	 * @class 多选框美化
 	 * @constructor
+	 * @extends Base
 	 * @param {String} target 目标
-	 * @param {Object} config 配置对象
+	 * @param {Object} config * ,组件配置
+	 * @param {Object} config.cls *，组件的样式
+	 * @example
+	 * var ck = new Checkbox('#J_Content input')
 	 */
-
 	function Checkbox(target, config) {
-		if (typeof target !== 'string') {
-			//请输入正确格式的参数
-			console.log('\u8BF7\u4F20\u5165\u6B63\u786E\u683C\u5F0F\u7684\u53C2\u6570');
+		if (!S.isString(target)) {
+			S.log('请传入字符串格式的参数');
+			return false;
 		}
 		this.target = $(target);
 		this.checkboxs = [];
-		//var o = config || {};
-		//配置config
-		this.config = S.merge({
-			DEFAULT: 'ks-checkbox',
-			CHECKED: 'ks-checkbox-checked',
-			DISABLED: 'ks-checkbox-disabled',
-			HOVER: 'ks-checkbox-hover'
-		}, config);
-		//超类初始化 不明白这句话是什么意思？
-		//Checkbox.superclass.constructor.call(this, config);	
+		Checkbox.superclass.constructor.call(this, config);
 	}
 	//方法
-	S.augment(Checkbox, Base, {
+	S.extend(Checkbox, Base, {
 		/**
 		 * 运行
 		 */
@@ -41,9 +36,11 @@ KISSY.add('gallery/form/1.0/checkbox/base', function(S, Base, Node) {
 			self._replaceCheckbox();
 			//事件绑定
 			self._bindEvent();
+			//alert(self.get('cls').init);
 		},
 		/**
-		 * 还原checkbox
+		 * 还原checkbox，成为原生的checkbox
+		 * @return {Object} return self
 		 */
 		recoverCheckbox: function() {
 			var self = this,
@@ -54,19 +51,17 @@ KISSY.add('gallery/form/1.0/checkbox/base', function(S, Base, Node) {
 				$(targets[key]).show();
 			})
 			self.checkboxs = null;
+			return self;
 		},
 		/**
 		 * 用span替换checkbox，关键步骤
 		 */
 		_replaceCheckbox: function() {
-
 			var self = this,
 				target = self.target,
 				html = self._getHtml(0),
 				disabledHTML = self._getHtml(2),
-				//'<span class=" ks-checkbox ks-checkbox-disabled"></span>',
 				checkedHTML = self._getHtml(1),
-				//'<span class="ks-checkbox ks-checkbox-checked "></span>',
 				ksGuid, checkbox, disabledArr = [];
 			if (target.length === 0) {
 				return false;
@@ -93,12 +88,12 @@ KISSY.add('gallery/form/1.0/checkbox/base', function(S, Base, Node) {
 		 * @return {String} 返回html
 		 */
 		_getHtml: function(key) {
+			//alert(this.get('cls').init);
 			var self = this,
-				getClass = this.config,
-				//.DEFAULT
-				defaultClass = getClass.DEFAULT,
-				checkedClass = getClass.CHECKED,
-				disabledClass = getClass.DISABLED,
+				getClass = self.get('cls'),
+				defaultClass = getClass.init,
+				checkedClass = getClass.checked,
+				disabledClass = getClass.disabled,
 				htmlStr = '<span class="{defalutName} {secondName}"></span>',
 				obj = {
 					defalutName: defaultClass
@@ -124,7 +119,7 @@ KISSY.add('gallery/form/1.0/checkbox/base', function(S, Base, Node) {
 		_bindEvent: function() {
 			var self = this,
 				checkboxs = $(self.checkboxs),
-				hoverClass = self.config.HOVER;
+				hoverClass = this.get('cls').hover;
 			checkboxs.each(function(value, key) {
 				value.on('mouseenter mouseleave', function(ev) {
 					//如果本身是选中状态或者是禁用状态，则不做处理
@@ -158,15 +153,14 @@ KISSY.add('gallery/form/1.0/checkbox/base', function(S, Base, Node) {
 			var that = this,
 				targets = that.target,
 				checkbox = $(that.checkboxs[targetIndex]),
-				checkedClass = that.config.CHECKED;
+				checkedClass = this.get('cls').checked;
 			//触发原生dom节点的点击事件
 			$(targets[targetIndex]).fire('click');
-			checkbox.toggleClass(checkedClass);
-			return false;
+			checkbox.toggleClass(checkedClass);			
 		},
 		/**
 		 * 判断是否处于禁用状态
-		 * @param  {HTMLElement | KISSY Node | String}  原生的dom节点，也可以是$(Node)，或者是选择器字符串
+		 * @param  {HTMLElement | KISSY Node | String}  原生的dom节点，Nodelist，或者是选择器字符串
 		 * @return {Boolean}
 		 */
 		_isDisabled: function(target) {
@@ -176,12 +170,12 @@ KISSY.add('gallery/form/1.0/checkbox/base', function(S, Base, Node) {
 		},
 		/**
 		 * 判断是否处于禁用状态
-		 * @param  {HTMLElement | KISSY Node | String}  原生的dom节点，也可以是$(Node)，或者是选择器字符串
+		 * @param  {HTMLElement | KISSY Node | String}  原生的dom节点，Nodelist，或者是选择器字符串
 		 * @return {Boolean}
 		 */
 		_isChecked: function(target) {
 			var protoChecked = $(target).prop('checked'),
-				hasCheckedClass = $(target).hasClass(this.config.CHECKED);
+				hasCheckedClass = $(target).hasClass(this.get('cls').checked);
 			return protoChecked || hasCheckedClass;
 		},
 		/**
@@ -192,10 +186,10 @@ KISSY.add('gallery/form/1.0/checkbox/base', function(S, Base, Node) {
 			var self = this,
 				checkboxs = self.checkboxs,
 				targets = self.target,
-				checkbox, target, getClass = self.config,
-				checkedClass = getClass.CHECKED,
-				disabledClass = getClass.DISABLED,
-				hoverClass = getClass.HOVER;
+				checkbox, target, getClass = this.get('cls'),
+				checkedClass = getClass.checked,
+				disabledClass = getClass.disabled,
+				hoverClass = getClass.hover;
 			//如果传递的是数字索引
 			if (typeof targetElement === 'number') {
 				checkbox = $(checkboxs[targetElement]);
@@ -203,9 +197,11 @@ KISSY.add('gallery/form/1.0/checkbox/base', function(S, Base, Node) {
 				checkbox.attr('ks-checkbox-disabled', 'disabled').removeClass(checkedClass + ' ' + hoverClass).addClass(disabledClass);
 				target.attr('disabled', 'disabled');
 			}
+			return self;
 		},
 		/**
 		 * 全选
+		 * @return {Object} return self
 		 */
 		selectAll: function() {
 			var self = this,
@@ -214,18 +210,21 @@ KISSY.add('gallery/form/1.0/checkbox/base', function(S, Base, Node) {
 				if (self._isChecked(value)) return;
 				value.fire('click');
 			})
+			return self;
 		},
 		/**
 		 * 清空
+		 * @return {Object} return self
 		 */
 		resetAll: function() {
 			var self = this,
 				checkboxs = self.checkboxs,
-				hoverClass = self.config.HOVER;
+				hoverClass = this.get('cls').hover;
 			$(checkboxs).each(function(value, key) {
 				if (!self._isChecked(value)) return;
 				value.fire('click').removeClass(hoverClass);
 			})
+			return self;
 		},
 		/**
 		 * 获取所有选中的checkboxs索引
@@ -246,6 +245,22 @@ KISSY.add('gallery/form/1.0/checkbox/base', function(S, Base, Node) {
 				}
 			}
 			return checkedArr;
+		}
+	}, {
+		ATTRS: {
+			 /**
+	         * 采用样式名
+	         * @type Object
+	         * @default cls:{init: 'ks-checkbox',checked: 'ks-checkbox-checked',disabled: 'ks-checkbox-disabled',hover: 'ks-checkbox-hover'}
+	         */
+			cls: {
+				value: {
+					init: 'ks-checkbox',
+					checked: 'ks-checkbox-checked',
+					disabled: 'ks-checkbox-disabled',
+					hover: 'ks-checkbox-hover'
+				}
+			}
 		}
 	})
 	return Checkbox;
