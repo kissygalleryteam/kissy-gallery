@@ -293,7 +293,7 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
 			            //显示文件信息li元素
 			            $(fileData.target).show();
 			            fileData.status.set('curType', Queue.status.SUCCESS);
-			            filesData[index] = fileData;
+			            filesData.push(fileData);
 	        		}
 	        	});
         	}

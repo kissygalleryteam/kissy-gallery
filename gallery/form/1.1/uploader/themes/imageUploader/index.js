@@ -2,7 +2,7 @@
  * @fileoverview 图片上传主题（带图片预览），第一版由紫英同学完成，苏河同学做了大量优化，明河整理优化
  * @author 苏河、紫英、明河
  **/
-KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, Node, Theme, ProgressBar,Preview,Filedrop) {
+KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, Node, Theme) {
     var EMPTY = '', $ = Node.all;
 
     /**
@@ -27,6 +27,7 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
          */
         afterUploaderRender:function (uploader) {
             var self = this,
+                Preview = self.get('oPlugin').preview,
                 preview = new Preview(),
                 queue = self.get('queue');
             //图片预览
@@ -34,7 +35,28 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
            //达到最大允许上传数隐藏上传按钮
             self._maxHideBtn(uploader);
             self._renderFiledrop();
-            queue.on('add',self._queueAddHandler,self);
+            queue.on('add',self._addFileHandler,self);
+        },
+        /**
+         * 在完成文件dom插入后执行的方法
+         * @param {Object} ev 类似{index:0,file:{},target:$target}
+         */
+        _addFileHandler:function(ev){
+            var self = this,file = ev.file,$target = file.target,$delBtn = $('.J_Del_'+file.id),
+                $mask = $('.J_Mask_' + file.id) ;
+            //显示/隐藏删除按钮
+            $target.on('mouseover mouseout',function(ev){
+                if(ev.type == 'mouseover'){
+                    $delBtn.show();
+                    $mask.show();
+                }else{
+                    $delBtn.hide();
+                    $mask.hide();
+                }
+            });
+            $delBtn.data('data-file',file);
+            //点击删除按钮
+            $delBtn.on('click',self._delHandler,self);
         },
         /**
          * 获取状态容器
@@ -52,6 +74,7 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
             //文件拖拽支持
             var self = this,button = self.get('button'),
                 target = button.get('target'),
+                Filedrop = self.get('oPlugin').filedrop,
             filedrop = new Filedrop({
                 target:target,
                 uploader:this.get('uploader'),
@@ -84,7 +107,7 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
                 $progressBar = $('.J_ProgressBar_' + ev.id);
             //如果是ajax或flash异步上传，加入进度条
             if(uploadType == 'ajax' || uploadType == 'flash'){
-                var progressBar = new ProgressBar($progressBar);
+                var ProgressBar = self.get('oPlugin').progressBar,progressBar = new ProgressBar($progressBar);
                 progressBar.render();
                 self.set('progressBar',progressBar);
                 //将进度条实例写入到队列的文件数据上备用
@@ -180,26 +203,6 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
             })
         },
         /**
-         * 队列文件添加后触发
-         */
-        _queueAddHandler:function(ev){
-            var self = this,file = ev.file,$target = ev.target,$delBtn = $('.J_Del_'+file.id),
-                $mask = $('.J_Mask_' + file.id) ;
-            //显示/隐藏删除按钮
-            $target.on('mouseover mouseout',function(ev){
-                if(ev.type == 'mouseover'){
-                    $delBtn.show();
-                    $mask.show();
-                }else{
-                    $delBtn.hide();
-                    $mask.hide();
-                }
-            });
-            $delBtn.data('data-file',file);
-            //点击删除按钮
-            $delBtn.on('click',self._delHandler,self);
-        },
-        /**
          * 删除图片后触发
          */
         _delHandler:function(ev){
@@ -210,6 +213,8 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
              if(status == 'start' || status == 'progress'){
                  uploader.cancel(index);
              }
+            //统计允许上传文件个数
+            self._setCount();
         },
         /**
          * 获取成功上传的图片张数，不传参的情况获取成功上传的张数
@@ -284,6 +289,14 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
             '</li>'
         },
         /**
+         * 需要加载的插件，需要手动实例化
+         * @type Array
+         * @default ['preview','progressBar','filedrop'] 图片预览、进度条、文件拖拽
+         */
+        plugins:{
+          value:['preview','progressBar','filedrop']
+        },
+        /**
          * 统计上传张数的容器
          * @type KISSY.NodeList
          * @default '#J_UploadCount'
@@ -291,4 +304,4 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
         elCount:{value:'#J_UploadCount'}
     }});
     return ImageUploader;
-}, {requires:['node', '../../theme', '../../plugins/progressBar/progressBar','../../plugins/preview/preview','../../plugins/filedrop/filedrop']});
+}, {requires:['node', '../../theme']});

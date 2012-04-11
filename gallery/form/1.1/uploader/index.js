@@ -10,14 +10,18 @@ KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, B
             THEME_CONFIG : 'data-theme-config',
             AUTH : 'data-auth'
         },
+        //所支持的内置主题
+        THEMES = ['default','imageUploader'],
+        //内置主题路径前缀
         THEME_PREFIX='gallery/form/1.1/uploader/themes/';
+    S.namespace('form');
     /**
      * 解析组件在页面中data-config成为组件的配置
      * @param {String} hook 组件钩子
      * @param {String} dataConfigName 配置名
      * @return {Object}
      */
-    S.parseConfig = function(hook, dataConfigName) {
+    S.form.parseConfig = function(hook, dataConfigName) {
         var config = {}, sConfig, DATA_CONFIG = dataConfigName || dataName.CONFIG;
         sConfig = $(hook).attr(DATA_CONFIG);
         if (!S.isString(sConfig)) return {};
@@ -32,11 +36,15 @@ KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, B
     /**
      * @name RenderUploader
      * @class 异步文件上传入口文件，会从按钮的data-config='{}' 伪属性中抓取组件配置
+     * @version 1.1.2
      * @constructor
      * @param {String | HTMLElement} buttonTarget *，上传按钮目标元素
      * @param {String | HTMLElement} queueTarget *，文件队列目标元素
      * @param {Object} config 配置，该配置好覆盖data-config伪属性中的数据
-     * @requires Uploader,Button,SwfButton,Auth
+     * @requires Uploader
+     * @requires Button
+     * @requires SwfButton
+     * @requires Auth
      * @example
      * <a id="J_UploaderBtn" class="uploader-button" data-config=
      '{"type" : "auto",
@@ -61,7 +69,7 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
     function RenderUploader(buttonTarget, queueTarget, config) {
         var self = this;
         //合并配置
-        config = S.mix(S.parseConfig(buttonTarget), config);
+        config = S.mix(S.form.parseConfig(buttonTarget), config);
         //超类初始化
         RenderUploader.superclass.constructor.call(self, config);
         self.set('buttonTarget', buttonTarget);
@@ -96,10 +104,16 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
                 self.set('uploader', uploader);
                 theme.set('uploader',uploader);
                 theme.set('button',button);
-                var auth = self._auth();
-                theme.set('auth',auth);
-                if(theme.afterUploaderRender) theme.afterUploaderRender(uploader);
-                self.fire('init', {uploader:uploader});
+                theme.set('auth',self._auth());
+                theme._UploaderRender(function(){
+                    // 抓取restoreHook容器内的数据，生成文件DOM
+                    uploader.restore();
+                    theme.afterUploaderRender(uploader);
+                    //TODO:用于修正压缩文件不触发init事件的bug by 飞绿
+                    S.later(function(){
+                        self.fire('init', {uploader:uploader});
+                    })
+                });
             });
         },
         /**
@@ -110,7 +124,7 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
             var self = this,
                 target = self.get('buttonTarget'),
                 //从html标签的伪属性中抓取配置
-                config = S.parseConfig(target,dataName.BUTTON_CONFIG),
+                config = S.form.parseConfig(target,dataName.BUTTON_CONFIG),
                 name = self.get('name'),
                 type = self.get('type');
             //合并配置
@@ -126,21 +140,30 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
             var self = this, theme = self.get('theme'),
                 target = self.get('buttonTarget'),
                 //从html标签的伪属性中抓取配置
-                config = S.parseConfig(target,dataName.THEME_CONFIG),
-                reg=/\//;
+                config = S.form.parseConfig(target,dataName.THEME_CONFIG);
             //如果只是传递主题名，组件自行拼接
-            if(!reg.test(theme)){
-                theme = THEME_PREFIX + theme;
-            }
-            theme = theme + '/index';
-            self.set('theme',theme);
+            theme = self._getThemeName(theme);
             S.use(theme, function (S, Theme) {
-                var queueTarget = self.get('queueTarget'),
-                    theme;
+                var queueTarget = self.get('queueTarget'), theme;
                 S.mix(config,{queueTarget:queueTarget});
                 theme = new Theme(config);
                 callback && callback.call(self, theme);
             })
+        },
+        /**
+         * 获取正确的主题名
+         * @param {String} theme 主题名
+         * @return {String}
+         */
+        _getThemeName:function(theme){
+            var themeName = theme;
+            S.each(THEMES,function(t){
+               if(t == theme){
+                   themeName = THEME_PREFIX + theme;
+               }
+            });
+            themeName = themeName + '/index';
+            return themeName;
         },
         /**
          * 文件上传验证
@@ -151,7 +174,7 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
                 rules, auth = EMPTY;
             //存在验证配置
             if($(buttonTarget).attr(dataName.AUTH)){
-                rules = S.parseConfig(buttonTarget,dataName.AUTH);
+                rules = S.form.parseConfig(buttonTarget,dataName.AUTH);
                 auth = new Auth(uploader,{rules : rules});
                 uploader.set('auth',auth);
             }

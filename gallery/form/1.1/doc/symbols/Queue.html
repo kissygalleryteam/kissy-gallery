@@ -247,7 +247,7 @@ dl.data .dd{
         
             <div id="header">
     <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="http://docs.kissyui.com/docs/html/static/logo.png"/></a></h1>
-    <p class="sub-title">KF（kissy-form）V1.1—API文档</p>
+    <p class="sub-title">KF（kissy-form）V1.1.2—API文档</p>
     <ul class="navigation">
         <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.1/demo/form/uploader/index.html" target="_blank">demo</a></li>
         <li><a href="http://www.36ria.com/5041">使用指南</a></li>
@@ -265,7 +265,7 @@ dl.data .dd{
                                 <div class="box-hd">
                                     
                                     <h3><b class="name"><a href="../symbols/Queue.html#constructor">Queue</a></b>
-                                        <span class="param">(target, config)</span>
+                                        <span class="param">(config)</span>
                                         
                                         
                                         
@@ -274,7 +274,7 @@ dl.data .dd{
                                 </div>
                                 <div class="box-bd">
                                     
-                                        <p class="desc">描述：文件上传队列基类，不同主题拥有不同的队列类</p>
+                                        <p class="desc">描述：文件上传队列，用于存储文件数据</p>
                                     
 
                                     
@@ -310,18 +310,6 @@ dl.data .dd{
                                         <ul class="list summary-list">
                                             
                                                 
-                                                    <li class="li">
-                                                        <b class="name"><a href="../symbols/Queue.html#duration">duration</a></b>
-                                                        <span class="type">{Number}</span>
-                                                        
-                                                        
-                                                        
-                                                        
-                                                        <span class="desc">添加/删除文件时的动画速度</span>
-                                                    </li>
-                                                
-                                            
-                                                
                                             
                                                 
                                                     <li class="li">
@@ -336,17 +324,17 @@ dl.data .dd{
                                                 
                                             
                                                 
-                                            
-                                                
                                                     <li class="li">
-                                                        <b class="name"><a href="../symbols/Queue.html#target">target</a></b>
-                                                        <span class="type">{KISSY.Node}</span>
+                                                        <b class="name"><a href="../symbols/Queue.html#fnAdd">fnAdd</a></b>
+                                                        <span class="type">{Function}</span>
                                                         
                                                         
                                                         
                                                         
-                                                        <span class="desc">队列目标元素</span>
+                                                        <span class="desc">添加完文件数据后执行的回调函数，会在add事件前触发</span>
                                                     </li>
+                                                
+                                            
                                                 
                                             
                                                 
@@ -358,18 +346,6 @@ dl.data .dd{
                                                         
                                                         
                                                         <span class="desc">主题实例</span>
-                                                    </li>
-                                                
-                                            
-                                                
-                                                    <li class="li">
-                                                        <b class="name"><a href="../symbols/Queue.html#tpl">tpl</a></b>
-                                                        <span class="type">{String}</span>
-                                                        
-                                                        
-                                                        
-                                                        
-                                                        <span class="desc">模板</span>
                                                     </li>
                                                 
                                             
@@ -404,8 +380,6 @@ dl.data .dd{
                                             <ul class="static-list">
                                             
                                                 
-                                            
-                                                
                                                     <li class="li">
                                                         Queue.<b class="name"><a href="../symbols/Queue.html#.event">event</a></b>
                                                         <span class="type">{}</span>
@@ -416,15 +390,13 @@ dl.data .dd{
                                                 
                                             
                                                 
+                                            
+                                                
                                                     <li class="li">
                                                         Queue.<b class="name"><a href="../symbols/Queue.html#.status">status</a></b>
                                                         <span class="type">{}</span>
                                                         <span class="desc">文件的状态</span>
                                                     </li>
-                                                
-                                            
-                                                
-                                            
                                                 
                                             
                                                 
@@ -539,16 +511,6 @@ dl.data .dd{
                                             
                                             <li class="li">                                                
                                                 
-                                                <b class="name"><a href="../symbols/Queue.html#render">render</a></b>
-                                                <span class="param">()</span>
-                                                
-                                                
-                                                
-                                                <span class="desc">运行组件</span>                                                
-                                            </li>
-                                            
-                                            <li class="li">                                                
-                                                
                                                 <b class="name"><a href="../symbols/Queue.html#updateFile">updateFile</a></b>
                                                 <span class="param">(index, data)</span>
                                                 
@@ -584,16 +546,6 @@ dl.data .dd{
                                                 
                                                 
                                                 <span class="desc">添加完文件后触发</span>
-                                            </li>
-                                            
-                                            <li class="li">
-                                                
-                                                <b class="name"><a href="../symbols/Queue.html#event:addData">addData</a></b>
-                                                <span class="param">()</span>
-                                                
-                                                
-                                                
-                                                <span class="desc">添加完file数据后触发（在add向页面插入dom之前）</span>
                                             </li>
                                             
                                             <li class="li">
@@ -676,10 +628,10 @@ dl.data .dd{
                                         <li class="li">
                                             <div class="title">
                                                 <b class="name">Queue</b>
-                                                <span class="param">(target, config)</span>
+                                                <span class="param">(config)</span>
                                             </div>
                                             
-                                            <div class="desc">文件上传队列基类，不同主题拥有不同的队列类</div>
+                                            <div class="desc">文件上传队列，用于存储文件数据</div>
                                             
                                             <dl>                                                
                                                 
@@ -688,15 +640,6 @@ dl.data .dd{
                                                 <dt>参数：</dt>
                                                 <dd>
                                                     <ul class="list param-list">
-                                                        
-                                                        <li class="li">
-                                                            &nbsp;
-                                                                <b>target</b>
-                                                            
-                                                            
-                                                            <span class="type"><span class="light fixedFont">{String}</span> </span>
-                                                            <span class="desc">*，目标元素</span>
-                                                        </li>
                                                         
                                                         <li class="li">
                                                             &nbsp;
@@ -716,15 +659,6 @@ dl.data .dd{
                                                             <span class="desc">Uploader的实例</span>
                                                         </li>
                                                         
-                                                        <li class="li">
-                                                            &nbsp;
-                                                                <b>config.duration</b>
-                                                            
-                                                            
-                                                            <span class="type"><span class="light fixedFont">{Number}</span> </span>
-                                                            <span class="desc">添加/删除文件时的动画速度</span>
-                                                        </li>
-                                                        
                                                     </ul>
                                                 </dd>
                                                 
@@ -741,10 +675,8 @@ dl.data .dd{
                                                 <dt>示例：</dt>
                                                 <dd>
                                                     
-                                                    <pre class='brush: js;'><ul id="J_Queue"> </ul></pre>
-                                                    
                                                     <pre class='brush: js;'>S.use('gallery/form/1.1/uploader/queue/base,gallery/form/1.1/uploader/themes/default/style.css', function (S, Queue) {
-   var queue = new Queue('#J_Queue');
+   var queue = new Queue();
    queue.render();
 })</pre>
                                                     
@@ -766,32 +698,6 @@ dl.data .dd{
                                 </div>
                                 <div class="box-bd">
                                     <ul class="list detail-list">
-                                    
-                                    
-                                        <li class="li">
-                                            <a name="duration"> </a>
-                                            <div class="title">                                                
-                                                <b class="name">duration</b>
-                                                <span class="type">{Number}</span> 
-                                                
-                                                
-                                                
-                                                
-                                                <span class="desc">
-                                                    — 添加/删除文件时的动画速度
-                                                    
-                                                    
-                                                </span>
-                                            </div>
-                                            <!--
-                                            -->
-                                            
-                                                <div class="member-data"><span>默认值：</span>0.3</div>
-                                            
-                                            
-                                            
-                                        </li>
-                                    
                                     
                                     
                                     
@@ -838,19 +744,17 @@ dl.data .dd{
                                     
                                     
                                     
-                                    
-                                    
                                         <li class="li">
-                                            <a name="target"> </a>
+                                            <a name="fnAdd"> </a>
                                             <div class="title">                                                
-                                                <b class="name">target</b>
-                                                <span class="type">{KISSY.Node}</span> 
+                                                <b class="name">fnAdd</b>
+                                                <span class="type">{Function}</span> 
                                                 
                                                 
                                                 
                                                 
                                                 <span class="desc">
-                                                    — 队列目标元素
+                                                    — 添加完文件数据后执行的回调函数，会在add事件前触发
                                                     
                                                     
                                                 </span>
@@ -858,11 +762,13 @@ dl.data .dd{
                                             <!--
                                             -->
                                             
-                                                <div class="member-data"><span>默认值：</span>""</div>
+                                                <div class="member-data"><span>默认值：</span>''</div>
                                             
                                             
                                             
                                         </li>
+                                    
+                                    
                                     
                                     
                                     
@@ -885,32 +791,6 @@ dl.data .dd{
                                             -->
                                             
                                                 <div class="member-data"><span>默认值：</span>""</div>
-                                            
-                                            
-                                            
-                                        </li>
-                                    
-                                    
-                                    
-                                        <li class="li">
-                                            <a name="tpl"> </a>
-                                            <div class="title">                                                
-                                                <b class="name">tpl</b>
-                                                <span class="type">{String}</span> 
-                                                
-                                                
-                                                
-                                                
-                                                <span class="desc">
-                                                    — 模板
-                                                    
-                                                    
-                                                </span>
-                                            </div>
-                                            <!--
-                                            -->
-                                            
-                                                <div class="member-data"><span>默认值：</span>Queue.tpl.DEFAULT</div>
                                             
                                             
                                             
@@ -1500,60 +1380,9 @@ var indexs = queue.getFileIds('waiting');</pre>
                                                 <dt>Example</dt>
                                                 <dd>
                                                         
-                                                            <pre class="brush: js; ">queue.remove(0,function(){
-    alert(2);
-});</pre>
+                                                            <pre class="brush: js; ">queue.remove(0);</pre>
                                                         
                                                 </dd>
-                                                
-                                                
-                                            </dl>                                            
-                                        </li>
-                                        
-                                        <li class="li">
-                                            <div class="title">
-                                                
-                                                <b class="name">render</b>
-                                                <span class="param">()</span>
-                                                
-                                                
-                                                
-                                            </div>
-
-                                            <div class="desc">
-                                                运行组件
-                                                
-                                                
-                                            </div>
-                                            
-                                            <dl>                                            
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                <dt>Returns</dt>
-                                                <dd>
-                                                    <ul class="list">
-                                                    
-                                                        <li class="li">
-                                                            <span class="type">{<a href="../symbols/Queue.html">Queue</a>}</span> 
-                                                            <span></span>
-                                                        </li>
-                                                    
-                                                    </ul>
-                                                </dd>
-                                                
-                                                
-                                                
-                                                
-                                                                                                
-                                                
                                                 
                                                 
                                             </dl>                                            
@@ -1679,68 +1508,6 @@ var indexs = queue.getFileIds('waiting');</pre>
                                                         <span class="type">{Number}</span> 
                                                         <span class="desc">文件在队列中的索引值</span>
                                                     </li>
-                                                
-                                                    <li class="li">
-                                                        &nbsp;
-                                                        <b class="name">ev.file</b>
-                                                        
-                                                        
-                                                        <span class="type">{Object}</span> 
-                                                        <span class="desc">文件数据</span>
-                                                    </li>
-                                                
-                                                    <li class="li">
-                                                        &nbsp;
-                                                        <b class="name">ev.target</b>
-                                                        
-                                                        
-                                                        <span class="type">{KISSY.Node}</span> 
-                                                        <span class="desc">对应的li元素</span>
-                                                    </li>
-                                                
-                                                </ul>
-                                            </dd>
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            <dt>
-
-                                            
-                                            
-                                        </dl>
-                                    </li>
-                                    
-                                    <li>
-                                        <div class="title">
-                                            
-                                            
-                                            <b class="name">addData</b>
-                                            <span class="param">()</span>
-                                            
-                                            
-                                            
-                                        </div>
-                                        
-                                        <div class="desc">
-                                            添加完file数据后触发（在add向页面插入dom之前）
-                                            
-                                            
-                                        </div>
-                                        
-                                        <dl>
-                                            
-                                            <dt>参数：</dt>
-                                            <dd>
-                                                <ul class="list param-list">
                                                 
                                                     <li class="li">
                                                         &nbsp;
@@ -2122,8 +1889,7 @@ var indexs = queue.getFileIds('waiting');</pre>
             <li><a href="SwfButton.html">SwfButton</a></li>
             <li><a href="Queue.html">Queue</a></li>
             <li><a href="Auth.html">Auth</a></li>
-            <li><a href="DefaultTheme.html">DefaultTheme</a></li>
-            <li><a href="ImageUploader.html">ImageUploader</a></li>
+            <li><a href="Theme.html">Theme</a></li>
             <li><a href="ProgressBar.html">ProgressBar</a></li>
         </ul>
     </div>

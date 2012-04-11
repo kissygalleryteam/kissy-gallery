@@ -109,7 +109,8 @@ KISSY.add('gallery/form/1.0/uploader/themes/lineQueue/status',function(S, Node, 
        		var self = this, 
                 curQueueItem = self.get('file'),
                 uploader = self.get('uploader'),
-                loaded = uploader.get('loaded');
+                loaded = uploader.get('loaded'),
+                message = uploader.get('message');
             $(curQueueItem).replaceClass('upload-waiting', 'upload-done');
         },
         /**

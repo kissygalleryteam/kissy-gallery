@@ -152,8 +152,6 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
             self.set('urlsInput', self._renderUrlsInput());
             self._renderQueue();
             button = self._renderButton();
-            // 看看是不是urlsinput里面已经有值了，如果有，恢复到队列中，适用于编辑页面。
-            self._restore();
             //如果是flash异步上传方案，增加swfUploader的实例作为参数
             if (self.get('type') == Uploader.type.FLASH) {
                 S.mix(serverConfig, {swfUploader:button.get('swfUploader')});
@@ -376,7 +374,6 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
                 //删除该文件路径，sUrl为服务器端返回的文件路径，而url是客服端文件路径
                 urlsInput.remove(ev.file.sUrl);
             });
-            queue.render();
             return queue;
         },
         /**
@@ -495,9 +492,9 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
             urlsInput.add(url);
         },
         /**
-         * 检查是否有已经存在的图片恢复到队列中
+         * 抓取restoreHook容器内的数据，添加到队列内
          */
-        _restore: function(){
+        restore: function(){
         	var self = this,
                 queue = self.get('queue'),
                 restoreHook = self.get('restoreHook'),
@@ -507,10 +504,10 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
             data = S.JSON.parse($restore.html());
             if(!data.length) return false;
             S.each(data,function(file){
-                queue.add(file,function(index,file){
-                    //改变文件状态为成功
-                    queue.fileStatus(index,'success',{index:index,id:file.id,file:file});
-                });
+                var fileData = queue.add(file),
+                    id = fileData.id,index = queue.getFileIndex(id);
+                //改变文件状态为成功
+                queue.fileStatus(index,'success',{index:index,id:id,file:fileData});
             });
         }
     }, {ATTRS:/** @lends Uploader.prototype*/{
