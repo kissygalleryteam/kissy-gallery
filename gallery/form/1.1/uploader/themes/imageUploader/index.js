@@ -138,6 +138,7 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
                 //服务器端返回的数据
                 result = file.result;
             self._setCount();
+            //获取服务器返回的图片路径写入到src上
             if(result) self._changeImageSrc(ev.id,result);
             self._setDisplayMsg(false,ev.file);
         },
