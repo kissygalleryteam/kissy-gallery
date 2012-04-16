@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+    <style type="text/css">
+        *{margin:0;padding:0;list-style-type:none;font-size:18px;}
+
+        .parent{
+            width:500px;
+            margin:100px auto;
+        }
+
+        #J_Content li{
+            line-height:30px;
+        }
+        .ks-checkbox,.ks-checkbox-hover,.ks-checkbox-checked,.ks-checkbox-disabled{
+            background:url('http://img03.taobaocdn.com/tps/i3/T1zba7XbXpXXXXXXXX-17-128.gif') 0 -43px;
+            cursor: pointer;
+            height: 17px;
+            line-height: 18px;
+            margin-right: 4px;
+            vertical-align: middle;
+            width: 17px;
+            display: inline-block;          
+        }
+        .ks-checkbox-disabled{
+            background-position:0 -10px;            
+        }
+        .ks-checkbox-hover{
+            background-position:0 -75px;
+        }
+        .ks-checkbox-checked{
+            background-position:0 -105px;           
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <form action="">
+            <ul id="J_Content">
+                <li><input type="checkbox" name="radio-1" value="radio1">1 1 1 1</li>
+                <li><input type="checkbox" name="radio-2" value="radio2">2 2 2 2</li>
+                <li><input disabled="disabled" type="checkbox" name="radio-3" value="radio3">3 3 3 3</li>
+                <li><input disabled="disabled" type="checkbox" name="radio-4" value="radio4">4 4 4 4</li>
+                <li><input type="checkbox" name="radio-5" value="radio5">5 5 5 5</li>
+                <li><input type="checkbox" name="radio-6" value="radio6">6 6 6 6</li>
+                <li><input type="checkbox" name="radio-7" value="radio7">7 7 7 7</li>
+                <li><input type="checkbox" checked="checked" name="radio-8" value="radio8">8 8 8 8</li>
+                <li><input type="checkbox"  checked="checked" name="radio-9" value="radio9">9 9 9 9</li>
+            </ul>
+            
+            <hr />
+            <div  class="" id="J_SelectAll">
+                <input  type="checkbox">全选
+            </div><!-- / -->
+
+            <input type="button" id="J_Five" name="" value="禁用第5个"><br/>
+            
+            <input type="button" id="J_GetAll" value="获取所有选中checkbox的key"><br/>
+            <input type="button" id="J_Recover" name="" key="1" value="还原checkbox"><br />
+            <input type="submit" name="" value="提交表单测试">                        
+        </form>
+    </div>
+    
+
+    <script type="text/javascript">
+        KISSY.config({
+           packages:[ {
+               name:"gallery",
+               path:"../../../../../../",
+               charset:"utf-8"
+           } ]
+        });
+    </script>
+    <script type="text/javascript">
+        KISSY.use('gallery/form/1.1/checkbox/base,node', function (S, R,Node) {
+            var r = new R('#J_Content input',
+            {
+                cls:{init: 'ks-checkbox',checked: 'ks-checkbox-checked',disabled: 'ks-checkbox-disabled',hover: 'ks-checkbox-hover'}
+            }
+                ),
+                $ = Node.all,
+                btn = $('#J_GetAll'),
+                all = new R('#J_SelectAll input');
+            
+           r.render();
+            all.render();
+            //获取结果
+            btn.on('click',function(){
+                alert(r.getAllChecked());
+            })
+            //设置某个disabled
+            $('#J_Five').on('click',function(){             
+                r.setDisabled(4);
+            })
+            //全选
+            $('#J_SelectAll').on('click',function(){
+                //alert(111);   
+                var sp = $(this).children('span');
+                if(sp.hasClass('ks-checkbox-checked')){
+                    r.selectAll();
+                }else{
+                    r.resetAll();
+                }                
+                return false;
+            })
+
+            //还原checkbox
+            $('#J_Recover').on('click',function(){                                 
+                var key = $(this).attr('key');
+                if(key === '1'){
+                    r.recoverCheckbox();
+                    $(this).attr('key',2);
+                    $(this).val('美化checkbox')
+                }else{
+                    r.render();
+                    $(this).attr('key',1);
+                    $(this).val('还原checkbox')
+                }                
+            })
+        })
+    </script>
+    
+</body>
+        
+</html>
