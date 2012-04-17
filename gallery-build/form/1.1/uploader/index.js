@@ -822,23 +822,36 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
             urlsInput.add(url);
         },
         /**
-         * 抓取restoreHook容器内的数据，添加到队列内
+         * 添加默认数据到队列，不带参数的情况下，抓取restoreHook容器内的数据，添加到队列内
+         * @param {Array} data 文件数据
          */
-        restore: function(){
+        restore: function(data){
         	var self = this,
                 queue = self.get('queue'),
-                restoreHook = self.get('restoreHook'),
-                $restore = $(restoreHook),
-                data = [];
-            if(!$restore.length) return false;
-            data = S.JSON.parse($restore.html());
+                urlsInput = self.get('urlsInput');
+            if(!data) data = self._getRestoreData();
             if(!data.length) return false;
             S.each(data,function(file){
+                //服务器端路径赋值
+                if(!file.sUrl && file.result) file.sUrl = file.result.data.url;
+                //向队列添加文件
                 var fileData = queue.add(file),
                     id = fileData.id,index = queue.getFileIndex(id);
+                urlsInput.add(file.sUrl);
                 //改变文件状态为成功
                 queue.fileStatus(index,'success',{index:index,id:id,file:fileData});
             });
+        },
+        /**
+         * 抓取restoreHook容器内的数据
+         * @return {Array}
+         */
+        _getRestoreData:function(){
+            var self = this,
+                restoreHook = self.get('restoreHook'),
+                $restore = $(restoreHook);
+            if(!$restore.length) return [];
+            return S.JSON.parse($restore.html());
         }
     }, {ATTRS:/** @lends Uploader.prototype*/{
         /**
@@ -1713,13 +1726,7 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
              * @type Uploader
              * @default ""
              */
-            uploader:{value:EMPTY},
-            /**
-             * 上传验证实例
-             * @type Auth
-             * @default ""
-             */
-            auth : {value:EMPTY}
+            uploader:{value:EMPTY}
         }
     });
     return RenderUploader;

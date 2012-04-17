@@ -223,13 +223,7 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
              * @type Uploader
              * @default ""
              */
-            uploader:{value:EMPTY},
-            /**
-             * 上传验证实例
-             * @type Auth
-             * @default ""
-             */
-            auth : {value:EMPTY}
+            uploader:{value:EMPTY}
         }
     });
     return RenderUploader;
