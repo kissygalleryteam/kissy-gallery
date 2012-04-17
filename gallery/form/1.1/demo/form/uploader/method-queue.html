@@ -10,11 +10,6 @@
 <body>
 <article id="doc">
     <h4>queue队列方法测试</h4>
-    <p>这个demo只单独使用queue模板，测试queue的方法和属性。</p>
-    <!-- 队列 -->
-    <ul id="J_Queue">
-
-    </ul>
     <div class="btn-wrapper">
         <input id="J_Add" type="button" value="添加一个文件">
         ` <input id="J_DelFirst" type="button" value="删除第一个文件">
@@ -28,8 +23,7 @@
     <p>一般不单独实例化queue，这里为了方便测试。</p>
     <pre class='brush: js; '>
         S.use('gallery/form/1.1/uploader/queue/base', function (S, Queue) {
-            var queue = new Queue('#J_Queue');
-            queue.render();
+            var queue = new Queue();
         })
      </pre>
     <h5>最关键属性——files：队列内的文件数据对象集合数组</h5>
@@ -46,18 +40,20 @@
     <p>file.status是每个文件对应的状态类实例，如果你想要获取该文件的当前状态使用：file.status.get('curType')。</p>
     <h5>add()：向队列添加文件</h5>
     <pre class='brush: js;highlight:[8] '>
-        //测试文件数据
-        var testFile = {'name':'test.jpg',
-            'size':2000,
-            'input':{},
-            'file':{'name':'test.jpg', 'type':'image/jpeg', 'size':2000}
-        };
-        //向队列添加文件
-        queue.add(testFile);
+            //测试文件数据
+            var testFile = {'name':'test.jpg',
+                'size':2000,
+                'input':{},
+                'file':{'name':'test.jpg', 'type':'image/jpeg', 'size':2000}
+            };
+            //向队列添加文件
+            var file = queue.add(testFile);
+            S.log('添加的文件数据为：'+file);
     </pre>
     <h5>remove(id)：删除队列中的文件</h5>
     <pre class='brush: js;'>
-        queue.remove(0);
+        var removeFile = queue.remove(0);
+        S.log('删除的文件数据为：'+removeFile);
     </pre>
     <p>留意remove()的参数可以是队列数组的索引，比如上面代码的0，是取队列第一个文件数据；也可以是文件的id（唯一），比如remove('file-26')</p>
     <h5>clear()：删除队列内的所有文件</h5>
@@ -70,7 +66,6 @@
     </pre>
     <p>改变第一个文件状态为“成功”。</p>
     <p>默认的主题共有以下文件状态：'waiting'、'start'、'progress'、'success'、'cancel'、'error'</p>
-    <p>每种状态的dom情况都不同，刷新文件状态时候同时刷新状态容器类下的DOM节点内容。</p>
     <p>不同的主题拥有的状态情况可能存在差异。</p>
     <h5>getFiles(type):获取指定状态下的文件</h5>
     比如你要获取等待中的所有文件：
@@ -95,10 +90,8 @@
         ]
     });
     //加载队列模块
-    S.use('gallery/form/1.1/uploader/queue/base,gallery/form/1.1/uploader/themes/default/style.css', function (S, Queue) {
-        var queue = new Queue('#J_Queue');
-        queue.render();
-
+    S.use('gallery/form/1.1/uploader/queue,gallery/form/1.1/uploader/base', function (S, Queue) {
+        var queue = new Queue();
         $('#J_Add').on('click', function (ev) {
             //测试文件数据
             var testFile = {'name':'test.jpg',
@@ -107,10 +100,12 @@
                 'file':{'name':'test.jpg', 'type':'image/jpeg', 'size':2000}
             };
             //向队列添加文件
-            queue.add(testFile);
+            var file = queue.add(testFile);
+            S.log('添加的文件数据为：'+file);
         });
         $('#J_DelFirst').on('click', function (ev) {
-            queue.remove(0);
+            var removeFile = queue.remove(0);
+            S.log('删除的文件数据为：'+removeFile);
         });
         $('#J_Clear').on('click', function (ev) {
             queue.clear();
