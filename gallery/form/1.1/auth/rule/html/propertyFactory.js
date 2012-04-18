@@ -1,6 +1,6 @@
 /**
- * @fileoverview html ÊôĞÔ¹æÔò¹¤³§
- * @author ÕÅÍ¦ <zhangting@taobao.com>
+ * @fileoverview html å±æ€§è§„åˆ™å·¥å‚
+ * @author å¼ æŒº <zhangting@taobao.com>
  *
  */
 KISSY.add(function (S, Base, PropertyRule, undefined) {
@@ -9,7 +9,7 @@ KISSY.add(function (S, Base, PropertyRule, undefined) {
         RuleFactory.superclass.constructor.call(self);
     };
 
-    //µÚÒ»¸ö²ÎÊıÒ»¶¨ÊÇÊôĞÔµÄvalue£¬ºóÃæµÄ²ÅÊÇÕæÕıµÄ²ÎÊı
+    //ç¬¬ä¸€ä¸ªå‚æ•°ä¸€å®šæ˜¯å±æ€§çš„valueï¼Œåé¢çš„æ‰æ˜¯çœŸæ­£çš„å‚æ•°
     S.mix(RuleFactory, {
         required:function (pv, value) {
             return !!value;
@@ -37,7 +37,7 @@ KISSY.add(function (S, Base, PropertyRule, undefined) {
 
             return value % pv;
         },
-        //Ìí¼Ó1¸öÌØÊâµÄÊôĞÔ
+        //æ·»åŠ 1ä¸ªç‰¹æ®Šçš„å±æ€§
         equalTo:function(pv, value){
             //number same
             if (S.isNumber(value)) {

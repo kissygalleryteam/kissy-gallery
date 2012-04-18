@@ -1,5 +1,5 @@
 /**
- * @fileoverview 所有规则的基类
+ * @fileoverview 鎵�鏈夎鍒欑殑鍩虹被
  * @author czy88840616 <czy88840616@gmail.com>
  *
  */

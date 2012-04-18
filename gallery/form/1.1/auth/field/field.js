@@ -13,10 +13,10 @@ KISSY.add(function (S, Event, Base, JSON, Factory, Rule, undefined) {
         var self = this;
         self._el = el = S.one(el);
         self._validateDone = {};
-        //´¢´æÉÏÒ»´ÎµÄĞ£Ñé½á¹û
+        //å‚¨å­˜ä¸Šä¸€æ¬¡çš„æ ¡éªŒç»“æœ
         self._cache = {};
 
-        //³õÊ¼»¯jsonÅäÖÃ
+        //åˆå§‹åŒ–jsoné…ç½®
         if (el && el.hasAttr(CONFIG_NAME)) {
             var cfg = el.attr('data-valid').replace(/'/g, '"');
 
@@ -29,14 +29,14 @@ KISSY.add(function (S, Event, Base, JSON, Factory, Rule, undefined) {
         }
 
         self._cfg = validConfig || {};
-        //±£´æruleµÄ¼¯ºÏ
+        //ä¿å­˜ruleçš„é›†åˆ
         self._storage = {};
 
         var resetAfterValidate = function() {
             //TODO
         }
 
-        //¼àÌıĞ£Ñé½á¹û
+        //ç›‘å¬æ ¡éªŒç»“æœ
         self.on('afterRuleValidate', function(ev) {
             var result = ev.result,
                 curRule = ev.curRule,
@@ -66,14 +66,14 @@ KISSY.add(function (S, Event, Base, JSON, Factory, Rule, undefined) {
                 _el = self._el,
                 _ruleCfg = S.merge({}, _cfg.rules);
 
-            //´Ó¹¤³§ÖĞ´´½¨ÊôĞÔ¹æÔò
+            //ä»å·¥å‚ä¸­åˆ›å»ºå±æ€§è§„åˆ™
             var factory = new Factory();
             //add html property
             S.each(HTML_PROPERTY, function (item) {
 
                 if (_el.hasAttr(item)) {
                     var rule = factory.create(item, {
-                        //ÊôĞÔµÄvalue±ØĞëÔÚÕâÀï³õÊ¼»¯
+                        //å±æ€§çš„valueå¿…é¡»åœ¨è¿™é‡Œåˆå§‹åŒ–
                         propertyValue:_el.attr(item),
                         el:_el, //bugfix for change value
                         msg: _ruleCfg[item]

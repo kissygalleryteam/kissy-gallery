@@ -1,12 +1,12 @@
 /**
- * @fileoverview »ùÓÚhtmlÊôĞÔµÄ¹æÔò³éÏóÀà
+ * @fileoverview åŸºäºhtmlå±æ€§çš„è§„åˆ™æŠ½è±¡ç±»
  * @author czy88840616 <czy88840616@gmail.com>
  *
  */
 KISSY.add(function(S, BaseRule, undefined) {
 
     /**
-     * ÊôĞÔ¹æÔò
+     * å±æ€§è§„åˆ™
      *
      * @param {String} ruleName
      * @param {Function} ruleBody
@@ -24,7 +24,7 @@ KISSY.add(function(S, BaseRule, undefined) {
         var cfg = args[2]||{args:[]};
 
         self._initArgs = cfg.args;
-        //_propertyValueºÍ_elÈç¹ûÒªĞŞ¸Ä±ØĞëÍ¨¹ıÊôĞÔµÄĞŞ¸Ä
+        //_propertyValueå’Œ_elå¦‚æœè¦ä¿®æ”¹å¿…é¡»é€šè¿‡å±æ€§çš„ä¿®æ”¹
         self._propertyValue = cfg.propertyValue;
         self._el = cfg.el;
         ProPertyRule.superclass.constructor.apply(self, args.slice(1));
@@ -38,9 +38,9 @@ KISSY.add(function(S, BaseRule, undefined) {
             } else {
                 //bugfix for no args input
                 var args = [].slice.call(arguments);
-                //Ò»µ©´«Èë¹ıÖµÖ®ºó£¬±íÊ¾¸´Ğ´³õÊ¼»¯µÄ²ÎÊı
+                //ä¸€æ—¦ä¼ å…¥è¿‡å€¼ä¹‹åï¼Œè¡¨ç¤ºå¤å†™åˆå§‹åŒ–çš„å‚æ•°
                 self._initArgs = args;
-                //½«ÊôĞÔµÄvalue×÷ÎªµÚÒ»¸ö²ÎÊı´«½øÈ¥£¬½«µ±Ç°ÔªËØµÄÖµµ±³ÉµÚ¶ş¸ö²ÎÊı´«Èë
+                //å°†å±æ€§çš„valueä½œä¸ºç¬¬ä¸€ä¸ªå‚æ•°ä¼ è¿›å»ï¼Œå°†å½“å‰å…ƒç´ çš„å€¼å½“æˆç¬¬äºŒä¸ªå‚æ•°ä¼ å…¥
                 return ProPertyRule.superclass.validate.apply(this, [self._propertyValue, S.one(self._el).val()].concat(args));
             }
         }
