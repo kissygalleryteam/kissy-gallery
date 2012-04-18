@@ -1514,7 +1514,7 @@ KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, B
             AUTH : 'data-auth'
         },
         //所支持的内置主题
-        THEMES = ['default','imageUploader'],
+        THEMES = ['default','imageUploader', 'ershouUploader'],
         //内置主题路径前缀
         THEME_PREFIX='gallery/form/1.1/uploader/themes/';
     S.namespace('form');
@@ -1712,6 +1712,8 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
                 rules = S.form.parseConfig(buttonTarget,dataName.AUTH);
                 auth = new Auth(uploader,{rules : rules});
                 uploader.set('auth',auth);
+            }else{
+                S.log(LOG_PREFIX + '缺少data-auth验证配置，无启动验证！');
             }
             return auth;
         }
@@ -1762,7 +1764,8 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
         }
     });
     return RenderUploader;
-}, {requires:['base', 'node', './base', './button/base','./button/swfButton','./auth/base','./queue']});/*
+}, {requires:['base', 'node', './base', './button/base','./button/swfButton','./auth/base','./queue']});
+/*
 Copyright 2011, KISSY UI Library v1.1.5
 MIT Licensed
 build time: Sep 11 10:29
@@ -3128,6 +3131,7 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
             queue.fileStatus(index,'waiting');
             self.displayFile(true, $target);
             //给li下的按钮元素绑定事件
+            // TODO 这里的绑定事件应该只是imageUploader这个主题的吧，不应该放在公共的Theme下
             self._bindTriggerEvent(index, file);
             return queue.getFile(index);
         },
@@ -3141,6 +3145,7 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
         },
         /**
          * 给删除、上传、取消等按钮元素绑定事件
+         * TODO 这个是不是也应该放在imageUploader里面呢？
          * @param {Number} index 文件索引值
          * @param {Object} 文件数据
          */
@@ -3301,7 +3306,8 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
         auth:{value:EMPTY}
     }});
     return Theme;
-}, {requires:['node', 'base']});/**
+}, {requires:['node', 'base']});
+/**
  * @fileoverview ajax方案上传
  * @author 剑平（明河）<minghe36@126.com>,紫英<daxingplay@gmail.com>
  **/

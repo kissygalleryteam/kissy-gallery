@@ -193,6 +193,7 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
         _maxHideBtn:function(uploader){
             //监听上传验证的error事件
             var self = this,auth = self.get('auth');
+            if(auth == EMPTY) return false;
             auth.on('error',function(ev){
                 var rule = ev.rule,button = uploader.get('button'),$btn = button.get('target');
                 //图片达到最大允许上传数，隐藏按钮
