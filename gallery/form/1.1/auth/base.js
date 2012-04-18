@@ -45,6 +45,6 @@ KISSY.add(function(S, D, JSON, Field){
     requires:[
         'dom',
         'json',
-        'form/validation/field/field'
+        './field/field'
     ]
 });
