@@ -594,11 +594,11 @@ dl.data .dd{
                                             <li class="li">                                                
                                                 
                                                 <b class="name"><a href="../symbols/Uploader.html#restore">restore</a></b>
-                                                <span class="param">()</span>
+                                                <span class="param">(data)</span>
                                                 
                                                 
                                                 
-                                                <span class="desc">抓取restoreHook容器内的数据，添加到队列内</span>                                                
+                                                <span class="desc">添加默认数据到队列，不带参数的情况下，抓取restoreHook容器内的数据，添加到队列内</span>                                                
                                             </li>
                                             
                                             <li class="li">                                                
@@ -1491,20 +1491,36 @@ dl.data .dd{
                                             <div class="title">
                                                 
                                                 <b class="name">restore</b>
-                                                <span class="param">()</span>
+                                                <span class="param">(data)</span>
                                                 
                                                 
                                                 
                                             </div>
 
                                             <div class="desc">
-                                                抓取restoreHook容器内的数据，添加到队列内
+                                                添加默认数据到队列，不带参数的情况下，抓取restoreHook容器内的数据，添加到队列内
                                                 
                                                 
                                             </div>
                                             
                                             <dl>                                            
                                                 
+                                                
+                                                <dt>Parameters</dt>
+                                                <dd>
+                                                    <ul class="list param-list">
+                                                    
+                                                        <li class="li">
+                                                            &nbsp;
+                                                            <b class="name">data</b>
+                                                            
+                                                            
+                                                            <span class="type">{Array}</span> 
+                                                            <span class="desc">文件数据</span>
+                                                        </li>
+                                                    
+                                                    </ul>
+                                                </dd>
                                                 
                                                 
                                                 
@@ -2234,6 +2250,14 @@ uploader.uploadFiles("waiting")</pre>
             <li><a href="Auth.html">Auth</a></li>
             <li><a href="Theme.html">Theme</a></li>
             <li><a href="ProgressBar.html">ProgressBar</a></li>
+        </ul>
+    </div>
+    <div class="box-hd">
+        <h3>Checkbox/Radio</h3>
+    </div>
+    <div class="box-bd">
+        <ul class="list class-list">
+            <li><a href="Checkbox.html">Checkbox</a></li>
         </ul>
     </div>
 </div>

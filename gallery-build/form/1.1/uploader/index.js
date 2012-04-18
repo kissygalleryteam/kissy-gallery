@@ -822,23 +822,36 @@ KISSY.add('gallery/form/1.1/uploader/base', function (S, Base, Node, UrlsInput, 
             urlsInput.add(url);
         },
         /**
-         * 抓取restoreHook容器内的数据，添加到队列内
+         * 添加默认数据到队列，不带参数的情况下，抓取restoreHook容器内的数据，添加到队列内
+         * @param {Array} data 文件数据
          */
-        restore: function(){
+        restore: function(data){
         	var self = this,
                 queue = self.get('queue'),
-                restoreHook = self.get('restoreHook'),
-                $restore = $(restoreHook),
-                data = [];
-            if(!$restore.length) return false;
-            data = S.JSON.parse($restore.html());
+                urlsInput = self.get('urlsInput');
+            if(!data) data = self._getRestoreData();
             if(!data.length) return false;
             S.each(data,function(file){
+                //服务器端路径赋值
+                if(!file.sUrl && file.result) file.sUrl = file.result.data.url;
+                //向队列添加文件
                 var fileData = queue.add(file),
                     id = fileData.id,index = queue.getFileIndex(id);
+                urlsInput.add(file.sUrl);
                 //改变文件状态为成功
                 queue.fileStatus(index,'success',{index:index,id:id,file:fileData});
             });
+        },
+        /**
+         * 抓取restoreHook容器内的数据
+         * @return {Array}
+         */
+        _getRestoreData:function(){
+            var self = this,
+                restoreHook = self.get('restoreHook'),
+                $restore = $(restoreHook);
+            if(!$restore.length) return [];
+            return S.JSON.parse($restore.html());
         }
     }, {ATTRS:/** @lends Uploader.prototype*/{
         /**
@@ -1492,7 +1505,7 @@ KISSY.add('gallery/form/1.1/uploader/button/swfButton', function (S, Node, Base,
  * @fileoverview 运行文件上传组件
  * @author 剑平（明河）<minghe36@126.com>,紫英<daxingplay@gmail.com>
  **/
-KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, Button,SwfButton,Auth) {
+KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, Button,SwfButton,Auth,Queue) {
     var EMPTY = '', $ = Node.all, LOG_PREFIX = '[uploaderRender]:',
         dataName = {
             CONFIG:'data-config',
@@ -1526,7 +1539,7 @@ KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, B
     /**
      * @name RenderUploader
      * @class 异步文件上传入口文件，会从按钮的data-config='{}' 伪属性中抓取组件配置
-     * @version 1.1.2
+     * @version 1.1.3
      * @constructor
      * @param {String | HTMLElement} buttonTarget *，上传按钮目标元素
      * @param {String | HTMLElement} queueTarget *，文件队列目标元素
@@ -1535,6 +1548,7 @@ KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, B
      * @requires Button
      * @requires SwfButton
      * @requires Auth
+     * @requires Queue
      * @example
      * <a id="J_UploaderBtn" class="uploader-button" data-config=
      '{"type" : "auto",
@@ -1572,6 +1586,9 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
      * @desc 上传组件完全初始化成功后触发，对uploader的操作务必先监听init事件
      * @event
      * @param {Uploader} ev.uploader   Uploader的实例
+     * @param {Uploader} ev.button   Button的实例
+     * @param {Uploader} ev.queue   Queue的实例
+     * @param {Uploader} ev.auth   Auth的实例
      */
 
     S.extend(RenderUploader, Base, /** @lends RenderUploader.prototype*/{
@@ -1579,32 +1596,53 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
          * 初始化组件
          */
         _init:function () {
-            var self = this, uploaderConfig = self.get('uploaderConfig'),
-                name = self.get('name'),
+            var self = this,
+                //按钮
                 button = self._initButton(),
-                queue;
+                //队列
+                queue = self._initQueue(),
+                //上传组件
+                uploader = self._initUploader(button,queue),
+                //上传验证
+                auth = self._auth(),
+                classes = {uploader:uploader,button:button,queue:queue,auth:auth},
+                //主题路径
+                theme = self.get('theme');
             self.set('button', button);
-            self._initThemes(function (theme) {
-                queue = theme.get('queue');
-                S.mix(uploaderConfig.serverConfig,{'fileDataName':name});
-                //配置增加按钮实例和队列实例
-                S.mix(uploaderConfig, {button:button, queue:queue});
-                var uploader = new Uploader(uploaderConfig);
-                uploader.render();
-                self.set('uploader', uploader);
-                theme.set('uploader',uploader);
-                theme.set('button',button);
-                theme.set('auth',self._auth());
-                theme._UploaderRender(function(){
-                    // 抓取restoreHook容器内的数据，生成文件DOM
-                    uploader.restore();
-                    theme.afterUploaderRender(uploader);
-                    //TODO:用于修正压缩文件不触发init事件的bug by 飞绿
-                    S.later(function(){
-                        self.fire('init', {uploader:uploader});
-                    })
+            //不使用主题
+            if(theme == EMPTY){
+                self.fire('init', classes);
+            }else{
+                self._initThemes(function (theme) {
+                    theme.set('uploader',uploader);
+                    theme.set('button',button);
+                    theme.set('queue',queue);
+                    theme.set('auth',auth);
+                    theme._UploaderRender(function(){
+                        // 抓取restoreHook容器内的数据，生成文件DOM
+                        uploader.restore();
+                        theme.afterUploaderRender(uploader);
+                        self.fire('init', classes);
+                    });
                 });
-            });
+            }
+        },
+        /**
+         * 初始化Uploader
+         * @param { Button} button Button的实例
+         * @param { Queue} queue Queue的实例
+         * @return {Uploader}
+         */
+        _initUploader:function(button,queue){
+            var self = this, uploaderConfig = self.get('uploaderConfig'),
+                name = self.get('name');
+            S.mix(uploaderConfig.serverConfig,{'fileDataName':name});
+            //配置增加按钮实例和队列实例
+            S.mix(uploaderConfig, {button:button, queue:queue});
+            var uploader = new Uploader(uploaderConfig);
+            uploader.render();
+            self.set('uploader', uploader);
+            return uploader;
         },
         /**
          * 初始化模拟的上传按钮
@@ -1621,6 +1659,13 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
             config = S.merge({name:name},config);
             //实例化上传按钮
             return type != 'flash' && new Button(target, config) || new SwfButton(target);
+        },
+        /**
+         * 初始化队列
+         * @return {Queue}
+         */
+        _initQueue:function(){
+            return new Queue();
         },
         /**
          * 初始化主题
@@ -1713,17 +1758,11 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
              * @type Uploader
              * @default ""
              */
-            uploader:{value:EMPTY},
-            /**
-             * 上传验证实例
-             * @type Auth
-             * @default ""
-             */
-            auth : {value:EMPTY}
+            uploader:{value:EMPTY}
         }
     });
     return RenderUploader;
-}, {requires:['base', 'node', './base', './button/base','./button/swfButton','./auth/base']});/*
+}, {requires:['base', 'node', './base', './button/base','./button/swfButton','./auth/base','./queue']});/*
 Copyright 2011, KISSY UI Library v1.1.5
 MIT Licensed
 build time: Sep 11 10:29
@@ -2929,7 +2968,7 @@ KISSY.add('gallery/form/1.1/uploader/queue', function (S, Node, Base) {
  * @author 剑平（明河）<minghe36@126.com>
  **/
 
-KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
+KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
     var EMPTY = '', $ = Node.all,
         //主题样式名前缀
         classSuffix = {BUTTON:'-button', QUEUE:'-queue'};
@@ -2946,7 +2985,6 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
         //调用父类构造函数
         Theme.superclass.constructor.call(self, config);
         self._LoaderCss();
-        self._init();
     }
 
     S.extend(Theme, Base, /** @lends Theme.prototype*/{
@@ -3017,16 +3055,11 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
 
         },
         /**
-         * 初始化
-         */
-        _init:function () {
-            this._initQueue();
-        },
-        /**
          * uploader实例化后执行
          */
         _UploaderRender:function (callback) {
             var self = this;
+            self._initQueue();
             self._addThemeCssName();
             //加载插件
             self._loadPlugins(callback);
@@ -3051,11 +3084,11 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
          * @return {Queue}
          */
         _initQueue:function () {
-            var self = this, queue = new Queue({fnAdd:function (index, file) {
+            var self = this, queue = self.get('queue');
+            queue.set('fnAdd',function(index, file){
                 return self._addCallback(index, file);
-            }});
+            });
             queue.set('theme', self);
-            self.set('queue', queue);
             queue.on('add', self._addFileHandler, self);
             queue.on('remove', self._removeFileHandler, self);
             queue.on('statusChange', function (ev) {
@@ -3092,7 +3125,7 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
                 statusWrapper:self._getStatusWrapper($target)
             });
             //更换文件状态为等待
-            queue.fileStatus(index, Queue.status.WAITING);
+            queue.fileStatus(index,'waiting');
             self.displayFile(true, $target);
             //给li下的按钮元素绑定事件
             self._bindTriggerEvent(index, file);
@@ -3268,7 +3301,7 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
         auth:{value:EMPTY}
     }});
     return Theme;
-}, {requires:['node', 'base', './queue']});/**
+}, {requires:['node', 'base']});/**
  * @fileoverview ajax方案上传
  * @author 剑平（明河）<minghe36@126.com>,紫英<daxingplay@gmail.com>
  **/
@@ -3285,7 +3318,6 @@ KISSY.add('gallery/form/1.1/uploader/type/ajax',function(S, Node, UploadType) {
         var self = this;
         //调用父类构造函数
         AjaxType.superclass.constructor.call(self, config);
-        self._setFormData();
     }
 
     S.mix(AjaxType, /** @lends AjaxType.prototype*/{
@@ -3310,6 +3342,7 @@ KISSY.add('gallery/form/1.1/uploader/type/ajax',function(S, Node, UploadType) {
                 return false;
             }
             var self = this;
+            self._setFormData();
             self._addFileData(fileData);
             self.send();
             return self;
