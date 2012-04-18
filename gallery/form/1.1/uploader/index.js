@@ -209,6 +209,8 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
                 rules = S.form.parseConfig(buttonTarget,dataName.AUTH);
                 auth = new Auth(uploader,{rules : rules});
                 uploader.set('auth',auth);
+            }else{
+                S.log(LOG_PREFIX + '缺少data-auth验证配置，无启动验证！');
             }
             return auth;
         }
