@@ -169,6 +169,7 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
             queue.fileStatus(index, Queue.status.WAITING);
             self.displayFile(true, $target);
             //给li下的按钮元素绑定事件
+            // TODO 这里的绑定事件应该只是imageUploader这个主题的吧，不应该放在公共的Theme下
             self._bindTriggerEvent(index, file);
             return queue.getFile(index);
         },
@@ -182,6 +183,7 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
         },
         /**
          * 给删除、上传、取消等按钮元素绑定事件
+         * TODO 这个是不是也应该放在imageUploader里面呢？
          * @param {Number} index 文件索引值
          * @param {Object} 文件数据
          */

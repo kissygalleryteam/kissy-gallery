@@ -11,7 +11,7 @@ KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, B
             AUTH : 'data-auth'
         },
         //所支持的内置主题
-        THEMES = ['default','imageUploader'],
+        THEMES = ['default','imageUploader', 'ershouUploader'],
         //内置主题路径前缀
         THEME_PREFIX='gallery/form/1.1/uploader/themes/';
     S.namespace('form');
