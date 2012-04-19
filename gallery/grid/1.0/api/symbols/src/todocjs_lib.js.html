@@ -1,0 +1,70 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=GBK"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/** @fileOverview This file has functions related to documenting JavaScript.  
+<span class='line'>  2</span> * @author &lt;a href="mailto:micmath@gmail.com">Michael Mathews&lt;/a>  
+<span class='line'>  3</span> * @version 1.0.1  
+<span class='line'>  4</span> */</span><span class="WHIT">
+<span class='line'>  5</span> 
+<span class='line'>  6</span> </span><span class="NAME">KISSY.add</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="COMM">/**  @exports S as KISSY  */</span><span class="WHIT"> </span><span class="NAME">S</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>  7</span> 
+<span class='line'>  8</span> </span><span class="WHIT">	</span><span class="COMM">/** 
+<span class='line'>  9</span> 		This is similar to a {@link MyClass} object but can also print to files. 
+<span class='line'> 10</span> 		@memberOf S.LP
+<span class='line'> 11</span> 		@class KISSY.Lib 
+<span class='line'> 12</span> 		@requires KISSY 
+<span class='line'> 13</span> 		
+<span class='line'> 14</span> 	*/</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">Lib</span><span class="WHIT">  </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">config</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="WHIT">		</span><span class="COMM">/** 
+<span class='line'> 18</span> 		* @description 自定义编号
+<span class='line'> 19</span> 		* @type Number
+<span class='line'> 20</span> 		* @default "Undefined"
+<span class='line'> 21</span> 		*/</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">		</span><span class="NAME">this.id</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">config.id</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 23</span> 
+<span class='line'> 24</span> </span><span class="WHIT">		</span><span class="COMM">/** @inner */</span><span class="WHIT">     </span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">		</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">daydream</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'> 26</span> 
+<span class='line'> 27</span> </span><span class="WHIT">		</span><span class="COMM">/**  
+<span class='line'> 28</span> 		* @name  S.LP.Lib#change 
+<span class='line'> 29</span> 		* @event  
+<span class='line'> 30</span> 		* @param {MyEventObject} e  
+<span class='line'> 31</span> 		* @param {Boolean} [e.withIce=false]  
+<span class='line'> 32</span> 		*/</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">	</span><span class="NAME">S.LP.Lib</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Lib</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> 
+<span class='line'> 37</span> </span><span class="WHIT">	</span><span class="NAME">S.augment</span><span class="PUNC">(</span><span class="NAME">Lib</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">	</span><span class="COMM">/** @lends  KISSY.LP.Lib.prototype  */</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">		</span><span class="NAME">_init</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'> 42</span> 			@public 
+<span class='line'> 43</span> 			@see MyClass#classFunc
+<span class='line'> 44</span> 			@see The &lt;a href="MyClass.html">MyClass.classFunc&lt;/a>
+<span class='line'> 45</span> 			@param {String} name 创建的类库的名字
+<span class='line'> 46</span> 			@type Number
+<span class='line'> 47</span> 			@returns {Number} 返回创建的一个编号
+<span class='line'> 48</span> 			@description 创建函数
+<span class='line'> 49</span> 		*/</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">		</span><span class="NAME">create</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="COMM">/**String*/</span><span class="NAME">name</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">		</span><span class="COMM">/**  
+<span class='line'> 52</span> 		* @description 析构函数：释放资源
+<span class='line'> 53</span> 		* @example  
+<span class='line'> 54</span> 		* var bleeper = S.LP.Lib({id:'122'});  
+<span class='line'> 55</span> 		* bleeper.flop();  
+<span class='line'> 56</span> 		*/</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">		</span><span class="NAME">destroy</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 60</span> 
+<span class='line'> 61</span> 
+<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
