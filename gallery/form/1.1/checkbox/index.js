@@ -3,7 +3,7 @@
  * @author 伯方<bofang.zxj@taobao.com>
  *
  **/
-KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
+KISSY.add('gallery/form/1.1/checkbox/index', function(S, Base, Node) {
 	var $ = Node.all;
 	/**
 	 * @name Checkbox
@@ -16,19 +16,22 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 	 * @example
 	 * var ck = new Checkbox('#J_Content input')
 	 */
+
 	function Checkbox(target, config) {
 		//调用父类构造器
 		var self = this;
 		Checkbox.superclass.constructor.call(self, config);
-		self.set('target',target);		
+		self.set('target', target);
 	}
 	//方法
-	S.extend(Checkbox, Base, {
+	S.extend(Checkbox, Base,/** @lends Checkbox.prototype*/ {
 		/**
-		 * 运行
+		 * 开始执行
 		 */
 		render: function() {
 			var self = this;
+			//加载css
+			self._loadCss();
 			//开始替换
 			self._replaceCheckbox();
 			//事件绑定
@@ -65,7 +68,7 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 			target.each(function(value, key) {
 				value.hide();
 				if (self._isDisabled(value)) {
-					checkbox = $(disabledHTML).insertBefore(value).attr('ks-checkbox-disabled', 'disabled');					
+					checkbox = $(disabledHTML).insertBefore(value).attr('ks-checkbox-disabled', 'disabled');
 				} else {
 					//如果本身是选中的状态
 					if (self._isChecked(value)) {
@@ -74,9 +77,21 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 						checkbox = $(html).insertBefore(value);
 					}
 				}
-				checkboxArr.push(checkbox);				
+				checkboxArr.push(checkbox);
 			})
-			self.set('checkboxs',checkboxArr);
+			self.set('checkboxs', checkboxArr);
+		},
+		/**
+		 * 加载css
+		 */
+		_loadCss: function() {
+			var self = this,
+				isUseCss = self.get('isUseCss'),
+				cssUrl = self.get('cssUrl');
+			//加载css文件
+			if (isUseCss) {
+				S.use(cssUrl, function(S) {});
+			}
 		},
 		/**
 		 * 根据样式返回html字符串
@@ -132,7 +147,7 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 					default:
 						break;
 					}
-				}).on('click', function() {					
+				}).on('click', function() {
 					if (self._isDisabled(value)) return;
 					self._clickHandler.call(self, key);
 					//return false;				
@@ -194,7 +209,7 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 			return self;
 		},
 		/**
-		 * 全选
+		 * 模拟的checkbox全选
 		 * @return {Object} return self
 		 */
 		selectAll: function() {
@@ -207,7 +222,7 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 			return self;
 		},
 		/**
-		 * 清空
+		 * 清空模拟的checkbox
 		 * @return {Object} return self
 		 */
 		resetAll: function() {
@@ -241,17 +256,17 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 			return checkedArr;
 		}
 	}, {
-		ATTRS: {
+		ATTRS: /** @lends Checkbox.prototype*/{
 			/**
 			 * 配置的目标,选择器的字符串
 			 * @type {String}
 			 */
 			target: {
-				value:'',
-				setter: function(v) {	
+				value: '',
+				setter: function(v) {
 					return $(v);
 				},
-				getter: function(v) {					
+				getter: function(v) {
 					return $(v);
 				}
 			},
@@ -260,15 +275,15 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 			 * @type {Array}
 			 * @default []
 			 */
-			checkboxs:{
-				value:[]		
-			},	
+			checkboxs: {
+				value: []
+			},
 			/**
-			 * 样式名
+			 * 一组样式名
 			 * @type {Object}
 			 * @default cls:{init: 'ks-checkbox',checked: 'ks-checkbox-checked',disabled: 'ks-checkbox-disabled',hover: 'ks-checkbox-hover'}
 			 */
-			
+
 			cls: {
 				value: {
 					init: 'ks-checkbox',
@@ -276,6 +291,18 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 					disabled: 'ks-checkbox-disabled',
 					hover: 'ks-checkbox-hover'
 				}
+			},
+			/**
+			 * 是否引用css文件
+			 */
+			isUseCss: {
+				value: true
+			},
+			/**
+			 * css模块路径
+			 */
+			cssUrl: {
+				value: 'gallery/form/1.1/checkbox/themes/default/style2.css'
 			}
 		}
 	})

@@ -101,12 +101,6 @@ KISSY.add('gallery/form/1.1/uploader/themes/default/index', function (S, Node, T
          */
         name:{value:'defaultTheme'},
         /**
-         * 是否引用css文件
-         * @type Boolean
-         * @default true
-         */
-        isUseCss:{value:true},
-        /**
          * css模块路径
          * @type String
          * @default "gallery/form/1.1/uploader/themes/default/style.css"
