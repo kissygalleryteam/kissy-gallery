@@ -29,12 +29,12 @@
         </condition>
     </target>
     <!--删除build目录下的所有文件-->
-    <target name="clean-build" if="uploader.build.dir.exists">
-        <delete>
+    <target name="clean-build" if="uploader.build.dir.exists" depends="dircheck">
+        <delete dir="${uploader.build.dir}">
             <fileset dir="${uploader.build.dir}" includes="**/*.js,**/*.css,**/*.swf"/>
         </delete>
     </target>
-    <target name="mkdir" unless="uploader.build.dir.exists">
+    <target name="mkdir" unless="uploader.build.dir.exists" depends="dircheck">
         <mkdir dir="${uploader.build.dir}">
 
         </mkdir>
@@ -118,6 +118,6 @@
 
         </jsdoctoolkit>
     </target>
-    <target name="build" depends="concat,mkdir,clean-build,move,build-theme,minify-theme-css,minify,move-swf">
+    <target name="build" depends="concat,clean-build,mkdir,move,build-theme,minify-theme-css,minify,move-swf">
     </target>
 </project>

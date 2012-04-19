@@ -136,10 +136,9 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
          */
         _LoaderCss:function () {
             var self = this,
-                isUseCss = self.get('isUseCss'),
                 cssUrl = self.get('cssUrl');
             //加载css文件
-            if (!isUseCss) return false;
+            if (cssUrl == EMPTY) return false;
             S.use(cssUrl, function () {
                 S.log(cssUrl + '加载成功！');
             });
@@ -270,12 +269,6 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
          * @default ""
          */
         name:{value:EMPTY},
-        /**
-         * 是否引用css文件
-         * @type Boolean
-         * @default true
-         */
-        isUseCss:{value:true},
         /**
          * css模块路径
          * @type String

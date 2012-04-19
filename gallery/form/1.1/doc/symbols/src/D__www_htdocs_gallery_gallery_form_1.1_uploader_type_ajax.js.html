@@ -22,31 +22,31 @@
 <span class='line'> 15</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 16</span> </span><span class="WHIT">        </span><span class="COMM">//调用父类构造函数</span><span class="WHIT">
 <span class='line'> 17</span> </span><span class="WHIT">        </span><span class="NAME">AjaxType.superclass.constructor.call</span><span class="PUNC">(</span><span class="NAME">self</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">config</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 18</span> </span><span class="WHIT">        </span><span class="NAME">self._setFormData</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 19</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 20</span> 
-<span class='line'> 21</span> </span><span class="WHIT">    </span><span class="NAME">S.mix</span><span class="PUNC">(</span><span class="NAME">AjaxType</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">/** @lends AjaxType.prototype*/</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 22</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'> 23</span>          * 事件列表
-<span class='line'> 24</span>          */</span><span class="WHIT">
-<span class='line'> 25</span> </span><span class="WHIT">        </span><span class="NAME">event</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">S.merge</span><span class="PUNC">(</span><span class="NAME">UploadType.event</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 26</span> </span><span class="WHIT">            </span><span class="NAME">PROGRESS</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'progress'</span><span class="WHIT">
-<span class='line'> 27</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'> 28</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 29</span> </span><span class="WHIT">    </span><span class="COMM">//继承于Base，属性getter和setter委托于Base处理</span><span class="WHIT">
-<span class='line'> 30</span> </span><span class="WHIT">    </span><span class="NAME">S.extend</span><span class="PUNC">(</span><span class="NAME">AjaxType</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">UploadType</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">/** @lends AjaxType.prototype*/</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 31</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'> 32</span>          * 上传文件
-<span class='line'> 33</span>          * @param {File} fileData 文件数据
-<span class='line'> 34</span>          * @return {AjaxType}
-<span class='line'> 35</span>          */</span><span class="WHIT">
-<span class='line'> 36</span> </span><span class="WHIT">        </span><span class="NAME">upload</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">fileData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 37</span> </span><span class="WHIT">            </span><span class="COMM">//不存在文件信息集合直接退出</span><span class="WHIT">
-<span class='line'> 38</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">fileData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 39</span> </span><span class="WHIT">                </span><span class="NAME">S.log</span><span class="PUNC">(</span><span class="NAME">LOG_PREFIX</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'upload()，fileData参数有误！'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 40</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 41</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 42</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 19</span> 
+<span class='line'> 20</span> </span><span class="WHIT">    </span><span class="NAME">S.mix</span><span class="PUNC">(</span><span class="NAME">AjaxType</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">/** @lends AjaxType.prototype*/</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 22</span>          * 事件列表
+<span class='line'> 23</span>          */</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">        </span><span class="NAME">event</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">S.merge</span><span class="PUNC">(</span><span class="NAME">UploadType.event</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">            </span><span class="NAME">PROGRESS</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'progress'</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">    </span><span class="COMM">//继承于Base，属性getter和setter委托于Base处理</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">    </span><span class="NAME">S.extend</span><span class="PUNC">(</span><span class="NAME">AjaxType</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">UploadType</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">/** @lends AjaxType.prototype*/</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 31</span>          * 上传文件
+<span class='line'> 32</span>          * @param {File} fileData 文件数据
+<span class='line'> 33</span>          * @return {AjaxType}
+<span class='line'> 34</span>          */</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">        </span><span class="NAME">upload</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">fileData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">            </span><span class="COMM">//不存在文件信息集合直接退出</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">fileData</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">                </span><span class="NAME">S.log</span><span class="PUNC">(</span><span class="NAME">LOG_PREFIX</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'upload()，fileData参数有误！'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">            </span><span class="NAME">self._setFormData</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 43</span> </span><span class="WHIT">            </span><span class="NAME">self._addFileData</span><span class="PUNC">(</span><span class="NAME">fileData</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 44</span> </span><span class="WHIT">            </span><span class="NAME">self.send</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 45</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">self</span><span class="PUNC">;</span><span class="WHIT">
