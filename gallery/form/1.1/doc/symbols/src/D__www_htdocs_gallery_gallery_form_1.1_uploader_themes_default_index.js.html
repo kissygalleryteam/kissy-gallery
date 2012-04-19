@@ -108,46 +108,40 @@
 <span class='line'>101</span>          */</span><span class="WHIT">
 <span class='line'>102</span> </span><span class="WHIT">        </span><span class="NAME">name</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="STRN">'defaultTheme'</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>103</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>104</span>          * 是否引用css文件
-<span class='line'>105</span>          * @type Boolean
-<span class='line'>106</span>          * @default true
+<span class='line'>104</span>          * css模块路径
+<span class='line'>105</span>          * @type String
+<span class='line'>106</span>          * @default "gallery/form/1.1/uploader/themes/default/style.css"
 <span class='line'>107</span>          */</span><span class="WHIT">
-<span class='line'>108</span> </span><span class="WHIT">        </span><span class="NAME">isUseCss</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="KEYW">true</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">        </span><span class="NAME">cssUrl</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="STRN">'gallery/form/1.1/uploader/themes/default/style.css'</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>109</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>110</span>          * css模块路径
+<span class='line'>110</span>          * 队列使用的模板
 <span class='line'>111</span>          * @type String
-<span class='line'>112</span>          * @default "gallery/form/1.1/uploader/themes/default/style.css"
+<span class='line'>112</span>          * @default ""
 <span class='line'>113</span>          */</span><span class="WHIT">
-<span class='line'>114</span> </span><span class="WHIT">        </span><span class="NAME">cssUrl</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="STRN">'gallery/form/1.1/uploader/themes/default/style.css'</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>115</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>116</span>          * 队列使用的模板
-<span class='line'>117</span>          * @type String
-<span class='line'>118</span>          * @default ""
-<span class='line'>119</span>          */</span><span class="WHIT">
-<span class='line'>120</span> </span><span class="WHIT">        </span><span class="NAME">fileTpl</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT">
-<span class='line'>121</span> </span><span class="WHIT">            </span><span class="STRN">'&lt;li id="queue-file-{id}" class="clearfix" data-name="{name}">'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>122</span> </span><span class="WHIT">                </span><span class="STRN">'&lt;div class="f-l sprite file-icon">&lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>123</span> </span><span class="WHIT">                </span><span class="STRN">'&lt;div class="f-l">{name}&lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>124</span> </span><span class="WHIT">                </span><span class="STRN">'&lt;div class="f-l status-wrapper J_FileStatus">'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>125</span> </span><span class="WHIT">                    </span><span class="STRN">'&lt;div class="status waiting-status">等待上传，&lt;a class="J_Upload_{id}" href="#Upload">点此上传&lt;/a> &lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>126</span> </span><span class="WHIT">                    </span><span class="STRN">'&lt;div class="status start-status progress-status clearfix">'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>127</span> </span><span class="WHIT">                        </span><span class="STRN">'&lt;div class="J_ProgressBar_{id} f-l uploader-progress">&lt;img class="loading" src="http://img01.taobaocdn.com/tps/i1/T1F5tVXjRfXXXXXXXX-16-16.gif" alt="loading" />&lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>128</span> </span><span class="WHIT">                        </span><span class="STRN">' &lt;a  class="J_Cancel_{id} f-l upload-cancel" href="#uploadCancel">取消&lt;/a>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>129</span> </span><span class="WHIT">                    </span><span class="STRN">'&lt;/div> '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>130</span> </span><span class="WHIT">                    </span><span class="STRN">' &lt;div class="status success-status">&lt;a href="#fileDel" class="J_Del_{id}">删除&lt;/a>&lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>131</span> </span><span class="WHIT">                    </span><span class="STRN">'&lt;div class="status cancel-status">已经取消上传，&lt;a href="#reUpload" id="J_ReUpload_{id}" class="J_Upload_{id}">点此重新上传&lt;/a> &lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>132</span> </span><span class="WHIT">                    </span><span class="STRN">'&lt;div class="status error-status upload-error">&lt;span class="J_ErrorMsg_{id}">&lt;/span>&lt;a href="#fileDel" class="J_Del_{id}">删除&lt;/a>&lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>133</span> </span><span class="WHIT">                </span><span class="STRN">'&lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
-<span class='line'>134</span> </span><span class="WHIT">                </span><span class="STRN">'&lt;/li>'</span><span class="WHIT">
-<span class='line'>135</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>136</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>137</span>          * 需要加载的插件，需要手动实例化
-<span class='line'>138</span>          * @type Array
-<span class='line'>139</span>          * @default [''progressBar'] 进度条
-<span class='line'>140</span>          */</span><span class="WHIT">
-<span class='line'>141</span> </span><span class="WHIT">        </span><span class="NAME">plugins</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>142</span> </span><span class="WHIT">            </span><span class="NAME">value</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="STRN">'progressBar'</span><span class="PUNC">]</span><span class="WHIT">
-<span class='line'>143</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>144</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>145</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">DefaultTheme</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>146</span> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">requires</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="STRN">'node'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'../../theme'</span><span class="PUNC">]</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
+<span class='line'>114</span> </span><span class="WHIT">        </span><span class="NAME">fileTpl</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">            </span><span class="STRN">'&lt;li id="queue-file-{id}" class="clearfix" data-name="{name}">'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">                </span><span class="STRN">'&lt;div class="f-l sprite file-icon">&lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">                </span><span class="STRN">'&lt;div class="f-l">{name}&lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">                </span><span class="STRN">'&lt;div class="f-l status-wrapper J_FileStatus">'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">                    </span><span class="STRN">'&lt;div class="status waiting-status">等待上传，&lt;a class="J_Upload_{id}" href="#Upload">点此上传&lt;/a> &lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">                    </span><span class="STRN">'&lt;div class="status start-status progress-status clearfix">'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">                        </span><span class="STRN">'&lt;div class="J_ProgressBar_{id} f-l uploader-progress">&lt;img class="loading" src="http://img01.taobaocdn.com/tps/i1/T1F5tVXjRfXXXXXXXX-16-16.gif" alt="loading" />&lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">                        </span><span class="STRN">' &lt;a  class="J_Cancel_{id} f-l upload-cancel" href="#uploadCancel">取消&lt;/a>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">                    </span><span class="STRN">'&lt;/div> '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">                    </span><span class="STRN">' &lt;div class="status success-status">&lt;a href="#fileDel" class="J_Del_{id}">删除&lt;/a>&lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">                    </span><span class="STRN">'&lt;div class="status cancel-status">已经取消上传，&lt;a href="#reUpload" id="J_ReUpload_{id}" class="J_Upload_{id}">点此重新上传&lt;/a> &lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">                    </span><span class="STRN">'&lt;div class="status error-status upload-error">&lt;span class="J_ErrorMsg_{id}">&lt;/span>&lt;a href="#fileDel" class="J_Del_{id}">删除&lt;/a>&lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">                </span><span class="STRN">'&lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">                </span><span class="STRN">'&lt;/li>'</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>131</span>          * 需要加载的插件，需要手动实例化
+<span class='line'>132</span>          * @type Array
+<span class='line'>133</span>          * @default [''progressBar'] 进度条
+<span class='line'>134</span>          */</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">        </span><span class="NAME">plugins</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">            </span><span class="NAME">value</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="STRN">'progressBar'</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">DefaultTheme</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">requires</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="STRN">'node'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'../../theme'</span><span class="PUNC">]</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
