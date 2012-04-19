@@ -1,9 +1,9 @@
-﻿/**
+/**
  * 省市区联动
  * @author 常胤<changyin@taobao.com>
  *
  */
-KISSY.add("gallery/province/1.0/province",function(S, undefined){
+KISSY.add("gallery/province/1.0/index",function(S, undefined){
 		
 	var DOM = S.DOM, Event = S.Event,
 		cfg = {

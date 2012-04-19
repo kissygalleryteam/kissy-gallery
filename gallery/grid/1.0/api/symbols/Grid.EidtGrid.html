@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - KISSY.LP.LoadMask</title>
+		<title>JsDoc Reference - Grid.EidtGrid</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -197,17 +197,17 @@ ul.inheritsList
 	
 	<li><a href="../symbols/Grid.Grid.html">Grid.Grid</a></li>
 	
+	<li><a href="../symbols/Grid.LoadMask.html">Grid.LoadMask</a></li>
+	
+	<li><a href="../symbols/Grid.PaggingBar.html">Grid.PaggingBar</a></li>
+	
+	<li><a href="../symbols/Grid.Store.html">Grid.Store</a></li>
+	
 	<li><a href="../symbols/Grid.Util.html">Grid.Util</a></li>
 	
 	<li><a href="../symbols/Grid.Util.Format.html">Grid.Util.Format</a></li>
 	
 	<li><a href="../symbols/Grid.Util.FormHelpr.html">Grid.Util.FormHelpr</a></li>
-	
-	<li><a href="../symbols/KISSY.LP.LoadMask.html">KISSY.LP.LoadMask</a></li>
-	
-	<li><a href="../symbols/KISSY.LP.PaggingBar.html">KISSY.LP.PaggingBar</a></li>
-	
-	<li><a href="../symbols/KISSY.LP.Store.html">KISSY.LP.Store</a></li>
 	
 </ul>
 <hr />
@@ -218,24 +218,26 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class KISSY.LP.LoadMask
+				Class Grid.EidtGrid
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
+				<br />Extends
+					<a href="../symbols/Grid.Grid.html">Grid.Grid</a>.<br />
 				
 			
-				加载屏蔽类
+				可编辑的表格类
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/git_gallery_grid_1.0_loadMask.js.html">loadMask.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/git_gallery_grid_1.0_editGrid.js.html">editGrid.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class KISSY.LP.LoadMask.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class Grid.EidtGrid.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -248,9 +250,10 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/KISSY.LP.LoadMask.html#constructor">KISSY.LP.LoadMask</a></b>(element, config)
+								<b><a href="../symbols/Grid.EidtGrid.html#constructor">Grid.EidtGrid</a></b>(conifg)
 							</div>
-							<div class="description">屏蔽指定元素，并显示加载信息</div>
+							<div class="description">可编辑表格控件
+编辑表格数据</div>
 						</td>
 					</tr>
 				</tbody>
@@ -259,70 +262,12 @@ ul.inheritsList
 
 <!-- ============================== properties summary ===================== -->
 			
-				
-				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class KISSY.LP.LoadMask.">
-					<caption>Field Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Field Attributes</th>
-							<th scope="col">Field Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/KISSY.LP.LoadMask.html#disabled">disabled</a></b>
-								</div>
-								<div class="description">加载控件是否禁用</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/KISSY.LP.LoadMask.html#el">el</a></b>
-								</div>
-								<div class="description">要屏蔽的元素，选择器、Dom元素或Node元素</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/KISSY.LP.LoadMask.html#msg">msg</a></b>
-								</div>
-								<div class="description">加载时显示的加载信息</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/KISSY.LP.LoadMask.html#msgCls">msgCls</a></b>
-								</div>
-								<div class="description">加载时显示的加载信息的样式</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
-				
-				
-				
-			
 
 <!-- ============================== methods summary ======================== -->
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class KISSY.LP.LoadMask.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class Grid.EidtGrid.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -335,36 +280,36 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.LoadMask.html#destroy">destroy</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/Grid.EidtGrid.html#cancelEdit">cancelEdit</a></b>()
 								</div>
-								<div class="description"></div>
+								<div class="description">取消编辑状态，隐藏所有的编辑器，无论是否当前编辑器内的数据通过验证</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.LoadMask.html#disable">disable</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/Grid.EidtGrid.html#clearError">clearError</a></b>()
 								</div>
-								<div class="description">设置控件不可用</div>
+								<div class="description">清除错误，如果还处于编辑状态，则取消编辑状态</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.LoadMask.html#hide">hide</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/Grid.EidtGrid.html#hasError">hasError</a></b>()
 								</div>
-								<div class="description">隐藏加载条，并解除遮盖元素</div>
+								<div class="description">是否包含错误</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.LoadMask.html#show">show</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/Grid.EidtGrid.html#setCellToEdit">setCellToEdit</a></b>(record, field)
 								</div>
-								<div class="description">显示加载条，并遮盖元素</div>
+								<div class="description">设置单元格进入编辑状态</div>
 							</td>
 						</tr>
 					
@@ -373,8 +318,21 @@ ul.inheritsList
 				
 				
 				
+				<dl class="inheritsList">
+				<dt>Methods borrowed from class <a href="../symbols/Grid.Grid.html">Grid.Grid</a>: </dt><dd><a href="../symbols/Grid.Grid.html#addSummary">addSummary</a>, <a href="../symbols/Grid.Grid.html#clearData">clearData</a>, <a href="../symbols/Grid.Grid.html#clearSelection">clearSelection</a>, <a href="../symbols/Grid.Grid.html#destory">destory</a>, <a href="../symbols/Grid.Grid.html#filter">filter</a>, <a href="../symbols/Grid.Grid.html#getSelected">getSelected</a>, <a href="../symbols/Grid.Grid.html#getSelection">getSelection</a>, <a href="../symbols/Grid.Grid.html#getWidth">getWidth</a>, <a href="../symbols/Grid.Grid.html#setHeight">setHeight</a>, <a href="../symbols/Grid.Grid.html#setSelection">setSelection</a>, <a href="../symbols/Grid.Grid.html#showData">showData</a></dd>
+				</dl>
+				
 			
 <!-- ============================== events summary ======================== -->
+			
+				
+				
+				
+				
+				<dl class="inheritsList">
+				<dt>Events borrowed from class <a href="../symbols/Grid.Grid.html">Grid.Grid</a>: </dt><dd><a href="../symbols/Grid.Grid.html#event:afterappend">afterappend</a>, <a href="../symbols/Grid.Grid.html#event:aftershow">aftershow</a>, <a href="../symbols/Grid.Grid.html#event:beforepagechange">beforepagechange</a>, <a href="../symbols/Grid.Grid.html#event:beginappend">beginappend</a>, <a href="../symbols/Grid.Grid.html#event:beginshow">beginshow</a>, <a href="../symbols/Grid.Grid.html#event:cellclick">cellclick</a>, <a href="../symbols/Grid.Grid.html#event:rowclick">rowclick</a>, <a href="../symbols/Grid.Grid.html#event:rowcreated">rowcreated</a>, <a href="../symbols/Grid.Grid.html#event:rowremoved">rowremoved</a>, <a href="../symbols/Grid.Grid.html#event:rowselected">rowselected</a>, <a href="../symbols/Grid.Grid.html#event:rowunselected">rowunselected</a></dd>
+				</dl>
+				
 			
 
 <!-- ============================== constructor details ==================== -->		
@@ -385,13 +343,18 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>KISSY.LP.LoadMask</b>(element, config)
+						<b>Grid.EidtGrid</b>(conifg)
 				</div>
 				
 				<div class="description">
-					屏蔽指定元素，并显示加载信息
+					可编辑表格控件
+编辑表格数据
 					
 				</div>
+				
+				
+				
+				<pre class="code">//数字编辑器，并附加验证{ title: '总花费', sortable: true,  dataIndex: 'TotalCost',editor:{type:'number',validator:function(value,obj){		if(value > 100){			return '总花费不大于100';		}	}}}//下拉列表编辑器{ title: '选择', sortable: true,  dataIndex: 'check',editor:{type:'select',items:[{name:'选择1',value:'1'},{name:'选择2',value:'2'}]}}</pre>
 				
 				
 				
@@ -401,16 +364,22 @@ ul.inheritsList
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{String|DOM|Node}</span>  <b>element</b>
+								<span class="light fixedFont">{Object}</span>  <b>conifg</b>
 								
 							</dt>
-								<dd>要屏蔽的元素，选择器、Dom元素或Node元素</dd>
+								<dd>配置项,同父类KISSY.LP.Grid,差别在于列的配置上</dd>
 						
 							<dt>
-								<span class="light fixedFont">{Object}</span>  <b>config</b>
+								<span class="light fixedFont">{Object}</span>  <b>conifg.showError</b>
 								
 							</dt>
-								<dd>配置信息<br>1) msg :加载时显示的加载信息<br>2) msgCls : 加载时显示信息的样式</dd>
+								<dd>是否直接在列表中显示错误提示</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Object}</span>  <b>conifg.columns[0].editor</b>
+								
+							</dt>
+								<dd>列上的编辑器配置<br>1) type 编辑器的类型，目前支持 "text","number","select"<br>2) items 当类型为 "select"时，items中包含下拉列表中的键值对<br>3) validator ,函数原型 Function(value,obj)验证器，当返回值为字符串时，将其显示成错误信息<br>4) editableFun 函数原型 Function(value,obj) 决定当前单元格是否可以编辑，如果返回值为true 则可以编辑。否则不可以编辑 默认值为返回 function(){return true};</dd>
 						
 						</dl>
 					
@@ -420,125 +389,18 @@ ul.inheritsList
 					
 					
 					
+						<dl class="detailList">
+						<dt class="heading">See:</dt>
+						
+							<dd><a href="../symbols/Grid.Grid.html">Grid.Grid</a></dd>
+						
+						</dl>
+					
 
 			</div>
 			
 
 <!-- ============================== field details ========================== -->		
-			
-				<div class="sectionTitle">
-					Field Detail
-				</div>
-				
-					<a name="disabled"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{Boolean}</span>
-					<b>disabled</b>
-					
-					</div>
-					<div class="description">
-						加载控件是否禁用
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Default Value:</dt>
-							<dd>
-								false
-							</dd>
-							</dl>
-						
-
-					<hr />
-				
-					<a name="el"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{String|DOM|Node}</span>
-					<b>el</b>
-					
-					</div>
-					<div class="description">
-						要屏蔽的元素，选择器、Dom元素或Node元素
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name="msg"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>msg</b>
-					
-					</div>
-					<div class="description">
-						加载时显示的加载信息
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Default Value:</dt>
-							<dd>
-								Loading...
-							</dd>
-							</dl>
-						
-
-					<hr />
-				
-					<a name="msgCls"> </a>
-					<div class="fixedFont">
-					
-					
-					<b>msgCls</b>
-					
-					</div>
-					<div class="description">
-						加载时显示的加载信息的样式
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Default Value:</dt>
-							<dd>
-								x-mask-loading
-							</dd>
-							</dl>
-						
-
-					
-				
 			
 
 <!-- ============================== method details ========================= -->		
@@ -547,15 +409,15 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
-					<a name="destroy"> </a>
+					<a name="cancelEdit"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>destroy</b>()
+					<b>cancelEdit</b>()
 					
 					</div>
 					<div class="description">
-						
+						取消编辑状态，隐藏所有的编辑器，无论是否当前编辑器内的数据通过验证
 						
 						
 					</div>
@@ -572,15 +434,15 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="disable"> </a>
+					<a name="clearError"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>disable</b>()
+					<b>clearError</b>()
 					
 					</div>
 					<div class="description">
-						设置控件不可用
+						清除错误，如果还处于编辑状态，则取消编辑状态
 						
 						
 					</div>
@@ -597,15 +459,15 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="hide"> </a>
+					<a name="hasError"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>hide</b>()
+					<b>hasError</b>()
 					
 					</div>
 					<div class="description">
-						隐藏加载条，并解除遮盖元素
+						是否包含错误
 						
 						
 					</div>
@@ -622,21 +484,38 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name="show"> </a>
+					<a name="setCellToEdit"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>show</b>()
+					<b>setCellToEdit</b>(record, field)
 					
 					</div>
 					<div class="description">
-						显示加载条，并遮盖元素
+						设置单元格进入编辑状态
 						
 						
 					</div>
 					
 					
 					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>record</b>
+									
+								</dt>
+								<dd>编辑的记录</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>field</b>
+									
+								</dt>
+								<dd>编辑的字段</dd>
+							
+							</dl>
 						
 						
 						
@@ -659,7 +538,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Dec 23 2011 18:18:29 GMT+0800 (CST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Dec 23 2011 18:37:17 GMT+0800 (CST)
 		</div>
 	</body>
 </html>

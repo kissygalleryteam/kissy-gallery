@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - KISSY.LP.PaggingBar</title>
+		<title>JsDoc Reference - Grid.Util</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -199,15 +199,15 @@ ul.inheritsList
 	
 	<li><a href="../symbols/Grid.LoadMask.html">Grid.LoadMask</a></li>
 	
+	<li><a href="../symbols/Grid.PaggingBar.html">Grid.PaggingBar</a></li>
+	
+	<li><a href="../symbols/Grid.Store.html">Grid.Store</a></li>
+	
 	<li><a href="../symbols/Grid.Util.html">Grid.Util</a></li>
 	
 	<li><a href="../symbols/Grid.Util.Format.html">Grid.Util.Format</a></li>
 	
 	<li><a href="../symbols/Grid.Util.FormHelpr.html">Grid.Util.FormHelpr</a></li>
-	
-	<li><a href="../symbols/KISSY.LP.PaggingBar.html">KISSY.LP.PaggingBar</a></li>
-	
-	<li><a href="../symbols/KISSY.LP.Store.html">KISSY.LP.Store</a></li>
 	
 </ul>
 <hr />
@@ -218,7 +218,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class KISSY.LP.PaggingBar
+				Class Grid.Util
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -226,16 +226,16 @@ ul.inheritsList
 				
 				
 			
-				分页控件
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/git_gallery_grid_1.0_paggingBar.js.html">paggingBar.js</a>.
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/git_gallery_grid_1.0_util.js.html">util.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class KISSY.LP.PaggingBar.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class Grid.Util.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -248,10 +248,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/KISSY.LP.PaggingBar.html#constructor">KISSY.LP.PaggingBar</a></b>(config)
+								<b><a href="../symbols/Grid.Util.html#constructor">Grid.Util</a></b>()
 							</div>
-							<div class="description">分页栏
-用于分页，配置项config:<br>1) pageSize : 单页记录数<br>2) store : 数据源<br>3) renderTo :附加到容器的编号<br></div>
+							<div class="description"></div>
 						</td>
 					</tr>
 				</tbody>
@@ -265,7 +264,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class KISSY.LP.PaggingBar.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class Grid.Util.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -276,11 +275,38 @@ ul.inheritsList
 					<tbody>
 					
 						<tr>
-							<td class="attributes">&nbsp;</td>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.PaggingBar.html#skipToPage">skipToPage</a></b>(page)
+								<div class="fixedFont">Grid.Util.<b><a href="../symbols/Grid.Util.html#.mask">mask</a></b>()
 								</div>
-								<div class="description">跳到指定页</div>
+								<div class="description">屏蔽整个页面: <br> 1）ie 6,ie 7下设置100%无效 <br> 2) 兼容浏览器的可视区域和内容区域</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Grid.Util.<b><a href="../symbols/Grid.Util.html#.maskElement">maskElement</a></b>(element, msg, msgCls)
+								</div>
+								<div class="description">屏蔽指定元素</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Grid.Util.<b><a href="../symbols/Grid.Util.html#.unmask">unmask</a></b>()
+								</div>
+								<div class="description">取消屏蔽整个页面</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Grid.Util.<b><a href="../symbols/Grid.Util.html#.unmaskElement">unmaskElement</a></b>(element)
+								</div>
+								<div class="description">解除对应元素的屏蔽</div>
 							</td>
 						</tr>
 					
@@ -292,33 +318,6 @@ ul.inheritsList
 			
 <!-- ============================== events summary ======================== -->
 			
-				
-				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the events documented in the class KISSY.LP.PaggingBar.">
-					<caption>Event Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Event Attributes</th>
-							<th scope="col">Event Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/KISSY.LP.PaggingBar.html#event:beforepagechange">beforepagechange</a></b>(e)
-								</div>
-								<div class="description">翻页时触发</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
-				
-				
-				
-			
 
 <!-- ============================== constructor details ==================== -->		
 			
@@ -328,33 +327,17 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>KISSY.LP.PaggingBar</b>(config)
+						<b>Grid.Util</b>()
 				</div>
 				
 				<div class="description">
-					分页栏
-用于分页，配置项config:<br>1) pageSize : 单页记录数<br>2) store : 数据源<br>3) renderTo :附加到容器的编号<br>
+					
 					
 				</div>
 				
 				
 				
-				<pre class="code">//应用于表格、列表时，会默认添加表格、列表的数据源，添加容器的编号tbar : {pageSize:20}//独立生成分页栏new S.LP.PaggingBar({renderTo:'pbar',store:store,pageSize:20});</pre>
 				
-				
-				
-				
-					
-						<dl class="detailList">
-						<dt class="heading">Parameters:</dt>
-						
-							<dt>
-								<span class="light fixedFont">{Object}</span>  <b>config</b>
-								
-							</dt>
-								<dd>配置参数</dd>
-						
-						</dl>
 					
 					
 					
@@ -375,18 +358,51 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
-					<a name="skipToPage"> </a>
-					<div class="fixedFont">
+					<a name=".mask"> </a>
+					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<b>skipToPage</b>(page)
+					<span class="light">Grid.Util.</span><b>mask</b>()
 					
 					</div>
 					<div class="description">
-						跳到指定页
+						屏蔽整个页面: <br> 1）ie 6,ie 7下设置100%无效 <br> 2) 兼容浏览器的可视区域和内容区域
 						
 						
 					</div>
+					
+					
+					
+					<pre class="code">	Grid.Util.mask();	//屏蔽窗口	Grid.Util.unmask();	//解除屏蔽窗口</pre>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".maskElement"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Grid.Util.</span><b>maskElement</b>(element, msg, msgCls)
+					
+					</div>
+					<div class="description">
+						屏蔽指定元素
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">	Grid.Util.maskElement('#domId');	//屏蔽元素，暂时只屏蔽选择器的第一个元素</pre>
 					
 					
 					
@@ -395,10 +411,87 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{Number}</span> <b>page</b>
+									<span class="light fixedFont">{[String|DOM|Node]}</span> <b>element</b>
 									
 								</dt>
-								<dd>目标页</dd>
+								<dd>屏蔽的元素，可以使用选择器、Dom元素，Node元素</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>msg</b>
+									
+								</dt>
+								<dd>屏蔽层上显示的信息，可以为空</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>msgCls</b>
+									
+								</dt>
+								<dd>屏蔽信息上应用的CSS,可以为空，此项仅在 msg有效时起作用</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".unmask"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Grid.Util.</span><b>unmask</b>()
+					
+					</div>
+					<div class="description">
+						取消屏蔽整个页面
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".unmaskElement"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Grid.Util.</span><b>unmaskElement</b>(element)
+					
+					</div>
+					<div class="description">
+						解除对应元素的屏蔽
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">	Grid.Util.unmaskElement('#domId');	//解除屏蔽元素，暂时只支持选择器的第一个元素</pre>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{[String|DOM|Node]}</span> <b>element</b>
+									
+								</dt>
+								<dd>屏蔽的元素，可以使用选择器、Dom元素，Node元素</dd>
 							
 							</dl>
 						
@@ -415,66 +508,6 @@ ul.inheritsList
 			
 <!-- ============================== event details ========================= -->		
 			
-				<div class="sectionTitle">
-					Event Detail
-				</div>
-				
-					<a name="event:beforepagechange"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{Boolean}</span>
-					<b>beforepagechange</b>(e)
-					
-					</div>
-					<div class="description">
-						翻页时触发
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{event}</span> <b>e</b>
-									
-								</dt>
-								<dd>事件对象</dd>
-							
-								<dt>
-									<span class="light fixedFont">{event}</span> <b>e.from</b>
-									
-								</dt>
-								<dd>起始页</dd>
-							
-								<dt>
-									<span class="light fixedFont">{event}</span> <b>e.to</b>
-									
-								</dt>
-								<dd>目标页</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Boolean}</span> 如果返回false则，取消翻页</dd>
-							
-							</dl>
-						
-						
-						
-
-					
-				
-			
 			
 			<hr />
 		</div>
@@ -483,7 +516,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Dec 23 2011 18:19:56 GMT+0800 (CST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Dec 23 2011 18:37:18 GMT+0800 (CST)
 		</div>
 	</body>
 </html>

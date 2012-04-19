@@ -2,10 +2,10 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
-		<meta http-equiv="content-type" content="text/html; charset=GBK" />
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - KISSY.LP</title>
+		<title>JsDoc Reference - Grid.Util.FormHelpr</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -191,9 +191,23 @@ ul.inheritsList
 	
 	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
 	
-	<li><a href="../symbols/KISSY.LP.html">KISSY.LP</a></li>
+	<li><a href="../symbols/Grid.html">Grid</a></li>
 	
-	<li><a href="../symbols/KISSY.LP.Lib.html">KISSY.LP.Lib</a></li>
+	<li><a href="../symbols/Grid.EidtGrid.html">Grid.EidtGrid</a></li>
+	
+	<li><a href="../symbols/Grid.Grid.html">Grid.Grid</a></li>
+	
+	<li><a href="../symbols/Grid.LoadMask.html">Grid.LoadMask</a></li>
+	
+	<li><a href="../symbols/Grid.PaggingBar.html">Grid.PaggingBar</a></li>
+	
+	<li><a href="../symbols/Grid.Store.html">Grid.Store</a></li>
+	
+	<li><a href="../symbols/Grid.Util.html">Grid.Util</a></li>
+	
+	<li><a href="../symbols/Grid.Util.Format.html">Grid.Util.Format</a></li>
+	
+	<li><a href="../symbols/Grid.Util.FormHelpr.html">Grid.Util.FormHelpr</a></li>
 	
 </ul>
 <hr />
@@ -204,7 +218,7 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Namespace KISSY.LP
+				Class Grid.Util.FormHelpr
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -212,17 +226,17 @@ ul.inheritsList
 				
 				
 			
-				��Ʒ�ؼ���������ռ�.
+				格式化函数
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/todocjs_lib.js.html">lib.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/git_gallery_grid_1.0_util.js.html">util.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class KISSY.LP.">
-				<caption>Namespace Summary</caption>
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class Grid.Util.FormHelpr.">
+				<caption>Class Summary</caption>
 				<thead>
 					<tr>
 						<th scope="col">Constructor Attributes</th>
@@ -234,9 +248,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/KISSY.LP.html#constructor">KISSY.LP</a></b>
+								<b><a href="../symbols/Grid.Util.FormHelpr.html#constructor">Grid.Util.FormHelpr</a></b>()
 							</div>
-							<div class="description"></div>
+							<div class="description">表单的一些工具方法</div>
 						</td>
 					</tr>
 				</tbody>
@@ -248,6 +262,42 @@ ul.inheritsList
 
 <!-- ============================== methods summary ======================== -->
 			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class Grid.Util.FormHelpr.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Grid.Util.FormHelpr.<b><a href="../symbols/Grid.Util.FormHelpr.html#.serialize">serialize</a></b>(form)
+								</div>
+								<div class="description">将表单数据序列化成为字符串</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Grid.Util.FormHelpr.<b><a href="../symbols/Grid.Util.FormHelpr.html#.serializeToObject">serializeToObject</a></b>(form)
+								</div>
+								<div class="description">将表单数据序列化成对象</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
 <!-- ============================== events summary ======================== -->
 			
 
@@ -255,15 +305,15 @@ ul.inheritsList
 			
 			<div class="details"><a name="constructor"> </a>
 				<div class="sectionTitle">
-					Namespace Detail
+					Class Detail
 				</div>
 				
 				<div class="fixedFont">
-						<b>KISSY.LP</b>
+						<b>Grid.Util.FormHelpr</b>()
 				</div>
 				
 				<div class="description">
-					
+					表单的一些工具方法
 					
 				</div>
 				
@@ -286,6 +336,97 @@ ul.inheritsList
 
 <!-- ============================== method details ========================= -->		
 			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name=".serialize"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{String}</span>
+					<span class="light">Grid.Util.FormHelpr.</span><b>serialize</b>(form)
+					
+					</div>
+					<div class="description">
+						将表单数据序列化成为字符串
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{HTMLForm}</span> <b>form</b>
+									
+								</dt>
+								<dd>表单元素</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{String}</span> 序列化的字符串</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".serializeToObject"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">Grid.Util.FormHelpr.</span><b>serializeToObject</b>(form)
+					
+					</div>
+					<div class="description">
+						将表单数据序列化成对象
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{HTMLForm}</span> <b>form</b>
+									
+								</dt>
+								<dd>表单元素</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> 表单元素的</dd>
+							
+							</dl>
+						
+						
+						
+
+					
+				
+			
 			
 <!-- ============================== event details ========================= -->		
 			
@@ -297,7 +438,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Dec 20 2011 19:29:04 GMT+0800 (CST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Dec 23 2011 18:37:18 GMT+0800 (CST)
 		</div>
 	</body>
 </html>
