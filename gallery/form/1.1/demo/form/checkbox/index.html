@@ -29,19 +29,24 @@
 </head>
 <body>
 <article id="main">
-    <h4>Checkbox的demo</h4>
+    <h4>Checkbox</h4>
+    <ul>
+        <li>作者：<b>伯方</b></li>
+        <li>描述：<b>checkbox美化</b></li>
+    </ul>
+    <h4 id="checkboxdemo">Checkbox的demo</h4>
     <div class="demo-wrapper">
        <form action="">
             <ul id="J_Content">
-                <li><input type="checkbox" name="ch-1" value="ch1">1 1 1 1</li>
-                <li><input type="checkbox" name="ch-2" value="ch2">2 2 2 2</li>
-                <li><input disabled="disabled" type="checkbox" name="ch-3" value="ch3">3 3 3 3</li>
-                <li><input disabled="disabled" type="checkbox" name="ch-4" value="ch4">4 4 4 4</li>
-                <li><input type="checkbox" name="ch-5" value="ch5">5 5 5 5</li>
-                <li><input type="checkbox" name="ch-6" value="ch6">6 6 6 6</li>
-                <li><input type="checkbox" name="ch-7" value="ch7">7 7 7 7</li>
-                <li><input type="checkbox" checked="checked" name="ch-8" value="ch8">8 8 8 8</li>
-                <li><input type="checkbox"  checked="checked" name="ch-9" value="ch9">9 9 9 9</li>
+                <li><input type="checkbox" name="ch-1" value="ch1"><em>&nbsp;</em><label>1 1 1 1</label></li>
+                <li><input type="checkbox" name="ch-2" value="ch2"><em>&nbsp;</em><label>2 2 2 2</label></li>
+                <li><input disabled="disabled" type="checkbox" name="ch-3" value="ch3"><em>&nbsp;</em><label>3 3 3 3</label></li>
+                <li><input disabled="disabled" type="checkbox" name="ch-4" value="ch4"><em>&nbsp;</em><label>4 4 4 4</label></li>
+                <li><input type="checkbox" name="ch-5" value="ch5"><em>&nbsp;</em><label>5 5 5 5</label></li>
+                <li><input type="checkbox" name="ch-6" value="ch6"><em>&nbsp;</em><label>6 6 6 6</label></li>
+                <li><input type="checkbox" name="ch-7" value="ch7"><em>&nbsp;</em><label>7 7 7 7</label></li>
+                <li><input type="checkbox" checked="checked" name="ch-8" value="ch8"><em>&nbsp;</em><label>8 8 8 8</label></li>
+                <li><input type="checkbox"  checked="checked" name="ch-9" value="ch9"><em>&nbsp;</em><label>9 9 9 9</label></li>
             </ul>            
             <input type="submit" class="haspadding" name="" value="提交表单查看checkbox选中情况">                        
         </form>
@@ -50,34 +55,50 @@
     <p>下面是页面上本身的一组原生的checkbox，注意观察第3、4、8、9的属性,美化的结果如上面所示</p>
     <pre class='brush: xml;'>
         <ul id="J_Content">
-            <li><input type="checkbox" name="ch-1" value="ch1">1 1 1 1</li>
-            <li><input type="checkbox" name="ch-2" value="ch2">2 2 2 2</li>
-            <li><input type="checkbox" name="ch-3" value="ch3" disabled="disabled">3 3 3 3</li>
-            <li><input type="checkbox" name="ch-4" value="ch4" disabled="disabled" >4 4 4 4</li>
-            <li><input type="checkbox" name="ch-5" value="ch5">5 5 5 5</li>
-            <li><input type="checkbox" name="ch-6" value="ch6">6 6 6 6</li>
-            <li><input type="checkbox" name="ch-7" value="ch7">7 7 7 7</li>
-            <li><input type="checkbox" name="ch-8" value="ch8" checked="checked" >8 8 8 8</li>
-            <li><input type="checkbox" name="ch-9" value="ch9" checked="checked" >9 9 9 9</li>
+            <li><input type="checkbox" name="ch-1" value="ch1"><em>&nbsp;</em><label>1 1 1 1</label></li>
+            <li><input type="checkbox" name="ch-2" value="ch2"><em>&nbsp;</em><label>2 2 2 2</label></li>
+            <li><input disabled="disabled" type="checkbox" name="ch-3" value="ch3"><em>&nbsp;</em><label>3 3 3 3</label></li>
+            <li><input disabled="disabled" type="checkbox" name="ch-4" value="ch4"><em>&nbsp;</em><label>4 4 4 4</label></li>
+            <li><input type="checkbox" name="ch-5" value="ch5"><em>&nbsp;</em><label>5 5 5 5</label></li>
+            <li><input type="checkbox" name="ch-6" value="ch6"><em>&nbsp;</em><label>6 6 6 6</label></li>
+            <li><input type="checkbox" name="ch-7" value="ch7"><em>&nbsp;</em><label>7 7 7 7</label></li>
+            <li><input type="checkbox" checked="checked" name="ch-8" value="ch8"><em>&nbsp;</em><label>8 8 8 8</label></li>
+            <li><input type="checkbox"  checked="checked" name="ch-9" value="ch9"><em>&nbsp;</em><label>9 9 9 9</label></li>
         </ul>
     </pre>
     <h5>使用Checkbox组件美化，只需要使用如下方式即可</h5>
     <pre class='brush: xml;'>
         //初始化
-        var r = new Checkbox('#J_Content input');
+        var r = new Checkbox('#J_Content input',{
+            hasLabel:true, //是否需要label-for，默认是false
+            accessible:true//是否需要无障碍，默认为false
+        })
         //执行
         r.render();
     </pre> 
-    <p>如果不需要提供默认的样式，可以自己提供样式地址只需要在初始化的时候，提供配置的样式地址即可</p>
+    <p>如果不需要提供默认的样式，可以自己提供样式地址只需要在初始化的时候，提供配置的样式地址即可，然后使用自己自定义的样式，需要给这些默认的样式名提供ks-checkbox(默认样式),ks-checkbox-checked(选中),ks-checkbox-disabled(禁用),ks-checkbox-hover(hover)样式</p>
     <pre class='brush: xml;'>
         //初始化
         var r = new Checkbox('#J_Content input',{isUseCss:false});
     </pre>
-    <p>然后使用自己自定义的样式，需要给这些默认的样式名提供ks-checkbox(默认样式),ks-checkbox-checked(选中),ks-checkbox-disabled(禁用),ks-checkbox-hover(hover)样式</p>
+    <p>如果页面的结构通过checkbox 和label 不在同一级等复杂一些的情况，初始化的时候可以传入一个函数进行关联</p>
+    <pre class='brush: xml;'>
+        //首先定义一个查找label节点的函数
+        function getLabel(value){
+            return value.next('label');
+        } 
+        //初始化传入getLabel
+         var r = new Checkbox('#J_Content input',{
+            hasLabel:true,
+            accessible:true,
+            getLabelFunc:getLabel //传入查找函数
+        })
+    </pre>    
+    
     <h4>Checkbox提供的外部方法</h4>    
     <h5>1、全选/取消全选</h5>
     <div  class="" id="J_SelectAll">
-        <input class="haspadding"  type="checkbox">全选
+        <input class="haspadding"  type="checkbox"><label>全选</label>
     </div><!-- / -->
 
 
@@ -95,7 +116,9 @@
     <br />
     <pre class='brush: xml;'>
         //禁用
-        r.setDisabled(index);     
+        r.setDisabled(index); 
+        //恢复
+        r.setDisabled(index);   
     </pre>
 
 
@@ -120,29 +143,46 @@
 <script type="text/javascript">
     KISSY.config({
        packages:[ {
-           name:"gallery",
-           path:"../../../../../../",
-           charset:"utf-8"
+            name:"gallery",
+            path:"../../../../../../",
+        charset:"utf-8"
        } ]
     });
 </script>
-<script type="text/javascript">        
+<script type="text/javascript">   
+
+
+        function getLabel(value){
+            return value.next('label');
+        }     
         KISSY.use('gallery/form/1.1/checkbox/index,node', function (S, R,Node) {
-            var r = new R('#J_Content input'),
-                $ = Node.all,
+            var  $ = Node.all,
+                r = new R('#J_Content input',{
+                    hasLabel:true, //是否需要label-for，默认是false
+                    accessible:true//是否需要无障碍，默认为false 
+                }),
                 btn = $('#J_GetAll'),
-                all = new R('#J_SelectAll input');            
+                all = new R('#J_SelectAll input');   
             r.render();
             all.render();
             //获取结果
             btn.on('click',function(){
                 alert(r.getAllChecked());
-                location.href="#";
+                location.href="#checkboxdemo";
             })
             //设置某个disabled
-            $('#J_Five').on('click',function(){             
-                r.setDisabled(4);
-                 location.href="#";
+            $('#J_Five').on('click',function(){
+                var key = $(this).attr('key');
+                if(key === '1'){
+                    r.setAvailabe(4);
+                    $(this).attr('key',2);
+                    $(this).val('禁用第五个')
+                }else{
+                    r.setDisabled(4);
+                    $(this).attr('key',1);
+                    $(this).val('还原第五个')
+                } 
+                location.href="#checkboxdemo";
             })
             //全选
             $('#J_SelectAll').on('click',function(){
@@ -153,10 +193,9 @@
                 }else{
                     r.resetAll();
                 }            
-                 location.href="#";    
+                location.href="#checkboxdemo";    
                 return false;
             })
-
             //还原checkbox
             $('#J_Recover').on('click',function(){                                 
                 var key = $(this).attr('key');
@@ -169,7 +208,7 @@
                     $(this).attr('key',1);
                     $(this).val('还原checkbox')
                 } 
-                 location.href="#";               
+                 location.href="#checkboxdemo";               
             })
         })
     </script>
