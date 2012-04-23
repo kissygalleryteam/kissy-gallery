@@ -72,7 +72,7 @@ KISSY.add('gallery/form/1.1/uploader/themes/default/index', function (S, Node, T
                 loaded = ev.loaded,
                 //总字节数
                 total = ev.total,
-                val = Math.ceil(loaded/total) * 100,
+                val = Math.ceil((loaded/total) * 100),
                 progressBar = file.progressBar;
             if(!progressBar) return false;
             //处理进度

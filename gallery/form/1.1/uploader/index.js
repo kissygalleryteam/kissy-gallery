@@ -36,7 +36,7 @@ KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, B
     /**
      * @name RenderUploader
      * @class 异步文件上传入口文件，会从按钮的data-config='{}' 伪属性中抓取组件配置
-     * @version 1.1.3
+     * @version 1.1.4
      * @constructor
      * @param {String | HTMLElement} buttonTarget *，上传按钮目标元素
      * @param {String | HTMLElement} queueTarget *，文件队列目标元素

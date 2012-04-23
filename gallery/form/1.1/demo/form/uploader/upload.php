@@ -13,7 +13,7 @@ function get_file_count($dir_name){
 	}
 	return $files;
 }
-//循环删除目录和文件函�?
+//循环删除目录和文件
 function delDirAndFile($dirName){
 	if ($handle = opendir($dirName) ) {
 	   while ( false !== ( $item = readdir($handle) ) ){

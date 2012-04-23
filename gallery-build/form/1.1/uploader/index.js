@@ -1539,7 +1539,7 @@ KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, B
     /**
      * @name RenderUploader
      * @class 异步文件上传入口文件，会从按钮的data-config='{}' 伪属性中抓取组件配置
-     * @version 1.1.3
+     * @version 1.1.4
      * @constructor
      * @param {String | HTMLElement} buttonTarget *，上传按钮目标元素
      * @param {String | HTMLElement} queueTarget *，文件队列目标元素
@@ -1611,7 +1611,9 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
             self.set('button', button);
             //不使用主题
             if(theme == EMPTY){
-                self.fire('init', classes);
+                S.later(function(){
+                    self.fire('init', classes);
+                },500);
             }else{
                 self._initThemes(function (theme) {
                     theme.set('uploader',uploader);
@@ -3216,7 +3218,10 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
                 //模块路径前缀
                 modPrefix = 'gallery/form/1.1/uploader/plugins/',
                 mods = [];
-            if(!plugins.length) return false;
+            if(!plugins.length){
+                callback && callback.call(self,oPlugin);
+                return false;
+            }
             //拼接模块路径
             S.each(plugins,function(plugin){
                 mods.push(modPrefix+plugin+'/' +plugin);
