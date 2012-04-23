@@ -3836,7 +3836,7 @@ KISSY.add('gallery/form/1.1/uploader/type/iframe',function(S, Node, UploadType) 
         _createForm : function() {
             var self = this,
                 //iframe的id
-                id = self.get('id'),
+                id =  ID_PREFIX + S.guid(),
                 //form模板
                 tpl = self.get('tpl'),formTpl = tpl.FORM,
                 //想要传送给服务器端的数据
@@ -3844,7 +3844,7 @@ KISSY.add('gallery/form/1.1/uploader/type/iframe',function(S, Node, UploadType) 
                 //服务器端处理文件上传的路径
                 action = self.get('action'),
                 fileInput = self.get('fileInput'),
-                hiddens,form = EMPTY,$form;
+                hiddens,$form;
             if (!S.isString(formTpl)) {
                 S.log(LOG_PREFIX + 'form模板不合法！');
                 return false;
@@ -3898,12 +3898,6 @@ KISSY.add('gallery/form/1.1/uploader/type/iframe',function(S, Node, UploadType) 
          }
          */
         tpl : {value : IframeType.tpl},
-        /**
-         * 只读，创建的iframeid,id为组件自动创建
-         * @type String
-         * @default  'ks-uploader-iframe-' +随机id
-         */
-        id : {value : ID_PREFIX + S.guid()},
         /**
          * iframe
          */
