@@ -108,7 +108,9 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
             self.set('button', button);
             //不使用主题
             if(theme == EMPTY){
-                self.fire('init', classes);
+                S.later(function(){
+                    self.fire('init', classes);
+                },500);
             }else{
                 self._initThemes(function (theme) {
                     theme.set('uploader',uploader);
