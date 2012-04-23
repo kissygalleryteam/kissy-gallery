@@ -248,7 +248,10 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
                 //模块路径前缀
                 modPrefix = 'gallery/form/1.1/uploader/plugins/',
                 mods = [];
-            if(!plugins.length) return false;
+            if(!plugins.length){
+                callback && callback.call(self,oPlugin);
+                return false;
+            }
             //拼接模块路径
             S.each(plugins,function(plugin){
                 mods.push(modPrefix+plugin+'/' +plugin);
