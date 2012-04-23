@@ -57,7 +57,7 @@
     <h4>使用配置</h4>
     <p>amount就是将数字转化成大写金额，使用简单，只提供一个方法，不涉及dom操作,其中第二个参数类型是Boolean，表示是否需要小数点，默认为false,组件对传入不合法的参数，比如字母、标点、开头很多0，多个小数点等情况都做了容错处理，可以在demo里进行测试</p>
     <pre class='brush: xml;'>
-		KISSY.use('gallery/form/1.1/amunt/index', function (S, Amount) {
+		KISSY.use('gallery/form/1.1/amount/index', function (S, Amount) {
 			var r = new Amount('23135.25',true);
 			S.log(r.convertAmount()); //结果是贰万叁仟壹佰叁拾伍点贰伍
 		})
