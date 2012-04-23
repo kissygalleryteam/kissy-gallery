@@ -10,7 +10,7 @@ KISSY.add('gallery/form/1.1/amount/index', function(S, Base) {
      * @param {String | Number} num,传入需要格式化的参数，必填
      * @param {Boolean} hasDecimal *，是否需要小数点，默认是false,即不用小数点    
      * @example
-     KISSY.use('gallery/form/1.0/amount/base', function (S, Amount) {
+     KISSY.use('gallery/form/1.1/amount/index', function (S, Amount) {
        var r = new Amount('23135.25',true);
        console.log(r.convertAmount()); //结果是贰万叁仟壹佰叁拾伍点贰伍
      })
