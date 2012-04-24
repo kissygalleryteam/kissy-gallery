@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>KISSY gallery - Loading</title>
+<link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
+<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+<script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+
+</head>
+<body>
+<div id="header">
+    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png"/></a></h1>
+    <div class="sub-title">Gallery</div>
+    <ul class="navigation">
+        <li><a href="http://blog.kissyui.com/">博客</a></li>
+        <li><a href="http://github.com/kissyteam">源码</a></li>
+    </ul>
+
+</div>
+<div id="content">
+    <div class="s-crumbs">
+        <span>当前位置：</span>
+        <a href="http://kissyui.com/">KISSY</a>
+        <a href="../../../index.html">Gallery</a>
+        <span>Amount</span>
+    </div>
+            <pre class="s-section">                
+作者：bofang.zxj@taobao.com(伯方)
+功能：amount
+描述：数字金额转换成中文大写
+源码：<a href="amount.js">amount.js</a></pre>
+    <h3 class="s-title">Demo</h3>
+    <div class="s-section">
+        <div class="s-demo">
+            <input type="text" id="J_Input" value="23135.25" maxlength="12">
+            <input type="button" id="J_Btn" value="测试结果">  
+            <p id="J_Show"></p>
+           <script type="text/javascript">  
+                KISSY.use('gallery/amount/1.0/index',function(S,Amount){
+                    var D = S.DOM,
+                        E = S.Event,            
+                        getP = D.get('#J_Show');        
+                    E.on('#J_Btn','click',function(){
+                        var val = D.get('#J_Input').value,
+                            r = new Amount(val,true);
+                        D.html(getP,r.convertAmount());
+                    })
+                    
+                })
+            </script>
+        </div>
+        <a class="s-view-code" href="demo.html#">显示源码</a>
+    </div>
+    <h3 class="s-title">API</h3>
+    <div class="s-section">
+        <h4 class="s-api-title">方法</h4>
+        <pre class="s-api-method">
+            KISSY.use('gallery/amount/1.0/index', function(S, Amount) {
+                var am = new Amount('1235.23',true);
+                S.log(am.convertAmount());
+            });
+
+        </pre>
+
+        <h4 class="s-api-title">参数</h4>
+
+        <div class="s-api-params">
+
+            <ul class="s-list">
+                <li>num,需要转换的目标数字</li>
+                <li>hasDecimal,是否需要小数点，默认为false</li>
+            </ul>
+        </div>
+        <h4 class="s-api-title">返回</h4>
+        <div class="s-api-return">convertAmount 返回值为 string</div>
+        <h4 class="s-api-title">其他</h4>
+
+        <div class="s-api-return">组件只是对数字进行转换，对传入不合法的参数，比如字母、标点、开头很多0，多个小数点等情况都做了容错处理，不涉及dom操作</div>
+    </div>
+
+</div>
+<div id="footer">
+    &copy; Copyright 2010~2011, KISSY Team.
+</div>
+</body>
+</html>
