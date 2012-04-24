@@ -63,14 +63,16 @@
     filter: none;
 }
 
-.defaultTheme-button-disabled, .defaultTheme-button-disabled:hover {
+.uploader-button-disabled, .uploader-button-disabled:hover {
     border: 1px solid #BFBFBF;
     color: #404040;
     background: -webkit-gradient(linear, left top, left bottom, from(#FAFAFA), to(#E5E5E5));
     background: -moz-linear-gradient(top, #FAFAFA, #E5E5E5);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#FAFAFA', endColorstr = '#E5E5E5');
 }
-
+.uploader-button-disabled .file-input-wrapper .file-input {
+    display: none;
+}
 .defaultTheme-button .file-input-wrapper .file-input {
     background: none repeat scroll 0 0 transparent;
     border: medium none;
