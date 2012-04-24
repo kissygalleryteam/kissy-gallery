@@ -355,7 +355,7 @@ KISSY.add('gallery/form/1.1/checkbox/index', function(S, Base, Node) {
 			 * @default gallery/form/1.1/checkbox/themes/default/style2.css
 			 */
 			cssUrl: {
-				value: 'gallery/form/1.1/checkbox/themes/default/style2.css'
+				value: 'gallery/form/1.1/checkbox/themes/default/style.css'
 			},
 			/**
 			 * 是否需要label for的对应
