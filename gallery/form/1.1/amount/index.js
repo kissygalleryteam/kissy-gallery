@@ -128,7 +128,7 @@ KISSY.add('gallery/form/1.1/amount/index', function(S, Base) {
             num: {
                 value: '',
                 setter: function(v) {
-                    if (typeof v !== 'number' && typeof v !== 'string') {
+                    if (!S.isString(v) && !S.isNumber(v)) {
                         console.log('请传入正确格式的参数');
                         return '';
                     }
