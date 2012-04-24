@@ -2,7 +2,7 @@
  * @fileoverview 将数字转化成大写金额
  * @author: 伯方<bofang.zxj@taobao.com>
  **/
-KISSY.add('gallery/form/1.1/amount/index', function(S, Base) {
+KISSY.add('gallery/amount/1.0/amount', function(S, Base) {
     /**
      * @name Amount
      * @class 将数字金额转化成大写中文金额
