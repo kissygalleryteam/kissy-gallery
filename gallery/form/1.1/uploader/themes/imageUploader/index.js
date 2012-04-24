@@ -28,10 +28,13 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
         afterUploaderRender:function (uploader) {
             var self = this,
                 Preview = self.get('oPlugin').preview,
-                preview = new Preview(),
+                preview,
                 queue = self.get('queue');
-            //图片预览
-            self.set('preview',preview);
+            if(Preview){
+                preview = new Preview();
+                //图片预览
+                self.set('preview',preview);
+            }
            //达到最大允许上传数隐藏上传按钮
             self._maxHideBtn(uploader);
             self._renderFiledrop();
@@ -75,6 +78,8 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
             var self = this,button = self.get('button'),
                 target = button.get('target'),
                 Filedrop = self.get('oPlugin').filedrop,
+                filedrop;
+            if(!Filedrop) return false;
             filedrop = new Filedrop({
                 target:target,
                 uploader:this.get('uploader'),
