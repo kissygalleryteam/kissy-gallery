@@ -11,7 +11,7 @@ KISSY.add('gallery/form/1.1/uploader/type/iframe',function(S, Node, UploadType) 
      * @constructor
      * @extends UploadType
      * @param {Object} config 组件配置（下面的参数为配置项，配置会写入属性，详细的配置说明请看属性部分）
-      *
+     *
      */
     function IframeType(config) {
         var self = this;
@@ -32,7 +32,7 @@ KISSY.add('gallery/form/1.1/uploader/type/iframe',function(S, Node, UploadType) 
          * 事件列表
          */
         event : S.mix(UploadType.event,{
-              //创建iframe和form后触发
+            //创建iframe和form后触发
             CREATE : 'create',
             //删除form后触发
             REMOVE : 'remove'
@@ -92,7 +92,7 @@ KISSY.add('gallery/form/1.1/uploader/type/iframe',function(S, Node, UploadType) 
         _createIframe : function() {
             var self = this,
                 //iframe的id
-                id = self.get('id'),
+                id = ID_PREFIX + S.guid(),
                 //iframe模板
                 tpl = self.get('tpl'),iframeTpl = tpl.IFRAME,
                 existIframe = self.get('iframe'),
@@ -113,6 +113,7 @@ KISSY.add('gallery/form/1.1/uploader/type/iframe',function(S, Node, UploadType) 
             //监听iframe的load事件
             $iframe.on('load', self._iframeLoadHandler, self);
             $('body').append($iframe);
+            self.set('id',id);
             self.set('iframe', $iframe);
             return $iframe;
         },
@@ -148,7 +149,7 @@ KISSY.add('gallery/form/1.1/uploader/type/iframe',function(S, Node, UploadType) 
         _createForm : function() {
             var self = this,
                 //iframe的id
-                id =  ID_PREFIX + S.guid(),
+                id = self.get('id'),
                 //form模板
                 tpl = self.get('tpl'),formTpl = tpl.FORM,
                 //想要传送给服务器端的数据
@@ -156,7 +157,7 @@ KISSY.add('gallery/form/1.1/uploader/type/iframe',function(S, Node, UploadType) 
                 //服务器端处理文件上传的路径
                 action = self.get('action'),
                 fileInput = self.get('fileInput'),
-                hiddens,$form;
+                hiddens,$form,form;
             if (!S.isString(formTpl)) {
                 S.log(LOG_PREFIX + 'form模板不合法！');
                 return false;
@@ -191,7 +192,7 @@ KISSY.add('gallery/form/1.1/uploader/type/iframe',function(S, Node, UploadType) 
          * 移除表单
          */
         _remove : function() {
-            var self = this,form = self.get('form'),iframe = self.get('iframe');
+            var self = this,form = self.get('form');
             //移除表单
             form.remove();
             //重置form属性
@@ -210,6 +211,12 @@ KISSY.add('gallery/form/1.1/uploader/type/iframe',function(S, Node, UploadType) 
          }
          */
         tpl : {value : IframeType.tpl},
+        /**
+         * 只读，创建的iframeid,id为组件自动创建
+         * @type String
+         * @default  'ks-uploader-iframe-' +随机id
+         */
+        id : {value : ID_PREFIX + S.guid()},
         /**
          * iframe
          */
