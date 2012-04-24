@@ -3,7 +3,7 @@
  * @author czy88840616 <czy88840616@gmail.com>
  *
  */
-KISSY.add(function (S, Event, Base, JSON, Factory, Rule, undefined) {
+KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, Factory, Rule, undefined) {
 
     var HTML_PROPERTY = ['required', 'pattern', 'max', 'min', 'step', 'equalTo'],
         EMPTY ='',

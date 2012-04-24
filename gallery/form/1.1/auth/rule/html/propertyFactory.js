@@ -3,7 +3,7 @@
  * @author 张挺 <zhangting@taobao.com>
  *
  */
-KISSY.add(function (S, Base, PropertyRule, undefined) {
+KISSY.add('gallery/form/1.1/auth/rule/html/propertyFactory', function (S, Base, PropertyRule, undefined) {
     var RuleFactory = function () {
         var self = this;
         RuleFactory.superclass.constructor.call(self);

@@ -3,7 +3,7 @@
  * @author czy88840616 <czy88840616@gmail.com>
  *
  */
-KISSY.add(function(S, Base, undefined) {
+KISSY.add('gallery/form/1.1/auth/rule/base', function(S, Base, undefined) {
 
     var RULE_SUCCESS = 'success',
         RULE_ERROR = 'error',

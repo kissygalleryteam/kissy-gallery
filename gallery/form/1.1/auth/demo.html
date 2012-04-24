@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>auth</title>
+
+    <link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
+    <link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy/src/validation/demo/doc.css"/>
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+    <script src="index.js" charset="utf-8"></script>
+</head>
+<body>
+
+
+<div class="intro">
+
+
+
+</div>
+
+
+<div class="eg">
+    <h3>示例 - 用户注册</h3>
+    <form method="post" id="J_form_eg1">
+        <ul class="form">
+
+            <li>
+                <label class="hd">用户名：</label>
+                <input class="text" type="text" value="test@tb.com" required data-valid="{required:'必填'}"/>
+            </li>
+
+            <li>
+                <label class="hd">密码：</label>
+                <input class="text" type="text" name="password" id="password" data-valid=""/>
+            </li>
+
+            <li>
+                <label class="hd">重复密码：</label>
+                <input class="text" type="text" data-valid="{equalTo:['#password','两次密码不一致了']}"/>
+            </li>
+
+            <li>
+                <label class="hd">真实姓名：</label>
+                <input class="text" type="text" data-valid="{label:'请输入你的中文名称'}"/>
+            </li>
+
+            <li>
+                <label class="hd">身份证号码：</label>
+                <input class="text" type="text" data-valid="{card:'请输入准确的二代身份证号码'}"/>
+            </li>
+
+            <li>
+                <label class="hd">个人主页：</label>
+                <input class="text" type="text" data-valid="{required:'请输入正确的网址'}"/>
+            </li>
+
+            <li>
+                <button type="submit">提交</button>
+            </li>
+
+        </ul>
+    </form>
+    <script>
+        KISSY.config({
+            packages: [
+                {
+                    name: 'gallery',
+                    path: '../../../../',
+                    tag: 'test',
+                    charset: 'utf-8'
+                }
+            ]
+        });
+        KISSY.use("gallery/form/1.1/auth/index", function(S, Auth) {
+
+            var form = new Auth('#J_form_eg1');
+
+//
+//            KISSY.Event.on('#J_form_eg1', "submit", function() {
+//                form.isValid();
+//                return false;
+//            });
+
+        });
+
+    </script>
+</div>
+
+
+
+</body>
+</html>

@@ -8,7 +8,7 @@
  * @author czy88840616 <czy88840616@gmail.com>
  *
  */
-KISSY.add(function(S, BaseRule, undefined) {
+KISSY.add('gallery/form/1.1/auth/rule/rule', function(S, BaseRule, undefined) {
 
     /**
      * 属性规则

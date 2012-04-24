@@ -3,15 +3,17 @@
  * @author czy88840616 <czy88840616@gmail.com>
  *
  */
-KISSY.add(function(S, D, JSON, Field){
+KISSY.add('gallery/form/1.1/auth/base', function(S, JSON, Base, Field){
     var Validation = function(el, config) {
-        var form = D.get(el),
+        var form = S.get(el),
             self = this;
         if(!form) {
             S.log('[validation]:form element not exist');
         } else {
-            self._init(el, config);
+            self._init(form, config);
         }
+
+        Validation.superclass.constructor.call(self);
     };
 
     S.extend(Validation, Base, {
@@ -23,9 +25,9 @@ KISSY.add(function(S, D, JSON, Field){
             self.storages = {};
 
             if(forms && forms.length) {
-                for (var idx in forms) {
-                    self.storages[forms[idx].name || forms[idx].id] = new Field(forms[idx], config);
-                }
+                S.each(forms, function(el, idx){
+                    self.storages[el.name || el.id] = new Field(el, config);
+                });
             }
         },
         add: function(field){
@@ -43,8 +45,8 @@ KISSY.add(function(S, D, JSON, Field){
     return Validation;
 }, {
     requires:[
-        'dom',
         'json',
+        'base',
         './field/field'
     ]
 });
