@@ -107,9 +107,12 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
                 $progressBar = $('.J_ProgressBar_' + ev.id);
             //如果是ajax或flash异步上传，加入进度条
             if(uploadType == 'ajax' || uploadType == 'flash'){
-                var ProgressBar = self.get('oPlugin').progressBar,progressBar = new ProgressBar($progressBar);
-                progressBar.render();
-                self.set('progressBar',progressBar);
+                var ProgressBar = self.get('oPlugin').progressBar,progressBar;
+                if(ProgressBar){
+                    progressBar = new ProgressBar($progressBar);
+                    progressBar.render();
+                    self.set('progressBar',progressBar);
+                }
                 //将进度条实例写入到队列的文件数据上备用
                 queue.updateFile(index,{progressBar:progressBar});
             }
@@ -162,13 +165,20 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
                 //用于显示上传数的容器
                 elCount = $(self.get('elCount')),
                 len = self.getFilesLen(),
-                auth = self.get('auth');
-            if(!elCount.length || !auth) return false;
+                auth = self.get('auth'),
+                uploader = self.get('uploader'),
+                button = uploader.get('button');
+            if(!auth) return false;
             var rules = auth.get('rules'),
                 //max的值类似[5, '最多上传{max}个文件！']
                 max = rules.max;
             if(!max) return false;
-            elCount.text(max[0]-len);
+            if(len<max[0]){
+                button.show();
+                var $li = button.get('target').parent('li');
+                if($li) $li.show();
+            }
+            if(elCount.length) elCount.text(max[0]-len);
         },
         /**
          * 显示/隐藏遮罩层（遮罩层在出现状态消息的时候出现）
@@ -200,7 +210,8 @@ KISSY.add('gallery/form/1.1/uploader/themes/imageUploader/index', function (S, N
                 if(rule == 'max'){
                     button.hide();
                     //隐藏按钮之上的li容器
-                    $btn.parent('li').hide();
+                    var $li = $btn.parent('li');
+                    if($li) $li.hide();
                 }
             })
         },
