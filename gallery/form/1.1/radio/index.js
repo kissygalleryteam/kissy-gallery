@@ -31,11 +31,11 @@ KISSY.add('gallery/form/1.1/radio/index', function(S, Node, Base) {
         render: function() {
             var self = this;
             //加载css
-            self.loadCss();
+            self._loadCss();
             //开始替换
-            self.replaceRadio();
+            self._replaceRadio();
             //事件绑定
-            self.bindEvent();
+            self._bindEvent();
         },
         /**
          * 还原radio为原生的radio
