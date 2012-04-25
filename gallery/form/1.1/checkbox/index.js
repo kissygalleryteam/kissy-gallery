@@ -14,7 +14,8 @@ KISSY.add('gallery/form/1.1/checkbox/index', function(S, Base, Node) {
 	 * @param {Object} config * ,组件配置
 	 * @param {Object} config.cls *，组件的样式
 	 * @example
-	 * var ck = new Checkbox('#J_Content input')
+	 * var ck = new Checkbox('#J_Content input');
+	   ck.render();
 	 */
 	function Checkbox(target, config) {
 		//调用父类构造器
@@ -62,7 +63,6 @@ KISSY.add('gallery/form/1.1/checkbox/index', function(S, Base, Node) {
 				disabledHTML = self._getHtml(2),
 				checkedHTML = self._getHtml(1),
 				checkbox, checkboxArr = [],
-				hasLabel = self.get('hasLabel'),
 				accessible = self.get('accessible'),
 				getLabelFunc = self.get('getLabelFunc'),
 				labelText;
@@ -98,7 +98,6 @@ KISSY.add('gallery/form/1.1/checkbox/index', function(S, Base, Node) {
 		 */
 		_loadCss: function() {
 			var self = this,
-				isUseCss = self.get('isUseCss'),
 				cssUrl = self.get('cssUrl');
 			//加载css文件
 			if (cssUrl !== '') {
