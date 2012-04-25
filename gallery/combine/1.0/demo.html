@@ -36,7 +36,7 @@
         <span>当前位置：</span>
         <a href="http://kissyui.com/">KISSY</a>
         <a href="../../../index.html">Gallery</a>
-        <span>yourGallery</span>
+        <span>combine</span>
     </div>
 			<pre class="s-section">				
 作者：翰文(hanwen.sah@taobao.com)
@@ -77,7 +77,7 @@
  /**
   * 这里使用了制定market这个package允许自动combine，并且强制设置suggest, switchable…几个模块合并
   */
-  KISSY.use('market/combine', function(S, Combo){
+  KISSY.use('gallery/combine/1.0/', function(S, Combo){
     Combo.config({
       mods: [['suggest', 'switchable', 'overlay', 'component', 'uibase', 'datalazyload']],
       packages: ['market']
@@ -113,7 +113,7 @@ KISSY.use('market/a', function(){});
         </pre>
           <h5>add中的依赖</h5>
           <pre>
-KISSY.use('combine', function(S, Combine){
+KISSY.use('gallery/combine/1.0/', function(S, Combine){
  
   S.config({
     packages:[
