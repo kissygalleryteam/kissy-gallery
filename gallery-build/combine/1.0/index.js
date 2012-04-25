@@ -3,7 +3,7 @@
  * @desc 为kissy 1.2增加自动combine功能
  * @author 翰文<hanwen.sah@taobao.com>
  */
-KISSY.add('gallery/combine/1.0/combine', function(S) {
+KISSY.add('gallery/combine/1.0/index', function(S) {
 
   /**
    *只对1.2.进行合并
