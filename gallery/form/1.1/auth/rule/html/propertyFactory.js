@@ -58,12 +58,11 @@ KISSY.add('gallery/form/1.1/auth/rule/html/propertyFactory', function (S, Base, 
     });
 
     S.mix(RuleFactory, {
+        HTML_PROPERTY:['required', 'pattern', 'max', 'min', 'step', 'equalTo'],
         register:function(name, rule) {
             RuleFactory.rules[name] = rule;
-        }
-    });
-
-    S.extend(RuleFactory, Base, {
+            RuleFactory.HTML_PROPERTY.push(name);
+        },
         create:function (ruleName, cfg) {
             return new PropertyRule(ruleName, RuleFactory.rules[ruleName], cfg);
         }

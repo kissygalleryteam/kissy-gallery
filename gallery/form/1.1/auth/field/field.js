@@ -5,8 +5,7 @@
  */
 KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, Factory, Rule, PropertyRule, undefined) {
 
-    var HTML_PROPERTY = ['required', 'pattern', 'max', 'min', 'step', 'equalTo'],
-        EMPTY ='',
+    var EMPTY ='',
         CONFIG_NAME = 'data-valid';
 
     var Field = function (el, validConfig) {
@@ -18,11 +17,15 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
 
         //初始化json配置
         if (el && el.hasAttr(CONFIG_NAME)) {
-            var cfg = el.attr('data-valid').replace(/'/g, '"');
+            var cfg = el.attr(CONFIG_NAME).replace(/'/g, '"');
 
             try {
-                cfg = JSON.parse(cfg);
-                validConfig = S.merge(validConfig, cfg);
+                eval("cfg=" + cfg);
+                var config = {
+                    rules:cfg
+                };
+//                cfg = JSON.parse(cfg);
+                validConfig = S.merge(validConfig, config);
             } catch(e) {
                 S.log('data-valid json is invalid');
             }
@@ -37,7 +40,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
         }
 
         //监听校验结果
-        self.on('afterRuleValidate', function(ev) {
+        self.on('afterRulesValidate', function(ev) {
             var result = ev.result,
                 curRule = ev.curRule,
                 msg = self._cache[curRule].msg || EMPTY;
@@ -52,6 +55,9 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
             });
 
             resetAfterValidate();
+
+            //校验结束
+            self.fire('afterValidate');
         });
 
         self._init();
@@ -66,13 +72,12 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
                 _el = self._el,
                 _ruleCfg = S.merge({}, _cfg.rules);
 
-            //从工厂中创建属性规则
-            var factory = new Factory();
             //add html property
-            S.each(HTML_PROPERTY, function (item) {
+            S.each(Factory.HTML_PROPERTY, function (item) {
 
                 if (_el.hasAttr(item)) {
-                    var rule = factory.create(item, {
+                    //从工厂中创建属性规则
+                    var rule = Factory.create(item, {
                         //属性的value必须在这里初始化
                         propertyValue:_el.attr(item),
                         el:_el, //bugfix for change value
@@ -80,7 +85,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
                     });
 
                     rule.on('validate', function(ev) {
-                        console.log('[after rule validate]: name:%s,result:%s,msg:%s', ev.name, ev.result, ev.msg);
+                        S.log('[after rule validate]: name:'+ev.name +',result:'+ev.result+',msg:' + ev.msg);
                         //set cache
                         self._cache[ev.name]['result'] = ev.result;
                         self._cache[ev.name]['msg'] = ev.msg;
@@ -132,9 +137,17 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
                 curRule = EMPTY;
 
             if (name) {
-                result = _storage[name].validate(cfg.args);
-                curRule = name;
+                if(_storage[name]) {
+                    //校验开始
+                    self.fire('beforeValidate');
+
+                    result = _storage[name].validate(cfg.args);
+                    curRule = name;
+                }
             } else {
+                //校验开始
+                self.fire('beforeValidate');
+
                 for (var key in _storage) {
                     curRule = key;
                     if (!_storage[key].validate(cfg.args)) {
@@ -144,16 +157,21 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
                 }
             }
 
-            self.fire('afterRuleValidate', {
-                result:result,
-                curRule:curRule
-            });
+            // 保证有规则才触发
+            if(curRule) {
+                self.fire('afterRulesValidate', {
+                    result:result,
+                    curRule:curRule
+                });
+            }
 
             //TODO GROUPS
 
             return result;
+        },
+        clear:function() {
+            //TODO
         }
-
     }, {
         ATTRS:{
             message:{

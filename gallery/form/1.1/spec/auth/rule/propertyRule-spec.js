@@ -4,7 +4,7 @@
  *
  */
 describe('property rule test suite', function() {
-    KISSY.use('form/validation/rule/html/propertyRule, dom', function (S, PropertyRule, D) {
+    KISSY.use('form/auth/rule/html/propertyRule, dom', function (S, PropertyRule, D) {
         var $ = S.all;
         beforeEach(function() {
             D.remove('#J_Test');
