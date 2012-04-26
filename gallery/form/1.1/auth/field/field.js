@@ -3,7 +3,7 @@
  * @author czy88840616 <czy88840616@gmail.com>
  *
  */
-KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, Factory, Rule, undefined) {
+KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, Factory, Rule, PropertyRule, undefined) {
 
     var HTML_PROPERTY = ['required', 'pattern', 'max', 'min', 'step', 'equalTo'],
         EMPTY ='',
@@ -98,7 +98,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
 
         add:function (name, rule, cfg) {
             var _storage = this._storage;
-            if(rule instanceof Rule) {
+            if(rule instanceof PropertyRule) {
                 _storage[name] = rule;
             } else {
                 _storage[name] = new Rule(name, rule, {
@@ -170,6 +170,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
         'base',
         'json',
         '../rule/html/propertyFactory',
-        '../rule/rule'
+        '../rule/rule',
+        '../rule/html/propertyRule'
     ]
 });
