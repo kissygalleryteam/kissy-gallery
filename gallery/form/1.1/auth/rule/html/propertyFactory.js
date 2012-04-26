@@ -6,11 +6,14 @@
 KISSY.add('gallery/form/1.1/auth/rule/html/propertyFactory', function (S, Base, PropertyRule, undefined) {
     var RuleFactory = function () {
         var self = this;
+
         RuleFactory.superclass.constructor.call(self);
     };
 
+    RuleFactory.rules = {};
+
     //第一个参数一定是属性的value，后面的才是真正的参数
-    S.mix(RuleFactory, {
+    S.mix(RuleFactory.rules, {
         required:function (pv, value) {
             return !!value;
         },
@@ -54,10 +57,15 @@ KISSY.add('gallery/form/1.1/auth/rule/html/propertyFactory', function (S, Base, 
         }
     });
 
+    S.mix(RuleFactory, {
+        register:function(name, rule) {
+            RuleFactory.rules[name] = rule;
+        }
+    });
 
     S.extend(RuleFactory, Base, {
         create:function (ruleName, cfg) {
-            return new PropertyRule(ruleName, RuleFactory[ruleName], cfg);
+            return new PropertyRule(ruleName, RuleFactory.rules[ruleName], cfg);
         }
     });
 

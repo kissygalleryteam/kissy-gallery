@@ -3,7 +3,7 @@
  * @author czy88840616 <czy88840616@gmail.com>
  *
  */
-KISSY.add('gallery/form/1.1/auth/base', function(S, JSON, Base, Field){
+KISSY.add('gallery/form/1.1/auth/base', function(S, JSON, Base, Field, Factory){
     var Validation = function(el, config) {
         var form = S.get(el),
             self = this;
@@ -35,6 +35,14 @@ KISSY.add('gallery/form/1.1/auth/base', function(S, JSON, Base, Field){
         },
         getField: function(name){
             return self.storages[name];
+        },
+        /**
+         * 对Auth注册一个新的规则，当前上下文可用
+         * @param name
+         * @param rule
+         */
+        register: function(name, rule){
+            Factory.register(name, rule);
         }
     }, {
         ATTRS:{
