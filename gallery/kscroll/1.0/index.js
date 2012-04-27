@@ -488,7 +488,8 @@ KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
  *  - review and refactor by yiminghe@gmail.com
  *  - 1.0 to cdn
  *  - TODO for changyin : 横向模拟滚动条
- *  2012-02-25
+ * 
+ * 2012-02-25
  *  - bugfix ie6自动扩展问题，加上overflow:auto
  *  - 清羽的建议，组件不能滚动时，不要阻止浏览器默认事件
  **/
