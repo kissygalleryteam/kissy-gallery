@@ -3,17 +3,17 @@
  * @author 伯方<bofang.zxj@taobao.com>
  **/
 KISSY.add('gallery/form/1.1/radio/index', function(S, Node, Base) {
-    var  $ = Node.all;
+    var $ = Node.all;
     /**
      * @name Radio
-     * @class Radio美化组件
+     * @class Radio美化组件,考虑到代码的重用，checkbox将会继承radio，故将关键字radio替换成kfbtn
      * @constructor
      * @extends Base
      * @param {String} target 目标元素
      * @param {Object} config 配置
      * @example
      * var r = new Radio('#J_Radio input');
-     * r.render();
+       r.render();
      */
     function Radio(target, config) {
         var self = this;
@@ -22,7 +22,7 @@ KISSY.add('gallery/form/1.1/radio/index', function(S, Node, Base) {
         }, config);
         //调用父类构造函数
         Radio.superclass.constructor.call(self, config);
-    }
+    }    
     //方法
     S.extend(Radio, Base, /** @lends Radio.prototype*/ {
         /**
@@ -33,19 +33,20 @@ KISSY.add('gallery/form/1.1/radio/index', function(S, Node, Base) {
             //加载css
             self._loadCss();
             //开始替换
-            self._replaceRadio();
+            self._replaceKfbtn();
             //事件绑定
             self._bindEvent();
+//            self.fire(self.get('events').RENDER);
         },
         /**
-         * 还原radio为原生的radio
+         * 还原Kfbtn为原生的input
          * @return {Object} return self
          */
-        recoverRadio: function() {
+        recoverKfbtn: function() {
             var self = this,
                 targets = self.get('target'),
-                radio = self.get('radio');
-            $(radio).each(function(value, key) {
+                kfbtns = self.get('kfbtn');
+            $(kfbtns).each(function(value, key) {
                 value.hide();
                 $(targets[key]).show();
             })
@@ -53,15 +54,15 @@ KISSY.add('gallery/form/1.1/radio/index', function(S, Node, Base) {
             return self;
         },
         /**
-         * 用span替换radio，关键步骤
+         * 用span替换替换原生的input，关键步骤
          */
-        _replaceRadio: function() {
+        _replaceKfbtn: function() {
             var self = this,
                 target = self.get('target'),
                 html = self._getHtml(0),
                 disabledHTML = self._getHtml(2),
                 selectedHTML = self._getHtml(1),
-                radio, radioArr = [],
+                kfbtn, kfbtnArr = [],
                 accessible = self.get('accessible'),
                 getLabelFunc = self.get('getLabelFunc'),
                 labelText;
@@ -69,30 +70,29 @@ KISSY.add('gallery/form/1.1/radio/index', function(S, Node, Base) {
                 return false;
             }
             //遍历
-            target.each(function(value, key) {
+            target.each(function(value) {
                 value.hide();
                 if (self._isDisabled(value)) {
-                    radio = $(disabledHTML).insertBefore(value).attr('ks-radio-disabled', 'disabled').removeAttr('tabindex');
+                    kfbtn = $(disabledHTML).insertBefore(value).attr('ks-kfbtn-disabled', 'disabled').removeAttr('tabindex');
                 } else {
                     // 如果本身是选中的状态
-                    radio = self._isSelected(value) ? $(selectedHTML) : $(html);
-                    radio.insertBefore(value);
+                    kfbtn = self._isSelected(value) ? $(selectedHTML) : $(html);
+                    kfbtn.insertBefore(value);
                 }
                 // 无障碍
                 if (accessible) {
                     try {
                         //优先选择函数提供的查询
                         labelText = getLabelFunc ? getLabelFunc(value).html() : value.next('label').html();
-                        radio.attr('aria-label', labelText);
+                        kfbtn.attr('aria-label', labelText);
                     } catch (e) {
                         S.log('html结构不符合');
                         return false;
                     }
-
                 }
-                radioArr.push(radio);
+                kfbtnArr.push(kfbtn);
             })
-            self.set('radio', radioArr);
+            self.set('kfbtn', kfbtnArr);
         },
         /**
          * 加载css
@@ -108,7 +108,7 @@ KISSY.add('gallery/form/1.1/radio/index', function(S, Node, Base) {
         /**
          * 根据样式返回html字符串
          * @param  {Number} key 0→DEFAULT;1→selected;2→DISABLED
-         * @return {String} 返回html
+         * @return {String} 返回html的字符串
          */
         _getHtml: function(key) {
             var self = this,
@@ -140,13 +140,13 @@ KISSY.add('gallery/form/1.1/radio/index', function(S, Node, Base) {
          */
         _bindEvent: function() {
             var self = this,
-                radio = $(self.get('radio')),
+                kfbtns = $(self.get('kfbtn')),
                 hoverClass = this.get('cls').hover,
                 hasLabel = self.get('hasLabel'),
                 targets = self.get('target'),
                 getLabelFunc = self.get('getLabelFunc'),
                 nextLabel;
-            radio.each(function(value, key) {
+            kfbtns.each(function(value, key) {
                 value.on('mouseenter mouseleave', function(ev) {
                     //如果本身是选中状态或者是禁用状态，则不做处理
                     if (self._isSelected(value) || self._isDisabled(value)) {
@@ -199,14 +199,14 @@ KISSY.add('gallery/form/1.1/radio/index', function(S, Node, Base) {
         _clickHandler: function(targetIndex) {
             var that = this,
                 targets = that.get('target'),
-                radios = $(that.get('radio'));
-            radio = $(that.get('radio')[targetIndex]), getCls = this.get('cls'), selectedClass = getCls.selected, hoverClass = getCls.hover;
+                kfbtns = $(that.get('kfbtn'));
+            kfbtn = $(that.get('kfbtn')[targetIndex]), getCls = this.get('cls'), selectedClass = getCls.selected, hoverClass = getCls.hover;
             //触发原生dom节点的点击事件
             $(targets[targetIndex]).fire('click');
-            radios.each(function(value, key) {
+            kfbtns.each(function(value, key) {
                 value.removeClass(selectedClass).removeClass(hoverClass);
             })
-            radio.addClass(selectedClass);
+            kfbtn.addClass(selectedClass);
         },
         /**
          * 判断是否处于禁用状态
@@ -215,7 +215,7 @@ KISSY.add('gallery/form/1.1/radio/index', function(S, Node, Base) {
          */
         _isDisabled: function(target) {
             var protoDisabled = $(target).attr('disabled'),
-                modifyDisabled = $(target).attr('ks-radio-disabled');
+                modifyDisabled = $(target).attr('ks-kfbtn-disabled');
             return protoDisabled === 'disabled' || modifyDisabled === 'disabled';
         },
         /**
@@ -234,20 +234,20 @@ KISSY.add('gallery/form/1.1/radio/index', function(S, Node, Base) {
          */
         setDisabled: function(targetElement) {
             var self = this,
-                radio = self.get('radio'),
-                targets = self.get('target'),
+                kfbtns = self.get('kfbtn'),
+                kfbtn, targets = self.get('target'),
                 target, getClass = this.get('cls'),
                 selectedClass = getClass.selected,
                 disabledClass = getClass.disabled,
                 hoverClass = getClass.hover;
             //如果传递的是数字索引
             if (typeof targetElement === 'number') {
-                radio = $(radio[targetElement]);
+                kfbtn = $(kfbtns[targetElement]);
                 target = $(targets[targetElement]);
-                radio.attr('ks-radio-disabled', 'disabled').removeClass(selectedClass + ' ' + hoverClass).addClass(disabledClass);
+                kfbtn.attr('ks-kfbtn-disabled', 'disabled').removeClass(selectedClass + ' ' + hoverClass).addClass(disabledClass);
                 target.attr('disabled', 'disabled');
+                kfbtn.removeAttr('tabindex');
             }
-            radio.removeAttr('tabindex');
             return self;
         },
         /**
@@ -256,37 +256,38 @@ KISSY.add('gallery/form/1.1/radio/index', function(S, Node, Base) {
          */
         setAvailabe: function(targetElement) {
             var self = this,
-                radio = self.get('radio'),
-                targets = self.get('target'),
+                kfbtns = self.get('kfbtn'),
+                kfbtn, targets = self.get('target'),
                 target, disabledClass = this.get('cls').disabled;
             //如果传递的是数字索引
             if (S.isNumber(targetElement)) {
-                radio = $(radio[targetElement]);
+                kfbtn = $(kfbtns[targetElement]);
                 target = $(targets[targetElement]);
-                radio.removeAttr('ks-radio-disabled', 'disabled').removeClass(disabledClass);
+                kfbtn.removeAttr('ks-kfbtn-disabled', 'disabled').removeClass(disabledClass);
                 target.removeAttr('disabled', 'disabled');
+                kfbtn.attr('tabindex', '0');
             }
-            radio.attr('tabindex', '0');
             return self;
         },
         /**
-         * 获取所有选中的radio索引
-         * @return {Array} 选中的radio索引数组集合
+         * 获取选中的Kfbtn索引
+         * @return {Array | Number} 选中的Kfbtn
          */
-        getSelected: function() {
+        getSelected: function(isCheckbox) {
             var self = this,
                 target = self.get('target'),
-                value;
+                value, checkArr = [];
             for (i = 0, len = target.length; i < len; i++) {
                 value = $(target[i]);
-                if (self._isDisabled(value)) {
-                    continue;
-                }
+                if (self._isDisabled(value)) continue;
                 if (self._isSelected(value)) {
-                    return i;
+                    if (!isCheckbox) {
+                        return i;
+                    }
+                    checkArr.push(i);
                 }
             }
-            return null;
+            return isCheckbox ? checkArr : null;
         }
     }, {
         ATTRS: /** @lends radio.prototype*/
@@ -309,13 +310,13 @@ KISSY.add('gallery/form/1.1/radio/index', function(S, Node, Base) {
              * @type {Array}
              * @default []
              */
-            radio: {
+            kfbtn: {
                 value: []
             },
             /**
              * 一组样式名
              * @type {Object}
-             * @default cls:{init: 'ks-radio',selected: 'ks-radio-selected',disabled: 'ks-radio-disabled',hover: 'ks-radio-hover'}
+             * @default {init: 'ks-radio',selected: 'ks-radio-selected',disabled: 'ks-radio-disabled',hover: 'ks-radio-hover'}
              */
             cls: {
                 value: {
@@ -360,6 +361,7 @@ KISSY.add('gallery/form/1.1/radio/index', function(S, Node, Base) {
             accessible: {
                 value: false
             }
+           
         }
     })
     return Radio;
