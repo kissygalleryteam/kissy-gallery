@@ -177,7 +177,10 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
             message:{
                 value:EMPTY
             },
-            result:{}
+            result:{},
+            el:{
+                value:this._el
+            }
         }
     });
 
