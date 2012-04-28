@@ -4,10 +4,9 @@
 * @version:1-0-1
 */
 KISSY.add('urlparser',function(S, URLParser){
-
-	function URLParser(url) {
+    function URLParser(url) {
         if (!(this instanceof URLParser)) {
-            return new URLParser(url)
+            return new URLParser(url);
         }
         URLParser.superclass.constructor.call(this, url);
         this.a = document.createElement('a');
@@ -18,7 +17,14 @@ KISSY.add('urlparser',function(S, URLParser){
     S.augment(URLParser, {
         reset: function () {
             this.a.href = this.url;
-        }
+        },
+		appendParams : function(v){
+			if (typeof v == 'string'){
+				this.set('params',S.mix(this.get('params'), S.unparam(v)),'&','=',false);
+			}else if(typeof v == 'object'){
+				this.set('params',S.mix(this.get('params'), v),'&','=',false);
+			}
+		}
     }).ATTRS = {
         href: {
             getter: function () {
@@ -41,7 +47,7 @@ KISSY.add('urlparser',function(S, URLParser){
         host: {
             getter: function () {
                 var port = this.get('port');
-                return this.get('hostname') + (port == "" ? "" : (":" + port));
+                return this.get('hostname') + (port === "" ? "" : (":" + port));
             },
             setter: function (v) {
                 if (!v) return;
@@ -59,7 +65,7 @@ KISSY.add('urlparser',function(S, URLParser){
         },
         port: {
             getter: function () {
-                return this.a.port == 80 ? "" : this.a.port;
+                return (this.a.port == 80 || this.a.port === 0) ? "" : this.a.port;
             },
             setter: function (v) {
                 if (!v) return;
@@ -78,7 +84,6 @@ KISSY.add('urlparser',function(S, URLParser){
         },
         hash: {
             getter: function () {
-                //return this.a.hash;
 				var href = this.a.href;
 				var index = href.indexOf('#');
 				return index != -1 ? href.slice(index) : "";
@@ -100,21 +105,6 @@ KISSY.add('urlparser',function(S, URLParser){
         },
         params: {
             getter: function () {
-				/*
-                var ret = {},
-                    seg = this.a.search.replace(/^\?/, '').split('&'),
-                    len = seg.length,
-                    i = 0,
-                    s;
-                for (; i < len; i++) {
-                    if (!seg[i]) {
-                        continue;
-                    }
-                    s = seg[i].split('=');
-                    ret[s[0]] = s[1];
-                }
-                return ret
-				*/
 				return S.unparam(this.get('search').replace('?', ''));
             },
             setter: function (v) {
@@ -133,7 +123,7 @@ KISSY.add('urlparser',function(S, URLParser){
         },
         relative: {
             getter: function () {
-                return this.a.href.split(this.a.host)[1];
+                return this.a.href.split(this.get('host'))[1];
             },
             setter: function (v) {
                 if (!v) return;
@@ -141,12 +131,12 @@ KISSY.add('urlparser',function(S, URLParser){
             }
         }
     };
-    return URLParser
-
+    return URLParser;
 });
 
 /**
 * note
 * 2012-4-9 增加relative属性,修复浏览器兼容bug
 * 2012-4-10 支持params属性数组 如：{a:[1,2],b:3} <=> ?a=1&a=2&b=3
+* 2012-4-25 修复safari对a的端口解析问题
 */
