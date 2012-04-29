@@ -1,0 +1,221 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Checkbox组件的demo</title>
+<link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+<style>
+    body {
+        font-size: 12px;
+        color: #404040;
+    }
+
+    .demo-wrapper {
+        margin-top: 20px;
+    }
+
+    .btn-wrapper {
+        margin-top: 10px;
+    }
+    h5{
+        margin-top:40px;
+    }
+    .haspadding{
+        padding:4px;
+    }
+</style>
+</head>
+<body>
+<article id="main">
+    <h4>Checkbox</h4>
+    <ul>
+        <li>作者：<b>伯方</b></li>
+        <li>描述：<b>checkbox美化</b></li>
+    </ul>
+    <h4 id="checkboxdemo">Checkbox的demo</h4>
+    <div class="demo-wrapper">
+       <form action="">
+            <ul id="J_Content">
+                <li><input type="checkbox" name="ch-1" value="ch1"><em>&nbsp;</em><label>1 1 1 1</label></li>
+                <li><input type="checkbox" name="ch-2" value="ch2"><em>&nbsp;</em><label>2 2 2 2</label></li>
+                <li><input disabled="disabled" type="checkbox" name="ch-3" value="ch3"><em>&nbsp;</em><label>3 3 3 3</label></li>
+                <li><input disabled="disabled" type="checkbox" name="ch-4" value="ch4"><em>&nbsp;</em><label>4 4 4 4</label></li>
+                <li><input type="checkbox" name="ch-5" value="ch5"><em>&nbsp;</em><label>5 5 5 5</label></li>
+                <li><input type="checkbox" name="ch-6" value="ch6"><em>&nbsp;</em><label>6 6 6 6</label></li>
+                <li><input type="checkbox" name="ch-7" value="ch7"><em>&nbsp;</em><label>7 7 7 7</label></li>
+                <li><input type="checkbox" checked="checked" name="ch-8" value="ch8"><em>&nbsp;</em><label>8 8 8 8</label></li>
+                <li><input type="checkbox"  checked="checked" name="ch-9" value="ch9"><em>&nbsp;</em><label>9 9 9 9</label></li>
+            </ul>            
+            <input type="submit" class="haspadding" name="" value="提交表单查看checkbox选中情况">                        
+        </form>
+    </div>
+    <h4>使用配置</h4>
+    <p>下面是页面上本身的一组原生的checkbox，注意观察第3、4、8、9的属性,美化的结果如上面所示</p>
+    <pre class='brush: xml;'>
+        <ul id="J_Content">
+            <li><input type="checkbox" name="ch-1" value="ch1"><em>&nbsp;</em><label>1 1 1 1</label></li>
+            <li><input type="checkbox" name="ch-2" value="ch2"><em>&nbsp;</em><label>2 2 2 2</label></li>
+            <li><input disabled="disabled" type="checkbox" name="ch-3" value="ch3"><em>&nbsp;</em><label>3 3 3 3</label></li>
+            <li><input disabled="disabled" type="checkbox" name="ch-4" value="ch4"><em>&nbsp;</em><label>4 4 4 4</label></li>
+            <li><input type="checkbox" name="ch-5" value="ch5"><em>&nbsp;</em><label>5 5 5 5</label></li>
+            <li><input type="checkbox" name="ch-6" value="ch6"><em>&nbsp;</em><label>6 6 6 6</label></li>
+            <li><input type="checkbox" name="ch-7" value="ch7"><em>&nbsp;</em><label>7 7 7 7</label></li>
+            <li><input type="checkbox" checked="checked" name="ch-8" value="ch8"><em>&nbsp;</em><label>8 8 8 8</label></li>
+            <li><input type="checkbox"  checked="checked" name="ch-9" value="ch9"><em>&nbsp;</em><label>9 9 9 9</label></li>
+        </ul>
+    </pre>
+    <h5>使用Checkbox组件美化，只需要使用如下方式即可</h5>
+    <pre class='brush: xml;'>
+        //初始化
+        var r = new Checkbox('#J_Content input',{
+            hasLabel:true, //是否需要label-for，默认是false
+            accessible:true//是否需要无障碍，默认为false
+        })
+        //执行
+        r.render();
+    </pre> 
+    <p>如果不需要提供默认的样式，可以自己提供样式地址只需要在初始化的时候，提供配置的样式地址即可，然后使用自己自定义的样式，需要给这些默认的样式名提供ks-checkbox(默认样式),ks-checkbox-checked(选中),ks-checkbox-disabled(禁用),ks-checkbox-hover(hover)样式</p>
+    <pre class='brush: xml;'>
+        //初始化
+        var r = new Checkbox('#J_Content input',{isUseCss:false});
+    </pre>
+    <p>如果页面的结构通过checkbox 和label 不在同一级等复杂一些的情况，初始化的时候可以传入一个函数进行关联</p>
+    <pre class='brush: xml;'>
+        //首先定义一个查找label节点的函数
+        function getLabel(value){
+            return value.next('label');
+        } 
+        //初始化传入getLabel
+         var r = new Checkbox('#J_Content input',{
+            hasLabel:true,
+            accessible:true,
+            getLabelFunc:getLabel //传入查找函数
+        })
+    </pre>    
+    
+    <h4>Checkbox提供的外部方法</h4>    
+    <h5>1、全选/取消全选</h5>
+    <div  class="" id="J_SelectAll">
+        <input class="haspadding"  type="checkbox"><label>全选</label>
+    </div><!-- / -->
+
+
+    <pre class='brush: xml;'>
+        //全选
+        r.selectAll();  
+        //取消全选
+        r.resetAll();       
+    </pre> 
+
+
+
+    <h5>2、根据index禁用checkbox</h5>    
+    <input class="haspadding" type="button" id="J_Five" name="" value="禁用第5个"><br/>
+    <br />
+    <pre class='brush: xml;'>
+        //禁用
+        r.setDisabled(index); 
+        //恢复
+        r.setDisabled(index);   
+    </pre>
+
+
+    <h5>3、获取所有选中的checkbox的索引</h5>    
+        <input class="haspadding" type="button" id="J_GetAll" value="获取所有选中checkbox的key"><br/>
+    <br/>
+    <pre class='brush: xml;'>
+        //返回数字数组
+        r.getAllChecked();     
+    </pre>
+
+
+    <h5>4、还原成为原生的checkbox</h5>    
+        <input class="haspadding" type="button" id="J_Recover" name="" key="1" value="还原checkbox"><br />
+    <br/>
+    <pre class='brush: xml;'>
+        //还原成为原生的checkbox
+        r.recoverCheckbox();     
+    </pre>
+</article>
+
+<script type="text/javascript">
+    KISSY.config({
+       packages:[ {
+            name:"gallery",
+            path:"../../../../../../",
+        charset:"utf-8"
+       } ]
+    });
+</script>
+<script type="text/javascript">   
+
+
+        function getLabel(value){
+            return value.next('label');
+        }     
+        KISSY.use('gallery/form/1.1/checkbox/index,node', function (S, R,Node) {
+            var  $ = Node.all,
+                r = new R('#J_Content input',{
+                    hasLabel:true, //是否需要label-for，默认是false
+                    accessible:true//是否需要无障碍，默认为false 
+                }),
+                btn = $('#J_GetAll'),
+                all = new R('#J_SelectAll input');   
+            r.render();
+            all.render();
+            //获取结果
+            btn.on('click',function(){
+                alert(r.getAllChecked());
+                location.href="#checkboxdemo";
+            })
+            //设置某个disabled
+            $('#J_Five').on('click',function(){
+                var key = $(this).attr('key');
+                if(key === '1'){
+                    r.setAvailabe(4);
+                    $(this).attr('key',2);
+                    $(this).val('禁用第五个')
+                }else{
+                    r.setDisabled(4);
+                    $(this).attr('key',1);
+                    $(this).val('还原第五个')
+                } 
+                location.href="#checkboxdemo";
+            })
+            //全选
+            $('#J_SelectAll').on('click',function(){
+                //alert(111);   
+                var sp = $(this).children('span');
+                if(sp.hasClass('ks-checkbox-checked')){
+                    r.selectAll();
+                }else{
+                    r.resetAll();
+                }            
+                location.href="#checkboxdemo";    
+                return false;
+            })
+            //还原checkbox
+            $('#J_Recover').on('click',function(){                                 
+                var key = $(this).attr('key');
+                if(key === '1'){
+                    r.recoverCheckbox();
+                    $(this).attr('key',2);
+                    $(this).val('美化checkbox')
+                }else{
+                    r.render();
+                    $(this).attr('key',1);
+                    $(this).val('还原checkbox')
+                } 
+                 location.href="#checkboxdemo";               
+            })
+        })
+    </script>
+<!-- 代码高亮 START  -->
+<link href='../../assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="../../assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+</body>
+</html>

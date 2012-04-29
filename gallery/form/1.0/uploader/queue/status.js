@@ -6,7 +6,7 @@ KISSY.add('gallery/form/1.0/uploader/queue/status',function(S, Node, Base,Progre
     var EMPTY = '',$ = Node.all,LOG_PREFIX = '[queue-status]:';
 
     /**
-     * @name status
+     * @name Status
      * @class 文件改变状态后改变状态元素的内容
      * @constructor
      * @extends Base
@@ -31,7 +31,8 @@ KISSY.add('gallery/form/1.0/uploader/queue/status',function(S, Node, Base,Progre
             PROGRESS : 'progress',
             SUCCESS : 'success',
             CANCEL : 'cancel',
-            ERROR : 'error'
+            ERROR : 'error',
+            RESTORE: 'restore'
         },
         /**
          * 转换文件大小字节数
@@ -169,8 +170,8 @@ KISSY.add('gallery/form/1.0/uploader/queue/status',function(S, Node, Base,Progre
             S.later(function(){
                 //拷贝进度条
                 if(S.isObject(progressBar)){
-                   var $wrapper =$target.children();
-                   $progressBar = $wrapper.children('.J_ProgressBar').clone(true);
+                    var $wrapper =$target.children();
+                    $progressBar = $wrapper.children('.J_ProgressBar').clone(true);
                 }
                 //改变状态层的内容
                 $content = self._changeDom(successTpl);
@@ -186,6 +187,12 @@ KISSY.add('gallery/form/1.0/uploader/queue/status',function(S, Node, Base,Progre
             },300);
             var $parent = target.parent();
             $parent.removeClass('current-upload-file');
+        },
+        /**
+         * 文件恢复到队列中
+         */
+        _restore: function(){
+            this._success();
         },
         /**
          * 取消上传后改成状态层内容
@@ -236,12 +243,12 @@ KISSY.add('gallery/form/1.0/uploader/queue/status',function(S, Node, Base,Progre
         tpl : {value : {
             waiting : '<div class="waiting-status">等待上传，<a href="#Upload" class="J_Upload">点此上传</a> </div>',
             start : '<div class="start-status clearfix">' +
-                        '<div class="f-l  J_ProgressBar uploader-progress"><img class="loading" src="http://img01.taobaocdn.com/tps/i1/T1F5tVXjRfXXXXXXXX-16-16.gif" alt="loading" /></div>' +
-                        ' <a class="f-l J_UploadCancel upload-cancel" href="#uploadCancel">取消</a>' +
-                    '</div> ',
+                '<div class="f-l  J_ProgressBar uploader-progress"><img class="loading" src="http://img01.taobaocdn.com/tps/i1/T1F5tVXjRfXXXXXXXX-16-16.gif" alt="loading" /></div>' +
+                ' <a class="f-l J_UploadCancel upload-cancel" href="#uploadCancel">取消</a>' +
+                '</div> ',
             success : ' <div class="success-status"><a href="#fileDel" class="J_FileDel">删除</a></div>',
             cancel : '<div class="cancel-status">已经取消上传，<a href="#reUpload" class="J_ReUpload">点此重新上传</a> </div>',
-            error : '<div class="error-status upload-error">{msg}<a href="#fileDel" class="J_FileDel">点此删除</a></div>'
+            error : '<div class="error-status upload-error">{msg}<a href="#fileDel" class="J_FileDel">删除</a></div>'
         } },
         /**
          * 队列实例

@@ -7,10 +7,11 @@ KISSY.add('gallery/form/1.0/uploader/type/iframe',function(S, Node, UploadType) 
 
     /**
      * @name IframeType
-     * @class iframe方案上传
+     * @class iframe方案上传，全浏览器支持
      * @constructor
      * @extends UploadType
-     * @requires Node
+     * @param {Object} config 组件配置（下面的参数为配置项，配置会写入属性，详细的配置说明请看属性部分）
+      *
      */
     function IframeType(config) {
         var self = this;
@@ -91,7 +92,7 @@ KISSY.add('gallery/form/1.0/uploader/type/iframe',function(S, Node, UploadType) 
         _createIframe : function() {
             var self = this,
                 //iframe的id
-                id = self.get('id'),
+                id = ID_PREFIX + S.guid(),
                 //iframe模板
                 tpl = self.get('tpl'),iframeTpl = tpl.IFRAME,
                 existIframe = self.get('iframe'),
@@ -112,6 +113,7 @@ KISSY.add('gallery/form/1.0/uploader/type/iframe',function(S, Node, UploadType) 
             //监听iframe的load事件
             $iframe.on('load', self._iframeLoadHandler, self);
             $('body').append($iframe);
+            self.set('id',id);
             self.set('iframe', $iframe);
             return $iframe;
         },
@@ -197,15 +199,27 @@ KISSY.add('gallery/form/1.0/uploader/type/iframe',function(S, Node, UploadType) 
             self.reset('form');
             self.fire(IframeType.event.REMOVE, {form : form});
         }
-    }, {ATTRS : /** @lends IframeType*/{
+    }, {ATTRS : /** @lends IframeType.prototype*/{
         /**
          * iframe方案会用到的html模板，一般不需要修改
+         * @type {}
+         * @default
+         * {
+         IFRAME : '<iframe src="javascript:false;" name="{id}" id="{id}" border="no" width="1" height="1" style="display: none;" />',
+         FORM : '<form method="post" enctype="multipart/form-data" action="{action}" target="{target}">{hiddenInputs}</form>',
+         HIDDEN_INPUT : '<input type="hidden" name="{name}" value="{value}" />'
+         }
          */
         tpl : {value : IframeType.tpl},
         /**
-         * 创建的iframeid
+         * 只读，创建的iframeid,id为组件自动创建
+         * @type String
+         * @default  'ks-uploader-iframe-' +随机id
          */
         id : {value : ID_PREFIX + S.guid()},
+        /**
+         * iframe
+         */
         iframe : {value : {}},
         form : {value : {}},
         fileInput : {value : EMPTY}

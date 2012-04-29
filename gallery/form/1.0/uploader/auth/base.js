@@ -8,11 +8,10 @@ KISSY.add('gallery/form/1.0/uploader/auth/base', function (S, Node,Base) {
 
     /**
      * @name Auth
-     * @class 文件上传验证
+     * @class 文件上传验证，可以从按钮的data-auth伪属性抓取规则配置
      * @constructor
      * @extends Base
-     * @requires Node
-     * @param {Uploader} uploader 上传组件实例
+     * @param {Uploader} uploader *，上传组件实例
      * @param {Object} config 配置
      */
     function Auth(uploader, config) {
@@ -29,6 +28,15 @@ KISSY.add('gallery/form/1.0/uploader/auth/base', function (S, Node,Base) {
             ERROR : 'error'
         }
     });
+    /**
+     * @name Auth#error
+     * @desc  当验证出错时触发
+     * @event
+     * {rule:'require',msg : rule[1],value : isRequire}
+     * @param {String} ev.rule 规则名
+     * @param {String} ev.msg 出错消息
+     * @param {Boolean|String} ev.value 规则值
+     */
     S.extend(Auth, Base, /** @lends Auth.prototype*/{
         /**
          * 初始化
@@ -64,6 +72,7 @@ KISSY.add('gallery/form/1.0/uploader/auth/base', function (S, Node,Base) {
         },
         /**
          * 验证上传数、是否必须上传
+         * @return {Boolean}
          */
         testAll : function(){
             var self = this;
@@ -97,7 +106,7 @@ KISSY.add('gallery/form/1.0/uploader/auth/base', function (S, Node,Base) {
                 urlsInput = uploader.get('urlsInput'),
                 urls = urlsInput.get('urls'),
                 rule = self.getRule('require'),
-                isRequire = rule[0],
+                isRequire = rule ? rule[0] : false,
                 isHasUrls = urls.length > 0;
             if(!isRequire) return true;
             if(!isHasUrls){
@@ -162,21 +171,24 @@ KISSY.add('gallery/form/1.0/uploader/auth/base', function (S, Node,Base) {
         testMax:function () {
             var self = this, uploader = self.get('uploader'),
                 queue = uploader.get('queue'),
-                len = queue.getFiles('success').length,
-                rule = self.getRule('max'),
-                button = uploader.get('button'),
-                isPass = len < rule[0];
-            //达到最大允许上传数
-            if(!isPass){
-                //禁用按钮
-                button.set('disabled',true);
-                uploader.set('isAllowUpload', false);
-                self.fire(Auth.event.ERROR,{rule:'max',msg : rule[1],value : rule[0]});
-            }else{
-                button.set('disabled',false);
-                uploader.set('isAllowUpload', true);
+                successFiles = queue.getFiles('success'),
+                len = successFiles.length,
+                rule = self.getRule('max');
+            if(rule){
+            	var button = uploader.get('button'),
+	                isPass = len < rule[0];
+	            //达到最大允许上传数
+	            if(!isPass){
+	                //禁用按钮
+	                button.set('disabled',true);
+	                uploader.set('isAllowUpload', false);
+	                self.fire(Auth.event.ERROR,{rule:'max',msg : rule[1],value : rule[0]});
+	            }else{
+	                button.set('disabled',false);
+	                uploader.set('isAllowUpload', true);
+	            }
+	            return isPass;
             }
-            return isPass;
         },
         /**
          * 检验是否超过允许最大文件大小，留意iframe上传方式此验证无效
@@ -185,16 +197,18 @@ KISSY.add('gallery/form/1.0/uploader/auth/base', function (S, Node,Base) {
         testMaxSize : function(file){
             var self = this,
                 size = file.size,
-                rule = self.getRule('maxSize'),
-                maxSize = Number(rule[0]) * 1000,
-                isAllow = size <= maxSize,
-                msg;
-            if(!isAllow){
-                msg = S.substitute(rule[1],{maxSize:S.convertByteSize(maxSize),size : file.textSize});
-                self._stopUpload(file,msg);
-                self.fire(Auth.event.ERROR,{rule:'maxSize',msg : msg,value : rule[0]});
+                rule = self.getRule('maxSize');
+            if(rule){
+            	var maxSize = Number(rule[0]) * 1000,
+	                isAllow = size <= maxSize,
+	                msg;
+	            if(!isAllow){
+	                msg = S.substitute(rule[1],{maxSize:S.convertByteSize(maxSize),size : file.textSize});
+	                self._stopUpload(file,msg);
+	                self.fire(Auth.event.ERROR,{rule:'maxSize',msg : msg,value : rule[0]});
+	            }
+	            return isAllow;
             }
-            return isAllow;
         },
         /**
          * 检验文件是否重复（检验文件名，很有可能存在误差，比如不同目录下的相同文件名会被判定为同一文件）
@@ -205,24 +219,26 @@ KISSY.add('gallery/form/1.0/uploader/auth/base', function (S, Node,Base) {
             if(!S.isObject(file)) return false;
             var self = this,
                 fileName = file.name,
-                rule = self.getRule('allowRepeat'),
-                isAllowRepeat = rule[0],
-                msg = rule[1],
-                uploader = self.get('uploader'),
-                queue = uploader.get('queue'),
-                //上传成功的文件
-                files = queue.getFiles('success'),
-                isRepeat = false ;
-            //允许重复文件名，直接返回false
-            if(isAllowRepeat) return false;
-            S.each(files,function(f){
-                if(f.name == fileName){
-                    self._stopUpload(file,msg);
-                    self.fire(Auth.event.ERROR,{rule:'allowRepeat',msg : msg,value : rule[0]});
-                    return isRepeat = true;
-                }
-            });
-            return isRepeat;
+                rule = self.getRule('allowRepeat');
+            if(rule){
+            	var isAllowRepeat = rule[0],
+	                msg = rule[1],
+	                uploader = self.get('uploader'),
+	                queue = uploader.get('queue'),
+	                //上传成功的文件
+	                files = queue.getFiles('success'),
+	                isRepeat = false ;
+	            //允许重复文件名，直接返回false
+	            if(isAllowRepeat) return false;
+	            S.each(files,function(f){
+	                if(f.name == fileName){
+	                    self._stopUpload(file,msg);
+	                    self.fire(Auth.event.ERROR,{rule:'allowRepeat',msg : msg,value : rule[0]});
+	                    return isRepeat = true;
+	                }
+	            });
+	            return isRepeat;
+            }
         },
         /**
          * 设置flash按钮的文件格式过滤
@@ -270,13 +286,18 @@ KISSY.add('gallery/form/1.0/uploader/auth/base', function (S, Node,Base) {
             //改变文件状态为error
             queue.fileStatus(index, queue.constructor.status.ERROR, {msg:msg});
         }
-    }, {ATTRS:/** @lends Auth*/{
+    }, {ATTRS:/** @lends Auth.prototype*/{
         /**
          * 上传组件实例
+         * @type Uploader
+         * @default ""
          */
         uploader:{ value:EMPTY },
         /**
-         * 规则
+         * 上传验证规则，每个规则都是一个数组，数组第一个值为规则，第二个值为错误消息
+         * @type Object
+         * @default  { allowExts:[ {desc:"JPG,JPEG,PNG,GIF,BMP", ext:"*.jpg;*.jpeg;*.png;*.gif;*.bmp"}, '不支持{ext}格式的文件上传！' ], require:[false, '必须至少上传一个文件！'], max:[3, '每次最多上传{max}个文件！'], maxSize:[1000, '文件大小为{size}，文件太大！'], allowRepeat:[false, '该文件已经存在！'] } }
+         *
          */
         rules:{
             value : {

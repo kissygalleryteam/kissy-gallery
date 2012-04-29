@@ -1,0 +1,83 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * 二手模板队列处理
+<span class='line'>  3</span>  * @author 紫英(橘子)&lt;daxingplay@gmail.com>
+<span class='line'>  4</span>  */</span><span class="WHIT">
+<span class='line'>  5</span> </span><span class="NAME">KISSY.add</span><span class="PUNC">(</span><span class="STRN">'gallery/form/1.0/uploader/themes/lineQueue/queue'</span><span class="PUNC">,</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">S</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Node</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">QueueBase</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Status</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">EMPTY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="WHIT">    	</span><span class="NAME">$</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Node.all</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="WHIT">    	</span><span class="NAME">LOG_PRE</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'[LineQueue:queue] '</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  9</span> 
+<span class='line'> 10</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 11</span>      * @name LineQueueQueue
+<span class='line'> 12</span>      * @class 模板的队列类
+<span class='line'> 13</span>      * @constructor
+<span class='line'> 14</span>      * @extends Base
+<span class='line'> 15</span>      * @requires Node
+<span class='line'> 16</span>      */</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="WHIT">    </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Queue</span><span class="PUNC">(</span><span class="NAME">config</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="WHIT">        </span><span class="COMM">//调用父类构造函数</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">        </span><span class="NAME">Queue.superclass.constructor.call</span><span class="PUNC">(</span><span class="NAME">self</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">config</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">    </span><span class="NAME">S.extend</span><span class="PUNC">(</span><span class="NAME">Queue</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">QueueBase</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">/** @lends Queue.prototype*/</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 24</span>          * 运行Status
+<span class='line'> 25</span>          * @param {Object} file  文件数据
+<span class='line'> 26</span>          * @return {Status} 状态实例
+<span class='line'> 27</span>          */</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">        </span><span class="NAME">_renderStatus</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">            	</span><span class="NAME">file</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">file.target</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">            	</span><span class="NAME">elStatus</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">file.length</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">            	</span><span class="NAME">S.log</span><span class="PUNC">(</span><span class="NAME">LOG_PRE</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'Cannot get file data.'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">            	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">            </span><span class="COMM">// S.log(file, 'dir');</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">            </span><span class="COMM">//状态层</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">            </span><span class="NAME">elStatus</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">file.children</span><span class="PUNC">(</span><span class="STRN">'.J_FileStatus'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">            </span><span class="COMM">//实例化状态类</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Status</span><span class="PUNC">(</span><span class="NAME">elStatus</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">            	</span><span class="NAME">queue</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">self</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">            	</span><span class="NAME">file</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">file</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">        	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">ATTRS</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="COMM">/** @lends Queue*/</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 47</span>          * 模板
+<span class='line'> 48</span>          */</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">        </span><span class="NAME">tpl</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">        	</span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">'&lt;li id="J_LineQueue-{id}" data-file-id="{id}" data-url="{sUrl}" data-name="{name}" data-size="{textSize}">'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">						</span><span class="STRN">'&lt;div class="J_Wrapper wrapper">'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">							</span><span class="STRN">'&lt;div class="tb-pic120">'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">								</span><span class="STRN">'&lt;a href="javascript:void(0);">&lt;img class="J_ItemPic" src="{sUrl}" />&lt;/a>'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">							</span><span class="STRN">'&lt;/div>'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">							</span><span class="STRN">'&lt;div class="pic-mask">&lt;/div>'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">							</span><span class="STRN">'&lt;div class="tips-uploading">&lt;div class="progress-bar J_ProgressBar">&lt;span class="progress-mask J_UploadingProgress">&lt;/span>&lt;/div>&lt;p class="tips-text">上传中，请稍候&lt;/p>&lt;/div>'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">							</span><span class="STRN">'&lt;div class="tips-upload-success">&lt;span class="progress-bar">&lt;/span>&lt;p class="tips-text">上传成功！&lt;/p>&lt;/div>'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">							</span><span class="STRN">'&lt;div class="tips-upload-error">&lt;span class="progress-bar">&lt;/span>&lt;p>上传失败&lt;/p>&lt;p>请重新尝试！&lt;/p>&lt;/div>'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">							</span><span class="STRN">'&lt;div class="tips-upload-waiting">等待上传，请稍候&lt;/div>'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">							</span><span class="STRN">'&lt;div class="upload-op-mask">&lt;/div>'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">							</span><span class="STRN">'&lt;div class="upload-operations">'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">								</span><span class="STRN">'&lt;a class="J_SetMainPic set-as-main" data-file-id="{id}" href="#">设为主图&lt;/a>'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">								</span><span class="STRN">'&lt;a class="J_DeleltePic del-pic" data-file-id="{id}" href="#">删除&lt;/a>'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">							</span><span class="STRN">'&lt;/div>'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">						</span><span class="STRN">'&lt;/div>'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">					</span><span class="STRN">'&lt;/li>'</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">join</span><span class="PUNC">(</span><span class="STRN">''</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Queue</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">	</span><span class="NAME">requires</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">		</span><span class="STRN">'node'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">		</span><span class="STRN">'../../queue/base'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">		</span><span class="STRN">'./status'</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">	</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

@@ -5,7 +5,7 @@
  * @requires KISSY 1.2+
  */
 
-KISSY.add('gallery/form/1.0/uploader/preview/preview', function(S, D, E){
+KISSY.add('gallery/form/1.0/uploader/plugins/preview/preview', function(S, D, E){
 	var doc = document, 
 		LOG_PRE = '[Plugin: Preview] ',
 		_mode = getPreviewMode(),
@@ -54,15 +54,20 @@ KISSY.add('gallery/form/1.0/uploader/preview/preview', function(S, D, E){
 	 * @param {Number} maxHeight 最大高度
 	 */
 	function showPreviewImage(imgElem, data, width, height){
-		if(_mode == 'filter'){
-			imgElem.src = data;
+		if(!imgElem){
+			return false;
+		}
+		if(_mode != 'filter'){
+			imgElem.src = data || _transparentImg;
 		}else{
 			imgElem.src = _transparentImg;
-			data = data.replace(/[)'"%]/g, function(s){
-				return escape(escape(s)); 
-			});
-			imgElem.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale',src=\"" + data + "\")";
-			imgElem.zoom = 1;
+			if(data){
+				data = data.replace(/[)'"%]/g, function(s){
+					return escape(escape(s)); 
+				});
+				imgElem.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale',src='" + data + "')";
+				imgElem.zoom = 1;
+			}
 		}
 		return true;
 	}
@@ -120,6 +125,7 @@ KISSY.add('gallery/form/1.0/uploader/preview/preview', function(S, D, E){
 						self.data = fileInput.files[0].getAsDataURL();
 						break;
 					case 'filter':
+						// fileInput.focus();
 						fileInput.select();
 						try{
 							self.data = doc.selection.createRange().text;
@@ -128,6 +134,9 @@ KISSY.add('gallery/form/1.0/uploader/preview/preview', function(S, D, E){
 							S.log(e, 'dir');
 						}finally{
 							doc.selection.empty();
+						}
+						if(!self.data){
+							self.data = fileInput.value;
 						}
 						break;
 					case 'html5':
@@ -141,7 +150,7 @@ KISSY.add('gallery/form/1.0/uploader/preview/preview', function(S, D, E){
 							S.log(LOG_PRE + 'File Reader Error. Your browser may not fully support html5 file api', 'warning');
 							self.fire(_eventList.error);
 						}
-						reader.readAsDataURL(self.file.files[0]);
+						reader.readAsDataURL(fileInput.files[0]);
 						// alert(reader.readAsDataURL);
 						// S.log(reader, 'dir');
 						break;
@@ -155,6 +164,7 @@ KISSY.add('gallery/form/1.0/uploader/preview/preview', function(S, D, E){
 					onsuccess();
 				}else if(_mode != 'html5'){
 					S.log(LOG_PRE + 'Retrive Data error.');
+					showPreviewImage(imgElem);
 					self.fire(_eventList.error);
 				}
 			}else{

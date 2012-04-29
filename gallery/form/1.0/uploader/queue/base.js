@@ -7,10 +7,21 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
 
     /**
      * @name Queue
-     * @class 文件上传队列
+     * @class 文件上传队列基类，不同主题拥有不同的队列类
      * @constructor
      * @extends Base
-     * @requires Node,Status
+     * @requires Status
+     * @param {String} target *，目标元素
+     * @param {Object} config Queue没有必写的配置
+     * @param {Uploader} config.uploader Uploader的实例
+     * @param {Number} config.duration 添加/删除文件时的动画速度
+     * @example
+     * <ul id="J_Queue"> </ul>
+     * @example
+     * S.use('gallery/form/1.0/uploader/queue/base,gallery/form/1.0/uploader/themes/default/style.css', function (S, Queue) {
+     *    var queue = new Queue('#J_Queue');
+     *    queue.render();
+     * })
      */
     function Queue(target, config) {
         var self = this;
@@ -48,7 +59,9 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
             //当改变文件状态后触发
             FILE_STATUS : 'fileStatus',
             //更新文件数据后触发
-            UPDATE_FILE : 'updateFile'
+            UPDATE_FILE : 'updateFile',
+            // 恢复文件后触发
+            RESTORE: 'restore'
         },
         /**
          * 文件的状态
@@ -64,6 +77,52 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
         },
         FILE_ID_PREFIX:'file-'
     });
+    /**
+     * @name Queue#add
+     * @desc  添加完文件后触发
+     * @event
+     * @param {Number} ev.index 文件在队列中的索引值
+     * @param {Object} ev.file 文件数据
+     * @param {KISSY.Node} ev.target 对应的li元素
+     */
+    /**
+     * @name Queue#addFiles
+     * @desc  批量添加文件后触发
+     * @event
+     * @param {Array} ev.files 添加后的文件数据集合
+     */
+    /**
+     * @name Queue#remove
+     * @desc  删除文件后触发
+     * @event
+     * @param {Number} ev.index 文件在队列中的索引值
+     * @param {Object} ev.file 文件数据
+     */
+    /**
+     * @name Queue#clear
+     * @desc  清理队列所有的文件后触发
+     * @event
+     */
+    /**
+     * @name Queue#fileStatus
+     * @desc  当改变文件状态后触发
+     * @event
+     * @param {Number} ev.index 文件在队列中的索引值
+     * @param {String} ev.status 文件状态
+     */
+    /**
+     * @name Queue#updateFile
+     * @desc  更新文件数据后触发
+     * @event
+     * @param {Number} ev.index 文件在队列中的索引值
+     * @param {Object} ev.file 文件数据
+     */
+    /**
+     * @name Queue#restore
+     * @desc  恢复文件后触发
+     * @event
+     * @param {Array} ev.files 文件数据集合
+     */
     //继承于Base，属性getter和setter委托于Base处理
     S.extend(Queue, Base, /** @lends Queue.prototype*/{
         /**
@@ -79,6 +138,15 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
         /**
          * 向上传队列添加文件
          * @param {Object | Array} files 文件数据，传递数组时为批量添加
+         * @example
+         * //测试文件数据
+ var testFile = {'name':'test.jpg',
+     'size':2000,
+     'input':{},
+     'file':{'name':'test.jpg', 'type':'image/jpeg', 'size':2000}
+ };
+ //向队列添加文件
+ queue.add(testFile);
          */
         add:function (files, callback) {
             var self = this, event = Queue.event;
@@ -96,7 +164,7 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
             }
         },
         /**
-         * 向队列添加个文件
+         * 向队列添加单个文件
          * @param {Object} file 文件数据
          * @param {Function} callback 添加完成后执行的回调函数
          * @return {Object} 文件数据对象
@@ -147,6 +215,10 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
          * 删除队列中指定id的文件
          * @param {Number} indexOrFileId 文件数组索引或文件id
          * @param {Function} callback 删除元素后执行的回调函数
+         * @example
+         * queue.remove(0,function(){
+         *     alert(2);
+         * });
          */
         remove:function (indexOrFileId, callback) {
             var self = this, files = self.get('files'), file, $file,
@@ -193,10 +265,49 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
             }
         },
         /**
-         * 获取或设置文件状态
+         * 将数据恢复到队列中
+         * @param {Array} 需要恢复的数据
+         */
+        restore: function(files){
+        	var self = this,
+        		filesData = [];
+        	if(files && files.length > 0){
+        		S.each(files, function(url, index){
+                    var s = url.split('|'),name = EMPTY;
+                    if(s.length > 1){
+                        url = s[1];
+                        name = s[0];
+                    }
+	        		if(url){
+	        			var file = {
+	        				input: null,
+	        				name: name,
+	        				sUrl: url,
+	        				size: '',
+	        				type: ''
+	        			};
+	        			var fileData = self._setAddFileData(file),
+			                index = self.getFileIndex(fileData.id);
+			            //更换文件状态为等待
+			            self.fileStatus(index, Queue.status.RESTORE);
+			            //显示文件信息li元素
+			            $(fileData.target).show();
+			            fileData.status.set('curType', Queue.status.SUCCESS);
+			            filesData.push(fileData);
+	        		}
+	        	});
+        	}
+        	self.fire(Queue.event.RESTORE, {
+            	'files': filesData
+            });
+        },
+        /**
+         * 获取或设置文件状态，默认的主题共有以下文件状态：'waiting'、'start'、'progress'、'success'、'cancel'、'error' ,每种状态的dom情况都不同，刷新文件状态时候同时刷新状态容器类下的DOM节点内容。
          * @param {Number} index 文件数组的索引值
          * @param {String} status 文件状态
          * @return {Object}
+         * @example
+         * queue.fileStatus(0, 'success');
          */
         fileStatus:function (index, status, args) {
             if (!S.isNumber(index)) return false;
@@ -258,8 +369,11 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
         },
         /**
          * 获取等指定状态的文件对应的文件数组index的数组
-         * param {String} type 状态类型
+         * @param {String} type 状态类型
          * @return {Array}
+         * @example
+         * //getFiles()和getFileIds()的作用是不同的，getFiles()类似过滤数组，获取的是指定状态的文件数据，而getFileIds()只是获取指定状态下的文件对应的在文件数组内的索引值。
+         * var indexs = queue.getFileIds('waiting');
          */
         getIndexs:function (type) {
             var self = this, files = self.get('files'),
@@ -280,10 +394,13 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
          * 获取指定状态下的文件
          * @param {String} status 状态类型
          * @return {Array}
+         * @example
+         * //获取等待中的所有文件
+         * var files = queue.getFiles('waiting');
          */
         getFiles:function (status) {
             var self = this, files = self.get('files'), oStatus, statusFiles = [];
-            if (!files.length) return false;
+            if (!files.length) return [];
             S.each(files, function (file) {
                 if (file) {
                     oStatus = file.status;
@@ -348,31 +465,51 @@ KISSY.add('gallery/form/1.0/uploader/queue/base', function (S, Node, Base, Statu
             //实例化状态类
             return new Status(elStatus, statusConfig);
         }
-    }, {ATTRS:/** @lends Queue*/{
+    }, {ATTRS:/** @lends Queue.prototype*/{
         /**
          * 模板
          * @type String
+         * @default  Queue.tpl.DEFAULT
          */
         tpl:{ value:Queue.tpl.DEFAULT },
         /**
-         * 动画速度
+         * 添加/删除文件时的动画速度
+         * @type Number
+         * @default 0.3
          */
         duration:{value:0.3},
         /**
-         * 队列元素
+         * 队列目标元素
+         * @type KISSY.Node
+         * @default ""
          */
         target:{value:EMPTY},
         /**
-         * 文件信息数据
+         * 队列内所有文件数据集合
+         * @type Array
+         * @default []
+         * @example
+         * var ids = [],
+         files = queue.get('files');
+         S.each(files, function (file) {
+         ids.push(file.id);
+         });
+         alert('所有文件id：' + ids);
          */
         files:{value:[]},
         /**
          * 状态类配置，queue和file参数会被组件内部覆盖，传递无效
+         * @type Object
+         * @default {}
          */
         statusConfig : {
             value : {}
         },
-        //上传组件实例
+        /**
+         * 该队列对应的Uploader实例
+         * @type Uploader
+         * @default ""
+         */
         uploader:{value:EMPTY}
     }});
 
