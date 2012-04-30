@@ -36,8 +36,8 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
         self._storage = {};
 
         var resetAfterValidate = function() {
-            //TODO
-        }
+            self.fire('afterFieldValidation');
+        };
 
         //监听校验结果
         self.on('afterRulesValidate', function(ev) {
@@ -54,10 +54,9 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
                 errRule:result? '':curRule
             });
 
-            resetAfterValidate();
-
             //校验结束
             self.fire('afterValidate');
+            resetAfterValidate();
         });
 
         self._init();
@@ -168,9 +167,6 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
             //TODO GROUPS
 
             return result;
-        },
-        clear:function() {
-            //TODO
         }
     }, {
         ATTRS:{

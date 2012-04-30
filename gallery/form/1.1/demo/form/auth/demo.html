@@ -21,12 +21,12 @@
 
 <div class="eg">
     <h3>示例 - 用户注册</h3>
-    <form method="post" id="J_form_eg1">
+    <form method="post" id="J_form_eg1" novalidate="novalidate">
         <ul class="form">
 
             <li>
                 <label class="hd">用户名：</label>
-                <input class="text" type="text" value="test@tb.com" required data-valid="{required:'必填'}"/>
+                <input id="username" class="text" type="text" value="test@tb.com" required data-valid="{required:'必填'}"/>
             </li>
 
             <li>
@@ -74,12 +74,14 @@
         KISSY.use("gallery/form/1.1/auth/index", function(S, Auth) {
 
             var form = new Auth('#J_form_eg1');
-
-//
-//            KISSY.Event.on('#J_form_eg1', "submit", function() {
-//                form.isValid();
-//                return false;
+//            form.getField('username').on('validate', function(e){
+//                alert(e.msg);
 //            });
+
+
+            KISSY.Event.on('#J_form_eg1', "submit", function() {
+                return form.validate();
+            });
 
         });
 
