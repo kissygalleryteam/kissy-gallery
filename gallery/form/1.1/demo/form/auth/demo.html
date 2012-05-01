@@ -73,7 +73,12 @@
         });
         KISSY.use("gallery/form/1.1/auth/index", function(S, Auth) {
 
-            var form = new Auth('#J_form_eg1');
+            var form = new Auth('#J_form_eg1', {
+                msg:{
+                    theme:'tbsp',
+                    posCls:'under'
+                }
+            });
 //            form.getField('username').on('validate', function(e){
 //                alert(e.msg);
 //            });

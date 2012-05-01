@@ -3,7 +3,8 @@
  * @author czy88840616 <czy88840616@gmail.com>
  *
  */
-KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, Factory, Rule, PropertyRule, undefined) {
+KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
+                                                         Factory, Rule, PropertyRule, Msg, undefined) {
 
     var EMPTY ='',
         CONFIG_NAME = 'data-valid';
@@ -58,6 +59,20 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
             self.fire('afterValidate');
             resetAfterValidate();
         });
+
+        //msg init
+        if(self._cfg.msg) {
+            self._msg = new Msg(self._cfg.msg);
+
+            self.on('afterRulesValidate', function(ev) {
+                var result = ev.result,
+                    curRule = ev.curRule,
+                    msg = self._cache[curRule].msg || EMPTY;
+
+                self._msg.hide();
+                self._msg.show(style);
+            });
+        }
 
         self._init();
 
@@ -188,6 +203,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
         'json',
         '../rule/html/propertyFactory',
         '../rule/rule',
-        '../rule/html/propertyRule'
+        '../rule/html/propertyRule',
+        '../msg/base'
     ]
 });

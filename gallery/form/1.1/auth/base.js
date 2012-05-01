@@ -12,7 +12,7 @@ KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field, Factory)
     var defaultConfig = {
         fields:{},
         initTrigger:false,
-        defaultEvent:'blur'
+        autoBind:true
     };
 
     var AUTH_MODE = {
