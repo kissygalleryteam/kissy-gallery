@@ -10,7 +10,7 @@
  *     {{{ value = value < 0 ? 0 : value; }}}
  */
 
-KISSY.add('gallery/countdown/1.1/core', function (S, Timer) {
+KISSY.add('gallery/countdown/1.1/countdown', function (S, Timer) {
     var D = S.DOM,
         EVENT_AFTER_PAINT = 'afterPaint';
 
@@ -137,7 +137,7 @@ KISSY.add('gallery/countdown/1.1/core', function (S, Timer) {
             // bind reflow to me.
             var _reflow = me._reflow;
             me._reflow = function () {
-                return _reflow.call(me);
+                return _reflow.apply(me, arguments);
             };
             Timer.add(me._reflow, me.frequency);
 
@@ -165,10 +165,11 @@ KISSY.add('gallery/countdown/1.1/core', function (S, Timer) {
         /**
          * 更新时钟
          */
-        _reflow: function () {//{{{
-            var left = this.left;
+        _reflow: function (count) {//{{{
+            count = count || 0;
 
-            if (0 === left) {
+            var left = this.left - this.frequency * count;
+            if (left < 1) {
                 Timer.remove(this._reflow);
             }
 
@@ -188,7 +189,7 @@ KISSY.add('gallery/countdown/1.1/core', function (S, Timer) {
                 });
             }
 
-            this.left = left - this.frequency;
+            this.left = left;
 
             return this;
         },//}}}

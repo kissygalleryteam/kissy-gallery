@@ -186,4 +186,4 @@ KISSY.add('gallery/countdown/1.1/effects', function (S, Countdown) {
     };
 
     return Countdown;
-}, {requires: ['gallery/countdown/1.1/core']});
+}, {requires: ['gallery/countdown/1.1/countdown']});
