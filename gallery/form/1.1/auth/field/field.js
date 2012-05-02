@@ -62,7 +62,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
 
         //msg init
         if(self._cfg.msg) {
-            self._msg = new Msg(self._cfg.msg);
+            self._msg = new Msg(self._el, self._cfg.msg);
 
             self.on('afterRulesValidate', function(ev) {
                 var result = ev.result,
@@ -70,7 +70,10 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
                     msg = self._cache[curRule].msg || EMPTY;
 
                 self._msg.hide();
-                self._msg.show(style);
+                self._msg.show({
+                    style:style,
+                    msg:msg
+                });
             });
         }
 

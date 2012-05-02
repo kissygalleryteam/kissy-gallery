@@ -4,18 +4,32 @@
  *
  */
 KISSY.add('gallery/form/1.1/auth/msg/base', function (S, Base) {
-    var Msg = function (cfg) {
+    var Msg = function (srcNode, cfg) {
         var self = this;
 
-        self._init(cfg);
+        self._init(srcNode, cfg);
 
         Msg.superclass.constructor.call(self);
     };
 
 
     S.extend(Msg, Base, {
-        _init:function (cfg) {
+        _init:function (srcNode, cfg) {
+            var self = this;
+            self._el = S.one(srcNode);
+            self.set('tpl', cfg.tpl);
 
+            self._msgContainer = S.one('<div class="validBox" style="display: none"></div>');
+            self._el.after(self._msgContainer);
+        },
+        hide:function () {
+            this._msgContainer.hide();
+        },
+        show:function (o) {
+            S.buffer(function(){
+                this._msgContainer.html(S.substitute(this.get('tpl'), o));
+                this._msgContainer.show();
+            });
         }
     }, {
         ATTRS:{
@@ -24,6 +38,9 @@ KISSY.add('gallery/form/1.1/auth/msg/base', function (S, Base) {
             }
         }
     });
+
+    return Msg;
+
 }, {
     requires:[
         'base'

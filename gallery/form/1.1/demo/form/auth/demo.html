@@ -6,6 +6,7 @@
 
     <link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
     <link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy/src/validation/demo/doc.css"/>
+    <link rel="stylesheet" type="text/css" href="http://a.tbcdn.cn/tbsp/tbsp.css"/>
     <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
     <script src="../../../auth/index.js" charset="utf-8"></script>
 </head>
@@ -26,12 +27,12 @@
 
             <li>
                 <label class="hd">用户名：</label>
-                <input id="username" class="text" type="text" value="test@tb.com" required data-valid="{required:'必填'}"/>
+                <input id="username" class="text" type="text" value="test@tb.com" required pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$" data-valid="{required:'必填',pattern:'邮箱格式不对'}"/>
             </li>
 
             <li>
                 <label class="hd">密码：</label>
-                <input class="text" type="text" name="password" id="password" data-valid=""/>
+                <input class="text" type="text" name="password" id="password" required pattern="[A-z]{3}" data-valid="{required:'密码必填'}"/>
             </li>
 
             <li>
@@ -75,8 +76,10 @@
 
             var form = new Auth('#J_form_eg1', {
                 msg:{
-                    theme:'tbsp',
-                    posCls:'under'
+                    tpl:'<div class="msg {prefixCls}"><p class="{style}">{msg}</p></div>',
+                    value:{
+                        prefixCls:'under'
+                    }
                 }
             });
 //            form.getField('username').on('validate', function(e){
