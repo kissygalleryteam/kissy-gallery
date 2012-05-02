@@ -10,7 +10,6 @@ KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field, Factory)
      * @type {Object}
      */
     var defaultConfig = {
-        fields:{},
         initTrigger:false,
         autoBind:true
     };
