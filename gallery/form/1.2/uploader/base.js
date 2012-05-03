@@ -192,7 +192,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 return false;
             }
             //文件上传域，如果是flash上传,input为文件数据对象
-            uploadParam = file.input.id || file.input;
+            uploadParam = file.input;
             //如果是ajax上传直接传文件数据
             if(type == 'ajax') uploadParam = file.data;
             if(file['status'] === 'error'){
