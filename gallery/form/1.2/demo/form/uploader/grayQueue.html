@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>使用不同主题的示例</title>
+<link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+</head>
+<body>
+<article id="doc">
+    <h4>使用不同主题的示例</h4>
+    <p>前面几个例子，都是千篇一律的外观和相似的逻辑（默认模板目前应用于淘宝的退款系统），但在实际需求，一般你需要定制不同的外观，添加额外逻辑。</p>
+    <p>为了更好的满足第三方的定制扩展需求，上传组件引入主题概念，所有的主题都放在themes目录下。</p>
+    <p>这个demo将演示上传组件如何使用不同的主题。</p>
+    <div class="uploader-wrapper gray-queue">
+        <div class="clearfix header-footer gray-queue-header">
+            <div class="f-l file-name">文件名</div>
+            <div class="f-r file-status">状态</div>
+            <div class="f-r file-size">文件大小</div>
+        </div>
+        <ul class="gray-queue-list" id="J_UploaderQueue"></ul>
+        <div class="clearfix header-footer gray-queue-footer">
+            <div class="f-l uploader-btn-wrapper">
+                <!-- 选择文件按钮，组件配置写在这里 -->
+                <a id="J_UploaderBtn" class="f-l uploader-icon uploader-button uploader-button-focus" data-config=
+                        '{"theme" : "gallery/form/1.2/uploader/themes/grayQueue",
+                        "autoUpload" : false,
+                        "type" : "auto",
+                        "serverConfig":{"action":"../../demo/upload.php","data":{"dir":"files/"},"dataType" : "json"},
+                        "name":"Filedata",
+                        "urlsInputName":"fileUrls"}'
+                   href="#">
+                    选择文件
+                </a>
+                <a id="J_StartUpload" class="f-l uploader-icon uploader-button start-upload start-upload-disabled" href="#">开始上传</a>
+                <input type="hidden" name="fileUrls" value=""/>
+            </div>
+            <div id="J_TotalProgressNum" class="f-r file-status clearfix">
+                0%
+            </div>
+            <div id="J_TotalSize" class="f-r file-size"></div>
+            <div id="J_ProgressBar" class=" f-r progress-wrapper">
+
+            </div>
+        </div>
+    </div>
+    <h5>配置</h5>
+    <pre class='brush: xml;highlight:[2,3]'>
+        <!-- 选择文件按钮，组件配置写在这里 -->
+        <a id="J_UploaderBtn" class="f-l uploader-icon uploader-button uploader-button-focus"
+           data-config='{"theme" : "form/uploader/themes/grayQueue",
+                "autoUpload" : false,
+                "type" : "auto",
+                "serverConfig":{"action":"../../demo/upload.php","data":{"dir":"files/"},"dataType" : "json"},
+                "name":"Filedata",
+                "urlsInputName":"fileUrls"}'
+           href="#">
+            选择文件
+        </a>
+    </pre>
+    <p>这套主题名称为<b>grayQueue</b>，对应的模块名为：<b>form/uploader/themes/grayQueue</b>，实际上是模板引用路径。</p>
+    <p>组件会自动加载主题的样式文件<b>style.css</b>和主题依赖js。</p>
+    <h5>主题html</h5>
+    相对于默认主题，<b>grayQueue</b>的html要复杂的多，实现的功能也复杂不少，包括所有上传文件的大小统计等。
+    <pre class='brush: xml;'>
+        <div class="uploader-wrapper gray-queue">
+                <div class="clearfix header-footer gray-queue-header">
+                    <div class="f-l file-name">文件名</div>
+                    <div class="f-r file-status">状态</div>
+                    <div class="f-r file-size">文件大小</div>
+                </div>
+                <ul class="gray-queue-list" id="J_UploaderQueue"></ul>
+                <div class="clearfix header-footer gray-queue-footer">
+                    <div class="f-l uploader-btn-wrapper">
+                        <!-- 选择文件按钮，组件配置写在这里 -->
+                        <a id="J_UploaderBtn" class="f-l uploader-icon uploader-button uploader-button-focus" data-config=
+                                '{"theme" : "form/uploader/themes/grayQueue",
+                                "autoUpload" : false,
+                                "type" : "auto",
+                                "serverConfig":{"action":"../../demo/upload.php","data":{"dir":"files/"},"dataType" : "json"},
+                                "name":"Filedata",
+                                "urlsInputName":"fileUrls"}'
+                           href="#">
+                            选择文件
+                        </a>
+                        <a id="J_StartUpload" class="f-l uploader-icon uploader-button start-upload start-upload-disabled" href="#">开始上传</a>
+                        <input type="hidden" name="fileUrls" value=""/>
+                    </div>
+                    <div id="J_TotalProgressNum" class="f-r file-status clearfix">
+                        0%
+                    </div>
+                    <div id="J_TotalSize" class="f-r file-size"></div>
+                    <div id="J_ProgressBar" class=" f-r progress-wrapper">
+
+                                        </div>
+                </div>
+            </div>
+    </pre>
+</article>
+<script>
+    var S = KISSY;
+    S.config({
+        packages:[
+            {
+                name:"gallery",
+                path:"../../../../../../",
+                charset:"utf-8"
+            }
+        ]
+    });
+    //加载上传组件入口文件
+    KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
+        new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
+    })
+</script>
+
+<!-- 代码高亮 START  -->
+<link href='../../assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="../../assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+</body>
+</html>

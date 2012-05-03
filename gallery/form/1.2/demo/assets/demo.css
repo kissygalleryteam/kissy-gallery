@@ -1,0 +1,175 @@
+body {
+    font-family: 'Microsoft YaHei';
+    font-size: 12px;
+    color: #404040;
+}
+
+.demo-wrapper {
+    margin-top: 20px;
+}
+
+.btn-wrapper {
+    margin-top: 10px;
+}
+
+#page {
+    width: 98%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#header, #content, #footer {
+    margin: 0 10px;
+}
+
+#footer {
+    margin: 20px 0 50px 0;
+    padding-top: 10px;
+    text-align: center;
+    border-top: 1px solid #DFDFDF;
+    margin-bottom: 10px;
+}
+
+#header {
+    height: 100px;
+}
+
+#header .logo {
+    float: left;
+    margin: 20px 0 0 0;
+    padding: 0;
+    border: none;
+}
+
+#header .sub-title {
+    float: left;
+    margin: 45px 5px 0 5px;
+    font: 25px "Microsoft YaHei";
+    color: #aaa;
+}
+
+#header .desc {
+    float: left;
+    margin-top: 55px;
+    margin-left: 5px;
+    font-size: 15px;
+    color: #80c269;
+    font-weight: bold;
+    font-family: "Microsoft YaHei";
+}
+
+#header  .navigation {
+    float: right;
+    margin: 55px 0 0 0;
+    overflow: hidden;
+    list-style: none;
+    font-size:18px;
+}
+
+#header  .navigation li {
+    float: left;
+    margin-left: -1px;
+    padding: 0 10px 0 25px;
+    line-height: 1em;
+    border-left: 1px solid #ddd;
+}
+
+.grid-index .main-wrap {
+    margin-left: 218px;
+}
+
+.grid-index .col-sub {
+    width: 198px;
+    margin-left: -100%;
+}
+
+.grid-index {
+    border-top: 1px solid #A4D3F2;
+}
+
+.grid-index .col-sub {
+    border-width: 0 1px 1px 1px;
+    border-color: #A4D3F2;
+    border-style: solid;
+    background-color: #F2F8FA;
+}
+
+a:link, a:visited {
+    color: #36c;
+}
+
+a:hover {
+    color: #36c;
+}
+
+/* }}} */
+
+/* Modules:= ҳ�沼�� {{{ */
+
+#nav {
+    margin: 20px 10px;
+}
+
+#nav dl {
+    margin-bottom: 20px;
+}
+
+#nav dl dt {
+    font-size: 15px;
+    font-weight: bold;
+    color: #888;
+}
+
+#nav dl dd {
+    margin: 7px 0 0px 20px;
+}
+
+#nav dl dd a {
+    color: #00A0E9;
+}
+
+p {
+    line-height: 24px;
+}
+
+h4 {
+    font-size: 22px;
+    color: #609574;
+    padding: 5px 0;
+    border-bottom: 2px dotted #609574;
+    margin: 10px 0;
+}
+
+h5 {
+    font-size: 16px;
+    color: #C58080;
+    margin: 10px 0;
+}
+
+ol, ul {
+    line-height: 24px;
+    margin-left: 20px;
+    color: #609574;
+}
+
+ul {
+    margin-top: 10px;
+}
+
+#doc ol {
+    list-style: decimal;
+}
+
+.event-panel {
+    border: 1px solid #999;
+    margin-top: 20px;
+    width: 600px;
+    height: 150px;
+    overflow-y: scroll;
+    font-size: 12px;
+}
+
+.event-panel p {
+    line-height: 24px;
+    padding: 0 10px;
+}

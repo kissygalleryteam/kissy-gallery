@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>如何使用Uploader</title>
+<link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+</head>
+<body>
+<article id="doc">
+    <h4>如何使用Uploader？</h4>
+    <h5>先来看个最简单的demo</h5>
+        <p>点击下来的按钮，上传1个文件试下</p>
+        <!-- 上传按钮，组件配置请写在data-config内 -->
+        <a id="J_UploaderBtn" class="uploader-button" data-config=
+                '{"type" : "auto",
+                "autoUpload":false,
+                "serverConfig":{"action":"upload.php","data":{"dir":"files/"}},
+                "name":"Filedata",
+                "urlsInputName":"fileUrls"}'
+           href="#">
+            选择要上传的文件
+        </a>
+        <!-- 文件上传队列 -->
+        <ul id="J_UploaderQueue">
+
+        </ul>
+    <h5>Step1:页面中引用kissy文件</h5>
+    <pre class='brush: xml; '>
+        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+     </pre>
+    <h5>Step2:创建一个上传按钮，写上Uploader组件配置</h5>
+    <p>配置写在data-config属性内，为一个json字符串，要特别小心json格式必须符合规范，不然解析时会报错。</p>
+    <ul>
+        <li><b>type</b>：上传方式，当为auto时，组件会根据浏览器选择使用ajax还是iframe</li>
+        <li><b>serverConfig</b>：服务器端配置，包括最重要的action（路径）配置</li>
+        <li><b>name</b>：文件上传域name名</li>
+        <li><b>urlsInputName</b>：用于存放服务器端返回的文件路径的input</li>
+    </ul>
+    （默认自动上传文件，如果不希望自动上传可以配置autoUpload:false。）
+    <pre class='brush: xml; '>
+        <!-- 上传按钮，组件配置请写在data-config内 -->
+        <a id="J_UploaderBtn" class="g-u uploader-button uploader-button-focus" data-config=
+                '{"type" : "auto",
+                "serverConfig":{"action":"upload.php","data":{"dir":"files/"},"dataType" : "json"},
+                "name":"Filedata",
+                "urlsInputName":"fileUrls"}'
+           href="#">
+            选择要上传的文件
+        </a>
+     </pre>
+    <h5>Step3:创建一个队列容器</h5>
+    <pre class='brush: xml; '>
+        <!-- 文件上传队列 -->
+        <ul id="J_UploaderQueue">
+
+        </ul>
+     </pre>
+    <h5>Step4:初始化组件</h5>
+    配置下组件包引用路径：
+    <pre class='brush: js; '>
+        KISSY.config({
+           packages:[ {
+               name:"gallery",
+               path:"../../../../../../",
+               charset:"utf-8"
+           } ]
+    });
+     </pre>
+    对上述配置不清楚的朋友，可以看<a href="http://docs.kissyui.com/docs/html/api/seed/loader/add.ver1.2.html" target="_blank">loader模块</a>。
+    <pre class='brush: js; '>
+        //加载上传组件入口文件
+        KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
+            //第一个参数：按钮元素钩子，第二个参数：队列元素钩子
+            new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
+        })
+     </pre>
+    <p>uploader/render为上传组件的入口文件，render.js会读取按钮上的data-config，然后自动初始化上传组件。</p>
+    <p>就这么简单！</p>
+</article>
+<script>
+    KISSY.config({
+           packages:[ {
+               name:"gallery",
+               path:"../../../../../../",
+               charset:"utf-8"
+           } ]
+    });
+    //加载上传组件入口文件
+    KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
+        //第一个参数：按钮元素钩子，第二个参数：队列元素钩子
+        new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
+    })
+</script>
+
+<!-- 代码高亮 START  -->
+<link href='../../assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="../../assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+</body>
+</html>
