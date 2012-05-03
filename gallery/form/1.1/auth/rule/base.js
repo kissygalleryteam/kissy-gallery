@@ -52,6 +52,7 @@ KISSY.add('gallery/form/1.1/auth/rule/base', function(S, Base, undefined) {
                 msg = validated ? self._msg[RULE_SUCCESS] : '';
             }
 
+            //Deprecated
             self.fire(validated ? RULE_SUCCESS:RULE_ERROR, {
                 msg:msg
             });
