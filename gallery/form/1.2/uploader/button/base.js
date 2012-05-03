@@ -53,7 +53,9 @@ KISSY.add('gallery/form/1.2/uploader/button/base',function(S, Node, Base) {
         render : function() {
             var self = this,
                 target = self.get('target'),
-                render = self.fire(Button.event.beforeRender);
+                render = self.fire(Button.event.beforeRender),
+                disabled = self.get('disabled'),
+                fileInput;
             if (render === false) {
                 S.log(LOG_PREFIX + 'button render was prevented.');
                 return false;
@@ -63,8 +65,17 @@ KISSY.add('gallery/form/1.2/uploader/button/base',function(S, Node, Base) {
                     return false;
                 }
                 self._createInput();
-                self._setDisabled(self.get('disabled'));
+                self._setDisabled(disabled);
                 self._setMultiple(self.get('multiple'));
+                target.on('click',function(ev){
+                    ev.preventDefault();
+                    if(disabled){
+                        S.log(LOG_PREFIX + '按钮处于禁用状态！');
+                        return false;
+                    }
+                    var $input = self.get('fileInput');
+                    $input.length && $input.fire('click');
+                });
                 self.fire(Button.event.afterRender);
                 return self;
             }
@@ -95,10 +106,9 @@ KISSY.add('gallery/form/1.2/uploader/button/base',function(S, Node, Base) {
          */
         reset : function() {
             var self = this,
-                inputContainer = self.get('inputContainer');
-            //移除表单上传域容器
-            $(inputContainer).remove();
-            self.set('inputContainer', EMPTY);
+                $input = self.get('fileInput');
+            //移除上传域
+            $input.remove();
             self.set('fileInput', EMPTY);
             //重新创建表单上传域
             self._createInput();
@@ -106,7 +116,7 @@ KISSY.add('gallery/form/1.2/uploader/button/base',function(S, Node, Base) {
         },
         /**
          * 创建隐藏的表单上传域
-         * @return {HTMLElement} 文件上传域容器
+         * @return {HTMLElement} 文件上传域元素input
          */
         _createInput : function() {
             var self = this,
@@ -114,27 +124,18 @@ KISSY.add('gallery/form/1.2/uploader/button/base',function(S, Node, Base) {
                 name = self.get('name'),
                 tpl = self.get('tpl'),
                 html,
-                inputContainer,
-                fileInput;
+                $input;
             if (!S.isString(name) || !S.isString(tpl)) {
                 S.log(LOG_PREFIX + 'No name or tpl specified.');
                 return false;
             }
-            html = S.substitute(tpl, {
-                'name' : name
-            });
-            // TODO: inputContainer = DOM.create(html);
-            inputContainer = $(html);
+            html = S.substitute(tpl, { 'name':name });
             //向body添加表单文件上传域
-            $(inputContainer).appendTo(target);
-            fileInput = $(inputContainer).children('input');
+            $input = $(html).insertAfter(target);
             //上传框的值改变后触发
-            $(fileInput).on('change', self._changeHandler, self);
-            //DOM.hide(fileInput);
-            self.set('fileInput', fileInput);
-            self.set('inputContainer', inputContainer);
-            // self.resetContainerCss();
-            return inputContainer;
+            $input.on('change', self._changeHandler, self);
+            self.set('fileInput', $input);
+            return $input;
         },
         /**
          * 文件上传域的值改变时触发
@@ -173,15 +174,12 @@ KISSY.add('gallery/form/1.2/uploader/button/base',function(S, Node, Base) {
         _setDisabled : function(disabled){
             var self = this,
                 cls = self.get('cls'),disabledCls = cls.disabled,
-                $target = self.get('target'),
-                input = self.get('fileInput');
+                $target = self.get('target');
             if(!$target.length || !S.isBoolean(disabled)) return false;
             if(!disabled){
                 $target.removeClass(disabledCls);
-                $(input).show();
             }else{
                 $target.addClass(disabledCls);
-                $(input).hide();
             }
             return disabled;
         },
@@ -215,19 +213,11 @@ KISSY.add('gallery/form/1.2/uploader/button/base',function(S, Node, Base) {
                 value: EMPTY
             },
             /**
-             * 文件上传域容器
-             * @type KISSY.Node
-             * @default ""
-             */
-            inputContainer: {
-                value: EMPTY
-            },
-            /**
              * 隐藏的表单上传域的模板
              * @type String
              */
             tpl : {
-                value : '<div class="file-input-wrapper"><input type="file" name="{name}" hidefoucs="true" class="file-input" /></div>'
+                value : '<input id="{name}" type="file" name="{name}" style="display:none;" class="ks-uploader-file-input" />'
             },
             /**
              * 隐藏的表单上传域的name值

@@ -129,7 +129,7 @@ KISSY.add('gallery/form/1.2/uploader/plugins/filedrop/filedrop', function (S, No
          * @param ev
          */
         _clickHandler:function(ev){
-            var self = this,$target = $(ev.target),uploader = self.get('uploader'),
+            var self = this,uploader = self.get('uploader'),
                 button = uploader.get('button'),
                 $input = button.get('fileInput');
             //触发input的选择文件
