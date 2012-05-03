@@ -1514,7 +1514,7 @@ KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, B
             AUTH : 'data-auth'
         },
         //所支持的内置主题
-        THEMES = ['default','imageUploader'],
+        THEMES = ['default','imageUploader', 'ershouUploader'],
         //内置主题路径前缀
         THEME_PREFIX='gallery/form/1.1/uploader/themes/';
     S.namespace('form');
@@ -1539,7 +1539,7 @@ KISSY.add('gallery/form/1.1/uploader/index',function (S, Base, Node, Uploader, B
     /**
      * @name RenderUploader
      * @class 异步文件上传入口文件，会从按钮的data-config='{}' 伪属性中抓取组件配置
-     * @version 1.1.3
+     * @version 1.1.4
      * @constructor
      * @param {String | HTMLElement} buttonTarget *，上传按钮目标元素
      * @param {String | HTMLElement} queueTarget *，文件队列目标元素
@@ -1611,7 +1611,9 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
             self.set('button', button);
             //不使用主题
             if(theme == EMPTY){
-                self.fire('init', classes);
+                S.later(function(){
+                    self.fire('init', classes);
+                },500);
             }else{
                 self._initThemes(function (theme) {
                     theme.set('uploader',uploader);
@@ -1712,6 +1714,8 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
                 rules = S.form.parseConfig(buttonTarget,dataName.AUTH);
                 auth = new Auth(uploader,{rules : rules});
                 uploader.set('auth',auth);
+            }else{
+                S.log(LOG_PREFIX + '缺少data-auth验证配置，无启动验证！');
             }
             return auth;
         }
@@ -1762,7 +1766,8 @@ KISSY.use('gallery/form/1.1/uploader/index', function (S, RenderUploader) {
         }
     });
     return RenderUploader;
-}, {requires:['base', 'node', './base', './button/base','./button/swfButton','./auth/base','./queue']});/*
+}, {requires:['base', 'node', './base', './button/base','./button/swfButton','./auth/base','./queue']});
+/*
 Copyright 2011, KISSY UI Library v1.1.5
 MIT Licensed
 build time: Sep 11 10:29
@@ -3101,10 +3106,9 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
          */
         _LoaderCss:function () {
             var self = this,
-                isUseCss = self.get('isUseCss'),
                 cssUrl = self.get('cssUrl');
             //加载css文件
-            if (!isUseCss) return false;
+            if (cssUrl == EMPTY) return false;
             S.use(cssUrl, function () {
                 S.log(cssUrl + '加载成功！');
             });
@@ -3128,6 +3132,7 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
             queue.fileStatus(index,'waiting');
             self.displayFile(true, $target);
             //给li下的按钮元素绑定事件
+            // TODO 这里的绑定事件应该只是imageUploader这个主题的吧，不应该放在公共的Theme下
             self._bindTriggerEvent(index, file);
             return queue.getFile(index);
         },
@@ -3141,6 +3146,7 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
         },
         /**
          * 给删除、上传、取消等按钮元素绑定事件
+         * TODO 这个是不是也应该放在imageUploader里面呢？
          * @param {Number} index 文件索引值
          * @param {Object} 文件数据
          */
@@ -3212,7 +3218,10 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
                 //模块路径前缀
                 modPrefix = 'gallery/form/1.1/uploader/plugins/',
                 mods = [];
-            if(!plugins.length) return false;
+            if(!plugins.length){
+                callback && callback.call(self,oPlugin);
+                return false;
+            }
             //拼接模块路径
             S.each(plugins,function(plugin){
                 mods.push(modPrefix+plugin+'/' +plugin);
@@ -3233,12 +3242,6 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
          * @default ""
          */
         name:{value:EMPTY},
-        /**
-         * 是否引用css文件
-         * @type Boolean
-         * @default true
-         */
-        isUseCss:{value:true},
         /**
          * css模块路径
          * @type String
@@ -3301,7 +3304,8 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
         auth:{value:EMPTY}
     }});
     return Theme;
-}, {requires:['node', 'base']});/**
+}, {requires:['node', 'base']});
+/**
  * @fileoverview ajax方案上传
  * @author 剑平（明河）<minghe36@126.com>,紫英<daxingplay@gmail.com>
  **/
@@ -3695,7 +3699,7 @@ KISSY.add('gallery/form/1.1/uploader/type/iframe',function(S, Node, UploadType) 
      * @constructor
      * @extends UploadType
      * @param {Object} config 组件配置（下面的参数为配置项，配置会写入属性，详细的配置说明请看属性部分）
-      *
+     *
      */
     function IframeType(config) {
         var self = this;
@@ -3716,7 +3720,7 @@ KISSY.add('gallery/form/1.1/uploader/type/iframe',function(S, Node, UploadType) 
          * 事件列表
          */
         event : S.mix(UploadType.event,{
-              //创建iframe和form后触发
+            //创建iframe和form后触发
             CREATE : 'create',
             //删除form后触发
             REMOVE : 'remove'
@@ -3776,7 +3780,7 @@ KISSY.add('gallery/form/1.1/uploader/type/iframe',function(S, Node, UploadType) 
         _createIframe : function() {
             var self = this,
                 //iframe的id
-                id = self.get('id'),
+                id = ID_PREFIX + S.guid(),
                 //iframe模板
                 tpl = self.get('tpl'),iframeTpl = tpl.IFRAME,
                 existIframe = self.get('iframe'),
@@ -3797,6 +3801,7 @@ KISSY.add('gallery/form/1.1/uploader/type/iframe',function(S, Node, UploadType) 
             //监听iframe的load事件
             $iframe.on('load', self._iframeLoadHandler, self);
             $('body').append($iframe);
+            self.set('id',id);
             self.set('iframe', $iframe);
             return $iframe;
         },
@@ -3840,7 +3845,7 @@ KISSY.add('gallery/form/1.1/uploader/type/iframe',function(S, Node, UploadType) 
                 //服务器端处理文件上传的路径
                 action = self.get('action'),
                 fileInput = self.get('fileInput'),
-                hiddens,form = EMPTY,$form;
+                hiddens,$form,form;
             if (!S.isString(formTpl)) {
                 S.log(LOG_PREFIX + 'form模板不合法！');
                 return false;
@@ -3875,7 +3880,7 @@ KISSY.add('gallery/form/1.1/uploader/type/iframe',function(S, Node, UploadType) 
          * 移除表单
          */
         _remove : function() {
-            var self = this,form = self.get('form'),iframe = self.get('iframe');
+            var self = this,form = self.get('form');
             //移除表单
             form.remove();
             //重置form属性

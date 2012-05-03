@@ -1,0 +1,601 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>JsDoc Reference - Grid.Util.Format</title>
+
+		<style type="text/css">
+			/* default.css */
+body
+{
+	font: 12px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
+	width: 800px;
+}
+
+.header
+{
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1
+{
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px solid #7F8FB1;
+	height: 1px;
+}
+
+pre.code
+{
+	display: block;
+	padding: 8px;
+	border: 1px dashed #ccc;
+}
+
+#index
+{
+	margin-top: 24px;
+	float: left;
+	width: 160px;
+	position: absolute;
+	left: 8px;
+	background-color: #F3F3F3;
+	padding: 8px;
+}
+
+#content
+{
+	margin-left: 190px;
+	width: 600px;
+}
+
+.classList
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0 0 0 8px;
+	font-family: arial, sans-serif;
+	font-size: 1em;
+	overflow: auto;
+}
+
+.classList li
+{
+	padding: 0;
+	margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+	font-size:170%;
+	line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+	background-color: #7F8FB1;
+	color: #fff;
+	font-size:130%;
+	text-align: left;
+	padding: 2px 6px 2px 6px;
+	border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #7F8FB1 solid;
+	border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+	border-left: 1px #7F8FB1 solid;
+	width: 140px;
+	text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+	line-height: 15px;
+	color: #002EBE;
+	font-family: "Courier New",Courier,monospace;
+	font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+	text-align: left;
+	font-size: 13px;
+	line-height: 15px;
+}
+
+.summaryTable td.nameDescription, .description
+{
+	line-height: 15px;
+	padding: 4px;
+	padding-left: 4px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px; 
+	line-height: 15px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+	color: #777;
+	font-style: italic;
+}
+
+.fineprint
+{
+	text-align: right;
+	font-size: 10px;
+}
+		</style>
+	</head>
+
+	<body>
+<!-- ============================== header ================================= -->	
+		<!-- begin static/header.html -->
+		<div id="header">
+</div>
+		<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center"><a href="../index.html">Class Index</a>
+| <a href="../files.html">File Index</a></div>
+<hr />
+<h2>Classes</h2>
+<ul class="classList">
+	
+	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+	
+	<li><a href="../symbols/Grid.html">Grid</a></li>
+	
+	<li><a href="../symbols/Grid.EidtGrid.html">Grid.EidtGrid</a></li>
+	
+	<li><a href="../symbols/Grid.Grid.html">Grid.Grid</a></li>
+	
+	<li><a href="../symbols/Grid.LoadMask.html">Grid.LoadMask</a></li>
+	
+	<li><a href="../symbols/Grid.PaggingBar.html">Grid.PaggingBar</a></li>
+	
+	<li><a href="../symbols/Grid.Store.html">Grid.Store</a></li>
+	
+	<li><a href="../symbols/Grid.Util.html">Grid.Util</a></li>
+	
+	<li><a href="../symbols/Grid.Util.Format.html">Grid.Util.Format</a></li>
+	
+	<li><a href="../symbols/Grid.Util.FormHelpr.html">Grid.Util.FormHelpr</a></li>
+	
+</ul>
+<hr />
+			<!-- end publish.classesIndex -->
+		</div>
+		
+		<div id="content">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class Grid.Util.Format
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				
+			
+				格式化函数
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/git_gallery_grid_1.0_util.js.html">util.js</a>.
+				
+			</p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class Grid.Util.Format.">
+				<caption>Class Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/Grid.Util.Format.html#constructor">Grid.Util.Format</a></b>()
+							</div>
+							<div class="description">格式化数据的帮助方法</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class Grid.Util.Format.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Grid.Util.Format.<b><a href="../symbols/Grid.Util.Format.html#.cutTextRenderer">cutTextRenderer</a></b>(length)
+								</div>
+								<div class="description">文本截取函数，当文本超出一定数字时，会截取文本，添加.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Grid.Util.Format.<b><a href="../symbols/Grid.Util.Format.html#.dateRenderer">dateRenderer</a></b>(date)
+								</div>
+								<div class="description">日期格式化函数</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Grid.Util.Format.<b><a href="../symbols/Grid.Util.Format.html#.datetimeRenderer">datetimeRenderer</a></b>(date)
+								</div>
+								<div class="description">日期时间格式化函数</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Grid.Util.Format.<b><a href="../symbols/Grid.Util.Format.html#.enumRenderer">enumRenderer</a></b>(enumObj)
+								</div>
+								<div class="description">枚举格式化函数</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Grid.Util.Format.<b><a href="../symbols/Grid.Util.Format.html#.multipleItemsRenderer">multipleItemsRenderer</a></b>(enumObj)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+<!-- ============================== events summary ======================== -->
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Class Detail
+				</div>
+				
+				<div class="fixedFont">
+						<b>Grid.Util.Format</b>()
+				</div>
+				
+				<div class="description">
+					格式化数据的帮助方法
+					
+				</div>
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name=".cutTextRenderer"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{String}</span>
+					<span class="light">Grid.Util.Format.</span><b>cutTextRenderer</b>(length)
+					
+					</div>
+					<div class="description">
+						文本截取函数，当文本超出一定数字时，会截取文本，添加...
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>length</b>
+									
+								</dt>
+								<dd>截取多少字符</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{String}</span> 返回截取后的字符串，如果本身小于指定的数字，返回原字符串。如果大于，则返回截断后的字符串，并附加...</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".dateRenderer"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{String}</span>
+					<span class="light">Grid.Util.Format.</span><b>dateRenderer</b>(date)
+					
+					</div>
+					<div class="description">
+						日期格式化函数
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">一般用法：<br> Grid.Util.Format.dateRenderer(1320049890544);输出：2011-10-31 <br>表格中用于渲染列：<br>{title:"出库日期",dataIndex:"date",renderer:Util.Format.dateRenderer}</pre>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number|Date}</span> <b>date</b>
+									
+								</dt>
+								<dd>格式话的日期，一般为1970 年 1 月 1 日至今的毫秒数</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{String}</span> 格式化后的日期格式为 2011-10-31</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".datetimeRenderer"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{String}</span>
+					<span class="light">Grid.Util.Format.</span><b>datetimeRenderer</b>(date)
+					
+					</div>
+					<div class="description">
+						日期时间格式化函数
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number|Date}</span> <b>date</b>
+									
+								</dt>
+								<dd>格式话的日期，一般为1970 年 1 月 1 日至今的毫秒数</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{String}</span> 格式化后的日期格式时间为 2011-10-31 16 : 41 : 02</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".enumRenderer"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Function}</span>
+					<span class="light">Grid.Util.Format.</span><b>enumRenderer</b>(enumObj)
+					
+					</div>
+					<div class="description">
+						枚举格式化函数
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">//Grid 的列定义 {title:"状态",dataIndex:"status",renderer:Grid.Util.Format.enumRenderer({"1":"入库","2":"出库"})}</pre>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>enumObj</b>
+									
+								</dt>
+								<dd>键值对的枚举对象 {"1":"大","2":"小"}</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Function}</span> 返回指定枚举的格式化函数</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".multipleItemsRenderer"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Grid.Util.Format.</span><b>multipleItemsRenderer</b>(enumObj)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>enumObj</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					
+				
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+		</div>
+
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Dec 23 2011 18:37:18 GMT+0800 (CST)
+		</div>
+	</body>
+</html>

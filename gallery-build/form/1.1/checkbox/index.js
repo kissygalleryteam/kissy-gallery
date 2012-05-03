@@ -3,7 +3,7 @@
  * @author 伯方<bofang.zxj@taobao.com>
  *
  **/
-KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
+KISSY.add('gallery/form/1.1/checkbox/index', function(S, Base, Node) {
 	var $ = Node.all;
 	/**
 	 * @name Checkbox
@@ -20,15 +20,18 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 		//调用父类构造器
 		var self = this;
 		Checkbox.superclass.constructor.call(self, config);
-		self.set('target',target);		
+		self.set('target', target);
 	}
 	//方法
-	S.extend(Checkbox, Base, {
+	S.extend(Checkbox, Base, /** @lends Checkbox.prototype*/ {
 		/**
-		 * 运行
+		 * 开始执行
 		 */
 		render: function() {
 			var self = this;
+			//alert(typeof self.get('getLabelFunc') );
+			//加载css
+			self._loadCss();
 			//开始替换
 			self._replaceCheckbox();
 			//事件绑定
@@ -58,25 +61,49 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 				html = self._getHtml(0),
 				disabledHTML = self._getHtml(2),
 				checkedHTML = self._getHtml(1),
-				checkbox, checkboxArr = [];
+				checkbox, checkboxArr = [],
+				hasLabel = self.get('hasLabel'),
+				accessible = self.get('accessible'),
+				getLabelFunc = self.get('getLabelFunc'),
+				labelText;
 			if (target.length === 0) {
 				return false;
 			}
 			target.each(function(value, key) {
 				value.hide();
 				if (self._isDisabled(value)) {
-					checkbox = $(disabledHTML).insertBefore(value).attr('ks-checkbox-disabled', 'disabled');					
+					checkbox = $(disabledHTML).insertBefore(value).attr('ks-checkbox-disabled', 'disabled').removeAttr('tabindex');
 				} else {
-					//如果本身是选中的状态
-					if (self._isChecked(value)) {
-						checkbox = $(checkedHTML).insertBefore(value);
-					} else {
-						checkbox = $(html).insertBefore(value);
-					}
+					// 如果本身是选中的状态
+					checkbox = self._isChecked(value) ? $(checkedHTML) : $(html);
+					checkbox.insertBefore(value);
 				}
-				checkboxArr.push(checkbox);				
+				// 无障碍访问
+				try {
+					if (accessible) {
+						//优先选择函数提供的查询										
+						labelText = getLabelFunc ? getLabelFunc(value).html() : value.next('label').html();
+						checkbox.attr('aria-label', labelText);
+					}
+				} catch (e) {
+					S.log('html结构不符合');
+					return false;
+				}
+				checkboxArr.push(checkbox);
 			})
-			self.set('checkboxs',checkboxArr);
+			self.set('checkboxs', checkboxArr);
+		},
+		/**
+		 * 加载css
+		 */
+		_loadCss: function() {
+			var self = this,
+				isUseCss = self.get('isUseCss'),
+				cssUrl = self.get('cssUrl');
+			//加载css文件
+			if (cssUrl !== '') {
+				S.use(cssUrl, function(S) {});
+			}
 		},
 		/**
 		 * 根据样式返回html字符串
@@ -89,7 +116,7 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 				defaultClass = getClass.init,
 				checkedClass = getClass.checked,
 				disabledClass = getClass.disabled,
-				htmlStr = '<span class="{defalutName} {secondName}"></span>',
+				htmlStr = '<span tabindex="0" class="{defalutName} {secondName}"></span>',
 				obj = {
 					defalutName: defaultClass
 				};
@@ -114,7 +141,11 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 		_bindEvent: function() {
 			var self = this,
 				checkboxs = $(self.get('checkboxs')),
-				hoverClass = this.get('cls').hover;
+				hoverClass = this.get('cls').hover,
+				hasLabel = self.get('hasLabel'),
+				targets = self.get('target'),
+				getLabelFunc = self.get('getLabelFunc'),
+				nextLabel;
 			checkboxs.each(function(value, key) {
 				value.on('mouseenter mouseleave', function(ev) {
 					//如果本身是选中状态或者是禁用状态，则不做处理
@@ -132,11 +163,33 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 					default:
 						break;
 					}
-				}).on('click', function() {					
+					//单击				
+				}).on('click', function() {
 					if (self._isDisabled(value)) return;
 					self._clickHandler.call(self, key);
-					//return false;				
-				})
+					//按键 enter
+				}).on('keyup', function(ev) {
+					if (ev.keyCode === 13) {
+						value.fire('click');
+					}
+				});
+				//如果需要 label-for
+				if (hasLabel) {
+					try {
+						nextLabel = getLabelFunc ? getLabelFunc($(targets[key])) : value.next('label');
+						//将label绑定和checkbox一样的事件
+						nextLabel.on('click', function() {
+							value.fire('click');
+						}).on('mouseenter', function() {
+							value.fire('mouseenter');
+						}).on('mouseleave', function() {
+							value.fire('mouseleave');
+						})
+					} catch (e) {
+						S.log('html结构不符合');
+						return false;
+					}
+				}
 			})
 		},
 		/**
@@ -173,7 +226,7 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 			return protoChecked || hasCheckedClass;
 		},
 		/**
-		 * 设置某个checkbox为disabled状态
+		 * 根据索引禁用单个checkbox
 		 * @param {Number} targetElement 数组checkboxs的索引
 		 */
 		setDisabled: function(targetElement) {
@@ -191,10 +244,30 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 				checkbox.attr('ks-checkbox-disabled', 'disabled').removeClass(checkedClass + ' ' + hoverClass).addClass(disabledClass);
 				target.attr('disabled', 'disabled');
 			}
+			checkbox.removeAttr('tabindex');
 			return self;
 		},
 		/**
-		 * 全选
+		 * 根据索引恢复单个checkbox
+		 * @param {Number} targetElement 数组checkboxs的索引
+		 */
+		setAvailabe: function(targetElement) {
+			var self = this,
+				checkboxs = self.get('checkboxs'),
+				targets = self.get('target'),
+				checkbox, target, disabledClass = this.get('cls').disabled;
+			//如果传递的是数字索引
+			if (typeof targetElement === 'number') {
+				checkbox = $(checkboxs[targetElement]);
+				target = $(targets[targetElement]);
+				checkbox.removeAttr('ks-checkbox-disabled', 'disabled').removeClass(disabledClass);
+				target.removeAttr('disabled', 'disabled');
+			}
+			checkbox.attr('tabindex', '0');
+			return self;
+		},
+		/**
+		 * 模拟的checkbox全选
 		 * @return {Object} return self
 		 */
 		selectAll: function() {
@@ -207,7 +280,7 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 			return self;
 		},
 		/**
-		 * 清空
+		 * 清空模拟的checkbox
 		 * @return {Object} return self
 		 */
 		resetAll: function() {
@@ -241,17 +314,18 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 			return checkedArr;
 		}
 	}, {
-		ATTRS: {
+		ATTRS: /** @lends Checkbox.prototype*/
+		{
 			/**
 			 * 配置的目标,选择器的字符串
 			 * @type {String}
 			 */
 			target: {
-				value:'',
-				setter: function(v) {	
+				value: '',
+				setter: function(v) {
 					return $(v);
 				},
-				getter: function(v) {					
+				getter: function(v) {
 					return $(v);
 				}
 			},
@@ -260,15 +334,14 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 			 * @type {Array}
 			 * @default []
 			 */
-			checkboxs:{
-				value:[]		
-			},	
+			checkboxs: {
+				value: []
+			},
 			/**
-			 * 样式名
+			 * 一组样式名
 			 * @type {Object}
 			 * @default cls:{init: 'ks-checkbox',checked: 'ks-checkbox-checked',disabled: 'ks-checkbox-disabled',hover: 'ks-checkbox-hover'}
 			 */
-			
 			cls: {
 				value: {
 					init: 'ks-checkbox',
@@ -276,6 +349,41 @@ KISSY.add('gallery/form/1.1/checkbox/base', function(S, Base, Node) {
 					disabled: 'ks-checkbox-disabled',
 					hover: 'ks-checkbox-hover'
 				}
+			},
+			/**
+			 * css模块路径
+			 * @default gallery/form/1.1/checkbox/themes/default/style2.css
+			 */
+			cssUrl: {
+				value: 'gallery/form/1.1/checkbox/themes/default/style2.css'
+			},
+			/**
+			 * 是否需要label for的对应
+			 * @default false
+			 */
+			hasLabel: {
+				value: false
+			},
+			/**
+			 * 通过checkbox查找对应label的函数
+			 * @default undefined			 
+			 * @type {Function}
+			 */
+			getLabelFunc: {
+				value: undefined,
+				setter: function(v) {
+					return v;
+				},
+				getter: function(v) {
+					return v;
+				}
+			},
+			/**
+			 * 无障碍，建立在label的基础上,查找label里面的innerHTML
+			 * @default false
+			 */
+			accessible: {
+				value: false
 			}
 		}
 	})

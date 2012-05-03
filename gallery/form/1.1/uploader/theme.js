@@ -136,10 +136,9 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
          */
         _LoaderCss:function () {
             var self = this,
-                isUseCss = self.get('isUseCss'),
                 cssUrl = self.get('cssUrl');
             //加载css文件
-            if (!isUseCss) return false;
+            if (cssUrl == EMPTY) return false;
             S.use(cssUrl, function () {
                 S.log(cssUrl + '加载成功！');
             });
@@ -163,6 +162,7 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
             queue.fileStatus(index,'waiting');
             self.displayFile(true, $target);
             //给li下的按钮元素绑定事件
+            // TODO 这里的绑定事件应该只是imageUploader这个主题的吧，不应该放在公共的Theme下
             self._bindTriggerEvent(index, file);
             return queue.getFile(index);
         },
@@ -176,6 +176,7 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
         },
         /**
          * 给删除、上传、取消等按钮元素绑定事件
+         * TODO 这个是不是也应该放在imageUploader里面呢？
          * @param {Number} index 文件索引值
          * @param {Object} 文件数据
          */
@@ -247,7 +248,10 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
                 //模块路径前缀
                 modPrefix = 'gallery/form/1.1/uploader/plugins/',
                 mods = [];
-            if(!plugins.length) return false;
+            if(!plugins.length){
+                callback && callback.call(self,oPlugin);
+                return false;
+            }
             //拼接模块路径
             S.each(plugins,function(plugin){
                 mods.push(modPrefix+plugin+'/' +plugin);
@@ -268,12 +272,6 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
          * @default ""
          */
         name:{value:EMPTY},
-        /**
-         * 是否引用css文件
-         * @type Boolean
-         * @default true
-         */
-        isUseCss:{value:true},
         /**
          * css模块路径
          * @type String

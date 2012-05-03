@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Amount组件的demo</title>
+<link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+<style>
+    body {
+        font-size: 12px;
+        color: #404040;
+    }
+
+    .demo-wrapper {
+        margin-top: 20px;
+    }
+
+    .btn-wrapper {
+        margin-top: 10px;
+    }
+    h5{
+        margin-top:40px;
+    }
+    #J_Btn{
+        padding:4px;
+    }
+
+    .test-input{
+		width:200px;
+		height:40px;
+		font-size:25px;
+		font-weight:700;
+		text-align:right;
+	}
+	#J_Show{
+		font-weight:700;
+		font-size:30px;
+		color:#f00;
+		padding:10px;
+	}
+</style>
+</head>
+<body>
+<article id="main">
+    <h4>Amount</h4>
+    <ul>
+        <li>作者：<b>伯方</b></li>
+        <li>描述：<b>将数字金额转换成大写金额</b></li>
+    </ul>
+    <h4 id="checkboxdemo">Amount的demo</h4>
+    <div class="demo-wrapper">
+		<input type="text" class="test-input" id="J_Input" value="23135.25">
+		<input type="button" class="test-btn" id="J_Btn" value="测试结果">	
+		<p id="J_Show"></p>
+    </div>
+    <h4>使用配置</h4>
+    <p>amount就是将数字转化成大写金额，使用简单，只提供一个方法，不涉及dom操作,其中第二个参数类型是Boolean，表示是否需要小数点，默认为false,组件对传入不合法的参数，比如字母、标点、开头很多0，多个小数点等情况都做了容错处理，可以在demo里进行测试</p>
+    <pre class='brush: xml;'>
+		KISSY.use('gallery/form/1.2/amount/index', function (S, Amount) {
+			var r = new Amount('23135.25',true);
+			S.log(r.convertAmount()); //结果是贰万叁仟壹佰叁拾伍点贰伍
+		})
+    </pre>
+
+</article>
+
+<script type="text/javascript">
+    KISSY.config({
+       packages:[ {
+            name:"gallery",
+            path:"../../../../../../",
+        charset:"utf-8"
+       } ]
+    });
+</script>
+<script type="text/javascript">  
+	KISSY.use('gallery/form/1.2/amount/index',function(S,Amount){
+		var D = S.DOM,
+			E = S.Event,    		
+    		getP = D.get('#J_Show');    	
+       	E.on('#J_Btn','click',function(){
+       		var val = D.get('#J_Input').value,
+       			r = new Amount(val,true);
+       		D.html(getP,r.convertAmount());
+       	})
+       	
+	})
+</script>
+<!-- 代码高亮 START  -->
+<link href='../../assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="../../assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+</body>
+</html>
