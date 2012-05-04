@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>不使用主题的例子</title>
+<link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
+<link rel="stylesheet" type="text/css" href="../../../uploader/themes/imageUploader/style.css"/>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+</head>
+<body>
+<article id="doc">
+    <h4>不使用主题的例子</h4>
+    <p>部分朋友向明河抱怨使用主题非常麻烦，更喜欢自由监听uploader的事件。V1.1.3开始theme不再是标配，来看这个例子的演示。</p>
+    <p>（严重推荐大家还是使用主题，请耐心的看完明河的<a href="http://www.36ria.com/5137" target="_blank">主题教程</a>，明河已经帮大家把常用的功能抽离出来.）</p>
+    <p>不使用imageUploader主题实现同样的样式，逻辑做了简化。</p>
+    <div class="upload-area">
+        <script type="text/uploader-restore" id="J_ImageUploaderRestore">
+            [
+                {"name":"icon_evil.gif",
+                 "size":1446,
+                 "type":"image/gif",
+                 "result":{
+                    "status":1,
+                    "data":{
+                        "name":"icon_evil.gif",
+                        "url":"http://tp4.sinaimg.cn/1653905027/50/5601547226/1",
+                        "item_id":"42458"
+                    }
+                 }
+                }
+            ]
+        </script>
+        <ul class="clearfix imageUploader-queue" id="J_UploaderQueue">
+            <li>
+                <div id="J_UploadBg" class="unupload-area">
+                    <a class="unupload imageUploader-button" id="J_UploaderBtn"
+                       data-config='{
+                             "theme" : "",
+                             "urlsInputName":"urlsInput",
+                             "serverConfig":{"action":"./upload.php","data":{"iid":77010,"fieldId":132338},"dataType" : "json"},
+                             "name":"Filedata",
+                             "restoreHook":"#J_ImageUploaderRestore"
+                       }'
+                       data-auth='{
+                             "require":[true,"必须至少上传一个文件！"],
+                                        "maxSize":[500, "文件大小为{size}，文件太大！"],
+                                        "allowExts":[
+                                            {"desc":"JPG,JPEG,PNG,GIF,BMP", "ext":"*.jpg;*.jpeg;*.png;*.gif;*.bmp"},
+                                            "文件格式错误！"],
+                                        "max":[5,"最多允许上传五张图片！"]
+                       }'>
+                        <span class="count"> 还可以上传<em id="J_UploadCount">5</em>图片！ </span>
+                        <s class="bg"></s>
+                        <input type="hidden" value="" name="urlsInput">
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <p>配置部分就修改了theme路径配置</p>
+    <pre class='brush: xml;'>
+data-config='{
+     "theme" : "",
+     "urlsInputName":"urlsInput",
+     "serverConfig":{"action":"./upload.php","data":{"iid":77010,"fieldId":132338},"dataType" : "json"},
+     "name":"Filedata",
+     "restoreHook":"#J_ImageUploaderRestore"
+}'
+    </pre>
+    <p>额外引入imageUploader的样式</p>
+     <pre class='brush: xml;'>
+          <link rel="stylesheet" type="text/css" href="../../../uploader/themes/imageUploader/style.css"/>
+    </pre>
+</article>
+<script>
+    var S = KISSY;
+    S.config({
+        packages:[
+            {
+                name:"gallery",
+                path:"../../../../../../",
+                //path:"http://a.tbcdn.cn/s/kissy/",
+                charset:"utf-8"
+            }
+        ]
+    });
+    //加载上传组件入口文件
+    KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
+        var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
+        ru.on('init',function(ev){
+               var uploader = ev.uploader,
+                       queue = ev.queue,
+                       button = ev.button,
+                       auth = ev.auth;
+                //当添加完文件数据后，向ul添加dom
+               queue.set('fnAdd',function(index, file){
+
+               });
+        })
+    })
+</script>
+
+<!-- 代码高亮 START  -->
+<link href='../../assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="../../assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+</body>
+</html>
