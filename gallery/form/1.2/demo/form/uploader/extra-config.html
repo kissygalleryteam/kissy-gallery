@@ -21,8 +21,6 @@
                     "serverConfig":{"action":"upload.php","data":{"dir":"files/"},"dataType" : "json"},
                     "name":"fileInput",
                     "urlsInputName":"fileUrls"}'
-       data-button-config='{"disabled":true,"name":"Filedata","multiple":false}'
-       data-theme-config='{"elUploadFiles":"#J_UploadAll"}'
        href="#">
         选择要上传的文件
     </a>
@@ -69,10 +67,21 @@
             }
         ]
     });
-    //加载上传组件入口文件
     KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
-        //第一个参数：按钮元素钩子，第二个参数：队列元素钩子
-        var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
+        var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue',{
+           //主题配置
+            themeConfig:{
+                cssUrl:{value:'gallery/form/1.2/uploader/themes/default/style.css'}
+            },
+            //验证配置
+            authConfig: {
+                allowExts:[
+                    {desc:"JPG,JPEG,PNG,GIF,BMP", ext:"*.jpg;*.jpeg;*.png;*.gif;*.bmp"},
+                    '不支持{ext}格式的文件上传！'
+                ],
+                max:[3, '每次最多上传{max}个文件！']
+            }
+        });
         //对组件的后续操作务必放在init事件内，因为组件时可能需要异步加载模板
         ru.on("init", function (ev) {
             var uploader = ev.uploader,

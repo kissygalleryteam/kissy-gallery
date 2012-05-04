@@ -173,8 +173,11 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
         _initThemes:function (callback) {
             var self = this, theme = self.get('theme'),
                 target = self.get('buttonTarget'),
+                cf = self.get('themeConfig'),
                 //从html标签的伪属性中抓取配置
                 config = S.form.parseConfig(target,dataName.THEME_CONFIG);
+            S.mix(config,cf);
+            self.set('themeConfig',config);
             //如果只是传递主题名，组件自行拼接
             theme = self._getThemeName(theme);
             S.use(theme, function (S, Theme) {
@@ -205,15 +208,14 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
         _auth:function () {
             var self = this,buttonTarget = self.get('buttonTarget'),
                 uploader = self.get('uploader'),
-                rules, auth = EMPTY;
-            //存在验证配置
-            if($(buttonTarget).attr(dataName.AUTH)){
-                rules = S.form.parseConfig(buttonTarget,dataName.AUTH);
-                auth = new Auth(uploader,{rules : rules});
-                uploader.set('auth',auth);
-            }else{
-                S.log(LOG_PREFIX + '缺少data-auth验证配置，无启动验证！');
-            }
+                cf = self.get('authConfig'),
+                config = S.form.parseConfig(buttonTarget,dataName.AUTH),
+                auth = EMPTY;
+            S.mix(config,cf);
+            self.set('authConfig',config);
+            if(S.isEmptyObject(config)) return false;
+            auth = new Auth(uploader,{rules : config});
+            uploader.set('auth',auth);
             return auth;
         }
     }, {
@@ -224,6 +226,12 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
              * @default  “gallery/form/1.2/uploader/themes/default”
              */
             theme:{value:'gallery/form/1.2/uploader/themes/default' },
+            /**
+             * 主题配置
+             * @type Object
+             * @default {}
+             */
+            themeConfig:{value:{}},
             /**
              * 按钮目标元素
              * @type String|HTMLElement|KISSY.NodeList
@@ -242,6 +250,12 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
              * @default {}
              */
             uploaderConfig:{},
+            /**
+             * 验证配置
+             * @type Object
+             * @default {}
+             */
+            authConfig:{value:{}},
             /**
              * Button（上传按钮）的实例
              * @type Button
