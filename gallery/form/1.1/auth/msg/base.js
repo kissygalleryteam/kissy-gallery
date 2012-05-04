@@ -18,8 +18,9 @@ KISSY.add('gallery/form/1.1/auth/msg/base', function (S, Base) {
             var self = this;
             self._el = S.one(srcNode);
             self.set('tpl', cfg.tpl);
+            self.set('args', cfg.args);
 
-            self._msgContainer = S.one('<div class="validBox" style="display: none"></div>');
+            self._msgContainer = S.one('<div class="kf-auth" style="display: none"></div>');
             self._el.after(self._msgContainer);
         },
         hide:function () {
@@ -27,15 +28,20 @@ KISSY.add('gallery/form/1.1/auth/msg/base', function (S, Base) {
         },
         show:function (o) {
             var self = this;
-            S.buffer(function(){
+            o = S.merge(self.get('args'), o);
+
+            S.buffer(function () {
                 self._msgContainer.html(S.substitute(self.get('tpl'), o));
                 self._msgContainer.show();
-            })();
+            }, 50)();
         }
     }, {
         ATTRS:{
             tpl:{
                 value:''
+            },
+            args:{
+                value:{}
             }
         }
     });

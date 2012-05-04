@@ -3,11 +3,9 @@
  * @author czy88840616 <czy88840616@gmail.com>
  *
  */
-KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
-                                                         Factory, Rule, PropertyRule,
-                                                         Msg, Utils, undefined) {
+KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, Factory, Rule, PropertyRule, Msg, Utils, undefined) {
 
-    var EMPTY ='',
+    var EMPTY = '',
         CONFIG_NAME = 'data-valid';
 
     var Field = function (el, validConfig) {
@@ -32,25 +30,25 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
         //保存rule的集合
         self._storage = {};
 
-        var resetAfterValidate = function() {
+        var resetAfterValidate = function () {
             self.fire('afterFieldValidation');
         };
 
         //msg init
-        if(self._cfg.msg) {
+        if (self._cfg.msg) {
             self._msg = new Msg(self._el, self._cfg.msg);
             var style = self._cfg.style;
 
-            self.on('afterRulesValidate', function(ev) {
+            self.on('afterRulesValidate', function (ev) {
                 var result = ev.result,
                     curRule = ev.curRule,
                     msg = self._cache[curRule].msg || EMPTY;
 
                 //这里的value还没被当前覆盖
-                if(self.get('result') !== result || self.get('msg') !== msg) {
-                    if(msg) {
+                if (self.get('result') !== result || self.get('msg') !== msg) {
+                    if (msg) {
                         self._msg.show({
-                            style:result?style['success']:style['error'],
+                            style:result ? style['success'] : style['error'],
                             msg:msg
                         });
                     } else {
@@ -61,7 +59,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
         }
 
         //监听校验结果
-        self.on('afterRulesValidate', function(ev) {
+        self.on('afterRulesValidate', function (ev) {
             var result = ev.result,
                 curRule = ev.curRule,
                 msg = self._cache[curRule].msg || EMPTY;
@@ -72,7 +70,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
             self.fire('validate', {
                 result:result,
                 msg:msg,
-                errRule:result? '':curRule
+                errRule:result ? '' : curRule
             });
 
             //校验结束
@@ -101,11 +99,11 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
                         //属性的value必须在这里初始化
                         propertyValue:_el.attr(item),
                         el:_el, //bugfix for change value
-                        msg: _ruleCfg[item]
+                        msg:_ruleCfg[item]
                     });
 
-                    rule.on('validate', function(ev) {
-                        S.log('[after rule validate]: name:'+ev.name +',result:'+ev.result+',msg:' + ev.msg);
+                    rule.on('validate', function (ev) {
+                        S.log('[after rule validate]: name:' + ev.name + ',result:' + ev.result + ',msg:' + ev.msg);
                         //set cache
                         self._cache[ev.name]['result'] = ev.result;
                         self._cache[ev.name]['msg'] = ev.msg;
@@ -116,7 +114,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
             });
 
             //element event bind
-            if(_cfg.autoBind) {
+            if (_cfg.autoBind) {
                 Event.on(_el, _cfg.event || 'blur', function (ev) {
                     self.validate();
                 });
@@ -126,7 +124,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
 
         add:function (name, rule, cfg) {
             var _storage = this._storage;
-            if(rule instanceof PropertyRule) {
+            if (rule instanceof PropertyRule) {
                 _storage[name] = rule;
             } else {
                 _storage[name] = new Rule(name, rule, {
@@ -138,7 +136,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
             this._cache[name] = {};
         },
 
-        remove: function(name) {
+        remove:function (name) {
             var _storage = this._storage;
             delete _storage[name];
         },
@@ -160,7 +158,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
                 curRule = EMPTY;
 
             if (name) {
-                if(_storage[name]) {
+                if (_storage[name]) {
                     //校验开始
                     self.fire('beforeValidate');
 
@@ -181,7 +179,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
             }
 
             // 保证有规则才触发
-            if(curRule) {
+            if (curRule) {
                 self.fire('afterRulesValidate', {
                     result:result,
                     curRule:curRule
