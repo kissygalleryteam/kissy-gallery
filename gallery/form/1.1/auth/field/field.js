@@ -4,7 +4,8 @@
  *
  */
 KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
-                                                         Factory, Rule, PropertyRule, Msg, undefined) {
+                                                         Factory, Rule, PropertyRule,
+                                                         Msg, Utils, undefined) {
 
     var EMPTY ='',
         CONFIG_NAME = 'data-valid';
@@ -18,18 +19,13 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
 
         //初始化json配置
         if (el && el.hasAttr(CONFIG_NAME)) {
-            var cfg = el.attr(CONFIG_NAME).replace(/'/g, '"');
+            var cfg = el.attr(CONFIG_NAME);
 
-            try {
-                eval("cfg=" + cfg);
-                var config = {
-                    rules:cfg
-                };
-//                cfg = JSON.parse(cfg);
-                validConfig = S.merge(validConfig, config);
-            } catch(e) {
-                S.log('data-valid json is invalid');
-            }
+            cfg = Utils.toJSON(cfg);
+            var config = {
+                rules:cfg
+            };
+            validConfig = S.merge(validConfig, config);
         }
 
         self._cfg = validConfig || {};
@@ -39,6 +35,30 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
         var resetAfterValidate = function() {
             self.fire('afterFieldValidation');
         };
+
+        //msg init
+        if(self._cfg.msg) {
+            self._msg = new Msg(self._el, self._cfg.msg);
+            var style = self._cfg.style;
+
+            self.on('afterRulesValidate', function(ev) {
+                var result = ev.result,
+                    curRule = ev.curRule,
+                    msg = self._cache[curRule].msg || EMPTY;
+
+                //这里的value还没被当前覆盖
+                if(self.get('result') !== result || self.get('msg') !== msg) {
+                    if(msg) {
+                        self._msg.show({
+                            style:result?style['success']:style['error'],
+                            msg:msg
+                        });
+                    } else {
+                        self._msg.hide();
+                    }
+                }
+            });
+        }
 
         //监听校验结果
         self.on('afterRulesValidate', function(ev) {
@@ -59,23 +79,6 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
             self.fire('afterValidate');
             resetAfterValidate();
         });
-
-        //msg init
-        if(self._cfg.msg) {
-            self._msg = new Msg(self._el, self._cfg.msg);
-
-            self.on('afterRulesValidate', function(ev) {
-                var result = ev.result,
-                    curRule = ev.curRule,
-                    msg = self._cache[curRule].msg || EMPTY;
-
-                self._msg.hide();
-                self._msg.show({
-                    style:style,
-                    msg:msg
-                });
-            });
-        }
 
         self._init();
 
@@ -113,9 +116,12 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
             });
 
             //element event bind
-            Event.on(_el, _cfg.event || 'blur', function (ev) {
-                self.validate();
-            });
+            if(_cfg.autoBind) {
+                Event.on(_el, _cfg.event || 'blur', function (ev) {
+                    self.validate();
+                });
+            }
+
         },
 
         add:function (name, rule, cfg) {
@@ -207,6 +213,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON,
         '../rule/html/propertyFactory',
         '../rule/rule',
         '../rule/html/propertyRule',
-        '../msg/base'
+        '../msg/base',
+        '../utils'
     ]
 });

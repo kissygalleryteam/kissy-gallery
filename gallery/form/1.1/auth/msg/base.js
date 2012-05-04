@@ -26,10 +26,11 @@ KISSY.add('gallery/form/1.1/auth/msg/base', function (S, Base) {
             this._msgContainer.hide();
         },
         show:function (o) {
+            var self = this;
             S.buffer(function(){
-                this._msgContainer.html(S.substitute(this.get('tpl'), o));
-                this._msgContainer.show();
-            });
+                self._msgContainer.html(S.substitute(self.get('tpl'), o));
+                self._msgContainer.show();
+            })();
         }
     }, {
         ATTRS:{
