@@ -126,8 +126,8 @@
         <input class="haspadding" type="button" id="J_GetAll" value="获取所有选中checkbox的key"><br/>
     <br/>
     <pre class='brush: xml;'>
-        //返回数字数组
-        r.getAllChecked();     
+        //返回数字数组，这里需要传递的参数表示返回所有选中的checkbox的索引的数组，如果不传，则只会返回第一个选中的索引
+        r.getAllChecked(true);     
     </pre>
 
 
@@ -136,7 +136,7 @@
     <br/>
     <pre class='brush: xml;'>
         //还原成为原生的checkbox
-        r.recoverCheckbox();     
+        r.recoverKfbtn();     
     </pre>
 </article>
 
@@ -149,9 +149,7 @@
        } ]
     });
 </script>
-<script type="text/javascript">   
-
-
+<script type="text/javascript">
         function getLabel(value){
             return value.next('label');
         }     
@@ -167,7 +165,7 @@
             all.render();
             //获取结果
             btn.on('click',function(){
-                alert(r.getAllChecked());
+                alert(r.getSelected(true));
                 location.href="#checkboxdemo";
             })
             //设置某个disabled
@@ -200,7 +198,7 @@
             $('#J_Recover').on('click',function(){                                 
                 var key = $(this).attr('key');
                 if(key === '1'){
-                    r.recoverCheckbox();
+                    r.recoverKfbtn();
                     $(this).attr('key',2);
                     $(this).val('美化checkbox')
                 }else{
