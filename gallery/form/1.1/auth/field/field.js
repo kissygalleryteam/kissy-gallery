@@ -20,6 +20,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
             var cfg = el.attr(CONFIG_NAME);
 
             cfg = Utils.toJSON(cfg);
+            //把所有伪属性都当作rule处理
             var config = {
                 rules:cfg
             };

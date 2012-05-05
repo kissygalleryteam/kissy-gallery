@@ -32,12 +32,12 @@
 
             <li>
                 <label class="hd">密码：</label>
-                <input class="text" type="text" name="password" id="password" required pattern="[A-z]{3}" data-valid="{required:'密码必填'}"/>
+                <input class="text" type="text" name="password" id="password" required pattern="[A-z]{3}" data-valid="{required:'密码必填',pattern:'密码格式不正确'}"/>
             </li>
 
             <li>
                 <label class="hd">重复密码：</label>
-                <input class="text" type="text" data-valid="{equalTo:['#password','两次密码不一致了']}"/>
+                <input class="text" type="text" name="repassword" data-valid="{equalTo:'两次密码不一致了'}" equalTo="#password"/>
             </li>
 
             <li>

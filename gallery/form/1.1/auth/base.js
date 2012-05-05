@@ -97,7 +97,8 @@ KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field, Factory)
             var result = true;
 
             S.each(self.storages, function (field, idx) {
-                result = result && field.validate();
+                var r = field.validate();
+                result = result && r;
             });
 
             self.fire('afterValidate');
