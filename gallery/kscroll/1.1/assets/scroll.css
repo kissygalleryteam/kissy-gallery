@@ -1,0 +1,107 @@
+﻿
+/*轨道*/
+.ks-track, .ks-track-hover, .ks-track-active,
+.ks-scrollbar,
+/*向上箭头*/
+.ks-arrowup, .ks-arrowup-hover, .ks-arrowup-active,
+/*向下箭头*/
+.ks-arrowdown, .ks-arrowdown-hover, .ks-arrowdown-active,
+/*拖拽条*/
+.ks-drag, .ks-drag-hover, .ks-drag-active,
+.ks-dragtop, .ks-dragbottom , .ks-dragcenter {
+	width:10px;
+}
+.ks-scrollbar {
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    background-color:#E3E3E3;
+}
+
+.ks-track-hover {
+	background-color:#D9D8D8;
+}
+.ks-track-active {
+	background-color:#D9D8D8;
+}
+
+.ks-track{
+    position:absolute;
+}
+
+
+/*上下箭头 */
+.ks-arrowup, 
+.ks-arrowdown,
+.ks-arrowup a, 
+.ks-arrowdown a {
+	display:block;
+	text-indent: -1000px;
+	width:8px;
+	height:8px;
+	overflow:hidden;
+	border:1px solid #000;
+	right:0;
+    position:absolute;
+}
+
+.ks-arrowup a, 
+.ks-arrowdown a {
+    border:none;
+}
+
+
+.ks-arrowup {
+	background-color:#959695;
+	top:0;
+}
+.ks-arrowup-hover {
+	background-color:#9CCAE3;
+}
+.ks-arrowup-active {
+	background-color:#3C7FB1;
+}
+
+
+.ks-arrowdown {
+	background-color:#959695;
+	bottom:0;
+}
+.ks-arrowdown-hover {
+	background-color:#9CCAE3;
+}
+.ks-arrowdown-active {
+	background-color:#3C7FB1;
+}
+
+
+
+/*拖拽条*/
+.ks-drag{
+	background-color:#979797;
+	position:absolute;
+}
+
+.ks-drag .ks-dragtop, .ks-drag .ks-dragbottom{
+	display:none;
+}
+
+.ks-drag .ks-dragcenter{
+	position:absolute;
+	top:50%;
+	margin-top:-10px;
+	height:20px;
+	background-color::#18598A;
+}
+
+/*------------*/
+.ks-drag-hover{
+	background-color:#9CCAE3;
+}
+
+/*------------*/
+.ks-drag-active{
+	background-color:#3C7FB1;
+}
+
