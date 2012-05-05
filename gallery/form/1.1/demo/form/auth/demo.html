@@ -27,7 +27,7 @@
 
             <li>
                 <label class="hd">用户名：</label>
-                <input id="username" class="text" type="text" value="test@tb.com" required pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$" data-valid="{required:'必填',pattern:'邮箱格式不对'}"/>
+                <input id="username" class="text" type="text" value="test@tb.com" required data-valid="{required:'必填'}"/>
             </li>
 
             <li>
@@ -41,8 +41,8 @@
             </li>
 
             <li>
-                <label class="hd">真实姓名：</label>
-                <input class="text" type="text" data-valid="{label:'请输入你的中文名称'}"/>
+                <label class="hd">邮箱：</label>
+                <input class="text" type="text" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$" data-valid="{pattern:'邮箱格式不对'}"/>
             </li>
 
             <li>

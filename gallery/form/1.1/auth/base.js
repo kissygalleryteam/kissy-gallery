@@ -3,7 +3,8 @@
  * @author czy88840616 <czy88840616@gmail.com>
  *
  */
-KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field, Factory) {
+KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field,
+                                                  Factory, Utils, undefined) {
 
     /**
      * 默认配置
@@ -42,7 +43,7 @@ KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field, Factory)
                 self = this;
 
             //init
-            self.storages = {};
+            self._storages = {};
 
             //如果是form模式，需要屏蔽html5本身的校验
             if(self.mode === AUTH_MODE.FORM) {
@@ -57,7 +58,7 @@ KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field, Factory)
                         bubble:1
                     });
 
-                    self.storages[el.name || el.id] = f;
+                    self.add(f);
                 });
             }
 
@@ -65,21 +66,23 @@ KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field, Factory)
             self.AuthConfig = config;
         },
         add:function (field, config) {
-            var el;
+            var el, key, self = this;
             if (field instanceof Field) {
                 //add field
                 el = field.get('el');
-                self.storages[S.one(el).attr('id') || S.one(el).attr('name')] = el;
+                key = S.one(el).attr('id') || S.one(el).attr('name');
+                self._storages[key || Utils.guid()] = field;
             } else {
                 //add html element
                 el = S.one(field);
                 if (el) {
-                    self.storages[el.attr('id') || el.attr('name')] = new Field(el, config);
+                    key = S.one(el).attr('id') || S.one(el).attr('name');
+                    self._storages[key || Utils.guid()] = new Field(el, config);
                 }
             }
         },
         getField:function (name) {
-            return this.storages[name];
+            return this._storages[name];
         },
         /**
          * 对Auth注册一个新的规则，当前上下文可用
@@ -96,7 +99,7 @@ KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field, Factory)
 
             var result = true;
 
-            S.each(self.storages, function (field, idx) {
+            S.each(self._storages, function (field, idx) {
                 var r = field.validate();
                 result = result && r;
             });
@@ -120,6 +123,8 @@ KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field, Factory)
     requires:[
         'json',
         'base',
-        './field/field'
+        './field/field',
+        './rule/html/propertyFactory',
+        './utils'
     ]
 });

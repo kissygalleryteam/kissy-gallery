@@ -3,14 +3,17 @@
  * @author czy88840616 <czy88840616@gmail.com>
  *
  */
-KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, Factory, Rule, PropertyRule, Msg, Utils, undefined) {
+KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, Factory,
+                                                         Rule, PropertyRule, Msg, Utils, undefined) {
 
     var EMPTY = '',
         CONFIG_NAME = 'data-valid';
 
     var Field = function (el, validConfig) {
         var self = this;
-        self._el = el = S.one(el);
+        self.set('el', el);
+
+        el = S.one(el);
         self._validateDone = {};
         //储存上一次的校验结果
         self._cache = {};
@@ -37,7 +40,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
 
         //msg init
         if (self._cfg.msg) {
-            self._msg = new Msg(self._el, self._cfg.msg);
+            self._msg = new Msg(el, self._cfg.msg);
             var style = self._cfg.style;
 
             self.on('afterRulesValidate', function (ev) {
@@ -88,7 +91,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
         _init:function () {
             var self = this,
                 _cfg = self._cfg,
-                _el = self._el,
+                _el = S.one(self.get('el')),
                 _ruleCfg = S.merge({}, _cfg.rules);
 
             //add html property
@@ -197,9 +200,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
                 value:EMPTY
             },
             result:{},
-            el:{
-                value:this._el
-            }
+            el:{}
         }
     });
 
