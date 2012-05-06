@@ -1,6 +1,6 @@
 /**
  * @fileoverview Local Storage (original: changtian, modified for buy platform).
- * @author 文河<wenhe@taobao.com>
+ * @author �ĺ�<wenhe@taobao.com>
  * for tlive
  *
  * @license
@@ -24,52 +24,56 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-KISSY.add('gallery/local-storage/1.0/local-storage', function(S, undefined) {
-    var win = S.__HOST,
-        doc = document, useObject = doc.documentElement;
-    useObject.style.behavior = 'url(#default#userData)';
-
+KISSY.add('gallery/local-storage/1.0/index', function(S, undefined) {
+    var win = window,
+        ie=S.UA.ie&&S.UA.e<9,
+        doc = document;
+        
+    var useObject = doc.documentElement;
+    if(ie){
+        useObject.style.behavior = 'url(#default#userData)';
+    }
     // html5
     /**
      * @name localStorage
-     * @class 本地存储.
+     * @class ���ش洢.
      *
      * @description
-     * 提供兼容IE及其他浏览器的本地存储入口
+     * �ṩ����IE�����������ı��ش洢���
      * @see http://msdn.microsoft.com/en-us/library/cc197062(v=vs.85).aspx
      */
     var localStorage = {};
 
     /**
-     * 存储数据.
-     * @param {String} key 存储key.
-     * @param {String} value 存储value.
-     * @param {Object} [context] 存储范围，IE only.
+     * �洢���.
+     * @param {String} key �洢key.
+     * @param {String} value �洢value.
+     * @param {Object} [context] �洢��Χ��IE only.
      */
     localStorage.setItem = function(key, val, context) {
         return win.localStorage.setItem(key, val, context);
     };
 
     /**
-     * 获取数据.
-     * @param {String} key 存储key.
-     * @param {Object} [context] 存储范围，IE only.
+     * ��ȡ���.
+     * @param {String} key �洢key.
+     * @param {Object} [context] �洢��Χ��IE only.
      */
     localStorage.getItem = function(key, context) {
         return win.localStorage.getItem(key, context);
     };
 
     /**
-     * 删除数据.
-     * @param {String} key 存储key.
-     * @param {Object} [context] 存储范围，IE only.
+     * ɾ�����.
+     * @param {String} key �洢key.
+     * @param {Object} [context] �洢��Χ��IE only.
      */
     localStorage.removeItem = function(key, context) {
         return win.localStorage.removeItem(key, context);
     };
 
     /**
-     * 清除整个本地存储所有数据信息.
+     * ������ش洢���������Ϣ.
      */
     localStorage.clear = function() {
         return win.localStorage.clear();
@@ -103,5 +107,5 @@ KISSY.add('gallery/local-storage/1.0/local-storage', function(S, undefined) {
             } catch (e) {}
         }
     };
-    return localStorage;
+    return ie?userBehavor:localStorage;
 });

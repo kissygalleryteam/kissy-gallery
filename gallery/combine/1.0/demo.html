@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>KISSY gallery - yourGallery</title>
+<link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
+<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+<script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+</head>
+<body>
+<div id="header">
+    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png"/></a></h1>
+    <div class="sub-title">Gallery</div>
+    <ul class="navigation">
+        <li><a href="http://blog.kissyui.com/">博客</a></li>
+        <li><a href="http://github.com/kissyteam">源码</a></li>
+    </ul>
+
+</div>
+<div id="content">
+    <div class="s-crumbs">
+        <span>当前位置：</span>
+        <a href="http://kissyui.com/">KISSY</a>
+        <a href="../../../index.html">Gallery</a>
+        <span>combine</span>
+    </div>
+			<pre class="s-section">				
+作者：翰文(hanwen.sah@taobao.com)
+功能：为KISSY 1.20增加自动combine功能。
+描述：实现原理在于重写kissy的 map功能，通过重写use和add，捕获use和add的参数，进行自动map，在返回map url的时候，返回合并好的url
+源码：<a href="index.js">combine.js</a></pre>
+
+    <h3 class="s-title">自动combine</h3>
+    <div class="s-section">
+        <div class="s-demo">
+          <p>因为demo需要有路径自动支持combine才可以，demo在<a href="tmp/kissy.html" target="_blank">这里</a>，打开firebug看看网面板就行</p>
+        </div>
+    </div>
+
+    <h3 class="s-title">API</h3>
+    <div class="s-section">
+        <h4 class="s-api-title">方法</h4>
+        <div class="s-api-method">
+          Combo.config(obj);
+        </div>
+        <h4 class="s-api-title">参数</h4>
+        <div class="s-api-params">
+            <ul class="s-list">
+              <li>{Object} [ <em>obj</em> = {} ] 配置combine方式。可配置的属性如下：
+              <ul>
+                <li>{Bool} [ <em>autoCombine</em> = false ] 是否自动合并，自动对一起use的所有模块合并url</li>
+                <li>{Array} [ <em>mods</em> = [[]]] 强制自动合并，类似于map功能，不过这里是基于包为单位的</li>
+                <li>{Array} [ <em>packages</em> = ['']] 允许合并的包，为了向下兼容，在autoCombine没有开启的时候，可以设置某些包自动合并</li>
+                <li>{Object} [ <em>requires</em> = {}] 依赖关系，例如{'mod/a': ['mod/b']}, use mod/a的时候，会和mod/b合并url，不过要求mod包是运行合并</li>
+              </ul>
+              </li>
+            </ul>
+        </div>
+        <h4 class="s-api-title">配置方式</h4>
+        <div class="s-api-params">
+          <h5>手动模式和强制合并</h5>
+          <pre>
+ /**
+  * 这里使用了制定market这个package允许自动combine，并且强制设置suggest, switchable…几个模块合并
+  */
+  KISSY.use('gallery/combine/1.0/', function(S, Combo){
+    Combo.config({
+      mods: [['suggest', 'switchable', 'overlay', 'component', 'uibase', 'datalazyload']],
+      packages: ['market']
+    });
+  });
+ /**
+  * use的时候，market/a,market/b合并成url
+  * http://a.tbcdn.cn/p/market/r/111116/??market/a-min.js,market/b-min.js
+  */
+  KISSY.use('market/a, market/b', function(){});
+ /**
+  * requires的时候，因为有config强制配置合并模块，suggest,switchable,overlay合并url
+  * http://a.tbcdn.cn/s/kissy/1.2.0/??suggest.js,switchable.js,overlay.js,component.js,uibase.js,datalazyload.js?t=20120401132626
+  */
+  KISSY.add('market/c', function(){}, {requires: ['suggest', 'switchable', 'overlay']});
+          </pre>
+
+          <h5>自定义依赖关系</h5>
+          <pre>
+KISSY.use('market/combine', function(S, Combo){
+  Combo.config({
+    autoCombine: true,
+    requires: {
+      'market/a' : ['market/b', 'market/c']
+    }
+  });
+});
+/**
+ * use的时候，market/a的适合，因为market依赖market/b,c两个模块，三个会合并url
+ * http://a.tbcdn.cn/p/market/r/111116/??market/a-min.js,market/b-min.js,d-min.js
+ */
+KISSY.use('market/a', function(){});
+        </pre>
+          <h5>add中的依赖</h5>
+          <pre>
+KISSY.use('gallery/combine/1.0/', function(S, Combine){
+ 
+  S.config({
+    packages:[
+      {
+        name: 'market',
+        path: 'http://market/test/',
+        charset: 'utf-8'
+      }
+    ]
+  });
+ 
+  Combine.config({
+    packages: ['market'],
+    requires: {
+      'market/d' : ['market/e', 'market/f']
+    }
+  });
+ 
+});
+ 
+KISSY.add({
+  myMod: {
+    fullpath: 'http://market/test/myMod.js',
+    requires: ['market/d']
+  }
+});
+ 
+/**
+ * myMod依赖market/d, market/d依赖market/e, market/f，合并url
+ * http://market/test/??market/d.js,market/e.js,market/f.js
+ */
+KISSY.use('myMod', function(S, A){
+  console.log(A);
+});
+          </pre>
+          </div>
+        </div>
+
+        <h3 class="s-title">Note</h3>
+        <div class="s-section">
+          <ul class="s-list">
+            <li>合并是以package为单位的</li>
+            <li>最最重要的一点：只支持1.2，1.3有自动combine的功能，所以这个大概没有必要了，1.1.6不支持package模式，所以也不支持</li>
+            <li>package的定义最好要在Combo的config之前定义</li>
+            <li>url长度限制为2048个字符</li>
+            <li>没有开启autoCombine，同时没有设置pacakges的时候，定义依赖关系是无效的，但是强制合并还是可以有效</li>
+          </ul>
+        </div>
+      </div>
+      <div id="footer">
+        &copy; Copyright 2010~2011, KISSY Team.
+      </div>
+    </body>
+  </html>

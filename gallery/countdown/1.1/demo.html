@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="gbk"/>
+<title>KISSY gallery - countdown</title>
+<link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
+<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+<script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+</head>
+<body>
+<div id="header">
+    <h1 class="logo"><a href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png" alt="KISSY"/></a></h1>
+    <div class="sub-title">Gallery</div>
+    <ul class="navigation">
+        <li><a href="http://blog.kissyui.com/">博客</a></li>
+        <li><a href="http://github.com/kissyteam">源码</a></li>
+    </ul>
+</div>
+<div id="content">
+<div class="s-crumbs">
+    <span>当前位置：</span>
+    <a href="http://kissyui.com/">KISSY</a>
+    <a href="../../../index.html">Gallery</a>
+    <span>countdown</span>
+</div>
+
+<pre class="s-section">				
+作者： jide<jide@taobao.com> 基德
+功能： 倒计时
+描述： 倒计时
+源码：<a href="countdown.js">countdown.js</a>
+</pre>
+
+<h1>demo :</h1>
+
+<div id="demo">
+    <p>1</p>
+    <div class="cd-lite" data-total="1121685000">剩余时间：${d}天${h}时${m}分</div>
+    <div class="cd-medium" data-total="1121685000">剩余时间：${d}天${h}时${m}分</div>
+    <div class="cd-large" data-total="1121685000">剩余时间：<span class="clock">${d}天${h}时${m}分</span></div>
+    <p>2</p>
+    <div class="cd-lite" data-total="1121685000">剩余时间：${h}时${m}分${s}秒</div>
+    <div class="cd-medium" data-total="1121685000">剩余时间：${h}时${m}分${s}秒</div>
+    <div class="cd-large" data-total="1121685000">剩余时间：<span class="clock">${h}时${m}分${s}秒</span></div>
+    <p>3</p>
+    <div class="cd-lite" data-total="1121685000">剩余时间：${h}时${m}分${s-ext}秒</div>
+    <div class="cd-medium" data-total="1121685000">剩余时间：${h}时${m}分${s-ext}秒</div>
+    <div class="cd-large" data-total="1121685000">剩余时间：<span class="clock">${h}时${m}分${s-ext}秒</span></div>
+    <p>4 滑动</p>
+    <div class="cd-lite cd-slide" data-total="1121685000">剩余时间：${h}时${m}分${s}秒</div>
+    <div class="cd-medium cd-slide" data-total="1121685000">剩余时间：${h}时${m}分${s}秒</div>
+    <div class="cd-large cd-slide" data-total="1121685000">剩余时间：<span class="clock">${h}时${m}分${s}秒</span></div>
+    <p>5 不太完美的翻牌</p>
+    <div class="cd-large cd-flip" data-total="1121685000">剩余时间：<span class="clock">${h}时${m}分${s}秒</span></div>
+</div>
+
+<script>
+    var S = KISSY;
+    
+    S.use("gallery/countdown/1.1/index, gallery/countdown/1.1/assets/countdown.css",function(S, Countdown){
+    
+        var slides = [],
+        flips = [];
+
+        function factory(cd) {
+            if (cd.hasClass('cd-slide')) {
+                slides.push(Countdown(cd, {effect: 'slide'}));
+            } else if (cd.hasClass('cd-flip')) {
+                flips.push(Countdown(cd, {effect: 'flip'}));
+            } else {
+                Countdown(cd);
+            }
+        }
+
+        S.all('.cd-lite').each(factory);
+        S.all('.cd-medium').each(factory);
+        S.all('.cd-large').each(factory);
+    });
+</script>
+    </div>
+</body>
+</html>

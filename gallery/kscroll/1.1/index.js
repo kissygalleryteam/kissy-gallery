@@ -2,7 +2,7 @@
  * scrollbar for kissy
  * @author changyin@taobao.com,yiminghe@gmail.com
  */
-KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
+KISSY.add("gallery/kscroll/1.1/index", function (S, Node) {
     var $ = Node.all,
 
         //正数
@@ -14,20 +14,21 @@ KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
             return isNaN(parseInt(n))?0:parseInt(n);
         },
 
-        SCROLL_HTML = '<div class="{prefix}track" ' +
-            'style="position: absolute;right:0;">' +
+        SCROLL_HTML = '<div class="{prefix}scrollbar"><div class="{prefix}track" ' +
+            '>' +
             '<div class="{prefix}drag" ' +
-            'style="position: absolute;left:0;overflow:hidden;">' +
+            '>' +
             '<div class="{prefix}dragtop">' +
             '</div><div class="{prefix}dragbottom"></div>' +
             '<div class="{prefix}dragcenter"></div>' +
             '</div>' +
-            '</div>',
+            '</div></div>',
 
-        ARROW = '<a href="javascript:void(\'scroll {type}\')" ' +
-            'style="position: absolute;right:0;text-indent:-9999px;{style};" ' +
-            'class="{prefix}arrow{type}"' +
-            '>scroll {type}</a>';
+        ARROW = '<div '+
+                'class="{prefix}arrow{type}">' +
+                    '<a href="javascript:void(\'scroll {type}\')" ' +                      
+                    '>scroll {type}</a>'+
+                '</div>';
 
     function capitalFirst(s) {
         return s.charAt(0).toUpperCase() + s.substring(1);
@@ -62,7 +63,8 @@ KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
         arrowUp:{},
         allowArrow:{value:true},
         arrowDown:{},
-        step:{}
+        step:{},
+        scrollBar:{}
     };
 
     S.extend(Scroll, S.Base, {
@@ -136,17 +138,19 @@ KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
             wrap.append(S.substitute(SCROLL_HTML, {
                 prefix:prefix
             }));
+            
+            var scrollbar=wrap.one("."+prefix + "scrollbar");
+
+            self.set("scrollBar",scrollbar);   
 
             //向上，向下箭头
             if (self.get("allowArrow")) {
-                wrap.append(S.substitute(ARROW, {
+                scrollbar.append(S.substitute(ARROW, {
                     type:'up',
-                    style:"top:0px;",
                     prefix:prefix
                 }));
-                wrap.append(S.substitute(ARROW, {
+                scrollbar.append(S.substitute(ARROW, {
                     type:'down',
-                    style:"bottom:0px;",
                     prefix:prefix
                 }));
             }
@@ -427,24 +431,11 @@ KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
 
             if (bh <= ch || ch < ah) {
 				//水儿发现的bug,某些情况下滚动条隐藏，top>0
-				self.get("body").css({"top":0});
-				
-                track.hide();
-                if (arrowUp) {
-                    arrowUp.hide();
-                }
-                if (arrowDown) {
-                    arrowDown.hide();
-                }
+				self.get("body").css({"top":0});				
+                self.get("scrollBar").hide();
                 return;
             } else {
-                track.show();
-                if (arrowUp) {
-                    arrowUp.show();
-                }
-                if (arrowDown) {
-                    arrowDown.show();
-                }
+                self.get("scrollBar").show();
             }
 
             sh = (ch - ah) * ch / bh;
@@ -551,4 +542,8 @@ KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
  * 2012-04-19
  *  - 修复水儿发现的bug
  *  - 键盘支持 key[38,39,36,40,37,35], 注意：key事件绑定在container上，没有获得焦点的情况下无法使用键盘操作
+ *
+ * 2012-05-05
+    - 增加 wrap 元素，简化代码
+    - 增加新皮肤 
  **/
