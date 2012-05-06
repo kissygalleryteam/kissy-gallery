@@ -16,38 +16,38 @@
 <div class="intro">
 
 
-
 </div>
 
 
 <div class="eg">
     <h3>示例 - 用户注册</h3>
+
     <form method="post" id="J_form_eg1">
         <ul class="form">
 
             <li>
                 <label class="hd">用户名：</label>
-                <input id="username" class="text" type="text" value="test@tb.com" required data-valid="{required:'必填'}"/>
+                <input id="username" class="text" type="text" value="test@tb.com" required
+                       data-valid="{required:'必填'}"/>
             </li>
 
             <li>
                 <label class="hd">密码：</label>
-                <input class="text" type="text" name="password" id="password" required pattern="[A-z]{3}" data-valid="{required:'密码必填',pattern:'密码格式不正确'}"/>
+                <input class="text" type="text" name="password" id="password" required pattern="[A-z]{3}"
+                       data-valid="{required:'密码必填',pattern:'密码格式不正确'}"/>
             </li>
 
             <li>
                 <label class="hd">重复密码：</label>
-                <input class="text" type="text" name="repassword" data-valid="{equalTo:'两次密码不一致了'}" equalTo="#password"/>
+                <input class="text" type="text" name="repassword" data-valid="{equalTo:'两次密码不一致了'}"
+                       equalTo="#password"/>
             </li>
 
             <li>
                 <label class="hd">邮箱：</label>
-                <input class="text" type="text" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$" data-valid="{pattern:'邮箱格式不对'}"/>
-            </li>
-
-            <li>
-                <label class="hd">身份证号码：</label>
-                <input class="text" type="text" data-valid="{card:'请输入准确的二代身份证号码'}"/>
+                <input class="text" type="text"
+                       pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$"
+                       data-valid="{pattern:'邮箱格式不对'}"/>
             </li>
 
             <li>
@@ -63,16 +63,16 @@
     </form>
     <script>
         KISSY.config({
-            packages: [
+            packages:[
                 {
-                    name: 'gallery',
-                    path: '../../../../../../',
-                    tag: 'test',
-                    charset: 'utf-8'
+                    name:'gallery',
+                    path:'../../../../../../',
+                    tag:'test',
+                    charset:'utf-8'
                 }
             ]
         });
-        KISSY.use("gallery/form/1.1/auth/index", function(S, Auth) {
+        KISSY.use("gallery/form/1.1/auth/index", function (S, Auth) {
 
             var form = new Auth('#J_form_eg1', {
                 msg:{
@@ -82,12 +82,24 @@
                     }
                 }
             });
+
+            S.one('#J_form_eg1').append('<li><label class="hd">身份证号码：</label><input class="text" id="card" type="text"/></li>');
+
+            form.register('card', function () {
+
+            });
+
+            form.add('#card', {
+                rules:{
+
+                }
+            });
 //            form.getField('username').on('validate', function(e){
 //                alert(e.msg);
 //            });
 
 
-            KISSY.Event.on('#J_form_eg1', "submit", function() {
+            KISSY.Event.on('#J_form_eg1', "submit", function () {
                 return form.validate();
             });
 
@@ -95,7 +107,6 @@
 
     </script>
 </div>
-
 
 
 </body>
