@@ -230,7 +230,7 @@ KISSY.add('gallery/form/1.2/uploader/queue', function (S, Node, Base) {
          * queue.fileStatus(0, 'success');
          */
         fileStatus:function (index, status, args) {
-            if (!S.isNumber(index) || !S.isString(status)) return false;
+            if (!S.isNumber(index)) return false;
             var self = this, file = self.getFile(index),
                 theme = self.get('theme'),
                 curStatus,statusMethod;
