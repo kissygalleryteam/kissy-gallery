@@ -96,17 +96,15 @@
     <!--压缩脚本-->
     <target name="minify" depends="crlf">
         <apply executable="java" verbose="true" dest="${uploader.build.dir}" failonerror="true" parallel="false">
-            <fileset dir="${uploader.build.dir}" includes="**/*.js"/>
+            <fileset dir="${uploader.build.dir}" includes="**/*.js" excludes="*-min.js"/>
             <arg line="-jar"/>
-            <arg path="${compiler}"/>
+            <arg path="${tool.dir}/yuicompressor/yuicompressor.jar"/>
             <arg line="--charset utf8"/>
-            <arg value="--warning_level"/>
-            <arg value="QUIET"/>
-            <arg value="--js"/>
-            <srcfile/>
-            <arg value="--js_output_file"/>
+            <arg value="--type"/>
+            <arg value="js"/>
+            <arg value="-o"/>
             <targetfile/>
-            <mapper type="regexp" from="^(.*)\.js$" to="\1-min.js"/>
+            <mapper type="glob" from="*.js" to="*-min.js"/>
         </apply>
     </target>
     <!--使用jsdoc输出文档-->
