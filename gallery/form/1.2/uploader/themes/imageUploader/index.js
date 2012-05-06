@@ -27,14 +27,14 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
          */
         afterUploaderRender:function (uploader) {
             var self = this,
-                Preview = self.get('oPlugin').preview,
-                preview,
+               /* Preview = self.get('oPlugin').preview,
+                preview,*/
                 queue = self.get('queue');
-            if(Preview){
+            /*if(Preview){
                 preview = new Preview();
                 //图片预览
                 self.set('preview',preview);
-            }
+            }*/
            //达到最大允许上传数隐藏上传按钮
             self._maxHideBtn(uploader);
             self._renderFiledrop();
@@ -92,12 +92,12 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
          * 文件处于等待上传状态时触发
          */
         _waitingHandler:function (ev) {
-            var self = this,preview = self.get('preview'),
+            /*var self = this,preview = self.get('preview'),
                 file = ev.file,input = file.input,
                 $imageWrapper = $('.J_Pic_'+file.id);
             if(preview && input && $imageWrapper.length){
                 preview.preview(ev.file.input, $imageWrapper);
-            }
+            }*/
         },
         /**
          * 文件处于开始上传状态时触发
@@ -306,7 +306,7 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
          * @default ['preview','progressBar','filedrop'] 图片预览、进度条、文件拖拽
          */
         plugins:{
-          value:['preview','progressBar','filedrop']
+          value:['progressBar','filedrop']
         },
         /**
          * 统计上传张数的容器
