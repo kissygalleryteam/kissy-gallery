@@ -345,7 +345,9 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
          * @return {Button}
          */
         _renderButton:function () {
-            var self = this, button = self.get('button');
+            var self = this, button = self.get('button'),
+                multiple = self.get('multiple'),
+                disabled = self.get('disabled');
             if (!S.isObject(button)) {
                 S.log(LOG_PREFIX + 'button参数不合法！');
                 return false;
@@ -354,6 +356,8 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
             button.on('change', self._select, self);
             //运行按钮实例
             button.render();
+            button.set('multiple',multiple);
+            button.set('disabled',disabled);
             return button;
         },
         /**
@@ -542,6 +546,36 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
          * @default "auto"
          */
         type:{value:Uploader.type.AUTO},
+        /**
+         * 是否开启多选支持，部分浏览器存在兼容性问题
+         * @type Boolean
+         * @default true
+         */
+        multiple:{
+            value:true,
+            setter:function(v){
+                var self = this,button = self.get('button');
+                if(!S.isEmptyObject(button) && S.isBoolean(v)){
+                    button.set('multiple',v);
+                }
+                return v;
+            }
+        },
+        /**
+         * 是否可用,false为可用
+         * @type Boolean
+         * @default false
+         */
+        disabled : {
+            value : false,
+            setter : function(v) {
+                var self = this,button = self.get('button');
+                if(!S.isEmptyObject(button) && S.isBoolean(v)){
+                    button.set('disabled',v);
+                }
+                return v;
+            }
+        },
         /**
          * 服务器端配置。action：服务器处理上传的路径；data： post给服务器的参数，通常需要传递用户名、token等信息
          * @type Object
