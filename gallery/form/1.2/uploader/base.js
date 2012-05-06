@@ -220,6 +220,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 statuses = Uploader.status,
                 status = queue.fileStatus(index);
             if(S.isNumber(index) && status != statuses.SUCCESS){
+                uploadType.stop();
                 queue.fileStatus(index,statuses.CANCEL);
             }else{
                 //取消上传后刷新状态，更改路径等操作请看_uploadStopHanlder()
