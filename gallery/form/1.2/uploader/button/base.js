@@ -227,7 +227,7 @@ KISSY.add('gallery/form/1.2/uploader/button/base',function(S, Node, Base) {
              * @type String
              */
             tpl : {
-                value : '<div class="file-input-wrapper"><input type="file" name="{name}" hidefocus="true" class="file-input" style="font-size:400px;" /></div>'
+                value : '<div class="file-input-wrapper" style="overflow: hidden;"><input type="file" name="{name}" hidefocus="true" class="file-input" style="font-size:400px;" /></div>'
             },
             /**
              * 隐藏的表单上传域的name值
