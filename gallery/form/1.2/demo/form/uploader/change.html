@@ -17,7 +17,8 @@
         <li>#49 修正IE6下可点击区域过小无法调整的bug</li>
         <li>#51 修正进度条bug</li>
         <li>图片预览在多选下存在bug，先予以禁用</li>
-        <li>type:auto，不支持ajax的上传使用flash方案</li>
+        <li>#26 type:auto，改成等价于["ajax","flash","iframe"]，除非是特别需求，不推荐修改type</li>
+        <li>#27 IE下优先使用flash，解决多选问题</li>
         <li>#50 增加themeConfig、authConfig参数</li>
         <li>#50 button的配置集成到uploader/base.js，uploader增加multiple和disabled二个属性， 非特殊需求请勿直接修改button实例的属性，去掉data-button-config支持</li>
         <li>#52 修正type设置有flash，却不实例化flash按钮的bug</li>

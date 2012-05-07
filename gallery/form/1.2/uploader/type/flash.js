@@ -127,6 +127,24 @@ KISSY.add('gallery/form/1.2/uploader/type/flash', function (S, Node, UploadType,
         }
     }, {ATTRS:/** @lends FlashType*/{
         /**
+         * 服务器端路径，留意flash必须是绝对路径
+         */
+        action:{
+            value:EMPTY,
+            getter:function(v){
+                var reg = /^http/;
+                //不是绝对路径拼接成绝对路径
+                if(!reg.test(v)){
+                     var href = location.href,uris = href.split('/'),newUris;
+                    newUris  = S.filter(uris,function(item,i){
+                        return i < uris.length - 1;
+                    });
+                    v = newUris.join('/') + '/' + v;
+                }
+                return v;
+            }
+        },
+        /**
          * ajbridge的uploader组件的实例，必须参数
          */
         swfUploader:{value:EMPTY},

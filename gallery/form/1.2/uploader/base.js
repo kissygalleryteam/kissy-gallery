@@ -303,7 +303,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
             var self = this, types = Uploader.type,
                 UploadType;
             //如果type参数为auto，那么type=['ajax','flash','iframe']
-            if (type == types.AUTO) type = [types.AJAX, type.FLASH,types.IFRAME];
+            if (type == types.AUTO) type = [types.AJAX, types.FLASH,types.IFRAME];
             //如果是数组，遍历获取浏览器支持的上传方式
             if (S.isArray(type) && type.length > 0) {
                 S.each(type, function (t) {
