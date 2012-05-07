@@ -148,10 +148,10 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 uploaderTypeEvent = UploadType.event,
                 button;
             if (!UploadType) return false;
-            self._renderQueue();
             button = self._renderButton();
             //路径input实例
             self.set('urlsInput', self._renderUrlsInput());
+            self._renderQueue();
             //如果是flash异步上传方案，增加swfUploader的实例作为参数
             if (self.get('type') == Uploader.type.FLASH) {
                 S.mix(serverConfig, {swfUploader:button.get('swfUploader')});
@@ -377,7 +377,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
             //监听队列的删除事件
             queue.on('remove', function (ev) {
                 //删除该文件路径，sUrl为服务器端返回的文件路径，而url是客服端文件路径
-                urlsInput.remove(ev.file.sUrl);
+                if(ev.file.sUrl && urlsInput) urlsInput.remove(ev.file.sUrl);
             });
             self.set('queue',queue);
             return queue;
@@ -512,7 +512,8 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 if(!file.sUrl && file.result) file.sUrl = file.result.data.url;
                 //向队列添加文件
                 var fileData = queue.add(file),
-                    id = fileData.id,index = queue.getFileIndex(id);
+                    id = fileData.id,index = queue.getFileIndex(id),
+                    files = queue.get('files');
                 urlsInput.add(file.sUrl);
                 //改变文件状态为成功
                 queue.fileStatus(index,'success',{index:index,id:id,file:fileData});
@@ -543,7 +544,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
          */
         queue:{value:{}},
         /**
-         * 采用的上传方案，当值是数组时，比如“type” : ["flash","ajax","iframe"]，按顺序获取浏览器支持的方式，该配置会优先使用flash上传方式，如果浏览器不支持flash，会降级为ajax，如果还不支持ajax，会降级为iframe；当值是字符串时，比如“type” : “ajax”，表示只使用ajax上传方式。这种方式比较极端，在不支持ajax上传方式的浏览器会不可用；当“type” : “auto”，auto是一种特例，等价于["ajax","iframe"]。
+         * 采用的上传方案，当值是数组时，比如“type” : ["flash","ajax","iframe"]，按顺序获取浏览器支持的方式，该配置会优先使用flash上传方式，如果浏览器不支持flash，会降级为ajax，如果还不支持ajax，会降级为iframe；当值是字符串时，比如“type” : “ajax”，表示只使用ajax上传方式。这种方式比较极端，在不支持ajax上传方式的浏览器会不可用；当“type” : “auto”，auto是一种特例，等价于["ajax","flash","iframe"]。
          * @type String|Array
          * @default "auto"
          */
