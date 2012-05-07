@@ -16,6 +16,7 @@ KISSY.add('gallery/form/1.2/uploader/type/flash', function (S, Node, UploadType,
         var self = this;
         //调用父类构造函数
         FlashType.superclass.constructor.call(self, config);
+        self.isHasCrossdomain();
         self._init();
     }
 
@@ -124,6 +125,18 @@ KISSY.add('gallery/form/1.2/uploader/type/flash', function (S, Node, UploadType,
             var self = this;
             self.set('uploadingId',EMPTY);
             self.fire(FlashType.event.ERROR, {msg : ev.msg});
+        },
+        /**
+         * 应用是否有flash跨域策略文件
+         */
+        isHasCrossdomain:function(){
+             S.io({
+                 url:'http://localhost/crossdomain.xml',
+                 dataType:"xml",
+                 error:function(){
+                     S.log('缺少crossdomain.xml文件或该文件不合法！');
+                 }
+             })
         }
     }, {ATTRS:/** @lends FlashType*/{
         /**

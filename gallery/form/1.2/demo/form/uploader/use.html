@@ -88,6 +88,18 @@
      </pre>
     <p>uploader/render为上传组件的入口文件，render.js会读取按钮上的data-config，然后自动初始化上传组件。</p>
     <p>就这么简单！</p>
+    <h5>Step5:将crossdomain.xml加入到域名根目录下。</h5>
+    <p>V1.2起，IE将优先采用flash上传，在不支持flash上传的情况下将切成iframe。</p>
+    <p>flash上传，就必须在域名根目录下存在跨域策略文件crossdomain.xml。</p>
+    <p>以淘宝网的跨域策略为例</p>
+    <pre class='brush: xml; '>
+        <cross-domain-policy>
+            <allow-access-from domain=”*.taobao.com”/>
+                <allow-access-from domain=”*.taobao.net”/>
+                    <allow-access-from domain=”*.taobaocdn.com”/>
+                        <allow-access-from domain=”*.allyes.com”/>
+        </cross-domain-policy>
+     </pre>
 </article>
 <script>
     KISSY.config({
