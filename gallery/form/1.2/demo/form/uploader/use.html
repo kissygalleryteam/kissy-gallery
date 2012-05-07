@@ -33,7 +33,6 @@
     <h5>Step2:创建一个上传按钮，写上Uploader组件配置</h5>
     <p>配置写在data-config属性内，为一个json字符串，要特别小心json格式必须符合规范，不然解析时会报错。</p>
     <ul>
-        <li><b>type</b>：上传方式，当为auto时，组件会根据浏览器选择使用ajax还是iframe</li>
         <li><b>serverConfig</b>：服务器端配置，包括最重要的action（路径）配置，data为传递给服务器的附加数据</li>
         <li><b>name</b>：文件上传域name名</li>
         <li><b>urlsInputName</b>：用于存放服务器端返回的文件路径的input</li>
@@ -100,6 +99,7 @@
                         <allow-access-from domain=”*.allyes.com”/>
         </cross-domain-policy>
      </pre>
+    <p>如果你希望IE下使用iframe，请设置"type":["ajax","iframe"]即可</p>
 </article>
 <script>
     KISSY.config({

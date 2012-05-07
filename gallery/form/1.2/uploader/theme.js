@@ -19,10 +19,19 @@ KISSY.add('gallery/form/1.2/uploader/theme', function (S, Node, Base) {
         var self = this;
         //调用父类构造函数
         Theme.superclass.constructor.call(self, config);
-        self._LoaderCss();
     }
 
     S.extend(Theme, Base, /** @lends Theme.prototype*/{
+        /**
+         * 组件运行
+         */
+        render:function(){
+            var self = this;
+            self._LoaderCss(function(){
+                self._addThemeCssName();
+                self.fire('render');
+            });
+        },
         /**
          * 在上传组件运行完毕后执行的方法（对上传组件所有的控制都应该在这个函数内）
          * @param {Uploader} uploader
@@ -95,7 +104,6 @@ KISSY.add('gallery/form/1.2/uploader/theme', function (S, Node, Base) {
         _UploaderRender:function (callback) {
             var self = this;
             self._initQueue();
-            self._addThemeCssName();
             //加载插件
             self._loadPlugins(callback);
         },
@@ -104,14 +112,10 @@ KISSY.add('gallery/form/1.2/uploader/theme', function (S, Node, Base) {
          */
         _addThemeCssName:function () {
             var self = this, name = self.get('name'),
-                queue = self.get('queue'),
                 $queueTarget = $(self.get('queueTarget')),
-                button = self.get('button'),
-                $btn;
-            if (name == EMPTY || !queue || !$queueTarget.length) return false;
+                $btn = $(self.get('buttonTarget'));
+            if (name == EMPTY || !$queueTarget.length) return false;
             $queueTarget.addClass(name + classSuffix.QUEUE);
-            if (!button) return false;
-            $btn = button.get('target');
             $btn.addClass(name + classSuffix.BUTTON);
         },
         /**
@@ -134,13 +138,17 @@ KISSY.add('gallery/form/1.2/uploader/theme', function (S, Node, Base) {
         /**
          * 加载css文件
          */
-        _LoaderCss:function () {
+        _LoaderCss:function (callback) {
             var self = this,
                 cssUrl = self.get('cssUrl');
             //加载css文件
-            if (cssUrl == EMPTY) return false;
+            if (cssUrl == EMPTY){
+                callback.call(self);
+                return false;
+            }
             S.use(cssUrl, function () {
                 S.log(cssUrl + '加载成功！');
+                callback.call(self);
             });
         },
         /**

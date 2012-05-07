@@ -332,7 +332,7 @@ KISSY.add('gallery/form/1.2/uploader/auth/base', function (S, Node,Base) {
  * @fileoverview 异步文件上传组件
  * @author 剑平（明河）<minghe36@126.com>,紫英<daxingplay@gmail.com>
  **/
-KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, IframeType, AjaxType, FlashType) {
+KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, IframeType, AjaxType, FlashType,HtmlButton,SwfButton,Queue) {
     var EMPTY = '', $ = Node.all, LOG_PREFIX = '[uploader]:';
     /**
      * @name Uploader
@@ -478,10 +478,10 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 uploaderTypeEvent = UploadType.event,
                 button;
             if (!UploadType) return false;
+            button = self._renderButton();
             //路径input实例
             self.set('urlsInput', self._renderUrlsInput());
             self._renderQueue();
-            button = self._renderButton();
             //如果是flash异步上传方案，增加swfUploader的实例作为参数
             if (self.get('type') == Uploader.type.FLASH) {
                 S.mix(serverConfig, {swfUploader:button.get('swfUploader')});
@@ -633,7 +633,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
             var self = this, types = Uploader.type,
                 UploadType;
             //如果type参数为auto，那么type=['ajax','flash','iframe']
-            if (type == types.AUTO) type = [types.AJAX, type.FLASH,types.IFRAME];
+            if (type == types.AUTO) type = [types.AJAX, types.FLASH,types.IFRAME];
             //如果是数组，遍历获取浏览器支持的上传方式
             if (S.isArray(type) && type.length > 0) {
                 S.each(type, function (t) {
@@ -676,19 +676,19 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
          * @return {Button}
          */
         _renderButton:function () {
-            var self = this, button = self.get('button'),
+            var self = this, button,Button,
+                type = self.get('type'),
+                buttonTarget = self.get('target'),
                 multiple = self.get('multiple'),
-                disabled = self.get('disabled');
-            if (!S.isObject(button)) {
-                S.log(LOG_PREFIX + 'button参数不合法！');
-                return false;
-            }
+                disabled = self.get('disabled'),
+                name = self.get('name');
+            Button = type == Uploader.type.FLASH && SwfButton || HtmlButton;
+            button = new Button(buttonTarget,{name:name,multiple:multiple,disabled:disabled});
             //监听按钮改变事件
             button.on('change', self._select, self);
             //运行按钮实例
             button.render();
-            button.set('multiple',multiple);
-            button.set('disabled',disabled);
+            self.set('button',button);
             return button;
         },
         /**
@@ -696,7 +696,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
          * @return {Queue} 队列实例
          */
         _renderQueue:function () {
-            var self = this, queue = self.get('queue'),
+            var self = this, queue = new Queue(),
                 urlsInput = self.get('urlsInput');
             if (!S.isObject(queue)) {
                 S.log(LOG_PREFIX + 'queue参数不合法');
@@ -707,8 +707,9 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
             //监听队列的删除事件
             queue.on('remove', function (ev) {
                 //删除该文件路径，sUrl为服务器端返回的文件路径，而url是客服端文件路径
-                urlsInput.remove(ev.file.sUrl);
+                if(ev.file.sUrl && urlsInput) urlsInput.remove(ev.file.sUrl);
             });
+            self.set('queue',queue);
             return queue;
         },
         /**
@@ -841,7 +842,8 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 if(!file.sUrl && file.result) file.sUrl = file.result.data.url;
                 //向队列添加文件
                 var fileData = queue.add(file),
-                    id = fileData.id,index = queue.getFileIndex(id);
+                    id = fileData.id,index = queue.getFileIndex(id),
+                    files = queue.get('files');
                 urlsInput.add(file.sUrl);
                 //改变文件状态为成功
                 queue.fileStatus(index,'success',{index:index,id:id,file:fileData});
@@ -872,7 +874,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
          */
         queue:{value:{}},
         /**
-         * 采用的上传方案，当值是数组时，比如“type” : ["flash","ajax","iframe"]，按顺序获取浏览器支持的方式，该配置会优先使用flash上传方式，如果浏览器不支持flash，会降级为ajax，如果还不支持ajax，会降级为iframe；当值是字符串时，比如“type” : “ajax”，表示只使用ajax上传方式。这种方式比较极端，在不支持ajax上传方式的浏览器会不可用；当“type” : “auto”，auto是一种特例，等价于["ajax","iframe"]。
+         * 采用的上传方案，当值是数组时，比如“type” : ["flash","ajax","iframe"]，按顺序获取浏览器支持的方式，该配置会优先使用flash上传方式，如果浏览器不支持flash，会降级为ajax，如果还不支持ajax，会降级为iframe；当值是字符串时，比如“type” : “ajax”，表示只使用ajax上传方式。这种方式比较极端，在不支持ajax上传方式的浏览器会不可用；当“type” : “auto”，auto是一种特例，等价于["ajax","flash","iframe"]。
          * @type String|Array
          * @default "auto"
          */
@@ -977,7 +979,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
         return Math.max(bytes, 0.1).toFixed(1) + ['kB', 'MB', 'GB', 'TB', 'PB', 'EB'][i];
     };
     return Uploader;
-}, {requires:['base', 'node', './urlsInput', './type/iframe', './type/ajax', './type/flash', 'flash']});
+}, {requires:['base', 'node', './urlsInput', './type/iframe', './type/ajax', './type/flash','./button/base','./button/swfButton','./queue']});
 /**
  * @fileoverview 文件上传按钮base
  * @author: 紫英(橘子)<daxingplay@gmail.com>, 剑平（明河）<minghe36@126.com>
@@ -1207,7 +1209,7 @@ KISSY.add('gallery/form/1.2/uploader/button/base',function(S, Node, Base) {
              * @type String
              */
             tpl : {
-                value : '<div class="file-input-wrapper"><input type="file" name="{name}" hidefocus="true" class="file-input" style="font-size:400px;" /></div>'
+                value : '<div class="file-input-wrapper" style="overflow: hidden;"><input type="file" name="{name}" hidefocus="true" class="file-input" style="font-size:400px;" /></div>'
             },
             /**
              * 隐藏的表单上传域的name值
@@ -1389,8 +1391,8 @@ KISSY.add('gallery/form/1.2/uploader/button/swfButton', function (S, Node, Base,
             var self = this, flash = self.get('flash'),
                 target = self.get('target');
             S.mix(flash.attrs, {
-                width:target.width(),
-                height:target.height()
+                width:target.innerWidth(),
+                height:target.innerHeight()
             });
             self.set('flash', flash);
         },
@@ -1426,6 +1428,22 @@ KISSY.add('gallery/form/1.2/uploader/button/swfButton', function (S, Node, Base,
                 //swfUploader.lock();
             }
             return disabled;
+        },
+        /**
+         * 显示按钮
+         */
+        show:function(){
+             var self = this,
+                 $target = self.get('target');
+             $target.show();
+        },
+        /**
+         * 隐藏按钮
+         */
+        hide:function(){
+            var self = this,
+                $target = self.get('target');
+            $target.hide();
         }
     }, {ATTRS:/** @lends SwfButton.prototype*/{
         /**
@@ -1451,7 +1469,7 @@ KISSY.add('gallery/form/1.2/uploader/button/swfButton', function (S, Node, Base,
          * @type String
          */
         tpl:{
-            value:'<div id="{id}" class="uploader-button-swf" style="position: absolute;top:0;left:0;"></div>'
+            value:'<div id="{id}" class="uploader-button-swf" style="position: absolute;top:0;left:0;z-index:2000;"></div>'
         },
         /**
          * 是否开启多选支持
@@ -1540,7 +1558,7 @@ KISSY.add('gallery/form/1.2/uploader/button/swfButton', function (S, Node, Base,
  * @fileoverview 运行文件上传组件
  * @author 剑平（明河）<minghe36@126.com>,紫英<daxingplay@gmail.com>
  **/
-KISSY.add('gallery/form/1.2/uploader/index',function (S, Base, Node, Uploader, Button,SwfButton,Auth,Queue) {
+KISSY.add('gallery/form/1.2/uploader/index',function (S, Base, Node, Uploader,Auth) {
     var EMPTY = '', $ = Node.all, LOG_PREFIX = '[uploaderRender]:',
         dataName = {
             CONFIG:'data-config',
@@ -1632,77 +1650,48 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
          */
         _init:function () {
             var self = this,
-                //按钮
-                button = self._initButton(),
-                //队列
-                queue = self._initQueue(),
-                //上传组件
-                uploader = self._initUploader(button,queue),
-                //上传验证
-                auth = self._auth(),
-                classes = {uploader:uploader,button:button,queue:queue,auth:auth},
                 //主题路径
-                theme = self.get('theme');
-            self.set('button', button);
+                theme = self.get('theme'),
+                uploader;
             //不使用主题
             if(theme == EMPTY){
+                uploader = self._initUploader();
+                self.set('button', uploader.get('button'));
                 S.later(function(){
-                    self.fire('init', classes);
+                    self.fire('init', {uploader:uploader,button:uploader.get('button'),queue:uploader.get('queue'),auth:uploader.get('auth')});
                 },500);
             }else{
                 self._initThemes(function (theme) {
+                    uploader = self._initUploader();
+                    self.set('button', uploader.get('button'));
                     theme.set('uploader',uploader);
-                    theme.set('button',button);
-                    theme.set('queue',queue);
-                    theme.set('auth',auth);
+                    theme.set('button',uploader.get('button'));
+                    theme.set('queue',uploader.get('queue'));
+                    theme.set('auth',uploader.get('auth'));
                     theme._UploaderRender(function(){
                         // 抓取restoreHook容器内的数据，生成文件DOM
                         uploader.restore();
                         theme.afterUploaderRender(uploader);
-                        self.fire('init', classes);
+                        self.fire('init', {uploader:uploader,button:uploader.get('button'),queue:uploader.get('queue'),auth:uploader.get('auth')});
                     });
                 });
             }
         },
         /**
          * 初始化Uploader
-         * @param { Button} button Button的实例
-         * @param { Queue} queue Queue的实例
          * @return {Uploader}
          */
-        _initUploader:function(button,queue){
+        _initUploader:function(){
             var self = this, uploaderConfig = self.get('uploaderConfig'),
                 name = self.get('name');
             S.mix(uploaderConfig.serverConfig,{'fileDataName':name});
             //配置增加按钮实例和队列实例
-            S.mix(uploaderConfig, {button:button, queue:queue});
+            S.mix(uploaderConfig, {target:self.get('buttonTarget')});
             var uploader = new Uploader(uploaderConfig);
             uploader.render();
             self.set('uploader', uploader);
+            self._auth();
             return uploader;
-        },
-        /**
-         * 初始化模拟的上传按钮
-         * @return {Button}
-         */
-        _initButton:function () {
-            var self = this,
-                target = self.get('buttonTarget'),
-                //从html标签的伪属性中抓取配置
-                config = S.form.parseConfig(target,dataName.BUTTON_CONFIG),
-                name = self.get('name'),
-                type = self.get('type');
-            //合并配置
-            config = S.merge({name:name},config);
-            //实例化上传按钮
-            return type != 'flash' && new Button(target, config) || new SwfButton(target);
-        },
-        /**
-         * 初始化队列
-         * @return {Queue}
-         */
-        _initQueue:function(){
-            return new Queue();
         },
         /**
          * 初始化主题
@@ -1720,9 +1709,12 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
             theme = self._getThemeName(theme);
             S.use(theme, function (S, Theme) {
                 var queueTarget = self.get('queueTarget'), theme;
-                S.mix(config,{queueTarget:queueTarget});
+                S.mix(config,{queueTarget:queueTarget,buttonTarget:self.get('buttonTarget')});
                 theme = new Theme(config);
-                callback && callback.call(self, theme);
+                theme.on('render',function(){
+                    callback && callback.call(self, theme);
+                });
+                theme.render();
             })
         },
         /**
@@ -1815,7 +1807,7 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
         }
     });
     return RenderUploader;
-}, {requires:['base', 'node', './base', './button/base','./button/swfButton','./auth/base','./queue']});
+}, {requires:['base', 'node', './base','./auth/base']});
 /*
 Copyright 2011, KISSY UI Library v1.1.5
 MIT Licensed
@@ -2110,8 +2102,14 @@ KISSY.add('gallery/form/1.2/uploader/plugins/filedrop/filedrop', function (S, No
             var self = this,mode = self.get('mode'),
                 uploader = self.get('uploader'),
                 $dropArea;
+            if(uploader.get('type') == 'flash'){
+                S.log('flash上传方式不支持拖拽！');
+                self.set('isSupport',false);
+                return false;
+            }
             if(mode != 'supportDrop'){
                 S.log('该浏览器不支持拖拽上传！');
+                self.set('isSupport',false);
                 return false;
             }
             if(!uploader){
@@ -2225,6 +2223,10 @@ KISSY.add('gallery/form/1.2/uploader/plugins/filedrop/filedrop', function (S, No
             dropContainer:{
                 value:EMPTY
             },
+            /**
+             * 是否支持拖拽
+             */
+            isSupport:{value:true},
             /**
              * 模板
              * @type Object
@@ -3041,10 +3043,19 @@ KISSY.add('gallery/form/1.2/uploader/theme', function (S, Node, Base) {
         var self = this;
         //调用父类构造函数
         Theme.superclass.constructor.call(self, config);
-        self._LoaderCss();
     }
 
     S.extend(Theme, Base, /** @lends Theme.prototype*/{
+        /**
+         * 组件运行
+         */
+        render:function(){
+            var self = this;
+            self._LoaderCss(function(){
+                self._addThemeCssName();
+                self.fire('render');
+            });
+        },
         /**
          * 在上传组件运行完毕后执行的方法（对上传组件所有的控制都应该在这个函数内）
          * @param {Uploader} uploader
@@ -3117,7 +3128,6 @@ KISSY.add('gallery/form/1.2/uploader/theme', function (S, Node, Base) {
         _UploaderRender:function (callback) {
             var self = this;
             self._initQueue();
-            self._addThemeCssName();
             //加载插件
             self._loadPlugins(callback);
         },
@@ -3126,14 +3136,10 @@ KISSY.add('gallery/form/1.2/uploader/theme', function (S, Node, Base) {
          */
         _addThemeCssName:function () {
             var self = this, name = self.get('name'),
-                queue = self.get('queue'),
                 $queueTarget = $(self.get('queueTarget')),
-                button = self.get('button'),
-                $btn;
-            if (name == EMPTY || !queue || !$queueTarget.length) return false;
+                $btn = $(self.get('buttonTarget'));
+            if (name == EMPTY || !$queueTarget.length) return false;
             $queueTarget.addClass(name + classSuffix.QUEUE);
-            if (!button) return false;
-            $btn = button.get('target');
             $btn.addClass(name + classSuffix.BUTTON);
         },
         /**
@@ -3156,13 +3162,17 @@ KISSY.add('gallery/form/1.2/uploader/theme', function (S, Node, Base) {
         /**
          * 加载css文件
          */
-        _LoaderCss:function () {
+        _LoaderCss:function (callback) {
             var self = this,
                 cssUrl = self.get('cssUrl');
             //加载css文件
-            if (cssUrl == EMPTY) return false;
+            if (cssUrl == EMPTY){
+                callback.call(self);
+                return false;
+            }
             S.use(cssUrl, function () {
                 S.log(cssUrl + '加载成功！');
+                callback.call(self);
             });
         },
         /**
@@ -3618,6 +3628,7 @@ KISSY.add('gallery/form/1.2/uploader/type/flash', function (S, Node, UploadType,
         var self = this;
         //调用父类构造函数
         FlashType.superclass.constructor.call(self, config);
+        self.isHasCrossdomain();
         self._init();
     }
 
@@ -3702,6 +3713,7 @@ KISSY.add('gallery/form/1.2/uploader/type/flash', function (S, Node, UploadType,
                 //文件总共字节数
                 total : ev.bytesTotal
             });
+            S.log(LOG_PREFIX + '已经上传字节数为：' + ev.bytesLoaded);
             self.fire(FlashType.event.PROGRESS, { 'loaded':ev.loaded, 'total':ev.total });
         },
         /**
@@ -3716,6 +3728,7 @@ KISSY.add('gallery/form/1.2/uploader/type/flash', function (S, Node, UploadType,
                 S.log(LOG_PREFIX + 'json数据格式不合法！');
                 self.fire(FlashType.event.ERROR, {msg : '不是合法的json数据'});
             }
+            S.log(LOG_PREFIX + '服务器端输出：' + result);
             self.set('uploadingId',EMPTY);
             self.fire(FlashType.event.SUCCESS, {result : result});
         },
@@ -3726,8 +3739,39 @@ KISSY.add('gallery/form/1.2/uploader/type/flash', function (S, Node, UploadType,
             var self = this;
             self.set('uploadingId',EMPTY);
             self.fire(FlashType.event.ERROR, {msg : ev.msg});
+        },
+        /**
+         * 应用是否有flash跨域策略文件
+         */
+        isHasCrossdomain:function(){
+            var domain = location.hostname;
+             S.io({
+                 url:'http://' + domain + '/crossdomain.xml',
+                 dataType:"xml",
+                 error:function(){
+                     S.log('缺少crossdomain.xml文件或该文件不合法！');
+                 }
+             })
         }
     }, {ATTRS:/** @lends FlashType*/{
+        /**
+         * 服务器端路径，留意flash必须是绝对路径
+         */
+        action:{
+            value:EMPTY,
+            getter:function(v){
+                var reg = /^http/;
+                //不是绝对路径拼接成绝对路径
+                if(!reg.test(v)){
+                     var href = location.href,uris = href.split('/'),newUris;
+                    newUris  = S.filter(uris,function(item,i){
+                        return i < uris.length - 1;
+                    });
+                    v = newUris.join('/') + '/' + v;
+                }
+                return v;
+            }
+        },
         /**
          * ajbridge的uploader组件的实例，必须参数
          */

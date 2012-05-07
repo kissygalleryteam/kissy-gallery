@@ -94,32 +94,29 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
          */
         _init:function () {
             var self = this,
-                //上传组件
-                uploader = self._initUploader(),
-                button = uploader.get('button'),
-                queue = uploader.get('queue'),
-                //上传验证
-                auth = self._auth(),
-                classes = {uploader:uploader,button:button,queue:queue,auth:auth},
                 //主题路径
-                theme = self.get('theme');
-            self.set('button', button);
+                theme = self.get('theme'),
+                uploader;
             //不使用主题
             if(theme == EMPTY){
+                uploader = self._initUploader();
+                self.set('button', uploader.get('button'));
                 S.later(function(){
-                    self.fire('init', classes);
+                    self.fire('init', {uploader:uploader,button:uploader.get('button'),queue:uploader.get('queue'),auth:uploader.get('auth')});
                 },500);
             }else{
                 self._initThemes(function (theme) {
+                    uploader = self._initUploader();
+                    self.set('button', uploader.get('button'));
                     theme.set('uploader',uploader);
-                    theme.set('button',button);
-                    theme.set('queue',queue);
-                    theme.set('auth',auth);
+                    theme.set('button',uploader.get('button'));
+                    theme.set('queue',uploader.get('queue'));
+                    theme.set('auth',uploader.get('auth'));
                     theme._UploaderRender(function(){
                         // 抓取restoreHook容器内的数据，生成文件DOM
                         uploader.restore();
                         theme.afterUploaderRender(uploader);
-                        self.fire('init', classes);
+                        self.fire('init', {uploader:uploader,button:uploader.get('button'),queue:uploader.get('queue'),auth:uploader.get('auth')});
                     });
                 });
             }
@@ -137,6 +134,7 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
             var uploader = new Uploader(uploaderConfig);
             uploader.render();
             self.set('uploader', uploader);
+            self._auth();
             return uploader;
         },
         /**
@@ -155,9 +153,12 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
             theme = self._getThemeName(theme);
             S.use(theme, function (S, Theme) {
                 var queueTarget = self.get('queueTarget'), theme;
-                S.mix(config,{queueTarget:queueTarget});
+                S.mix(config,{queueTarget:queueTarget,buttonTarget:self.get('buttonTarget')});
                 theme = new Theme(config);
-                callback && callback.call(self, theme);
+                theme.on('render',function(){
+                    callback && callback.call(self, theme);
+                });
+                theme.render();
             })
         },
         /**

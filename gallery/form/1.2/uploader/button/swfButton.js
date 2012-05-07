@@ -119,8 +119,8 @@ KISSY.add('gallery/form/1.2/uploader/button/swfButton', function (S, Node, Base,
             var self = this, flash = self.get('flash'),
                 target = self.get('target');
             S.mix(flash.attrs, {
-                width:target.width(),
-                height:target.height()
+                width:target.innerWidth(),
+                height:target.innerHeight()
             });
             self.set('flash', flash);
         },
@@ -156,6 +156,22 @@ KISSY.add('gallery/form/1.2/uploader/button/swfButton', function (S, Node, Base,
                 //swfUploader.lock();
             }
             return disabled;
+        },
+        /**
+         * 显示按钮
+         */
+        show:function(){
+             var self = this,
+                 $target = self.get('target');
+             $target.show();
+        },
+        /**
+         * 隐藏按钮
+         */
+        hide:function(){
+            var self = this,
+                $target = self.get('target');
+            $target.hide();
         }
     }, {ATTRS:/** @lends SwfButton.prototype*/{
         /**
@@ -181,7 +197,7 @@ KISSY.add('gallery/form/1.2/uploader/button/swfButton', function (S, Node, Base,
          * @type String
          */
         tpl:{
-            value:'<div id="{id}" class="uploader-button-swf" style="position: absolute;top:0;left:0;"></div>'
+            value:'<div id="{id}" class="uploader-button-swf" style="position: absolute;top:0;left:0;z-index:2000;"></div>'
         },
         /**
          * 是否开启多选支持

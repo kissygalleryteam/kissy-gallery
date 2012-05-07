@@ -101,6 +101,7 @@ KISSY.add('gallery/form/1.2/uploader/type/flash', function (S, Node, UploadType,
                 //文件总共字节数
                 total : ev.bytesTotal
             });
+            S.log(LOG_PREFIX + '已经上传字节数为：' + ev.bytesLoaded);
             self.fire(FlashType.event.PROGRESS, { 'loaded':ev.loaded, 'total':ev.total });
         },
         /**
@@ -115,6 +116,7 @@ KISSY.add('gallery/form/1.2/uploader/type/flash', function (S, Node, UploadType,
                 S.log(LOG_PREFIX + 'json数据格式不合法！');
                 self.fire(FlashType.event.ERROR, {msg : '不是合法的json数据'});
             }
+            S.log(LOG_PREFIX + '服务器端输出：' + result);
             self.set('uploadingId',EMPTY);
             self.fire(FlashType.event.SUCCESS, {result : result});
         },

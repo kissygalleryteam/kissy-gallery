@@ -99,7 +99,11 @@ KISSY.add('gallery/form/1.2/uploader/themes/default/index', function (S, Node, T
                 progressBar = file.progressBar;
             $del.show();
             $cancel.hide();
-            if(!progressBar) return false;
+            //不存在进度条直接予以隐藏
+            if(!progressBar){
+                $('.J_ProgressBar_'+id).hide();
+                return false;
+            }
             //处理进度
             progressBar.set('value',100);
         },
