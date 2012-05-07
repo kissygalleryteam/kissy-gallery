@@ -50,8 +50,14 @@ KISSY.add('gallery/form/1.2/uploader/plugins/filedrop/filedrop', function (S, No
             var self = this,mode = self.get('mode'),
                 uploader = self.get('uploader'),
                 $dropArea;
+            if(uploader.get('type') == 'flash'){
+                S.log('flash上传方式不支持拖拽！');
+                self.set('isSupport',false);
+                return false;
+            }
             if(mode != 'supportDrop'){
                 S.log('该浏览器不支持拖拽上传！');
+                self.set('isSupport',false);
                 return false;
             }
             if(!uploader){
@@ -165,6 +171,10 @@ KISSY.add('gallery/form/1.2/uploader/plugins/filedrop/filedrop', function (S, No
             dropContainer:{
                 value:EMPTY
             },
+            /**
+             * 是否支持拖拽
+             */
+            isSupport:{value:true},
             /**
              * 模板
              * @type Object
