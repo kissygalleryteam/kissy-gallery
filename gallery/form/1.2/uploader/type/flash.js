@@ -130,8 +130,9 @@ KISSY.add('gallery/form/1.2/uploader/type/flash', function (S, Node, UploadType,
          * 应用是否有flash跨域策略文件
          */
         isHasCrossdomain:function(){
+            var domain = location.hostname;
              S.io({
-                 url:'http://localhost/crossdomain.xml',
+                 url:'http://' + domain + '/crossdomain.xml',
                  dataType:"xml",
                  error:function(){
                      S.log('缺少crossdomain.xml文件或该文件不合法！');
