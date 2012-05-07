@@ -2,7 +2,7 @@
  * @fileoverview 运行文件上传组件
  * @author 剑平（明河）<minghe36@126.com>,紫英<daxingplay@gmail.com>
  **/
-KISSY.add('gallery/form/1.2/uploader/index',function (S, Base, Node, Uploader, Button,SwfButton,Auth,Queue) {
+KISSY.add('gallery/form/1.2/uploader/index',function (S, Base, Node, Uploader,Auth) {
     var EMPTY = '', $ = Node.all, LOG_PREFIX = '[uploaderRender]:',
         dataName = {
             CONFIG:'data-config',
@@ -94,12 +94,10 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
          */
         _init:function () {
             var self = this,
-                //按钮
-                button = self._initButton(),
-                //队列
-                queue = self._initQueue(),
                 //上传组件
-                uploader = self._initUploader(button,queue),
+                uploader = self._initUploader(),
+                button = uploader.get('button'),
+                queue = uploader.get('queue'),
                 //上传验证
                 auth = self._auth(),
                 classes = {uploader:uploader,button:button,queue:queue,auth:auth},
@@ -128,43 +126,18 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
         },
         /**
          * 初始化Uploader
-         * @param { Button} button Button的实例
-         * @param { Queue} queue Queue的实例
          * @return {Uploader}
          */
-        _initUploader:function(button,queue){
+        _initUploader:function(){
             var self = this, uploaderConfig = self.get('uploaderConfig'),
                 name = self.get('name');
             S.mix(uploaderConfig.serverConfig,{'fileDataName':name});
             //配置增加按钮实例和队列实例
-            S.mix(uploaderConfig, {button:button, queue:queue});
+            S.mix(uploaderConfig, {target:self.get('buttonTarget')});
             var uploader = new Uploader(uploaderConfig);
             uploader.render();
             self.set('uploader', uploader);
             return uploader;
-        },
-        /**
-         * 初始化模拟的上传按钮
-         * @return {Button}
-         */
-        _initButton:function () {
-            var self = this,
-                target = self.get('buttonTarget'),
-                //从html标签的伪属性中抓取配置
-                config = S.form.parseConfig(target,dataName.BUTTON_CONFIG),
-                name = self.get('name'),
-                type = self.get('type');
-            //合并配置
-            config = S.merge({name:name},config);
-            //实例化上传按钮
-            return type != 'flash' && new Button(target, config) || new SwfButton(target);
-        },
-        /**
-         * 初始化队列
-         * @return {Queue}
-         */
-        _initQueue:function(){
-            return new Queue();
         },
         /**
          * 初始化主题
@@ -277,4 +250,4 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
         }
     });
     return RenderUploader;
-}, {requires:['base', 'node', './base', './button/base','./button/swfButton','./auth/base','./queue']});
+}, {requires:['base', 'node', './base','./auth/base']});

@@ -13,14 +13,14 @@
     <h5>先来看个最简单的demo</h5>
         <p>点击下来的按钮，上传1个文件试下</p>
         <!-- 上传按钮，组件配置请写在data-config内 -->
-        <span id="J_UploaderBtn" class="uploader-button" data-config=
+        <a id="J_UploaderBtn" class="uploader-button" data-config=
                 '{ "serverConfig":{"action":"upload.php","data":{"dir":"files/"}},
                     "name":"Filedata",
                     "urlsInputName":"fileUrls"
                 }'
            href="#">
             选择要上传的文件
-        </span>
+        </a>
         <!-- 文件上传队列 -->
         <ul id="J_UploaderQueue">
 
@@ -33,18 +33,18 @@
     <p>配置写在data-config属性内，为一个json字符串，要特别小心json格式必须符合规范，不然解析时会报错。</p>
     <ul>
         <li><b>type</b>：上传方式，当为auto时，组件会根据浏览器选择使用ajax还是iframe</li>
-        <li><b>serverConfig</b>：服务器端配置，包括最重要的action（路径）配置</li>
+        <li><b>serverConfig</b>：服务器端配置，包括最重要的action（路径）配置，data为传递给服务器的附加数据</li>
         <li><b>name</b>：文件上传域name名</li>
         <li><b>urlsInputName</b>：用于存放服务器端返回的文件路径的input</li>
     </ul>
     （默认自动上传文件，如果不希望自动上传可以配置autoUpload:false。）
     <pre class='brush: xml; '>
         <!-- 上传按钮，组件配置请写在data-config内 -->
-        <a id="J_UploaderBtn" class="g-u uploader-button uploader-button-focus" data-config=
-                '{"type" : "auto",
-                "serverConfig":{"action":"upload.php","data":{"dir":"files/"},"dataType" : "json"},
-                "name":"Filedata",
-                "urlsInputName":"fileUrls"}'
+        <a id="J_UploaderBtn" class="uploader-button" data-config=
+                '{ "serverConfig":{"action":"upload.php","data":{"dir":"files/"}},
+                    "name":"Filedata",
+                    "urlsInputName":"fileUrls"
+                }'
            href="#">
             选择要上传的文件
         </a>
@@ -63,6 +63,16 @@
            packages:[ {
                name:"gallery",
                path:"../../../../../../",
+               charset:"utf-8"
+           } ]
+    });
+     </pre>
+    （PS:上面的包配置是针对本地路径，一般使用cdn上的发布版，包配置如下：）
+    <pre class='brush: js; '>
+        KISSY.config({
+           packages:[ {
+               name:"gallery",
+               path:"http://a.tbcdn.cn/s/kissy/",
                charset:"utf-8"
            } ]
     });
