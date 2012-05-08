@@ -1,17 +1,17 @@
 /**
- * @fileoverview Êı×ÖÎÄ±¾¿ò
- * @author Ò×Á²<yilian.wj@taobao.com>
+ * @fileoverview æ•°å­—æ–‡æœ¬æ¡†
+ * @author æ˜“æ•›<yilian.wj@taobao.com>
  * @date 12-4-22
  */
 KISSY.add('gallery/form/1.1/number/base', function(S, Node, Base){
 	var $ = Node.all;
 	/**
 	 * @name Number
-	 * @class Êı×ÖÎÄ±¾¿ò
+	 * @class æ•°å­—æ–‡æœ¬æ¡†
 	 * @constructor
 	 * @extends Base
-	 * @param {String} target Ä¿±ê
-	 * @param {Object} config ×é¼şÅäÖÃ
+	 * @param {String} target ç›®æ ‡
+	 * @param {Object} config ç»„ä»¶é…ç½®
 	 * @example
 	 * var ck = new Number('#J_Content input',{trigger:{plus:'#J_Plus',minus:'#J_Minus'}})
 	 */
@@ -19,13 +19,13 @@ KISSY.add('gallery/form/1.1/number/base', function(S, Node, Base){
 		
 		var self = this;
 		config = S.merge({target: $(target)},config);
-		//µ÷ÓÃ¸¸Àà¹¹ÔìÆ÷
+		//è°ƒç”¨çˆ¶ç±»æ„é€ å™¨
 		Number.superclass.constructor.call(self, config);
 	}
 
 	S.extend(Number, Base,  /** @lends Number.prototype*/{
 		/*
-		* ÔËĞĞ
+		* è¿è¡Œ
 		*/
 		render: function(){
 			var self = this,$target = self.get('target');
@@ -59,8 +59,8 @@ KISSY.add('gallery/form/1.1/number/base', function(S, Node, Base){
             return parseFloat(value, 10);			
 		},
 		/**
-		 * [numValidation ÊäÈë¿òÑéÖ¤²¢Ğ£Õı]
-		 * @param  {[NodeList]} target [ÎÄ±¾¿ò½Úµã¶ÔÏó]
+		 * [numValidation è¾“å…¥æ¡†éªŒè¯å¹¶æ ¡æ­£]
+		 * @param  {[NodeList]} target [æ–‡æœ¬æ¡†èŠ‚ç‚¹å¯¹è±¡]
 		 */
         numValidation: function(target){
 			var self = this,formatPrice = self.formatPrice,
@@ -75,7 +75,7 @@ KISSY.add('gallery/form/1.1/number/base', function(S, Node, Base){
 	},{
 		ATTRS: /** @lends Number.prototype*/{
 			/**
-			 * ÅäÖÃµÄÄ¿±ê,Ñ¡ÔñÆ÷µÄ×Ö·û´®
+			 * é…ç½®çš„ç›®æ ‡,é€‰æ‹©å™¨çš„å­—ç¬¦ä¸²
 			 * @type {String}
 			 */
 			target: {
@@ -89,7 +89,7 @@ KISSY.add('gallery/form/1.1/number/base', function(S, Node, Base){
 			},
 
 			/*
-			* ´¥·¢¼Ó¼õµÄ°´Å¥
+			* è§¦å‘åŠ å‡çš„æŒ‰é’®
 			*/
 			trigger: {
 				value: ''
