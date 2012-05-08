@@ -1,99 +1,99 @@
 /**
- * @fileoverview Êı×ÖÎÄ±¾¿ò
- * @author Ò×Á²<yilian.wj@taobao.com>
+ * @fileoverview æ•°å­—æ–‡æœ¬æ¡†
+ * @author æ˜“æ•›<yilian.wj@taobao.com>
  * @date 12-4-22
  */
 KISSY.add('gallery/form/1.1/number/base', function(S, Node, Base){
-	var $ = Node.all;
-	/**
-	 * @name Number
-	 * @class Êı×ÖÎÄ±¾¿ò
-	 * @constructor
-	 * @extends Base
-	 * @param {String} target Ä¿±ê
-	 * @param {Object} config ×é¼şÅäÖÃ
-	 * @example
-	 * var ck = new Number('#J_Content input',{trigger:{plus:'#J_Plus',minus:'#J_Minus'}})
-	 */
-	function Number(target, config) {
-		
-		var self = this;
-		config = S.merge({target: $(target)},config);
-		//µ÷ÓÃ¸¸Àà¹¹ÔìÆ÷
-		Number.superclass.constructor.call(self, config);
-	}
+    var $ = Node.all;
+    /**
+     * @name Number
+     * @class æ•°å­—æ–‡æœ¬æ¡†
+     * @constructor
+     * @extends Base
+     * @param {String} target ç›®æ ‡
+     * @param {Object} config ç»„ä»¶é…ç½®
+     * @example
+     * var ck = new Number('#J_Content input',{trigger:{plus:'#J_Plus',minus:'#J_Minus'}})
+     */
+    function Number(target, config) {
 
-	S.extend(Number, Base,  /** @lends Number.prototype*/{
-		/*
-		* ÔËĞĞ
-		*/
-		render: function(){
-			var self = this,$target = self.get('target');
+        var self = this;
+        config = S.merge({target: $(target)},config);
+        //è°ƒç”¨çˆ¶ç±»æ„é€ å™¨
+        Number.superclass.constructor.call(self, config);
+    }
+
+    S.extend(Number, Base,  /** @lends Number.prototype*/{
+        /*
+         * è¿è¡Œ
+         */
+        render: function(){
+            var self = this,$target = self.get('target');
             if(!$target.length) return false;
             self.eventOnChangeNum();
             self.eventOnValide();
-		},
+        },
 
-		eventOnChangeNum: function(){
-			var self = this, $target = self.get('target'), inputValue = $target.val(), range = $target.attr('data-range') || 1,
-			trigger = self.get('trigger'), $plus = $(trigger.plus), $minus = $(trigger.minus),
-			numValidation = self.numValidation;
-			
-			$plus.on('click', function(){	
-				inputValue += +range;
-				numValidation($target);
-			});
-			$minus.on('click',function(){
-				inputValue -= +range;
-				numValidation($target);
-			})
-		},
-		eventOnValide: function(){
-			var self = this, $target = self.get('target');
-			$target.on('blur',function(){
-				self.numValidation($target);
-			})
-		},
+        eventOnChangeNum: function(){
+            var self = this, $target = self.get('target'), inputValue = $target.val(), range = $target.attr('data-range') || 1,
+                trigger = self.get('trigger'), $plus = $(trigger.plus), $minus = $(trigger.minus),
+                numValidation = self.numValidation;
 
-		formatPrice: function(){
-            return parseFloat(value, 10);			
-		},
-		/**
-		 * [numValidation ÊäÈë¿òÑéÖ¤²¢Ğ£Õı]
-		 * @param  {[NodeList]} target [ÎÄ±¾¿ò½Úµã¶ÔÏó]
-		 */
+            $plus.on('click', function(){
+                inputValue += +range;
+                numValidation($target);
+            });
+            $minus.on('click',function(){
+                inputValue -= +range;
+                numValidation($target);
+            })
+        },
+        eventOnValide: function(){
+            var self = this, $target = self.get('target');
+            $target.on('blur',function(){
+                self.numValidation($target);
+            })
+        },
+
+        formatPrice: function(){
+            return parseFloat(value, 10);
+        },
+        /**
+         * [numValidation è¾“å…¥æ¡†éªŒè¯å¹¶æ ¡æ­£]
+         * @param  {[NodeList]} target [æ–‡æœ¬æ¡†èŠ‚ç‚¹å¯¹è±¡]
+         */
         numValidation: function(target){
-			var self = this,formatPrice = self.formatPrice,
-			min = formatPrice($target.attr('data-min')) || '',
-			max = formatPrice($target.attr('data-max')) || '',
-			inputValue = formatPrice($target.val().replace(/[^\d\.]/g, ''));
-			inputValue = isNaN(inputValue) ? min : Math.max(min, inputValue);
-			inputValue = max && Math.min(max, inputValue);
-			
-			target.val(inputValue.toFixed(2));
-        }
-	},{
-		ATTRS: /** @lends Number.prototype*/{
-			/**
-			 * ÅäÖÃµÄÄ¿±ê,Ñ¡ÔñÆ÷µÄ×Ö·û´®
-			 * @type {String}
-			 */
-			target: {
-				value: '',
-				setter: function(v) {
-					return $(v);
-				},
-				getter: function(v) {
-					return $(v);
-				}
-			},
+            var self = this,formatPrice = self.formatPrice,
+                min = formatPrice($target.attr('data-min')) || '',
+                max = formatPrice($target.attr('data-max')) || '',
+                inputValue = formatPrice($target.val().replace(/[^\d\.]/g, ''));
+            inputValue = isNaN(inputValue) ? min : Math.max(min, inputValue);
+            inputValue = max && Math.min(max, inputValue);
 
-			/*
-			* ´¥·¢¼Ó¼õµÄ°´Å¥
-			*/
-			trigger: {
-				value: ''
-			}
-		}
-	})
+            target.val(inputValue.toFixed(2));
+        }
+    },{
+        ATTRS: /** @lends Number.prototype*/{
+            /**
+             * é…ç½®çš„ç›®æ ‡,é€‰æ‹©å™¨çš„å­—ç¬¦ä¸²
+             * @type {String}
+             */
+            target: {
+                value: '',
+                setter: function(v) {
+                    return $(v);
+                },
+                getter: function(v) {
+                    return $(v);
+                }
+            },
+
+            /*
+             * è§¦å‘åŠ å‡çš„æŒ‰é’®
+             */
+            trigger: {
+                value: ''
+            }
+        }
+    })
 },{requires:['node','base']});

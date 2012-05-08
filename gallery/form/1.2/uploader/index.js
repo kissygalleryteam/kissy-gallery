@@ -11,7 +11,7 @@ KISSY.add('gallery/form/1.2/uploader/index',function (S, Base, Node, Uploader,Au
             AUTH : 'data-auth'
         },
         //所支持的内置主题
-        THEMES = ['default','imageUploader', 'ershouUploader'],
+        THEMES = ['default','imageUploader', 'ershouUploader','uploadify'],
         //内置主题路径前缀
         THEME_PREFIX='gallery/form/1.2/uploader/themes/';
     S.namespace('form');
@@ -36,16 +36,13 @@ KISSY.add('gallery/form/1.2/uploader/index',function (S, Base, Node, Uploader,Au
     /**
      * @name RenderUploader
      * @class 异步文件上传入口文件，会从按钮的data-config='{}' 伪属性中抓取组件配置
-     * @version 1.1.4
+     * @version 1.2
      * @constructor
      * @param {String | HTMLElement} buttonTarget *，上传按钮目标元素
-     * @param {String | HTMLElement} queueTarget *，文件队列目标元素
-     * @param {Object} config 配置，该配置好覆盖data-config伪属性中的数据
+     * @param {String | HTMLElement} queueTarget 文件队列目标元素，再不需要显示文件信息的情况下这个参数可以设置为null
+     * @param {Object} config 配置，该配置会覆盖data-config伪属性中的数据
      * @requires Uploader
-     * @requires Button
-     * @requires SwfButton
      * @requires Auth
-     * @requires Queue
      * @example
      * <a id="J_UploaderBtn" class="uploader-button" data-config=
      '{"type" : "auto",
@@ -83,9 +80,9 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
      * @desc 上传组件完全初始化成功后触发，对uploader的操作务必先监听init事件
      * @event
      * @param {Uploader} ev.uploader   Uploader的实例
-     * @param {Uploader} ev.button   Button的实例
-     * @param {Uploader} ev.queue   Queue的实例
-     * @param {Uploader} ev.auth   Auth的实例
+     * @param {Button} ev.button   Button的实例
+     * @param {Queue} ev.queue   Queue的实例
+     * @param {Auth} ev.auth   Auth的实例
      */
 
     S.extend(RenderUploader, Base, /** @lends RenderUploader.prototype*/{
@@ -195,15 +192,21 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
     }, {
         ATTRS:/** @lends RenderUploader.prototype*/{
             /**
-             * 主题引用路径
+             * 主题引用路径，当值为""时，不使用uploader主题。非内置主题，值为模块路径，比如"refund/rfUploader"
              * @type String
-             * @default  “gallery/form/1.2/uploader/themes/default”
+             * @default  “default”
              */
-            theme:{value:'gallery/form/1.2/uploader/themes/default' },
+            theme:{value:'default' },
             /**
-             * 主题配置
+             * 主题配置，会覆盖data-theme-config中的配置，不再推荐使用伪属性的方式配置主题参数
              * @type Object
              * @default {}
+             * @since 1.2
+             * @example
+ //配置主题样式路径
+themeConfig:{
+    cssUrl:'gallery/form/1.2/uploader/themes/default/style.css'
+}
              */
             themeConfig:{value:{}},
             /**
@@ -215,7 +218,7 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
             /**
              * 队列目标元素
              * @default ""
-             * @type String|HTMLElement|KISSY.Node
+             * @type String|HTMLElement|KISSY.NodeList
              */
             queueTarget:{value:EMPTY},
             /**
@@ -228,6 +231,16 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
              * 验证配置
              * @type Object
              * @default {}
+             * @since 1.2
+             * @example
+             //验证配置
+             authConfig: {
+                 allowExts:[
+                     {desc:"JPG,JPEG,PNG,GIF,BMP", ext:"*.jpg;*.jpeg;*.png;*.gif;*.bmp"},
+                     '不支持{ext}格式的文件上传！'
+                 ],
+                 max:[3, '每次最多上传{max}个文件！']
+             }
              */
             authConfig:{value:{}},
             /**
