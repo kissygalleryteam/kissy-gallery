@@ -16,6 +16,7 @@ KISSY.add('gallery/form/1.2/uploader/type/flash', function (S, Node, UploadType,
         var self = this;
         //调用父类构造函数
         FlashType.superclass.constructor.call(self, config);
+        self.isHasCrossdomain();
         self._init();
     }
 
@@ -100,6 +101,7 @@ KISSY.add('gallery/form/1.2/uploader/type/flash', function (S, Node, UploadType,
                 //文件总共字节数
                 total : ev.bytesTotal
             });
+            S.log(LOG_PREFIX + '已经上传字节数为：' + ev.bytesLoaded);
             self.fire(FlashType.event.PROGRESS, { 'loaded':ev.loaded, 'total':ev.total });
         },
         /**
@@ -114,6 +116,7 @@ KISSY.add('gallery/form/1.2/uploader/type/flash', function (S, Node, UploadType,
                 S.log(LOG_PREFIX + 'json数据格式不合法！');
                 self.fire(FlashType.event.ERROR, {msg : '不是合法的json数据'});
             }
+            S.log(LOG_PREFIX + '服务器端输出：' + result);
             self.set('uploadingId',EMPTY);
             self.fire(FlashType.event.SUCCESS, {result : result});
         },
@@ -124,8 +127,39 @@ KISSY.add('gallery/form/1.2/uploader/type/flash', function (S, Node, UploadType,
             var self = this;
             self.set('uploadingId',EMPTY);
             self.fire(FlashType.event.ERROR, {msg : ev.msg});
+        },
+        /**
+         * 应用是否有flash跨域策略文件
+         */
+        isHasCrossdomain:function(){
+            var domain = location.hostname;
+             S.io({
+                 url:'http://' + domain + '/crossdomain.xml',
+                 dataType:"xml",
+                 error:function(){
+                     S.log('缺少crossdomain.xml文件或该文件不合法！');
+                 }
+             })
         }
     }, {ATTRS:/** @lends FlashType*/{
+        /**
+         * 服务器端路径，留意flash必须是绝对路径
+         */
+        action:{
+            value:EMPTY,
+            getter:function(v){
+                var reg = /^http/;
+                //不是绝对路径拼接成绝对路径
+                if(!reg.test(v)){
+                     var href = location.href,uris = href.split('/'),newUris;
+                    newUris  = S.filter(uris,function(item,i){
+                        return i < uris.length - 1;
+                    });
+                    v = newUris.join('/') + '/' + v;
+                }
+                return v;
+            }
+        },
         /**
          * ajbridge的uploader组件的实例，必须参数
          */

@@ -234,9 +234,12 @@ KISSY.add('gallery/form/1.2/uploader/queue', function (S, Node, Base) {
             var self = this, file = self.getFile(index),
                 theme = self.get('theme'),
                 curStatus,statusMethod;
-            if (!file || !theme) return false;
+            if (!file) return false;
             //状态
             curStatus = file['status'];
+            if(!status){
+                return curStatus;
+            }
             //状态一直直接返回
             if(curStatus == status) return self;
 
@@ -245,7 +248,7 @@ KISSY.add('gallery/form/1.2/uploader/queue', function (S, Node, Base) {
 
             statusMethod = '_'+status+'Handler';
             //如果主题存在对应的状态变更监听器，予以执行
-            if(S.isFunction(theme[statusMethod])){
+            if(theme && S.isFunction(theme[statusMethod])){
                 args = S.merge({uploader:self.get('uploader'),index:index,file:file,id:file.id},args);
                 theme[statusMethod].call(theme,args);
             }

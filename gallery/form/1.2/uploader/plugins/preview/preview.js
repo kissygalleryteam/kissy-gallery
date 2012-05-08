@@ -98,6 +98,7 @@ KISSY.add('gallery/form/1.2/uploader/plugins/preview/preview', function(S, D, E)
 		 * @return {String} 取得的图片地址
 		 */
 		preview: function(fileInput, imgElem){
+
 			fileInput = D.get(fileInput);
 			imgElem = D.get(imgElem);
 			var self = this,
@@ -118,7 +119,6 @@ KISSY.add('gallery/form/1.2/uploader/plugins/preview/preview', function(S, D, E)
 			
 			if(fileInput){
 				S.log(LOG_PRE + 'One file selected. Getting data...');
-				
 				// get Image location path or data uri
 				switch(_mode){
 					case 'domfile':

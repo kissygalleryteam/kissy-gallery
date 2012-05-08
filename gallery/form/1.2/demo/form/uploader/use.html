@@ -14,11 +14,11 @@
         <p>点击下来的按钮，上传1个文件试下</p>
         <!-- 上传按钮，组件配置请写在data-config内 -->
         <a id="J_UploaderBtn" class="uploader-button" data-config=
-                '{"type" : "auto",
-                "autoUpload":false,
-                "serverConfig":{"action":"upload.php","data":{"dir":"files/"}},
-                "name":"Filedata",
-                "urlsInputName":"fileUrls"}'
+                '{
+                 "serverConfig":{"action":"upload.php","data":{"dir":"files/"}},
+                    "name":"Filedata",
+                    "urlsInputName":"fileUrls"
+                }'
            href="#">
             选择要上传的文件
         </a>
@@ -33,19 +33,18 @@
     <h5>Step2:创建一个上传按钮，写上Uploader组件配置</h5>
     <p>配置写在data-config属性内，为一个json字符串，要特别小心json格式必须符合规范，不然解析时会报错。</p>
     <ul>
-        <li><b>type</b>：上传方式，当为auto时，组件会根据浏览器选择使用ajax还是iframe</li>
-        <li><b>serverConfig</b>：服务器端配置，包括最重要的action（路径）配置</li>
+        <li><b>serverConfig</b>：服务器端配置，包括最重要的action（路径）配置，data为传递给服务器的附加数据</li>
         <li><b>name</b>：文件上传域name名</li>
         <li><b>urlsInputName</b>：用于存放服务器端返回的文件路径的input</li>
     </ul>
     （默认自动上传文件，如果不希望自动上传可以配置autoUpload:false。）
     <pre class='brush: xml; '>
         <!-- 上传按钮，组件配置请写在data-config内 -->
-        <a id="J_UploaderBtn" class="g-u uploader-button uploader-button-focus" data-config=
-                '{"type" : "auto",
-                "serverConfig":{"action":"upload.php","data":{"dir":"files/"},"dataType" : "json"},
-                "name":"Filedata",
-                "urlsInputName":"fileUrls"}'
+        <a id="J_UploaderBtn" class="uploader-button" data-config=
+                '{ "serverConfig":{"action":"upload.php","data":{"dir":"files/"}},
+                    "name":"Filedata",
+                    "urlsInputName":"fileUrls"
+                }'
            href="#">
             选择要上传的文件
         </a>
@@ -68,6 +67,16 @@
            } ]
     });
      </pre>
+    （PS:上面的包配置是针对本地路径，一般使用cdn上的发布版，包配置如下：）
+    <pre class='brush: js; '>
+        KISSY.config({
+           packages:[ {
+               name:"gallery",
+               path:"http://a.tbcdn.cn/s/kissy/",
+               charset:"utf-8"
+           } ]
+    });
+     </pre>
     对上述配置不清楚的朋友，可以看<a href="http://docs.kissyui.com/docs/html/api/seed/loader/add.ver1.2.html" target="_blank">loader模块</a>。
     <pre class='brush: js; '>
         //加载上传组件入口文件
@@ -78,6 +87,19 @@
      </pre>
     <p>uploader/render为上传组件的入口文件，render.js会读取按钮上的data-config，然后自动初始化上传组件。</p>
     <p>就这么简单！</p>
+    <h5>Step5:将crossdomain.xml加入到域名根目录下。</h5>
+    <p>V1.2起，IE将优先采用flash上传，在不支持flash上传的情况下将切成iframe。</p>
+    <p>flash上传，就必须在域名根目录下存在跨域策略文件crossdomain.xml。</p>
+    <p>以淘宝网的跨域策略为例</p>
+    <pre class='brush: xml; '>
+        <cross-domain-policy>
+            <allow-access-from domain=”*.taobao.com”/>
+                <allow-access-from domain=”*.taobao.net”/>
+                    <allow-access-from domain=”*.taobaocdn.com”/>
+                        <allow-access-from domain=”*.allyes.com”/>
+        </cross-domain-policy>
+     </pre>
+    <p>如果你希望IE下使用iframe，请设置"type":["ajax","iframe"]即可</p>
 </article>
 <script>
     KISSY.config({

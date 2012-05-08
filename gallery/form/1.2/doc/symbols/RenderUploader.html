@@ -247,7 +247,7 @@ dl.data .dd{
         
             <div id="header">
     <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="http://docs.kissyui.com/docs/html/static/logo.png"/></a></h1>
-    <p class="sub-title">KF（kissy-form）V1.1.4—API文档</p>
+    <p class="sub-title">KF（kissy-form）V1.2—API文档</p>
     <ul class="navigation">
         <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.2/doc/index.html" target="_blank">文档</a></li>
         <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/uploader/index.html" target="_blank">示例</a></li>
@@ -280,7 +280,7 @@ dl.data .dd{
 
                                     
                                         <p>版本：
-                                            1.1.4</p>
+                                            1.2</p>
                                     
 
                                     
@@ -289,7 +289,7 @@ dl.data .dd{
 
                                     
                                         <p>源码：
-                                            <a href="../symbols/src/D__www_htdocs_gallery_gallery_form_1.1_uploader_index.js.html">index.js</a></p>
+                                            <a href="../symbols/src/D__www_htdocs_gallery_gallery_form_1.2_uploader_index.js.html">index.js</a></p>
 
                                     
 
@@ -308,6 +308,18 @@ dl.data .dd{
                                     </div>
                                     <div class="box-bd">
                                         <ul class="list summary-list">
+                                            
+                                                
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/RenderUploader.html#authConfig">authConfig</a></b>
+                                                        <span class="type">{Object}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">验证配置</span>
+                                                    </li>
+                                                
                                             
                                                 
                                                     <li class="li">
@@ -348,7 +360,7 @@ dl.data .dd{
                                                 
                                                     <li class="li">
                                                         <b class="name"><a href="../symbols/RenderUploader.html#queueTarget">queueTarget</a></b>
-                                                        <span class="type">{String|HTMLElement|KISSY.Node}</span>
+                                                        <span class="type">{String|HTMLElement|KISSY.NodeList}</span>
                                                         
                                                         
                                                         
@@ -365,7 +377,19 @@ dl.data .dd{
                                                         
                                                         
                                                         
-                                                        <span class="desc">主题引用路径</span>
+                                                        <span class="desc">主题引用路径，当值为""时，不使用uploader主题。非内置主题，值为模块路径，比如"refund/rfUploader"</span>
+                                                    </li>
+                                                
+                                            
+                                                
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/RenderUploader.html#themeConfig">themeConfig</a></b>
+                                                        <span class="type">{Object}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">主题配置，会覆盖data-theme-config中的配置，不再推荐使用伪属性的方式配置主题参数</span>
                                                     </li>
                                                 
                                             
@@ -398,35 +422,6 @@ dl.data .dd{
                                     </div>
                                 </div>
                                                     
-                            
-                            
-                                
-                                
-                                    <div class="box properties-box">
-                                        <div class="box-hd">
-                                            <h3>Static Properties</h3>
-                                        </div>
-                                        <div class="box-bd">
-                                            <ul class="static-list">
-                                            
-                                                
-                                            
-                                                
-                                            
-                                                
-                                            
-                                                
-                                            
-                                                
-                                            
-                                                
-                                            
-                                                
-                                            
-                                            </ul>
-                                        </div>
-                                     </div>
-                                
                             
                             <!-- properties END -->
                             
@@ -484,7 +479,7 @@ dl.data .dd{
                                                 
                                                 
                                                 
-                                                <dt>参数：</dt>
+                                                <dt>params：</dt>
                                                 <dd>
                                                     <ul class="list param-list">
                                                         
@@ -503,7 +498,7 @@ dl.data .dd{
                                                             
                                                             
                                                             <span class="type"><span class="light fixedFont">{String | HTMLElement}</span> </span>
-                                                            <span class="desc">*，文件队列目标元素</span>
+                                                            <span class="desc">文件队列目标元素，再不需要显示文件信息的情况下这个参数可以设置为null</span>
                                                         </li>
                                                         
                                                         <li class="li">
@@ -512,7 +507,7 @@ dl.data .dd{
                                                             
                                                             
                                                             <span class="type"><span class="light fixedFont">{Object}</span> </span>
-                                                            <span class="desc">配置，该配置好覆盖data-config伪属性中的数据</span>
+                                                            <span class="desc">配置，该配置会覆盖data-config伪属性中的数据</span>
                                                         </li>
                                                         
                                                     </ul>
@@ -526,26 +521,20 @@ dl.data .dd{
 
                                                 
                                                 
-                                                <dt>依赖：</dt>
+                                                <dt>require：</dt>
                                                 <dd>
                                                     <ul>
                                                     
                                                         <li><a href="../symbols/Uploader.html">Uploader</a></li>
                                                     
-                                                        <li><a href="../symbols/Button.html">Button</a></li>
-                                                    
-                                                        <li><a href="../symbols/SwfButton.html">SwfButton</a></li>
-                                                    
                                                         <li><a href="../symbols/Auth.html">Auth</a></li>
-                                                    
-                                                        <li><a href="../symbols/Queue.html">Queue</a></li>
                                                     
                                                     <ul>
                                                 </dd>
                                                 
                                                 
                                                 
-                                                <dt>示例：</dt>
+                                                <dt>example：</dt>
                                                 <dd>
                                                     
                                                     <pre class='brush: js;'><a id="J_UploaderBtn" class="uploader-button" data-config=
@@ -589,6 +578,52 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
                                     
                                     
                                         <li class="li">
+                                            <a name="authConfig"> </a>
+                                            <div class="title">                                                
+                                                <b class="name">authConfig</b>
+                                                <span class="type">{Object}</span> 
+                                                
+                                                
+                                                
+                                                
+                                                <span class="desc">
+                                                    — 验证配置
+                                                    
+                                                    
+                                                </span>
+                                            </div>
+                                            <!--
+                                            -->
+                                            
+                                                <div class="member-data"><span>since：</span>1.2</div>
+                                            
+                                            
+                                            
+                                            
+                                                <dl>
+                                                    <dt>example：</dt>
+                                                    <dd>
+                                                            
+                                                                <pre class='brush: js;'>
+                                                                    
+             //验证配置
+             authConfig: {
+                 allowExts:[
+                     {desc:"JPG,JPEG,PNG,GIF,BMP", ext:"*.jpg;*.jpeg;*.png;*.gif;*.bmp"},
+                     '不支持{ext}格式的文件上传！'
+                 ],
+                 max:[3, '每次最多上传{max}个文件！']
+             }
+                                                                </pre>
+                                                            
+                                                    </dd>
+                                                </dl>
+                                            
+                                        </li>
+                                    
+                                    
+                                    
+                                        <li class="li">
                                             <a name="button"> </a>
                                             <div class="title">                                                
                                                 <b class="name">button</b>
@@ -606,7 +641,8 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
                                             <!--
                                             -->
                                             
-                                                <div class="member-data"><span>默认值：</span>""</div>
+                                            
+                                                <div class="member-data"><span>default：</span>""</div>
                                             
                                             
                                             
@@ -632,7 +668,8 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
                                             <!--
                                             -->
                                             
-                                                <div class="member-data"><span>默认值：</span>""</div>
+                                            
+                                                <div class="member-data"><span>default：</span>""</div>
                                             
                                             
                                             
@@ -658,7 +695,8 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
                                             <!--
                                             -->
                                             
-                                                <div class="member-data"><span>默认值：</span>""</div>
+                                            
+                                                <div class="member-data"><span>default：</span>""</div>
                                             
                                             
                                             
@@ -670,7 +708,7 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
                                             <a name="queueTarget"> </a>
                                             <div class="title">                                                
                                                 <b class="name">queueTarget</b>
-                                                <span class="type">{String|HTMLElement|KISSY.Node}</span> 
+                                                <span class="type">{String|HTMLElement|KISSY.NodeList}</span> 
                                                 
                                                 
                                                 
@@ -684,7 +722,8 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
                                             <!--
                                             -->
                                             
-                                                <div class="member-data"><span>默认值：</span>""</div>
+                                            
+                                                <div class="member-data"><span>default：</span>""</div>
                                             
                                             
                                             
@@ -702,7 +741,7 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
                                                 
                                                 
                                                 <span class="desc">
-                                                    — 主题引用路径
+                                                    — 主题引用路径，当值为""时，不使用uploader主题。非内置主题，值为模块路径，比如"refund/rfUploader"
                                                     
                                                     
                                                 </span>
@@ -710,9 +749,52 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
                                             <!--
                                             -->
                                             
-                                                <div class="member-data"><span>默认值：</span>“gallery/form/1.2/uploader/themes/default”</div>
+                                            
+                                                <div class="member-data"><span>default：</span>“default”</div>
                                             
                                             
+                                            
+                                        </li>
+                                    
+                                    
+                                    
+                                        <li class="li">
+                                            <a name="themeConfig"> </a>
+                                            <div class="title">                                                
+                                                <b class="name">themeConfig</b>
+                                                <span class="type">{Object}</span> 
+                                                
+                                                
+                                                
+                                                
+                                                <span class="desc">
+                                                    — 主题配置，会覆盖data-theme-config中的配置，不再推荐使用伪属性的方式配置主题参数
+                                                    
+                                                    
+                                                </span>
+                                            </div>
+                                            <!--
+                                            -->
+                                            
+                                                <div class="member-data"><span>since：</span>1.2</div>
+                                            
+                                            
+                                            
+                                            
+                                                <dl>
+                                                    <dt>example：</dt>
+                                                    <dd>
+                                                            
+                                                                <pre class='brush: js;'>
+                                                                    
+ //配置主题样式路径
+themeConfig:{
+    cssUrl:'gallery/form/1.2/uploader/themes/default/style.css'
+}
+                                                                </pre>
+                                                            
+                                                    </dd>
+                                                </dl>
                                             
                                         </li>
                                     
@@ -736,7 +818,8 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
                                             <!--
                                             -->
                                             
-                                                <div class="member-data"><span>默认值：</span>""</div>
+                                            
+                                                <div class="member-data"><span>default：</span>""</div>
                                             
                                             
                                             
@@ -761,6 +844,7 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
                                             </div>
                                             <!--
                                             -->
+                                            
                                             
                                             
                                             
@@ -823,7 +907,7 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
                                                         <b class="name">ev.button</b>
                                                         
                                                         
-                                                        <span class="type">{<a href="../symbols/Uploader.html">Uploader</a>}</span> 
+                                                        <span class="type">{<a href="../symbols/Button.html">Button</a>}</span> 
                                                         <span class="desc">Button的实例</span>
                                                     </li>
                                                 
@@ -832,7 +916,7 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
                                                         <b class="name">ev.queue</b>
                                                         
                                                         
-                                                        <span class="type">{<a href="../symbols/Uploader.html">Uploader</a>}</span> 
+                                                        <span class="type">{<a href="../symbols/Queue.html">Queue</a>}</span> 
                                                         <span class="desc">Queue的实例</span>
                                                     </li>
                                                 
@@ -841,7 +925,7 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
                                                         <b class="name">ev.auth</b>
                                                         
                                                         
-                                                        <span class="type">{<a href="../symbols/Uploader.html">Uploader</a>}</span> 
+                                                        <span class="type">{<a href="../symbols/Auth.html">Auth</a>}</span> 
                                                         <span class="desc">Auth的实例</span>
                                                     </li>
                                                 
@@ -878,8 +962,10 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
                         <div class="box">
     <div class="box-bd">
         <ul class="list class-list">
-            <li><a href="Checkbox.html">Checkbox</a></li>
             <li><a href="Limiter.html">Limiter</a></li>
+            <li><a href="Number.html">Number</a></li>
+            <li><a href="Radio.html">Radio</a></li>
+            <li><a href="Checkbox.html">Checkbox</a></li>
         </ul>
     </div>
     <hr />
@@ -890,8 +976,6 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
         <ul class="list class-list">
             <li><a href="RenderUploader.html">RenderUploader</a></li>
             <li><a href="Uploader.html">Uploader</a></li>
-            <li><a href="Button.html">Button</a></li>
-            <li><a href="SwfButton.html">SwfButton</a></li>
             <li><a href="Queue.html">Queue</a></li>
             <li><a href="Auth.html">Auth</a></li>
             <li><a href="Theme.html">Theme</a></li>

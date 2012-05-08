@@ -2,7 +2,7 @@
  * @fileoverview 异步文件上传组件
  * @author 剑平（明河）<minghe36@126.com>,紫英<daxingplay@gmail.com>
  **/
-KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, IframeType, AjaxType, FlashType) {
+KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, IframeType, AjaxType, FlashType,HtmlButton,SwfButton,Queue) {
     var EMPTY = '', $ = Node.all, LOG_PREFIX = '[uploader]:';
     /**
      * @name Uploader
@@ -148,10 +148,10 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 uploaderTypeEvent = UploadType.event,
                 button;
             if (!UploadType) return false;
+            button = self._renderButton();
             //路径input实例
             self.set('urlsInput', self._renderUrlsInput());
             self._renderQueue();
-            button = self._renderButton();
             //如果是flash异步上传方案，增加swfUploader的实例作为参数
             if (self.get('type') == Uploader.type.FLASH) {
                 S.mix(serverConfig, {swfUploader:button.get('swfUploader')});
@@ -192,7 +192,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 return false;
             }
             //文件上传域，如果是flash上传,input为文件数据对象
-            uploadParam = file.input;
+            uploadParam = file.input.id || file.input;
             //如果是ajax上传直接传文件数据
             if(type == 'ajax') uploadParam = file.data;
             if(file['status'] === 'error'){
@@ -220,6 +220,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 statuses = Uploader.status,
                 status = queue.fileStatus(index);
             if(S.isNumber(index) && status != statuses.SUCCESS){
+                uploadType.stop();
                 queue.fileStatus(index,statuses.CANCEL);
             }else{
                 //取消上传后刷新状态，更改路径等操作请看_uploadStopHanlder()
@@ -302,7 +303,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
             var self = this, types = Uploader.type,
                 UploadType;
             //如果type参数为auto，那么type=['ajax','flash','iframe']
-            if (type == types.AUTO) type = [types.AJAX, types.IFRAME];
+            if (type == types.AUTO) type = [types.AJAX, types.FLASH,types.IFRAME];
             //如果是数组，遍历获取浏览器支持的上传方式
             if (S.isArray(type) && type.length > 0) {
                 S.each(type, function (t) {
@@ -345,15 +346,19 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
          * @return {Button}
          */
         _renderButton:function () {
-            var self = this, button = self.get('button');
-            if (!S.isObject(button)) {
-                S.log(LOG_PREFIX + 'button参数不合法！');
-                return false;
-            }
+            var self = this, button,Button,
+                type = self.get('type'),
+                buttonTarget = self.get('target'),
+                multiple = self.get('multiple'),
+                disabled = self.get('disabled'),
+                name = self.get('name');
+            Button = type == Uploader.type.FLASH && SwfButton || HtmlButton;
+            button = new Button(buttonTarget,{name:name,multiple:multiple,disabled:disabled});
             //监听按钮改变事件
             button.on('change', self._select, self);
             //运行按钮实例
             button.render();
+            self.set('button',button);
             return button;
         },
         /**
@@ -361,7 +366,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
          * @return {Queue} 队列实例
          */
         _renderQueue:function () {
-            var self = this, queue = self.get('queue'),
+            var self = this, queue = new Queue(),
                 urlsInput = self.get('urlsInput');
             if (!S.isObject(queue)) {
                 S.log(LOG_PREFIX + 'queue参数不合法');
@@ -372,8 +377,9 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
             //监听队列的删除事件
             queue.on('remove', function (ev) {
                 //删除该文件路径，sUrl为服务器端返回的文件路径，而url是客服端文件路径
-                urlsInput.remove(ev.file.sUrl);
+                if(ev.file.sUrl && urlsInput) urlsInput.remove(ev.file.sUrl);
             });
+            self.set('queue',queue);
             return queue;
         },
         /**
@@ -506,7 +512,8 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 if(!file.sUrl && file.result) file.sUrl = file.result.data.url;
                 //向队列添加文件
                 var fileData = queue.add(file),
-                    id = fileData.id,index = queue.getFileIndex(id);
+                    id = fileData.id,index = queue.getFileIndex(id),
+                    files = queue.get('files');
                 urlsInput.add(file.sUrl);
                 //改变文件状态为成功
                 queue.fileStatus(index,'success',{index:index,id:id,file:fileData});
@@ -537,11 +544,41 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
          */
         queue:{value:{}},
         /**
-         * 采用的上传方案，当值是数组时，比如“type” : ["flash","ajax","iframe"]，按顺序获取浏览器支持的方式，该配置会优先使用flash上传方式，如果浏览器不支持flash，会降级为ajax，如果还不支持ajax，会降级为iframe；当值是字符串时，比如“type” : “ajax”，表示只使用ajax上传方式。这种方式比较极端，在不支持ajax上传方式的浏览器会不可用；当“type” : “auto”，auto是一种特例，等价于["ajax","iframe"]。
+         * 采用的上传方案，当值是数组时，比如“type” : ["flash","ajax","iframe"]，按顺序获取浏览器支持的方式，该配置会优先使用flash上传方式，如果浏览器不支持flash，会降级为ajax，如果还不支持ajax，会降级为iframe；当值是字符串时，比如“type” : “ajax”，表示只使用ajax上传方式。这种方式比较极端，在不支持ajax上传方式的浏览器会不可用；当“type” : “auto”，auto是一种特例，等价于["ajax","flash","iframe"]。
          * @type String|Array
          * @default "auto"
          */
         type:{value:Uploader.type.AUTO},
+        /**
+         * 是否开启多选支持，部分浏览器存在兼容性问题
+         * @type Boolean
+         * @default true
+         */
+        multiple:{
+            value:true,
+            setter:function(v){
+                var self = this,button = self.get('button');
+                if(!S.isEmptyObject(button) && S.isBoolean(v)){
+                    button.set('multiple',v);
+                }
+                return v;
+            }
+        },
+        /**
+         * 是否可用,false为可用
+         * @type Boolean
+         * @default false
+         */
+        disabled : {
+            value : false,
+            setter : function(v) {
+                var self = this,button = self.get('button');
+                if(!S.isEmptyObject(button) && S.isBoolean(v)){
+                    button.set('disabled',v);
+                }
+                return v;
+            }
+        },
         /**
          * 服务器端配置。action：服务器处理上传的路径；data： post给服务器的参数，通常需要传递用户名、token等信息
          * @type Object
@@ -612,4 +649,4 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
         return Math.max(bytes, 0.1).toFixed(1) + ['kB', 'MB', 'GB', 'TB', 'PB', 'EB'][i];
     };
     return Uploader;
-}, {requires:['base', 'node', './urlsInput', './type/iframe', './type/ajax', './type/flash', 'flash']});
+}, {requires:['base', 'node', './urlsInput', './type/iframe', './type/ajax', './type/flash','./button/base','./button/swfButton','./queue']});

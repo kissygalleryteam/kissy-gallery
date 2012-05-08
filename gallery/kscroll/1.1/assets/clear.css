@@ -1,0 +1,145 @@
+
+/*轨道*/
+.clear-track, .clear-track-hover, .clear-track-active,
+.clear-scrollbar,
+/*向上箭头*/
+.clear-arrowup, .clear-arrowup-hover, .clear-arrowup-active,
+/*向下箭头*/
+.clear-arrowdown, .clear-arrowdown-hover, .clear-arrowdown-active,
+/*拖拽条*/
+.clear-drag, .clear-drag-hover, .clear-drag-active,
+.clear-dragtop, .clear-dragbottom , .clear-dragcenter {
+	width:9px;
+	background-image:url(http://img01.taobaocdn.com/tps/i1/T1nTCUXldiXXXXXXXX.png);
+	background-repeat:repeat-y;
+}
+
+.clear-scrollbar {
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    background-position:-18px 0;
+}
+.clear-track-hover {
+	background-position:-27px 0;
+}
+.clear-track-active {
+	background-position:-27x 0;
+}
+
+.clear-track{
+    position:absolute;
+    background-image:none;
+}
+
+
+
+/*上下箭头 */
+.clear-arrowup, 
+.clear-arrowdown,
+.clear-arrowup a, 
+.clear-arrowdown a {
+	display:block;
+	text-indent: -1000px;
+	width:9px;
+	height:2px;
+	overflow:hidden;
+	right:0;
+    position:absolute;
+}
+
+.clear-arrowup {
+	background-position:0 0;
+	top:0;
+}
+.clear-arrowup-hover {
+	background-position:-9px 0;
+}
+.clear-arrowup-active {
+	background-position:-9px 0;
+}
+
+
+.clear-arrowdown {
+	background-position:0 -18px;
+	bottom:0;
+}
+.clear-arrowdown-hover {
+	background-position:-9px -18px;
+}
+.clear-arrowdown-active {
+	background-position:-9px -18px;
+}
+
+
+
+/*拖拽条*/
+.clear-drag{
+	width:9px;
+	background-position:-54px 0;
+	position:absolute;
+}
+
+.clear-drag .clear-dragtop{
+	position:absolute;
+	top:0px;
+	width:9px;
+	height:4px;
+	overflow:hidden;
+	background-position:-72px 0;
+}
+
+.clear-drag .clear-dragbottom{
+	position:absolute;
+	top:100%;
+	margin-top:-4px;
+	width:9px;
+	height:5px;
+	overflow:hidden;
+	background-position:-72px -4px;
+}
+
+.clear-drag .clear-dragcenter{
+	position:absolute;
+	top:50%;
+	margin-top:-10px;
+	width:9px;
+	height:20px;
+	background-position:-63px 0;
+}
+
+/*------------*/
+.clear-drag-hover{
+	background-position:-81px 0;
+}
+
+.clear-drag-hover .clear-dragtop{
+	background-position:-99px 0;
+}
+
+.clear-drag-hover .clear-dragbottom{
+	background-position:-99px -4px;
+}
+
+.clear-drag-hover .clear-dragcenter{
+	background-position:-90px 0;
+}
+
+/*------------*/
+.clear-drag-active{
+	background-position:-81px 0;
+}
+
+.clear-drag-active .clear-dragtop{
+	background-position:-99px 0;
+}
+
+.clear-drag-active .clear-dragbottom{
+	background-position:-99px -4px;
+}
+
+.clear-drag-active .clear-dragcenter{
+	background-position:-90px 0;
+}
+

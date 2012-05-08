@@ -247,7 +247,7 @@ dl.data .dd{
         
             <div id="header">
     <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="http://docs.kissyui.com/docs/html/static/logo.png"/></a></h1>
-    <p class="sub-title">KF（kissy-form）V1.1.4—API文档</p>
+    <p class="sub-title">KF（kissy-form）V1.2—API文档</p>
     <ul class="navigation">
         <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.2/doc/index.html" target="_blank">文档</a></li>
         <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/uploader/index.html" target="_blank">示例</a></li>
@@ -290,7 +290,7 @@ dl.data .dd{
 
                                     
                                         <p>源码：
-                                            <a href="../symbols/src/D__www_htdocs_gallery_gallery_form_1.1_uploader_base.js.html">base.js</a></p>
+                                            <a href="../symbols/src/D__www_htdocs_gallery_gallery_form_1.2_uploader_base.js.html">base.js</a></p>
 
                                     
 
@@ -347,6 +347,18 @@ dl.data .dd{
                                                 
                                             
                                                 
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/Uploader.html#disabled">disabled</a></b>
+                                                        <span class="type">{Boolean}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">是否可用,false为可用</span>
+                                                    </li>
+                                                
+                                            
+                                                
                                             
                                                 
                                                     <li class="li">
@@ -357,6 +369,18 @@ dl.data .dd{
                                                         
                                                         
                                                         <span class="desc">是否允许上传文件</span>
+                                                    </li>
+                                                
+                                            
+                                                
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/Uploader.html#multiple">multiple</a></b>
+                                                        <span class="type">{Boolean}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">是否开启多选支持，部分浏览器存在兼容性问题</span>
                                                     </li>
                                                 
                                             
@@ -399,6 +423,8 @@ dl.data .dd{
                                                 
                                             
                                                 
+                                            
+                                                
                                                     <li class="li">
                                                         <b class="name"><a href="../symbols/Uploader.html#type">type</a></b>
                                                         <span class="type">{String|Array}</span>
@@ -406,10 +432,8 @@ dl.data .dd{
                                                         
                                                         
                                                         
-                                                        <span class="desc">采用的上传方案，当值是数组时，比如“type” : ["flash","ajax","iframe"]，按顺序获取浏览器支持的方式，该配置会优先使用flash上传方式，如果浏览器不支持flash，会降级为ajax，如果还不支持ajax，会降级为iframe；当值是字符串时，比如“type” : “ajax”，表示只使用ajax上传方式。这种方式比较极端，在不支持ajax上传方式的浏览器会不可用；当“type” : “auto”，auto是一种特例，等价于["ajax","iframe"]。</span>
+                                                        <span class="desc">采用的上传方案，当值是数组时，比如“type” : ["flash","ajax","iframe"]，按顺序获取浏览器支持的方式，该配置会优先使用flash上传方式，如果浏览器不支持flash，会降级为ajax，如果还不支持ajax，会降级为iframe；当值是字符串时，比如“type” : “ajax”，表示只使用ajax上传方式。这种方式比较极端，在不支持ajax上传方式的浏览器会不可用；当“type” : “auto”，auto是一种特例，等价于["ajax","flash","iframe"]。</span>
                                                     </li>
-                                                
-                                            
                                                 
                                             
                                                 
@@ -465,69 +489,6 @@ dl.data .dd{
                                     </div>
                                 </div>
                                                     
-                            
-                            
-                                
-                                
-                                    <div class="box properties-box">
-                                        <div class="box-hd">
-                                            <h3>Static Properties</h3>
-                                        </div>
-                                        <div class="box-bd">
-                                            <ul class="static-list">
-                                            
-                                                
-                                            
-                                                
-                                            
-                                                
-                                            
-                                                
-                                                    <li class="li">
-                                                        Uploader.<b class="name"><a href="../symbols/Uploader.html#.event">event</a></b>
-                                                        <span class="type">{}</span>
-                                                        <span class="desc">组件支持的事件列表，{ RENDER:'render', SELECT:'select', START:'start', PROGRESS : 'progress', COMPLETE:'complete', SUCCESS:'success', UPLOAD_FILES:'uploadFiles', CANCEL:'cancel', ERROR:'error' }</span>
-                                                    </li>
-                                                
-                                            
-                                                
-                                            
-                                                
-                                            
-                                                
-                                            
-                                                
-                                            
-                                                
-                                                    <li class="li">
-                                                        Uploader.<b class="name"><a href="../symbols/Uploader.html#.status">status</a></b>
-                                                        <span class="type">{}</span>
-                                                        <span class="desc">文件上传所有的状态，{ WAITING : 'waiting', START : 'start', PROGRESS : 'progress', SUCCESS : 'success', CANCEL : 'cancel', ERROR : 'error', RESTORE: 'restore' }</span>
-                                                    </li>
-                                                
-                                            
-                                                
-                                            
-                                                
-                                                    <li class="li">
-                                                        Uploader.<b class="name"><a href="../symbols/Uploader.html#.type">type</a></b>
-                                                        <span class="type">{}</span>
-                                                        <span class="desc">上传方式，{AUTO:'auto', IFRAME:'iframe', AJAX:'ajax', FLASH:'flash'}</span>
-                                                    </li>
-                                                
-                                            
-                                                
-                                            
-                                                
-                                            
-                                                
-                                            
-                                                
-                                            
-                                            </ul>
-                                        </div>
-                                     </div>
-                                
                             
                             <!-- properties END -->
                             
@@ -760,7 +721,7 @@ dl.data .dd{
                                                 
                                                 
                                                 
-                                                <dt>参数：</dt>
+                                                <dt>params：</dt>
                                                 <dd>
                                                     <ul class="list param-list">
                                                         
@@ -847,7 +808,7 @@ dl.data .dd{
 
                                                 
                                                 
-                                                <dt>依赖：</dt>
+                                                <dt>require：</dt>
                                                 <dd>
                                                     <ul>
                                                     
@@ -862,7 +823,7 @@ dl.data .dd{
                                                 
                                                 
                                                 
-                                                <dt>示例：</dt>
+                                                <dt>example：</dt>
                                                 <dd>
                                                     
                                                     <pre class='brush: js;'>var uploader = new Uploader({button:button,queue:queue,serverConfig:{action:'test.php'}})</pre>
@@ -905,7 +866,8 @@ dl.data .dd{
                                             <!--
                                             -->
                                             
-                                                <div class="member-data"><span>默认值：</span>true</div>
+                                            
+                                                <div class="member-data"><span>default：</span>true</div>
                                             
                                             
                                             
@@ -933,6 +895,7 @@ dl.data .dd{
                                             
                                             
                                             
+                                            
                                         </li>
                                     
                                     
@@ -955,7 +918,35 @@ dl.data .dd{
                                             <!--
                                             -->
                                             
-                                                <div class="member-data"><span>默认值：</span>""</div>
+                                            
+                                                <div class="member-data"><span>default：</span>""</div>
+                                            
+                                            
+                                            
+                                        </li>
+                                    
+                                    
+                                    
+                                        <li class="li">
+                                            <a name="disabled"> </a>
+                                            <div class="title">                                                
+                                                <b class="name">disabled</b>
+                                                <span class="type">{Boolean}</span> 
+                                                
+                                                
+                                                
+                                                
+                                                <span class="desc">
+                                                    — 是否可用,false为可用
+                                                    
+                                                    
+                                                </span>
+                                            </div>
+                                            <!--
+                                            -->
+                                            
+                                            
+                                                <div class="member-data"><span>default：</span>false</div>
                                             
                                             
                                             
@@ -983,7 +974,35 @@ dl.data .dd{
                                             <!--
                                             -->
                                             
-                                                <div class="member-data"><span>默认值：</span>true</div>
+                                            
+                                                <div class="member-data"><span>default：</span>true</div>
+                                            
+                                            
+                                            
+                                        </li>
+                                    
+                                    
+                                    
+                                        <li class="li">
+                                            <a name="multiple"> </a>
+                                            <div class="title">                                                
+                                                <b class="name">multiple</b>
+                                                <span class="type">{Boolean}</span> 
+                                                
+                                                
+                                                
+                                                
+                                                <span class="desc">
+                                                    — 是否开启多选支持，部分浏览器存在兼容性问题
+                                                    
+                                                    
+                                                </span>
+                                            </div>
+                                            <!--
+                                            -->
+                                            
+                                            
+                                                <div class="member-data"><span>default：</span>true</div>
                                             
                                             
                                             
@@ -1011,6 +1030,7 @@ dl.data .dd{
                                             
                                             
                                             
+                                            
                                         </li>
                                     
                                     
@@ -1033,7 +1053,8 @@ dl.data .dd{
                                             <!--
                                             -->
                                             
-                                                <div class="member-data"><span>默认值：</span>""</div>
+                                            
+                                                <div class="member-data"><span>default：</span>""</div>
                                             
                                             
                                             
@@ -1061,7 +1082,10 @@ dl.data .dd{
                                             
                                             
                                             
+                                            
                                         </li>
+                                    
+                                    
                                     
                                     
                                     
@@ -1077,7 +1101,7 @@ dl.data .dd{
                                                 
                                                 
                                                 <span class="desc">
-                                                    — 采用的上传方案，当值是数组时，比如“type” : ["flash","ajax","iframe"]，按顺序获取浏览器支持的方式，该配置会优先使用flash上传方式，如果浏览器不支持flash，会降级为ajax，如果还不支持ajax，会降级为iframe；当值是字符串时，比如“type” : “ajax”，表示只使用ajax上传方式。这种方式比较极端，在不支持ajax上传方式的浏览器会不可用；当“type” : “auto”，auto是一种特例，等价于["ajax","iframe"]。
+                                                    — 采用的上传方案，当值是数组时，比如“type” : ["flash","ajax","iframe"]，按顺序获取浏览器支持的方式，该配置会优先使用flash上传方式，如果浏览器不支持flash，会降级为ajax，如果还不支持ajax，会降级为iframe；当值是字符串时，比如“type” : “ajax”，表示只使用ajax上传方式。这种方式比较极端，在不支持ajax上传方式的浏览器会不可用；当“type” : “auto”，auto是一种特例，等价于["ajax","flash","iframe"]。
                                                     
                                                     
                                                 </span>
@@ -1085,13 +1109,12 @@ dl.data .dd{
                                             <!--
                                             -->
                                             
-                                                <div class="member-data"><span>默认值：</span>"auto"</div>
+                                            
+                                                <div class="member-data"><span>default：</span>"auto"</div>
                                             
                                             
                                             
                                         </li>
-                                    
-                                    
                                     
                                     
                                     
@@ -1113,7 +1136,8 @@ dl.data .dd{
                                             <!--
                                             -->
                                             
-                                                <div class="member-data"><span>默认值：</span>""</div>
+                                            
+                                                <div class="member-data"><span>default：</span>""</div>
                                             
                                             
                                             
@@ -1141,6 +1165,7 @@ dl.data .dd{
                                             
                                             
                                             
+                                            
                                         </li>
                                     
                                     
@@ -1163,7 +1188,8 @@ dl.data .dd{
                                             <!--
                                             -->
                                             
-                                                <div class="member-data"><span>默认值：</span>""</div>
+                                            
+                                                <div class="member-data"><span>default：</span>""</div>
                                             
                                             
                                             
@@ -1189,7 +1215,8 @@ dl.data .dd{
                                             <!--
                                             -->
                                             
-                                                <div class="member-data"><span>默认值：</span>""</div>
+                                            
+                                                <div class="member-data"><span>default：</span>""</div>
                                             
                                             
                                             
@@ -2240,8 +2267,10 @@ uploader.uploadFiles("waiting")</pre>
                         <div class="box">
     <div class="box-bd">
         <ul class="list class-list">
-            <li><a href="Checkbox.html">Checkbox</a></li>
             <li><a href="Limiter.html">Limiter</a></li>
+            <li><a href="Number.html">Number</a></li>
+            <li><a href="Radio.html">Radio</a></li>
+            <li><a href="Checkbox.html">Checkbox</a></li>
         </ul>
     </div>
     <hr />
@@ -2252,8 +2281,6 @@ uploader.uploadFiles("waiting")</pre>
         <ul class="list class-list">
             <li><a href="RenderUploader.html">RenderUploader</a></li>
             <li><a href="Uploader.html">Uploader</a></li>
-            <li><a href="Button.html">Button</a></li>
-            <li><a href="SwfButton.html">SwfButton</a></li>
             <li><a href="Queue.html">Queue</a></li>
             <li><a href="Auth.html">Auth</a></li>
             <li><a href="Theme.html">Theme</a></li>
