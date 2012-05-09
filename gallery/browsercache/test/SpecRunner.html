@@ -2,6 +2,7 @@
   "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Jasmine Spec Runner</title>
 
   <link rel="shortcut icon" type="image/png" href="../../../tools/jasmine-1.2.0.rc3/jasmine_favicon.png">
@@ -55,13 +56,12 @@
       function execJasmine() {
         KISSY.use('gallery/local-storage/1.0/, gallery/browsercache/1.0/', function(S, _localStorage, _BrowserCache) {
           // extract to window
-          window.localStorage = _localStorage;
-          window.BrowserCache = _BrowserCache;
-
-          if (S.version == '1.1.6') {
-            window.localStorage = S.localStorage;
-            window.BrowserCache = S.BrowserCache;
+          // ie8 下给 window 设置 localStorage 报错
+          try {
+            window.localStorage = _localStorage;
+          } catch(e) {
           }
+          window.BrowserCache = _BrowserCache;
 
           jasmineEnv.execute();
         });
