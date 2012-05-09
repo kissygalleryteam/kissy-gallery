@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>快速使用uploader</title>
+<link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+</head>
+<body>
+<article id="doc">
+    <h4>快速使用uploader</h4>
+    <!-- 上传按钮，组件配置请写在data-config内 -->
+    <a id="J_UploaderBtn" class="uploader-button" href="#"> 选择要上传的文件 </a>
+    <!-- 文件上传队列 -->
+    <ul id="J_UploaderQueue">
+
+    </ul>
+</article>
+<script>
+    KISSY.config({
+        packages:[ {
+            name:"gallery",
+            path:"http://a.tbcdn.cn/s/kissy/",
+            //path:"../../../../../../",
+            charset:"utf-8"
+        } ]
+    });
+    KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
+        new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue',{
+            "serverConfig":{"action":"upload.php"},
+            "name":"Filedata",
+            "urlsInputName":"fileUrls"
+        });
+    })
+</script>
+</body>
+</html>
