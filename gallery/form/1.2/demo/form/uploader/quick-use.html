@@ -4,33 +4,39 @@
 <meta charset="utf-8"/>
 <title>快速使用uploader</title>
 <link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
-<link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/assets/demo.css"/>
 <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
 </head>
 <body>
 <article id="doc">
     <h4>快速使用uploader</h4>
-    <!-- 上传按钮，组件配置请写在data-config内 -->
     <a id="J_UploaderBtn" class="uploader-button" href="#"> 选择要上传的文件 </a>
     <!-- 文件上传队列 -->
     <ul id="J_UploaderQueue">
 
     </ul>
+    <p>详细说明请看<a href="http://www.36ria.com/5041" target="_blank">《start—KF/Uploader快速使用指南》</a></p>
+    <p>使用uploader前请认真看<a href="http://www.36ria.com/5370" target="_blank">《关键点说明—KF/Uploader快速使用指南》</a></p>
 </article>
 <script>
     KISSY.config({
         packages:[ {
             name:"gallery",
             path:"http://a.tbcdn.cn/s/kissy/",
-            //path:"../../../../../../",
             charset:"utf-8"
         } ]
     });
     KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
         new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue',{
-            "serverConfig":{"action":"upload.php"},
-            "name":"Filedata",
-            "urlsInputName":"fileUrls"
+            //服务器端配置
+            serverConfig:{
+                //处理上传的服务器端脚本路径
+                action:"upload.php"
+            },
+            // 文件域
+            name:"Filedata",
+            //用于放服务器端返回的url的隐藏域
+            urlsInputName:"fileUrls"
         });
     })
 </script>

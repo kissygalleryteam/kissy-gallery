@@ -1,12 +1,15 @@
 KISSY.ready(function(S) {
     var frame = S.one("#mainframe");
     S.all("#nav a").each(function() {
-        var url = this.attr("href");
-        this.attr("href", "index.html#" + url.replace(".html", ""));
-        this.on("click", function(ev) {
-            //ev.halt();
-            frame.attr("src", url);
-        });
+        var url = this.attr("href"),
+            target = this.attr('target');
+        if(target != '_blank'){
+            this.attr("href", "index.html#" + url.replace(".html", ""));
+            this.on("click", function(ev) {
+                //ev.halt();
+                frame.attr("src", url);
+            });
+        }
     });
 
     if (window.location.hash) {
