@@ -72,6 +72,7 @@
         </ul>
     </form>
     <script>
+        //http://www.w3.org/TR/html5/constraints.html#the-constraint-validation-api
         KISSY.config({
             packages:[
                 {
@@ -114,6 +115,8 @@
             });
 
         });
+
+        KISSY.get('#test').setCustomValidity('这个是必填项的啊，赶紧填了');
 
     </script>
 </div>
