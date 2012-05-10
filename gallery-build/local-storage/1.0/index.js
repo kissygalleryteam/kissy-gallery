@@ -1,111 +1,138 @@
 /**
- * @fileoverview Local Storage (original: changtian, modified for buy platform).
- * @author �ĺ�<wenhe@taobao.com>
- * for tlive
+ * @description: 提供统一的 localStorage 接口
+ * Author: changtian@taobao.com, <yyfrankyy>, linqian.zl@taobao.com
  *
- * @license
- * Copyright (c) 2010 Taobao Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * Interface:
+ *   - localStorage.setItem(key, value)
+ *   - localStorage.getItem(key)
+ *   - localStorage.removeItem(key)
+ *   - localStorage.clear()
  */
-KISSY.add('gallery/local-storage/1.0/index', function(S, undefined) {
-    var win = window,
-        ie=S.UA.ie&&S.UA.e<9,
-        doc = document;
-        
-    var useObject = doc.documentElement;
-    if(ie){
-        useObject.style.behavior = 'url(#default#userData)';
+KISSY.add('gallery/local-storage/1.0/index', function(S, UA) {
+  var oStorage, _setItem, _getItem, _removeItem, _clear;
+
+  function initByLocalStorage() {
+    // for IE8+, FF 3+, Chrome 4.1+, Safari 4+, Opera 10.5+
+    oStorage = localStorage;
+
+    _setItem = function(key, value) {
+      oStorage.setItem(key, value);
+    };
+
+    _getItem = function(key) {
+      return oStorage.getItem(key);
+    };
+
+    _removeItem = function(key) {
+      oStorage.removeItem(key);
+    };
+
+    _clear = function() {
+      oStorage.clear();
+    };
+  }
+
+  function initByUserData() {
+    var IE_STORE_NAME = 'IELocalDataStore';
+
+    generateDOMStorage();
+
+    _setItem = function(key, value) {
+      /*
+       * 添加try...catch的原因是：某些用户的IE，可能将安全级别设置得过高，或当前站点被添加至"受限站点"中(会
+       * 禁用掉"安全"tab下的"持续使用用户数据"选项，从而导致userData无法使用，这里通过try...catch来避免此
+       * 情况下的JS报错，下同。
+       */
+      try {
+        oStorage.setAttribute(key, value);
+        oStorage.save(IE_STORE_NAME);
+      } catch(e) { }
+    };
+
+    _getItem = function(key) {
+      try {
+        oStorage.load(IE_STORE_NAME);
+        return oStorage.getAttribute(key);
+      } catch(e) {}
+    };
+
+    _removeItem = function(key) {
+      try {
+        oStorage.removeAttribute(key);
+        oStorage.save(IE_STORE_NAME);
+      } catch(e) {}
+    };
+
+    _clear = function() {
+      try {
+        oStorage.expires = getUTCString();
+        oStorage.save(IE_STORE_NAME);
+
+        // 重新生成一个 elem, 因为 clear() 之后 setItem() 会失效
+        reGenerateDOMStorage();
+      } catch(e) {}
+    };
+  }
+
+  function generateDOMStorage() {
+    var doc = document;
+
+    // borrowed from https://github.com/andris9/jStorage/blob/master/jstorage.js
+    oStorage = doc.createElement('link');
+    if(oStorage.addBehavior){
+      /* Use a DOM element to act as userData storage */
+      oStorage.style.behavior = 'url(#default#userData)';
+
+      /* userData element needs to be inserted into the DOM! */
+      doc.getElementsByTagName('head')[0].appendChild(oStorage);
     }
-    // html5
-    /**
-     * @name localStorage
-     * @class ���ش洢.
-     *
-     * @description
-     * �ṩ����IE�����������ı��ش洢���
-     * @see http://msdn.microsoft.com/en-us/library/cc197062(v=vs.85).aspx
-     */
-    var localStorage = {};
+  }
+  function reGenerateDOMStorage() {
+    // 如果存在 oStorage 则删除
+    if (oStorage) {
+      try {
+        document.body.removeChild(oStorage);
+      } catch(e){}
+    }
 
-    /**
-     * �洢���.
-     * @param {String} key �洢key.
-     * @param {String} value �洢value.
-     * @param {Object} [context] �洢��Χ��IE only.
-     */
-    localStorage.setItem = function(key, val, context) {
-        return win.localStorage.setItem(key, val, context);
-    };
+    generateDOMStorage();
+  }
 
-    /**
-     * ��ȡ���.
-     * @param {String} key �洢key.
-     * @param {Object} [context] �洢��Χ��IE only.
-     */
-    localStorage.getItem = function(key, context) {
-        return win.localStorage.getItem(key, context);
-    };
+  function getUTCString() {
+    // @see: http://msdn.microsoft.com/en-us/library/ms531095(v=vs.85).aspx
+    var n = new Date;
+    n.setMinutes(n.getMinutes() - 1);
+    return n.toUTCString();
+  }
 
-    /**
-     * ɾ�����.
-     * @param {String} key �洢key.
-     * @param {Object} [context] �洢��Χ��IE only.
-     */
-    localStorage.removeItem = function(key, context) {
-        return win.localStorage.removeItem(key, context);
-    };
+  function init() {
+    if (typeof localStorage !== 'undefined') {
+      initByLocalStorage();
+    } else if (S.UA.ie < 8) {
+      initByUserData();
+    }
+  }
 
-    /**
-     * ������ش洢���������Ϣ.
-     */
-    localStorage.clear = function() {
-        return win.localStorage.clear();
-    };
+  init();
 
-    // Tubie IE 678 only
-    var userBehavor = {
-        setItem: function(key, value, context) {
-            try {
-                useObject.setAttribute(key, value);
-                return useObject.save(context || 'default');
-            } catch (e) {}
-        },
-        getItem: function(key, context) {
-            try {
-                useObject.load(context || 'default');
-                return useObject.getAttribute(key) || '';
-            } catch (e) {}
-        },
-        removeItem: function(key, context) {
-            try {
-                context = context || 'default';
-                useObject.load(context);
-                useObject.removeAttribute(key);
-                return useObject.save(context);
-            } catch (e) {}
-        },
-        clear: function() {
-            try {
-                useObject.expires = -1;
-            } catch (e) {}
-        }
-    };
-    return ie?userBehavor:localStorage;
+  var ret = {
+    setItem: _setItem,
+    getItem: _getItem,
+    removeItem: _removeItem,
+    clear: _clear
+  };
+
+  return ret;
+},
+{
+  requires: ['ua'],
+  attach: false
 });
+
+/**
+ * NOTES: 
+ *  originally writen by changtian
+ *
+ * [+] 增加 clear() 方法
+ * [x] 创建 LINK 元素 instead of INPUT 元素, 避免 BODY 前调用出错
+ */

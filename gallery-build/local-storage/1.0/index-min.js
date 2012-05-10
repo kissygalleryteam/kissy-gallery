@@ -1,24 +1,2 @@
-/*
-
- Copyright (c) 2010 Taobao Inc.
-
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
-
- The above copyright notice and this permission notice shall be included in
- all copies or substantial portions of the Software.
-
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- THE SOFTWARE.
-*/
-KISSY.add("gallery/local-storage/1.0/index",function(d){var e=window,d=d.UA.ie&&9>d.UA.e,c=document.documentElement;d&&(c.style.behavior="url(#default#userData)");var f={setItem:function(b,a,c){return e.localStorage.setItem(b,a,c)},getItem:function(b,a){return e.localStorage.getItem(b,a)},removeItem:function(b,a){return e.localStorage.removeItem(b,a)},clear:function(){return e.localStorage.clear()}},g={setItem:function(b,a,d){try{c.setAttribute(b,a);return c.save(d||"default")}catch(e){}},getItem:function(b,
-a){try{c.load(a||"default");return c.getAttribute(b)||""}catch(d){}},removeItem:function(b,a){try{a=a||"default";c.load(a);c.removeAttribute(b);return c.save(a)}catch(d){}},clear:function(){try{c.expires=-1}catch(b){}}};return d?g:f});
+KISSY.add("gallery/local-storage/1.0/index",function(j){function k(){a=localStorage;d=function(b,c){a.setItem(b,c)};e=function(b){return a.getItem(b)};g=function(b){a.removeItem(b)};h=function(){a.clear()}}function l(){i();d=function(b,c){try{a.setAttribute(b,c),a.save("IELocalDataStore")}catch(f){}};e=function(b){try{return a.load("IELocalDataStore"),a.getAttribute(b)}catch(c){}};g=function(b){try{a.removeAttribute(b),a.save("IELocalDataStore")}catch(c){}};h=function(){try{var b=a,c,f=new Date;f.setMinutes(f.getMinutes()-
+1);c=f.toUTCString();b.expires=c;a.save("IELocalDataStore");if(a)try{document.body.removeChild(a)}catch(d){}i()}catch(e){}}}function i(){var b=document;a=b.createElement("link");a.addBehavior&&(a.style.behavior="url(#default#userData)",b.getElementsByTagName("head")[0].appendChild(a))}var a,d,e,g,h;"undefined"!==typeof localStorage?k():8>j.UA.ie&&l();return{setItem:d,getItem:e,removeItem:g,clear:h}},{requires:["ua"],attach:!1});
