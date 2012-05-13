@@ -6,58 +6,11 @@
 	<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
 	<link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
 	<style type="text/css">
-		.plus-minus-operation {
-			position: relative;
-			margin-left: -5px;
-			float: none;
-			width: 100%;
-			text-align: inherit;
-			zoom: 1;
-			_vertical-align: middle;
-		}
-		span.plus-minus-operation .minus, span.plus-minus-operation .plus {
-			display: inline-block;
-			height: 14px;
-			line-height: 14px;
-			overflow: hidden;
-			text-indent: -9999em;
-			text-align: center;
-			width: 14px;
-			vertical-align: middle;
-			background: transparent url(http://img03.taobaocdn.com/tps/i3/T1j6CoXbxTXXXXXXXX-89-61.png) no-repeat -9999px -9999px;
-			outline: none;
-		}
-		span.plus-minus-operation a.minus {
-			background-position: 0 -47px;
-			_background-position-x: 5px;
-			_width: 18px;
-		}
-		span.plus-minus-operation a.plus {
-			background-position: 0 -32px;
-		}
-		.price-input, #tbid-module .quantity-input {
-			margin: 0 3px;
-		}
-		.paimai-input {
-			width: 90px;
-			height: 20px;
-			border: 1px solid #C8C8C8;
-			margin: 0 3px;
-			text-align: center;
-			vertical-align: middle;
-			-moz-box-shadow: 1px 1px 1px #F0F0F0 inset;
-			-webkit-box-shadow: 1px 1px 1px #F0F0F0 inset;
-			box-shadow: 1px 1px 1px #F0F0F0 inset;
-		}
 	</style>	
 </head>
 <body>
 	<div id="page">
-		<span class="plus-minus-operation">
-			<a href="#!/price/minus" class="minus J_Sign">-</a>
-			<input type="text" name="price" value="88.00" class="price-input paimai-input J_PriceInput" aria-label="出价框，请输入拍卖价格" data-range="2.00" data-min="88.00">		
-			<a href="#!/price/plus" class="plus J_Sign">+</a>
-		</span>
+			<input type="text" name="price" value="40.00" class="ks-price-input" data-range="2.00" data-max="88.00" data-min="1">		
 	</div>
 	<script type="text/javascript">
 	    KISSY.config({
@@ -69,8 +22,9 @@
 	    });
 	</script>
 	<script type="text/javascript">
-		 KISSY.use('gallery/form/1.1/Number/index,node', function (S, Number, Node) {
-		 	
+		 KISSY.use('gallery/form/1.2/number/index,node', function (S, Number, Node) {
+		 	var number = new Number('.ks-price-input');
+		 	number.render();
 		 })
 	</script>
 </body>

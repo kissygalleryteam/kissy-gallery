@@ -3,8 +3,8 @@
  * @author 易敛<yilian.wj@taobao.com>
  * @date 12-4-22
  */
-KISSY.add('gallery/form/1.1/number/base', function(S, Node, Base){
-	var $ = Node.all;
+KISSY.add('gallery/form/1.2/number/index', function(S, Node, Base){
+	var $ = Node.all, D = S.DOM;
 	/**
 	 * @name Number
 	 * @class 数字文本框
@@ -30,47 +30,82 @@ KISSY.add('gallery/form/1.1/number/base', function(S, Node, Base){
 		render: function(){
 			var self = this,$target = self.get('target');
             if(!$target.length) return false;
+            self.addHTML();
             self.eventOnChangeNum();
             self.eventOnValide();
 		},
+		/**
+		 * 对input组件进行包装
+		 */
+		addHTML: function(){
+			var self = this, $target = self.get('target'), getCls = this.get('cls'), accessible = self.get('accessible');
+			//创建元素
+			var $parent = $target.parent(),
+			$containerEl = $(D.create('<span class="'+ getCls.container + '">')),
+			$plusEl = $(D.create('<a>',{href: '#!/price/plus', text: '-'})),
+			$minusEl = $(D.create('<a>',{href: '#!/price/minus', text: '+'}));
+			$plusEl.addClass(getCls.plus);
+			$minusEl.addClass(getCls.minus);
+
+			if(accessible){
+				$target.addAttr('aria-label','出价框，请输入价格');
+			}
+
+			//建立元素之间关系
+			$containerEl.append($minusEl).append($target).append($plusEl);
+			$parent.append($containerEl);
+
+		},
 
 		eventOnChangeNum: function(){
-			var self = this, $target = self.get('target'), inputValue = $target.val(), range = $target.attr('data-range') || 1,
-			trigger = self.get('trigger'), $plus = $(trigger.plus), $minus = $(trigger.minus),
-			numValidation = self.numValidation;
-			
+			var self = this, $target = self.get('target'), inputValue, range = +$target.attr('data-range') || 1,
+			getTrigger = self.get('trigger'), $plus = $(getTrigger.plus), $minus = $(getTrigger.minus),
+			limitRange = self.limitRange;
 			$plus.on('click', function(){	
-				inputValue += +range;
-				numValidation($target);
+				inputValue = +$target.val();
+				inputValue += range;
+				limitRange.call(self,  inputValue);
 			});
 			$minus.on('click',function(){
-				inputValue -= +range;
-				numValidation($target);
+				
+				inputValue = +$target.val();
+				inputValue -= range;
+				limitRange.call(self, inputValue);
 			})
 		},
 		eventOnValide: function(){
-			var self = this, $target = self.get('target');
+			var self = this, $target = self.get('target'),formatNum = self.formatNum, limitRange = self.limitRange;
 			$target.on('blur',function(){
-				self.numValidation($target);
+				formatNum.call(self, $target);
+				limitRange.call(self, +$target.val());
 			})
 		},
 
-		formatPrice: function(){
+		toFloat: function(value){
             return parseFloat(value, 10);			
 		},
-		/**
-		 * [numValidation 输入框验证并校正]
-		 * @param  {[NodeList]} target [文本框节点对象]
+
+        /**
+		 * [numValidation 校正输入框格式，屏蔽非法字符]
+		 * @param  {[HTMLELement]} $target [文本框节点]
 		 */
-        numValidation: function(target){
-			var self = this,formatPrice = self.formatPrice,
-			min = formatPrice($target.attr('data-min')) || '',
-			max = formatPrice($target.attr('data-max')) || '',
-			inputValue = formatPrice($target.val().replace(/[^\d\.]/g, ''));
-			inputValue = isNaN(inputValue) ? min : Math.max(min, inputValue);
+        formatNum : function($target){
+    		var self = this, min = +$target.attr('data-min') || 1,
+    		inputValue = self.toFloat($target.val().replace(/[^\d\.]/g, ''));
+    		inputValue = isNaN(inputValue) ? min : Math.max(inputValue, min);
+    		$target.val(inputValue.toFixed(2));
+        },
+        /**
+         * [limitRange 控制输入数值的大小在最大值与最小值之间]
+         * @param  {[Number]} value [输入框的值]
+         */
+        limitRange : function(value){
+        	var self = this, $target = self.get('target'), toFloat = self.toFloat,
+        	min = toFloat($target.attr('data-min')) || 1,
+			max = toFloat($target.attr('data-max')) || 1,
+        	inputValue = min && Math.max(min, value);
 			inputValue = max && Math.min(max, inputValue);
-			
-			target.val(inputValue.toFixed(2));
+			$target.val(inputValue.toFixed(2));
         }
 	},{
 		ATTRS: /** @lends Number.prototype*/{
@@ -92,8 +127,32 @@ KISSY.add('gallery/form/1.1/number/base', function(S, Node, Base){
 			* 触发加减的按钮
 			*/
 			trigger: {
-				value: ''
-			}
+				value: {
+					plus: '.ks-number-plus',
+					minus: '.ks-number-minus'
+				}
+			},
+			/**
+             * 一组样式名
+             * @type {Object}
+             * @default cls:{init: 'ks-radio',selected: 'ks-radio-selected',disabled: 'ks-radio-disabled',hover: 'ks-radio-hover'}
+             */
+            cls: {
+                value: {
+                    init: 'ks-price-input',
+                    plus: 'ks-number-plus',
+                    minus: 'ks-number-minus',
+                    container: 'ks-plus-minus-operation'
+                }
+            },
+            /**
+             * 无障碍，设置aria属性
+             * @default false
+             */
+            accessible: {
+                value: false
+            }
 		}
-	})
-},{requires:['node','base']});
+	});
+	return Number;
+},{requires:['node','base','./index.css']});
