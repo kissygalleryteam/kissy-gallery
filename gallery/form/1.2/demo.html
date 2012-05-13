@@ -3,142 +3,141 @@
 <head>
 <meta charset="utf-8"/>
 <title>KISSY.gallery.form</title>
-<link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/>
-<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/>
-<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
+<link rel="shortcut icon" href="http://docs.kissyui.com/kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="http://docs.kissyui.com/kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="http://docs.kissyui.com/kissy-dpl/base/assets/kissy-docs.css"/>
+<link rel="stylesheet" type="text/css" href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css"/>
 <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
 <style>
-    h1, h4 {
-        font-family: 'MicroSoft YaHei';
-        padding: 10px;
-        margin: 10px 0;
+    body{
+        font-family: "微软雅黑" !important;
+        font-size:14px;
     }
-
-    h1 {
-        font-size: 36px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #ccc;
+    #header{
+        background: none;
+        margin:20px auto;
     }
-
-    h4 {
-        font-size: 24px;
-        padding: 0 10px;
-        margin: 0 0 10px;
+    #header h1{
+        font-size: 54px;
     }
-
-    h5 {
-        font-size: 14px;
-        font-weight: bold;
+    ul li{
+        line-height: 28px;
     }
-
-    button {
-        padding: 5px 10px;
-        margin-top: 10px;
+    .thumbnail h4{
+        margin-bottom: 8px;
     }
-
-    select {
-        padding: 2px;
+    .thumbnail .btn{
+        margin-right:6px;
     }
-
-    .section {
-        border: 1px solid #efefef;
-        padding: 10px;
-        margin: 30px 0;
-        border-radius: 5px;
+    .thumbnail img{
+        height:120px;
     }
-
-    h4 {
-        padding-bottom: 5px;
-        border-bottom: 1px solid #ccc;
+    .thumbnail .dec{
+        height:60px;
     }
-
-    #gj p, #guard {
-        padding: 10px 0;
-        font-size: 24px;
-        font-weight: bold;
-        font-family: '楷体';
-        color: #c00;
+    #content h2{
+        margin-bottom:15px;
     }
-
-    .g {
-        display: none;
-    }
-
 </style>
-<script src="../../../../kissy/build/kissy.js"></script>
-<script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script>
-<link rel="stylesheet" href="assets/scroll.css"/>
-<link rel="stylesheet" href="assets/clear.css"/>
-<link rel="stylesheet" href="assets/chrome.css"/>
-
-
 </head>
 <body>
-<div id="header">
-    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png"/></a></h1>
-    <div class="sub-title">Gallery</div>
-    <ul class="navigation">
-        <li><a href="http://blog.kissyui.com/">博客</a></li>
-        <li><a href="http://github.com/kissyteam">源码</a></li>
+<div class="s-crumbs">
+    <span>当前位置：</span>
+    <a href="http://kissyui.com/">KISSY</a>
+    <a href="../../../index.html">Gallery</a>
+    <span>form</span>
+</div>
+<header id="header" class="jumbotron subhead">
+    <h1>KF<small>kissy的表单组件集合</small></h1>
+    <ul>
+        <li>作者：明河（剑平）、紫英、张挺、牧云、易敛、飞绿、伯方</li>
+        <li>版本：V1.2.0</li>
+        <li>文档：<a href="http://www.36ria.com/demo/gal/gallery/form/1.2/doc/index.html" >v1.2.0</a>&nbsp;&nbsp;<a href="http://www.36ria.com/demo/gal/gallery/form/1.1/doc/index.html" >v1.1.0</a></li>
+        <li>源码：<a href="https://github.com/kissyteam/kissy-gallery/tree/master/gallery/form">gallery/form</a></li>
+        <li>目前KF不兼容kissy1.1.6</li>
+    </ul>
+    <div class="subnav">
+        <ul class="nav nav-pills">
+            <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/uploader/index.html">Uploader</a></li>
+            <li class=""><a href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/limiter/index.html">Limiter</a></li>
+            <li class=""><a href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/checkbox/index.html">checkbox</a></li>
+            <li class=""><a href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/radio/index.html">radio</a></li>
+        </ul>
+    </div>
+</header>
+<div id="content">
+    <h2>包配置</h2>
+    <pre class='brush: js;'>
+        KISSY.config({
+            packages:[ {
+                name:"gallery",
+                path:"http://a.tbcdn.cn/s/kissy/",
+                charset:"utf-8"
+            } ]
+        });
+    </pre>
+    <h2>组件列表</h2>
+    <ul class="thumbnails">
+        <li class="span4">
+            <div class="thumbnail">
+                <img alt="uploader" src="http://www.36ria.com/wp-content/uploads/2012/05/uploader.png">
+                <div class="caption">
+                    <h4>Uploader</h4>
+                    <p class="dec">异步文件上传组件，支持ajax、iframe、flash三种上传方案,由明河（剑平）、紫英、飞绿完成，请勿使用v1.0和v1.1的代码。</p>
+                    <p><a class="btn btn-primary" href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/uploader/index.html">demo</a> <a class="btn" href="http://www.36ria.com/demo/gal/gallery/form/1.2/doc/symbols/RenderUploader.html">doc</a><a class="btn" href="http://www.36ria.com/5041">使用指南</a></p>
+                </div>
+            </div>
+        </li>
+        <li class="span4">
+            <div class="thumbnail">
+                <img alt="uploader" src="http://www.36ria.com/wp-content/uploads/2012/05/limiter.png">
+                <div class="caption">
+                    <h4>Limiter</h4>
+                    <p class="dec">字数统计组件，支持对kissy的富编辑器editor的统计，由明河（剑平）完成。</p>
+                    <p><a class="btn btn-primary" href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/limiter/index.html">demo</a> <a class="btn" href="http://www.36ria.com/demo/gal/gallery/form/1.2/doc/symbols/Limiter.html">doc</a></p>
+                </div>
+            </div>
+        </li>
+        <li class="span4">
+            <div class="thumbnail">
+                <img alt="uploader" src="http://www.36ria.com/wp-content/uploads/2012/05/checkbox.png">
+                <div class="caption">
+                    <h4>checkbox</h4>
+                    <p class="dec">模拟多选框，用于表单美化，由伯方完成。</p>
+                    <p><a class="btn btn-primary" href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/checkbox/index.html">demo</a> <a class="btn" href="http://www.36ria.com/demo/gal/gallery/form/1.2/doc/symbols/Checkbox.html">doc</a></p>
+                </div>
+            </div>
+        </li>
+        <li class="span4">
+            <div class="thumbnail">
+                <img alt="uploader" src="http://www.36ria.com/wp-content/uploads/2012/05/radio.png">
+                <div class="caption">
+                    <h4>radio</h4>
+                    <p class="dec">模拟单选框，用于表单美化，由伯方完成。</p>
+                    <p><a class="btn btn-primary" href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/radio/index.html">demo</a> <a class="btn" href="http://www.36ria.com/demo/gal/gallery/form/1.2/doc/symbols/radio.html">doc</a></p>
+                </div>
+            </div>
+        </li>
+        <li class="span4">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h4>其他组件正在开发中...</h4>
+                    <p>如果你有完成了form相关的组件，欢迎提交到gallery的form目录。</p>
+                </div>
+            </div>
+        </li>
     </ul>
 
-</div>
-<div id="content">
-    <div class="s-crumbs">
-        <span>当前位置：</span>
-        <a href="http://kissyui.com/">KISSY</a>
-        <a href="../../../index.html">Gallery</a>
-        <span>form</span>
-    </div>
-    <pre class="s-section">
-        作者：明河（剑平）、紫英、张挺、牧云、易敛、飞绿、伯方
-        功能：表单组件合集，目前包含uploader（异步文件上传）
-        版本：V1.1.3
-    </pre>
-    <h3 class="s-title">Uploader：异步文件上传组件</h3>
-    <p>作者：明河（剑平）、紫英、飞绿</p>
-    <p>（V1.0弃用）</p>
-    <p>demo：<a href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/uploader/index.html" target="_blank">
-        
-        V1.1demo</a>（V1.0弃用）</p>
-
-    <p>文档：<a href="http://www.36ria.com/demo/gal/gallery/form/1.2/doc/index.html" target="_blank">V1.1文档</a></p>
-    <p>
-        <img src="http://www.36ria.com/demo/gal/demo/form/uploader/assets/demo-1.png" alt="demo">
-    </p>
-    <h3 class="s-title">Checkbox：模拟多选框</h3>
-    <p>作者：伯方</p>
-    <div class="demo-wrapper">
-        <form action="">
-            <ul id="J_Content">
-                <li><input type="checkbox" name="ch-1" value="ch1">1 1 1 1</li>
-                <li><input type="checkbox" name="ch-2" value="ch2">2 2 2 2</li>
-                <li><input disabled="disabled" type="checkbox" name="ch-3" value="ch3">3 3 3 3</li>
-                <li><input disabled="disabled" type="checkbox" name="ch-4" value="ch4">4 4 4 4</li>
-                <li><input type="checkbox" name="ch-5" value="ch5">5 5 5 5</li>
-                <li><input type="checkbox" name="ch-6" value="ch6">6 6 6 6</li>
-                <li><input type="checkbox" name="ch-7" value="ch7">7 7 7 7</li>
-                <li><input type="checkbox" checked="checked" name="ch-8" value="ch8">8 8 8 8</li>
-                <li><input type="checkbox"  checked="checked" name="ch-9" value="ch9">9 9 9 9</li>
-            </ul>
-        </form>
-    </div>
+    <h2>KF组件规划</h2>
+    <img alt="kf-models" src="http://www.36ria.com/wp-content/uploads/2012/05/KF组件规划.png">
 </div>
 <div id="footer">
     &copy; Copyright 2010~2011, KISSY Team.
 </div>
-<script type="text/javascript">
-    KISSY.config({
-        packages:[ {
-            name:"gallery",
-            path:"../../../",
-            charset:"utf-8"
-        } ]
-    });
-    KISSY.use('gallery/form/1.2/checkbox/index,node', function (S, Checkbox,Node) {
-        var r = new Checkbox('#J_Content input');
-        r.render();
-    })
-</script>
+<!-- 代码高亮 START  -->
+<link href='http://www.36ria.com/demo/gal/gallery/form/1.2/demo/assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
 </body>
 </html>

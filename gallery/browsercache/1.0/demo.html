@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>KISSY gallery - Local Storage</title>
+<link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
+<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+<script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+</head>
+<body>
+    <div id="header"> 
+		<h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png"/></a></h1>
+		<div class="sub-title">Gallery</div>
+		<ul class="navigation"> 
+			<li><a href="http://blog.kissyui.com/">博客</a></li> 
+			<li><a href="http://github.com/kissyteam">源码</a></li> 		
+		</ul>
+		
+	</div> 
+    <div id="content">
+		<div class="s-crumbs">
+			<span>当前位置：</span>
+			<a href="http://kissyui.com/">KISSY</a>
+			<a href="../../../index.html">Gallery</a>
+			<span>BrowserCache</span>
+		</div>
+			<pre class="s-section">				
+作者：林谦<linqian.zl@taobao.com>
+功能：function
+描述：浏览器端缓存, 依赖 gallery/local-storage/1.0/index.js
+源码：<a href="index.js">browserCache.js</a>
+UnitTest: <a href="../test/SpecRunner.html" target="_blank">单元测试</a>
+</pre>
+			
+			<h3 class="s-title">API</h3>			
+			<div class="s-section">
+				<h4 class="s-api-title">methods</h4>				
+        <div>
+          <pre>
+ - cache.set(key, value, ttl);
+ - cache.get(key);
+ - cache.has(key);
+ - cache.remove(key);
+ 
+ - BrowserCache.validateNumber(number, default_value)
+ - BrowserCache.md5();
+          </pre>
+        </div>
+				<script>
+				    KISSY.use("gallery/browsercache/1.0/",function(S,BrowserCache){
+              var cache = new BrowserCache(24 * 60 * 60 * 1000);
+              if (cache.has('hello world')) {
+                alert('cache hit: ' + cache.get('hello world'));
+              } else {
+                cache.set('hello world', '你好世界');
+                alert('set cache:' + '你好世界');
+              }
+				    });
+				</script>
+			</div>
+
+			<h3 class="s-title">Test</h3>			
+			
+			<h3 class="s-title">Note</h3>			
+			<div class="s-section">
+				<ul class="s-list">
+          <li>BrowserCache 使用 gallery 中 local-store 存储数据</li>
+					<li>关于 localstorage 和 userData 限制: http://www.mytcer.com/865</li>
+				</ul>
+			</div>
+    </div>
+    <div id="footer">
+        &copy; Copyright 2010~2011, KISSY Team.
+    </div>
+</body>
+</html>

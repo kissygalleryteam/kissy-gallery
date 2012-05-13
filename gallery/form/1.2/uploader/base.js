@@ -547,12 +547,14 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
          * 采用的上传方案，当值是数组时，比如“type” : ["flash","ajax","iframe"]，按顺序获取浏览器支持的方式，该配置会优先使用flash上传方式，如果浏览器不支持flash，会降级为ajax，如果还不支持ajax，会降级为iframe；当值是字符串时，比如“type” : “ajax”，表示只使用ajax上传方式。这种方式比较极端，在不支持ajax上传方式的浏览器会不可用；当“type” : “auto”，auto是一种特例，等价于["ajax","flash","iframe"]。
          * @type String|Array
          * @default "auto"
+         * @since V1.2 （当“type” : “auto”，等价于["ajax","flash","iframe"]）
          */
         type:{value:Uploader.type.AUTO},
         /**
          * 是否开启多选支持，部分浏览器存在兼容性问题
          * @type Boolean
          * @default true
+         * @since V1.2
          */
         multiple:{
             value:true,
@@ -568,6 +570,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
          * 是否可用,false为可用
          * @type Boolean
          * @default false
+         * @since V1.2
          */
         disabled : {
             value : false,

@@ -1,24 +1,39 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="utf-8"/>
-<title>如何使用Uploader</title>
-<link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
-<link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
-<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+    <meta charset="utf-8"/>
+    <title>使用伪属性传参配置</title>
+    <link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
 </head>
 <body>
 <article id="doc">
-    <h4>如何使用Uploader？</h4>
-    <h5>先来看个最简单的demo</h5>
-        <p>点击下来的按钮，上传1个文件试下</p>
+    <h4>使用伪属性传参配置</h4>
+    <!-- 上传按钮，组件配置请写在data-config内 -->
+    <a id="J_UploaderBtn" class="uploader-button" data-config=
+            '{
+                 "serverConfig":{"action":"upload.php","data":{"username":"minghe"}},
+                    "name":"Filedata",
+                    "urlsInputName":"fileUrls"
+                }'
+       href="#">
+        选择要上传的文件
+    </a>
+    <!-- 文件上传队列 -->
+    <ul id="J_UploaderQueue">
+
+    </ul>
+    <p>demo详细说明，请看<a href="http://www.36ria.com/5072#dataConfig" target="_blank">《组件配置方式和关键配置—KF/Uploader快速使用指南》</a></p>
+    <h5>demo代码如下：</h5>
+    <pre class='brush: js;html-script: true '>
         <!-- 上传按钮，组件配置请写在data-config内 -->
         <a id="J_UploaderBtn" class="uploader-button" data-config=
                 '{
-                 "serverConfig":{"action":"upload.php","data":{"dir":"files/"}},
-                    "name":"Filedata",
-                    "urlsInputName":"fileUrls"
-                }'
+                     "serverConfig":{"action":"upload.php","data":{"username":"minghe"}},
+                        "name":"Filedata",
+                        "urlsInputName":"fileUrls"
+                    }'
            href="#">
             选择要上传的文件
         </a>
@@ -26,88 +41,33 @@
         <ul id="J_UploaderQueue">
 
         </ul>
-    <h5>Step1:页面中引用kissy文件</h5>
-    <pre class='brush: xml; '>
-        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+        <script>
+            KISSY.config({
+                packages:[
+                    {
+                        name:"gallery",
+                        path:"../../../../../../",
+                        charset:"utf-8"
+                    }
+                ]
+            });
+            //加载上传组件入口文件
+            KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
+                //第一个参数：按钮元素钩子，第二个参数：队列元素钩子
+                new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
+            })
+        </script>
      </pre>
-    <h5>Step2:创建一个上传按钮，写上Uploader组件配置</h5>
-    <p>配置写在data-config属性内，为一个json字符串，要特别小心json格式必须符合规范，不然解析时会报错。</p>
-    <ul>
-        <li><b>serverConfig</b>：服务器端配置，包括最重要的action（路径）配置，data为传递给服务器的附加数据</li>
-        <li><b>name</b>：文件上传域name名</li>
-        <li><b>urlsInputName</b>：用于存放服务器端返回的文件路径的input</li>
-    </ul>
-    （默认自动上传文件，如果不希望自动上传可以配置autoUpload:false。）
-    <pre class='brush: xml; '>
-        <!-- 上传按钮，组件配置请写在data-config内 -->
-        <a id="J_UploaderBtn" class="uploader-button" data-config=
-                '{ "serverConfig":{"action":"upload.php","data":{"dir":"files/"}},
-                    "name":"Filedata",
-                    "urlsInputName":"fileUrls"
-                }'
-           href="#">
-            选择要上传的文件
-        </a>
-     </pre>
-    <h5>Step3:创建一个队列容器</h5>
-    <pre class='brush: xml; '>
-        <!-- 文件上传队列 -->
-        <ul id="J_UploaderQueue">
-
-        </ul>
-     </pre>
-    <h5>Step4:初始化组件</h5>
-    配置下组件包引用路径：
-    <pre class='brush: js; '>
-        KISSY.config({
-           packages:[ {
-               name:"gallery",
-               path:"../../../../../../",
-               charset:"utf-8"
-           } ]
-    });
-     </pre>
-    （PS:上面的包配置是针对本地路径，一般使用cdn上的发布版，包配置如下：）
-    <pre class='brush: js; '>
-        KISSY.config({
-           packages:[ {
-               name:"gallery",
-               path:"http://a.tbcdn.cn/s/kissy/",
-               charset:"utf-8"
-           } ]
-    });
-     </pre>
-    对上述配置不清楚的朋友，可以看<a href="http://docs.kissyui.com/docs/html/api/seed/loader/add.ver1.2.html" target="_blank">loader模块</a>。
-    <pre class='brush: js; '>
-        //加载上传组件入口文件
-        KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
-            //第一个参数：按钮元素钩子，第二个参数：队列元素钩子
-            new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
-        })
-     </pre>
-    <p>uploader/render为上传组件的入口文件，render.js会读取按钮上的data-config，然后自动初始化上传组件。</p>
-    <p>就这么简单！</p>
-    <h5>Step5:将crossdomain.xml加入到域名根目录下。</h5>
-    <p>V1.2起，IE将优先采用flash上传，在不支持flash上传的情况下将切成iframe。</p>
-    <p>flash上传，就必须在域名根目录下存在跨域策略文件crossdomain.xml。</p>
-    <p>以淘宝网的跨域策略为例</p>
-    <pre class='brush: xml; '>
-        <cross-domain-policy>
-            <allow-access-from domain=”*.taobao.com”/>
-                <allow-access-from domain=”*.taobao.net”/>
-                    <allow-access-from domain=”*.taobaocdn.com”/>
-                        <allow-access-from domain=”*.allyes.com”/>
-        </cross-domain-policy>
-     </pre>
-    <p>如果你希望IE下使用iframe，请设置"type":["ajax","iframe"]即可</p>
 </article>
 <script>
     KISSY.config({
-           packages:[ {
-               name:"gallery",
-               path:"../../../../../../",
-               charset:"utf-8"
-           } ]
+        packages:[
+            {
+                name:"gallery",
+                path:"../../../../../../",
+                charset:"utf-8"
+            }
+        ]
     });
     //加载上传组件入口文件
     KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
@@ -117,7 +77,7 @@
 </script>
 
 <!-- 代码高亮 START  -->
-<link href='../../assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css' />
+<link href='../../assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css'/>
 <script type="text/javascript" src="../../assets/syntaxhighlighter_3.0.83/sh.js"></script>
 <script type="text/javascript">SyntaxHighlighter.all();</script>
 <!-- 代码高亮 END  -->
