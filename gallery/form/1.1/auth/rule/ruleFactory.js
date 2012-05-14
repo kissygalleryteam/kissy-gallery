@@ -3,7 +3,7 @@
  * @author 张挺 <zhangting@taobao.com>
  *
  */
-KISSY.add('gallery/form/1.1/auth/rule/html/propertyFactory', function (S, Base, PropertyRule, undefined) {
+KISSY.add('gallery/form/1.1/auth/rule/ruleFactory', function (S, Base, PropertyRule, undefined) {
     var RuleFactory = function () {
         var self = this;
 
@@ -61,7 +61,6 @@ KISSY.add('gallery/form/1.1/auth/rule/html/propertyFactory', function (S, Base, 
         HTML_PROPERTY:['required', 'pattern', 'max', 'min', 'step', 'equalTo'],
         register:function(name, rule) {
             RuleFactory.rules[name] = rule;
-            RuleFactory.HTML_PROPERTY.push(name);
         },
         create:function (ruleName, cfg) {
             return new PropertyRule(ruleName, RuleFactory.rules[ruleName], cfg);
@@ -73,6 +72,6 @@ KISSY.add('gallery/form/1.1/auth/rule/html/propertyFactory', function (S, Base, 
 }, {
     requires:[
         'base',
-        './propertyRule'
+        './html/propertyRule'
     ]
 });

@@ -124,7 +124,7 @@ KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field,
         'json',
         'base',
         './field/field',
-        './rule/ruleFactory',
+        './rule/html/propertyFactory',
         './utils'
     ]
 });

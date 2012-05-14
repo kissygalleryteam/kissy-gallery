@@ -61,16 +61,6 @@
 
         </ul>
     </form>
-    <form action="#" method="post" id="J_TestForm">
-        <ul class="form">
-            <li>
-                <input class="text" type="text" value="" id="test" required/>
-            </li>
-            <li>
-                <button type="submit">提交</button>
-            </li>
-        </ul>
-    </form>
     <script>
         //http://www.w3.org/TR/html5/constraints.html#the-constraint-validation-api
         KISSY.config({
@@ -94,10 +84,9 @@
                 }
             });
 
-            S.one('#J_form_eg1').append('<li><label class="hd">身份证号码：</label><input class="text" id="card" type="text"/></li>');
-
-            form.register('card', function () {
-
+            //在全局上下文中添加一个自定义规则
+            form.register('card', function (value) {
+                return value.length > 3;
             });
 
             form.add('#card', {
@@ -115,8 +104,6 @@
             });
 
         });
-
-        KISSY.get('#test').setCustomValidity('这个是必填项的啊，赶紧填了');
 
     </script>
 </div>

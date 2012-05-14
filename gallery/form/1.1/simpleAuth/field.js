@@ -128,9 +128,9 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
 
         add:function (name, rule, cfg) {
             var _storage = this._storage;
-            if (rule instanceof PropertyRule || rule instanceof Rule) {
+            if (rule instanceof PropertyRule) {
                 _storage[name] = rule;
-            } else if(S.isFunction(rule)) {
+            } else {
                 _storage[name] = new Rule(name, rule, {
                     el:self._el
                     //TODO args
@@ -143,7 +143,6 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
         remove:function (name) {
             var _storage = this._storage;
             delete _storage[name];
-            delete this._cache[name];
         },
 
         /**
@@ -211,7 +210,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
         'event',
         'base',
         'json',
-        '../rule/ruleFactory',
+        '../rule/html/propertyFactory',
         '../rule/rule',
         '../rule/html/propertyRule',
         '../msg/base',
