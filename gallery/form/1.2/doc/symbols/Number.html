@@ -301,6 +301,30 @@ dl.data .dd{
                                             
                                                 
                                                     <li class="li">
+                                                        <b class="name"><a href="../symbols/Number.html#accessible">accessible</a></b>
+                                                        <span class="type">{}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">无障碍，设置aria属性</span>
+                                                    </li>
+                                                
+                                            
+                                                
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/Number.html#cls">cls</a></b>
+                                                        <span class="type">{}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">一组样式名</span>
+                                                    </li>
+                                                
+                                            
+                                                
+                                                    <li class="li">
                                                         <b class="name"><a href="../symbols/Number.html#target">target</a></b>
                                                         <span class="type">{}</span>
                                                         
@@ -317,23 +341,6 @@ dl.data .dd{
                                 </div>
                                                     
                             
-                            
-                                
-                                
-                                    <div class="box properties-box">
-                                        <div class="box-hd">
-                                            <h3>Static Properties</h3>
-                                        </div>
-                                        <div class="box-bd">
-                                            <ul class="static-list">
-                                            
-                                                
-                                            
-                                            </ul>
-                                        </div>
-                                     </div>
-                                
-                            
                             <!-- properties END -->
                             
                             <!-- methods START -->
@@ -349,12 +356,32 @@ dl.data .dd{
                                             
                                             <li class="li">                                                
                                                 
-                                                <b class="name"><a href="../symbols/Number.html#numValidation">numValidation</a></b>
-                                                <span class="param">(target)</span>
+                                                <b class="name"><a href="../symbols/Number.html#addHTML">addHTML</a></b>
+                                                <span class="param">()</span>
                                                 
                                                 
                                                 
-                                                <span class="desc">[numValidation 输入框验证并校正]</span>                                                
+                                                <span class="desc">对input组件进行包装</span>                                                
+                                            </li>
+                                            
+                                            <li class="li">                                                
+                                                
+                                                <b class="name"><a href="../symbols/Number.html#formatNum">formatNum</a></b>
+                                                <span class="param">($target)</span>
+                                                
+                                                
+                                                
+                                                <span class="desc">[numValidation 校正输入框格式，屏蔽非法字符]</span>                                                
+                                            </li>
+                                            
+                                            <li class="li">                                                
+                                                
+                                                <b class="name"><a href="../symbols/Number.html#limitRange">limitRange</a></b>
+                                                <span class="param">(value)</span>
+                                                
+                                                
+                                                
+                                                <span class="desc">[limitRange 控制输入数值的大小在最大值与最小值之间]</span>                                                
                                             </li>
                                             
                                         </ul>
@@ -384,6 +411,60 @@ dl.data .dd{
                                     
                                     
                                         <li class="li">
+                                            <a name="accessible"> </a>
+                                            <div class="title">                                                
+                                                <b class="name">accessible</b>
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                <span class="desc">
+                                                    — 无障碍，设置aria属性
+                                                    
+                                                    
+                                                </span>
+                                            </div>
+                                            <!--
+                                            -->
+                                            
+                                            
+                                                <div class="member-data"><span>default：</span>false</div>
+                                            
+                                            
+                                            
+                                        </li>
+                                    
+                                    
+                                    
+                                        <li class="li">
+                                            <a name="cls"> </a>
+                                            <div class="title">                                                
+                                                <b class="name">cls</b>
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                <span class="desc">
+                                                    — 一组样式名
+                                                    
+                                                    
+                                                </span>
+                                            </div>
+                                            <!--
+                                            -->
+                                            
+                                            
+                                                <div class="member-data"><span>default：</span>cls:{init: 'ks-radio',selected: 'ks-radio-selected',disabled: 'ks-radio-disabled',hover: 'ks-radio-hover'}</div>
+                                            
+                                            
+                                            
+                                        </li>
+                                    
+                                    
+                                    
+                                        <li class="li">
                                             <a name="target"> </a>
                                             <div class="title">                                                
                                                 <b class="name">target</b>
@@ -400,6 +481,7 @@ dl.data .dd{
                                             </div>
                                             <!--
                                             -->
+                                            
                                             
                                             
                                             
@@ -424,15 +506,52 @@ dl.data .dd{
                                         <li class="li">
                                             <div class="title">
                                                 
-                                                <b class="name">numValidation</b>
-                                                <span class="param">(target)</span>
+                                                <b class="name">addHTML</b>
+                                                <span class="param">()</span>
                                                 
                                                 
                                                 
                                             </div>
 
                                             <div class="desc">
-                                                [numValidation 输入框验证并校正]
+                                                对input组件进行包装
+                                                
+                                                
+                                            </div>
+                                            
+                                            <dl>                                            
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                                                                
+                                                
+                                                
+                                                
+                                            </dl>                                            
+                                        </li>
+                                        
+                                        <li class="li">
+                                            <div class="title">
+                                                
+                                                <b class="name">formatNum</b>
+                                                <span class="param">($target)</span>
+                                                
+                                                
+                                                
+                                            </div>
+
+                                            <div class="desc">
+                                                [numValidation 校正输入框格式，屏蔽非法字符]
                                                 
                                                 
                                             </div>
@@ -446,11 +565,64 @@ dl.data .dd{
                                                     
                                                         <li class="li">
                                                             &nbsp;
-                                                            <b class="name">target</b>
+                                                            <b class="name">$target</b>
                                                             
                                                             
-                                                            <span class="type">{[NodeList]}</span> 
-                                                            <span class="desc">[文本框节点对象]</span>
+                                                            <span class="type">{[HTMLELement]}</span> 
+                                                            <span class="desc">[文本框节点]</span>
+                                                        </li>
+                                                    
+                                                    </ul>
+                                                </dd>
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                                                                
+                                                
+                                                
+                                                
+                                            </dl>                                            
+                                        </li>
+                                        
+                                        <li class="li">
+                                            <div class="title">
+                                                
+                                                <b class="name">limitRange</b>
+                                                <span class="param">(value)</span>
+                                                
+                                                
+                                                
+                                            </div>
+
+                                            <div class="desc">
+                                                [limitRange 控制输入数值的大小在最大值与最小值之间]
+                                                
+                                                
+                                            </div>
+                                            
+                                            <dl>                                            
+                                                
+                                                
+                                                <dt>Parameters</dt>
+                                                <dd>
+                                                    <ul class="list param-list">
+                                                    
+                                                        <li class="li">
+                                                            &nbsp;
+                                                            <b class="name">value</b>
+                                                            
+                                                            
+                                                            <span class="type">{[<a href="../symbols/Number.html">Number</a>]}</span> 
+                                                            <span class="desc">[输入框的值]</span>
                                                         </li>
                                                     
                                                     </ul>
