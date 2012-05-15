@@ -12,11 +12,7 @@ KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field,
      */
     var defaultConfig = {
         initTrigger:false,
-        autoBind:true,
-        style:{
-            'success':'ok',
-            'error':'error'
-        }
+        autoBind:true
     };
 
     var AUTH_MODE = {
@@ -51,8 +47,12 @@ KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field,
             }
 
             if (forms && forms.length) {
+                var evtConfig = config.autoBind?{
+                    event:'blur'
+                }:{};
+
                 S.each(forms, function (el, idx) {
-                    var f = new Field(el, config);
+                    var f = new Field(el, evtConfig);
                     f.addTarget(self);
                     f.publish('validate', {
                         bubble:1

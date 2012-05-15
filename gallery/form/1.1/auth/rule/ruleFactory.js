@@ -3,7 +3,7 @@
  * @author 张挺 <zhangting@taobao.com>
  *
  */
-KISSY.add('gallery/form/1.1/auth/rule/ruleFactory', function (S, Base, PropertyRule, undefined) {
+KISSY.add('gallery/form/1.1/auth/rule/ruleFactory', function (S, Base, PropertyRule, Rule, undefined) {
     var RuleFactory = function () {
         var self = this;
 
@@ -63,7 +63,12 @@ KISSY.add('gallery/form/1.1/auth/rule/ruleFactory', function (S, Base, PropertyR
             RuleFactory.rules[name] = rule;
         },
         create:function (ruleName, cfg) {
-            return new PropertyRule(ruleName, RuleFactory.rules[ruleName], cfg);
+            if(S.inArray(ruleName, RuleFactory.HTML_PROPERTY)) {
+                return new PropertyRule(ruleName, RuleFactory.rules[ruleName], cfg);
+            } else if(RuleFactory.rules[name]) {
+                return new Rule(ruleName, RuleFactory.rules[ruleName], cfg);
+            }
+            return undefined;
         }
     });
 
@@ -72,6 +77,7 @@ KISSY.add('gallery/form/1.1/auth/rule/ruleFactory', function (S, Base, PropertyR
 }, {
     requires:[
         'base',
-        './html/propertyRule'
+        './html/propertyRule',
+        './rule'
     ]
 });

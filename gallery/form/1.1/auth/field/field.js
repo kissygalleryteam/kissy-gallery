@@ -9,7 +9,19 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
     var EMPTY = '',
         CONFIG_NAME = 'data-valid';
 
-    var Field = function (el, validConfig) {
+    /**
+     * field默认配置
+     * @type {Object}
+     */
+    var defaultConfig = {
+        event:'blur',
+        style:{
+            'success':'ok',
+            'error':'error'
+        }
+    };
+
+    var Field = function (el, config) {
         var self = this;
         self.set('el', el);
 
@@ -18,19 +30,25 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
         //储存上一次的校验结果
         self._cache = {};
 
+        /**
+         * 配置有3个地方，属性，new的参数，默认参数
+         */
         //初始化json配置
         if (el && el.hasAttr(CONFIG_NAME)) {
             var cfg = el.attr(CONFIG_NAME);
 
             cfg = Utils.toJSON(cfg);
             //把所有伪属性都当作rule处理
-            var config = {
+            var propertyConfig = {
                 rules:cfg
             };
-            validConfig = S.merge(validConfig, config);
+
+            config = S.merge(propertyConfig, config);
         }
 
-        self._cfg = validConfig || {};
+        config = S.merge(defaultConfig, config);
+
+        self._cfg = config || {};
         //保存rule的集合
         self._storage = {};
 
@@ -94,6 +112,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
                 _el = S.one(self.get('el')),
                 _ruleCfg = S.merge({}, _cfg.rules);
 
+
             //add html property
             S.each(Factory.HTML_PROPERTY, function (item) {
 
@@ -106,11 +125,17 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
                         msg:_ruleCfg[item]
                     });
 
-                    rule.on('validate', function (ev) {
-                        S.log('[after rule validate]: name:' + ev.name + ',result:' + ev.result + ',msg:' + ev.msg);
-                        //set cache
-                        self._cache[ev.name]['result'] = ev.result;
-                        self._cache[ev.name]['msg'] = ev.msg;
+                    self.add(item, rule);
+                }
+            });
+
+            //add custom rule
+            S.each(_ruleCfg, function(name, idx){
+                if(!self._storage[name] && Factory.rules[name]) {
+                    //如果集合里没有，但是有配置，可以认定是自定义属性，入口为form.add
+                    var rule = Factory.create(item, {
+                        el:_el, //bugfix for change value
+                        msg:_ruleCfg[item]
                     });
 
                     self.add(item, rule);
@@ -118,7 +143,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
             });
 
             //element event bind
-            if (_cfg.autoBind) {
+            if (_cfg.event) {
                 Event.on(_el, _cfg.event || 'blur', function (ev) {
                     self.validate();
                 });
@@ -127,13 +152,24 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
         },
 
         add:function (name, rule, cfg) {
-            var _storage = this._storage;
+            var self = this,
+                _storage = self._storage;
+
             if (rule instanceof PropertyRule || rule instanceof Rule) {
                 _storage[name] = rule;
             } else if(S.isFunction(rule)) {
                 _storage[name] = new Rule(name, rule, {
                     el:self._el
                     //TODO args
+                });
+            }
+
+            if(_storage[name]) {
+                _storage[name].on('validate', function (ev) {
+                    S.log('[after rule validate]: name:' + ev.name + ',result:' + ev.result + ',msg:' + ev.msg);
+                    //set cache
+                    self._cache[ev.name]['result'] = ev.result;
+                    self._cache[ev.name]['msg'] = ev.msg;
                 });
             }
 

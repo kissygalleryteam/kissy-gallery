@@ -1,9 +1,4 @@
 /**
- * @fileoverview
- * @author czy88840616 <czy88840616@gmail.com>
- *
- */
-/**
  * @fileoverview 规则抽象类
  * @author czy88840616 <czy88840616@gmail.com>
  *

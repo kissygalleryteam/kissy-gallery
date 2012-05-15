@@ -51,6 +51,11 @@
             </li>
 
             <li>
+                <label class="hd">上网卡：</label>
+                <input class="text" type="text" id="card"/>
+            </li>
+
+            <li>
                 <label class="hd">个人主页：</label>
                 <input class="text" type="text" data-valid="{required:'请输入正确的网址'}"/>
             </li>
@@ -91,7 +96,10 @@
 
             form.add('#card', {
                 rules:{
-
+                    card: {
+                        success:'hello world',
+                        error:'required error'
+                    }
                 }
             });
 //            form.getField('username').on('validate', function(e){
