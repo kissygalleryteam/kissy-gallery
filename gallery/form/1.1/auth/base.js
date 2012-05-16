@@ -47,12 +47,9 @@ KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field,
             }
 
             if (forms && forms.length) {
-                var evtConfig = config.autoBind?{
-                    event:'blur'
-                }:{};
-
                 S.each(forms, function (el, idx) {
-                    var f = new Field(el, evtConfig);
+                    var filedConfig = S.merge(config, config.autoBind ? Utils.getEvent(el):{});
+                    var f = new Field(el, filedConfig);
                     f.addTarget(self);
                     f.publish('validate', {
                         bubble:1
@@ -77,7 +74,8 @@ KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field,
                 el = S.one(field);
                 if (el) {
                     key = S.one(el).attr('id') || S.one(el).attr('name');
-                    self._storages[key || Utils.guid()] = new Field(el, config);
+                    var filedConfig = S.merge(self.AuthConfig, config);
+                    self._storages[key || Utils.guid()] = new Field(el, filedConfig);
                 }
             }
         },

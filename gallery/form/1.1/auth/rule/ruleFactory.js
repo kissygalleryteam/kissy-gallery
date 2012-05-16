@@ -65,7 +65,7 @@ KISSY.add('gallery/form/1.1/auth/rule/ruleFactory', function (S, Base, PropertyR
         create:function (ruleName, cfg) {
             if(S.inArray(ruleName, RuleFactory.HTML_PROPERTY)) {
                 return new PropertyRule(ruleName, RuleFactory.rules[ruleName], cfg);
-            } else if(RuleFactory.rules[name]) {
+            } else if(RuleFactory.rules[ruleName]) {
                 return new Rule(ruleName, RuleFactory.rules[ruleName], cfg);
             }
             return undefined;

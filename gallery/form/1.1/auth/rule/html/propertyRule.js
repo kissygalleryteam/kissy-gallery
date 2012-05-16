@@ -3,7 +3,7 @@
  * @author czy88840616 <czy88840616@gmail.com>
  *
  */
-KISSY.add('gallery/form/1.1/auth/rule/html/propertyRule', function(S, BaseRule, undefined) {
+KISSY.add('gallery/form/1.1/auth/rule/html/propertyRule', function(S, BaseRule, Utils, undefined) {
 
     /**
      * 属性规则
@@ -34,14 +34,14 @@ KISSY.add('gallery/form/1.1/auth/rule/html/propertyRule', function(S, BaseRule, 
         validate:function () {
             var self = this;
             if(S.isUndefined(arguments[0])) {
-                return ProPertyRule.superclass.validate.apply(this, [self._propertyValue, S.one(self._el).val()].concat(self._initArgs));
+                return ProPertyRule.superclass.validate.apply(this, [self._propertyValue, Utils.getValue(self._el)].concat(self._initArgs));
             } else {
                 //bugfix for no args input
                 var args = [].slice.call(arguments);
                 //一旦传入过值之后，表示复写初始化的参数
                 self._initArgs = args;
                 //将属性的value作为第一个参数传进去，将当前元素的值当成第二个参数传入
-                return ProPertyRule.superclass.validate.apply(this, [self._propertyValue, S.one(self._el).val()].concat(args));
+                return ProPertyRule.superclass.validate.apply(this, [self._propertyValue, Utils.getValue(self._el)].concat(args));
             }
         }
     });
@@ -49,6 +49,7 @@ KISSY.add('gallery/form/1.1/auth/rule/html/propertyRule', function(S, BaseRule, 
     return ProPertyRule;
 }, {
     requires:[
-        '../base'
+        '../base',
+        '../../utils'
     ]
 });

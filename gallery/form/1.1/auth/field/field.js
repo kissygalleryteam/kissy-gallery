@@ -130,15 +130,15 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
             });
 
             //add custom rule
-            S.each(_ruleCfg, function(name, idx){
+            S.each(_ruleCfg, function(ruleCfg, name){
                 if(!self._storage[name] && Factory.rules[name]) {
                     //如果集合里没有，但是有配置，可以认定是自定义属性，入口为form.add
-                    var rule = Factory.create(item, {
+                    var rule = Factory.create(name, {
                         el:_el, //bugfix for change value
-                        msg:_ruleCfg[item]
+                        msg:ruleCfg
                     });
 
-                    self.add(item, rule);
+                    self.add(name, rule);
                 }
             });
 

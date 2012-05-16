@@ -3,7 +3,7 @@
  * @author уем╕ <zhangting@taobao.com>
  *
  */
-KISSY.add('gallery/form/1.1/auth/utils', function (S) {
+KISSY.add('gallery/form/1.1/auth/utils', function (S, DOM, undefined) {
     var Utils = {
         toJSON:function (cfg) {
             cfg = cfg.replace(/'/g, '"');
@@ -16,8 +16,46 @@ KISSY.add('gallery/form/1.1/auth/utils', function (S) {
         },
         guid:function () {
             return 'AUTH_' + S.guid();
+        },
+        getEvent: function(els){
+            var event = 'blur',
+                type = DOM.attr(els, 'type');
+            switch (type) {
+                case "select-multiple":
+                case "radio":
+                case "checkbox":
+                    event='click';
+                    break;
+                default:
+                    event = 'blur';
+            }
+            return event;
+        },
+        getValue:function(els) {
+            var val = [],
+                type = DOM.attr(els, 'type');
+            switch (type) {
+                case "select-multiple":
+                    S.each(els.options, function(el) {
+                        if (el.selected)val.push(el.value);
+                    });
+                    break;
+                case "radio":
+                case "checkbox":
+                    S.each(els, function(el) {
+                        if (el.checked)val.push(el.value);
+                    });
+                    break;
+                default:
+                    val = DOM.val(els);
+            }
+            return val;
         }
     };
 
     return Utils;
+},{
+    requires:[
+        'dom'
+    ]
 });
