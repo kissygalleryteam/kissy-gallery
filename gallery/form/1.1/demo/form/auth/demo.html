@@ -97,14 +97,17 @@
             form.add('#card', {
                 rules:{
                     card: {
-                        success:'hello world',
-                        error:'required error'
+                        success:'输入卡号正确',
+                        error:'卡号必须大于3位'
                     }
+                },
+                style:{
+                    success:'attention',
+                    error:'error'
                 }
             });
-//            form.getField('username').on('validate', function(e){
-//                alert(e.msg);
-//            });
+
+            form.getField('card').validate();
 
 
             KISSY.Event.on('#J_form_eg1', "submit", function () {
