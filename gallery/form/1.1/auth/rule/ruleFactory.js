@@ -15,6 +15,10 @@ KISSY.add('gallery/form/1.1/auth/rule/ruleFactory', function (S, Base, PropertyR
     //第一个参数一定是属性的value，后面的才是真正的参数
     S.mix(RuleFactory.rules, {
         required:function (pv, value) {
+            if(S.isArray(value)) {
+                return value.length>0;
+            }
+
             return !!value;
         },
         pattern:function (pv, value) {

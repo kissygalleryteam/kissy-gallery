@@ -3,7 +3,7 @@
  * @author czy88840616 <czy88840616@gmail.com>
  *
  */
-KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, Factory,
+KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, DOM, Factory,
                                                          Rule, PropertyRule, Msg, Utils, undefined) {
 
     var EMPTY = '',
@@ -23,9 +23,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
 
     var Field = function (el, config) {
         var self = this;
-        self.set('el', el);
 
-        el = S.one(el);
         self._validateDone = {};
         //储存上一次的校验结果
         self._cache = {};
@@ -34,8 +32,8 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
          * 配置有3个地方，属性，new的参数，默认参数
          */
         //初始化json配置
-        if (el && el.hasAttr(CONFIG_NAME)) {
-            var cfg = el.attr(CONFIG_NAME);
+        if (el && DOM.attr(el, CONFIG_NAME)) {
+            var cfg = DOM.attr(el, CONFIG_NAME);
 
             cfg = Utils.toJSON(cfg);
             //把所有伪属性都当作rule处理
@@ -52,66 +50,82 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
         //保存rule的集合
         self._storage = {};
 
-        var resetAfterValidate = function () {
-            self.fire('afterFieldValidation');
-        };
+        self._init(el);
 
-        //msg init
-        if (self._cfg.msg) {
-            self._msg = new Msg(el, self._cfg.msg);
-            var style = self._cfg.style;
+        Field.superclass.constructor.call(self);
 
+        return self;
+    };
+
+    S.extend(Field, Base, {
+        _init:function (el) {
+            var self = this,
+                _cfg = self._cfg,
+                _el = S.one(el),
+                _ruleCfg = S.merge({}, _cfg.rules);
+
+
+            //如果为checkbox/radio则保存为数组
+            if (['checkbox','radio'].indexOf(DOM.attr(el, "type")) > -1) {
+                var form = el.form, elName = DOM.attr(el, "name");
+                var els = [];
+                S.each(document.getElementsByName(elName), function(item) {
+                    if (item.form == form) {
+                        els.push(item);
+                    }
+                });
+                self.set('el', els);
+            } else {
+                self.set('el', el);
+            }
+
+            var resetAfterValidate = function () {
+                self.fire('afterFieldValidation');
+            };
+
+            //msg init
+            if (self._cfg.msg) {
+                self._msg = new Msg(el, self._cfg.msg);
+                var style = self._cfg.style;
+
+                self.on('afterRulesValidate', function (ev) {
+                    var result = ev.result,
+                        curRule = ev.curRule,
+                        msg = self._cache[curRule].msg || EMPTY;
+
+                    //这里的value还没被当前覆盖
+                    if (self.get('result') !== result || self.get('msg') !== msg) {
+                        if (msg) {
+                            self._msg.show({
+                                style:result ? style['success'] : style['error'],
+                                msg:msg
+                            });
+                        } else {
+                            self._msg.hide();
+                        }
+                    }
+                });
+            }
+
+            //监听校验结果
             self.on('afterRulesValidate', function (ev) {
                 var result = ev.result,
                     curRule = ev.curRule,
                     msg = self._cache[curRule].msg || EMPTY;
 
-                //这里的value还没被当前覆盖
-                if (self.get('result') !== result || self.get('msg') !== msg) {
-                    if (msg) {
-                        self._msg.show({
-                            style:result ? style['success'] : style['error'],
-                            msg:msg
-                        });
-                    } else {
-                        self._msg.hide();
-                    }
-                }
+                self.set('result', result);
+                self.set('message', msg);
+
+                self.fire('validate', {
+                    result:result,
+                    msg:msg,
+                    errRule:result ? '' : curRule
+                });
+
+                //校验结束
+                self.fire('afterValidate');
+                resetAfterValidate();
             });
-        }
-
-        //监听校验结果
-        self.on('afterRulesValidate', function (ev) {
-            var result = ev.result,
-                curRule = ev.curRule,
-                msg = self._cache[curRule].msg || EMPTY;
-
-            self.set('result', result);
-            self.set('message', msg);
-
-            self.fire('validate', {
-                result:result,
-                msg:msg,
-                errRule:result ? '' : curRule
-            });
-
-            //校验结束
-            self.fire('afterValidate');
-            resetAfterValidate();
-        });
-
-        self._init();
-
-        Field.superclass.constructor.call(self);
-    };
-
-    S.extend(Field, Base, {
-        _init:function () {
-            var self = this,
-                _cfg = self._cfg,
-                _el = S.one(self.get('el')),
-                _ruleCfg = S.merge({}, _cfg.rules);
-
 
             //add html property
             S.each(Factory.HTML_PROPERTY, function (item) {
@@ -121,7 +135,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
                     var rule = Factory.create(item, {
                         //属性的value必须在这里初始化
                         propertyValue:_el.attr(item),
-                        el:_el, //bugfix for change value
+                        el:self.get('el'), //bugfix for change value
                         msg:_ruleCfg[item]
                     });
 
@@ -134,7 +148,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
                 if(!self._storage[name] && Factory.rules[name]) {
                     //如果集合里没有，但是有配置，可以认定是自定义属性，入口为form.add
                     var rule = Factory.create(name, {
-                        el:_el, //bugfix for change value
+                        el:self.get('el'), //bugfix for change value
                         msg:ruleCfg
                     });
 
@@ -174,12 +188,16 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
             }
 
             this._cache[name] = {};
+
+            return self;
         },
 
         remove:function (name) {
             var _storage = this._storage;
             delete _storage[name];
             delete this._cache[name];
+
+            return this;
         },
 
         /**
@@ -195,7 +213,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
             var result = true,
                 self = this,
                 _storage = self._storage,
-                cfg = S.merge({}, cfg),
+                cfg = cfg||{},
                 curRule = EMPTY;
 
             if (name) {
@@ -247,6 +265,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, F
         'event',
         'base',
         'json',
+        'dom',
         '../rule/ruleFactory',
         '../rule/rule',
         '../rule/html/propertyRule',

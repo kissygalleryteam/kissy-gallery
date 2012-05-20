@@ -31,6 +31,8 @@ KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field,
         }
 
         Auth.superclass.constructor.call(self);
+
+        return self;
     };
 
     S.extend(Auth, Base, {
@@ -48,7 +50,7 @@ KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field,
 
             if (forms && forms.length) {
                 S.each(forms, function (el, idx) {
-                    var filedConfig = S.merge(config, config.autoBind ? Utils.getEvent(el):{});
+                    var filedConfig = S.merge(config, config.autoBind ? {event:Utils.getEvent(el)}:{});
                     var f = new Field(el, filedConfig);
                     f.addTarget(self);
                     f.publish('validate', {
@@ -64,6 +66,7 @@ KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field,
         },
         add:function (field, config) {
             var el, key, self = this;
+
             if (field instanceof Field) {
                 //add field
                 el = field.get('el');
@@ -78,6 +81,8 @@ KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field,
                     self._storages[key || Utils.guid()] = new Field(el, filedConfig);
                 }
             }
+
+            return self;
         },
         getField:function (name) {
             return this._storages[name];
@@ -89,6 +94,8 @@ KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field,
          */
         register:function (name, rule) {
             Factory.register(name, rule);
+
+            return this;
         },
         validate:function (group) {
             var self = this;
