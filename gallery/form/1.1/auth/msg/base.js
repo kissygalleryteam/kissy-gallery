@@ -21,7 +21,7 @@ KISSY.add('gallery/form/1.1/auth/msg/base', function (S, Base) {
             self.set('args', cfg.args);
 
             self._msgContainer = S.one('<div class="kf-auth" style="display: none"></div>');
-            self._el.after(self._msgContainer);
+            self._el.parent().append(self._msgContainer);
         },
         hide:function () {
             this._msgContainer.hide();
