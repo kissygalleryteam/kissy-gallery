@@ -260,8 +260,11 @@ imageUploader-queue .ks-progress-bar  .ks-progress-bar-value {
     filter: alpha(opacity = 0);
     z-index: 14;
 }
-body:nth-of-type(1) .imageUploader-queue .file-input-wrapper .file-input {
-    left: 0;
+@media screen and (-webkit-min-device-pixel-ratio:0)
+{
+    .imageUploader-queue .file-input-wrapper .file-input  {
+        left: 0;
+    }
 }
 .imageUploader-queue .status-wrapper .status {
     text-align: center;
