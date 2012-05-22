@@ -128,6 +128,7 @@ KISSY.add('gallery/form/1.2/uploader/button/base',function(S, Node, Base) {
             //向body添加表单文件上传域
             $(inputContainer).appendTo(target);
             fileInput = $(inputContainer).children('input');
+            if(S.UA.ie == 6) fileInput.css('fontSize','400px');
             //上传框的值改变后触发
             $(fileInput).on('change', self._changeHandler, self);
             //DOM.hide(fileInput);
@@ -227,7 +228,7 @@ KISSY.add('gallery/form/1.2/uploader/button/base',function(S, Node, Base) {
              * @type String
              */
             tpl : {
-                value : '<div class="file-input-wrapper" style="overflow: hidden;"><input type="file" name="{name}" hidefocus="true" class="file-input" style="font-size:400px;" /></div>'
+                value : '<div class="file-input-wrapper" style="overflow: hidden;"><input type="file" name="{name}" hidefocus="true" class="file-input" /></div>'
             },
             /**
              * 隐藏的表单上传域的name值
