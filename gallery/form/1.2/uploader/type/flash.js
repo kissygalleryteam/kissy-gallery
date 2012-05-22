@@ -63,9 +63,11 @@ KISSY.add('gallery/form/1.2/uploader/type/flash', function (S, Node, UploadType,
         upload:function (id) {
             var self = this, swfUploader = self.get('swfUploader'),
                 action = self.get('action'), method = 'POST',
-                data = self.get('data');
+                data = self.get('data'),
+                name = self.get('fileDataName');
+            if(!name) name = 'Filedata';
             self.set('uploadingId',id);
-            swfUploader.upload(id, action, method, data);
+            swfUploader.upload(id, action, method, data,name);
             return self;
         },
         /**
