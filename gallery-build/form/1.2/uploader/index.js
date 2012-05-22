@@ -877,12 +877,14 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
          * 采用的上传方案，当值是数组时，比如“type” : ["flash","ajax","iframe"]，按顺序获取浏览器支持的方式，该配置会优先使用flash上传方式，如果浏览器不支持flash，会降级为ajax，如果还不支持ajax，会降级为iframe；当值是字符串时，比如“type” : “ajax”，表示只使用ajax上传方式。这种方式比较极端，在不支持ajax上传方式的浏览器会不可用；当“type” : “auto”，auto是一种特例，等价于["ajax","flash","iframe"]。
          * @type String|Array
          * @default "auto"
+         * @since V1.2 （当“type” : “auto”，等价于["ajax","flash","iframe"]）
          */
         type:{value:Uploader.type.AUTO},
         /**
          * 是否开启多选支持，部分浏览器存在兼容性问题
          * @type Boolean
          * @default true
+         * @since V1.2
          */
         multiple:{
             value:true,
@@ -898,6 +900,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
          * 是否可用,false为可用
          * @type Boolean
          * @default false
+         * @since V1.2
          */
         disabled : {
             value : false,
@@ -1110,6 +1113,7 @@ KISSY.add('gallery/form/1.2/uploader/button/base',function(S, Node, Base) {
             //向body添加表单文件上传域
             $(inputContainer).appendTo(target);
             fileInput = $(inputContainer).children('input');
+            if(S.UA.ie == 6) fileInput.css('fontSize','400px');
             //上传框的值改变后触发
             $(fileInput).on('change', self._changeHandler, self);
             //DOM.hide(fileInput);
@@ -1209,7 +1213,7 @@ KISSY.add('gallery/form/1.2/uploader/button/base',function(S, Node, Base) {
              * @type String
              */
             tpl : {
-                value : '<div class="file-input-wrapper" style="overflow: hidden;"><input type="file" name="{name}" hidefocus="true" class="file-input" style="font-size:400px;" /></div>'
+                value : '<div class="file-input-wrapper" style="overflow: hidden;"><input type="file" name="{name}" hidefocus="true" class="file-input" /></div>'
             },
             /**
              * 隐藏的表单上传域的name值
@@ -3688,9 +3692,11 @@ KISSY.add('gallery/form/1.2/uploader/type/flash', function (S, Node, UploadType,
         upload:function (id) {
             var self = this, swfUploader = self.get('swfUploader'),
                 action = self.get('action'), method = 'POST',
-                data = self.get('data');
+                data = self.get('data'),
+                name = self.get('fileDataName');
+            if(!name) name = 'Filedata';
             self.set('uploadingId',id);
-            swfUploader.upload(id, action, method, data);
+            swfUploader.upload(id, action, method, data,name);
             return self;
         },
         /**
