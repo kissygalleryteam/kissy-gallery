@@ -85,6 +85,9 @@
     position: absolute;
     font-size: 100px;
 }
+body:nth-of-type(1) .defaultTheme-button .file-input-wrapper .file-input {
+     left: 0;
+ }
 
 .defaultTheme-button .file-input-wrapper {
     display: block;
