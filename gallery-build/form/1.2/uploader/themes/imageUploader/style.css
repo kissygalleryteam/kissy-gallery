@@ -90,7 +90,9 @@
     color: #868887 !important;
     _width: 120px
 }
-
+.imageUploader-queue .drop-wrapper{
+    cursor:pointer;
+}
 .imageUploader-queue li a img {
     max-width: 120px;
     max-height: 120px;
@@ -249,11 +251,11 @@ imageUploader-queue .ks-progress-bar  .ks-progress-bar-value {
     display: block;
     width: 220px;
     cursor: pointer;
-    font-size: 500px;
+    font-size: 100px;
     margin-top: -50px;
     position: absolute;
-    right: 0;
-    top: 0;
+    left: -1200px;
+    top: -200px;
     opacity: 0;
     filter: alpha(opacity = 0);
     z-index: 14;
