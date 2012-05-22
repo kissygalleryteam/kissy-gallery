@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8"/>
+	<title>SpinBox—数字增减器</title>
+	<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
+	<style type="text/css">
+	</style>	
+</head>
+<body>
+	<div id="page">
+		<div id="" class="">		
+			<input type="text" value="40.00" class="ks-spinbox" data-range="2.00" data-max="88.00" data-min="1">	
+		</div><!-- / -->
+		<div id="" class="">	
+			<input type="text" value="60.00" class="ks-spinbox" data-range="12.00" data-max="88.00" data-min="10">	
+		</div><!-- / -->
+	</div>
+	<script type="text/javascript">
+	    KISSY.config({
+	       packages:[ {
+	           name:"gallery",
+	           path:"../../../../../../",
+	           charset:"utf-8"
+	       } ]
+	    });
+	</script>
+	<script type="text/javascript">
+		 KISSY.use('gallery/form/1.2/spinbox/index,node', function (S, SpinBox, Node) {
+		 	var spinbox = new SpinBox('.ks-spinbox',{ariaLabel: '出价框，请输入价格'});
+		 	spinbox.render();
+		 })
+	</script>
+</body>
+</html>
