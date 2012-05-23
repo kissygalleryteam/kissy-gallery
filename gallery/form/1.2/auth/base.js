@@ -11,7 +11,6 @@ KISSY.add('gallery/form/1.2/auth/base', function (S, JSON, Base, Field,
      * @type {Object}
      */
     var defaultConfig = {
-        initTrigger:false,
         autoBind:true
     };
 
@@ -50,7 +49,7 @@ KISSY.add('gallery/form/1.2/auth/base', function (S, JSON, Base, Field,
 
             if (forms && forms.length) {
                 S.each(forms, function (el, idx) {
-                    var filedConfig = S.merge(config, config.autoBind ? {event:Utils.getEvent(el)}:{});
+                    var filedConfig = S.merge(config, {event:config.autoBind ? Utils.getEvent(el):'none'});
                     var f = new Field(el, filedConfig);
                     f.addTarget(self);
                     f.publish('validate', {
@@ -77,7 +76,7 @@ KISSY.add('gallery/form/1.2/auth/base', function (S, JSON, Base, Field,
                 el = S.one(field);
                 if (el) {
                     key = S.one(el).attr('id') || S.one(el).attr('name');
-                    var filedConfig = S.merge(self.AuthConfig, config);
+                    var filedConfig = S.merge(self.AuthConfig, {event:self.AuthConfig.autoBind ? Utils.getEvent(el):'none'}, config);
                     self._storages[key || Utils.guid()] = new Field(el, filedConfig);
                 }
             }

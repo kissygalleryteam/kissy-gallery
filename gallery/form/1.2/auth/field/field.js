@@ -157,8 +157,8 @@ KISSY.add('gallery/form/1.2/auth/field/field', function (S, Event, Base, JSON, D
             });
 
             //element event bind
-            if (_cfg.event) {
-                Event.on(_el, _cfg.event || 'blur', function (ev) {
+            if (_cfg.event != 'none') {
+                Event.on(self.get('el'), _cfg.event || Utils.getEvent(_el), function (ev) {
                     self.validate();
                 });
             }
