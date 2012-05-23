@@ -67,7 +67,7 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
          * @return {KISSY.NodeList}
          */
         _getStatusWrapper:function (target) {
-            return target.children('.J_FileStatus');
+            return target && target.children('.J_FileStatus') || $('');
         },
         /**
          * 运行文件拖拽插件

@@ -45,7 +45,7 @@ KISSY.add('gallery/form/1.2/uploader/theme', function (S, Node, Base) {
          * @return {KISSY.NodeList}
          */
         _getStatusWrapper:function (target) {
-            return target.children('.J_FileStatus');
+            return target && target.children('.J_FileStatus') || $('');
         },
         /**
          * 控制文件对应的li元素的显影
@@ -114,8 +114,8 @@ KISSY.add('gallery/form/1.2/uploader/theme', function (S, Node, Base) {
             var self = this, name = self.get('name'),
                 $queueTarget = $(self.get('queueTarget')),
                 $btn = $(self.get('buttonTarget'));
-            if (name == EMPTY || !$queueTarget.length) return false;
-            $queueTarget.addClass(name + classSuffix.QUEUE);
+            if (name == EMPTY) return false;
+            if(!$queueTarget.length) $queueTarget.addClass(name + classSuffix.QUEUE);
             $btn.addClass(name + classSuffix.BUTTON);
         },
         /**
