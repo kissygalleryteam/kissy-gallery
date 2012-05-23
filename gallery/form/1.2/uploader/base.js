@@ -351,9 +351,15 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 buttonTarget = self.get('target'),
                 multiple = self.get('multiple'),
                 disabled = self.get('disabled'),
-                name = self.get('name');
-            Button = type == Uploader.type.FLASH && SwfButton || HtmlButton;
-            button = new Button(buttonTarget,{name:name,multiple:multiple,disabled:disabled});
+                name = self.get('name'),
+                config = {name:name,multiple:multiple,disabled:disabled};
+            if(type == Uploader.type.FLASH){
+                Button = SwfButton;
+                S.mix(config,{size:self.get('swfSize')});
+            }else{
+                Button = HtmlButton;
+            }
+            button = new Button(buttonTarget,config);
             //监听按钮改变事件
             button.on('change', self._select, self);
             //运行按钮实例
@@ -635,7 +641,13 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
          * @type String
          * @default ""
          */
-        restoreHook:{value:EMPTY}
+        restoreHook:{value:EMPTY},
+        /**
+         * 强制设置flash的尺寸，只有在flash上传方式中有效，比如{width:100,height:100}，默认为自适应按钮容器尺寸
+         * @type Object
+         * @default {}
+         */
+        swfSize:{value:{}}
     }});
 
     /**

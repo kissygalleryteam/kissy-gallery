@@ -117,11 +117,16 @@ KISSY.add('gallery/form/1.2/uploader/button/swfButton', function (S, Node, Base,
          */
         _setFlashSizeConfig:function () {
             var self = this, flash = self.get('flash'),
-                target = self.get('target');
-            S.mix(flash.attrs, {
-                width:target.innerWidth(),
-                height:target.innerHeight()
-            });
+                target = self.get('target'),
+                size = self.get('size');
+            if(!S.isEmptyObject(size)){
+                S.mix(flash.attrs, size);
+            }else{
+                S.mix(flash.attrs, {
+                    width:target.innerWidth(),
+                    height:target.innerHeight()
+                });
+            }
             self.set('flash', flash);
         },
         /**
@@ -252,6 +257,12 @@ KISSY.add('gallery/form/1.2/uploader/button/swfButton', function (S, Node, Base,
         cls : {
             value : { disabled:'uploader-button-disabled' }
         },
+        /**
+         * 强制设置flash的尺寸，比如{width:100,height:100}，默认为自适应按钮容器尺寸
+         * @type Object
+         * @default {}
+         */
+        size : {value:{} },
         /**
          * flash配置，对于swf文件配路径配置非常关键，使用默认cdn上的路径就好
          * @type Object
