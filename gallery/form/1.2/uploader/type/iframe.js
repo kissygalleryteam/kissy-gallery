@@ -52,6 +52,10 @@ KISSY.add('gallery/form/1.2/uploader/type/iframe',function(S, Node, UploadType) 
             //创建iframe和form
             self._create();
             form = self.get('form');
+            if(!form){
+                S.log(LOG_PREFIX + 'form节点不存在！');
+                return false;
+            }
             //提交表单到iframe内
             form.getDOMNode().submit();
         },
@@ -72,14 +76,11 @@ KISSY.add('gallery/form/1.2/uploader/type/iframe',function(S, Node, UploadType) 
          * @return {String} hiddenInputHtml hidden元素html片段
          */
         dataToHidden : function(data) {
-            if (!S.isObject(data) || S.isEmptyObject(data)) {
-                S.log(LOG_PREFIX + 'data参数不是对象或者为空！');
-                return false;
-            }
+            if (!S.isObject(data) || S.isEmptyObject(data)) return '';
             var self = this,hiddenInputHtml = EMPTY,
                 //hidden元素模板
                 tpl = self.get('tpl'),hiddenTpl = tpl.HIDDEN_INPUT;
-            if (!S.isString(hiddenTpl)) return false;
+            if (!S.isString(hiddenTpl)) return '';
             for (var k in data) {
                 hiddenInputHtml += S.substitute(hiddenTpl, {'name' : k,'value' : data[k]});
             }
@@ -162,16 +163,11 @@ KISSY.add('gallery/form/1.2/uploader/type/iframe',function(S, Node, UploadType) 
                 S.log(LOG_PREFIX + 'form模板不合法！');
                 return false;
             }
-            if (!S.isObject(data)) {
-                S.log(LOG_PREFIX + 'data参数不合法！');
-                return false;
-            }
             if (!S.isString(action)) {
                 S.log(LOG_PREFIX + 'action参数不合法！');
                 return false;
             }
             hiddens = self.dataToHidden(data);
-            if (hiddens == EMPTY) return false;
             form = S.substitute(formTpl, {'action' : action,'target' : id,'hiddenInputs' : hiddens});
             //克隆文件域，并添加到form中
             $form = $(form).append(fileInput);
@@ -193,6 +189,10 @@ KISSY.add('gallery/form/1.2/uploader/type/iframe',function(S, Node, UploadType) 
          */
         _remove : function() {
             var self = this,form = self.get('form');
+            if(!form){
+                S.log(LOG_PREFIX + 'form节点不存在！');
+                return false;
+            }
             //移除表单
             form.remove();
             //重置form属性
