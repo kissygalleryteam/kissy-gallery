@@ -16,3 +16,4 @@ Thumbs.db
 out/
 /*.ipr
 /*.iws
+.settings/

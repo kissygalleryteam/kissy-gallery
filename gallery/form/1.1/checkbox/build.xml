@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="checkbox.build" default="build">
+    <description>Form Checkbox Build</description>
+    <property file="../build.properties"/>
+    <property name="name" value="checkbox"/>
+    <property name="src.dir" location="."/>
+    <property name="compiler" location="${tool.dir}/closure-compiler/compiler.jar"/>
+    <property name="yuicompressor" location="${tool.dir}/yuicompressor/yuicompressor.jar"/>
+    <property name="com.build.dir" location="${form.build.dir}/${name}"/>
+    <target name="copy">
+        <copydir src="${src.dir}" dest="${com.build.dir}" excludes="build.xml"/>
+    </target>
+    <!--压缩前去除页面多余空白-->
+    <target name="crlf">
+        <fixcrlf includes="*.js" srcdir="${com.build.dir}" encoding="utf-8" eol="crlf"></fixcrlf>
+    </target>
+    <!--压缩合并后的脚本-->
+    <target name="minify" depends="crlf">
+        <!--
+        remove licence
+        -->
+        <replace dir="${com.build.dir}" encoding="utf-8" includes="*.js" token="@license" value=""/>
+
+        <apply executable="java" verbose="true" dest="${com.build.dir}" failonerror="true" parallel="false">
+            <fileset dir="${com.build.dir}" includes="**/*.js"/>
+            <arg line="-jar"/>
+            <arg path="${compiler}"/>
+            <arg line="--charset utf8"/>
+            <arg value="--warning_level"/>
+            <arg value="QUIET"/>
+            <arg value="--js"/>
+            <srcfile/>
+            <arg value="--js_output_file"/>
+            <targetfile/>
+            <mapper type="regexp" from="^(.*)\.js$" to="\1-min.js"/>
+        </apply>
+
+        <apply executable="java" verbose="true" dest="${com.build.dir}" failonerror="true" parallel="false">
+            <fileset dir="${com.build.dir}" includes="**/*.css" excludes="*-min.css"/>
+            <arg line="-jar"/>
+            <arg path="${tool.dir}/yuicompressor/yuicompressor.jar"/>
+            <arg line="--charset utf8"/>
+            <arg value="--type"/>
+            <arg value="css"/>
+            <arg value="-o"/>
+            <targetfile/>
+            <mapper type="glob" from="*.css" to="*-min.css"/>
+        </apply>
+    </target>
+    <target name="build" depends="copy,minify">
+
+    </target>
+</project>

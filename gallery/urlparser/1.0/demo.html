@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>KISSY gallery - Reflection</title>
+<link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
+<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+<script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20120406",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+<style>
+    .r {
+        float: left;
+        display: inline;
+        margin: 20px 0 20px 8px;
+        width: 180px;
+    }
+
+    .section {
+        overflow: hidden;
+        height: 500px;
+    }
+</style>
+</head>
+<body>
+<div id="header">
+    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png"/></a></h1>
+    <div class="sub-title">Gallery</div>
+    <ul class="navigation">
+        <li><a href="http://blog.kissyui.com/">博客</a></li>
+        <li><a href="http://github.com/kissyteam">源码</a></li>
+    </ul>
+</div>
+<div id="content">
+    <div class="s-crumbs">
+        <span>当前位置：</span>
+        <a href="http://kissyui.com/">KISSY</a>
+        <a href="../../../index.html">Gallery</a>
+        <span>urlparser</span>
+    </div>
+            <pre class="s-section">                
+作者：ruanquan.wxr@taobao.com(元泉)
+功能：urlparser
+描述：这是一个URL解析类，有和location一样的属性，提供方便的读写操作，支持json格式参数的读写，无论是参数、hash或者pathname等其他属性
+     有变化时都可以监听change事件
+源码：<a href="urlparser.js">urlparser.js</a></pre>
+
+    <div class="s-section">
+        <ul class="s-list">
+            <li>使用方式</li>
+        </ul>
+<pre class="s-section">
+支持和location一样的属性，包括 href protocol host hostname port search hash pathname
+对属性的操作时使用setter和getter,如：
+
+//创建一个url包装类
+var URL = URLParser('http://abc.com:8080/dir/index.html?id=255&m=hello#top');
+
+URL.set('search','a=1&b=2'); 
+URL.get('href'); //http://abc.com:8080/dir/index.html?a=1&b=2#top
+URL.set('hash','down');
+URL.get('href'); //http://abc.com:8080/dir/index.html?a=1&b=2#down
+
+该类还有两个特有的属性 segments 和 params 使用如下：
+URL.set('params',{c:3, d:4}); 
+URL.get('params'); //{c:3, d:4}
+URL.get('search'); //?c=3&d=4
+
+URL.get('segments'); //['dir', 'index.html']
+URL.set('segments',['dir', 'test', 'index.php']); 
+URL.get('href'); //http://abc.com:8080/dir/test/index.php?c=3&d=4#down
+
+以上的所有属性有改变时都会触发beforeAttrNameChange，afterAttrNameChange，*Change事件
+URL.on('afterHashChange', function(ev){
+    console.log('change '+ ev.attrName + ': '+ev.prevVal+' --> '+ev.newVal);
+});
+URL.on('beforeHashChange', function(ev){
+    console.log('change '+ ev.attrName + ': '+ev.prevVal+' --> '+ev.newVal);
+});
+URL.on('*Change', function(ev){
+    console.log('change '+ ev.attrName + ': '+ev.prevVal+' --> '+ev.newVal);
+});
+
+以上所有属性的读写和事件监听方式和KISSY中的Attribute是一样的，
+有不清楚的地方可以先了解下KISSY的Attribute
+</pre>
+    </div>
+
+</div>
+<div id="footer">
+    &copy; Copyright 2010~2011, KISSY Team.
+</div>
+</body>
+</html>

@@ -3,7 +3,7 @@
  * @author 剑平（明河）<minghe36@126.com>
  **/
 
-KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
+KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base) {
     var EMPTY = '', $ = Node.all,
         //主题样式名前缀
         classSuffix = {BUTTON:'-button', QUEUE:'-queue'};
@@ -20,7 +20,6 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
         //调用父类构造函数
         Theme.superclass.constructor.call(self, config);
         self._LoaderCss();
-        self._init();
     }
 
     S.extend(Theme, Base, /** @lends Theme.prototype*/{
@@ -91,16 +90,11 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
 
         },
         /**
-         * 初始化
-         */
-        _init:function () {
-            this._initQueue();
-        },
-        /**
          * uploader实例化后执行
          */
         _UploaderRender:function (callback) {
             var self = this;
+            self._initQueue();
             self._addThemeCssName();
             //加载插件
             self._loadPlugins(callback);
@@ -125,11 +119,11 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
          * @return {Queue}
          */
         _initQueue:function () {
-            var self = this, queue = new Queue({fnAdd:function (index, file) {
+            var self = this, queue = self.get('queue');
+            queue.set('fnAdd',function(index, file){
                 return self._addCallback(index, file);
-            }});
+            });
             queue.set('theme', self);
-            self.set('queue', queue);
             queue.on('add', self._addFileHandler, self);
             queue.on('remove', self._removeFileHandler, self);
             queue.on('statusChange', function (ev) {
@@ -142,10 +136,9 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
          */
         _LoaderCss:function () {
             var self = this,
-                isUseCss = self.get('isUseCss'),
                 cssUrl = self.get('cssUrl');
             //加载css文件
-            if (!isUseCss) return false;
+            if (cssUrl == EMPTY) return false;
             S.use(cssUrl, function () {
                 S.log(cssUrl + '加载成功！');
             });
@@ -166,9 +159,10 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
                 statusWrapper:self._getStatusWrapper($target)
             });
             //更换文件状态为等待
-            queue.fileStatus(index, Queue.status.WAITING);
+            queue.fileStatus(index,'waiting');
             self.displayFile(true, $target);
             //给li下的按钮元素绑定事件
+            // TODO 这里的绑定事件应该只是imageUploader这个主题的吧，不应该放在公共的Theme下
             self._bindTriggerEvent(index, file);
             return queue.getFile(index);
         },
@@ -182,6 +176,7 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
         },
         /**
          * 给删除、上传、取消等按钮元素绑定事件
+         * TODO 这个是不是也应该放在imageUploader里面呢？
          * @param {Number} index 文件索引值
          * @param {Object} 文件数据
          */
@@ -253,7 +248,10 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
                 //模块路径前缀
                 modPrefix = 'gallery/form/1.1/uploader/plugins/',
                 mods = [];
-            if(!plugins.length) return false;
+            if(!plugins.length){
+                callback && callback.call(self,oPlugin);
+                return false;
+            }
             //拼接模块路径
             S.each(plugins,function(plugin){
                 mods.push(modPrefix+plugin+'/' +plugin);
@@ -274,12 +272,6 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
          * @default ""
          */
         name:{value:EMPTY},
-        /**
-         * 是否引用css文件
-         * @type Boolean
-         * @default true
-         */
-        isUseCss:{value:true},
         /**
          * css模块路径
          * @type String
@@ -342,4 +334,4 @@ KISSY.add('gallery/form/1.1/uploader/theme', function (S, Node, Base, Queue) {
         auth:{value:EMPTY}
     }});
     return Theme;
-}, {requires:['node', 'base', './queue']});
+}, {requires:['node', 'base']});

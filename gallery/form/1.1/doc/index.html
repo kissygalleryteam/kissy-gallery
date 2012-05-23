@@ -244,9 +244,10 @@ dl.data .dd{
 <div id="page">
     <div id="header">
     <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="http://docs.kissyui.com/docs/html/static/logo.png"/></a></h1>
-    <p class="sub-title">KF（kissy-form）V1.1.2—API文档</p>
+    <p class="sub-title">KF（kissy-form）V1.1.4—API文档</p>
     <ul class="navigation">
-        <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.1/demo/form/uploader/index.html" target="_blank">demo</a></li>
+        <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.1/doc/index.html" target="_blank">文档</a></li>
+        <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.1/demo/form/uploader/index.html" target="_blank">示例</a></li>
         <li><a href="http://www.36ria.com/5041">使用指南</a></li>
         <li><a href="https://github.com/KF-kissyForm/kissy-gallery">源码</a></li>
     </ul>
@@ -255,54 +256,30 @@ dl.data .dd{
         <div class="layout">
             <div class="col-main">
                 <div class="main-wrap">
-                    <h2 class="classTitle">Uploader</h2>
-                    <p>Uploader是一个基于kissy1.2的异步文件上传组件，目前不兼容kissy1.1.6，已经实现ajax、iframe、flash三方案异步上传。</p>
+                    <h2 class="classTitle">KF（kissy-form）</h2>
+                    <p>KF是kissy的form相关组件集合，目前处于不断增加中。</p>
 
+                    <p>目前完成uploader、checkbox、limiter。</p>
                     <ul class="list detail-list">
                         <li>
-                            <b>版本：</b>1.1.2
+                            <b>版本：</b>1.1.3
                         </li>
                         <li>
-                            <b>作者：</b>明河（剑平）、紫英、飞绿
+                            <b>作者：</b>明河（剑平）、紫英、张挺、牧云、易敛、飞绿、伯方
                         </li>
-                        <li>
-                            <b>感谢：</b>承玉、苏河给予组件的意见
-                        </li>
-                        <li>
-                            <b>demo：</b><a href="http://www.36ria.com/demo/gal/gallery/form/1.1/demo/form/uploader/index.html" target="_blank">Uploader全部demo</a>
-                        </li>
-                        <li>
-                            <b>使用指南：</b><a href="http://www.36ria.com/5041" target="_blank">Uploader快速使用指南</a>
-                        </li>
-                    </ul>
-                    <h2 class="classTitle">V1.1.2 change</h2>
-                    <ol class="list detail-list">
-                        <li> 优化Queue类，Queue不再包含dom操作</li>
-                        <li>Queue配置项，增加fnAdd（添加文件后执行的回调函数）</li>
-                        <li>删除与DOM相关的配置项和属性</li>
-                        <li> Queue的dom操作移到theme处理，用户可以自由覆盖控制li元素的显隐，以及是否输出DOM结构</li>
-                        <li>修正主题引用路径的bug</li>
-                        <li>默认开启文件多选（多选bug已经修复）</li>
-                        <li>优化默认主题的样式</li>
-                        <li>修正imageUploader，默认有数据的情况下统计失败的问题</li>
-                    </ol>
-                    <h2 class="classTitle">V1.1 change</h2>
-                    <ul class="list detail-list">
-                        <li>
-                           1.重构主题基类，让主题制作更简单
-                        </li>
-                        <li>2.去掉难以理解的Status类，状态变更集成到Theme</li>
-                        <li>3.增加Theme主题基类，主题不再继承DefaultTheme，导致会加载多余样式</li>
-                        <li>4.新增imageUploader主题，先去除不可用的grayQueue和lineQueue主题</li>
-                        <li>5.增加拖拽上传插件</li>
-                        <li>6.增加拖拽主题</li>
-                        <li>7.修正多处兼容性bug</li>
                     </ul>
                 </div>
 
             </div>
             <div class="col-sub">
                 <div class="box">
+    <div class="box-bd">
+        <ul class="list class-list">
+            <li><a href="symbols/Checkbox.html">Checkbox</a></li>
+            <li><a href="symbols/Limiter.html">Limiter</a></li>
+        </ul>
+    </div>
+    <hr />
     <div class="box-hd">
         <h3>Uploader</h3>
     </div>

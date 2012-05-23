@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Limiter组件的demo</title>
+    <link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
+    <!--[if lt IE 8]>
+    <link href="http://a.tbcdn.cn/s/kissy/1.1.7/editor/theme/cool/editor-pkg-min-mhtml.css" rel="stylesheet"/>
+    <![endif]-->
+    <!--[if gte IE 8]><!-->
+    <link href="http://a.tbcdn.cn/s/kissy/1.1.7/editor/theme/cool/editor-pkg-min-datauri.css" rel="stylesheet"/>
+    <!--<![endif]-->
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+    <style type="text/css">
+        .form-section {
+            letter-spacing: -0.31em;
+            margin-bottom: 15px;
+            word-spacing: -0.43em;
+        }
+        .form-section .section-hd, .form-section .section-bd {
+            display: inline-block;
+            letter-spacing: normal;
+            vertical-align: top;
+            word-spacing: normal;
+        }
+        .form-section .section-hd {
+            line-height: 23px;
+            margin-right: 10px;
+            overflow: hidden;
+            text-align: right;
+            width: 70px;
+        }
+        .form-section .section-bd {
+            vertical-align: bottom;
+        }
+        .form-section .section-hd, .form-section .section-bd {
+            display: inline-block;
+            letter-spacing: normal;
+            vertical-align: top;
+            word-spacing: normal;
+        }
+        #auc-title .nice-input {
+            margin-right: 10px;
+            width: 470px;
+        }
+        .nice-input {
+            border: 1px solid #CCCCCC;
+            float: left;
+            position: relative;
+        }
+        .nice-input {
+            border: 1px solid #CCCCCC;
+            margin-bottom: 5px;
+        }
+        #auc-title .nice-input input {
+            width: 458px;
+        }
+        .nice-input input {
+            font-size: 12px;
+            line-height: 1em;
+            padding: 4px 5px;
+        }
+        .nice-input input {
+            border-color: #F0F0F0 #FFFFFF #FFFFFF #F0F0F0;
+            border-style: solid;
+            border-width: 1px;
+        }
+        #textarea-wrapper{
+            border:none;
+        }
+        span.ks-letter-count{
+            color: #999999;
+        }
+        span.ks-letter-count em{
+            color:#15428B;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<article id="main">
+    <h4>Limiter</h4>
+    <ul>
+        <li>作者：<b>明河（剑平）</b></li>
+        <li>描述：<b>字数统计</b></li>
+    </ul>
+    <h4>Limiter组件的demo</h4>
+    <div class="demo-wrapper">
+        <dl id="auc-title" class="form-section">
+            <dt class="section-hd">
+                <label class="section-title-name" for="item-title">标题</label>
+            </dt>
+
+            <dd class="section-bd clearfix">
+                <div class="nice-input">
+                    <input type="text" id="J_AucTitle" name="item-title" value="明河">
+                </div>
+                <div id="J_LimiterWrapper"></div>
+            </dd>
+        </dl>
+        <pre class='brush: xml;'>
+            <input type="text" id="J_AucTitle" name="item-title" value="明河">
+            <div id="J_LimiterWrapper"></div>
+        </pre>
+        <pre class='brush: js;'>
+         KISSY.use('gallery/form/1.2/limiter/index', function (S, Limiter) {
+            var textLimiter = new Limiter('#J_AucTitle',{wrapper:'#J_LimiterWrapper'});
+            textLimiter.render();
+         })
+        </pre>
+        <dl class="form-section" id="form-desc">
+            <dt class="section-hd">
+                <label for="J_ItemDesc" class="section-title-name">描述</label>
+            </dt>
+            <dd class="section-bd clearfix form-desc-wrapper">
+                <div class="form-area">
+                    <div class="nice-input nice-textarea" id="textarea-wrapper">
+                        <textarea class="dec-textarea" id="J_Dec" name="_fm.g._0.d"></textarea>
+                    </div>
+                </div>
+                <div class="extra-area">
+                    <div id="J_DecCount"></div>
+                </div>
+            </dd>
+        </dl>
+        <p>编辑器的初始化代码就不贴出来了。</p>
+
+        <p>监听键盘按起事件，同步下数据，然后触发统计组件。</p>
+        <pre class='brush: js;'>
+            editor.ready(function(){
+                var decLimiter = new Limiter('#J_Dec',{wrapper:'#J_DecCount',max:1000,isRejectTag:true});
+                decLimiter.render();
+                KISSY.Event.on(editor.document, "keyup", function (ev) {
+                    editor.sync();
+                    decLimiter.count();
+                })
+            });
+        </pre>
+        <p>isRejectTag:true后，将不统计html标签所占的字数</p>
+    </div>
+</article>
+
+<script type="text/javascript">
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                path:"../../../../../../",
+                charset:"utf-8"
+            }
+        ]
+    });
+    KISSY.use('gallery/form/1.2/limiter/index', function (S, Limiter) {
+        var textLimiter = new Limiter('#J_AucTitle',{wrapper:'#J_LimiterWrapper'});
+        textLimiter.render();
+
+        KISSY.use('editor',function(S){
+            var KE = KISSY.Editor,
+                editor = KE("#J_Dec", {
+                    attachForm:true,
+                    baseZIndex:10000
+                }).use("htmldataprocessor,enterkey,clipboard," +
+                        "sourcearea,preview," +
+                        "separator," +
+                        "undo,separator,removeformat,font,color,separator," +
+                        "list,indent,justify,separator,link,image,smiley," +
+                        "separator,table,resize,draft,maximize"
+                        , function() {
+
+                 });
+            editor.ready(function(){
+                var decLimiter = new Limiter('#J_Dec',{wrapper:'#J_DecCount',max:1000,isRejectTag:true});
+                decLimiter.render();
+                KISSY.Event.on(editor.document, "keyup", function (ev) {
+                    editor.sync();
+                    decLimiter.count();
+                })
+            });
+        })
+    })
+</script>
+<!-- 代码高亮 START  -->
+<link href='../../assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css'/>
+<script type="text/javascript" src="../../assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+</body>
+</html>

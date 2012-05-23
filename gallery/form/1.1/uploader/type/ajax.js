@@ -15,7 +15,6 @@ KISSY.add('gallery/form/1.1/uploader/type/ajax',function(S, Node, UploadType) {
         var self = this;
         //调用父类构造函数
         AjaxType.superclass.constructor.call(self, config);
-        self._setFormData();
     }
 
     S.mix(AjaxType, /** @lends AjaxType.prototype*/{
@@ -40,6 +39,7 @@ KISSY.add('gallery/form/1.1/uploader/type/ajax',function(S, Node, UploadType) {
                 return false;
             }
             var self = this;
+            self._setFormData();
             self._addFileData(fileData);
             self.send();
             return self;

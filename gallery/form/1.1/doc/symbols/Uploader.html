@@ -247,9 +247,10 @@ dl.data .dd{
         
             <div id="header">
     <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="http://docs.kissyui.com/docs/html/static/logo.png"/></a></h1>
-    <p class="sub-title">KF（kissy-form）V1.1.2—API文档</p>
+    <p class="sub-title">KF（kissy-form）V1.1.4—API文档</p>
     <ul class="navigation">
-        <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.1/demo/form/uploader/index.html" target="_blank">demo</a></li>
+        <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.1/doc/index.html" target="_blank">文档</a></li>
+        <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.1/demo/form/uploader/index.html" target="_blank">示例</a></li>
         <li><a href="http://www.36ria.com/5041">使用指南</a></li>
         <li><a href="https://github.com/KF-kissyForm/kissy-gallery">源码</a></li>
     </ul>
@@ -594,11 +595,11 @@ dl.data .dd{
                                             <li class="li">                                                
                                                 
                                                 <b class="name"><a href="../symbols/Uploader.html#restore">restore</a></b>
-                                                <span class="param">()</span>
+                                                <span class="param">(data)</span>
                                                 
                                                 
                                                 
-                                                <span class="desc">抓取restoreHook容器内的数据，添加到队列内</span>                                                
+                                                <span class="desc">添加默认数据到队列，不带参数的情况下，抓取restoreHook容器内的数据，添加到队列内</span>                                                
                                             </li>
                                             
                                             <li class="li">                                                
@@ -1491,20 +1492,36 @@ dl.data .dd{
                                             <div class="title">
                                                 
                                                 <b class="name">restore</b>
-                                                <span class="param">()</span>
+                                                <span class="param">(data)</span>
                                                 
                                                 
                                                 
                                             </div>
 
                                             <div class="desc">
-                                                抓取restoreHook容器内的数据，添加到队列内
+                                                添加默认数据到队列，不带参数的情况下，抓取restoreHook容器内的数据，添加到队列内
                                                 
                                                 
                                             </div>
                                             
                                             <dl>                                            
                                                 
+                                                
+                                                <dt>Parameters</dt>
+                                                <dd>
+                                                    <ul class="list param-list">
+                                                    
+                                                        <li class="li">
+                                                            &nbsp;
+                                                            <b class="name">data</b>
+                                                            
+                                                            
+                                                            <span class="type">{Array}</span> 
+                                                            <span class="desc">文件数据</span>
+                                                        </li>
+                                                    
+                                                    </ul>
+                                                </dd>
                                                 
                                                 
                                                 
@@ -2221,6 +2238,13 @@ uploader.uploadFiles("waiting")</pre>
                     </div>
                     <div class="col-sub">
                         <div class="box">
+    <div class="box-bd">
+        <ul class="list class-list">
+            <li><a href="Checkbox.html">Checkbox</a></li>
+            <li><a href="Limiter.html">Limiter</a></li>
+        </ul>
+    </div>
+    <hr />
     <div class="box-hd">
         <h3>Uploader</h3>
     </div>
