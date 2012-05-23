@@ -73,7 +73,7 @@
                 <input class="text" type="checkbox" name="interest" value="游泳"/>游泳
                 <input class="text" type="checkbox" name="interest" value="旅游"/>旅游
                 <input class="text" type="checkbox" name="interest" value="睡觉"/>睡觉
-                <input class="text" type="checkbox" name="interest" value="吃饭"/>吃饭
+                <input class="text" type="checkbox" name="interest" value="吃饭" id="interest"/>吃饭
             </li>
 
             <li>
@@ -94,7 +94,7 @@
                 }
             ]
         });
-        KISSY.use("gallery/form/1.1/auth/index", function (S, Auth) {
+        KISSY.use("gallery/form/1.2/auth/index", function (S, Auth) {
 
             var form = new Auth('#J_form_eg1', {
                 msg:{
@@ -110,6 +110,10 @@
                 return value.length > 3;
             });
 
+            form.register('moreselect', function (values) {
+                return values.length > 1;
+            });
+
             form.add('#card', {
                 rules:{
                     card: {
@@ -123,11 +127,25 @@
                 }
             });
 
-            form.getField('card').validate();
+            form.add('#interest', {
+                rules:{
+                    moreselect: {
+                        error:'必须选择超过1个'
+                    }
+                },
+                style:{
+                    error:'error'
+                }
+            });
 
+            form.getField('card').validate();
 
             KISSY.Event.on('#J_form_eg1', "submit", function () {
                 return form.validate();
+            });
+
+            form.on('validate', function(e) {
+                alert(e.msg);
             });
 
         });

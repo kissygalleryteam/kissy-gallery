@@ -3,7 +3,7 @@
  * @author уем╕ <zhangting@taobao.com>
  *
  */
-KISSY.add('gallery/form/1.1/auth/utils', function (S, DOM, undefined) {
+KISSY.add('gallery/form/1.2/auth/utils', function (S, DOM, undefined) {
     var Utils = {
         toJSON:function (cfg) {
             cfg = cfg.replace(/'/g, '"');

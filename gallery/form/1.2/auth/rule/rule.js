@@ -3,7 +3,7 @@
  * @author czy88840616 <czy88840616@gmail.com>
  *
  */
-KISSY.add('gallery/form/1.1/auth/rule/rule', function(S, BaseRule, Utils, undefined) {
+KISSY.add('gallery/form/1.2/auth/rule/rule', function(S, BaseRule, Utils, undefined) {
 
     /**
      * 属性规则

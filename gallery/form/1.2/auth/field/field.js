@@ -3,7 +3,7 @@
  * @author czy88840616 <czy88840616@gmail.com>
  *
  */
-KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, DOM, Factory,
+KISSY.add('gallery/form/1.2/auth/field/field', function (S, Event, Base, JSON, DOM, Factory,
                                                          Rule, PropertyRule, Msg, Utils, undefined) {
 
     var EMPTY = '',
@@ -66,8 +66,8 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, D
 
 
             //如果为checkbox/radio则保存为数组
-            if (['checkbox','radio'].indexOf(DOM.attr(el, "type")) > -1) {
-                var form = el.form, elName = DOM.attr(el, "name");
+            if (['checkbox','radio'].indexOf(_el.attr('type')) > -1) {
+                var form = _el.getDOMNode().form, elName = _el.attr('name');
                 var els = [];
                 S.each(document.getElementsByName(elName), function(item) {
                     if (item.form == form) {
@@ -85,7 +85,7 @@ KISSY.add('gallery/form/1.1/auth/field/field', function (S, Event, Base, JSON, D
 
             //msg init
             if (self._cfg.msg) {
-                self._msg = new Msg(el, self._cfg.msg);
+                self._msg = new Msg(_el, self._cfg.msg);
                 var style = self._cfg.style;
 
                 self.on('afterRulesValidate', function (ev) {

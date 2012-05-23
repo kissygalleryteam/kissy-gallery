@@ -3,7 +3,7 @@
  * @author czy88840616 <czy88840616@gmail.com>
  *
  */
-KISSY.add('gallery/form/1.1/auth/base', function (S, JSON, Base, Field,
+KISSY.add('gallery/form/1.2/auth/base', function (S, JSON, Base, Field,
                                                   Factory, Utils, undefined) {
 
     /**
