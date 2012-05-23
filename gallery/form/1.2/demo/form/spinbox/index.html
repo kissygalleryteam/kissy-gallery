@@ -3,19 +3,33 @@
 <head>
 	<meta charset="UTF-8"/>
 	<title>SpinBox—数字增减器</title>
-	<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
-	<link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
-	<style type="text/css">
-	</style>	
+    <link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
 </head>
-<body>
+<body style="padding:0 20px;">
 	<div id="page">
-		<div id="" class="">		
+        <h4>SpinBox</h4>
+        <ul>
+            <li>作者：<b>易敛</b></li>
+            <li>描述：<b>数字增减器</b></li>
+            <li>文档：<a href="http://www.36ria.com/demo/gal/gallery/form/1.2/doc/symbols/SpinBox.html" target="_blank">SpinBox</a> </li>
+        </ul>
+		<div style="margin:20px 0;">
 			<input type="text" value="40.00" class="ks-spinbox" data-range="2.00" data-max="88.00" data-min="1">	
 		</div><!-- / -->
-		<div id="" class="">	
+		<div>
 			<input type="text" value="60.00" class="ks-spinbox" data-range="12.00" data-max="88.00" data-min="10">	
 		</div><!-- / -->
+        <pre class='brush: xml;'>
+            <input type="text" value="40.00" class="ks-spinbox" data-range="2.00" data-max="88.00" data-min="1">
+        </pre>
+        <pre class='brush: js;'>
+             KISSY.use('gallery/form/1.2/spinbox/index,node', function (S, SpinBox, Node) {
+                var spinbox = new SpinBox('.ks-spinbox',{ariaLabel: '出价框，请输入价格'});
+                spinbox.render();
+             })
+        </pre>
 	</div>
 	<script type="text/javascript">
 	    KISSY.config({
@@ -32,5 +46,10 @@
 		 	spinbox.render();
 		 })
 	</script>
+    <!-- 代码高亮 START  -->
+    <link href='../../assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css'/>
+    <script type="text/javascript" src="../../assets/syntaxhighlighter_3.0.83/sh.js"></script>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <!-- 代码高亮 END  -->
 </body>
 </html>
