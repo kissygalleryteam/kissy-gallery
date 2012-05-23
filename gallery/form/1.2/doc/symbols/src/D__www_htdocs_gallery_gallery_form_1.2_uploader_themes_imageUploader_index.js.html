@@ -74,7 +74,7 @@
 <span class='line'> 67</span>          * @return {KISSY.NodeList}
 <span class='line'> 68</span>          */</span><span class="WHIT">
 <span class='line'> 69</span> </span><span class="WHIT">        </span><span class="NAME">_getStatusWrapper</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">target</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 70</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">target.children</span><span class="PUNC">(</span><span class="STRN">'.J_FileStatus'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">target</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">target.children</span><span class="PUNC">(</span><span class="STRN">'.J_FileStatus'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">''</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 71</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 72</span> </span><span class="WHIT">        </span><span class="COMM">/**
 <span class='line'> 73</span>          * 运行文件拖拽插件

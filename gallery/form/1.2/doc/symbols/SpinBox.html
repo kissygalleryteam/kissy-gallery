@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="generator" content="JsDoc Toolkit" />
         
-        <title>FlashType</title>
+        <title>SpinBox</title>
         <style>
             /*************************************************************************************
  * Reset
@@ -265,8 +265,8 @@ dl.data .dd{
                             <div class="box constructor-box">
                                 <div class="box-hd">
                                     
-                                    <h3><b class="name"><a href="../symbols/FlashType.html#constructor">FlashType</a></b>
-                                        <span class="param">()</span>
+                                    <h3><b class="name"><a href="../symbols/SpinBox.html#constructor">SpinBox</a></b>
+                                        <span class="param">(target, config)</span>
                                         
                                         
                                         
@@ -275,14 +275,14 @@ dl.data .dd{
                                 </div>
                                 <div class="box-bd">
                                     
-                                        <p class="desc">描述：flash上传方案，基于龙藏写的ajbridge内的uploader</p>
+                                        <p class="desc">描述：数字文本框</p>
                                     
 
                                     
 
                                     
                                         <p>继承自：
-                                            <a href="../symbols/UploadType.html">UploadType</a>
+                                            Base
                                         </p>
                                     
 
@@ -290,7 +290,7 @@ dl.data .dd{
 
                                     
                                         <p>源码：
-                                            <a href="../symbols/src/D__www_htdocs_gallery_gallery_form_1.2_uploader_type_flash.js.html">flash.js</a></p>
+                                            <a href="../symbols/src/D__www_htdocs_gallery_gallery_form_1.2_spinbox_index.js.html">index.js</a></p>
 
                                     
 
@@ -311,28 +311,41 @@ dl.data .dd{
                                         <ul class="list summary-list">
                                             
                                                 
-                                            
-                                                
                                                     <li class="li">
-                                                        <b class="name"><a href="../symbols/FlashType.html#event">event</a></b>
+                                                        <b class="name"><a href="../symbols/SpinBox.html#ariaLabel">ariaLabel</a></b>
                                                         <span class="type">{}</span>
                                                         
                                                         
                                                         
                                                         
-                                                        <span class="desc">事件列表</span>
+                                                        <span class="desc">无障碍，设置aria-label属性值</span>
                                                     </li>
                                                 
                                             
                                                 
-                                            
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/SpinBox.html#cls">cls</a></b>
+                                                        <span class="type">{}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">一组样式名</span>
+                                                    </li>
                                                 
                                             
-                                        </ul>
-                                        
-                                        <hr/>
-                                        <ul class="list summary-list">
-                                        <li class="li">Fields borrowed from class <a href="../symbols/UploadType.html">UploadType</a>: <a href="../symbols/UploadType.html#data">data</a></li>
+                                                
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/SpinBox.html#target">target</a></b>
+                                                        <span class="type">{}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">配置的目标,选择器的字符串</span>
+                                                    </li>
+                                                
+                                            
                                         </ul>
                                         
                                     </div>
@@ -343,62 +356,9 @@ dl.data .dd{
                             
                             <!-- methods START -->
                             
-                                
-                                
-                                <div class="box methods-box">
-                                    <div class="box-hd">
-                                        <h3>Methods</h3>
-                                    </div>
-                                    <div class="box-bd">
-                                        <ul class="list summary-list">
-                                            
-                                            <li class="li">                                                
-                                                
-                                                <b class="name"><a href="../symbols/FlashType.html#isHasCrossdomain">isHasCrossdomain</a></b>
-                                                <span class="param">()</span>
-                                                
-                                                
-                                                
-                                                <span class="desc">应用是否有flash跨域策略文件</span>                                                
-                                            </li>
-                                            
-                                            <li class="li">                                                
-                                                
-                                                <b class="name"><a href="../symbols/FlashType.html#stop">stop</a></b>
-                                                <span class="param">()</span>
-                                                
-                                                
-                                                
-                                                <span class="desc">停止上传文件</span>                                                
-                                            </li>
-                                            
-                                            <li class="li">                                                
-                                                
-                                                <b class="name"><a href="../symbols/FlashType.html#upload">upload</a></b>
-                                                <span class="param">(id)</span>
-                                                
-                                                
-                                                
-                                                <span class="desc">上传文件</span>                                                
-                                            </li>
-                                            
-                                        </ul>
-                                        
-                                        <hr/>
-                                        <ul class="summary-list">
-                                        
-                                        </ul>
-                                        
-                                    </div>
-                                </div>
-                                
-                            
                             <!-- methods END -->
                             
                             <!-- events START -->
-                            
-                                
-                                
                             
                             <!-- events END -->
 
@@ -413,34 +373,57 @@ dl.data .dd{
                                     <ul class="list detail-list">
                                         <li class="li">
                                             <div class="title">
-                                                <b class="name">FlashType</b>
-                                                <span class="param">()</span>
+                                                <b class="name">SpinBox</b>
+                                                <span class="param">(target, config)</span>
                                             </div>
                                             
-                                            <div class="desc">flash上传方案，基于龙藏写的ajbridge内的uploader</div>
+                                            <div class="desc">数字文本框</div>
                                             
                                             <dl>                                                
                                                 
                                                 
                                                 
-                                                
-                                                
-
-                                                
-                                                
-
-                                                
-                                                
-                                                <dt>require：</dt>
+                                                <dt>params：</dt>
                                                 <dd>
-                                                    <ul>
-                                                    
-                                                        <li>Node</li>
-                                                    
-                                                    <ul>
+                                                    <ul class="list param-list">
+                                                        
+                                                        <li class="li">
+                                                            &nbsp;
+                                                                <b>target</b>
+                                                            
+                                                            
+                                                            <span class="type"><span class="light fixedFont">{String}</span> </span>
+                                                            <span class="desc">目标</span>
+                                                        </li>
+                                                        
+                                                        <li class="li">
+                                                            &nbsp;
+                                                                <b>config</b>
+                                                            
+                                                            
+                                                            <span class="type"><span class="light fixedFont">{Object}</span> </span>
+                                                            <span class="desc">组件配置</span>
+                                                        </li>
+                                                        
+                                                    </ul>
                                                 </dd>
                                                 
                                                 
+                                                
+
+                                                
+                                                
+
+                                                
+                                                
+                                                
+                                                
+                                                <dt>example：</dt>
+                                                <dd>
+                                                    
+                                                    <pre class='brush: js;'>var ck = new Number('#J_SpinBox',{ariaLabel: '出价框，请输入价格'})</pre>
+                                                    
+                                                </dd>                                                
                                                 
                                             </dl>
                                         </li>
@@ -460,19 +443,71 @@ dl.data .dd{
                                     <ul class="list detail-list">
                                     
                                     
-                                    
-                                    
                                         <li class="li">
-                                            <a name="event"> </a>
+                                            <a name="ariaLabel"> </a>
                                             <div class="title">                                                
-                                                <b class="name">event</b>
+                                                <b class="name">ariaLabel</b>
                                                 
                                                 
                                                 
                                                 
                                                 
                                                 <span class="desc">
-                                                    — 事件列表
+                                                    — 无障碍，设置aria-label属性值
+                                                    
+                                                    
+                                                </span>
+                                            </div>
+                                            <!--
+                                            -->
+                                            
+                                            
+                                                <div class="member-data"><span>default：</span>出价框，请输入价格</div>
+                                            
+                                            
+                                            
+                                        </li>
+                                    
+                                    
+                                    
+                                        <li class="li">
+                                            <a name="cls"> </a>
+                                            <div class="title">                                                
+                                                <b class="name">cls</b>
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                <span class="desc">
+                                                    — 一组样式名
+                                                    
+                                                    
+                                                </span>
+                                            </div>
+                                            <!--
+                                            -->
+                                            
+                                            
+                                                <div class="member-data"><span>default：</span>cls:{init: 'ks-spinbox',plus: 'ks-spinbox-plus',minus: 'ks-spinbox-minus',container: 'ks-radio-hover'}</div>
+                                            
+                                            
+                                            
+                                        </li>
+                                    
+                                    
+                                    
+                                        <li class="li">
+                                            <a name="target"> </a>
+                                            <div class="title">                                                
+                                                <b class="name">target</b>
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                <span class="desc">
+                                                    — 配置的目标,选择器的字符串
                                                     
                                                     
                                                 </span>
@@ -486,10 +521,6 @@ dl.data .dd{
                                         </li>
                                     
                                     
-                                    
-                                    
-                                    
-                                    
                                     </ul>
                                 </div>
                             </div>
@@ -497,168 +528,6 @@ dl.data .dd{
                             <!-- properties detail END -->
 
                             <!-- methods detail START -->
-                            
-                            <div class="box">
-                                <div class="box-hd">
-                                    <h3>Methods Detail</h3>
-                                </div>
-                                <div class="box-bd">
-                                    <ul class="list detail-list">
-                                        
-                                        <li class="li">
-                                            <div class="title">
-                                                
-                                                <b class="name">isHasCrossdomain</b>
-                                                <span class="param">()</span>
-                                                
-                                                
-                                                
-                                            </div>
-
-                                            <div class="desc">
-                                                应用是否有flash跨域策略文件
-                                                
-                                                
-                                            </div>
-                                            
-                                            <dl>                                            
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                                                                
-                                                
-                                                
-                                                
-                                            </dl>                                            
-                                        </li>
-                                        
-                                        <li class="li">
-                                            <div class="title">
-                                                
-                                                <b class="name">stop</b>
-                                                <span class="param">()</span>
-                                                
-                                                
-                                                
-                                            </div>
-
-                                            <div class="desc">
-                                                停止上传文件
-                                                
-                                                
-                                            </div>
-                                            
-                                            <dl>                                            
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                <dt>Returns</dt>
-                                                <dd>
-                                                    <ul class="list">
-                                                    
-                                                        <li class="li">
-                                                            <span class="type">{<a href="../symbols/FlashType.html">FlashType</a>}</span> 
-                                                            <span></span>
-                                                        </li>
-                                                    
-                                                    </ul>
-                                                </dd>
-                                                
-                                                
-                                                
-                                                
-                                                                                                
-                                                
-                                                
-                                                
-                                            </dl>                                            
-                                        </li>
-                                        
-                                        <li class="li">
-                                            <div class="title">
-                                                
-                                                <b class="name">upload</b>
-                                                <span class="param">(id)</span>
-                                                
-                                                
-                                                
-                                            </div>
-
-                                            <div class="desc">
-                                                上传文件
-                                                
-                                                
-                                            </div>
-                                            
-                                            <dl>                                            
-                                                
-                                                
-                                                <dt>Parameters</dt>
-                                                <dd>
-                                                    <ul class="list param-list">
-                                                    
-                                                        <li class="li">
-                                                            &nbsp;
-                                                            <b class="name">id</b>
-                                                            
-                                                            
-                                                            <span class="type">{String}</span> 
-                                                            <span class="desc">文件id</span>
-                                                        </li>
-                                                    
-                                                    </ul>
-                                                </dd>
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                <dt>Returns</dt>
-                                                <dd>
-                                                    <ul class="list">
-                                                    
-                                                        <li class="li">
-                                                            <span class="type">{<a href="../symbols/FlashType.html">FlashType</a>}</span> 
-                                                            <span></span>
-                                                        </li>
-                                                    
-                                                    </ul>
-                                                </dd>
-                                                
-                                                
-                                                
-                                                
-                                                                                                
-                                                
-                                                
-                                                
-                                            </dl>                                            
-                                        </li>
-                                        
-                                    </ul>
-                                </div>
-                            </div>
                             
                             <!-- methods detail END -->
 
