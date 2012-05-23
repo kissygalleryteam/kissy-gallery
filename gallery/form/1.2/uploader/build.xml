@@ -29,12 +29,12 @@
         </condition>
     </target>
     <!--删除build目录下的所有文件-->
-    <target name="clean-build" if="uploader.build.dir.exists" depends="dircheck">
-        <delete dir="${uploader.build.dir}">
+    <target name="clean-build" if="${uploader.build.dir.exists}" depends="dircheck">
+        <delete >
             <fileset dir="${uploader.build.dir}" includes="**/*.js,**/*.css,**/*.swf"/>
         </delete>
     </target>
-    <target name="mkdir" unless="uploader.build.dir.exists" depends="dircheck">
+    <target name="mkdir">
         <mkdir dir="${uploader.build.dir}">
 
         </mkdir>

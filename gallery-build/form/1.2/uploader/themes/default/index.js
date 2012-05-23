@@ -34,7 +34,7 @@ KISSY.add('gallery/form/1.2/uploader/themes/default/index', function (S, Node, T
          * @return {KISSY.NodeList}
          */
         _getStatusWrapper:function(target){
-            return target.children('.J_FileStatus');
+            return target && target.children('.J_FileStatus') || $('');
         },
         /**
          * 文件处于等待上传状态时触发
