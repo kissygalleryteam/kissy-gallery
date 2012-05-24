@@ -55,6 +55,15 @@ KISSY.add('gallery/form/1.1/uploader/themes/default/index', function (S, Node, T
                  $progressBar = $('.J_ProgressBar_' + ev.id);
             //如果是ajax或flash异步上传，加入进度条
             if(uploadType == 'ajax' || uploadType == 'flash'){
+<<<<<<< HEAD
+                var ProgressBar = self.get('oPlugin').progressBar,
+            progressBar = new ProgressBar($progressBar);
+            progressBar.render();
+            self.set('progressBar',progressBar);
+            //将进度条实例写入到队列的文件数据上备用
+            queue.updateFile(index,{progressBar:progressBar});
+        }
+=======
                 var ProgressBar = self.get('oPlugin').progressBar,progressBar;
                 if(ProgressBar){
                     progressBar = new ProgressBar($progressBar);
@@ -64,11 +73,22 @@ KISSY.add('gallery/form/1.1/uploader/themes/default/index', function (S, Node, T
                 //将进度条实例写入到队列的文件数据上备用
                 queue.updateFile(index,{progressBar:progressBar});
             }
+>>>>>>> KF/master
         },
         /**
          * 文件处于正在上传状态时触发
          */
         _progressHandler:function(ev){
+<<<<<<< HEAD
+        var file = ev.file,
+        //已加载字节数
+            loaded = ev.loaded,
+        //总字节数
+            total = ev.total,
+            val = Math.ceil(loaded/total) * 100,
+            progressBar = file.progressBar;
+        if(!progressBar) return false;
+=======
             var file = ev.file,
                 //已加载字节数
                 loaded = ev.loaded,
@@ -77,6 +97,7 @@ KISSY.add('gallery/form/1.1/uploader/themes/default/index', function (S, Node, T
                 val = Math.ceil((loaded/total) * 100),
                 progressBar = file.progressBar;
             if(!progressBar) return false;
+>>>>>>> KF/master
             //处理进度
             progressBar.set('value',val);
         },

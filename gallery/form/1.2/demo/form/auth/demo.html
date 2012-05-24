@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>auth</title>
+
+    <link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
+    <link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy/src/validation/demo/doc.css"/>
+    <link rel="stylesheet" type="text/css" href="http://a.tbcdn.cn/tbsp/tbsp.css"/>
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+    <script src="../../../auth/index.js" charset="utf-8"></script>
+</head>
+<body>
+
+
+<div class="intro">
+
+
+</div>
+
+
+<div class="eg">
+    <h3>示例 - 用户注册</h3>
+
+    <form method="post" id="J_form_eg1">
+        <ul class="form">
+
+            <li>
+                <label class="hd">用户名：</label>
+                <input id="username" class="text" type="text" value="test@tb.com" required
+                       data-valid="{required:'必填'}"/>
+            </li>
+
+            <li>
+                <label class="hd">密码：</label>
+                <input class="text" type="text" name="password" id="password" required pattern="[A-z]{3}"
+                       data-valid="{required:'密码必填',pattern:'密码格式不正确'}"/>
+            </li>
+
+            <li>
+                <label class="hd">重复密码：</label>
+                <input class="text" type="text" name="repassword" data-valid="{equalTo:'两次密码不一致了'}"
+                       equalTo="#password"/>
+            </li>
+
+            <li>
+                <label class="hd">邮箱：</label>
+                <input class="text" type="text"
+                       pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$"
+                       data-valid="{pattern:'邮箱格式不对'}"/>
+            </li>
+
+            <li>
+                <label class="hd">银行卡：</label>
+                <input class="text" type="text" id="card"/>
+            </li>
+
+            <li>
+                <label class="hd">性别：</label>
+                <input class="text" type="radio" name="sex" value="男"/>男
+                <input class="text" type="radio" name="sex" value="女"/>女
+                <input class="text" type="radio" name="sex" value="其他" required="required" data-valid="{required:'性别必填'}"/>其他
+            </li>
+
+            <li>
+                <label class="hd">个人主页：</label>
+                <input class="text" type="text"/>
+            </li>
+
+            <li>
+                <label class="hd">兴趣：</label>
+                <input class="text" type="checkbox" name="interest" value="爬山"/>爬山
+                <input class="text" type="checkbox" name="interest" value="游泳"/>游泳
+                <input class="text" type="checkbox" name="interest" value="旅游"/>旅游
+                <input class="text" type="checkbox" name="interest" value="睡觉"/>睡觉
+                <input class="text" type="checkbox" name="interest" value="吃饭" id="interest"/>吃饭
+            </li>
+
+            <li>
+                <label class="hd">上传头像：</label>
+                <input type="file" required  data-valid="{required:'请选择头像图片'}"/>
+            </li>
+
+            <li>
+                <button type="submit">提交</button>
+            </li>
+
+        </ul>
+    </form>
+    <script>
+        //http://www.w3.org/TR/html5/constraints.html#the-constraint-validation-api
+        KISSY.config({
+            packages:[
+                {
+                    name:'gallery',
+                    path:'../../../../../../',
+                    tag:'test',
+                    charset:'utf-8'
+                }
+            ]
+        });
+        KISSY.use("gallery/form/1.2/auth/index", function (S, Auth) {
+
+            var form = new Auth('#J_form_eg1', {
+                msg:{
+                    tpl:'<div class="msg {prefixCls}"><p class="{style}">{msg}</p></div>',
+                    args:{
+                        prefixCls:'under'
+                    }
+                }
+            });
+
+            //在全局上下文中添加一个自定义规则
+            form.register('card', function (value) {
+                return value.length > 3;
+            });
+
+            form.register('moreselect', function (values) {
+                return values.length > 1;
+            });
+
+            form.add('#card', {
+                rules:{
+                    card: {
+                        success:'输入卡号正确',
+                        error:'卡号必须大于3位'
+                    }
+                },
+                style:{
+                    success:'attention',
+                    error:'error'
+                }
+            });
+
+            form.add('#interest', {
+                rules:{
+                    moreselect: {
+                        error:'必须选择超过1个'
+                    }
+                },
+                style:{
+                    error:'error'
+                }
+            });
+
+            form.getField('card').validate();
+
+            KISSY.Event.on('#J_form_eg1', "submit", function () {
+                return form.validate();
+            });
+
+            form.on('validate', function(e) {
+                alert(e.msg);
+            });
+
+        });
+
+    </script>
+</div>
+
+
+</body>
+</html>
