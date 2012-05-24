@@ -21,15 +21,7 @@
     <p>缺点是：你需要额外载入一个uploader.swf，同时会给没有flash的浏览器造成障碍。</p>
     <h5>先来看下面的demo</h5>
     <!-- 上传按钮，组件配置请写在data-config内 -->
-    <a id="J_UploaderBtn" class="uploader-button" data-config=
-            '{"type" : "flash",
-                "swfSize":{"width":200,"height":200},
-                "serverConfig":{"action":"http://localhost/gallery/gallery/form/1.2/demo/form/uploader/upload.php","data":{"dir":"files/"},"dataType" : "json"},
-                "name":"Filedata",
-                "urlsInputName":"fileUrls"}'
-       href="#">
-        选择要上传的文件
-    </a>
+    <a id="J_UploaderBtn" class="uploader-button" href="#"> 选择要上传的文件 </a>
     <!-- 文件上传队列 -->
     <ul id="J_UploaderQueue">
 
@@ -42,15 +34,7 @@
     </div>
     <h5>组件配置情况</h5>
     <pre class='brush: xml; highlight: [1,2]'>
-        <a id="J_UploaderBtn" class="uploader-button" data-config=
-                '{"type" : "flash",
-                    "serverConfig":{"action":"http://localhost/gallery/gallery/form/1.2/demo/form/uploader/upload.php","data":{"dir":"files/"},"dataType" : "json"},
-                    "name":"Filedata",
-                    "swfSize":{"width":200,"height":200},
-                    "urlsInputName":"fileUrls"}'
-           href="#">
-            选择要上传的文件
-        </a>
+        <a id="J_UploaderBtn" class="uploader-button" href="#"> 上传图片 </a>
         <!-- 文件上传队列 -->
         <ul id="J_UploaderQueue">
 
@@ -64,7 +48,13 @@
     <pre class='brush: js; highlight: [10]'>
         //加载上传组件入口文件
         KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
-            var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
+            var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue',{
+                type : "flash",
+                swfSize:{"width":200,"height":200},
+                serverConfig:{"action":"http://localhost/gallery/gallery/form/1.2/demo/form/uploader/upload.php","data":{"dir":"files/"},"dataType" : "json"},
+                name:"Filedata",
+                urlsInputName:"fileUrls"
+            });
             ru.on('init', function (ev) {
                 var $ = S.Node.all,
                     Event = S.Event,
@@ -104,13 +94,18 @@
            packages:[ {
                name:"gallery",
                path:"../../../../../../",
-               //path:"../../../../../../",
                charset:"utf-8"
            } ]
     });
     //加载上传组件入口文件
     KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
-        var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
+        var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue',{
+            type : "flash",
+            swfSize:{"width":200,"height":25},
+            serverConfig:{"action":"http://localhost/gallery/gallery/form/1.2/demo/form/uploader/upload.php","data":{"dir":"files/"},"dataType" : "json"},
+            name:"Filedata",
+            urlsInputName:"fileUrls"
+        });
         ru.on('init', function (ev) {
             var $ = S.Node.all,
                     Event = S.Event,
@@ -147,7 +142,7 @@
                     button.set('fileFilters', []);
                 }
             });
-        })
+        });
     })
 </script>
 

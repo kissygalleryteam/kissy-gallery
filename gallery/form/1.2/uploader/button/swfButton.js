@@ -88,6 +88,7 @@ KISSY.add('gallery/form/1.2/uploader/button/swfButton', function (S, Node, Base,
             var self = this, flash = self.get('flash'),
                 id = self.get('swfWrapperId'),
                 swfUploader;
+            S.mix(flash,{id:'swfUploader'+S.guid()});
             try {
                 //实例化AJBridge.Uploader
                 swfUploader = new SwfUploader(id, flash);
