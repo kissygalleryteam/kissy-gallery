@@ -52,6 +52,8 @@ KISSY.add('gallery/form/1.2/auth/rule/base', function(S, Base, undefined) {
                 msg = validated ? self._msg[RULE_SUCCESS] : '';
             }
 
+            self.fire('beforeValidate');
+
             //Deprecated
             self.fire(validated ? RULE_SUCCESS:RULE_ERROR, {
                 msg:msg
@@ -62,6 +64,8 @@ KISSY.add('gallery/form/1.2/auth/rule/base', function(S, Base, undefined) {
                 msg: msg,
                 name: self._name
             });
+
+            self.fire('afterValidate');
 
             return validated;
         }
