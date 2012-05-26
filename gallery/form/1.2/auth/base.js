@@ -32,6 +32,9 @@ KISSY.add('gallery/form/1.2/auth/base', function (S, JSON, Base, Field,
     var Auth = function (el, config) {
         var form = S.get(el),
             self = this;
+
+        self._storages = {};
+
         if (!form) {
             S.log('[Auth]:form element not exist');
         } else {
@@ -54,9 +57,6 @@ KISSY.add('gallery/form/1.2/auth/base', function (S, JSON, Base, Field,
         _init:function (el, config) {
             var forms = el.elements,
                 self = this;
-
-            //init
-            self._storages = {};
 
             if (forms && forms.length) {
                 S.each(forms, function (el, idx) {

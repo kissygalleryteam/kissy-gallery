@@ -38,7 +38,7 @@ KISSY.add('gallery/form/1.2/auth/rule/base', function(S, Base, undefined) {
         BaseRule.superclass.constructor.call(self);
     };
 
-    S.extend(BaseRule, Base, {
+    S.extend(BaseRule, Base, /** @lends Base.prototype*/{
         validate: function() {
             var self = this;
 
