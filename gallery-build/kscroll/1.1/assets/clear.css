@@ -1,6 +1,7 @@
 
 /*轨道*/
 .clear-track, .clear-track-hover, .clear-track-active,
+.clear-scrollbar,
 /*向上箭头*/
 .clear-arrowup, .clear-arrowup-hover, .clear-arrowup-active,
 /*向下箭头*/
@@ -13,11 +14,12 @@
 	background-repeat:repeat-y;
 }
 
-
-/*轨道*/
-.clear-track {
-	width:9px;
-	background-position:-18px 0;
+.clear-scrollbar {
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    background-position:-18px 0;
 }
 .clear-track-hover {
 	background-position:-27px 0;
@@ -26,21 +28,30 @@
 	background-position:-27x 0;
 }
 
-
+.clear-track{
+    position:absolute;
+    background-image:none;
+}
 
 
 
 /*上下箭头 */
-.clear-arrowup, .clear-arrowdown {
+.clear-arrowup, 
+.clear-arrowdown,
+.clear-arrowup a, 
+.clear-arrowdown a {
 	display:block;
 	text-indent: -1000px;
 	width:9px;
 	height:2px;
 	overflow:hidden;
+	right:0;
+    position:absolute;
 }
 
 .clear-arrowup {
 	background-position:0 0;
+	top:0;
 }
 .clear-arrowup-hover {
 	background-position:-9px 0;
@@ -52,6 +63,7 @@
 
 .clear-arrowdown {
 	background-position:0 -18px;
+	bottom:0;
 }
 .clear-arrowdown-hover {
 	background-position:-9px -18px;
@@ -66,6 +78,7 @@
 .clear-drag{
 	width:9px;
 	background-position:-54px 0;
+	position:absolute;
 }
 
 .clear-drag .clear-dragtop{

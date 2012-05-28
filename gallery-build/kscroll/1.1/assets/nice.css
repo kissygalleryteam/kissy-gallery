@@ -1,0 +1,97 @@
+/**
+* 华丽的样式: nice theme
+* @author yiminghe@gmail.com
+*/
+
+/*轨道*/
+.nice-track,
+.nice-arrowup,
+.nice-arrowdown,
+.nice-drag,
+.nice-scrollbar,
+.nice-dragtop, 
+.nice-dragbottom, 
+.nice-dragcenter {
+    width:15px;
+}
+
+.nice-scrollbar {
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    background-image:url(nice/middle.png);   
+    background-repeat:repeat-y;
+}
+
+/*轨道*/
+.nice-track { 
+    z-index:10;
+    position:absolute;
+}
+
+/*上下箭头 这个样式木有*/
+.nice-arrowup, .nice-arrowdown {
+    text-indent: -1000px;
+    height:14px;
+    position:absolute;
+}
+
+.nice-arrowdown a{
+    margin-top:-10px;
+} 
+
+.nice-arrowup a, .nice-arrowdown a{
+    display:block;
+    height:24px;
+    background-repeat:no-repeat;
+}
+
+.nice-arrowup a{
+    background-image:url(nice.png);
+    background-position: -125px 0px;
+   
+}
+
+.nice-arrowup{
+     top:0;
+}
+
+.nice-arrowdown {
+     bottom:0;
+}
+
+.nice-arrowdown a{
+    background-image:url(nice.png);
+   background-position: -75px 0px;
+}
+
+
+
+/*拖拽条*/
+.nice-drag,.nice-dragtop, .nice-dragbottom, .nice-dragcenter{
+    position:absolute;
+}
+
+
+.nice-dragtop{    
+    top:0px;
+    height:10px;
+    background-image:url(nice.png); 
+    background-position: -50px 0px;
+}
+
+.nice-dragbottom{
+    position:absolute;
+    bottom:0px;
+    height:10px;
+    background-image:url(nice.png);
+    background-position: 0px 0px;
+}
+
+.nice-dragcenter{
+    top:10px;
+    bottom:10px;
+    background-image:url(nice/bar_middle.png);  
+    background-repeat:repeat-y; 
+}

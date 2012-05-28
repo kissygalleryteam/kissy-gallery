@@ -1,6 +1,7 @@
 
 /*轨道*/
 .chrome-track, .chrome-track-hover, .chrome-track-active,
+.chrome-scrollbar,
     /*向上箭头*/
 .chrome-arrowup, .chrome-arrowup-hover, .chrome-arrowup-active,
     /*向下箭头*/
@@ -12,12 +13,14 @@
     background-image:url(http://img04.taobaocdn.com/tps/i4/T1_pWVXaFdXXXXXXXX.png);
     background-repeat:repeat-y;
 }
-
-
-/*轨道*/
-.chrome-track {
+.chrome-scrollbar {
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;   
     background-position:-51px 0;
 }
+
 .chrome-track-hover {
     background-position:-51px 0;
 }
@@ -25,21 +28,29 @@
     background-position:-51x 0;
 }
 
-
+.chrome-track{
+    position:absolute;
+    background-image:none;
+}
 
 
 
 /*上下箭头 这个样式木有*/
-.chrome-arrowup, .chrome-arrowdown {
+.chrome-arrowup, 
+.chrome-arrowdown,
+.chrome-arrowup a, 
+.chrome-arrowdown a {
     display:block;
     text-indent: -1000px;
-    width:17px;
     height:17px;
     overflow:hidden;
+    right:0;
+    position:absolute;
 }
 
 .chrome-arrowup {
     background-position:0 0;
+    top:0;
 }
 .chrome-arrowup-hover {
     background-position:-17px 0;
@@ -51,6 +62,7 @@
 
 .chrome-arrowdown {
     background-position:0 -17px;
+    bottom:0;
 }
 .chrome-arrowdown-hover {
     background-position:-17px -17px;
@@ -64,6 +76,7 @@
 /*拖拽条*/
 .chrome-drag{
     background-position:-153px 0;
+    position:absolute;
 }
 
 .chrome-drag .chrome-dragtop{
