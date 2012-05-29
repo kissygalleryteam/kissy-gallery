@@ -25,7 +25,7 @@ KISSY.add('gallery/form/1.2/uploader/type/iframe',function(S, Node, UploadType) 
          */
         tpl : {
             IFRAME : '<iframe src="javascript:false;" name="{id}" id="{id}" border="no" width="1" height="1" style="display: none;" />',
-            FORM : '<form method="post" enctype="multipart/form-data" action="{action}" target="{target}">{hiddenInputs}</form>',
+            FORM : '<form method="post" enctype="multipart/form-data" action="{action}" target="{target}" style="visibility: hidden;">{hiddenInputs}</form>',
             HIDDEN_INPUT : '<input type="hidden" name="{name}" value="{value}" />'
         },
         /**
@@ -66,6 +66,7 @@ KISSY.add('gallery/form/1.2/uploader/type/iframe',function(S, Node, UploadType) 
         stop : function() {
             var self = this,iframe = self.get('iframe');
             iframe.attr('src', 'javascript:"<html></html>";');
+            self._remove();
             self.fire(IframeType.event.STOP);
             self.fire(IframeType.event.ERROR, {status : 'abort',msg : '上传失败，原因：abort'});
             return self;
