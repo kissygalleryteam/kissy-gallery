@@ -89,13 +89,15 @@
     这个属性特别说明下，其值必须是数组，每个数组子项都是一个object：{desc:"",ext:""}，desc和ext必不可少。
 </article>
 <script>
-    var S = KISSY;
-    KISSY.config({
-           packages:[ {
-               name:"gallery",
-               path:"../../../../../../",
-               charset:"utf-8"
-           } ]
+    var S = KISSY,
+        //包路径，实际使用请直接配置为"http://a.tbcdn.cn/s/kissy/"
+            path = S.Config.debug && "../../../../../../" || "http://a.tbcdn.cn/s/kissy/";
+    S.config({
+        packages:[ {
+            name:"gallery",
+            path:path,
+            charset:"utf-8"
+        } ]
     });
     //加载上传组件入口文件
     KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {

@@ -71,13 +71,15 @@
     <p>UrlsInput有二个关键方法:add()和remove()，用于添加和删除文件路径，一般无需调用。</p>
 </article>
 <script>
-    var S = KISSY;
+    var S = KISSY,
+        //包路径，实际使用请直接配置为"http://a.tbcdn.cn/s/kissy/"
+            path = S.Config.debug && "../../../../../../" || "http://a.tbcdn.cn/s/kissy/";
     S.config({
-           packages:[ {
-               name:"gallery",
-               path:"../../../../../../",
-               charset:"utf-8"
-           } ]
+        packages:[ {
+            name:"gallery",
+            path:path,
+            charset:"utf-8"
+        } ]
     });
     //加载上传组件入口文件
     KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {

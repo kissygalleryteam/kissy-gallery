@@ -59,16 +59,17 @@
 
 </article>
 <script>
-    var S = KISSY,$ = S.Node.all;
+    var S = KISSY,
+        //包路径，实际使用请直接配置为"http://a.tbcdn.cn/s/kissy/"
+            path = S.Config.debug && "../../../../../../" || "http://a.tbcdn.cn/s/kissy/";
     S.config({
-        packages:[
-            {
-                name:"gallery",
-                path:"../../../../../../",
-                charset:"utf-8"
-            }
-        ]
+        packages:[ {
+            name:"gallery",
+            path:path,
+            charset:"utf-8"
+        } ]
     });
+    var $ = S.Node.all;
     KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
         var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue',{
             serverConfig:{"action":"upload.php"},
