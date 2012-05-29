@@ -128,7 +128,10 @@ KISSY.add('gallery/form/1.2/uploader/button/base',function(S, Node, Base) {
             //向body添加表单文件上传域
             $(inputContainer).appendTo(target);
             fileInput = $(inputContainer).children('input');
+            //TODO:IE6下只有通过脚本和内联样式才能控制按钮大小
             if(S.UA.ie == 6) fileInput.css('fontSize','400px');
+            //TODO:firefox的fontSize不占宽度，必须额外设置left
+            if(S.UA.firefox)  fileInput.css('left','-1200px');
             //上传框的值改变后触发
             $(fileInput).on('change', self._changeHandler, self);
             //DOM.hide(fileInput);
