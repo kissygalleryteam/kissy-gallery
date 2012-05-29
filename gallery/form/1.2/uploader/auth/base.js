@@ -62,8 +62,9 @@ KISSY.add('gallery/form/1.2/uploader/auth/base', function (S, Node,Base) {
                     self.testMax();
                 }
             });
-            uploader.on('success', function (ev) {
-                self.testMax();
+            queue.on('statusChange',function(ev){
+                var status = ev.status;
+                if(status == 'success') self.testMax();
             });
             uploader.on('error', function (ev) {
                 //允许继续上传文件
