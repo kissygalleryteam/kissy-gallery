@@ -1564,7 +1564,7 @@ KISSY.add('gallery/form/1.2/uploader/button/swfButton', function (S, Node, Base,
          */
         flash:{
             value:{
-                src:'http://a.tbcdn.cn/s/kissy/gallery/form/1.1/uploader/plugins/ajbridge/uploader.swf',
+                src:'http://a.tbcdn.cn/s/kissy/gallery/form/1.2/uploader/plugins/ajbridge/uploader.swf',
                 id:'swfUploader',
                 params:{
                     bgcolor:"#fff",
