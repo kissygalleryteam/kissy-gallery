@@ -62,8 +62,9 @@ KISSY.add('gallery/form/1.2/uploader/auth/base', function (S, Node,Base) {
                     self.testMax();
                 }
             });
-            uploader.on('success', function (ev) {
-                self.testMax();
+            queue.on('statusChange',function(ev){
+                var status = ev.status;
+                if(status == 'success') self.testMax();
             });
             uploader.on('error', function (ev) {
                 //允许继续上传文件
@@ -1125,7 +1126,10 @@ KISSY.add('gallery/form/1.2/uploader/button/base',function(S, Node, Base) {
             //向body添加表单文件上传域
             $(inputContainer).appendTo(target);
             fileInput = $(inputContainer).children('input');
+            //TODO:IE6下只有通过脚本和内联样式才能控制按钮大小
             if(S.UA.ie == 6) fileInput.css('fontSize','400px');
+            //TODO:firefox的fontSize不占宽度，必须额外设置left
+            if(S.UA.firefox)  fileInput.css('left','-1200px');
             //上传框的值改变后触发
             $(fileInput).on('change', self._changeHandler, self);
             //DOM.hide(fileInput);
@@ -3852,7 +3856,7 @@ KISSY.add('gallery/form/1.2/uploader/type/iframe',function(S, Node, UploadType) 
          */
         tpl : {
             IFRAME : '<iframe src="javascript:false;" name="{id}" id="{id}" border="no" width="1" height="1" style="display: none;" />',
-            FORM : '<form method="post" enctype="multipart/form-data" action="{action}" target="{target}">{hiddenInputs}</form>',
+            FORM : '<form method="post" enctype="multipart/form-data" action="{action}" target="{target}" style="visibility: hidden;">{hiddenInputs}</form>',
             HIDDEN_INPUT : '<input type="hidden" name="{name}" value="{value}" />'
         },
         /**
@@ -3893,6 +3897,7 @@ KISSY.add('gallery/form/1.2/uploader/type/iframe',function(S, Node, UploadType) 
         stop : function() {
             var self = this,iframe = self.get('iframe');
             iframe.attr('src', 'javascript:"<html></html>";');
+            self._remove();
             self.fire(IframeType.event.STOP);
             self.fire(IframeType.event.ERROR, {status : 'abort',msg : '上传失败，原因：abort'});
             return self;

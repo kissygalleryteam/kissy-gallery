@@ -256,17 +256,11 @@ imageUploader-queue li .loading-icon {
     font-size: 100px;
     margin-top: -50px;
     position: absolute;
-    left: -1200px;
+    left: 0;
     top: -200px;
     opacity: 0;
     filter: alpha(opacity = 0);
     z-index: 14;
-}
-@media screen and (-webkit-min-device-pixel-ratio:0)
-{
-    .imageUploader-queue .file-input-wrapper .file-input  {
-        left: 0;
-    }
 }
 .imageUploader-queue .status-wrapper .status {
     text-align: center;
