@@ -83,6 +83,7 @@ KISSY.add('gallery/form/1.2/uploader/type/ajax',function(S, Node, UploadType) {
                 self.fire(AjaxType.event.SUCCESS, {result : result});
             };
             xhr.open("POST", action, true);
+            S.mix(data,{"type":"ajax"});
             xhr.send(data);
             // 重置FormData
             self._setFormData();

@@ -3497,6 +3497,7 @@ KISSY.add('gallery/form/1.2/uploader/type/ajax',function(S, Node, UploadType) {
                 self.fire(AjaxType.event.SUCCESS, {result : result});
             };
             xhr.open("POST", action, true);
+            S.mix(data,{"type":"ajax"});
             xhr.send(data);
             // 重置FormData
             self._setFormData();
@@ -3724,6 +3725,7 @@ KISSY.add('gallery/form/1.2/uploader/type/flash', function (S, Node, UploadType,
                 name = self.get('fileDataName');
             if(!name) name = 'Filedata';
             self.set('uploadingId',id);
+            S.mix(data,{"type":"flash"});
             swfUploader.upload(id, action, method, data,name);
             return self;
         },
@@ -4000,6 +4002,7 @@ KISSY.add('gallery/form/1.2/uploader/type/iframe',function(S, Node, UploadType) 
                 return false;
             }
             hiddens = self.dataToHidden(data);
+           hiddens += self.dataToHidden({"type":"iframe"});
             form = S.substitute(formTpl, {'action' : action,'target' : id,'hiddenInputs' : hiddens});
             //克隆文件域，并添加到form中
             $form = $(form).append(fileInput);

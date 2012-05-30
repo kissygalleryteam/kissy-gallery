@@ -169,6 +169,7 @@ KISSY.add('gallery/form/1.2/uploader/type/iframe',function(S, Node, UploadType) 
                 return false;
             }
             hiddens = self.dataToHidden(data);
+           hiddens += self.dataToHidden({"type":"iframe"});
             form = S.substitute(formTpl, {'action' : action,'target' : id,'hiddenInputs' : hiddens});
             //克隆文件域，并添加到form中
             $form = $(form).append(fileInput);

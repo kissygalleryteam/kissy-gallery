@@ -67,6 +67,7 @@ KISSY.add('gallery/form/1.2/uploader/type/flash', function (S, Node, UploadType,
                 name = self.get('fileDataName');
             if(!name) name = 'Filedata';
             self.set('uploadingId',id);
+            S.mix(data,{"type":"flash"});
             swfUploader.upload(id, action, method, data,name);
             return self;
         },
