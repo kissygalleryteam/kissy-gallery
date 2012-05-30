@@ -38,7 +38,7 @@ function uploadFile($file_label){
 }
 $fileInput = 'Filedata';
 $dir = './files/';
-
+$type = $_POST['type'];
 @mkdir($dir);
 
 $isExceedSize = false;
@@ -65,17 +65,20 @@ foreach($files_name_arr as $k=>$v){
 if(!$isExceedSize && $result){
     $arr = array(
         'status' => 1,
+        'type' => $type,
         'data' => array('name' => $_FILES[$fileInput]['name'],
                         'url' => $dir.$_FILES[$fileInput]['name'])
     );
 }else if($isExceedSize){
     $arr = array(
         'status' => 0,
+        'type' => $type,
         'msg' => "文件大小超过500kb！"
     );
 }else{
     $arr = array(
         'status' => 0,
+        'type' => $type,
         'msg' => "未知错误！".$result
     );
 }

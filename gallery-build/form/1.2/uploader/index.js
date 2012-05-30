@@ -865,7 +865,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 restoreHook = self.get('restoreHook'),
                 $restore = $(restoreHook);
             if(!$restore.length) return [];
-            return S.JSON.parse($restore.html());
+            return S.JSON.parse(S.trim($restore.html()));
         }
     }, {ATTRS:/** @lends Uploader.prototype*/{
         /**
@@ -3497,7 +3497,7 @@ KISSY.add('gallery/form/1.2/uploader/type/ajax',function(S, Node, UploadType) {
                 self.fire(AjaxType.event.SUCCESS, {result : result});
             };
             xhr.open("POST", action, true);
-            S.mix(data,{"type":"ajax"});
+            data.append("type", "ajax");
             xhr.send(data);
             // 重置FormData
             self._setFormData();
