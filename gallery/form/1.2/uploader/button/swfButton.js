@@ -152,13 +152,13 @@ KISSY.add('gallery/form/1.2/uploader/button/swfButton', function (S, Node, Base,
             if(!disabled){
                 $target.removeClass(disabledCls);
                 //显示swf容器
-                $swfWrapper.show();
+                $swfWrapper.css('left',0);
                 //TODO:之所以不使用更简单的unlock()方法，因为这个方法应用无效，有可能是bug
                 //swfUploader.unlock();
             }else{
                 $target.addClass(disabledCls);
                 //隐藏swf容器
-                $swfWrapper.hide();
+                $swfWrapper.css('left','6000px');
                 //swfUploader.lock();
             }
             return disabled;
