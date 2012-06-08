@@ -229,8 +229,11 @@ KISSY.add('gallery/form/1.2/uploader/button/swfButton', function (S, Node, Base,
             value:[],
             setter:function (v) {
                 var self = this, swfUploader = self.get('swfUploader');
+                if(S.isObject(v)) v = [v];
                 if (swfUploader && S.isArray(v)) {
-                    swfUploader.filter(v);
+                    S.later(function(){
+                        swfUploader.filter(v);
+                    },1000);
                 }
                 return v;
             }
