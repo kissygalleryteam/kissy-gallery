@@ -231,6 +231,7 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
          */
         _hideBtn:function(){
             var self = this,button = self.get('button'),$btn = button.get('target');
+            if(!self.get('isMaxHideBtn')) return false;
             $btn.addClass('swf-hide');
             //隐藏按钮之上的li容器
             var $li = $btn.parent('li');
@@ -336,7 +337,13 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
          * @type KISSY.NodeList
          * @default '#J_UploadCount'
          */
-        elCount:{value:'#J_UploadCount'}
+        elCount:{value:'#J_UploadCount'},
+        /**
+         * 达到最大数是否隐藏
+         * @type Boolean
+         * @default true
+         */
+        isMaxHideBtn:{value:true}
     }});
     return ImageUploader;
 }, {requires:['node', '../../theme']});
