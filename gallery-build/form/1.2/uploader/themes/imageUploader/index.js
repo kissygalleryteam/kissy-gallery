@@ -187,19 +187,13 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
                 //用于显示上传数的容器
                 elCount = $(self.get('elCount')),
                 len = self.getFilesLen(),
-                auth = self.get('auth'),
-                uploader = self.get('uploader'),
-                button = uploader.get('button');
+                auth = self.get('auth') ;
             if(!auth) return false;
             var rules = auth.get('rules'),
                 //max的值类似[5, '最多上传{max}个文件！']
                 max = rules.max;
             if(!max) return false;
-            if(len<max[0]){
-                button.show();
-                var $li = button.get('target').parent('li');
-                if($li) $li.show();
-            }
+            if(len<max[0]) self._showBtn();
             if(elCount.length) elCount.text(max[0]-len);
         },
         /**
@@ -229,13 +223,28 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
             auth.on('error',function(ev){
                 var rule = ev.rule,button = uploader.get('button'),$btn = button.get('target');
                 //图片达到最大允许上传数，隐藏按钮
-                if(rule == 'max'){
-                    button.hide();
-                    //隐藏按钮之上的li容器
-                    var $li = $btn.parent('li');
-                    if($li) $li.hide();
-                }
+                if(rule == 'max') self._hideBtn();
             })
+        },
+        /**
+         *  IE下无法直接flash，包括swf的父容器，会出现无法再上传的bug，所以采用移动位置的方式
+         */
+        _hideBtn:function(){
+            var self = this,button = self.get('button'),$btn = button.get('target');
+            $btn.addClass('swf-hide');
+            //隐藏按钮之上的li容器
+            var $li = $btn.parent('li');
+            if($li) $li.addClass('swf-hide');
+        },
+        /**
+         * 显示按钮
+         */
+        _showBtn:function(){
+            var self = this,button = self.get('button'),$btn = button.get('target');
+            $btn.removeClass('swf-hide');
+            //隐藏按钮之上的li容器
+            var $li = $btn.parent('li');
+            if($li) $li.removeClass('swf-hide');
         },
         /**
          * 删除图片后触发
