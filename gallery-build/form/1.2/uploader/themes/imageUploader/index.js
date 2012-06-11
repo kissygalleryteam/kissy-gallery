@@ -221,7 +221,7 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
             var self = this,auth = self.get('auth');
             if(auth == EMPTY) return false;
             auth.on('error',function(ev){
-                var rule = ev.rule,button = uploader.get('button'),$btn = button.get('target');
+                var rule = ev.rule;
                 //图片达到最大允许上传数，隐藏按钮
                 if(rule == 'max') self._hideBtn();
             })

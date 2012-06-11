@@ -265,7 +265,7 @@ imageUploader-queue li .loading-icon {
 .imageUploader-queue .status-wrapper .status {
     text-align: center;
 }
-.imageUploader-queue .swf-hide{
+.swf-hide{
     position: absolute;
     top:-3000px;
     left:0;
