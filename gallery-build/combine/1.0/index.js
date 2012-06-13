@@ -1,19 +1,22 @@
 /**
- * @fileOverView combine.js为kissy 1.2.0增加自动combine功能
+ * @fileoverview 为kissy 1.2增加自动combine功能
+ * @desc 为kissy 1.2增加自动combine功能
+ * @see http://wiki.ued.taobao.net/doku.php?id=team:vertical-guide:common-mods:combine
+ * @author 翰文<hanwen.sah@taobao.com>
  */
 KISSY.add('gallery/combine/1.0/index', function(S) {
-
+  
   /*
    *只对1.2.进行合并
    */
   if (S.version.indexOf('1.2') !== 0) return {config: function(){}};
 
-  var _use = S.use;
-  var _add = S.add;
+  var _use          = S.use;
+  var _add          = S.add;
   var getMappedPath = S.__getMappedPath;
-  var SYSPACKAGE = 'default';
+  var SYSPACKAGE    = 'default';
   //var MAX_URL_LEN = 200;
-  var MAX_URL_LEN = 2042;
+  var MAX_URL_LEN   = 2042;
 
   /*
    *url映射
@@ -395,5 +398,6 @@ KISSY.add('gallery/combine/1.0/index', function(S) {
       return maps;
     }
   };
+
 
 });
