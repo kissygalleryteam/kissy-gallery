@@ -1,79 +1,99 @@
- //ç›‘å¬åŠ å‡æŒ‰é’®clickäº‹ä»¶ï¼Œä»¥åŠå‡ºä»·æ¡†keyupäº‹ä»¶
-            function registerEvent() {
-                /*
-                 * ç›‘å¬clickäº‹ä»¶ï¼Œå®ç°æ•°å€¼åŠ å‡åŠŸèƒ½
-                 * */
-                E.on(ELE_SIGN, 'click', function(e) {
-                    if (D.hasClass(ELE_SIGN, 'sleepLink')) {
-                        return;
-                    } //é€šè¿‡sleepLinkå±æ€§æ¥åˆ¤æ–­æ˜¯å¦å¯ç”¨åŠ å‡æŒ‰é’®
-                    e.halt(true);
-                    var trigger = S.one(e.target),
-                        inputEl = D.children(D.parent(trigger), 'input')[0],
-                        inputValue = formatPrice(inputEl.value),
-                        range = formatPrice(D.attr(inputEl, 'data-range')),
-                        min = formatPrice(D.attr(inputEl, 'data-min')),
-                        //å¦‚æœæ˜¯è·å…°æ‹ï¼Œéœ€è¦å–å¾—æœ€å¤§å€¼
-                        max = parseInt(D.attr(inputEl, 'data-max'), 10);
-                    if (trigger.hasClass('plus') || trigger.hasClass('plus-sign')) {
-                        inputValue += +range;
-                    } else if (trigger.hasClass('minus') || trigger.hasClass('minus-sign')) {
-                        inputValue -= +range;
-                    }
+/**
+ * @fileoverview Êı×ÖÎÄ±¾¿ò
+ * @author Ò×Á²<yilian.wj@taobao.com>
+ * @date 12-4-22
+ */
+KISSY.add('gallery/form/1.1/number/base', function(S, Node, Base){
+	var $ = Node.all;
+	/**
+	 * @name Number
+	 * @class Êı×ÖÎÄ±¾¿ò
+	 * @constructor
+	 * @extends Base
+	 * @param {String} target Ä¿±ê
+	 * @param {Object} config ×é¼şÅäÖÃ
+	 * @example
+	 * var ck = new Number('#J_Content input',{trigger:{plus:'#J_Plus',minus:'#J_Minus'}})
+	 */
+	function Number(target, config) {
+		
+		var self = this;
+		config = S.merge({target: $(target)},config);
+		//µ÷ÓÃ¸¸Àà¹¹ÔìÆ÷
+		Number.superclass.constructor.call(self, config);
+	}
 
-                    inputValue = inputValue >= min ? inputValue : min;
-                    inputValue = Math.min(9999999.99, inputValue);
-                    //è·å…°æ‹é™å®šè´­ä¹°æ•°é‡
-                    if (max) {
-                        inputValue = inputValue >= max ? max : inputValue;
-                        D.val(inputEl, inputValue.toFixed(0));
-                        D.hide(CON_ERROR);//clickä¼šè‡ªåŠ¨è°ƒæ•´è¾“å…¥å€¼ï¼Œæ‰€ä»¥å¯ä»¥ä¸ç”¨æ˜¾ç¤ºæç¤ºã€‚
-                        D.removeAttr(ELE_BUTTON, 'disabled');//åŒä¸Šï¼Œclickæ—¶ï¼ŒæŒ‰é’®å¯ç”¨
-                        return;
-                    }
-                    D.val(inputEl, inputValue.toFixed(2));
-                }),
+	S.extend(Number, Base,  /** @lends Number.prototype*/{
+		/*
+		* ÔËĞĞ
+		*/
+		render: function(){
+			var self = this,$target = self.get('target');
+            if(!$target.length) return false;
+            self.eventOnChangeNum();
+            self.eventOnValide();
+		},
 
-                    /*
-                     * ç›‘å¬æ•°é‡æ¡†keyupäº‹ä»¶ï¼Œå®ç°è¾“å…¥æ¡†å†…å®¹çš„æ ¼å¼åŒ–
-                     * */
-                    E.on(ELE_QUANTITY_INPUT, 'keyup', function(e) {
-                        var self = D.get(this),
-                            min = formatPrice(D.attr(self, 'data-min')),
-                            max = formatQuantity(D.attr(self, 'data-max')),
-                            inputValue = formatPrice(D.val(self).replace(/[^\d\.]/g, ''));
-                        //è·å…°æ‹
-                        if (max) {
-                            if (!quantityValidation(D.val(self),max)) {
-                                D.show(CON_ERROR);
-                                D.get(ELE_BUTTON).disabled = true;
-                                return;
-                            }
-                            else{
-                                D.hide(CON_ERROR);
-                                D.removeAttr(ELE_BUTTON, 'disabled');
-                                D.val(self, inputValue.toFixed(0));
-                                return;
-                            }
-                        }
+		eventOnChangeNum: function(){
+			var self = this, $target = self.get('target'), inputValue = $target.val(), range = $target.attr('data-range') || 1,
+			trigger = self.get('trigger'), $plus = $(trigger.plus), $minus = $(trigger.minus),
+			numValidation = self.numValidation;
+			
+			$plus.on('click', function(){	
+				inputValue += +range;
+				numValidation($target);
+			});
+			$minus.on('click',function(){
+				inputValue -= +range;
+				numValidation($target);
+			})
+		},
+		eventOnValide: function(){
+			var self = this, $target = self.get('target');
+			$target.on('blur',function(){
+				numValidation($target);
+			})
+		},
 
-                    });
+		formatPrice: function(){
+            return parseFloat(value, 10);			
+		},
+		/**
+		 * [numValidation ÊäÈë¿òÑéÖ¤²¢Ğ£Õı]
+		 * @param  {[NodeList]} target [ÎÄ±¾¿ò½Úµã¶ÔÏó]
+		 */
+        numValidation: function(target){
+			var self = this,formatPrice = self.formatPrice,
+			min = formatPrice($target.attr('data-min')) || '',
+			max = formatPrice($target.attr('data-max')) || '',
+			inputValue = formatPrice($target.val().replace(/[^\d\.]/g, ''));
+			inputValue = isNaN(inputValue) ? min : Math.max(min, inputValue);
+			inputValue = max && Math.min(max, inputValue);
+			
+			target.val(inputValue.toFixed(2));
+        }
+	},{
+		ATTRS: /** @lends Number.prototype*/{
+			/**
+			 * ÅäÖÃµÄÄ¿±ê,Ñ¡ÔñÆ÷µÄ×Ö·û´®
+			 * @type {String}
+			 */
+			target: {
+				value: '',
+				setter: function(v) {
+					return $(v);
+				},
+				getter: function(v) {
+					return $(v);
+				}
+			},
 
-                    /*
-                    * ç›‘å¬ä»·æ ¼æ¡†bluräº‹ä»¶ï¼Œå®ç°è¾“å…¥æ¡†å†…å®¹çš„æ ¼å¼åŒ–
-                    * */
-                    E.on(ELE_PRICE_INPUT, 'blur', function() {
-                        var self = D.get(this),
-                            min = formatPrice(D.attr(self, 'data-min')),
-                            inputValue = formatPrice(D.val(self).replace(/[^\d\.]/g, ''));
-                        inputValue = isNaN(inputValue) ? min : Math.max(min, inputValue),
-                            inputValue = Math.min(9999999.99, inputValue);
-
-                        D.val(self, inputValue.toFixed(2));
-                    });
-            }
-
-            return{
-                init: registerEvent
-            }
-        }();
+			/*
+			* ´¥·¢¼Ó¼õµÄ°´Å¥
+			*/
+			trigger: {
+				value: ''
+			}
+		}
+	})
+},{requires:['node','base']});

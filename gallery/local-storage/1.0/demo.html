@@ -39,20 +39,37 @@
 			<span>Local Storage</span>
 		</div>
 			<pre class="s-section">				
-作者：文河<wenhe@taobao.com> & 长天<changtian@taobao.com>
+作者：林谦<linqian.zl@taobao.com> & &lt;yyfrankyy&gt; & 长天<changtian@taobao.com>
 功能：function
 描述：本地存储封装
-源码：<a href="local-storage.js">local-storage.js</a></pre>
+源码：<a href="index.js">local-storage.js</a></pre>
 			
 			<h3 class="s-title">API</h3>			
 			<div class="s-section">
-				<h4 class="s-api-title">很清晰, 直接看代码!!</h4>
+				<h4 class="s-api-title">methods</h4>				
+        <div>
+          <pre>
+ - localStorage.setItem(key, value)
+ - localStorage.getItem(key)
+ - localStorage.removeItem(key)
+ - localStorage.clear()
+          </pre>
+        </div>
+				<button id='t'>设置并查看本地存储</button>
+				<script>
+				    KISSY.use("gallery/local-storage/1.0/",function(S,localStorage){
+				        S.one('#t').on("click",function(){
+				            localStorage.setItem("one","one");
+				            alert(localStorage.getItem("one"));
+				        });				        
+				    });
+				</script>
 			</div>
 			
 			<h3 class="s-title">Note</h3>			
 			<div class="s-section">
 				<ul class="s-list">
-					<li>your note</li>
+					<li>关于 localstorage 和 userData 限制: http://www.mytcer.com/865</li>
 				</ul>
 			</div>
     </div>

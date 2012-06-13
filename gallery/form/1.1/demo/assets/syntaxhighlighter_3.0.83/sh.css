@@ -32,7 +32,7 @@
   float: none !important;
   height: auto !important;
   left: auto !important;
-  line-height: 1.1em !important;
+  line-height: 1.4em !important;
   margin: 0 !important;
   outline: 0 !important;
   overflow: visible !important;
@@ -53,11 +53,12 @@
 }
 
 .syntaxhighlighter {
-  width: 100% !important;
-  margin: 1em 0 1em 0 !important;
   position: relative !important;
   overflow: auto !important;
   font-size: 1em !important;
+  border-radius: 8px;
+    padding:10px 0;
+    margin:10px;
 }
 .syntaxhighlighter.source {
   overflow: hidden !important;
@@ -73,7 +74,6 @@
 }
 .syntaxhighlighter table {
   width: 100% !important;
-  border: 5px solid #435A5F !important;
   font-size: 14px !important;
 }
 .syntaxhighlighter table caption {
@@ -141,6 +141,7 @@
   height: 11px !important;
   font-size: 10px !important;
   z-index: 10 !important;
+    display: none;
 }
 .syntaxhighlighter .toolbar span.title {
   display: inline !important;
@@ -243,17 +244,10 @@
  * Dual licensed under the MIT and GPL licenses.
  */
 .syntaxhighlighter {
-  background-color: #1b2426 !important;
+  background-color: rgba(20, 20, 20, 0.8) !important;
 }
-.syntaxhighlighter .line.alt1 {
-  background-color: #1b2426 !important;
-}
-.syntaxhighlighter .line.alt2 {
-  background-color: #1b2426 !important;
-}
-.syntaxhighlighter .line.highlighted.alt1, .syntaxhighlighter .line.highlighted.alt2 {
-  background-color: #323e41 !important;
-}
+
+
 .syntaxhighlighter .line.highlighted.number {
   color: #b9bdb6 !important;
 }
@@ -262,9 +256,7 @@
 }
 .syntaxhighlighter .gutter {
   color: #afafaf !important;
-}
-.syntaxhighlighter .gutter .line {
-  border-right: 3px solid #435a5f !important;
+    display: none;
 }
 .syntaxhighlighter .gutter .line.highlighted {
   background-color: #435a5f !important;

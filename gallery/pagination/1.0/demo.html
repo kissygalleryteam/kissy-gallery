@@ -233,8 +233,8 @@
         </script>
         <div class="pagination" id="page1"></div>
         <script>
-            KISSY.use('gallery/pagination/1.0/pagination,gallery/pagination/1.0/tmp/friends,gallery/pagination/1.0/tmp/demo.css,gallery/pagination/1.0/assets/pagination.css', function(S, P, FriendList, undefined) {
-                var tpl = S.Template(S.one('#friend-item-tpl').html()),
+            KISSY.use('template,gallery/pagination/1.0/pagination,gallery/pagination/1.0/tmp/friends,gallery/pagination/1.0/tmp/demo.css,gallery/pagination/1.0/assets/pagination.css', function(S,Template, P, FriendList, undefined) {
+                var tpl = Template(S.one('#friend-item-tpl').html()),
                         pagesize = 5,  // 设置页数
                         tp = parseInt((FriendList.friendList.length + pagesize - 0.5) / pagesize),// 计算总共页数
                         content = S.one('#J_FriendsList'),

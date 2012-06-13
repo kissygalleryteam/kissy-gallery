@@ -118,6 +118,6 @@
 
         </jsdoctoolkit>
     </target>
-    <target name="build" depends="concat,clean-build,mkdir,move,build-theme,minify-theme-css,minify,move-swf">
+    <target name="build" depends="clean-build,mkdir,concat,move,build-theme,minify-theme-css,minify,move-swf">
     </target>
 </project>

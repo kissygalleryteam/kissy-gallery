@@ -10,6 +10,10 @@ KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
             return n < 0 ? -n : n;
         },
 
+        toInt = function(n){
+            return isNaN(parseInt(n))?0:parseInt(n);
+        },
+
         SCROLL_HTML = '<div class="{prefix}track" ' +
             'style="position: absolute;right:0;">' +
             '<div class="{prefix}drag" ' +
@@ -110,6 +114,11 @@ KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
             var self = this,
                 prefix = self.get("prefix"),
                 wrap = $("<div></div>");
+
+            //ie6下自动扩展问题
+            if(S.UA.ie==6){
+                container.css({"overflow":"auto"});
+            }
 
             //panel wrap
             wrap.insertAfter(container).append(container);
@@ -272,6 +281,56 @@ KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
 
                 });
         },
+		
+		//完美支持键盘滚动
+		_bindHotkey: function(){
+            var self = this,
+				body = self.get("body"),
+                container = self.get("container"),
+                canMousewheel = function(direction){
+                    var position = toInt(body.css("top"));
+                    if(direction>0 && position>=0){
+                        return false;
+                    }
+                    if(direction<0 && position+body.outerHeight()<=container.outerHeight()){
+                        return false;
+                    }
+                    return true;
+                };
+                
+			//当前容器一定要获取焦点才能使用键盘事件
+			//考虑到outline实在影响美观，直接删掉
+			container.css("outline","none").attr("tabindex",S.guid()).on("keydown", function (ev) {
+				var keycode = ev.keyCode,
+					sh = self.get("step");
+				if(!~"38,39,36,40,37,35".indexOf(keycode)){
+					return;
+				}else{
+					var d = ~"38,39,36".indexOf(keycode)?sh:-sh;
+					if(canMousewheel(d)){
+						ev.halt();
+					}	
+				}
+				
+				switch(keycode){
+					case 38:
+					case 39:
+						self.scrollByDistance(sh);
+						break;
+					case 40:
+					case 37:
+						self.scrollByDistance(-sh);
+						break;
+					case 36:
+						self.scrollByPercent(0);
+						break;
+					case 35:
+						self.scrollByPercent(1);
+						break;
+				}
+            });
+			
+		},
 
         _bindTrack:function () {
             var self = this,
@@ -297,9 +356,25 @@ KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
         },
 
         _bindContainer:function () {
-            var self = this;//滚轮事件
+            var self = this,
+                //在最上或者最下再滚动，不要阻止浏览器默认事件
+                body = self.get("body"),
+                container = self.get("container"),
+                canMousewheel = function(direction){
+                    var position = toInt(body.css("top"));
+                    if(direction>0 && position>=0){
+                        return false;
+                    }
+                    if(direction<0 && position+body.outerHeight()<=container.outerHeight()){
+                        return false;
+                    }
+                    return true;
+                };
+            //滚轮事件
             self.get("container").on("mousewheel", function (ev) {
-                ev.halt();
+                if(canMousewheel(ev.deltaY)){
+                    ev.halt();
+                }
                 var sh = self.get("step");
                 self.scrollByDistance(ev.deltaY > 0 ? sh : -sh);
             });
@@ -322,6 +397,9 @@ KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
 
             //拖动滚动条
             self._bindDrag();
+			
+			//键盘支持
+			self._bindHotkey();
         },
 
         //重置大小
@@ -348,6 +426,9 @@ KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
                 ah = self.arrowUpHeight + self.arrowDownHeight;
 
             if (bh <= ch || ch < ah) {
+				//水儿发现的bug,某些情况下滚动条隐藏，top>0
+				self.get("body").css({"top":0});
+				
                 track.hide();
                 if (arrowUp) {
                     arrowUp.hide();
@@ -463,4 +544,11 @@ KISSY.add("gallery/kscroll/1.0/index", function (S, Node) {
  *  - review and refactor by yiminghe@gmail.com
  *  - 1.0 to cdn
  *  - TODO for changyin : 横向模拟滚动条
+ * 
+ * 2012-02-25
+ *  - bugfix ie6自动扩展问题，加上overflow:auto
+ *  - 清羽的建议，组件不能滚动时，不要阻止浏览器默认事件
+ * 2012-04-19
+ *  - 修复水儿发现的bug
+ *  - 键盘支持 key[38,39,36,40,37,35], 注意：key事件绑定在container上，没有获得焦点的情况下无法使用键盘操作
  **/

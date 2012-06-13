@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Jasmine Spec Runner</title>
+
+  <link rel="shortcut icon" type="image/png" href="../../../tools/jasmine-1.2.0.rc3/jasmine_favicon.png">
+  <link rel="stylesheet" type="text/css" href="../../../tools/jasmine-1.2.0.rc3/jasmine.css">
+  <script type="text/javascript" src="../../../tools/jasmine-1.2.0.rc3/jasmine.js"></script>
+  <script type="text/javascript" src="../../../tools/jasmine-1.2.0.rc3/jasmine-html.js"></script>
+
+  <script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+</head>
+
+<body>
+
+  <!-- include source files here... -->
+  <script type="text/javascript" src="spec/localStorageSpec.js"></script>
+  <script type="text/javascript" src="spec/BrowserCacheSpec.js"></script>
+
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+  <script type="text/javascript">
+    (function() {
+      var jasmineEnv = jasmine.getEnv();
+      jasmineEnv.updateInterval = 1000;
+
+      var htmlReporter = new jasmine.HtmlReporter();
+
+      jasmineEnv.addReporter(htmlReporter);
+
+      jasmineEnv.specFilter = function(spec) {
+        return htmlReporter.specFilter(spec);
+      };
+
+      var currentWindowOnload = window.onload;
+
+      window.onload = function() {
+        if (currentWindowOnload) {
+          currentWindowOnload();
+        }
+        execJasmine();
+      };
+
+      function execJasmine() {
+        KISSY.use('gallery/local-storage/1.0/, gallery/browsercache/1.0/', function(S, _localStorage, _BrowserCache) {
+          // extract to window
+          // ie8 下给 window 设置 localStorage 报错
+          try {
+            window.localStorage = _localStorage;
+          } catch(e) {
+          }
+          window.BrowserCache = _BrowserCache;
+
+          jasmineEnv.execute();
+        });
+      }
+
+    })();
+  </script>
+</body>
+</html>
