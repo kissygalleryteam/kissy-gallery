@@ -1525,7 +1525,7 @@ KISSY.add('gallery/form/1.2/uploader/button/swfButton', function (S, Node, Base,
                 if (swfUploader && S.isArray(v)) {
                     S.later(function(){
                         swfUploader.filter(v);
-                    },1000);
+                    },500);
                 }
                 return v;
             }

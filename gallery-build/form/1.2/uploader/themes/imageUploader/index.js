@@ -166,6 +166,7 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
                 //处理进度
                 progressBar.set('value',100);
             }
+            $('.J_Mask_'+id).hide();
         },
          /**
          * 文件处于上传错误状态时触发
@@ -193,7 +194,7 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
                 //max的值类似[5, '最多上传{max}个文件！']
                 max = rules.max;
             if(!max) return false;
-            if(len<max[0]) self._showBtn();
+            //if(len<max[0]) self._showBtn();
             if(elCount.length) elCount.text(max[0]-len);
         },
         /**
@@ -221,9 +222,9 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
             var self = this,auth = self.get('auth');
             if(auth == EMPTY) return false;
             auth.on('error',function(ev){
-                var rule = ev.rule;
+                //var rule = ev.rule;
                 //图片达到最大允许上传数，隐藏按钮
-                if(rule == 'max') self._hideBtn();
+                //if(rule == 'max') self._hideBtn();
             })
         },
         /**
@@ -234,8 +235,8 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
             if(!self.get('isMaxHideBtn')) return false;
             $btn.addClass('swf-hide');
             //隐藏按钮之上的li容器
-            var $li = $btn.parent('li');
-            if($li) $li.addClass('swf-hide');
+            //var $li = $btn.parent();
+            //if($li) $li.addClass('swf-hide');
         },
         /**
          * 显示按钮
