@@ -1,27 +1,29 @@
 /**
  * @fileoverview 为kissy 1.2增加自动combine功能
  * @desc 为kissy 1.2增加自动combine功能
+ * @see http://wiki.ued.taobao.net/doku.php?id=team:vertical-guide:common-mods:combine
  * @author 翰文<hanwen.sah@taobao.com>
  */
 KISSY.add('gallery/combine/1.0/index', function(S) {
-
-  /**
+  
+  /*
    *只对1.2.进行合并
    */
   if (S.version.indexOf('1.2') !== 0) return {config: function(){}};
 
-  var _use = S.use;
-  var _add = S.add;
+  var _use          = S.use;
+  var _add          = S.add;
   var getMappedPath = S.__getMappedPath;
-  var SYSPACKAGE = 'default';
-  var MAX_URL_LEN = 2042;
+  var SYSPACKAGE    = 'default';
+  //var MAX_URL_LEN = 200;
+  var MAX_URL_LEN   = 2042;
 
-  /**
+  /*
    *url映射
    */
   var maps = {};
 
-  /**
+  /*
    *依赖关系
    */
   var requires = {};
@@ -31,12 +33,12 @@ KISSY.add('gallery/combine/1.0/index', function(S) {
    */
   var autoCombine = false;
 
-  /**
+  /*
    *记录加载过的模块
    */
   var _mods = {};
 
-  /**
+  /*
    *允许被合并的包, *表示所有
    */
   var allowPackages = {'*': false, 'allPackageNumber': 0};
@@ -87,9 +89,36 @@ KISSY.add('gallery/combine/1.0/index', function(S) {
    * 判断模块是否加载过
    * @return {bool}
    */
-  function isLoaded(mod){
+  function isNotLoaded(mod){
     var mods = S.Env.mods;
-    return _mods[mod] || mod in mods;
+    return !(_mods[mod] || mod in mods);
+  }
+
+  /**
+   * 预处理模块数据，包括合并依赖关系，去除已经加载过模块
+   */
+  function preDeal(mods, isForce, isCss){
+
+    //合并依赖
+    mods = mergeRequire(mods);
+
+    var modsCss;
+    if (!isCss){
+      modsCss = S.filter(mods, function(mod){
+        return mod.indexOf('.css') > 0;
+      });
+    }
+
+    if (modsCss && modsCss.length){
+      mods = S.filter(mods, function(mod){
+        return mod.indexOf('.css') === -1;
+      });
+      buildPath(modsCss, isForce, true);
+    }
+
+    //去除已经加载过的
+    return S.filter(mods, isNotLoaded);
+
   }
 
   /**
@@ -97,9 +126,13 @@ KISSY.add('gallery/combine/1.0/index', function(S) {
    * @param mods {array} 模块名数组, 把mods中的所有模块合并成一个combine的url，
    * 形如url??mod/a.js,mod/b.js,mod/c.js，构建的url映射贮存在maps变量中
    * @param isForce {bool} 是否强制合并，强制合并可以忽略是否模块可合并规则
+   * @param isCss {bool} 是否是css模块合并
    */
-  function buildPath(mods, isForce){
-    mods = mergeRequire(mods);
+  function buildPath(mods, isForce, isCss){
+
+    //预处理模块
+    mods = preDeal(mods, isForce, isCss);
+
     var pks = {};
 
     /*
@@ -121,14 +154,6 @@ KISSY.add('gallery/combine/1.0/index', function(S) {
       var mod = mods[i];
       var modFind = false;
 
-      /**
-       *是否加载过,如果加载过则不合并此模块
-       */
-      if (isLoaded(mod)) {
-        mods.splice(i, 1);
-        continue;
-      }
-
       if (mod.indexOf('/') > 0) {
 
         S.each(packages, function(packageVal, packageName){
@@ -140,7 +165,7 @@ KISSY.add('gallery/combine/1.0/index', function(S) {
               mods: []
             };
           }
-          /**
+          /*
            *模块名以package名开头，为自定义package
            */
           if (mod.indexOf(packageName) === 0 && isAlowPackage(packageName, isForce)){
@@ -155,28 +180,41 @@ KISSY.add('gallery/combine/1.0/index', function(S) {
       _mods[mod] = true;
     }
 
-    S.each(pks, function(myPackage){
+    S.each(pks, combinePackage);
+  }
 
-      var mods = myPackage.mods;
-      var path = myPackage.path;
-      if (mods.length > 1){
-        var tag = myPackage.tag ? '?t=' + myPackage.tag : '';
-        var combineUriFn = _urlGenerate(path, tag);
+  /** 
+   * 生成合并后的url，以package为单位
+   * @param pkg {object} 需要合并的包{path: '', tag: '', mods:[]},
+   * path是package的路径，tag是package的时间戳，mods是需要合并的模块
+   * 执行后形成一个map，记录一个模块合并后的路径
+   */
+  function combinePackage(pkg){
 
-        var combineUri = combineUriFn(mods, false);
-        var uris = splitUrl(combineUri, mods, combineUriFn);
+    var mods = pkg.mods;
+    var path = pkg.path;
+    if (mods.length > 1){
+      var isCss = mods[0].indexOf('.css') > 0;
+      var tag = pkg.tag ? '?t=' + pkg.tag : '';
+      var combineUriFn = _urlGenerate(path, tag, isCss);
 
+      var combineUri = combineUriFn(mods, false);
+      //拆分url，如果url超过最大长度
+      var uris = splitUrl(combineUri, mods, combineUriFn);
+
+      var nowIndex = 0;
+      S.each(uris, function(uri, index){
+        for (; nowIndex < index; nowIndex++) {
+          var mod = mods[nowIndex];
+          var ext = isCss ? '' : '.js';
+          var fullpath = path + mod + ext + tag;
+          maps[fullpath] = uri;
+        }
+      });
+
+      if (!isCss){
         var combineMinUri = combineUriFn(mods, true);
         var urisMin = splitUrl(combineMinUri, mods, combineUriFn);
-
-        var nowIndex = 0;
-        S.each(uris, function(uri, index){
-          for (; nowIndex < index; nowIndex++) {
-            var mod = mods[nowIndex];
-            var fullpath = path + mod + '.js' + tag;
-            maps[fullpath] = uri;
-          }
-        });
 
         nowIndex = 0;
 
@@ -190,22 +228,16 @@ KISSY.add('gallery/combine/1.0/index', function(S) {
 
       }
 
-    });
-  }
+    }
 
-  /** 
-   * 合并package，允许两个或者两个以上的包合并，不过需要满足两个package最多一个
-   * 可以有tag属
-   */
-  function combinePackage(names, pks){
-    var canCombine = true;
-    S.each(names, function(name){
-    });
   }
 
   /**
    * 处理url过长的问题
    * @param url {string}
+   * @return ret {object}, ret的key是数字，对应的值是url路径，数字表示小于这个
+   * 数字的一下的mods数组的将合并到一起，通常情况下，这个数字等于mods的长度，只有
+   * 当过长，会分成几部分组合url
    */
   function splitUrl(url, mods, urlGenFn){
     var len = url.length;
@@ -246,14 +278,15 @@ KISSY.add('gallery/combine/1.0/index', function(S) {
 
   }
 
-  function _urlGenerate(path, tag){
+
+  function _urlGenerate(path, tag, isCss){
     return function(mods, isMin){
-      var endPart = isMin ? '-min.js' : '.js';
+      var endPart = isCss ? '' : (isMin ? '-min.js' : '.js');
       return path + '??' + mods.join(endPart + ',') + endPart + tag;
     };
   }
 
-  /**
+  /*
    *重写use方法，捕获参数
    */
   S.use = function(modNames, callback, cfg){
@@ -265,7 +298,7 @@ KISSY.add('gallery/combine/1.0/index', function(S) {
     return _use.call(this, modNames, callback, cfg);
   };
 
-  /**
+  /*
    *重写add方法，捕获requires依赖关系
    */
   S.add = function(name, def, config){
@@ -291,7 +324,7 @@ KISSY.add('gallery/combine/1.0/index', function(S) {
     return maps[path] || getMappedPath(path);
   };
 
-  /**
+  /*
    * 合并指定包
    */
   function addPackage(pkg){
@@ -317,11 +350,11 @@ KISSY.add('gallery/combine/1.0/index', function(S) {
     });
   }
 
-  function walk(fn){
+  var walk = function(fn){
     return function(objs){
       S.each(objs, fn);
     };
-  }
+  };
 
   function combMods(mods){
     buildPath(mods, true);
@@ -357,7 +390,14 @@ KISSY.add('gallery/combine/1.0/index', function(S) {
           _apiMap[key](obj);
         }
       });
+    },
+    /**
+     * 获取映射关系
+     */
+    getMap: function(){
+      return maps;
     }
   };
+
 
 });
