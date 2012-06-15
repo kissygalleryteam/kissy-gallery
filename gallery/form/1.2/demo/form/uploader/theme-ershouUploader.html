@@ -30,7 +30,7 @@
     <div class="demo-wrapper">
         <form id="J_UploaderForm" action="test.php">
             <div class="form-area">
-                <a id="J_UploadBtn" href="#upload()" data-config='{"theme":"ershouUploader","urlsInputName":"urlsInput","serverConfig":{"action":"./upload.php"},"name":"Filedata"}' data-auth='{"require":[true,"必须至少上传一个文件！"],"maxSize":[500,"文件大小为{size}，文件太大！"],"allowExts":[{"desc":"JPG,JPEG,PNG,GIF,BMP","ext":"*.jpg;*.jpeg;*.png;*.gif;*.bmp"},"文件格式错误！"],"max":[5,"最多允许上传五张图片！"]}' data-button-config='{"multiple":false}' class="upload-btn">
+                <a id="J_UploadBtn" href="#upload()" data-config='{"type":"flash","theme":"ershouUploader","urlsInputName":"urlsInput","serverConfig":{"action":"./upload.php"},"name":"Filedata"}' data-auth='{"require":[true,"必须至少上传一个文件！"],"maxSize":[500,"文件大小为{size}，文件太大！"],"allowExts":[{"desc":"JPG,JPEG,PNG,GIF,BMP","ext":"*.jpg;*.jpeg;*.png;*.gif;*.bmp"},"文件格式错误！"],"max":[5,"最多允许上传五张图片！"]}' data-button-config='{"multiple":false}' class="upload-btn">
                     上传图片
                     <input type="file" name="Filedata" hidefoucs="true" class="original-file-input">
                 </a>
@@ -47,14 +47,15 @@
     </div>
 </article>
 <script>
-    KISSY.config({
-        packages:[
-            {
-                name:"gallery",
-                path:"../../../../../../",
-                charset:"utf-8"
-            }
-        ]
+    var S = KISSY,
+        //包路径，实际使用请直接配置为"http://a.tbcdn.cn/s/kissy/"
+            path = S.Config.debug && "../../../../../../" || "http://a.tbcdn.cn/s/kissy/";
+    S.config({
+        packages:[ {
+            name:"gallery",
+            path:path,
+            charset:"utf-8"
+        } ]
     });
     //加载上传组件入口文件
     KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
