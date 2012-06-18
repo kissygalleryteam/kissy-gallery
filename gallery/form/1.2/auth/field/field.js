@@ -66,7 +66,7 @@ KISSY.add('gallery/form/1.2/auth/field/field', function (S, Event, Base, JSON, D
 
 
             //如果为checkbox/radio则保存为数组
-            if (['checkbox','radio'].indexOf(_el.attr('type')) > -1) {
+            if (S.inArray(_el.attr('type'), ['checkbox','radio'])) {
                 var form = _el.getDOMNode().form, elName = _el.attr('name');
                 var els = [];
                 S.each(document.getElementsByName(elName), function(item) {
