@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>只使用iframe方案上传</title>
+<link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js" charset="utf-8"></script>
+</head>
+<body>
+<article id="doc">
+    <h4>只使用iframe方案上传</h4>
+    <p>iframe的体验非常糟糕，但胜在兼容性，所有的浏览器都支持。</p>
+    <!-- 上传按钮，组件配置请写在data-config内 -->
+    <a id="J_UploaderBtn" class="uploader-button" href="#"> 选择要上传的文件 </a>
+    <!-- 文件上传队列 -->
+    <ul id="J_UploaderQueue">
+
+    </ul>
+    <pre class='brush: js; '>
+KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
+    var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue',{
+        type : "iframe",
+        serverConfig:{"action":"./upload.php"},
+        name:"Filedata",
+        urlsInputName:"fileUrls"
+    });
+})
+     </pre>
+    <h4>使用iframe上传图片</h4>
+    <ul class="clearfix" id="J_UploadImgQueue">
+        <li>
+            <div id="J_UploadBg" class="unupload-area">
+                <a class="unupload" id="J_UploadImg">
+                <span class="count"> 还可以上传<em id="J_UploadCount">5</em>图片！ </span>
+                    <s class="bg"></s>
+                    <input type="hidden" value="" name="imgUrlsInput">
+                </a>
+            </div>
+        </li>
+    </ul>
+    <pre class='brush: js; '>
+        new RenderUploader('#J_UploadImg', '#J_UploadImgQueue',{
+            type : "iframe",
+            theme : "imageUploader",
+            urlsInputName:"imgUrlsInput",
+            serverConfig:{"action":"./upload.php","data":{"iid":77010,"fieldId":132338},"dataType" : "json"},
+            name:"Filedata",
+            authConfig:{
+                require:[true,"必须至少上传一个文件！"],
+                maxSize:[500, "文件大小为{size}，文件太大！"],
+                allowExts:[ {"desc":"JPG,JPEG,PNG,GIF,BMP", "ext":"*.jpg;*.jpeg;*.png;*.gif;*.bmp"}, "文件格式错误！" ],
+                max:[5,"最多允许上传五张图片！"]
+            }
+        });
+    </pre>
+</article>
+<script>
+    var S = KISSY,
+            //包路径，实际使用请直接配置为"http://a.tbcdn.cn/s/kissy/"
+          path = S.Config.debug && "../../../../../../" || "http://a.tbcdn.cn/s/kissy/";
+    KISSY.config({
+           packages:[ {
+               name:"gallery",
+               path:path,
+               charset:"utf-8"
+           } ]
+    });
+    //加载上传组件入口文件
+    KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
+        new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue',{
+            type : "iframe",
+            serverConfig:{"action":"./upload.php"},
+            name:"Filedata",
+            urlsInputName:"fileUrls"
+        });
+
+        new RenderUploader('#J_UploadImg', '#J_UploadImgQueue',{
+            type : "iframe",
+            theme : "imageUploader",
+            urlsInputName:"imgUrlsInput",
+            serverConfig:{"action":"./upload.php","data":{"iid":77010,"fieldId":132338},"dataType" : "json"},
+            name:"Filedata",
+            authConfig:{
+                require:[true,"必须至少上传一个文件！"],
+                maxSize:[500, "文件大小为{size}，文件太大！"],
+                allowExts:[ {"desc":"JPG,JPEG,PNG,GIF,BMP", "ext":"*.jpg;*.jpeg;*.png;*.gif;*.bmp"}, "文件格式错误！" ],
+                max:[5,"最多允许上传五张图片！"]
+            }
+        });
+    })
+</script>
+
+<!-- 代码高亮 START  -->
+<link href='../../assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="../../assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+</body>
+</html>

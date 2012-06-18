@@ -534,7 +534,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 restoreHook = self.get('restoreHook'),
                 $restore = $(restoreHook);
             if(!$restore.length) return [];
-            return S.JSON.parse($restore.html());
+            return S.JSON.parse(S.trim($restore.html()));
         }
     }, {ATTRS:/** @lends Uploader.prototype*/{
         /**

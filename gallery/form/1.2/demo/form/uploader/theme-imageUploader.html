@@ -5,7 +5,7 @@
 <title>图片上传主题</title>
 <link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
 <link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
-<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js" charset="utf-8"></script>
 </head>
 <body>
 <article id="doc">
@@ -128,16 +128,15 @@
     </pre>
 </article>
 <script>
-    var S = KISSY;
+    var S = KISSY,
+        //包路径，实际使用请直接配置为"http://a.tbcdn.cn/s/kissy/"
+            path = S.Config.debug && "../../../../../../" || "http://a.tbcdn.cn/s/kissy/";
     S.config({
-        packages:[
-            {
-                name:"gallery",
-                path:"../../../../../../",
-                //path:"http://a.tbcdn.cn/s/kissy/",
-                charset:"utf-8"
-            }
-        ]
+        packages:[ {
+            name:"gallery",
+            path:path,
+            charset:"utf-8"
+        } ]
     });
     //加载上传组件入口文件
     KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {

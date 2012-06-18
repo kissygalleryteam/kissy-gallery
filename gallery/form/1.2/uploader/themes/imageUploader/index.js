@@ -115,6 +115,13 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
                 var ProgressBar = self.get('oPlugin').progressBar,progressBar;
                 if(ProgressBar){
                     progressBar = new ProgressBar($progressBar);
+                    progressBar.on('change',function(ev){
+                        //百分百进度隐藏进度条
+                        if(ev.value == 100){
+                            progressBar.hide();
+                            self._setDisplayMsg(false,ev.file);
+                        }
+                    });
                     progressBar.render();
                     self.set('progressBar',progressBar);
                 }
@@ -143,12 +150,23 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
         _successHandler:function (ev) {
             var self = this,
                 file = ev.file,
+                id = file.id,
                 //服务器端返回的数据
-                result = file.result;
+                result = file.result,
+                progressBar = file.progressBar;
             self._setCount();
             //获取服务器返回的图片路径写入到src上
             if(result) self._changeImageSrc(ev.id,result);
-            self._setDisplayMsg(false,ev.file);
+            //不存在进度条直接予以隐藏
+            if(!progressBar){
+                $('.J_ProgressBar_'+id).hide();
+                self._setDisplayMsg(false,ev.file);
+                return false;
+            }else{
+                //处理进度
+                progressBar.set('value',100);
+            }
+            $('.J_Mask_'+id).hide();
         },
          /**
          * 文件处于上传错误状态时触发
@@ -170,19 +188,13 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
                 //用于显示上传数的容器
                 elCount = $(self.get('elCount')),
                 len = self.getFilesLen(),
-                auth = self.get('auth'),
-                uploader = self.get('uploader'),
-                button = uploader.get('button');
+                auth = self.get('auth') ;
             if(!auth) return false;
             var rules = auth.get('rules'),
                 //max的值类似[5, '最多上传{max}个文件！']
                 max = rules.max;
             if(!max) return false;
-            if(len<max[0]){
-                button.show();
-                var $li = button.get('target').parent('li');
-                if($li) $li.show();
-            }
+            //if(len<max[0]) self._showBtn();
             if(elCount.length) elCount.text(max[0]-len);
         },
         /**
@@ -210,15 +222,31 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
             var self = this,auth = self.get('auth');
             if(auth == EMPTY) return false;
             auth.on('error',function(ev){
-                var rule = ev.rule,button = uploader.get('button'),$btn = button.get('target');
+                //var rule = ev.rule;
                 //图片达到最大允许上传数，隐藏按钮
-                if(rule == 'max'){
-                    button.hide();
-                    //隐藏按钮之上的li容器
-                    var $li = $btn.parent('li');
-                    if($li) $li.hide();
-                }
+                //if(rule == 'max') self._hideBtn();
             })
+        },
+        /**
+         *  IE下无法直接flash，包括swf的父容器，会出现无法再上传的bug，所以采用移动位置的方式
+         */
+        _hideBtn:function(){
+            var self = this,button = self.get('button'),$btn = button.get('target');
+            if(!self.get('isMaxHideBtn')) return false;
+            $btn.addClass('swf-hide');
+            //隐藏按钮之上的li容器
+            //var $li = $btn.parent();
+            //if($li) $li.addClass('swf-hide');
+        },
+        /**
+         * 显示按钮
+         */
+        _showBtn:function(){
+            var self = this,button = self.get('button'),$btn = button.get('target');
+            $btn.removeClass('swf-hide');
+            //隐藏按钮之上的li容器
+            var $li = $btn.parent('li');
+            if($li) $li.removeClass('swf-hide');
         },
         /**
          * 删除图片后触发
@@ -257,8 +285,8 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
                 $img = $('.J_Pic_' + id);
             if(!S.isObject(data)) return false;
             url = data.url;
-            //不存在预览图片，IE8使用滤镜处理图片预览有问题
-            if($img.attr('src') == EMPTY || S.UA.ie == 8){
+            if($img.attr('src') == EMPTY){
+                $img.show();
                 $img.attr('src',url);
             }
         }
@@ -288,11 +316,8 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
                 '<div class=" J_Mask_{id} pic-mask"></div>' +
                 '<div class="status-wrapper J_FileStatus">' +
                     '<div class="status waiting-status tips-upload-waiting"><p class="tips-text">等待上传，请稍候</p></div>' +
-                    '<div class="status start-status progress-status tips-uploading">' +
+                    '<div class="status start-status progress-status success-status tips-uploading">' +
                         '<div class="J_ProgressBar_{id}"><s class="loading-icon"></s>上传中...</div>' +
-                    '</div>' +
-                    '<div class="status success-status tips-upload-success">' +
-                      '上传成功！' +
                     '</div>' +
                     '<div class="status error-status tips-upload-error">' +
                         '<p class="J_ErrorMsg_{id} tips-text">上传失败，请重试！</p></div>' +
@@ -313,7 +338,13 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
          * @type KISSY.NodeList
          * @default '#J_UploadCount'
          */
-        elCount:{value:'#J_UploadCount'}
+        elCount:{value:'#J_UploadCount'},
+        /**
+         * 达到最大数是否隐藏
+         * @type Boolean
+         * @default true
+         */
+        isMaxHideBtn:{value:true}
     }});
     return ImageUploader;
 }, {requires:['node', '../../theme']});

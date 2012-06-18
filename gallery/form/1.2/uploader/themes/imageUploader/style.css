@@ -14,7 +14,9 @@
     text-align: center;
     table-layout: fixed;
 }
-
+.imageUploader-queue .tb-pic120  img{
+    display:none;
+}
 .imageUploader-queue .tb-pic120 a {
     display: table-cell; /*非IE、IE8、IE9的主流浏览器识别的垂直居中的方法*/
     vertical-align: middle;
@@ -217,17 +219,17 @@ imageUploader-queue li .loading-icon {
 }
 
 /*进度条*/
-imageUploader-queue  .ks-progress-bar {
+.imageUploader-queue  .ks-progress-bar {
     height: 8px;
     width: 90px;
     background: #b2b2b2;
     border-radius: 5px;
     display: block;
     overflow: hidden;
-    margin: 6px 0 0 15px;
+    margin: 6px 0 0 10px;
 }
 
-imageUploader-queue .ks-progress-bar  .ks-progress-bar-value {
+.imageUploader-queue .ks-progress-bar  .ks-progress-bar-value {
     width: 0%;
     height: 8px;
     background: #db0869;
@@ -254,18 +256,17 @@ imageUploader-queue .ks-progress-bar  .ks-progress-bar-value {
     font-size: 100px;
     margin-top: -50px;
     position: absolute;
-    left: -1200px;
+    left: 0;
     top: -200px;
     opacity: 0;
     filter: alpha(opacity = 0);
     z-index: 14;
 }
-@media screen and (-webkit-min-device-pixel-ratio:0)
-{
-    .imageUploader-queue .file-input-wrapper .file-input  {
-        left: 0;
-    }
-}
 .imageUploader-queue .status-wrapper .status {
     text-align: center;
+}
+.swf-hide{
+    position: absolute;
+    top:-3000px;
+    left:0;
 }

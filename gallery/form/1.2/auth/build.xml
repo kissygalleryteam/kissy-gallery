@@ -1,0 +1,70 @@
+<project name="auth.build" default="build" basedir=".">
+    <description>Auth Build File</description>
+    <property file="../build.properties"/>
+    <property name="charset" value="utf-8"/>
+    <property name="version" value="1.2"/>
+    <property name="tool.dir" location="../../../../../kissy-tools"/>
+    <property name="jsdoc.dir" location="${tool.dir}/jsdoc-toolkit"/>
+    <property name="compiler" location="${tool.dir}/closure-compiler/compiler.jar"/>
+    <property name="form.build.dir" location="../../../../gallery-build/form/${version}"/>
+    <property name="src.dir" location="."/>
+    <property name="auth.build.dir" location="${form.build.dir}/auth"/>
+
+    <!--合并源码文件，排除模板js-->
+    <target name="concat">
+        <concat destfile="index-pkg.js" encoding="${charset}" outputencoding="${charset}" overwrite="true">
+            <fileset dir="${src.dir}" includes="**/*.js"/>
+            <filterchain>
+                <deletecharacters chars="&#xFEFF;"/>
+            </filterchain>
+        </concat>
+    </target>
+    <!--移动合并后源文件到build目录下-->
+    <target name="move">
+        <move file="index-pkg.js" tofile="${auth.build.dir}/index.js"/>
+    </target>
+    <target name="dircheck">
+        <condition property="auth.build.dir.exists">
+            <available file="${auth.build.dir}" type="dir"/>
+        </condition>
+    </target>
+    <!--删除build目录下的所有文件-->
+    <target name="clean-build" if="${auth.build.dir.exists}" depends="dircheck">
+        <delete >
+            <fileset dir="${auth.build.dir}" includes="**/*.js,**/*.css,**/*.swf"/>
+        </delete>
+    </target>
+    <target name="mkdir">
+        <mkdir dir="${auth.build.dir}">
+        </mkdir>
+    </target>
+    <!--压缩前去除页面多余空白-->
+    <target name="crlf">
+        <fixcrlf includes="*.js" srcdir="${auth.build.dir}" encoding="utf8" eol="crlf"></fixcrlf>
+    </target>
+    <!--压缩脚本-->
+    <target name="minify" depends="crlf">
+        <apply executable="java" verbose="true" dest="${auth.build.dir}" failonerror="true" parallel="false">
+            <fileset dir="${auth.build.dir}" includes="**/*.js" excludes="*-min.js"/>
+            <arg line="-jar"/>
+            <arg path="${tool.dir}/yuicompressor/yuicompressor.jar"/>
+            <arg line="--charset utf8"/>
+            <arg value="--type"/>
+            <arg value="js"/>
+            <arg value="-o"/>
+            <targetfile/>
+            <mapper type="glob" from="*.js" to="*-min.js"/>
+        </apply>
+    </target>
+    <!--使用jsdoc输出文档-->
+    <target name="doc">
+        <taskdef name="jsdoctoolkit" classname="uk.co.darrenhurley.ant.tasks.JsDocToolkit"
+                 classpath="${jsdoc.dir}/jsdoc-toolkit-ant-task-1.1.2.jar;${jsdoc.dir}/java/classes/js.jar">
+        </taskdef>
+        <jsdoctoolkit template="kf" jsdochome="${jsdoc.dir}/" outputdir="${src.dir}/../doc" inputdir="${src.dir}" encoding="utf-8">
+
+        </jsdoctoolkit>
+    </target>
+    <target name="build" depends="clean-build,mkdir,concat,move,minify">
+    </target>
+</project>

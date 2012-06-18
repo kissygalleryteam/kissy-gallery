@@ -74,7 +74,7 @@ KISSY.add('gallery/form/1.2/uploader/plugins/ajbridge/ajbridge', function(S,Flas
     /**
      * 静态方法
      */
-    S.app(AJBridge, {
+    S.mix(AJBridge, {
 
         version: VERSION,
 
