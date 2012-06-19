@@ -47,13 +47,14 @@ add时,
 
 ```
 KISSY.add('gallery/pagination/1.0/pagination', function(S, Template, undefined) {
-});
+},{requires:["template"]});
 ```
 
 use时, 
 
 ``` 
-KISSY.use('gallery/pagination/1.0/pagination,gallery/pagination/1.0/tmp/friends,gallery/pagination/1.0/tmp/demo.css,gallery/pagination/1.0/assets/pagination.css', function(S, P, FriendList, undefined) {
+KISSY.use('gallery/pagination/1.0/pagination,gallery/pagination/1.0/tmp/friends,
+gallery/pagination/1.0/tmp/demo.css,gallery/pagination/1.0/assets/pagination.css', function(S, P, FriendList, undefined) {
 });
 ```
 
@@ -88,9 +89,3 @@ KISSY.use('gallery/pagination/1.0/pagination,gallery/pagination/1.0/tmp/friends,
   
   - 小修改/bugfix, 保持兼容且适当写上changelog;
   - 大修改或者接口不兼容, 建议新起版本号, 并注明升级注意点;
-
-
-TODO
----------------------------------------
-- province  常胤修改
-- poster 龙刚修改
