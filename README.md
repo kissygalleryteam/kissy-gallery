@@ -64,6 +64,7 @@ gallery/pagination/1.0/tmp/demo.css,gallery/pagination/1.0/assets/pagination.css
 ```
 /pathtocdn/kissy/gallery
 | -- pagination
+|          |-----index.html             // 组件索引 
 |          |-----1.0
 |          |         |---------assets    // 该目录会完整从github上的assets拷贝过去, 并且会压缩源码
 |          |         |---------index.js   // 将组件代码打包成一个文件 ,名字为 index.js 并压缩;
@@ -83,7 +84,7 @@ gallery/pagination/1.0/tmp/demo.css,gallery/pagination/1.0/assets/pagination.css
   3.2) 提交新组件时:
   
   - 务必gallery 中组件使用 1.2.0 Loader 的写法. 不考虑 1.1.6. 如果其他人要用该组件, 自行拷贝修改;
-  - 提交到 KISSY Gallery 请参考 yours.7z 中目录结构;
+  - 提交到 KISSY Gallery 请参考 yours 中目录结构;
   
   3.3) 修改组件时:
   
