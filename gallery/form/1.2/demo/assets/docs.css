@@ -22,8 +22,29 @@ h1, h2, h3, h4, h5, h6{
 h5{
     margin:10px 0;
 }
+h3{
+    margin-bottom:10px;
+}
 ol li{
     line-height: 24px;
+}
+.syntaxhighlighter{
+    margin:0 !important;
+    margin-bottom:10px !important;
+}
+body p{
+    line-height: 24px;
+}
+body img{
+    border: 2px solid #317EAC;
+    margin: 10px 0;
+    padding:1px;
+}
+.table-bordered th, .table-bordered td{
+    line-height: 24px;
+}
+.table-bordered td .alert{
+    margin-top:10px;
 }
 /* Space out sub-sections more
 -------------------------------------------------- */
@@ -866,7 +887,16 @@ ul li {
     font-size: 14px;
     font-weight: normal;
 }
-
+#header .dec{
+    margin-top:30px;
+}
+.subnav {
+    margin-top:30px;
+}
+.subnav .nav li a{
+    font-size: 14px;
+    font-weight: normal;
+}
 /* LARGE DESKTOP SCREENS */
 @media (min-width: 1210px) {
 
