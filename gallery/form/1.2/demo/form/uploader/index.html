@@ -468,6 +468,116 @@
     </div>
 </div>
 <h2 id="queue">queue（队列实例）控制</h2>
+
+<div class="row">
+    <div class="span6">
+        <h3>示例</h3>
+        <a id="J_QueueUploaderBtn" class="g-u uploader-button" href="#"> 选择要上传的文件 </a>
+        <ul id="J_QueueUploaderQueue" >
+
+        </ul>
+        <p>想要操作队列，就必须先获取queue实例（为uploader的属性），比如下面的代码：</p>
+        <pre class='brush: js; '>
+        //uploaderQueueTest为RenderUploader的实例
+        uploaderQueueTest.on('init',function(ev){
+           var uploader = ev.uploader,
+                   queue = uploader.get('queue');
+        })
+        </pre>
+        <div class="alert alert-info">Queue的详细接口请看<a href="" target="_blank">API文档</a></div>
+        <p>下面举例说明常用的方法和属性。</p>
+        <h3>add():向队列添加文件</h3>
+        <p>
+            <input class="btn" id="J_Add" type="button" value="添加一个文件">
+        </p>
+        <pre class='brush: js; '>
+               $('#J_Add').on('click', function (ev) {
+                //测试文件数据
+                var testFile = {'name':'test.jpg',
+                    'size':2000,
+                    'input':{},
+                    'file':{'name':'test.jpg', 'type':'image/jpeg', 'size':2000}
+                };
+                //向队列添加文件
+                var file = queue.add(testFile);
+                S.log('添加的文件数据为：'+file);
+            });
+        </pre>
+        <h3>remove():删除队列中的文件</h3>
+        <p>
+            <input class="btn" id="J_DelFirst" type="button" value="删除第一个文件">
+        </p>
+        <pre class='brush: js; '>
+               $('#J_DelFirst').on('click', function (ev) {
+                    var removeFile = queue.remove(0);
+                    S.log('删除的文件数据为：'+removeFile);
+                });
+        </pre>
+        <div class="alert alert-info">留意remove()的参数可以是队列数组的索引，比如上面代码的0，是取队列第一个文件数据；也可以是文件的id（唯一），比如remove('file-26')</div>
+        <h3>fileStatus(index, status, args):改变文件状态</h3>
+        <p>默认的主题共有以下文件状态：'waiting'、'start'、'progress'、'success'、'cancel'、'error'</p>
+        <p>不同的主题拥有的状态情况可能存在差异。</p>
+        <p>
+            <input class="btn" id="J_ChangeStatus" type="button" value="改变第一个文件状态为success">
+        </p>
+        <pre class='brush: js; '>
+           $('#J_ChangeStatus').on('click', function (ev) {
+                queue.fileStatus(0, 'success');
+            });
+        </pre>
+        <h3>clear():删除队列内的所有文件</h3>
+        <p>
+            <input class="btn" id="J_Clear" type="button" value="删除所有文件">
+        </p>
+        <pre class='brush: js; '>
+           $('#J_Clear').on('click', function (ev) {
+            queue.clear();
+            });
+        </pre>
+
+    </div>
+    <div class="span6">
+        <h3>files：通过该属性可以获取队列中所有的文件数据</h3>
+        <p>
+            <input class="btn" id="J_GetAll" type="button" value="获取所有文件id">
+        </p>
+        <pre class='brush: js; '>
+               $('#J_GetAll').on('click', function (ev) {
+                    var ids = [],
+                            files = queue.get('files');
+                    S.each(files, function (file) {
+                        ids.push(file.id);
+                    });
+                    alert('所有文件id：' + ids);
+                });
+        </pre>
+        <h3>getFiles(type):获取指定状态下的文件</h3>
+        <p>
+            <input class="btn" id="J_GetStatusFileIds" type="button" value="获取所有等待状态的文件id">
+        </p>
+        <pre class='brush: js; '>
+           $('#J_GetStatusFileIds').on('click', function (ev) {
+                var files = queue.getFiles('waiting'),
+                        ids = [];
+                S.each(files, function (file) {
+                    ids.push(file.id);
+                });
+                alert('所有等待中的文件id为：' + ids);
+            });
+        </pre>
+        <h3>getIndexs(type):获取等指定状态的文件对应的文件数组索引值组成的数组</h3>
+        <p>getFiles()和getFileIds()的作用是不同的，getFiles()类似过滤数组，获取的是指定状态的文件数据，而getFileIds()只是获取指定状态下的文件对应的在文件数组内的索引值。</p>
+        <p>
+            <input class="btn" id="J_GetStatusFilesIndex" type="button" value="获取所有等待状态文件index">
+        </p>
+        <pre class='brush: js; '>
+           $('#J_GetStatusFilesIndex').on('click', function () {
+                var indexs = queue.getIndexs('waiting');
+                alert('所有等待中的文件index为：' + indexs);
+            })
+        </pre>
+    </div>
+</div>
 <h2 id="methods">常用方法</h2>
 <h2 id="events">常用事件</h2>
 <h2 id="plugins">关于插件</h2>
@@ -555,7 +665,58 @@
             $('#J_UploadAll').on('click',function(){
                 uploader.uploadFiles();
             })
-        })
+        });
+
+        var uploaderQueueTest = new RenderUploader('#J_QueueUploaderBtn', '#J_QueueUploaderQueue',{
+            serverConfig:{"action":"upload.php"},
+            name:"Filedata",
+            urlsInputName:"fileUrls"
+        });
+        uploaderQueueTest.on('init',function(ev){
+           var uploader = ev.uploader,
+                   queue = uploader.get('queue');
+            $('#J_Add').on('click', function (ev) {
+                //测试文件数据
+                var testFile = {'name':'test.jpg',
+                    'size':2000,
+                    'input':{},
+                    'file':{'name':'test.jpg', 'type':'image/jpeg', 'size':2000}
+                };
+                //向队列添加文件
+                var file = queue.add(testFile);
+                S.log('添加的文件数据为：'+file);
+            });
+            $('#J_DelFirst').on('click', function (ev) {
+                var removeFile = queue.remove(0);
+                S.log('删除的文件数据为：'+removeFile);
+            });
+            $('#J_Clear').on('click', function (ev) {
+                queue.clear();
+            });
+            $('#J_GetAll').on('click', function (ev) {
+                var ids = [],
+                        files = queue.get('files');
+                S.each(files, function (file) {
+                    ids.push(file.id);
+                });
+                alert('所有文件id：' + ids);
+            });
+            $('#J_ChangeStatus').on('click', function (ev) {
+                queue.fileStatus(0, 'success');
+            });
+            $('#J_GetStatusFileIds').on('click', function (ev) {
+                var files = queue.getFiles('waiting'),
+                        ids = [];
+                S.each(files, function (file) {
+                    ids.push(file.id);
+                });
+                alert('所有等待中的文件id为：' + ids);
+            });
+            $('#J_GetStatusFilesIndex').on('click', function () {
+                var indexs = queue.getIndexs('waiting');
+                alert('所有等待中的文件index为：' + indexs);
+            })
+        });
     })
 </script>
 
