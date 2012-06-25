@@ -40,11 +40,31 @@ body img{
     margin: 10px 0;
     padding:1px;
 }
+.index-body  img{
+    border:none;
+    padding:0;
+}
 .table-bordered th, .table-bordered td{
     line-height: 24px;
 }
 .table-bordered td .alert{
     margin-top:10px;
+}
+.logo-wrapper{
+    text-align: right;
+}
+.logo-wrapper  img{
+    border-right:2px solid #333;
+}
+.home-header{
+    width:800px;
+    margin:30px auto;
+}
+.home-header h1{
+    margin-top:30px;
+}
+.index-body  #header h1{
+    font-size: 100px;
 }
 /* Space out sub-sections more
 -------------------------------------------------- */
