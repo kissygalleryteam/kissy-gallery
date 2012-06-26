@@ -25,3 +25,9 @@
     })
 
 }(window.jQuery)
+KISSY.ready(function(){
+    KISSY.use('gallery/feedback',function(S,Feedback){
+        var feedback = new Feedback('body',{title:'向作者提问或建议',url:'https://github.com/kissyteam/kissy-gallery/issues?direction=desc&sort=created&state=open'});
+        feedback.render();
+    });
+})

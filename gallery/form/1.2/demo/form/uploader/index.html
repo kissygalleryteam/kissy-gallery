@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../../assets/bootstrap-responsive.css"/>
     <link rel="stylesheet" type="text/css" href="../../assets/docs.css"/>
     <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+    <script src="../../assets/feedback.js" charset="utf-8"></script>
     <script src="http://bootswatch.com/assets/js/jquery.js" charset="utf-8"></script>
     <script src="http://bootswatch.com/assets/js/bootstrap-dropdown.js" charset="utf-8"></script>
     <script src="http://bootswatch.com/assets/js/bootstrap-scrollspy.js" charset="utf-8"></script>
@@ -76,7 +77,7 @@
             <li><a href="#defaultData">默认数据展现</a></li>
             <li><a href="#button">按钮控制</a></li>
             <li><a href="#queue">队列控制</a></li>
-            <li><a href="#API">常用API</a></li>
+            <li><a href="#api">常用API</a></li>
             <li><a href="#plugins">关于插件</a></li>
         </ul>
     </div>
@@ -529,17 +530,25 @@
 <div class="row">
     <div class="span4">
         <h3>示例</h3>
-        <a id="J_ButtonUploaderBtn" class="g-u uploader-button" href="#"> 选择要上传的文件 </a>
+        <a id="J_ButtonUploaderBtn" class="g-u uploader-button" href="#upload"> 选择要上传的文件 </a>
         <ul id="J_ButtonUploaderQueue" >
 
         </ul>
         <div class="btn-wrapper">
-            <input id="J_Disabled" name="disabled" type="checkbox" value="1" checked />
-            <label for="J_Disabled">禁用按钮</label>
-            <input id="J_Multiple" name="multiple" type="checkbox" value="1" />
-            <label for="J_Multiple">开启多选</label>
-            <input id="J_UploadAll" type="button" value="上传所有等待的文件">
         </div>
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox inline">
+                    <input id="J_Disabled" name="disabled" type="checkbox" value="1" checked />
+                    禁用按钮
+                </label>
+                <label class="checkbox inline">
+                    <input id="J_Multiple" name="multiple" type="checkbox" value="1" />
+                    开启多选
+                </label>
+            </div>
+        </div>
+        <p style="margin-top:10px;">        <input class="btn" id="J_UploadAll" type="button" value="上传所有等待的文件"></p>
     </div>
     <div class="span8">
         <h3>初始化组件</h3>
@@ -717,7 +726,7 @@
         </pre>
     </div>
 </div>
-<h2 id="API">uploader常用接口</h2>
+<h2 id="api">uploader常用接口</h2>
 <div class="alert alert-info">uploader的详细API请看<a href="http://www.36ria.com/demo/gal/gallery/form/1.2/doc/symbols/Uploader.html" target="_blank">文档</a></div>
 <h3>uploader常用属性/配置</h3>
 <p>uploader的配置都会写入成uploader的属性内。uploader的几个关键配置前面都有提到了，这里做个汇总。</p>

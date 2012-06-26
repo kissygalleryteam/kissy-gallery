@@ -914,9 +914,66 @@ ul li {
     font-size: 14px;
     font-weight: normal;
 }
-.title-h1{
+#header .title-h1{
     margin-bottom: 30px;
 }
+/*------反馈入口 START------*/
+.feedback {
+    background-repeat: repeat-y;
+    background-color: #fff;
+    width: 25px;
+    overflow: hidden;
+    position: fixed;
+    right: 0;
+    top: 50%;
+    z-index: 90000;
+    border: 1px solid #e8e8e8;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    _position: absolute;
+}
+
+.feedback:hover {
+    right: 2px;
+}
+
+.feedback span {
+    display: block;
+}
+
+.feedback span a {
+    display: block;
+    word-wrap: break-word;
+    word-break: normal;
+    width: 13px;
+    text-align: center;
+    color: #666;
+    padding: 8px 6px 10px;
+    line-height: 1.1em;
+}
+
+.feedback span a:hover {
+    color: #f50;
+    text-decoration: none;
+}
+
+.feedback span s {
+    width: 0;
+    height: 0;
+    border: 3px solid #19377f;
+    display: block;
+    position: relative;
+    top: -1px;
+    right: -1px;
+    border-color: #fff #19377f #19377f #fff;
+    margin: -6px 0 0 19px;
+    overflow: hidden;
+    _margin-left: 17px;
+    zoom: 1;
+}
+
+/*------反馈入口 END------*/
 /* LARGE DESKTOP SCREENS */
 @media (min-width: 1210px) {
 
