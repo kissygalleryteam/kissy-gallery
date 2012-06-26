@@ -3,8 +3,10 @@
 <head>
     <meta charset="utf-8"/>
     <title>Limiter组件的demo</title>
-    <link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
-    <link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
+    <link rel="shortcut icon" href="http://docs.kissyui.com/kissy-dpl/base/assets/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/docs.css"/>
     <!--[if lt IE 8]>
     <link href="http://a.tbcdn.cn/s/kissy/1.1.7/editor/theme/cool/editor-pkg-min-mhtml.css" rel="stylesheet"/>
     <![endif]-->
@@ -12,6 +14,11 @@
     <link href="http://a.tbcdn.cn/s/kissy/1.1.7/editor/theme/cool/editor-pkg-min-datauri.css" rel="stylesheet"/>
     <!--<![endif]-->
     <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+    <script src="../../assets/feedback.js" charset="utf-8"></script>
+    <script src="http://bootswatch.com/assets/js/jquery.js" charset="utf-8"></script>
+    <script src="http://bootswatch.com/assets/js/bootstrap-dropdown.js" charset="utf-8"></script>
+    <script src="http://bootswatch.com/assets/js/bootstrap-scrollspy.js" charset="utf-8"></script>
+    <script src="../../assets/app.js" charset="utf-8"></script>
     <style type="text/css">
         .form-section {
             letter-spacing: -0.31em;
@@ -79,26 +86,78 @@
     </style>
 </head>
 <body>
-<article id="main">
-    <h4>Limiter</h4>
-    <ul>
-        <li>作者：<b>明河（剑平）</b></li>
-        <li>描述：<b>字数统计</b></li>
-    </ul>
-    <h4>Limiter组件的demo</h4>
-    <div class="demo-wrapper">
-        <dl id="auc-title" class="form-section">
-            <dt class="section-hd">
-                <label class="section-title-name" for="item-title">标题</label>
-            </dt>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="../" id="logo">KF(kissy-form)</a>
 
-            <dd class="section-bd clearfix">
-                <div class="nice-input">
-                    <input type="text" id="J_AucTitle" name="item-title" value="明河">
-                </div>
-                <div id="J_LimiterWrapper"></div>
-            </dd>
-        </dl>
+            <div class="nav-collapse">
+
+                <ul class="nav">
+                    <li><a href="http://docs.kissyui.com/kissy-gallery/gallery/form/1.2/demo.html">首页</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">组件 <b
+                            class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/uploader/index.html">Uploader</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/limiter/index.html">Limiter</a>
+                            </li>
+                            <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/spinbox/index.html">SpinBox</a>
+                            </li>
+                            <li>
+                                <a href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/auth/index.html">Auth</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/checkbox/index.html">checkbox</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/radio/index.html">radio</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="https://github.com/kissyteam/kissy-gallery/tree/master/gallery/form">源码</a></li>
+                    <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.2/doc/index.html">API文档</a></li>
+                </ul>
+                <ul class="nav pull-right">
+                    <li><a rel="tooltip" target="_blank" href="http://docs.kissyui.com/kissy-gallery/index.html">kissy
+                        gallery</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <header id="header" class="jumbotron subhead">
+        <h1 class="title-h1">Limiter
+            <small>字数统计</small>
+        </h1>
+        <div class="dec">
+            <ul>
+                <li>作者：<b>明河（剑平）</b></li>
+                <li>接口文档：<a href="http://www.36ria.com/demo/gal/gallery/form/1.2/doc/symbols/Limiter.html" target="_blank">Limiter</a></li>
+            </ul>
+        </div>
+    </header>
+    <div id="content">
+        <div class="demo-wrapper">
+            <dl id="auc-title" class="form-section">
+                <dt class="section-hd">
+                    <label class="section-title-name" for="item-title">标题</label>
+                </dt>
+
+                <dd class="section-bd clearfix">
+                    <div class="nice-input">
+                        <input type="text" id="J_AucTitle" name="item-title" value="明河">
+                    </div>
+                    <div id="J_LimiterWrapper"></div>
+                </dd>
+            </dl>
         <pre class='brush: xml;'>
             <input type="text" id="J_AucTitle" name="item-title" value="明河">
             <div id="J_LimiterWrapper"></div>
@@ -109,24 +168,24 @@
             textLimiter.render();
          })
         </pre>
-        <dl class="form-section" id="form-desc">
-            <dt class="section-hd">
-                <label for="J_ItemDesc" class="section-title-name">描述</label>
-            </dt>
-            <dd class="section-bd clearfix form-desc-wrapper">
-                <div class="form-area">
-                    <div class="nice-input nice-textarea" id="textarea-wrapper">
-                        <textarea class="dec-textarea" id="J_Dec" name="_fm.g._0.d"></textarea>
+            <dl class="form-section" id="form-desc">
+                <dt class="section-hd">
+                    <label for="J_ItemDesc" class="section-title-name">描述</label>
+                </dt>
+                <dd class="section-bd clearfix form-desc-wrapper">
+                    <div class="form-area">
+                        <div class="nice-input nice-textarea" id="textarea-wrapper">
+                            <textarea class="dec-textarea" id="J_Dec" name="_fm.g._0.d"></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="extra-area">
-                    <div id="J_DecCount"></div>
-                </div>
-            </dd>
-        </dl>
-        <p>编辑器的初始化代码就不贴出来了。</p>
+                    <div class="extra-area">
+                        <div id="J_DecCount"></div>
+                    </div>
+                </dd>
+            </dl>
+            <p>编辑器的初始化代码就不贴出来了。</p>
 
-        <p>监听键盘按起事件，同步下数据，然后触发统计组件。</p>
+            <p>监听键盘按起事件，同步下数据，然后触发统计组件。</p>
         <pre class='brush: js;'>
             editor.ready(function(){
                 var decLimiter = new Limiter('#J_Dec',{wrapper:'#J_DecCount',max:1000,isRejectTag:true});
@@ -137,10 +196,10 @@
                 })
             });
         </pre>
-        <p>isRejectTag:true后，将不统计html标签所占的字数</p>
+            <p>isRejectTag:true后，将不统计html标签所占的字数</p>
+        </div>
     </div>
-</article>
-
+</div>
 <script type="text/javascript">
     KISSY.config({
         packages:[

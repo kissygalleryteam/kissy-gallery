@@ -61,7 +61,7 @@ body img{
     margin:30px auto;
 }
 .home-header h1{
-    margin-top:30px;
+    margin-top:10px;
 }
 .index-body  #header h1{
     font-size: 100px;
@@ -916,6 +916,18 @@ ul li {
 }
 #header .title-h1{
     margin-bottom: 30px;
+}
+.authors .span2{
+    width:44px;
+}
+.authors .span2 span{
+    display: block;
+    text-align: center;
+    margin-top:-4px;
+}
+.authors .span2 img{
+    border: 1px solid #CCC;
+    padding: 1px;
 }
 /*------反馈入口 START------*/
 .feedback {
