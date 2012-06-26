@@ -40,9 +40,9 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
                     +'<a href="#nogo" role="button" onmousedown="return false;" title="获取图片验证码" aria-label="获取图片验证码" id="J_ImgSwitcher{uid}" class="{prefixCls}checkcode-switcher {prefixCls}img-switcher">获取图片验证码</a>'
                     +'</div>',
             getImgURL:'{apiserver}/get_img?identity={identity}&sessionid={sessionid}',
-            checkImgURL:'{apiserver}/check_img?identity={identity}&sessionid={sessionid}',
+            checkImgURL:'{apiserver}/check_img?identity={identity}&sessionid={sessionid}&delflag=0',
             getAudioURL:'{apiserver}/get_audio?identity={identity}&sessionid={sessionid}',
-            checkAudioURL:'{apiserver}/check_audio?identity={identity}&sessionid={sessionid}'
+            checkAudioURL:'{apiserver}/check_audio?identity={identity}&sessionid={sessionid}&delflag=0'
         },
         
         // log checkcode加载到校验完成时间
