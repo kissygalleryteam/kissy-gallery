@@ -30,7 +30,7 @@ KISSY.add('gallery/form/1.2/auth/rule/html/propertyRule', function(S, BaseRule, 
         ProPertyRule.superclass.constructor.apply(self, args.slice(1));
     };
 
-    S.extend(ProPertyRule, BaseRule, {
+    S.extend(ProPertyRule, BaseRule, /** @lends BaseRule.prototype*/{
         validate:function () {
             var self = this;
             if(S.isUndefined(arguments[0])) {

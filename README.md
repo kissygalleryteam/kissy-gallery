@@ -47,13 +47,14 @@ add时,
 
 ```
 KISSY.add('gallery/pagination/1.0/pagination', function(S, Template, undefined) {
-});
+},{requires:["template"]});
 ```
 
 use时, 
 
 ``` 
-KISSY.use('gallery/pagination/1.0/pagination,gallery/pagination/1.0/tmp/friends,gallery/pagination/1.0/tmp/demo.css,gallery/pagination/1.0/assets/pagination.css', function(S, P, FriendList, undefined) {
+KISSY.use('gallery/pagination/1.0/pagination,gallery/pagination/1.0/tmp/friends,
+gallery/pagination/1.0/tmp/demo.css,gallery/pagination/1.0/assets/pagination.css', function(S, P, FriendList, undefined) {
 });
 ```
 
@@ -63,6 +64,7 @@ KISSY.use('gallery/pagination/1.0/pagination,gallery/pagination/1.0/tmp/friends,
 ```
 /pathtocdn/kissy/gallery
 | -- pagination
+|          |-----index.html             // 组件索引 
 |          |-----1.0
 |          |         |---------assets    // 该目录会完整从github上的assets拷贝过去, 并且会压缩源码
 |          |         |---------index.js   // 将组件代码打包成一个文件 ,名字为 index.js 并压缩;
@@ -82,15 +84,9 @@ KISSY.use('gallery/pagination/1.0/pagination,gallery/pagination/1.0/tmp/friends,
   3.2) 提交新组件时:
   
   - 务必gallery 中组件使用 1.2.0 Loader 的写法. 不考虑 1.1.6. 如果其他人要用该组件, 自行拷贝修改;
-  - 提交到 KISSY Gallery 请参考 yours.7z 中目录结构;
+  - 提交到 KISSY Gallery 请参考 yours 中目录结构;
   
   3.3) 修改组件时:
   
   - 小修改/bugfix, 保持兼容且适当写上changelog;
   - 大修改或者接口不兼容, 建议新起版本号, 并注明升级注意点;
-
-
-TODO
----------------------------------------
-- province  常胤修改
-- poster 龙刚修改

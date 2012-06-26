@@ -232,6 +232,8 @@
         KISSY.use("gallery/form/1.2/auth/index", function (S, Auth) {
 
             var form = new Auth('#J_form_eg1', {
+                autoBind:true,
+                stopOnError:false,
                 msg:{
                     tpl:'<div class="msg {prefixCls}"><p class="{style}">{msg}</p></div>',
                     args:{
@@ -276,11 +278,8 @@
             form.getField('card').validate();
 
             KISSY.Event.on('#J_form_eg1', "submit", function () {
-                return form.validate();
-            });
-
-            form.on('validate', function(e) {
-                alert(e.msg);
+                form.validate();
+                return form.get('result');
             });
 
         });
