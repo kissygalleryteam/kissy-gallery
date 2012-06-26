@@ -87,7 +87,6 @@ KISSY.add('gallery/form/1.2/checkbox/index', function(S, Base, Node) {
 					}
 				} catch (e) {
 					S.log('html结构不符合');
-					return false;
 				}
 				checkboxArr.push(checkbox);
 			})

@@ -86,7 +86,6 @@ KISSY.add('gallery/form/1.2/radio/index', function(S, Node, Base) {
                         radio.attr('aria-label', labelText);
                     } catch (e) {
                         S.log('html结构不符合');
-                        return false;
                     }
 
                 }
