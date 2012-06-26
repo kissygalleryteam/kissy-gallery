@@ -16,6 +16,7 @@
 }
 .imageUploader-queue .tb-pic120  img{
     display:none;
+    border:none;
 }
 .imageUploader-queue .tb-pic120 a {
     display: table-cell; /*非IE、IE8、IE9的主流浏览器识别的垂直居中的方法*/
@@ -55,8 +56,9 @@
     margin-bottom: 40px;
     overflow: hidden;
     width: 660px;
+    font-size:12px;
+    list-style:none;
 }
-
 .imageUploader-queue .tips {
     position: absolute;
     z-index: 10;
