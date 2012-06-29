@@ -18,6 +18,7 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
                  + '.{{prefixCls}}checkcode-refresh{display:none;width:100px;height:30px;vertical-align:middle;border:1px solid #CDCDCD;position:absolute;left:0;top:0;cursor:pointer;}'
                  + '.{{prefixCls}}audio-state{float:left;display:inline;width:100px;height:30px;border:1px solid #CDCDCD;position:relative;}'
                  + '.{{prefixCls}}audio-state-text{display:block;width:70px;height:30px;padding-left:30px;font-size:12px;color:#999;text-decoration:none;background:url(http://img01.taobaocdn.com/tps/i1/T1HVriXnVeXXbjRy2i-21-169.png) no-repeat 10px -93px;z-index:1;position:absolute;cursor:text;}'
+                 + '.{{prefixCls}}audio-state-text:hover{text-decoration:none;}'
                  + '.{{prefixCls}}audio-state-progress{width:0;height:30px;background-color:#186BCA;position:absolute;left:0;top:0;z-index:0;}'
                  + '.{{prefixCls}}audio-over{width:100px;padding-left:0;color:#186BCA;text-align:center;background:none;cursor:pointer;}'
                  + '.{{prefixCls}}audio-over:hover{text-decoration:underline;}'
