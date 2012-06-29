@@ -367,8 +367,36 @@
         </table>
         <h3>监听error事件</h3>
 
+        <p>监听uploader的error事件即可（V1.2.6），比如下面的代码：</p>
+        <pre class='brush: js; '>
+        uploader.on('error', function (ev) {
+            var rule = ev.rule, msg = ev.msg,status = ev.status;
+            if (rule == 'max') {
+                alert(msg);
+            }
+            if(status === -1){
+                alert('前端验证错误');
+            }
+        });
+        </pre>
+        <p>试下demo上传三个文件会出现弹出框提示</p>
         <h3>手动触发验证</h3>
+        <p>有时我们需要额外调用验证方法，比如提交表单时验证下是不是有至少有一个文件上传。</p>
+        <p><input class="btn btn-primary" id="J_SubmitAuthDemo" value="验证是否上传了一个文件" type="button"></p>
+        <pre class='brush: js; '>
+        $('#J_SubmitAuthDemo').on('click', function (ev) {
+            var auth = uploader.get('auth');
+            var isPass = auth.testRequire();
+            if (isPass) {
+                alert('存在上传文件！');
+            }else{
+                alert('请至少上传一个文件！');
+            }
+        })
+        </pre>
+        <p>先要获取Auth实例，然后调用<code>testRequire()</code>方法。</p>
 
+        <p><code>testMax()</code>可以检验是否达到最大允许上传数。</p>
     </div>
 </div>
 <h2 id="theme">使用不同的上传主题</h2>
@@ -942,7 +970,7 @@ uploader.cancel();
             urlsInputName:"fileUrls"
         });
 
-        new RenderUploader('#J_UploaderAuthBtn', '#J_UploaderAuthQueue', {
+        var authDemo = new RenderUploader('#J_UploaderAuthBtn', '#J_UploaderAuthQueue', {
             serverConfig:{ action:"upload.php" },
             name:"Filedata",
             urlsInputName:"fileUrls",
@@ -957,6 +985,27 @@ uploader.cancel();
                     "不支持{ext}格式的文件上传！"
                 ]
             }
+        });
+        authDemo.on('init',function(ev){
+            var uploader = ev.uploader;
+            uploader.on('error', function (ev) {
+                var rule = ev.rule, msg = ev.msg,status = ev.status;
+                if (rule == 'max') {
+                    alert(msg);
+                }
+                if(status === -1){
+                    alert('前端验证错误');
+                }
+            });
+            $('#J_SubmitAuthDemo').on('click', function (ev) {
+                var auth = uploader.get('auth');
+                var isPass = auth.testRequire();
+                if (isPass) {
+                    alert('存在上传文件！');
+                }else{
+                    alert('请至少上传一个文件！');
+                }
+            })
         });
 
         new RenderUploader('#J_ImageUploaderBtn', '#J_ImageUploaderQueue', {
