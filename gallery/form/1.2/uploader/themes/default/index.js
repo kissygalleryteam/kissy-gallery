@@ -148,7 +148,7 @@ KISSY.add('gallery/form/1.2/uploader/themes/default/index', function (S, Node, T
                     '<div class="status cancel-status">已经取消上传，<a href="#reUpload" id="J_ReUpload_{id}" class="J_Upload_{id}">点此重新上传</a> </div>' +
                     '<div class="status error-status upload-error"><span class="J_ErrorMsg_{id}"></span><a href="#fileDel" class="J_Del_{id}">删除</a></div>' +
                 '</div>' +
-                '</li>'
+            '</li>'
         },
         /**
          * 需要加载的插件，需要手动实例化

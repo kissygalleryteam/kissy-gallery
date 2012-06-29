@@ -121,6 +121,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
      * @param {Number} ev.index 上传中的文件在队列中的索引值
      * @param {Object} ev.file 文件数据
      * @param {Object} ev.result 服务器端返回的数据
+     * @param {Object} ev.status 服务器端返回的状态码，status如果是-1，说明是前端验证返回的失败
      */
 
     /**
@@ -446,7 +447,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 var msg = result.msg || result.message  || EMPTY;
                 //修改队列中文件的状态为error（上传失败）
                 queue.fileStatus(index, Uploader.status.ERROR, {msg:msg,result:result});
-                self.fire(event.ERROR, {status:status,result:result});
+                self.fire(event.ERROR, {status:status,result:result,index:index,file:queue.getFile(index)});
             }
             //置空当前上传的文件在队列中的索引值
             self.set('curUploadIndex', EMPTY);

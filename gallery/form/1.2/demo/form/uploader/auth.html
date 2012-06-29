@@ -119,7 +119,7 @@
             ru.on("init", function (ev) {
                 var uploader = ev.uploader,
                         auth = uploader.get('auth');
-                auth.on('error', function (ev) {
+                uploader.on('error', function (ev) {
                     var rule = ev.rule, msg = ev.msg;
                     if (rule == 'require' || rule == 'max') {
                         alert(msg);
