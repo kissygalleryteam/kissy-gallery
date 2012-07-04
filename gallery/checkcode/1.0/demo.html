@@ -78,6 +78,12 @@
                     if(checkcode){
                         checkcode.showImg();
 
+                        checkcode.on('switch',function(){
+                            tip.hide();
+                        }).on('refresh',function(){
+                            tip.hide();
+                        });
+
                         // blur时校验
                         S.one('#J_CheckCode').on('blur',function(){
                             var val = S.trim(this.value);
@@ -145,6 +151,14 @@
         </div>
         <h4 class="s-api-title">返回</h4>
         <div class="s-api-return">CheckCode实例对象</div>
+        <h4 class="s-api-title">事件</h4>
+        <div class="s-api-method">
+            switch 图片/语音验证码切换时触发
+        </div>
+        <h4 class="s-api-title">事件</h4>
+        <div class="s-api-method">
+            refresh 验证码刷新时触发
+        </div>
     </div>
 
     <h3 class="s-title">Note</h3>
