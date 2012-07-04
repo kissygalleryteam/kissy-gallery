@@ -47,7 +47,8 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
         },
         
         // log checkcode加载到校验完成时间
-        t0 = 0,
+        loadT0 = 0,
+        typeT0 = 0,
 
         // callbacks
         callbacks = {};
@@ -128,6 +129,15 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
                 self.refresh();
                 self.focus();
             });
+
+            this.input.on('valuechange',function(e){
+                if(e.prevVal.length === 0 || e.newVal.length === 1){
+                    typeT0 = S.now();
+                }
+            }).on('paste',function(){
+                typeT0 = S.now();
+            });
+
         },
         bindImg:function(){
             if(!this.img) return this;
@@ -138,7 +148,9 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
                 self.focus();
             }).on('load',function(){
             }).on('error',function(){
-                self.log('IMGERROR');
+                self.log({
+                    e:'IMGERROR'
+                });
             })
 
             this.imgSwitcher && this.imgSwitcher.on('click',function(evt){
@@ -278,7 +290,7 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
 
             this.fire('refresh');
             // 计时
-            t0 = S.now();
+            loadT0 = typeT0 = S.now();
         },
         focus:function(){
             this.input[0].focus();
@@ -390,7 +402,16 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
                     self.checkingCode = '';
 
                     // 记录整个操作时间
-                    self.log(S.now() - t0);
+                    self.log({
+                        // 验证码输入到验证完成时间
+                        t1: S.now() - typeT0,
+                        // 验证码载入到验证完成时间
+                        t2: S.now() - loadT0,
+                        // 验证结果
+                        s: data && data.message === 'SUCCESS.',
+                        // 验证码类型
+                        t: self.codeType
+                    });
 
                     if(data && data.message==='SUCCESS.'){
                         self.progress(100);
@@ -418,11 +439,9 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
             if(!msg) return;
 
             var img = new Image();
-            img.src = 'http://acjs.aliyun.com/captchaerror?e=' + msg;
+            img.src = 'http://acjs.aliyun.com/captchaerror?' + S.param(msg);
         }
     });
 
     return CheckCode;
-},{
-	requires:['core']
 });
