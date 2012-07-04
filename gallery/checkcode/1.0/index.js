@@ -7,6 +7,7 @@
 KISSY.add('gallery/checkcode/1.0/index', function (S) {
     var D = S.DOM,
         uid = 1,
+        regexp = /^[\da-zA-Z]{4}$/,
         isWin = navigator.userAgent.indexOf("Windows") !== -1,
         isie = S.UA.ie,
         isfirefox = S.UA.firefox,
@@ -39,14 +40,18 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
                     +'<a href="#nogo" role="button" onmousedown="return false;" title="重新获取验证码" aria-label="重新获取验证码" id="J_AudioRefresher{uid}" class="{prefixCls}checkcode-refresher">重新获取验证码</a>'
                     +'<a href="#nogo" role="button" onmousedown="return false;" title="获取图片验证码" aria-label="获取图片验证码" id="J_ImgSwitcher{uid}" class="{prefixCls}checkcode-switcher {prefixCls}img-switcher">获取图片验证码</a>'
                     +'</div>',
-            getImgURL:'{apiserver}/get_img?identity={identity}&sessionid={sessionid}',
-            checkImgURL:'{apiserver}/check_img?identity={identity}&sessionid={sessionid}',
+            getImgURL:'{apiserver}/get_img?identity={identity}&sessionid={sessionid}&kjtype=default',
+            checkImgURL:'{apiserver}/check_img?identity={identity}&sessionid={sessionid}&delflag=0',
             getAudioURL:'{apiserver}/get_audio?identity={identity}&sessionid={sessionid}',
-            checkAudioURL:'{apiserver}/check_audio?identity={identity}&sessionid={sessionid}'
+            checkAudioURL:'{apiserver}/check_audio?identity={identity}&sessionid={sessionid}&delflag=0'
         },
         
         // log checkcode加载到校验完成时间
-        t0 = 0;
+        loadT0 = 0,
+        typeT0 = 0,
+
+        // callbacks
+        callbacks = {};
 
     var CheckCode = function(cfg){
         if(!(this instanceof CheckCode)){
@@ -124,6 +129,15 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
                 self.refresh();
                 self.focus();
             });
+
+            this.input.on('valuechange',function(e){
+                if(e.prevVal.length === 0 || e.newVal.length === 1){
+                    typeT0 = S.now();
+                }
+            }).on('paste',function(){
+                typeT0 = S.now();
+            });
+
         },
         bindImg:function(){
             if(!this.img) return this;
@@ -134,7 +148,9 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
                 self.focus();
             }).on('load',function(){
             }).on('error',function(){
-                self.log('IMGERROR');
+                self.log({
+                    e:'IMGERROR'
+                });
             })
 
             this.imgSwitcher && this.imgSwitcher.on('click',function(evt){
@@ -274,7 +290,7 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
 
             this.fire('refresh');
             // 计时
-            t0 = S.now();
+            loadT0 = typeT0 = S.now();
         },
         focus:function(){
             this.input[0].focus();
@@ -338,13 +354,33 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
             }
         },
         check:function(callback){
-            var val = S.trim(this.input.val());
+            var val = S.trim(this.input.val()),
+                callback = S.isFunction(callback) ? callback : function(){};
 
-            if(this.checkedCode && this.checkedCode == val){
+            // 格式校验
+            if(!regexp.test(val)){
+                callback({success:false,codeType:this.codeType});
+                return;
+            }
+
+            // 已校验通过
+            if(this.checkedCode && this.checkedCode === val){
                 callback({success:true,codeType:this.codeType});
                 return;
             }
 
+            callbacks[val] = callback;
+            // 正在校验
+            if(this.checkingCode){
+                if(this.checkingCode === val){
+                    return;
+                }else{
+                    this.io && this.io.abort && this.io.abort();
+                }
+            }
+
+            // checkingCode初始化
+            this.checkingCode = val;
             // 延迟校验，防止audioState click的刷新行为
             S.later(function(){
                 this._check(callback);
@@ -352,27 +388,37 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
         },
         _check:function(callback){
             var checkURL = this.codeType == 'IMG' ? this.checkImgURL : this.checkAudioURL,
-                callback = S.isFunction(callback) ? callback : function(){},
                 val = S.trim(this.input.val());
 
             var self = this;
 
-            S.io({
+            self.io = S.io({
                 url:checkURL,
                 data:{
                     code:val
                 },
                 dataType:'jsonp',
                 complete:function(data){
+                    self.checkingCode = '';
+
+                    // 记录整个操作时间
+                    self.log({
+                        // 验证码输入到验证完成时间
+                        t1: S.now() - typeT0,
+                        // 验证码载入到验证完成时间
+                        t2: S.now() - loadT0,
+                        // 验证结果
+                        s: data && data.message === 'SUCCESS.',
+                        // 验证码类型
+                        t: self.codeType
+                    });
+
                     if(data && data.message==='SUCCESS.'){
                         self.progress(100);
                         self.stopAudio();
                         self.checkedCode = val;
 
-                        // 记录整个操作时间
-                        self.log(S.now() - t0);
-
-                        callback({success:true,codeType:self.codeType});
+                        callbacks[val] && callbacks[val]({success:true,codeType:self.codeType});
                     }else{
                         if(self.codeType==='IMG'){
                             self.refresh();
@@ -384,10 +430,7 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
                         // 校验失败后清空
                         self.checkedCode = '';
 
-                        // 记录整个操作时间
-                        self.log(S.now() - t0);
-
-                        callback({success:false,codeType:self.codeType});
+                        callbacks[val] && callbacks[val]({success:false,codeType:self.codeType});
                     }
                 }
             });
@@ -396,11 +439,9 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
             if(!msg) return;
 
             var img = new Image();
-            img.src = 'http://acjs.aliyun.com/captchaerror?e=' + msg;
+            img.src = 'http://acjs.aliyun.com/captchaerror?' + S.param(msg);
         }
     });
 
     return CheckCode;
-},{
-    requires:['core']
 });
