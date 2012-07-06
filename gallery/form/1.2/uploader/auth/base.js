@@ -181,7 +181,7 @@ KISSY.add('gallery/form/1.2/uploader/auth/base', function (S, Node,Base) {
 	            //达到最大允许上传数
 	            if(!isPass){
 	                //禁用按钮
-	                button.set('disabled',true);
+	                uploader.set('disabled',true);
 	                uploader.set('isAllowUpload', false);
                     msg = S.substitute(rule[1],{max : rule[0]});
                     self._fireUploaderError('max',[rule[0],msg]);
