@@ -25,18 +25,9 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
          * 在上传组件运行完毕后执行的方法（对上传组件所有的控制都应该在这个函数内）
          * @param {Uploader} uploader
          */
-        afterUploaderRender:function (uploader) {
+        afterUploaderRender:function () {
             var self = this,
-               /* Preview = self.get('oPlugin').preview,
-                preview,*/
                 queue = self.get('queue');
-            /*if(Preview){
-                preview = new Preview();
-                //图片预览
-                self.set('preview',preview);
-            }*/
-           //达到最大允许上传数隐藏上传按钮
-            self._maxHideBtn(uploader);
             self._renderFiledrop();
             queue.on('add',self._addFileHandler,self);
         },
@@ -92,12 +83,7 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
          * 文件处于等待上传状态时触发
          */
         _waitingHandler:function (ev) {
-            /*var self = this,preview = self.get('preview'),
-                file = ev.file,input = file.input,
-                $imageWrapper = $('.J_Pic_'+file.id);
-            if(preview && input && $imageWrapper.length){
-                preview.preview(ev.file.input, $imageWrapper);
-            }*/
+
         },
         /**
          * 文件处于开始上传状态时触发
@@ -194,7 +180,6 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
                 //max的值类似[5, '最多上传{max}个文件！']
                 max = rules.max;
             if(!max) return false;
-            //if(len<max[0]) self._showBtn();
             if(elCount.length) elCount.text(max[0]-len);
         },
         /**
@@ -202,51 +187,13 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
          */
         _setDisplayMsg:function(isShow,data){
             if(!data) return false;
-            var $mask = $('.J_Mask_' + data.id),
-                $statusWrapper = data.statusWrapper;
+            var $mask = $('.J_Mask_' + data.id);
             $mask[isShow && 'show' || 'hide']();
             if(isShow){
                 $mask.show();
-                $statusWrapper.show();
             }else{
                 $mask.hide();
-                $statusWrapper.hide();
             }
-        },
-        /**
-         * 达到最大允许上传数隐藏按钮
-         * @param {Uploader} uploader
-         */
-        _maxHideBtn:function(uploader){
-            //监听上传验证的error事件
-            var self = this,auth = self.get('auth');
-            if(auth == EMPTY) return false;
-            auth.on('error',function(ev){
-                //var rule = ev.rule;
-                //图片达到最大允许上传数，隐藏按钮
-                //if(rule == 'max') self._hideBtn();
-            })
-        },
-        /**
-         *  IE下无法直接flash，包括swf的父容器，会出现无法再上传的bug，所以采用移动位置的方式
-         */
-        _hideBtn:function(){
-            var self = this,button = self.get('button'),$btn = button.get('target');
-            if(!self.get('isMaxHideBtn')) return false;
-            $btn.addClass('swf-hide');
-            //隐藏按钮之上的li容器
-            //var $li = $btn.parent();
-            //if($li) $li.addClass('swf-hide');
-        },
-        /**
-         * 显示按钮
-         */
-        _showBtn:function(){
-            var self = this,button = self.get('button'),$btn = button.get('target');
-            $btn.removeClass('swf-hide');
-            //隐藏按钮之上的li容器
-            var $li = $btn.parent('li');
-            if($li) $li.removeClass('swf-hide');
         },
         /**
          * 删除图片后触发
