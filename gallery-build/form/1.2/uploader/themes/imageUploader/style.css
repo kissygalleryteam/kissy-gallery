@@ -1,12 +1,8 @@
 /*--------- 图片上传主题样式，目前应用于爱逛街 BY 苏河、明河（优化） ---------*/
-/*sprits*/
-.article-bd .imageUploader-queue .tips, .imageUploader-queue .unupload .bg,
-.imageUploader-queue .go-on .bg,
-.del-pic, .tips-uploading .loading-icon,
-.tips-deleting s {
-    background: url(http://img04.taobaocdn.com/tps/i4/T1A8O2XcVxXXXXXXXX-351-305.png) -9999px -9999px no-repeat transparent;
+.imageUploader-queue .imageUploader-button,
+.imageUploader-queue .del-pic{
+    background: url(http://img02.taobaocdn.com/tps/i2/T1RHbnXkxrXXXe0nbf-349-134.png) 2px 2px no-repeat transparent;
 }
-
 /*图片预览 START*/
 .imageUploader-queue .tb-pic120 {
     *overflow: hidden;
@@ -16,6 +12,7 @@
 }
 .imageUploader-queue .tb-pic120  img{
     display:none;
+    border:none;
 }
 .imageUploader-queue .tb-pic120 a {
     display: table-cell; /*非IE、IE8、IE9的主流浏览器识别的垂直居中的方法*/
@@ -55,8 +52,9 @@
     margin-bottom: 40px;
     overflow: hidden;
     width: 660px;
+    font-size:12px;
+    list-style:none;
 }
-
 .imageUploader-queue .tips {
     position: absolute;
     z-index: 10;
@@ -72,6 +70,7 @@
     height: 120px;
     float: left;
     position: relative;
+    background-color: #fff;
 }
 
 .imageUploader-queue .imageUploader-button {
@@ -82,8 +81,11 @@
     position: relative;
     z-index: 9;
     text-decoration: none;
+    background: url(http://img02.taobaocdn.com/tps/i2/T1RHbnXkxrXXXe0nbf-349-134.png) 2px 2px no-repeat transparent;
 }
-
+.imageUploader-queue .uploader-button-disabled{
+    background-position: -125px 2px;
+}
 .imageUploader-queue .imageUploader-button .count {
     position: absolute;
     z-index: 10;
@@ -126,11 +128,6 @@
     font-size: 0px;
     line-height: 0px;
 }
-
-.imageUploader-queue .imageUploader-button:hover {
-    background: #fee7f1;
-}
-
 .imageUploader-queue .imageUploader-button .bg, .imageUploader-queue .go-on .bg {
     width: 110px;
     height: 110px;
@@ -167,7 +164,7 @@
 }
 
 .imageUploader-queue li .del-pic {
-    background-position: -263px -101px;
+    background-position: -257px -101px;
     color: #676767;
     display: none;
     height: 24px;
