@@ -110,9 +110,9 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
                     theme.set('queue',uploader.get('queue'));
                     theme.set('auth',uploader.get('auth'));
                     theme._UploaderRender(function(){
+                        theme.afterUploaderRender(uploader);
                         // 抓取restoreHook容器内的数据，生成文件DOM
                         uploader.restore();
-                        theme.afterUploaderRender(uploader);
                         self.fire('init', {uploader:uploader,button:uploader.get('button'),queue:uploader.get('queue'),auth:uploader.get('auth')});
                     });
                 });
@@ -180,8 +180,7 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
             var self = this,buttonTarget = self.get('buttonTarget'),
                 uploader = self.get('uploader'),
                 cf = self.get('authConfig'),
-                config = S.form.parseConfig(buttonTarget,dataName.AUTH),
-                auth = EMPTY;
+                config = S.form.parseConfig(buttonTarget,dataName.AUTH);
             S.mix(config,cf);
             self.set('authConfig',config);
             if(S.isEmptyObject(config)) return false;

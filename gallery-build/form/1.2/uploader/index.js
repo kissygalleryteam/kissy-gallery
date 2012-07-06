@@ -856,8 +856,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 if(!file.sUrl && file.result) file.sUrl = file.result.data.url;
                 //向队列添加文件
                 var fileData = queue.add(file),
-                    id = fileData.id,index = queue.getFileIndex(id),
-                    files = queue.get('files');
+                    id = fileData.id,index = queue.getFileIndex(id);
                 urlsInput.add(file.sUrl);
                 //改变文件状态为成功
                 queue.fileStatus(index,'success',{index:index,id:id,file:fileData});
@@ -1708,9 +1707,9 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
                     theme.set('queue',uploader.get('queue'));
                     theme.set('auth',uploader.get('auth'));
                     theme._UploaderRender(function(){
+                        theme.afterUploaderRender(uploader);
                         // 抓取restoreHook容器内的数据，生成文件DOM
                         uploader.restore();
-                        theme.afterUploaderRender(uploader);
                         self.fire('init', {uploader:uploader,button:uploader.get('button'),queue:uploader.get('queue'),auth:uploader.get('auth')});
                     });
                 });
@@ -1778,8 +1777,7 @@ KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
             var self = this,buttonTarget = self.get('buttonTarget'),
                 uploader = self.get('uploader'),
                 cf = self.get('authConfig'),
-                config = S.form.parseConfig(buttonTarget,dataName.AUTH),
-                auth = EMPTY;
+                config = S.form.parseConfig(buttonTarget,dataName.AUTH);
             S.mix(config,cf);
             self.set('authConfig',config);
             if(S.isEmptyObject(config)) return false;
