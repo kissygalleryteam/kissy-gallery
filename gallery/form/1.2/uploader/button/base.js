@@ -63,8 +63,6 @@ KISSY.add('gallery/form/1.2/uploader/button/base',function(S, Node, Base) {
                     return false;
                 }
                 self._createInput();
-                self._setDisabled(self.get('disabled'));
-                self._setMultiple(self.get('multiple'));
                 self.fire(Button.event.afterRender);
                 return self;
             }
@@ -134,10 +132,12 @@ KISSY.add('gallery/form/1.2/uploader/button/base',function(S, Node, Base) {
             //if(S.UA.firefox)  fileInput.css('left','-1200px');
             //上传框的值改变后触发
             $(fileInput).on('change', self._changeHandler, self);
-            //DOM.hide(fileInput);
             self.set('fileInput', fileInput);
             self.set('inputContainer', inputContainer);
-            // self.resetContainerCss();
+            //禁用按钮
+            self._setDisabled(self.get('disabled'));
+            //控制多选
+            self._setMultiple(self.get('multiple'));
             return inputContainer;
         },
         /**
