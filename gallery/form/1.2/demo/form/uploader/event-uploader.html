@@ -82,14 +82,15 @@
         var $panel = $("#J_Panel");
         $panel.append("<p>事件名称：" + evt.type + "，" + msg + "</p>");
     }
+    var S = KISSY,
+        //包路径，实际使用请直接配置为"http://a.tbcdn.cn/s/kissy/"
+            path = S.Config.debug && "../../../../../../" || "http://a.tbcdn.cn/s/kissy/";
     S.config({
-        packages:[
-            {
-                name:"gallery",
-                path:"../../../../../../",
-                charset:"utf-8"
-            }
-        ]
+        packages:[ {
+            name:"gallery",
+            path:path,
+            charset:"utf-8"
+        } ]
     });
     KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
         //第一个参数：按钮元素钩子，第二个参数：队列元素钩子

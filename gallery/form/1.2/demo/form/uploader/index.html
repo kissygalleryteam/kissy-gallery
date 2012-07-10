@@ -253,6 +253,29 @@
         target="_blank"> 源码</a>。</p>
 
 <div class="alert alert-info"><strong>PS:</strong>文件上传成功后，组件会自动提取url放进<code>urlsInputName</code>配置的隐藏域内。</div>
+<h3>动态修改post到服务器端的数据</h3>
+
+<p>前面的demo，我们通过配置<code>serverConfig</code>来控制post到服务器端的数据，比如下面的代码：</p>
+ <pre class='brush: js; '>
+KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
+    var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue',{
+        serverConfig:{
+            action:"upload.php",
+            data:{userName:"minghe",email:"minghe36@126.com"}
+        },
+        name:"Filedata",
+        urlsInputName:"fileUrls"
+    });
+})
+</pre>
+<p>有时我们希望<code>data</code>参数是可以通过脚本动态配置，可以这么处理：</p>
+  <pre class='brush: js; '>
+ru.on('init',function(ev){
+    var uploader = ev.uploader;
+    uploader.set('data',{userName:"ziying",email:"daxingplay@gmail.com"})
+})
+</pre>
+<p>通过set<code>data</code>属性值来动态修改post到服务器端数据。</p>
 <h2 id="crossdomain">IE下上传flash跨域处理</h2>
 
 <p>如果你在使用uploader中遇到IE下进度条不走的情况，多半的原因是由于在域名根目录下没有放跨域策略文件<code>crossdomain.xml</code>导致的。</p>

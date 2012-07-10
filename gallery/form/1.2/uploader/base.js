@@ -595,6 +595,32 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
          */
         serverConfig:{value:{action:EMPTY, data:{}, dataType:'json'}},
         /**
+         * 此配置用于动态修改post给服务器的数据，会覆盖serverConfig的data配置
+         * @type Object
+         * @default {}
+         */
+        data:{
+            value:{},
+            getter:function(){
+                var self = this,uploadType = self.get('uploadType'),
+                    data = self.get('serverConfig').data || {};
+                if(uploadType){
+                    data = uploadType.get('data');
+                }
+                return data;
+            },
+            setter:function(v){
+                if(S.isObject(v)){
+                    var self = this,uploadType = self.get('uploadType');
+                    if(uploadType){
+                        uploadType.set('data',v);
+                        self.set('serverConfig',S.mix(self.get('serverConfig'),{data:v}));
+                    }
+                }
+                return v;
+            }
+        },
+        /**
          * 是否允许上传文件
          * @type Boolean
          * @default true
