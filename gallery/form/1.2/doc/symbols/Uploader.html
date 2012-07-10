@@ -348,6 +348,18 @@ dl.data .dd{
                                             
                                                 
                                                     <li class="li">
+                                                        <b class="name"><a href="../symbols/Uploader.html#data">data</a></b>
+                                                        <span class="type">{Object}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">此配置用于动态修改post给服务器的数据，会覆盖serverConfig的data配置</span>
+                                                    </li>
+                                                
+                                            
+                                                
+                                                    <li class="li">
                                                         <b class="name"><a href="../symbols/Uploader.html#disabled">disabled</a></b>
                                                         <span class="type">{Boolean}</span>
                                                         
@@ -381,6 +393,18 @@ dl.data .dd{
                                                         
                                                         
                                                         <span class="desc">是否开启多选支持，部分浏览器存在兼容性问题</span>
+                                                    </li>
+                                                
+                                            
+                                                
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/Uploader.html#multipleLen">multipleLen</a></b>
+                                                        <span class="type">{Number}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">用于限制多选文件个数，值为负时不设置多选限制</span>
                                                     </li>
                                                 
                                             
@@ -435,8 +459,6 @@ dl.data .dd{
                                                 
                                             
                                                 
-                                            
-                                                
                                                     <li class="li">
                                                         <b class="name"><a href="../symbols/Uploader.html#type">type</a></b>
                                                         <span class="type">{String|Array}</span>
@@ -446,6 +468,8 @@ dl.data .dd{
                                                         
                                                         <span class="desc">采用的上传方案，当值是数组时，比如“type” : ["flash","ajax","iframe"]，按顺序获取浏览器支持的方式，该配置会优先使用flash上传方式，如果浏览器不支持flash，会降级为ajax，如果还不支持ajax，会降级为iframe；当值是字符串时，比如“type” : “ajax”，表示只使用ajax上传方式。这种方式比较极端，在不支持ajax上传方式的浏览器会不可用；当“type” : “auto”，auto是一种特例，等价于["ajax","flash","iframe"]。</span>
                                                     </li>
+                                                
+                                            
                                                 
                                             
                                                 
@@ -940,6 +964,33 @@ dl.data .dd{
                                     
                                     
                                         <li class="li">
+                                            <a name="data"> </a>
+                                            <div class="title">                                                
+                                                <b class="name">data</b>
+                                                <span class="type">{Object}</span> 
+                                                
+                                                
+                                                
+                                                
+                                                <span class="desc">
+                                                    — 此配置用于动态修改post给服务器的数据，会覆盖serverConfig的data配置
+                                                    
+                                                    
+                                                </span>
+                                            </div>
+                                            <!--
+                                            -->
+                                            
+                                                <div class="member-data"><span>since：</span>V1.2.6</div>
+                                            
+                                            
+                                            
+                                            
+                                        </li>
+                                    
+                                    
+                                    
+                                        <li class="li">
                                             <a name="disabled"> </a>
                                             <div class="title">                                                
                                                 <b class="name">disabled</b>
@@ -1019,6 +1070,35 @@ dl.data .dd{
                                             
                                             
                                                 <div class="member-data"><span>default：</span>true</div>
+                                            
+                                            
+                                            
+                                        </li>
+                                    
+                                    
+                                    
+                                        <li class="li">
+                                            <a name="multipleLen"> </a>
+                                            <div class="title">                                                
+                                                <b class="name">multipleLen</b>
+                                                <span class="type">{Number}</span> 
+                                                
+                                                
+                                                
+                                                
+                                                <span class="desc">
+                                                    — 用于限制多选文件个数，值为负时不设置多选限制
+                                                    
+                                                    
+                                                </span>
+                                            </div>
+                                            <!--
+                                            -->
+                                            
+                                                <div class="member-data"><span>since：</span>V1.2.6</div>
+                                            
+                                            
+                                                <div class="member-data"><span>default：</span>-1</div>
                                             
                                             
                                             
@@ -1130,8 +1210,6 @@ dl.data .dd{
                                     
                                     
                                     
-                                    
-                                    
                                         <li class="li">
                                             <a name="type"> </a>
                                             <div class="title">                                                
@@ -1158,6 +1236,8 @@ dl.data .dd{
                                             
                                             
                                         </li>
+                                    
+                                    
                                     
                                     
                                     
@@ -1981,6 +2061,15 @@ uploader.uploadFiles("waiting")</pre>
                                                         
                                                         <span class="type">{Object}</span> 
                                                         <span class="desc">服务器端返回的数据</span>
+                                                    </li>
+                                                
+                                                    <li class="li">
+                                                        &nbsp;
+                                                        <b class="name">ev.status</b>
+                                                        
+                                                        
+                                                        <span class="type">{Object}</span> 
+                                                        <span class="desc">服务器端返回的状态码，status如果是-1，说明是前端验证返回的失败</span>
                                                     </li>
                                                 
                                                 </ul>
