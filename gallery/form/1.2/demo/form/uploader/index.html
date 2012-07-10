@@ -864,6 +864,14 @@ ru.on('init',function(ev){
         </td>
     </tr>
     <tr>
+        <td>multipleLen</td>
+        <td>Number</td>
+        <td>-1</td>
+        <td>读/写</td>
+        <td>用于限制多选文件个数，值为负时不设置多选限制（v1.2.6+）
+        </td>
+    </tr>
+    <tr>
         <td>disabled</td>
         <td>Boolean</td>
         <td>false</td>
@@ -876,6 +884,14 @@ ru.on('init',function(ev){
         <td>{action:'', data:{}, dataType:'json'}</td>
         <td>读/写</td>
         <td>服务器端配置，包括最重要的<code>action</code>（路径）配置，<code>data</code>为post到服务器端数据
+        </td>
+    </tr>
+    <tr>
+        <td>data</td>
+        <td>Object</td>
+        <td>{}</td>
+        <td>读/写</td>
+        <td>此配置用于动态修改post给服务器的数据，会覆盖serverConfig的data配置（v1.2.6+）
         </td>
     </tr>
     <tr>
