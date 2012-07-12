@@ -47,8 +47,9 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
         },
         
         // log checkcode加载到校验完成时间
-        loadT0 = 0,
-        typeT0 = 0,
+        loadT0 = S.now(),
+        // log checkcode输入到校验完成时间
+        typeT0 = S.now(),
 
         // callbacks
         callbacks = {};
@@ -131,10 +132,14 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
             });
 
             this.input.on('valuechange',function(e){
-                if(e.prevVal.length === 0 || e.newVal.length === 1){
+                if((!e.prevVal || e.prevVal.length === 0 || e.prevVal.length === 4) && e.newVal.length === 1){
                     typeT0 = S.now();
                 }
             }).on('paste',function(){
+                if(this.value.length !== 0){
+                    return;
+                }
+
                 typeT0 = S.now();
             });
 
@@ -444,4 +449,6 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
     });
 
     return CheckCode;
+},{
+	requires:['core']
 });
