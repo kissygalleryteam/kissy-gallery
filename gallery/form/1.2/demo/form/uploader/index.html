@@ -285,12 +285,14 @@ ru.on('init',function(ev){
         <pre class='brush: xml; '>
             <?xml version="1.0"?>
             <cross-domain-policy>
+                <allow-access-from domain="*.tbcdn.cn"> </allow-access-from>
                 <allow-access-from domain="*.taobao.com"></allow-access-from>
                 <allow-access-from domain="*.taobao.net"></allow-access-from>
                 <allow-access-from domain="*.taobaocdn.com"></allow-access-from>
                 <allow-access-from domain="*.allyes.com"></allow-access-from>
             </cross-domain-policy>
         </pre>
+<p>tbcdn.cn为swf文件所在的位置，安全策略文件需要加上。</p>
 当不存在crossdomain.xml文件时，控制台会打印错误消息，比如：
 <p><img src="http://www.36ria.com/wp-content/uploads/2012/05/uploader-v1.2.png"/></p>
 上传成功后，会打印服务器返回的json数据，比如：
