@@ -288,7 +288,8 @@ KISSY.add('gallery/form/1.2/uploader/auth/base', function (S, Node,Base) {
                 S.mix(params,{file:file});
                 index = queue.getFileIndex(params.file.id);
             }
-            if(rule) S.mix(params,{msg : rule[1],value : rule[0]});
+            //result是为了与uploader的error事件保持一致
+            if(rule) S.mix(params,{msg : rule[1],value : rule[0],result:{}});
             queue.fileStatus(index, 'error', params);
             self.fire(Auth.event.ERROR,params);
             uploader.fire('error',params);
