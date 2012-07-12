@@ -78,6 +78,8 @@
         <form action="">
             <div id="J_Content" class="control-group">
                 <div class="controls">
+
+                
                     <label class="radio inline">
                         <input type="checkbox" name="ch-1" value="ch1"/>1111
                     </label>
@@ -100,28 +102,73 @@
                         <input  type="checkbox" name="ch-7" value="ch1"/>7777
                     </label>
                     <label class="radio inline">
-                        <input  type="checkbox" name="ch-8" value="ch1"/>8888
+                        <input  type="checkbox" checked="checked" name="ch-8" value="ch1"/>8888
                     </label>
                     <label class="radio inline">
-                        <input  type="checkbox" name="ch-9" value="ch1"/>9999
+                        <input  type="checkbox" checked="checked" name="ch-9" value="ch1"/>9999
                     </label>
+
+
+                
+
+                <!--
+                    <input  type="checkbox" name="ch-9" value="1"/>
+                    <label class="radio inline">9999</label>
+                     <input  type="checkbox" name="ch-9" value="2"/>
+                    <label class="radio inline">9999</label>
+                     <input  type="checkbox" name="ch-9" value="3"/>
+                    <label class="radio inline">9999</label>
+                     <input  type="checkbox" name="ch-9" value="4"/>
+                    <label class="radio inline">9999</label>
+                     <input  type="checkbox" name="ch-9" value="5"/>
+                    <label class="radio inline">9999</label>
+                     <input  type="checkbox" name="ch-9" value="6"/>
+                    <label class="radio inline">9999</label>
+                     <input  type="checkbox" name="ch-9" value="7"/>
+                    <label class="radio inline">9999</label>
+                     <input  type="checkbox" name="ch-9" value="8"/>
+                    <label class="radio inline">9999</label>
+                     <input  type="checkbox" name="ch-9" value="9"/>
+                    <label class="radio inline">9999</label>
+
+                -->
                 </div>
             </div>
+            <input type="submit" class="bt btn-primary" value="提交表单查看选择结果">
         </form>
     </div>
     <h3>使用配置</h3>
     <p>下面是页面上本身的一组原生的checkbox，注意观察第3、4、8、9的属性,美化的结果如上面所示</p>
+    <p><strong>需要注意的是，组件里与checkbox对应的label默认是通过dom.next()获取的，如果获取不到，需要传递getLabelFunc来获取label的位置</strong></p>
     <pre class='brush: xml;'>
         <ul id="J_Content">
-            <li><input type="checkbox" name="ch-1" value="ch1"><em>&nbsp;</em><label>1 1 1 1</label></li>
-            <li><input type="checkbox" name="ch-2" value="ch2"><em>&nbsp;</em><label>2 2 2 2</label></li>
-            <li><input disabled="disabled" type="checkbox" name="ch-3" value="ch3"><em>&nbsp;</em><label>3 3 3 3</label></li>
-            <li><input disabled="disabled" type="checkbox" name="ch-4" value="ch3"><em>&nbsp;</em><label>4 4 4 4</label></li>
-            <li><input type="checkbox" name="ch-5" value="ch5"><em>&nbsp;</em><label>5 5 5 5</label></li>
-            <li><input type="checkbox" name="ch-6" value="ch6"><em>&nbsp;</em><label>6 6 6 6</label></li>
-            <li><input type="checkbox" name="ch-7" value="ch7"><em>&nbsp;</em><label>7 7 7 7</label></li>
-            <li><input type="checkbox" checked="checked" name="ch-8" value="ch8"><em>&nbsp;</em><label>8 8 8 8</label></li>
-            <li><input type="checkbox"  checked="checked" name="ch-9" value="ch9"><em>&nbsp;</em><label>9 9 9 9</label></li>
+            <label class="radio inline">
+                <input type="checkbox" name="ch-1" value="ch1"/>1111
+            </label>
+            <label class="radio inline">
+                <input  type="checkbox" name="ch-2" value="ch1"/>2222
+            </label>
+            <label class="radio inline">
+                <input disabled="disabled"  type="checkbox" name="ch-3" value="ch1"/>3333
+            </label>
+            <label class="radio inline">
+                <input disabled="disabled"  type="checkbox" name="ch-4" value="ch1"/>4444
+            </label>
+            <label class="radio inline">
+                <input  type="checkbox" name="ch-5" value="ch1"/>5555
+            </label>
+            <label class="radio inline">
+                <input  type="checkbox" name="ch-6" value="ch1"/>6666
+            </label>
+            <label class="radio inline">
+                <input  type="checkbox" name="ch-7" value="ch1"/>7777
+            </label>
+            <label class="radio inline">
+                <input  type="checkbox" name="ch-8" value="ch1"/>8888
+            </label>
+            <label class="radio inline">
+                <input  type="checkbox" name="ch-9" value="ch1"/>9999
+            </label>
         </ul>
     </pre>
     <h5>使用Checkbox组件美化，只需要使用如下方式即可</h5>
@@ -170,7 +217,7 @@
 
 
     <h4>2、根据index禁用checkbox</h4>
-    <input class="haspadding" type="button" id="J_Five" name="" value="禁用第5个"><br/>
+    <input class="bt btn-primary" type="button" id="J_Five" name="" value="禁用第5个"><br/>
     <br />
     <pre class='brush: xml;'>
         //禁用
@@ -181,7 +228,7 @@
 
 
     <h4>3、获取所有选中的checkbox的索引</h4>
-    <input class="haspadding" type="button" id="J_GetAll" value="获取所有选中checkbox的key"><br/>
+    <input class="bt btn-primary " type="button" id="J_GetAll" value="获取所有选中checkbox的key"><br/>
     <br/>
     <pre class='brush: xml;'>
         //返回数字数组
@@ -190,7 +237,7 @@
 
 
     <h4>4、还原成为原生的checkbox</h4>
-    <input class="haspadding" type="button" id="J_Recover" name="" key="1" value="还原checkbox"><br />
+    <input class="bt btn-primary" type="button" id="J_Recover" name="" key="1" value="还原checkbox"><br />
     <br/>
     <pre class='brush: xml;'>
         //还原成为原生的checkbox
@@ -212,13 +259,14 @@
 
 
         function getLabel(value){
-            return value.next('label');
+            return value.parent();
         }     
         KISSY.use('gallery/form/1.2/checkbox/index,node', function (S, R,Node) {
             var  $ = Node.all,
                 r = new R('#J_Content input',{
                     hasLabel:true, //是否需要label-for，默认是false
-                    accessible:true//是否需要无障碍，默认为false 
+                    accessible:true,//是否需要无障碍，默认为false 
+                    getLabelFunc:getLabel
                 }),
                 btn = $('#J_GetAll'),
                 all = new R('#J_SelectAll input');   
@@ -259,7 +307,7 @@
             $('#J_Recover').on('click',function(){                                 
                 var key = $(this).attr('key');
                 if(key === '1'){
-                    r.recoverCheckbox();
+                    r.recoverKfbtn();
                     $(this).attr('key',2);
                     $(this).val('美化checkbox')
                 }else{

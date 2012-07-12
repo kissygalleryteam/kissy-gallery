@@ -6,7 +6,7 @@ KISSY.add('gallery/form/1.1/radio/index', function(S, Node, Base) {
     var $ = Node.all;
     /**
      * @name Radio
-     * @class Radio美化组件,考虑到代码的重用，checkbox将会继承radio，故将关键字radio替换成kfbtn
+     * @class Radio美化组件,checkbox将会继承radio
      * @constructor
      * @extends Base
      * @param {String} target 目标元素
@@ -83,7 +83,7 @@ KISSY.add('gallery/form/1.1/radio/index', function(S, Node, Base) {
                 if (accessible) {
                     try {
                         //优先选择函数提供的查询
-                        labelText = getLabelFunc ? getLabelFunc(value).html() : value.next('label').html();
+                        labelText = getLabelFunc ? getLabelFunc(value).text() : value.next('label').text();
                         kfbtn.attr('aria-label', labelText);
                     } catch (e) {
                         S.log('html结构不符合');
