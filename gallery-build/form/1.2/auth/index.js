@@ -11,7 +11,8 @@ KISSY.add('gallery/form/1.2/auth/base', function (S, JSON, Base, Field,
      * @type {Object}
      */
     var defaultConfig = {
-        autoBind:true
+        autoBind:true,
+        stopOnError:false
     };
 
     var AUTH_MODE = {
@@ -19,9 +20,21 @@ KISSY.add('gallery/form/1.2/auth/base', function (S, JSON, Base, Field,
         OBJECT:'object'
     };
 
+    /**
+     * @name RenderUploader
+     * @class Auth组件入口，表明
+     * @version 1.2
+     * @param el {selector|htmlElement} form元素
+     * @param config {object}
+     * @return Auth
+     * @constructor
+     */
     var Auth = function (el, config) {
         var form = S.get(el),
             self = this;
+
+        self._storages = {};
+
         if (!form) {
             S.log('[Auth]:form element not exist');
         } else {
@@ -34,18 +47,16 @@ KISSY.add('gallery/form/1.2/auth/base', function (S, JSON, Base, Field,
         return self;
     };
 
-    S.extend(Auth, Base, {
+    S.extend(Auth, Base,/** @lends Auth.prototype*/ {
+        /**
+         * 初始化auth
+         * @param el
+         * @param config
+         * @private
+         */
         _init:function (el, config) {
             var forms = el.elements,
                 self = this;
-
-            //init
-            self._storages = {};
-
-            //如果是form模式，需要屏蔽html5本身的校验
-            if(self.mode === AUTH_MODE.FORM) {
-                S.one(el).attr('novalidate', 'novalidate');
-            }
 
             if (forms && forms.length) {
                 S.each(forms, function (el, idx) {
@@ -62,7 +73,20 @@ KISSY.add('gallery/form/1.2/auth/base', function (S, JSON, Base, Field,
 
             //save config
             self.AuthConfig = config;
+
+            //如果是form模式，需要屏蔽html5本身的校验，放在最后是为了html5的校验能生效
+            if(self.mode === AUTH_MODE.FORM) {
+                S.one(el).attr('novalidate', 'novalidate');
+            }
+
         },
+        /**
+         * 添加一个需要校验的表单域
+         *
+         * @param field {Field|string|htmlElement} 表单域对象或html表单元素
+         * @param config {object} 可选的配置，如果传的是field对象，就无需此配置
+         * @return {*}
+         */
         add:function (field, config) {
             var el, key, self = this;
 
@@ -83,6 +107,11 @@ KISSY.add('gallery/form/1.2/auth/base', function (S, JSON, Base, Field,
 
             return self;
         },
+        /**
+         * 根据key返回field对象
+         * @param name
+         * @return {*}
+         */
         getField:function (name) {
             return this._storages[name];
         },
@@ -101,12 +130,25 @@ KISSY.add('gallery/form/1.2/auth/base', function (S, JSON, Base, Field,
 
             self.fire('beforeValidate');
 
-            var result = true;
+            var result = true, currentField;
 
             S.each(self._storages, function (field, idx) {
                 var r = field.validate();
                 result = result && r;
+                currentField = field;
+
+                //stop on error
+                if(self.AuthConfig.stopOnError && !result) {
+                    return false;
+                }
             });
+
+            self.fire('validate', {
+                result:result,
+                lastField:currentField
+            });
+
+            self.set('result', result);
 
             self.fire('afterValidate');
 
@@ -114,7 +156,7 @@ KISSY.add('gallery/form/1.2/auth/base', function (S, JSON, Base, Field,
         }
     }, {
         ATTRS:{
-
+            result:{}
         }
     });
 
@@ -199,7 +241,7 @@ KISSY.add('gallery/form/1.2/auth/field/field', function (S, Event, Base, JSON, D
 
 
             //如果为checkbox/radio则保存为数组
-            if (['checkbox','radio'].indexOf(_el.attr('type')) > -1) {
+            if (S.inArray(_el.attr('type'), ['checkbox','radio'])) {
                 var form = _el.getDOMNode().form, elName = _el.attr('name');
                 var els = [];
                 S.each(document.getElementsByName(elName), function(item) {
@@ -528,7 +570,7 @@ KISSY.add('gallery/form/1.2/auth/rule/base', function(S, Base, undefined) {
         BaseRule.superclass.constructor.call(self);
     };
 
-    S.extend(BaseRule, Base, {
+    S.extend(BaseRule, Base, /** @lends Base.prototype*/{
         validate: function() {
             var self = this;
 
@@ -542,6 +584,8 @@ KISSY.add('gallery/form/1.2/auth/rule/base', function(S, Base, undefined) {
                 msg = validated ? self._msg[RULE_SUCCESS] : '';
             }
 
+            self.fire('beforeValidate');
+
             //Deprecated
             self.fire(validated ? RULE_SUCCESS:RULE_ERROR, {
                 msg:msg
@@ -552,6 +596,8 @@ KISSY.add('gallery/form/1.2/auth/rule/base', function(S, Base, undefined) {
                 msg: msg,
                 name: self._name
             });
+
+            self.fire('afterValidate');
 
             return validated;
         }
@@ -603,7 +649,7 @@ KISSY.add('gallery/form/1.2/auth/rule/html/propertyRule', function(S, BaseRule, 
         ProPertyRule.superclass.constructor.apply(self, args.slice(1));
     };
 
-    S.extend(ProPertyRule, BaseRule, {
+    S.extend(ProPertyRule, BaseRule, /** @lends BaseRule.prototype*/{
         validate:function () {
             var self = this;
             if(S.isUndefined(arguments[0])) {
@@ -656,7 +702,7 @@ KISSY.add('gallery/form/1.2/auth/rule/rule', function(S, BaseRule, Utils, undefi
         Rule.superclass.constructor.apply(self, args.slice(1));
     };
 
-    S.extend(Rule, BaseRule, {
+    S.extend(Rule, BaseRule, /** @lends BaseRule.prototype*/{
         validate:function () {
             var self = this;
             if(S.isUndefined(arguments[0])) {

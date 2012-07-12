@@ -288,7 +288,8 @@ KISSY.add('gallery/form/1.2/uploader/auth/base', function (S, Node,Base) {
                 S.mix(params,{file:file});
                 index = queue.getFileIndex(params.file.id);
             }
-            if(rule) S.mix(params,{msg : rule[1],value : rule[0]});
+            //result是为了与uploader的error事件保持一致
+            if(rule) S.mix(params,{msg : rule[1],value : rule[0],result:{}});
             queue.fileStatus(index, 'error', params);
             self.fire(Auth.event.ERROR,params);
             uploader.fire('error',params);
@@ -1906,7 +1907,854 @@ themeConfig:{
     });
     return RenderUploader;
 }, {requires:['base', 'node', './base','./auth/base']});
-/*
+YUI.add("yuidoc-meta", function(Y) {
+   Y.YUIDoc = { meta: {
+    "classes": [
+        "AjaxType",
+        "Auth",
+        "Button",
+        "DefaultTheme",
+        "ErshouUploader",
+        "FileDrop",
+        "FlashType",
+        "IframeType",
+        "ImageUploader",
+        "ProgressBar",
+        "Queue",
+        "RenderUploader",
+        "SwfButton",
+        "Theme",
+        "UploadType",
+        "Uploader",
+        "Uploadify",
+        "UrlsInput"
+    ],
+    "modules": [
+        "uploader",
+        "uploader-base",
+        "uploader-index"
+    ],
+    "allModules": [
+        {
+            "displayName": "uploader",
+            "name": "uploader"
+        },
+        {
+            "displayName": "uploader-base",
+            "name": "uploader-base",
+            "description": "异步文件上传组件核心模块"
+        },
+        {
+            "displayName": "uploader-index",
+            "name": "uploader-index",
+            "description": "异步文件上传组件入口模块"
+        }
+    ]
+} };
+});YUI.add('api-filter', function (Y) {
+
+Y.APIFilter = Y.Base.create('apiFilter', Y.Base, [Y.AutoCompleteBase], {
+    // -- Initializer ----------------------------------------------------------
+    initializer: function () {
+        this._bindUIACBase();
+        this._syncUIACBase();
+    },
+    getDisplayName: function(name) {
+
+        Y.each(Y.YUIDoc.meta.allModules, function(i) {
+            if (i.name === name && i.displayName) {
+                name = i.displayName;
+            }
+        });
+
+        return name;
+    }
+
+}, {
+    // -- Attributes -----------------------------------------------------------
+    ATTRS: {
+        resultHighlighter: {
+            value: 'phraseMatch'
+        },
+
+        // May be set to "classes" or "modules".
+        queryType: {
+            value: 'classes'
+        },
+
+        source: {
+            valueFn: function() {
+                var self = this;
+                return function(q) {
+                    var data = Y.YUIDoc.meta[self.get('queryType')],
+                        out = [];
+                    Y.each(data, function(v) {
+                        if (v.toLowerCase().indexOf(q.toLowerCase()) > -1) {
+                            out.push(v);
+                        }
+                    });
+                    return out;
+                };
+            }
+        }
+    }
+});
+
+}, '3.4.0', {requires: [
+    'autocomplete-base', 'autocomplete-highlighters', 'autocomplete-sources'
+]});
+YUI.add('api-list', function (Y) {
+
+var Lang   = Y.Lang,
+    YArray = Y.Array,
+
+    APIList = Y.namespace('APIList'),
+
+    classesNode    = Y.one('#api-classes'),
+    inputNode      = Y.one('#api-filter'),
+    modulesNode    = Y.one('#api-modules'),
+    tabviewNode    = Y.one('#api-tabview'),
+
+    tabs = APIList.tabs = {},
+
+    filter = APIList.filter = new Y.APIFilter({
+        inputNode : inputNode,
+        maxResults: 1000,
+
+        on: {
+            results: onFilterResults
+        }
+    }),
+
+    search = APIList.search = new Y.APISearch({
+        inputNode : inputNode,
+        maxResults: 100,
+
+        on: {
+            clear  : onSearchClear,
+            results: onSearchResults
+        }
+    }),
+
+    tabview = APIList.tabview = new Y.TabView({
+        srcNode  : tabviewNode,
+        panelNode: '#api-tabview-panel',
+        render   : true,
+
+        on: {
+            selectionChange: onTabSelectionChange
+        }
+    }),
+
+    focusManager = APIList.focusManager = tabviewNode.plug(Y.Plugin.NodeFocusManager, {
+        circular   : true,
+        descendants: '#api-filter, .yui3-tab-panel-selected .api-list-item a, .yui3-tab-panel-selected .result a',
+        keys       : {next: 'down:40', previous: 'down:38'}
+    }).focusManager,
+
+    LIST_ITEM_TEMPLATE =
+        '<li class="api-list-item {typeSingular}">' +
+            '<a href="{rootPath}{typePlural}/{name}.html">{displayName}</a>' +
+        '</li>';
+
+// -- Init ---------------------------------------------------------------------
+
+// Duckpunch FocusManager's key event handling to prevent it from handling key
+// events when a modifier is pressed.
+Y.before(function (e, activeDescendant) {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+        return new Y.Do.Prevent();
+    }
+}, focusManager, '_focusPrevious', focusManager);
+
+Y.before(function (e, activeDescendant) {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+        return new Y.Do.Prevent();
+    }
+}, focusManager, '_focusNext', focusManager);
+
+// Create a mapping of tabs in the tabview so we can refer to them easily later.
+tabview.each(function (tab, index) {
+    var name = tab.get('label').toLowerCase();
+
+    tabs[name] = {
+        index: index,
+        name : name,
+        tab  : tab
+    };
+});
+
+// Switch tabs on Ctrl/Cmd-Left/Right arrows.
+tabviewNode.on('key', onTabSwitchKey, 'down:37,39');
+
+// Focus the filter input when the `/` key is pressed.
+Y.one(Y.config.doc).on('key', onSearchKey, 'down:83');
+
+// Keep the Focus Manager up to date.
+inputNode.on('focus', function () {
+    focusManager.set('activeDescendant', inputNode);
+});
+
+// Update all tabview links to resolved URLs.
+tabview.get('panelNode').all('a').each(function (link) {
+    link.setAttribute('href', link.get('href'));
+});
+
+// -- Private Functions --------------------------------------------------------
+function getFilterResultNode() {
+    return filter.get('queryType') === 'classes' ? classesNode : modulesNode;
+}
+
+// -- Event Handlers -----------------------------------------------------------
+function onFilterResults(e) {
+    var frag         = Y.one(Y.config.doc.createDocumentFragment()),
+        resultNode   = getFilterResultNode(),
+        typePlural   = filter.get('queryType'),
+        typeSingular = typePlural === 'classes' ? 'class' : 'module';
+
+    if (e.results.length) {
+        YArray.each(e.results, function (result) {
+            frag.append(Lang.sub(LIST_ITEM_TEMPLATE, {
+                rootPath    : APIList.rootPath,
+                displayName : filter.getDisplayName(result.highlighted),
+                name        : result.text,
+                typePlural  : typePlural,
+                typeSingular: typeSingular
+            }));
+        });
+    } else {
+        frag.append(
+            '<li class="message">' +
+                'No ' + typePlural + ' found.' +
+            '</li>'
+        );
+    }
+
+    resultNode.empty(true);
+    resultNode.append(frag);
+
+    focusManager.refresh();
+}
+
+function onSearchClear(e) {
+
+    focusManager.refresh();
+}
+
+function onSearchKey(e) {
+    var target = e.target;
+
+    if (target.test('input,select,textarea')
+            || target.get('isContentEditable')) {
+        return;
+    }
+
+    e.preventDefault();
+
+    inputNode.focus();
+    focusManager.refresh();
+}
+
+function onSearchResults(e) {
+    var frag = Y.one(Y.config.doc.createDocumentFragment());
+
+    if (e.results.length) {
+        YArray.each(e.results, function (result) {
+            frag.append(result.display);
+        });
+    } else {
+        frag.append(
+            '<li class="message">' +
+                'No results found. Maybe you\'ll have better luck with a ' +
+                'different query?' +
+            '</li>'
+        );
+    }
+
+
+    focusManager.refresh();
+}
+
+function onTabSelectionChange(e) {
+    var tab  = e.newVal,
+        name = tab.get('label').toLowerCase();
+
+    tabs.selected = {
+        index: tab.get('index'),
+        name : name,
+        tab  : tab
+    };
+
+    switch (name) {
+    case 'classes': // fallthru
+    case 'modules':
+        filter.setAttrs({
+            minQueryLength: 0,
+            queryType     : name
+        });
+
+        search.set('minQueryLength', -1);
+
+        // Only send a request if this isn't the initially-selected tab.
+        if (e.prevVal) {
+            filter.sendRequest(filter.get('value'));
+        }
+        break;
+
+    case 'everything':
+        filter.set('minQueryLength', -1);
+        search.set('minQueryLength', 1);
+
+        if (search.get('value')) {
+            search.sendRequest(search.get('value'));
+        } else {
+            inputNode.focus();
+        }
+        break;
+
+    default:
+        // WTF? We shouldn't be here!
+        filter.set('minQueryLength', -1);
+        search.set('minQueryLength', -1);
+    }
+
+    if (focusManager) {
+        setTimeout(function () {
+            focusManager.refresh();
+        }, 1);
+    }
+}
+
+function onTabSwitchKey(e) {
+    var currentTabIndex = tabs.selected.index;
+
+    if (!(e.ctrlKey || e.metaKey)) {
+        return;
+    }
+
+    e.preventDefault();
+
+    switch (e.keyCode) {
+    case 37: // left arrow
+        if (currentTabIndex > 0) {
+            tabview.selectChild(currentTabIndex - 1);
+            inputNode.focus();
+        }
+        break;
+
+    case 39: // right arrow
+        if (currentTabIndex < (Y.Object.size(tabs) - 2)) {
+            tabview.selectChild(currentTabIndex + 1);
+            inputNode.focus();
+        }
+        break;
+    }
+}
+
+}, '3.4.0', {requires: [
+    'api-filter', 'api-search', 'event-key', 'node-focusmanager', 'tabview'
+]});
+YUI.add('api-search', function (Y) {
+
+var Lang   = Y.Lang,
+    Node   = Y.Node,
+    YArray = Y.Array;
+
+Y.APISearch = Y.Base.create('apiSearch', Y.Base, [Y.AutoCompleteBase], {
+    // -- Public Properties ----------------------------------------------------
+    RESULT_TEMPLATE:
+        '<li class="result {resultType}">' +
+            '<a href="{url}">' +
+                '<h3 class="title">{name}</h3>' +
+                '<span class="type">{resultType}</span>' +
+                '<div class="description">{description}</div>' +
+                '<span class="className">{class}</span>' +
+            '</a>' +
+        '</li>',
+
+    // -- Initializer ----------------------------------------------------------
+    initializer: function () {
+        this._bindUIACBase();
+        this._syncUIACBase();
+    },
+
+    // -- Protected Methods ----------------------------------------------------
+    _apiResultFilter: function (query, results) {
+        // Filter components out of the results.
+        return YArray.filter(results, function (result) {
+            return result.raw.resultType === 'component' ? false : result;
+        });
+    },
+
+    _apiResultFormatter: function (query, results) {
+        return YArray.map(results, function (result) {
+            var raw  = Y.merge(result.raw), // create a copy
+                desc = raw.description || '';
+
+            // Convert description to text and truncate it if necessary.
+            desc = Node.create('<div>' + desc + '</div>').get('text');
+
+            if (desc.length > 65) {
+                desc = Y.Escape.html(desc.substr(0, 65)) + ' &hellip;';
+            } else {
+                desc = Y.Escape.html(desc);
+            }
+
+            raw['class'] || (raw['class'] = '');
+            raw.description = desc;
+
+            // Use the highlighted result name.
+            raw.name = result.highlighted;
+
+            return Lang.sub(this.RESULT_TEMPLATE, raw);
+        }, this);
+    },
+
+    _apiTextLocator: function (result) {
+        return result.displayName || result.name;
+    }
+}, {
+    // -- Attributes -----------------------------------------------------------
+    ATTRS: {
+        resultFormatter: {
+            valueFn: function () {
+                return this._apiResultFormatter;
+            }
+        },
+
+        resultFilters: {
+            valueFn: function () {
+                return this._apiResultFilter;
+            }
+        },
+
+        resultHighlighter: {
+            value: 'phraseMatch'
+        },
+
+        resultListLocator: {
+            value: 'data.results'
+        },
+
+        resultTextLocator: {
+            valueFn: function () {
+                return this._apiTextLocator;
+            }
+        },
+
+        source: {
+            value: '/api/v1/search?q={query}&count={maxResults}'
+        }
+    }
+});
+
+}, '3.4.0', {requires: [
+    'autocomplete-base', 'autocomplete-highlighters', 'autocomplete-sources',
+    'escape'
+]});
+YUI().use(
+    'yuidoc-meta',
+    'api-list', 'history-hash', 'node-screen', 'node-style', 'pjax',
+function (Y) {
+
+var win          = Y.config.win,
+    localStorage = win.localStorage,
+
+    bdNode = Y.one('#bd'),
+
+    pjax,
+
+    classTabView,
+    selectedTab;
+
+// Kill pjax functionality unless serving over HTTP.
+if (!Y.getLocation().protocol.match(/^https?\:/)) {
+    Y.Router.html5 = false;
+}
+
+pjax = new Y.Pjax({
+    container      : '#docs-main',
+    contentSelector: '#docs-main > .content',
+    linkSelector   : '#bd a',
+    titleSelector  : '#xhr-title',
+
+    navigateOnHash: true,
+    root          : '/',
+    routes        : [
+        // -- / ----------------------------------------------------------------
+        {path: '/(index.html)?', callback: '_defaultRoute'},
+
+        // -- /classes/* -------------------------------------------------------
+        {path: '/classes/:class.html*', callback: 'handleClasses'},
+        {path: '/classes/:class.html*', callback: '_defaultRoute'},
+
+        // -- /files/* ---------------------------------------------------------
+        {path: '/files/*file', callback: 'handleFiles'},
+        {path: '/files/*file', callback: '_defaultRoute'},
+
+        // -- /modules/* -------------------------------------------------------
+        {path: '/modules/:module.html*', callback: '_defaultRoute'}
+    ]
+});
+
+// -- Utility Functions --------------------------------------------------------
+
+pjax.checkVisibility = function (tab) {
+    tab || (tab = selectedTab);
+
+    if (!tab) { return; }
+
+    var panelNode = tab.get('panelNode'),
+        visibleItems;
+
+    // If no items are visible in the tab panel due to the current visibility
+    // settings, display a message to that effect.
+    visibleItems = panelNode.all('.item,.index-item').some(function (itemNode) {
+        if (itemNode.getComputedStyle('display') !== 'none') {
+            return true;
+        }
+    });
+
+    panelNode.all('.no-visible-items').remove();
+
+    if (!visibleItems) {
+        if (Y.one('#index .index-item')) {
+            panelNode.append(
+                '<div class="no-visible-items">' +
+                    '<p>' +
+                    'Some items are not shown due to the current visibility ' +
+                    'settings. Use the checkboxes at the upper right of this ' +
+                    'page to change the visibility settings.' +
+                    '</p>' +
+                '</div>'
+            );
+        } else {
+            panelNode.append(
+                '<div class="no-visible-items">' +
+                    '<p>' +
+                    'This class doesn\'t provide any methods, properties, ' +
+                    'attributes, or events.' +
+                    '</p>' +
+                '</div>'
+            );
+        }
+    }
+
+    // Hide index sections without any visible items.
+    Y.all('.index-section').each(function (section) {
+        var items        = 0,
+            visibleItems = 0;
+
+        section.all('.index-item').each(function (itemNode) {
+            items += 1;
+
+            if (itemNode.getComputedStyle('display') !== 'none') {
+                visibleItems += 1;
+            }
+        });
+
+        section.toggleClass('hidden', !visibleItems);
+        section.toggleClass('no-columns', visibleItems < 4);
+    });
+};
+
+pjax.initClassTabView = function () {
+    if (!Y.all('#classdocs .api-class-tab').size()) {
+        return;
+    }
+
+    if (classTabView) {
+        classTabView.destroy();
+        selectedTab = null;
+    }
+
+    classTabView = new Y.TabView({
+        srcNode: '#classdocs',
+
+        on: {
+            selectionChange: pjax.onTabSelectionChange
+        }
+    });
+
+    pjax.updateTabState();
+    classTabView.render();
+};
+
+pjax.initLineNumbers = function () {
+    var hash      = win.location.hash.substring(1),
+        container = pjax.get('container'),
+        hasLines, node;
+
+    // Add ids for each line number in the file source view.
+    container.all('.linenums>li').each(function (lineNode, index) {
+        lineNode.set('id', 'l' + (index + 1));
+        lineNode.addClass('file-line');
+        hasLines = true;
+    });
+
+    // Scroll to the desired line.
+    if (hasLines && /^l\d+$/.test(hash)) {
+        if ((node = container.getById(hash))) {
+            win.scroll(0, node.getY());
+        }
+    }
+};
+
+pjax.initRoot = function () {
+    var terminators = /^(?:classes|files|modules)$/,
+        parts       = pjax._getRoot().split('/'),
+        root        = [],
+        i, len, part;
+
+    for (i = 0, len = parts.length; i < len; i += 1) {
+        part = parts[i];
+
+        if (part.match(terminators)) {
+            // Makes sure the path will end with a "/".
+            root.push('');
+            break;
+        }
+
+        root.push(part);
+    }
+
+    pjax.set('root', root.join('/'));
+};
+
+pjax.updateTabState = function (src) {
+    var hash = win.location.hash.substring(1),
+        defaultTab, node, tab, tabPanel;
+
+    function scrollToNode() {
+        if (node.hasClass('protected')) {
+            Y.one('#api-show-protected').set('checked', true);
+            pjax.updateVisibility();
+        }
+
+        if (node.hasClass('private')) {
+            Y.one('#api-show-private').set('checked', true);
+            pjax.updateVisibility();
+        }
+
+        setTimeout(function () {
+            // For some reason, unless we re-get the node instance here,
+            // getY() always returns 0.
+            var node = Y.one('#classdocs').getById(hash);
+            win.scrollTo(0, node.getY() - 70);
+        }, 1);
+    }
+
+    if (!classTabView) {
+        return;
+    }
+
+    if (src === 'hashchange' && !hash) {
+        defaultTab = 'index';
+    } else {
+        if (localStorage) {
+            defaultTab = localStorage.getItem('tab_' + pjax.getPath()) ||
+                'index';
+        } else {
+            defaultTab = 'index';
+        }
+    }
+
+    if (hash && (node = Y.one('#classdocs').getById(hash))) {
+        if ((tabPanel = node.ancestor('.api-class-tabpanel', true))) {
+            if ((tab = Y.one('#classdocs .api-class-tab.' + tabPanel.get('id')))) {
+                if (classTabView.get('rendered')) {
+                    Y.Widget.getByNode(tab).set('selected', 1);
+                } else {
+                    tab.addClass('yui3-tab-selected');
+                }
+            }
+        }
+
+        // Scroll to the desired element if this is a hash URL.
+        if (node) {
+            if (classTabView.get('rendered')) {
+                scrollToNode();
+            } else {
+                classTabView.once('renderedChange', scrollToNode);
+            }
+        }
+    } else {
+        tab = Y.one('#classdocs .api-class-tab.' + defaultTab);
+
+        if (classTabView.get('rendered')) {
+            Y.Widget.getByNode(tab).set('selected', 1);
+        } else {
+            tab.addClass('yui3-tab-selected');
+        }
+    }
+};
+
+pjax.updateVisibility = function () {
+    var container = pjax.get('container');
+
+    container.toggleClass('hide-inherited',
+            !Y.one('#api-show-inherited').get('checked'));
+
+    container.toggleClass('show-deprecated',
+            Y.one('#api-show-deprecated').get('checked'));
+
+    container.toggleClass('show-protected',
+            Y.one('#api-show-protected').get('checked'));
+
+    container.toggleClass('show-private',
+            Y.one('#api-show-private').get('checked'));
+
+    pjax.checkVisibility();
+};
+
+// -- Route Handlers -----------------------------------------------------------
+
+pjax.handleClasses = function (req, res, next) {
+    pjax.onceAfter(['error', 'load'], function (e) {
+        if (e.type === 'pjax:load') {
+            pjax.initClassTabView();
+        }
+    });
+
+    next();
+};
+
+pjax.handleFiles = function (req, res, next) {
+    pjax.onceAfter(['error', 'load'], function (e) {
+        if (e.type === 'pjax:load') {
+            pjax.initLineNumbers();
+        }
+    });
+
+    next();
+};
+
+// -- Event Handlers -----------------------------------------------------------
+
+pjax.afterContent = function (e) {
+    // Enable syntax highlighting on the loaded content.
+    prettyPrint();
+
+    bdNode.removeClass('loading');
+};
+
+pjax.onNavigate = function (e) {
+    var hash         = e.hash,
+        originTarget = e.originEvent && e.originEvent.target,
+        tab;
+
+    if (hash) {
+        tab = originTarget && originTarget.ancestor('.yui3-tab', true);
+
+        if (hash === win.location.hash) {
+            pjax.updateTabState('hashchange');
+        } else if (!tab) {
+            win.location.hash = hash;
+        }
+
+        e.preventDefault();
+        return;
+    }
+
+    // Only scroll to the top of the page when the URL doesn't have a hash.
+    this.set('scrollToTop', !e.url.match(/#.+$/));
+
+    bdNode.addClass('loading');
+};
+
+pjax.onOptionClick = function (e) {
+    pjax.updateVisibility();
+};
+
+pjax.onTabSelectionChange = function (e) {
+    var tab   = e.newVal,
+        tabId = tab.get('contentBox').getAttribute('href').substring(1);
+
+    selectedTab = tab;
+
+    // If switching from a previous tab (i.e., this is not the default tab),
+    // replace the history entry with a hash URL that will cause this tab to
+    // be selected if the user navigates away and then returns using the back
+    // or forward buttons.
+    if (e.prevVal && localStorage) {
+        localStorage.setItem('tab_' + pjax.getPath(), tabId);
+    }
+
+    pjax.checkVisibility(tab);
+};
+
+// -- Init ---------------------------------------------------------------------
+
+pjax.on('navigate', pjax.onNavigate);
+pjax.after(['error', 'load'], pjax.afterContent);
+
+pjax.initRoot();
+pjax.initClassTabView();
+pjax.initLineNumbers();
+pjax.updateVisibility();
+pjax.upgrade();
+
+Y.APIList.rootPath = pjax.get('root');
+
+Y.one('#api-options').delegate('click', pjax.onOptionClick, 'input');
+
+Y.on('hashchange', function (e) {
+    pjax.updateTabState('hashchange');
+}, win);
+
+});
+YUI().use('node', function(Y) {
+    var code = Y.all('.prettyprint.linenums');
+    if (code.size()) {
+        code.each(function(c) {
+            var lis = c.all('ol li'),
+                l = 1;
+            lis.each(function(n) {
+                n.prepend('<a name="LINENUM_' + l + '"></a>');
+                l++;
+            });
+        });
+        var h = location.hash;
+        location.hash = '';
+        h = h.replace('LINE_', 'LINENUM_');
+        location.hash = h;
+    }
+});
+window.PR_SHOULD_USE_CONTINUATION=true;window.PR_TAB_WIDTH=8;window.PR_normalizedHtml=window.PR=window.prettyPrintOne=window.prettyPrint=void 0;window._pr_isIE6=function(){var y=navigator&&navigator.userAgent&&navigator.userAgent.match(/\bMSIE ([678])\./);y=y?+y[1]:false;window._pr_isIE6=function(){return y};return y};
+(function(){function y(b){return b.replace(L,"&amp;").replace(M,"&lt;").replace(N,"&gt;")}function H(b,f,i){switch(b.nodeType){case 1:var o=b.tagName.toLowerCase();f.push("<",o);var l=b.attributes,n=l.length;if(n){if(i){for(var r=[],j=n;--j>=0;)r[j]=l[j];r.sort(function(q,m){return q.name<m.name?-1:q.name===m.name?0:1});l=r}for(j=0;j<n;++j){r=l[j];r.specified&&f.push(" ",r.name.toLowerCase(),'="',r.value.replace(L,"&amp;").replace(M,"&lt;").replace(N,"&gt;").replace(X,"&quot;"),'"')}}f.push(">");
+for(l=b.firstChild;l;l=l.nextSibling)H(l,f,i);if(b.firstChild||!/^(?:br|link|img)$/.test(o))f.push("</",o,">");break;case 3:case 4:f.push(y(b.nodeValue));break}}function O(b){function f(c){if(c.charAt(0)!=="\\")return c.charCodeAt(0);switch(c.charAt(1)){case "b":return 8;case "t":return 9;case "n":return 10;case "v":return 11;case "f":return 12;case "r":return 13;case "u":case "x":return parseInt(c.substring(2),16)||c.charCodeAt(1);case "0":case "1":case "2":case "3":case "4":case "5":case "6":case "7":return parseInt(c.substring(1),
+8);default:return c.charCodeAt(1)}}function i(c){if(c<32)return(c<16?"\\x0":"\\x")+c.toString(16);c=String.fromCharCode(c);if(c==="\\"||c==="-"||c==="["||c==="]")c="\\"+c;return c}function o(c){var d=c.substring(1,c.length-1).match(RegExp("\\\\u[0-9A-Fa-f]{4}|\\\\x[0-9A-Fa-f]{2}|\\\\[0-3][0-7]{0,2}|\\\\[0-7]{1,2}|\\\\[\\s\\S]|-|[^-\\\\]","g"));c=[];for(var a=[],k=d[0]==="^",e=k?1:0,h=d.length;e<h;++e){var g=d[e];switch(g){case "\\B":case "\\b":case "\\D":case "\\d":case "\\S":case "\\s":case "\\W":case "\\w":c.push(g);
+continue}g=f(g);var s;if(e+2<h&&"-"===d[e+1]){s=f(d[e+2]);e+=2}else s=g;a.push([g,s]);if(!(s<65||g>122)){s<65||g>90||a.push([Math.max(65,g)|32,Math.min(s,90)|32]);s<97||g>122||a.push([Math.max(97,g)&-33,Math.min(s,122)&-33])}}a.sort(function(v,w){return v[0]-w[0]||w[1]-v[1]});d=[];g=[NaN,NaN];for(e=0;e<a.length;++e){h=a[e];if(h[0]<=g[1]+1)g[1]=Math.max(g[1],h[1]);else d.push(g=h)}a=["["];k&&a.push("^");a.push.apply(a,c);for(e=0;e<d.length;++e){h=d[e];a.push(i(h[0]));if(h[1]>h[0]){h[1]+1>h[0]&&a.push("-");
+a.push(i(h[1]))}}a.push("]");return a.join("")}function l(c){for(var d=c.source.match(RegExp("(?:\\[(?:[^\\x5C\\x5D]|\\\\[\\s\\S])*\\]|\\\\u[A-Fa-f0-9]{4}|\\\\x[A-Fa-f0-9]{2}|\\\\[0-9]+|\\\\[^ux0-9]|\\(\\?[:!=]|[\\(\\)\\^]|[^\\x5B\\x5C\\(\\)\\^]+)","g")),a=d.length,k=[],e=0,h=0;e<a;++e){var g=d[e];if(g==="(")++h;else if("\\"===g.charAt(0))if((g=+g.substring(1))&&g<=h)k[g]=-1}for(e=1;e<k.length;++e)if(-1===k[e])k[e]=++n;for(h=e=0;e<a;++e){g=d[e];if(g==="("){++h;if(k[h]===undefined)d[e]="(?:"}else if("\\"===
+g.charAt(0))if((g=+g.substring(1))&&g<=h)d[e]="\\"+k[h]}for(h=e=0;e<a;++e)if("^"===d[e]&&"^"!==d[e+1])d[e]="";if(c.ignoreCase&&r)for(e=0;e<a;++e){g=d[e];c=g.charAt(0);if(g.length>=2&&c==="[")d[e]=o(g);else if(c!=="\\")d[e]=g.replace(/[a-zA-Z]/g,function(s){s=s.charCodeAt(0);return"["+String.fromCharCode(s&-33,s|32)+"]"})}return d.join("")}for(var n=0,r=false,j=false,q=0,m=b.length;q<m;++q){var t=b[q];if(t.ignoreCase)j=true;else if(/[a-z]/i.test(t.source.replace(/\\u[0-9a-f]{4}|\\x[0-9a-f]{2}|\\[^ux]/gi,
+""))){r=true;j=false;break}}var p=[];q=0;for(m=b.length;q<m;++q){t=b[q];if(t.global||t.multiline)throw Error(""+t);p.push("(?:"+l(t)+")")}return RegExp(p.join("|"),j?"gi":"g")}function Y(b){var f=0;return function(i){for(var o=null,l=0,n=0,r=i.length;n<r;++n)switch(i.charAt(n)){case "\t":o||(o=[]);o.push(i.substring(l,n));l=b-f%b;for(f+=l;l>=0;l-=16)o.push("                ".substring(0,l));l=n+1;break;case "\n":f=0;break;default:++f}if(!o)return i;o.push(i.substring(l));return o.join("")}}function I(b,
+f,i,o){if(f){b={source:f,c:b};i(b);o.push.apply(o,b.d)}}function B(b,f){var i={},o;(function(){for(var r=b.concat(f),j=[],q={},m=0,t=r.length;m<t;++m){var p=r[m],c=p[3];if(c)for(var d=c.length;--d>=0;)i[c.charAt(d)]=p;p=p[1];c=""+p;if(!q.hasOwnProperty(c)){j.push(p);q[c]=null}}j.push(/[\0-\uffff]/);o=O(j)})();var l=f.length;function n(r){for(var j=r.c,q=[j,z],m=0,t=r.source.match(o)||[],p={},c=0,d=t.length;c<d;++c){var a=t[c],k=p[a],e=void 0,h;if(typeof k==="string")h=false;else{var g=i[a.charAt(0)];
+if(g){e=a.match(g[1]);k=g[0]}else{for(h=0;h<l;++h){g=f[h];if(e=a.match(g[1])){k=g[0];break}}e||(k=z)}if((h=k.length>=5&&"lang-"===k.substring(0,5))&&!(e&&typeof e[1]==="string")){h=false;k=P}h||(p[a]=k)}g=m;m+=a.length;if(h){h=e[1];var s=a.indexOf(h),v=s+h.length;if(e[2]){v=a.length-e[2].length;s=v-h.length}k=k.substring(5);I(j+g,a.substring(0,s),n,q);I(j+g+s,h,Q(k,h),q);I(j+g+v,a.substring(v),n,q)}else q.push(j+g,k)}r.d=q}return n}function x(b){var f=[],i=[];if(b.tripleQuotedStrings)f.push([A,/^(?:\'\'\'(?:[^\'\\]|\\[\s\S]|\'{1,2}(?=[^\']))*(?:\'\'\'|$)|\"\"\"(?:[^\"\\]|\\[\s\S]|\"{1,2}(?=[^\"]))*(?:\"\"\"|$)|\'(?:[^\\\']|\\[\s\S])*(?:\'|$)|\"(?:[^\\\"]|\\[\s\S])*(?:\"|$))/,
+null,"'\""]);else b.multiLineStrings?f.push([A,/^(?:\'(?:[^\\\']|\\[\s\S])*(?:\'|$)|\"(?:[^\\\"]|\\[\s\S])*(?:\"|$)|\`(?:[^\\\`]|\\[\s\S])*(?:\`|$))/,null,"'\"`"]):f.push([A,/^(?:\'(?:[^\\\'\r\n]|\\.)*(?:\'|$)|\"(?:[^\\\"\r\n]|\\.)*(?:\"|$))/,null,"\"'"]);b.verbatimStrings&&i.push([A,/^@\"(?:[^\"]|\"\")*(?:\"|$)/,null]);if(b.hashComments)if(b.cStyleComments){f.push([C,/^#(?:(?:define|elif|else|endif|error|ifdef|include|ifndef|line|pragma|undef|warning)\b|[^\r\n]*)/,null,"#"]);i.push([A,/^<(?:(?:(?:\.\.\/)*|\/?)(?:[\w-]+(?:\/[\w-]+)+)?[\w-]+\.h|[a-z]\w*)>/,
+null])}else f.push([C,/^#[^\r\n]*/,null,"#"]);if(b.cStyleComments){i.push([C,/^\/\/[^\r\n]*/,null]);i.push([C,/^\/\*[\s\S]*?(?:\*\/|$)/,null])}b.regexLiterals&&i.push(["lang-regex",RegExp("^"+Z+"(/(?=[^/*])(?:[^/\\x5B\\x5C]|\\x5C[\\s\\S]|\\x5B(?:[^\\x5C\\x5D]|\\x5C[\\s\\S])*(?:\\x5D|$))+/)")]);b=b.keywords.replace(/^\s+|\s+$/g,"");b.length&&i.push([R,RegExp("^(?:"+b.replace(/\s+/g,"|")+")\\b"),null]);f.push([z,/^\s+/,null," \r\n\t\u00a0"]);i.push([J,/^@[a-z_$][a-z_$@0-9]*/i,null],[S,/^@?[A-Z]+[a-z][A-Za-z_$@0-9]*/,
+null],[z,/^[a-z_$][a-z_$@0-9]*/i,null],[J,/^(?:0x[a-f0-9]+|(?:\d(?:_\d+)*\d*(?:\.\d*)?|\.\d\+)(?:e[+\-]?\d+)?)[a-z]*/i,null,"0123456789"],[E,/^.[^\s\w\.$@\'\"\`\/\#]*/,null]);return B(f,i)}function $(b){function f(D){if(D>r){if(j&&j!==q){n.push("</span>");j=null}if(!j&&q){j=q;n.push('<span class="',j,'">')}var T=y(p(i.substring(r,D))).replace(e?d:c,"$1&#160;");e=k.test(T);n.push(T.replace(a,s));r=D}}var i=b.source,o=b.g,l=b.d,n=[],r=0,j=null,q=null,m=0,t=0,p=Y(window.PR_TAB_WIDTH),c=/([\r\n ]) /g,
+d=/(^| ) /gm,a=/\r\n?|\n/g,k=/[ \r\n]$/,e=true,h=window._pr_isIE6();h=h?b.b.tagName==="PRE"?h===6?"&#160;\r\n":h===7?"&#160;<br>\r":"&#160;\r":"&#160;<br />":"<br />";var g=b.b.className.match(/\blinenums\b(?::(\d+))?/),s;if(g){for(var v=[],w=0;w<10;++w)v[w]=h+'</li><li class="L'+w+'">';var F=g[1]&&g[1].length?g[1]-1:0;n.push('<ol class="linenums"><li class="L',F%10,'"');F&&n.push(' value="',F+1,'"');n.push(">");s=function(){var D=v[++F%10];return j?"</span>"+D+'<span class="'+j+'">':D}}else s=h;
+for(;;)if(m<o.length?t<l.length?o[m]<=l[t]:true:false){f(o[m]);if(j){n.push("</span>");j=null}n.push(o[m+1]);m+=2}else if(t<l.length){f(l[t]);q=l[t+1];t+=2}else break;f(i.length);j&&n.push("</span>");g&&n.push("</li></ol>");b.a=n.join("")}function u(b,f){for(var i=f.length;--i>=0;){var o=f[i];if(G.hasOwnProperty(o))"console"in window&&console.warn("cannot override language handler %s",o);else G[o]=b}}function Q(b,f){b&&G.hasOwnProperty(b)||(b=/^\s*</.test(f)?"default-markup":"default-code");return G[b]}
+function U(b){var f=b.f,i=b.e;b.a=f;try{var o,l=f.match(aa);f=[];var n=0,r=[];if(l)for(var j=0,q=l.length;j<q;++j){var m=l[j];if(m.length>1&&m.charAt(0)==="<"){if(!ba.test(m))if(ca.test(m)){f.push(m.substring(9,m.length-3));n+=m.length-12}else if(da.test(m)){f.push("\n");++n}else if(m.indexOf(V)>=0&&m.replace(/\s(\w+)\s*=\s*(?:\"([^\"]*)\"|'([^\']*)'|(\S+))/g,' $1="$2$3$4"').match(/[cC][lL][aA][sS][sS]=\"[^\"]*\bnocode\b/)){var t=m.match(W)[2],p=1,c;c=j+1;a:for(;c<q;++c){var d=l[c].match(W);if(d&&
+d[2]===t)if(d[1]==="/"){if(--p===0)break a}else++p}if(c<q){r.push(n,l.slice(j,c+1).join(""));j=c}else r.push(n,m)}else r.push(n,m)}else{var a;p=m;var k=p.indexOf("&");if(k<0)a=p;else{for(--k;(k=p.indexOf("&#",k+1))>=0;){var e=p.indexOf(";",k);if(e>=0){var h=p.substring(k+3,e),g=10;if(h&&h.charAt(0)==="x"){h=h.substring(1);g=16}var s=parseInt(h,g);isNaN(s)||(p=p.substring(0,k)+String.fromCharCode(s)+p.substring(e+1))}}a=p.replace(ea,"<").replace(fa,">").replace(ga,"'").replace(ha,'"').replace(ia," ").replace(ja,
+"&")}f.push(a);n+=a.length}}o={source:f.join(""),h:r};var v=o.source;b.source=v;b.c=0;b.g=o.h;Q(i,v)(b);$(b)}catch(w){if("console"in window)console.log(w&&w.stack?w.stack:w)}}var A="str",R="kwd",C="com",S="typ",J="lit",E="pun",z="pln",P="src",V="nocode",Z=function(){for(var b=["!","!=","!==","#","%","%=","&","&&","&&=","&=","(","*","*=","+=",",","-=","->","/","/=",":","::",";","<","<<","<<=","<=","=","==","===",">",">=",">>",">>=",">>>",">>>=","?","@","[","^","^=","^^","^^=","{","|","|=","||","||=",
+"~","break","case","continue","delete","do","else","finally","instanceof","return","throw","try","typeof"],f="(?:^^|[+-]",i=0;i<b.length;++i)f+="|"+b[i].replace(/([^=<>:&a-z])/g,"\\$1");f+=")\\s*";return f}(),L=/&/g,M=/</g,N=/>/g,X=/\"/g,ea=/&lt;/g,fa=/&gt;/g,ga=/&apos;/g,ha=/&quot;/g,ja=/&amp;/g,ia=/&nbsp;/g,ka=/[\r\n]/g,K=null,aa=RegExp("[^<]+|<!--[\\s\\S]*?--\>|<!\\[CDATA\\[[\\s\\S]*?\\]\\]>|</?[a-zA-Z](?:[^>\"']|'[^']*'|\"[^\"]*\")*>|<","g"),ba=/^<\!--/,ca=/^<!\[CDATA\[/,da=/^<br\b/i,W=/^<(\/?)([a-zA-Z][a-zA-Z0-9]*)/,
+la=x({keywords:"break continue do else for if return while auto case char const default double enum extern float goto int long register short signed sizeof static struct switch typedef union unsigned void volatile catch class delete false import new operator private protected public this throw true try typeof alignof align_union asm axiom bool concept concept_map const_cast constexpr decltype dynamic_cast explicit export friend inline late_check mutable namespace nullptr reinterpret_cast static_assert static_cast template typeid typename using virtual wchar_t where break continue do else for if return while auto case char const default double enum extern float goto int long register short signed sizeof static struct switch typedef union unsigned void volatile catch class delete false import new operator private protected public this throw true try typeof abstract boolean byte extends final finally implements import instanceof null native package strictfp super synchronized throws transient as base by checked decimal delegate descending event fixed foreach from group implicit in interface internal into is lock object out override orderby params partial readonly ref sbyte sealed stackalloc string select uint ulong unchecked unsafe ushort var break continue do else for if return while auto case char const default double enum extern float goto int long register short signed sizeof static struct switch typedef union unsigned void volatile catch class delete false import new operator private protected public this throw true try typeof debugger eval export function get null set undefined var with Infinity NaN caller delete die do dump elsif eval exit foreach for goto if import last local my next no our print package redo require sub undef unless until use wantarray while BEGIN END break continue do else for if return while and as assert class def del elif except exec finally from global import in is lambda nonlocal not or pass print raise try with yield False True None break continue do else for if return while alias and begin case class def defined elsif end ensure false in module next nil not or redo rescue retry self super then true undef unless until when yield BEGIN END break continue do else for if return while case done elif esac eval fi function in local set then until ",
+hashComments:true,cStyleComments:true,multiLineStrings:true,regexLiterals:true}),G={};u(la,["default-code"]);u(B([],[[z,/^[^<?]+/],["dec",/^<!\w[^>]*(?:>|$)/],[C,/^<\!--[\s\S]*?(?:-\->|$)/],["lang-",/^<\?([\s\S]+?)(?:\?>|$)/],["lang-",/^<%([\s\S]+?)(?:%>|$)/],[E,/^(?:<[%?]|[%?]>)/],["lang-",/^<xmp\b[^>]*>([\s\S]+?)<\/xmp\b[^>]*>/i],["lang-js",/^<script\b[^>]*>([\s\S]*?)(<\/script\b[^>]*>)/i],["lang-css",/^<style\b[^>]*>([\s\S]*?)(<\/style\b[^>]*>)/i],["lang-in.tag",/^(<\/?[a-z][^<>]*>)/i]]),["default-markup",
+"htm","html","mxml","xhtml","xml","xsl"]);u(B([[z,/^[\s]+/,null," \t\r\n"],["atv",/^(?:\"[^\"]*\"?|\'[^\']*\'?)/,null,"\"'"]],[["tag",/^^<\/?[a-z](?:[\w.:-]*\w)?|\/?>$/i],["atn",/^(?!style[\s=]|on)[a-z](?:[\w:-]*\w)?/i],["lang-uq.val",/^=\s*([^>\'\"\s]*(?:[^>\'\"\s\/]|\/(?=\s)))/],[E,/^[=<>\/]+/],["lang-js",/^on\w+\s*=\s*\"([^\"]+)\"/i],["lang-js",/^on\w+\s*=\s*\'([^\']+)\'/i],["lang-js",/^on\w+\s*=\s*([^\"\'>\s]+)/i],["lang-css",/^style\s*=\s*\"([^\"]+)\"/i],["lang-css",/^style\s*=\s*\'([^\']+)\'/i],
+["lang-css",/^style\s*=\s*([^\"\'>\s]+)/i]]),["in.tag"]);u(B([],[["atv",/^[\s\S]+/]]),["uq.val"]);u(x({keywords:"break continue do else for if return while auto case char const default double enum extern float goto int long register short signed sizeof static struct switch typedef union unsigned void volatile catch class delete false import new operator private protected public this throw true try typeof alignof align_union asm axiom bool concept concept_map const_cast constexpr decltype dynamic_cast explicit export friend inline late_check mutable namespace nullptr reinterpret_cast static_assert static_cast template typeid typename using virtual wchar_t where ",
+hashComments:true,cStyleComments:true}),["c","cc","cpp","cxx","cyc","m"]);u(x({keywords:"null true false"}),["json"]);u(x({keywords:"break continue do else for if return while auto case char const default double enum extern float goto int long register short signed sizeof static struct switch typedef union unsigned void volatile catch class delete false import new operator private protected public this throw true try typeof abstract boolean byte extends final finally implements import instanceof null native package strictfp super synchronized throws transient as base by checked decimal delegate descending event fixed foreach from group implicit in interface internal into is lock object out override orderby params partial readonly ref sbyte sealed stackalloc string select uint ulong unchecked unsafe ushort var ",
+hashComments:true,cStyleComments:true,verbatimStrings:true}),["cs"]);u(x({keywords:"break continue do else for if return while auto case char const default double enum extern float goto int long register short signed sizeof static struct switch typedef union unsigned void volatile catch class delete false import new operator private protected public this throw true try typeof abstract boolean byte extends final finally implements import instanceof null native package strictfp super synchronized throws transient ",
+cStyleComments:true}),["java"]);u(x({keywords:"break continue do else for if return while case done elif esac eval fi function in local set then until ",hashComments:true,multiLineStrings:true}),["bsh","csh","sh"]);u(x({keywords:"break continue do else for if return while and as assert class def del elif except exec finally from global import in is lambda nonlocal not or pass print raise try with yield False True None ",hashComments:true,multiLineStrings:true,tripleQuotedStrings:true}),["cv","py"]);
+u(x({keywords:"caller delete die do dump elsif eval exit foreach for goto if import last local my next no our print package redo require sub undef unless until use wantarray while BEGIN END ",hashComments:true,multiLineStrings:true,regexLiterals:true}),["perl","pl","pm"]);u(x({keywords:"break continue do else for if return while alias and begin case class def defined elsif end ensure false in module next nil not or redo rescue retry self super then true undef unless until when yield BEGIN END ",hashComments:true,
+multiLineStrings:true,regexLiterals:true}),["rb"]);u(x({keywords:"break continue do else for if return while auto case char const default double enum extern float goto int long register short signed sizeof static struct switch typedef union unsigned void volatile catch class delete false import new operator private protected public this throw true try typeof debugger eval export function get null set undefined var with Infinity NaN ",cStyleComments:true,regexLiterals:true}),["js"]);u(B([],[[A,/^[\s\S]+/]]),
+["regex"]);window.PR_normalizedHtml=H;window.prettyPrintOne=function(b,f){var i={f:b,e:f};U(i);return i.a};window.prettyPrint=function(b){function f(){for(var t=window.PR_SHOULD_USE_CONTINUATION?j.now()+250:Infinity;q<o.length&&j.now()<t;q++){var p=o[q];if(p.className&&p.className.indexOf("prettyprint")>=0){var c=p.className.match(/\blang-(\w+)\b/);if(c)c=c[1];for(var d=false,a=p.parentNode;a;a=a.parentNode)if((a.tagName==="pre"||a.tagName==="code"||a.tagName==="xmp")&&a.className&&a.className.indexOf("prettyprint")>=
+0){d=true;break}if(!d){a=p;if(null===K){d=document.createElement("PRE");d.appendChild(document.createTextNode('<!DOCTYPE foo PUBLIC "foo bar">\n<foo />'));K=!/</.test(d.innerHTML)}if(K){d=a.innerHTML;if("XMP"===a.tagName)d=y(d);else{a=a;if("PRE"===a.tagName)a=true;else if(ka.test(d)){var k="";if(a.currentStyle)k=a.currentStyle.whiteSpace;else if(window.getComputedStyle)k=window.getComputedStyle(a,null).whiteSpace;a=!k||k==="pre"}else a=true;a||(d=d.replace(/(<br\s*\/?>)[\r\n]+/g,"$1").replace(/(?:[\r\n]+[ \t]*)+/g,
+" "))}d=d}else{d=[];for(a=a.firstChild;a;a=a.nextSibling)H(a,d);d=d.join("")}d=d.replace(/(?:\r\n?|\n)$/,"");m={f:d,e:c,b:p};U(m);if(p=m.a){c=m.b;if("XMP"===c.tagName){d=document.createElement("PRE");for(a=0;a<c.attributes.length;++a){k=c.attributes[a];if(k.specified)if(k.name.toLowerCase()==="class")d.className=k.value;else d.setAttribute(k.name,k.value)}d.innerHTML=p;c.parentNode.replaceChild(d,c)}else c.innerHTML=p}}}}if(q<o.length)setTimeout(f,250);else b&&b()}for(var i=[document.getElementsByTagName("pre"),
+document.getElementsByTagName("code"),document.getElementsByTagName("xmp")],o=[],l=0;l<i.length;++l)for(var n=0,r=i[l].length;n<r;++n)o.push(i[l][n]);i=null;var j=Date;j.now||(j={now:function(){return(new Date).getTime()}});var q=0,m;f()};window.PR={combinePrefixPatterns:O,createSimpleLexer:B,registerLangHandler:u,sourceDecorator:x,PR_ATTRIB_NAME:"atn",PR_ATTRIB_VALUE:"atv",PR_COMMENT:C,PR_DECLARATION:"dec",PR_KEYWORD:R,PR_LITERAL:J,PR_NOCODE:V,PR_PLAIN:z,PR_PUNCTUATION:E,PR_SOURCE:P,PR_STRING:A,
+PR_TAG:"tag",PR_TYPE:S}})()
+PR.registerLangHandler(PR.createSimpleLexer([["pln",/^[ \t\r\n\f]+/,null," \t\r\n\u000c"]],[["str",/^\"(?:[^\n\r\f\\\"]|\\(?:\r\n?|\n|\f)|\\[\s\S])*\"/,null],["str",/^\'(?:[^\n\r\f\\\']|\\(?:\r\n?|\n|\f)|\\[\s\S])*\'/,null],["lang-css-str",/^url\(([^\)\"\']*)\)/i],["kwd",/^(?:url|rgb|\!important|@import|@page|@media|@charset|inherit)(?=[^\-\w]|$)/i,null],["lang-css-kw",/^(-?(?:[_a-z]|(?:\\[0-9a-f]+ ?))(?:[_a-z0-9\-]|\\(?:\\[0-9a-f]+ ?))*)\s*:/i],["com",/^\/\*[^*]*\*+(?:[^\/*][^*]*\*+)*\//],
+["com",/^(?:<!--|--\>)/],["lit",/^(?:\d+|\d*\.\d+)(?:%|[a-z]+)?/i],["lit",/^#(?:[0-9a-f]{3}){1,2}/i],["pln",/^-?(?:[_a-z]|(?:\\[\da-f]+ ?))(?:[_a-z\d\-]|\\(?:\\[\da-f]+ ?))*/i],["pun",/^[^\s\w\'\"]+/]]),["css"]);PR.registerLangHandler(PR.createSimpleLexer([],[["kwd",/^-?(?:[_a-z]|(?:\\[\da-f]+ ?))(?:[_a-z\d\-]|\\(?:\\[\da-f]+ ?))*/i]]),["css-kw"]);PR.registerLangHandler(PR.createSimpleLexer([],[["str",/^[^\)\"\']+/]]),["css-str"])/*
 Copyright 2011, KISSY UI Library v1.1.5
 MIT Licensed
 build time: Sep 11 10:29

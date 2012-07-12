@@ -1,5 +1,5 @@
 .ks-radio,.ks-radio-hover,.ks-radio-selected,.ks-radio-disabled{
-	background:url('http://img03.taobaocdn.com/tps/i3/T1AJbXXfxlXXaFMh7j-57-201.png') -21px -132px;
+	background:url('http://img03.taobaocdn.com/tps/i3/T1Xj_tXbxeXXaKS.fo-232-65.png') -7px -33px;
 	cursor: pointer;
 	height: 17px;
 	line-height: 18px;
@@ -9,11 +9,11 @@
 	display: inline-block;			
 }
 .ks-radio-disabled{
-	background-position:-21px -98px;			
+	background-position:-153px -33px;			
 }
 .ks-radio-hover{
-	background-position:-21px -58px;
+	background-position:-170px -33px;
 }
 .ks-radio-selected{
-	background-position:-21px -15px;			
+	background-position:-80px -33px;			
 }
