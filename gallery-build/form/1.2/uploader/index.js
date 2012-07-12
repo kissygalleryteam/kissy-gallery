@@ -743,6 +743,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 //如果是flash上传，并不存在文件上传域input
                 file.input = ev.input || file;
             });
+            files = self._processExceedMultiple(files);
             self.fire(Uploader.event.SELECT, {files : files});
             //阻止文件上传
             if (!self.get('isAllowUpload')) return false;
@@ -751,6 +752,16 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 if (curId == EMPTY && autoUpload) {
                     self.uploadFiles();
                 }
+            });
+        },
+        /**
+         * 超过最大多选数予以截断
+         */
+        _processExceedMultiple:function(files){
+            var self = this,multipleLen = self.get('multipleLen');
+            if(multipleLen < 0 || !S.isArray(files) || !files.length) return files;
+            return S.filter(files,function(file,index){
+                 return index < multipleLen;
             });
         },
         /**
@@ -910,6 +921,13 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
             }
         },
         /**
+         * 用于限制多选文件个数，值为负时不设置多选限制
+         * @type Number
+         * @default -1
+         * @since V1.2.6
+         */
+        multipleLen:{ value:-1 },
+        /**
          * 是否可用,false为可用
          * @type Boolean
          * @default false
@@ -931,6 +949,33 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
          * @default  {action:EMPTY, data:{}, dataType:'json'}
          */
         serverConfig:{value:{action:EMPTY, data:{}, dataType:'json'}},
+        /**
+         * 此配置用于动态修改post给服务器的数据，会覆盖serverConfig的data配置
+         * @type Object
+         * @default {}
+         * @since V1.2.6
+         */
+        data:{
+            value:{},
+            getter:function(){
+                var self = this,uploadType = self.get('uploadType'),
+                    data = self.get('serverConfig').data || {};
+                if(uploadType){
+                    data = uploadType.get('data');
+                }
+                return data;
+            },
+            setter:function(v){
+                if(S.isObject(v)){
+                    var self = this,uploadType = self.get('uploadType');
+                    if(uploadType){
+                        uploadType.set('data',v);
+                        self.set('serverConfig',S.mix(self.get('serverConfig'),{data:v}));
+                    }
+                }
+                return v;
+            }
+        },
         /**
          * 是否允许上传文件
          * @type Boolean

@@ -117,9 +117,9 @@
 <span class='line'>110</span> </span><span class="WHIT">                    </span><span class="NAME">theme.set</span><span class="PUNC">(</span><span class="STRN">'queue'</span><span class="PUNC">,</span><span class="NAME">uploader.get</span><span class="PUNC">(</span><span class="STRN">'queue'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>111</span> </span><span class="WHIT">                    </span><span class="NAME">theme.set</span><span class="PUNC">(</span><span class="STRN">'auth'</span><span class="PUNC">,</span><span class="NAME">uploader.get</span><span class="PUNC">(</span><span class="STRN">'auth'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>112</span> </span><span class="WHIT">                    </span><span class="NAME">theme._UploaderRender</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>113</span> </span><span class="WHIT">                        </span><span class="COMM">// 抓取restoreHook容器内的数据，生成文件DOM</span><span class="WHIT">
-<span class='line'>114</span> </span><span class="WHIT">                        </span><span class="NAME">uploader.restore</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>115</span> </span><span class="WHIT">                        </span><span class="NAME">theme.afterUploaderRender</span><span class="PUNC">(</span><span class="NAME">uploader</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">                        </span><span class="NAME">theme.afterUploaderRender</span><span class="PUNC">(</span><span class="NAME">uploader</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">                        </span><span class="COMM">// 抓取restoreHook容器内的数据，生成文件DOM</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">                        </span><span class="NAME">uploader.restore</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>116</span> </span><span class="WHIT">                        </span><span class="NAME">self.fire</span><span class="PUNC">(</span><span class="STRN">'init'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">uploader</span><span class="PUNC">:</span><span class="NAME">uploader</span><span class="PUNC">,</span><span class="NAME">button</span><span class="PUNC">:</span><span class="NAME">uploader.get</span><span class="PUNC">(</span><span class="STRN">'button'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="NAME">queue</span><span class="PUNC">:</span><span class="NAME">uploader.get</span><span class="PUNC">(</span><span class="STRN">'queue'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="NAME">auth</span><span class="PUNC">:</span><span class="NAME">uploader.get</span><span class="PUNC">(</span><span class="STRN">'auth'</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>117</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>118</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
@@ -187,89 +187,88 @@
 <span class='line'>180</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">,</span><span class="NAME">buttonTarget</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">self.get</span><span class="PUNC">(</span><span class="STRN">'buttonTarget'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>181</span> </span><span class="WHIT">                </span><span class="NAME">uploader</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">self.get</span><span class="PUNC">(</span><span class="STRN">'uploader'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>182</span> </span><span class="WHIT">                </span><span class="NAME">cf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">self.get</span><span class="PUNC">(</span><span class="STRN">'authConfig'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>183</span> </span><span class="WHIT">                </span><span class="NAME">config</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">S.form.parseConfig</span><span class="PUNC">(</span><span class="NAME">buttonTarget</span><span class="PUNC">,</span><span class="NAME">dataName.AUTH</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>184</span> </span><span class="WHIT">                </span><span class="NAME">auth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">EMPTY</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>185</span> </span><span class="WHIT">            </span><span class="NAME">S.mix</span><span class="PUNC">(</span><span class="NAME">config</span><span class="PUNC">,</span><span class="NAME">cf</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>186</span> </span><span class="WHIT">            </span><span class="NAME">self.set</span><span class="PUNC">(</span><span class="STRN">'authConfig'</span><span class="PUNC">,</span><span class="NAME">config</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>187</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">S.isEmptyObject</span><span class="PUNC">(</span><span class="NAME">config</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>188</span> </span><span class="WHIT">            </span><span class="NAME">auth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Auth</span><span class="PUNC">(</span><span class="NAME">uploader</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="NAME">rules</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">config</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>189</span> </span><span class="WHIT">            </span><span class="NAME">uploader.set</span><span class="PUNC">(</span><span class="STRN">'auth'</span><span class="PUNC">,</span><span class="NAME">auth</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>190</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">auth</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>191</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>192</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>193</span> </span><span class="WHIT">        </span><span class="NAME">ATTRS</span><span class="PUNC">:</span><span class="COMM">/** @lends RenderUploader.prototype*/</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>194</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>195</span>              * 主题引用路径，当值为""时，不使用uploader主题。非内置主题，值为模块路径，比如"refund/rfUploader"
-<span class='line'>196</span>              * @type String
-<span class='line'>197</span>              * @default  “default”
-<span class='line'>198</span>              */</span><span class="WHIT">
-<span class='line'>199</span> </span><span class="WHIT">            </span><span class="NAME">theme</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="STRN">'default'</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>200</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>201</span>              * 主题配置，会覆盖data-theme-config中的配置，不再推荐使用伪属性的方式配置主题参数
-<span class='line'>202</span>              * @type Object
-<span class='line'>203</span>              * @default {}
-<span class='line'>204</span>              * @since 1.2
-<span class='line'>205</span>              * @example
-<span class='line'>206</span>  //配置主题样式路径
-<span class='line'>207</span> themeConfig:{
-<span class='line'>208</span>     cssUrl:'gallery/form/1.2/uploader/themes/default/style.css'
-<span class='line'>209</span> }
-<span class='line'>210</span>              */</span><span class="WHIT">
-<span class='line'>211</span> </span><span class="WHIT">            </span><span class="NAME">themeConfig</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>212</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>213</span>              * 按钮目标元素
-<span class='line'>214</span>              * @type String|HTMLElement|KISSY.NodeList
-<span class='line'>215</span>              * @default ""
-<span class='line'>216</span>              */</span><span class="WHIT">
-<span class='line'>217</span> </span><span class="WHIT">            </span><span class="NAME">buttonTarget</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>218</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>219</span>              * 队列目标元素
-<span class='line'>220</span>              * @default ""
-<span class='line'>221</span>              * @type String|HTMLElement|KISSY.NodeList
-<span class='line'>222</span>              */</span><span class="WHIT">
-<span class='line'>223</span> </span><span class="WHIT">            </span><span class="NAME">queueTarget</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>224</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>225</span>              * 上传组件配置
-<span class='line'>226</span>              * @type Object
-<span class='line'>227</span>              * @default {}
-<span class='line'>228</span>              */</span><span class="WHIT">
-<span class='line'>229</span> </span><span class="WHIT">            </span><span class="NAME">uploaderConfig</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>230</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>231</span>              * 验证配置
-<span class='line'>232</span>              * @type Object
-<span class='line'>233</span>              * @default {}
-<span class='line'>234</span>              * @since 1.2
-<span class='line'>235</span>              * @example
-<span class='line'>236</span>              //验证配置
-<span class='line'>237</span>              authConfig: {
-<span class='line'>238</span>                  allowExts:[
-<span class='line'>239</span>                      {desc:"JPG,JPEG,PNG,GIF,BMP", ext:"*.jpg;*.jpeg;*.png;*.gif;*.bmp"},
-<span class='line'>240</span>                      '不支持{ext}格式的文件上传！'
-<span class='line'>241</span>                  ],
-<span class='line'>242</span>                  max:[3, '每次最多上传{max}个文件！']
-<span class='line'>243</span>              }
-<span class='line'>244</span>              */</span><span class="WHIT">
-<span class='line'>245</span> </span><span class="WHIT">            </span><span class="NAME">authConfig</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>246</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>247</span>              * Button（上传按钮）的实例
-<span class='line'>248</span>              * @type Button
-<span class='line'>249</span>              * @default ""
-<span class='line'>250</span>              */</span><span class="WHIT">
-<span class='line'>251</span> </span><span class="WHIT">            </span><span class="NAME">button</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>252</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>253</span>              * Queue（上传队列）的实例
-<span class='line'>254</span>              * @type Queue
-<span class='line'>255</span>              * @default ""
-<span class='line'>256</span>              */</span><span class="WHIT">
-<span class='line'>257</span> </span><span class="WHIT">            </span><span class="NAME">queue</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>258</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>259</span>              * 上传组件实例
-<span class='line'>260</span>              * @type Uploader
-<span class='line'>261</span>              * @default ""
-<span class='line'>262</span>              */</span><span class="WHIT">
-<span class='line'>263</span> </span><span class="WHIT">            </span><span class="NAME">uploader</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>264</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>265</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>266</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">RenderUploader</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>267</span> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">requires</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="STRN">'base'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'node'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'./base'</span><span class="PUNC">,</span><span class="STRN">'./auth/base'</span><span class="PUNC">]</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>268</span> </span></pre></body></html>
+<span class='line'>183</span> </span><span class="WHIT">                </span><span class="NAME">config</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">S.form.parseConfig</span><span class="PUNC">(</span><span class="NAME">buttonTarget</span><span class="PUNC">,</span><span class="NAME">dataName.AUTH</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">            </span><span class="NAME">S.mix</span><span class="PUNC">(</span><span class="NAME">config</span><span class="PUNC">,</span><span class="NAME">cf</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">            </span><span class="NAME">self.set</span><span class="PUNC">(</span><span class="STRN">'authConfig'</span><span class="PUNC">,</span><span class="NAME">config</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">S.isEmptyObject</span><span class="PUNC">(</span><span class="NAME">config</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">            </span><span class="NAME">auth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Auth</span><span class="PUNC">(</span><span class="NAME">uploader</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="NAME">rules</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">config</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">            </span><span class="NAME">uploader.set</span><span class="PUNC">(</span><span class="STRN">'auth'</span><span class="PUNC">,</span><span class="NAME">auth</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">auth</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">        </span><span class="NAME">ATTRS</span><span class="PUNC">:</span><span class="COMM">/** @lends RenderUploader.prototype*/</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>194</span>              * 主题引用路径，当值为""时，不使用uploader主题。非内置主题，值为模块路径，比如"refund/rfUploader"
+<span class='line'>195</span>              * @type String
+<span class='line'>196</span>              * @default  “default”
+<span class='line'>197</span>              */</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">            </span><span class="NAME">theme</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="STRN">'default'</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>200</span>              * 主题配置，会覆盖data-theme-config中的配置，不再推荐使用伪属性的方式配置主题参数
+<span class='line'>201</span>              * @type Object
+<span class='line'>202</span>              * @default {}
+<span class='line'>203</span>              * @since 1.2
+<span class='line'>204</span>              * @example
+<span class='line'>205</span>  //配置主题样式路径
+<span class='line'>206</span> themeConfig:{
+<span class='line'>207</span>     cssUrl:'gallery/form/1.2/uploader/themes/default/style.css'
+<span class='line'>208</span> }
+<span class='line'>209</span>              */</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">            </span><span class="NAME">themeConfig</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>212</span>              * 按钮目标元素
+<span class='line'>213</span>              * @type String|HTMLElement|KISSY.NodeList
+<span class='line'>214</span>              * @default ""
+<span class='line'>215</span>              */</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">            </span><span class="NAME">buttonTarget</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>218</span>              * 队列目标元素
+<span class='line'>219</span>              * @default ""
+<span class='line'>220</span>              * @type String|HTMLElement|KISSY.NodeList
+<span class='line'>221</span>              */</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">            </span><span class="NAME">queueTarget</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>224</span>              * 上传组件配置
+<span class='line'>225</span>              * @type Object
+<span class='line'>226</span>              * @default {}
+<span class='line'>227</span>              */</span><span class="WHIT">
+<span class='line'>228</span> </span><span class="WHIT">            </span><span class="NAME">uploaderConfig</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>229</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>230</span>              * 验证配置
+<span class='line'>231</span>              * @type Object
+<span class='line'>232</span>              * @default {}
+<span class='line'>233</span>              * @since 1.2
+<span class='line'>234</span>              * @example
+<span class='line'>235</span>              //验证配置
+<span class='line'>236</span>              authConfig: {
+<span class='line'>237</span>                  allowExts:[
+<span class='line'>238</span>                      {desc:"JPG,JPEG,PNG,GIF,BMP", ext:"*.jpg;*.jpeg;*.png;*.gif;*.bmp"},
+<span class='line'>239</span>                      '不支持{ext}格式的文件上传！'
+<span class='line'>240</span>                  ],
+<span class='line'>241</span>                  max:[3, '每次最多上传{max}个文件！']
+<span class='line'>242</span>              }
+<span class='line'>243</span>              */</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">            </span><span class="NAME">authConfig</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>246</span>              * Button（上传按钮）的实例
+<span class='line'>247</span>              * @type Button
+<span class='line'>248</span>              * @default ""
+<span class='line'>249</span>              */</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">            </span><span class="NAME">button</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>252</span>              * Queue（上传队列）的实例
+<span class='line'>253</span>              * @type Queue
+<span class='line'>254</span>              * @default ""
+<span class='line'>255</span>              */</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">            </span><span class="NAME">queue</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>258</span>              * 上传组件实例
+<span class='line'>259</span>              * @type Uploader
+<span class='line'>260</span>              * @default ""
+<span class='line'>261</span>              */</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">            </span><span class="NAME">uploader</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="NAME">EMPTY</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>265</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">RenderUploader</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">requires</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="STRN">'base'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'node'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'./base'</span><span class="PUNC">,</span><span class="STRN">'./auth/base'</span><span class="PUNC">]</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>267</span> </span></pre></body></html>

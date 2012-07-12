@@ -78,6 +78,7 @@
             autoUpload: false,
             multiple:false,
             disabled:true,
+            multipleLen:2,
            //主题配置
             themeConfig:{
                 cssUrl:'gallery/form/1.2/uploader/themes/default/style.css'
@@ -102,6 +103,8 @@
                 var isChecked = $(ev.target).prop('checked');
                 uploader.set('multiple',isChecked);
             });
+
+            uploader.set('data',{"userName":"minghe"});
         })
     })
 </script>
