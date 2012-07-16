@@ -1,0 +1,12 @@
+<project name="randombox.build" default="build" basedir=".">
+    <description>Component Build File</description>
+
+    <property name="src.dir" value="."/>
+    <property name="component.name" value="randombox"/>
+    <property name="component.version" value="1.0"/>
+
+    <import file="../../common.xml"/>
+
+    <target name="build" depends="common.build">
+    </target>
+</project>
