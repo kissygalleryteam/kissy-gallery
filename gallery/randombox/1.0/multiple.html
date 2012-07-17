@@ -58,7 +58,7 @@ body{font-family: Microsoft Yahei;}
 	</div>
 	<a href="#" id="btn_goto" target="_blank">去瞅瞅</a>
 </div>
-<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
 <script>
     KISSY.config({
         packages:[
@@ -71,7 +71,6 @@ body{font-family: Microsoft Yahei;}
         ]
     });
 </script>
-<script type="text/javascript" src="randombox.js"></script>
 <script type="text/javascript">
 (function(S){
 	S.ready(function(S){
@@ -105,7 +104,7 @@ body{font-family: Microsoft Yahei;}
 		function toggle(){
 			J_btnStart.hasClass("btn-down") ? J_btnStart.removeClass("btn-down") && J_btnStart.addClass("btn-up") : J_btnStart.removeClass("btn-up") && J_btnStart.addClass("btn-down");
 		}
-		S.use("randombox,overlay",function(S,RandomBox,O){
+		S.use("gallery/randombox/1.0/index,overlay",function(S,RandomBox,O){
 				 var popup = new O.Popup({
 			        elStyle : {
 			            border : "4px solid #000",

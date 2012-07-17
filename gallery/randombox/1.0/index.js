@@ -2,11 +2,10 @@
  * NOTE RandomBox 模拟摇奖器
  * @author wb-huxiaoqi
  */
-(function(S){
-	var $ = S.all,
-		Event = S.Event;
 	
-	S.add("gallery/randombox/1.0/index",function(){
+	KISSY.add("gallery/randombox/1.0/index",function(S){
+	    var $ = S.all,
+		Event = S.Event;
 		var DefaultCfg = {
 				rollTimes:4,
 				cls:"sel-item",
@@ -182,4 +181,3 @@
 		S.RandomBox = RandomBox;
 		return RandomBox;
 	});
-})(KISSY);
