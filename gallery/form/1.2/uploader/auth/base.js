@@ -201,7 +201,7 @@ KISSY.add('gallery/form/1.2/uploader/auth/base', function (S, Node,Base) {
                 size = file.size,
                 rule = self.getRule('maxSize');
             if(rule){
-            	var maxSize = Number(rule[0]) * 1000,
+            	var maxSize = Number(rule[0]) * 1024,
 	                isAllow = size <= maxSize,
 	                msg;
 	            if(!isAllow){
