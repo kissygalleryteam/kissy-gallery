@@ -35,7 +35,7 @@
                                  "urlsInputName":"imageUrls"}'
                    data-auth='{
                                 "require":[true,"必须至少上传一个文件！"],
-                                "max":[3, "每次最多上传{max}个文件！"],
+                                "max":[1, "每次最多上传{max}个文件！"],
                                 "maxSize":[5000, "文件大小为{size}，文件太大！"],
                                 "allowRepeat":[false, "该文件已经存在！"],
                                 "allowExts":[
@@ -122,7 +122,7 @@
                 uploader.on('error', function (ev) {
                     var rule = ev.rule, msg = ev.msg;
                     if (rule == 'require' || rule == 'max') {
-                        alert(msg);
+                        S.log(msg);
                     }
                 });
                 $('#J_Submit').on('click', function (ev) {
