@@ -64,6 +64,10 @@ KISSY.add('gallery/form/1.2/uploader/auth/base', function (S, Node,Base) {
             });
             queue.on('statusChange',function(ev){
                 var status = ev.status;
+                //如果已经是禁用上传状态，阻止后面文件的上传，并予以移除
+                if(status == 'start' && uploader.get('disabled')){
+                    self._maxStopUpload();
+                }
                 if(status == 'success') self.testMax();
             });
             uploader.on('error', function (ev) {
@@ -292,6 +296,23 @@ KISSY.add('gallery/form/1.2/uploader/auth/base', function (S, Node,Base) {
             queue.fileStatus(index, 'error', params);
             self.fire(Auth.event.ERROR,params);
             uploader.fire('error',params);
+        },
+        /**
+         * 如果达到最大上传数，阻止后面文件的上传，并予以移除
+         * @private
+         */
+        _maxStopUpload:function(){
+            var self = this,
+                uploader = self.get('uploader'),
+                queue = uploader.get('queue');
+            var curFileIndex = uploader.get('curUploadIndex');
+            var files = queue.get('files');
+            uploader.stop();
+            S.each(files,function(file,index){
+                if(index>= curFileIndex){
+                    queue.remove(file.id);
+                }
+            })
         }
     }, {ATTRS:/** @lends Auth.prototype*/{
         /**
