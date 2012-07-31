@@ -57,7 +57,9 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
             //取消上传后触发
             CANCEL:'cancel',
             //上传失败后触发
-            ERROR:'error'
+            ERROR:'error',
+            //初始化默认文件数据时触发
+            RESTORE:'restore'
         },
         /**
          * 文件上传所有的状态，{ WAITING : 'waiting', START : 'start', PROGRESS : 'progress', SUCCESS : 'success', CANCEL : 'cancel', ERROR : 'error', RESTORE: 'restore' }
@@ -136,6 +138,13 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
      * @desc  批量上传结束后触发
      * @event
      */
+
+    /**
+     * @name Uploader#restore
+     * @desc 添加默认数据到队列后触发
+     * @event
+     */
+
     //继承于Base，属性getter和setter委托于Base处理
     S.extend(Uploader, Base, /** @lends Uploader.prototype*/{
         /**
@@ -535,6 +544,9 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 //改变文件状态为成功
                 queue.fileStatus(index,'success',{index:index,id:id,file:fileData});
             });
+            S.later(function(){
+                self.fire(Uploader.event.RESTORE,{files:queue.get('files')});
+            },500);
         },
         /**
          * 抓取restoreHook容器内的数据
