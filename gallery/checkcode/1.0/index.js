@@ -6,6 +6,7 @@
 
 KISSY.add('gallery/checkcode/1.0/index', function (S) {
     var D = S.DOM,
+        E = S.Event,
         uid = 1,
         regexp = /^[\da-zA-Z]{4}$/,
         isWin = navigator.userAgent.indexOf("Windows") !== -1,
@@ -54,8 +55,8 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
         // callbacks
         callbacks = {};
 
-    var CheckCode = function(cfg){
-        if(!(this instanceof CheckCode)){
+    var CheckCode = function(cfg) {
+        if (!(this instanceof CheckCode)) {
             return new CheckCode(cfg);
         }
         
@@ -71,8 +72,8 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
         this.uid = uid++;
     };
 
-    S.augment(CheckCode,S.Event.Target,{
-        init:function(){
+    S.augment(CheckCode, S.EventTarget, {
+        init: function() {
             if(!this.container || !this.input || !this.identity || !this.sessionid) return;
 
             if(this.INITED) return this;
@@ -85,11 +86,19 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
 
             return this;
         },
-        createStyle:function(){
-            var style = dplStyle.replace(/{{prefixCls}}/g,this.prefixCls);
-            S.all('<style>'+style+'</style>').appendTo('head');
+        createStyle: function() {
+            var style = dplStyle.replace(/{{prefixCls}}/g,this.prefixCls),
+                ele = D.create('<style>',{'type':'text/css'});
+            if (ele.styleSheet) {
+                ele.styleSheet.cssText = style;
+            }
+            else {
+                ele.appendChild(document.createTextNode(style));
+            }
+
+            D.append(ele, 'head');
         },
-        create:function(){
+        create: function() {
             var uid = this.uid;
             var html = S.substitute(CONSTANTS.template,{
                 prefixCls:this.prefixCls,
@@ -99,11 +108,11 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
 
             this.imgCode = S.one('#J_ImgCode'+uid);
             this.audioCode = S.one('#J_AudioCode'+uid);
-            this.imgSwitcher = S.one('#J_ImgSwitcher'+uid).unselectable();
-            this.audioSwitcher = S.one('#J_AudioSwitcher'+uid).unselectable();
-            this.refresher = S.all('.'+this.prefixCls+'checkcode-refresher').unselectable();
-            this.img = S.one('#J_CheckCodeImg'+uid).unselectable();
-            this.audioState = S.one('#J_AudioState'+uid).unselectable();
+            this.imgSwitcher = S.one('#J_ImgSwitcher'+uid);
+            this.audioSwitcher = S.one('#J_AudioSwitcher'+uid);
+            this.refresher = S.all('.'+this.prefixCls+'checkcode-refresher');
+            this.img = S.one('#J_CheckCodeImg'+uid);
+            this.audioState = S.one('#J_AudioState'+uid);
             this.audioStateText = S.one('#J_AudioStateText'+uid);
             this.audioProgress = S.one('#J_AudioStateProgress'+uid);
 
@@ -119,7 +128,7 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
 
             this.CREATED = true;
         },
-        bind:function(){
+        bind: function() {
             var self = this;
 
             this.bindImg();
@@ -144,7 +153,7 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
             });
 
         },
-        bindImg:function(){
+        bindImg: function() {
             if(!this.img) return this;
 
             var self = this;
@@ -168,7 +177,7 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
 
             return this;
         },
-        bindAudio:function(){
+        bindAudio: function() {
             var self = this;
             this.audioSwitcher.on('click',function(evt){
                 evt.halt();
@@ -189,7 +198,7 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
 
             return this;
         },
-        bindAudioProgress:function(){
+        bindAudioProgress: function() {
             var self = this;
             if(this.audioSupport){
                 this.audio.on('timeupdate',function(){
@@ -199,24 +208,26 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
                     }else{
                         self.progress(parseInt(100*this.currentTime/this.duration));
                     }
-                }).on('play',function(){
-                }).on('ended',function(){
+                }, this.audio[0])
+                .on('play',function(){
+                }, this.audio[0])
+                .on('ended',function(){
                     self.progress(100);
-                });
+                }, this.audio[0]);
             }
         },
-        switchTo:function(type){
+        switchTo: function(type) {
             if(!type || !S.isString(type)) return this;
 
             var type = type.toUpperCase();
 
-            if(type=='IMG'){
+            if(type === 'IMG'){
                 this.audioCode.hide();
                 this.stopAudio();
                 this.imgCode.css({'display':'block'});
 
                 this.codeType = type;
-            }else if(type=='AUDIO'){
+            }else if(type === 'AUDIO'){
                 this.imgCode.hide();
                 this.audioProgress.width(0);
                 this.audioStateText.removeClass(this.prefixCls+'audio-replay');
@@ -235,7 +246,7 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
 
             return this;
         },
-        toggleRefresher:function(){
+        toggleRefresher: function() {
             if(this.codeType !== 'AUDIO'){
                 this.refresher.show();
                 return;
@@ -246,7 +257,7 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
                 this.refresher.hide();
             }
         },
-        refreshImg:function(){
+        refreshImg: function() {
             if(!this.getImgURL) return this;
 
             var getURL = this.getImgURL + (this.getImgURL.indexOf('?')>=0 ? '&t=' : '?t=') + S.now();
@@ -255,7 +266,7 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
 
             return this;
         },
-        refreshAudio:function(){
+        refreshAudio: function() {
             if(!this.getAudioURL) return this;
 
             var getURL = this.getAudioURL + (this.getAudioURL.indexOf('?')>=0 ? '&t=' : '?t=') + S.now();
@@ -275,19 +286,25 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
             }else{
                 // bgsound支持的音频类型取决于media
                 // player版本，mid、wav支持较好
-                S.one('head').append('<bgsound autostart id="J_BgSound'+this.uid+'" src="'+getURL+'">');
+                var bgsound = D.create('<bgsound>',{
+                    autostart: true,
+                    id: 'J_BgSound' + this.uid,
+                    src: getURL
+                });
+                D.append(bgsound, 'head');
                 this.player = S.one('#J_BgSound'+this.uid);
                 this.progress('NOPROGRESS');
             }
 
             return this;
         },
-        refresh:function(type){
+        refresh: function(type) {
             var type = S.isString(type) && type ? type.toUpperCase() : this.codeType;
 
-            if(type === 'IMG'){
+            if (type === 'IMG') {
                 this.refreshImg();
-            }else if(type === 'AUDIO'){
+            }
+            else if (type === 'AUDIO') {
                 this.refreshAudio();
             }
 
@@ -297,11 +314,11 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
             // 计时
             loadT0 = typeT0 = S.now();
         },
-        focus:function(){
+        focus: function() {
             this.input[0].focus();
             this.input[0].select();
         },
-        stopAudio:function(){
+        stopAudio: function() {
             if(this.audioSupport){
                 if(this.audio && this.audio[0]){
                     this.audio[0].pause();
@@ -315,25 +332,25 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
                 }
             }
         },
-        replayAudio:function(){
+        replayAudio: function() {
             if(!this.audioSupport || !this.audio) return;
 
             this.audio[0].currentTime = 0;
             this.audio[0].pause();
             this.audio[0].play();
         },
-        showImg:function(){
+        showImg: function() {
             this.switchTo('img');
             this.refresh();
 
             return this;
         },
-        showAudio:function(){
+        showAudio: function() {
             this.switchTo('audio');
 
             return this;
         },
-        audioSupport:(function(){
+        audioSupport: (function(){
             try{
                 // IE9 不支持 'audio/x-wav'
                 return "Audio" in window && (new Audio()).canPlayType('audio/x-wav');
@@ -341,7 +358,7 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
                 return false;
             }
         })(),
-        progress:function(flag){
+        progress: function(flag) {
             switch(flag){
                 case -1:
                     this.audioStateText.text('正在加载');
@@ -358,7 +375,7 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
                     break;
             }
         },
-        check:function(callback){
+        check: function(callback) {
             var val = S.trim(this.input.val()),
                 callback = S.isFunction(callback) ? callback : function(){};
 
@@ -376,8 +393,8 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
 
             callbacks[val] = callback;
             // 正在校验
-            if(this.checkingCode){
-                if(this.checkingCode === val){
+            if (this.checkingCode) {
+                if (this.checkingCode === val) {
                     return;
                 }else{
                     this.io && this.io.abort && this.io.abort();
@@ -389,21 +406,21 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
             // 延迟校验，防止audioState click的刷新行为
             S.later(function(){
                 this._check(callback);
-            },500,false,this);
+            }, 500, false, this);
         },
-        _check:function(callback){
+        _check: function(callback) {
             var checkURL = this.codeType == 'IMG' ? this.checkImgURL : this.checkAudioURL,
                 val = S.trim(this.input.val());
 
             var self = this;
 
             self.io = S.io({
-                url:checkURL,
-                data:{
-                    code:val
+                url: checkURL,
+                data: {
+                    code: val
                 },
-                dataType:'jsonp',
-                complete:function(data){
+                dataType: 'jsonp',
+                success: function(data) {
                     self.checkingCode = '';
 
                     // 记录整个操作时间
@@ -418,29 +435,38 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
                         t: self.codeType
                     });
 
-                    if(data && data.message==='SUCCESS.'){
+                    if (data && data.message==='SUCCESS.') {
                         self.progress(100);
                         self.stopAudio();
                         self.checkedCode = val;
 
                         callbacks[val] && callbacks[val]({success:true,codeType:self.codeType});
-                    }else{
-                        if(self.codeType==='IMG'){
-                            self.refresh();
-                        }else{
-                            self.progress(100);
-                            self.stopAudio();
-                        }
-
-                        // 校验失败后清空
-                        self.checkedCode = '';
-
-                        callbacks[val] && callbacks[val]({success:false,codeType:self.codeType});
                     }
+                    else {
+                        failureCallback();
+                    }
+                },
+                error: function(){
+                    failureCallback();
                 }
             });
+
+            function failureCallback() {
+                if (self.codeType==='IMG') {
+                    self.refresh();
+                }
+                else {
+                    self.progress(100);
+                    self.stopAudio();
+                }
+
+                // 校验失败后清空
+                self.checkedCode = '';
+
+                callbacks[val] && callbacks[val]({success:false,codeType:self.codeType});
+            }
         },
-        log:function(msg){
+        log: function(msg) {
             if(!msg) return;
 
             var img = new Image();
@@ -448,7 +474,7 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
         }
     });
 
+    S.checkcode = CheckCode;
+
     return CheckCode;
-},{
-	requires:['core']
 });
