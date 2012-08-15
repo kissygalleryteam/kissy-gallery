@@ -64,6 +64,10 @@ KISSY.add('gallery/form/1.2/uploader/auth/base', function (S, Node,Base) {
             });
             queue.on('statusChange',function(ev){
                 var status = ev.status;
+                //如果已经是禁用上传状态，阻止后面文件的上传，并予以移除
+                if(status == 'start' && uploader.get('disabled')){
+                    self._maxStopUpload();
+                }
                 if(status == 'success') self.testMax();
             });
             uploader.on('error', function (ev) {
@@ -176,17 +180,16 @@ KISSY.add('gallery/form/1.2/uploader/auth/base', function (S, Node,Base) {
                 rule = self.getRule('max'),
                 msg;
             if(rule){
-            	var button = uploader.get('button'),
-	                isPass = len < rule[0];
+            	var isPass = len < rule[0];
 	            //达到最大允许上传数
 	            if(!isPass){
-	                //禁用按钮
+                    //禁用按钮
 	                uploader.set('disabled',true);
 	                uploader.set('isAllowUpload', false);
                     msg = S.substitute(rule[1],{max : rule[0]});
                     self._fireUploaderError('max',[rule[0],msg]);
 	            }else{
-	                button.set('disabled',false);
+                    uploader.set('disabled',false);
 	                uploader.set('isAllowUpload', true);
 	            }
 	            return isPass;
@@ -201,7 +204,7 @@ KISSY.add('gallery/form/1.2/uploader/auth/base', function (S, Node,Base) {
                 size = file.size,
                 rule = self.getRule('maxSize');
             if(rule){
-            	var maxSize = Number(rule[0]) * 1000,
+            	var maxSize = Number(rule[0]) * 1024,
 	                isAllow = size <= maxSize,
 	                msg;
 	            if(!isAllow){
@@ -293,6 +296,23 @@ KISSY.add('gallery/form/1.2/uploader/auth/base', function (S, Node,Base) {
             queue.fileStatus(index, 'error', params);
             self.fire(Auth.event.ERROR,params);
             uploader.fire('error',params);
+        },
+        /**
+         * 如果达到最大上传数，阻止后面文件的上传，并予以移除
+         * @private
+         */
+        _maxStopUpload:function(){
+            var self = this,
+                uploader = self.get('uploader'),
+                queue = uploader.get('queue');
+            var curFileIndex = uploader.get('curUploadIndex');
+            var files = queue.get('files');
+            uploader.stop();
+            S.each(files,function(file,index){
+                if(index>= curFileIndex){
+                    queue.remove(file.id);
+                }
+            })
         }
     }, {ATTRS:/** @lends Auth.prototype*/{
         /**
@@ -395,7 +415,9 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
             //取消上传后触发
             CANCEL:'cancel',
             //上传失败后触发
-            ERROR:'error'
+            ERROR:'error',
+            //初始化默认文件数据时触发
+            RESTORE:'restore'
         },
         /**
          * 文件上传所有的状态，{ WAITING : 'waiting', START : 'start', PROGRESS : 'progress', SUCCESS : 'success', CANCEL : 'cancel', ERROR : 'error', RESTORE: 'restore' }
@@ -474,6 +496,13 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
      * @desc  批量上传结束后触发
      * @event
      */
+
+    /**
+     * @name Uploader#restore
+     * @desc 添加默认数据到队列后触发
+     * @event
+     */
+
     //继承于Base，属性getter和setter委托于Base处理
     S.extend(Uploader, Base, /** @lends Uploader.prototype*/{
         /**
@@ -873,6 +902,9 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 //改变文件状态为成功
                 queue.fileStatus(index,'success',{index:index,id:id,file:fileData});
             });
+            S.later(function(){
+                self.fire(Uploader.event.RESTORE,{files:queue.get('files')});
+            },500);
         },
         /**
          * 抓取restoreHook容器内的数据

@@ -47,7 +47,7 @@
                                         "allowExts":[
                                             {"desc":"JPG,JPEG,PNG,GIF,BMP", "ext":"*.jpg;*.jpeg;*.png;*.gif;*.bmp"},
                                             "文件格式错误！"],
-                                        "max":[5,"最多允许上传五张图片！"]
+                                        "max":[3,"最多允许上传五张图片！"]
                        }'>
                         <span class="count"> 还可以上传<em id="J_UploadCount">5</em>图片！ </span>
                         <s class="bg"></s>
@@ -140,7 +140,13 @@
     });
     //加载上传组件入口文件
     KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
-        new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
+        var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
+        ru.on('init',function(ev){
+            var uploader = ev.uploader;
+            uploader.on('restore',function(ev){
+                S.log(ev.files);
+            })
+        })
     })
 </script>
 
