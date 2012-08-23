@@ -6,25 +6,25 @@
 KISSY.add('gallery/image-tagging/1.0/image-tagging', function (S, Overlay) {
     var D = S.DOM, E = S.Event, doc = document;
 
-    //¶¨Òå±äÁ¿ºÍ³£Á¿
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í³ï¿½
     var taggingContainer = null,
         _globalTimer = {
             timer:null,
             used:false
         },
-        _processStatus = 0, // Ä¬ÈÏÎª0,±íÊ¾Ã»ÓÐ¿ªÊ¼£¬½øÐÐÖÐÎª1£¬½áÊøÎª0
-        _processQueue = [], // ´ý´¦ÀíµÄÍ¼Æ¬µÄÊý×é
-        _completeQueue = [], // ÒÑÍê³ÉµÄImageTagµÄÊý×é
-        _taggingIndex = 0;// ¼ÇÂ¼imageTagµÄÎ¨Ò»Êý×Öid
+        _processStatus = 0, // Ä¬ï¿½ï¿½Îª0,ï¿½ï¿½Ê¾Ã»ï¿½Ð¿ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª0
+        _processQueue = [], // ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        _completeQueue = [], // ï¿½ï¿½ï¿½ï¿½Éµï¿½ImageTagï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        _taggingIndex = 0;// ï¿½ï¿½Â¼imageTagï¿½ï¿½Î¨Ò»ï¿½ï¿½ï¿½ï¿½id
 
-    S.mix(_globalTimer, S.EventTarget);// Ê¹globalTimer¾ßÓÐAOPµÄÐÔÖÊ
+    S.mix(_globalTimer, S.EventTarget);// Ê¹globalTimerï¿½ï¿½ï¿½ï¿½AOPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     var _timerQueueRun = function () {
         _globalTimer.fire('globalInterval');
         },
         _waitForProcess = function (config, context) {
             _processQueue.push([config, context]);
-            if (!_processStatus) {// ³õ´Î×öÒ»¸ö°ó¶¨
+            if (!_processStatus) {// ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½
                 _globalTimer.on('globalInterval', _checkForComplete);
                 _processStatus = 1;
             }
@@ -61,80 +61,79 @@ KISSY.add('gallery/image-tagging/1.0/image-tagging', function (S, Overlay) {
         }
 
     /**
-     * ¹¦ÄÜ
-     * @param {HTMLElement|String} picNode Í¼Æ¬dom½Úµã»òÕßÍ¼Æ¬½ÚµãµÄÑ¡ÔñÆ÷
-     * @param {Array} coords ±ê¼ÇÊý¾ÝµÄÊý×é£¬µ¥¸ö±ê¼ÇÖ§³Ö{top:value,left:value},{bottom:value,left:value}Á½ÖÖ¶¨Î»·½Ê½
-     * @param {Object} _config Ïà¹ØÅäÖÃ
-     * @return Ò»¸öImageTagÊµÀý
+     * ï¿½ï¿½ï¿½ï¿½
+     * @param {HTMLElement|String} picNode Í¼Æ¬domï¿½Úµï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½Úµï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½
+     * @param {Array} coords ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½ï¿½é£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö§ï¿½ï¿½{top:value,left:value},{bottom:value,left:value}}ï¿½Ö¶ï¿½Î»ï¿½ï¿½Ê½
+     * @param {Object} _config ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * @return Ò»ï¿½ï¿½ImageTagÊµï¿½ï¿½
      */
     function ImageTag(picNode, coords, _config) {
-        // ÔÚ³õÊ¼»¯µÚÒ»¸öImageTagµÄÊ±ºò½øÐÐÓÃ»§ÅäÖÃºÍÄ¬ÈÏÅäÖÃµÄºÏ²¢
-        // µ«ÊÇÓ¦¸ÃÃ»ÓÐÈË»áÈ¥ÖØÐ´Ò»¸öÔ­ÉúµÄ¶ÔÏó°É£¿
+        // ï¿½Ú³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ImageTagï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ãºï¿½Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½ÃµÄºÏ²ï¿½
+        // ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ë»ï¿½È¥ï¿½ï¿½Ð´Ò»ï¿½ï¿½Ô­ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½É£ï¿½
 
-        // dynamic µÄÅäÖÃÓ¦¸ÃÕë¶ÔÈ«¾Ö
+        // dynamic ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½
         if (ImageTag.Config.dynamic && !_globalTimer.used) {
             _globalTimer.used = true;
             _globalTimer.on('globalInterval', _processImage);
             E.on(window, 'resize', _processImage);
         }
-
         var self = this;
 
-        //²ÎÊý´¦Àí
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         var config = {};
         S.mix(config, _config);
-        //¶ÔÏóÊôÐÔ¸³Öµ
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¸ï¿½Öµ
         config.picNode = D.get(picNode);
         picNode = config.picNode;
         config.coords = coords;
         this.tagNodes = [];
         this.wrapNode = null;
-        //³õÊ¼»¯
+        //ï¿½ï¿½Ê¼ï¿½ï¿½
         if (picNode && coords) {
-            // ÔÚµÚÒ»¸öImageTag³õÊ¼»¯µÄÊ±ºò£¬½øÐÐtagContainerµÄDOM³õÊ¼»¯
+            // ï¿½Úµï¿½Ò»ï¿½ï¿½ImageTagï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ò£¬½ï¿½ï¿½ï¿½tagContainerï¿½ï¿½DOMï¿½ï¿½Ê¼ï¿½ï¿½
             if (!taggingContainer) {
                 taggingContainer = D.create('<div class="ks-tagging-container"></div>');
                 D.addStyleSheet('.ks-tagging-container {position:absolute;top:0;left:0;}');
                 D.append(taggingContainer, D.get('body'));
                 D.addStyleSheet('.ks-tag-wrap {position:absolute;}');
             }
-            // ÔÚµÚÒ»¸öImageTag³õÊ¼»¯µÄÊ±ºò£¬½øÐÐ¼ÆÊ±Æ÷µÄ³õÊ¼»¯
+            // ï¿½Úµï¿½Ò»ï¿½ï¿½ImageTagï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ò£¬½ï¿½ï¿½Ð¼ï¿½Ê±ï¿½ï¿½Ä³ï¿½Ê¼ï¿½ï¿½
             if (!_globalTimer.timer) {
-                // Éú³ÉÖ÷ÐÄÌø
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 _globalTimer.timer = S.later(function () {
                     _timerQueueRun();
                 }, this.constructor.Config.timerInterval, true);
             }
-            if (!picNode.complete) {// ·ñÔòÍÆÈëÊý×é½øÐÐµÈ´ýÔÙ´¦Àí
-                _waitForProcess(config, self);// ´ý´¦ÀíµÄÍ¼Æ¬ÓÉ _waitForProcess º¯Êý½»ÓÚÖ÷ÐÄÌøÀ´´¦Àí
-            } else {// Èç¹ûÍ¼Æ¬complete£¬¾Í¶ÔËûäÖÈ¾
+            if (!picNode.complete) {// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÐµÈ´ï¿½ï¿½Ù´ï¿½ï¿½ï¿½
+                _waitForProcess(config, self);// ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ _waitForProcess ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½4ï¿½ï¿½ï¿½ï¿½
+            } else {// ï¿½ï¿½ï¿½Í¼Æ¬completeï¿½ï¿½ï¿½Í¶ï¿½ï¿½ï¿½ï¿½ï¿½È¾
                 S.log('Render Run');
                 self._renderPic(config);
             }
         }
     }
 
-    //Ä¬ÈÏÅäÖÃ
+    //Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     var globalConfig = {
-        dynamic:true, // Èç¹ûdynamicÎªÕæ£¬»áÓÐÒ»¸ö¶¨Ê±Æ÷À´¶¯Ì¬ÐÞÕý±êµãµÄÎ»ÖÃ
-        timerInterval:250, // ÐÞÕý±êµãµÄÊ±¼ä¼ä¸ô
-        rules:{// Ä¬ÈÏ×¥È¡¹æÔò
-            container:'', // Í¼Æ¬ÈÝÆ÷µÄid»òÕßElement
-            imageClass:'', // ÉèÖÃ¿É±»×¥È¡Í¼Æ¬µÄclass
-            imageIgnoreClass:'', // ¾ßÓÐ¸ÃclassµÄÍ¼Æ¬»á±»É¸Ñ¡ºöÂÔ
-            minWidth:400, // ×îÐ¡¿í¶È
-            minHeight:400, // ×îÐ¡¸ß¶È
-            ratio:0.5// ¸ß¿í±È»òÕß¿í¸ß±È
+        dynamic:true, // ï¿½ï¿½ï¿½dynamicÎªï¿½æ£¬ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ê±ï¿½ï¿½4ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
+        timerInterval:250, // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+        rules:{// Ä¬ï¿½ï¿½×¥È¡ï¿½ï¿½ï¿½ï¿½
+            container:'', // Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½Element
+            imageClass:'', // ï¿½ï¿½ï¿½Ã¿É±ï¿½×¥È¡Í¼Æ¬ï¿½ï¿½class
+            imageIgnoreClass:'', // ï¿½ï¿½ï¿½Ð¸ï¿½classï¿½ï¿½Í¼Æ¬ï¿½á±»É¸Ñ¡ï¿½ï¿½ï¿½ï¿½
+            minWidth:400, // ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½
+            minHeight:400, // ï¿½ï¿½Ð¡ï¿½ß¶ï¿½
+            ratio:0.5// ï¿½ß¿ï¿½È»ï¿½ï¿½ß¿ï¿½ß±ï¿½
         }
     };
-    //Àà¼Ì³Ð
+    //ï¿½ï¿½Ì³ï¿½
     //S.extend(YourGallery, S.Base);
     ImageTag.Config = S.mix({}, globalConfig);
 
-    //Ô­ÐÍÀ©Õ¹
+    //Ô­ï¿½ï¿½)Õ¹
     S.augment(ImageTag, S.EventTarget, {
         /**
-         * private _renderPic äÖÈ¾ËùÓÐµÄÍ¼Æ¬
+         * private _renderPic ï¿½ï¿½È¾ï¿½ï¿½ï¿½Ðµï¿½Í¼Æ¬
          * @param config
          */
         _renderPic:function (config) {
@@ -143,7 +142,7 @@ KISSY.add('gallery/image-tagging/1.0/image-tagging', function (S, Overlay) {
                 coords = config.coords,
                 width = D.width(pic),
                 height = D.height(pic);
-            // ¶ÔÍ¼Æ¬µÄÉ¸Ñ¡
+            // ï¿½ï¿½Í¼Æ¬ï¿½ï¿½É¸Ñ¡
             if (width < ImageTag.Config.rules.minWidth) {
                 return;
             }
@@ -170,14 +169,14 @@ KISSY.add('gallery/image-tagging/1.0/image-tagging', function (S, Overlay) {
                 ot = offset.top,
                 ol = offset.left,
                 wrapNode = D.create('<div class="ks-tag-wrap"></div>'),
-                wrapBottomNode = D.create('<div class="ks-tag-btnwrap"></div>'), // Éú³ÉÒ»¸öÓÃÓÚµ×²¿¶¨Î»µÄÈÝÆ÷,ÒÔÓ¦¶ÔÐèÒªµ×²¿¶¨Î»µÄ
-                tagNodeClass = config.tagClass ? config.tagClass : 'ks-tag', // tagClassÖ§³Öfunction·µ»Ø
-                tagContent = config.tagContent ? config.tagContent : '', // tagContentÖ§³Öfunction·µ»Ø
+                wrapBottomNode = D.create('<div class="ks-tag-btnwrap"></div>'), // ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Úµ×²ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Òªï¿½×²ï¿½ï¿½ï¿½Î»ï¿½ï¿½
+                tagNodeClass = config.tagClass ? config.tagClass : 'ks-tag', // tagClassÖ§ï¿½ï¿½functionï¿½ï¿½ï¿½ï¿½
+                tagContent = config.tagContent ? config.tagContent : '', // tagContentÖ§ï¿½ï¿½functionï¿½ï¿½ï¿½ï¿½
                 _tagContent = '',
                 _tagNodeClass = '',
                 tagNode = null;
 
-            // ¶ÔÍ¼Æ¬¼ÓÒ»¸ö×Ô¶¨ÒåÊôÐÔ±ê¼Ç
+            // ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½
             D.addClass(wrapNode, 'ks-tagindex-' + _taggingIndex++);
             D.css(wrapNode, {top:ot + paddingTop + borderTop, left:ol + paddingLeft + borderLeft});
             D.css(wrapBottomNode, {position:'absolute', top:height, left:0});
@@ -188,13 +187,13 @@ KISSY.add('gallery/image-tagging/1.0/image-tagging', function (S, Overlay) {
             for (var i = 0; i < coords.length; i++) {
                 if (!S.isFunction(tagContent)) {
                     _tagContent = tagContent;
-                } else {// Èç¹ûtagContentÊÇÒ»¸öfunctionµÄ»°
+                } else {// ï¿½ï¿½ï¿½tagContentï¿½ï¿½Ò»ï¿½ï¿½functionï¿½Ä»ï¿½
                     _tagContent = tagContent({'index':i});
                     !_tagContent && (_tagContent = '');
                 }
                 if (!S.isFunction(tagNodeClass)) {
                     _tagNodeClass = tagNodeClass;
-                } else {// Èç¹ûtagNodeClassÊÇÒ»¸öfunctionµÄ»°
+                } else {// ï¿½ï¿½ï¿½tagNodeClassï¿½ï¿½Ò»ï¿½ï¿½functionï¿½Ä»ï¿½
                     _tagNodeClass = tagNodeClass({'index':i});
                     !_tagNodeClass && (_tagNodeClass = '');
                 }
@@ -230,13 +229,14 @@ KISSY.add('gallery/image-tagging/1.0/image-tagging', function (S, Overlay) {
                     });
                 }
                 overlayNode.render();
+                overlayNode.show();
                 this.tagNodes.push(overlayNode);
             }
             this.wrapNode = wrapNode;
             _completeQueue.push({img:pic, wrapNode:wrapNode});
         },
         /**
-         * public showAll ÏÔÊ¾ËùÓÐµÄtag
+         * public showAll ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Ðµï¿½tag
          * @param {number} index
          */
         showAll:function (index, anim) {
@@ -245,7 +245,7 @@ KISSY.add('gallery/image-tagging/1.0/image-tagging', function (S, Overlay) {
             });
         },
         /**
-         * public hideAll Òþ²ØÈ«²¿µÄtag
+         * public hideAll ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½tag
          * @param {number} index
          */
         hideAll:function (index, anim) {
@@ -254,7 +254,7 @@ KISSY.add('gallery/image-tagging/1.0/image-tagging', function (S, Overlay) {
             });
         },
         /**
-         * public getTagNode »ñÈ¡Ä³Ò»¸ötag,²»´ø²ÎÊýÔò·µ»ØËùÓÐµÄtagNodes
+         * public getTagNode ï¿½ï¿½È¡Ä³Ò»ï¿½ï¿½tag,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»ï¿½ï¿½ï¿½ï¿½Ðµï¿½tagNodes
          * @param {number} index
          * @return tagNode
          */
