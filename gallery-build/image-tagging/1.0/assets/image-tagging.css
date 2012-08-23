@@ -1,0 +1,185 @@
+.ks-tag {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    background: #0099FF;
+    border: 3px solid #CFCFCF;
+    border-radius: 18px;
+    -moz-border-radius: 18px;
+    -webkit-border-radius: 18px;
+}
+
+.greenTag {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    background: green;
+    border: 3px solid #CFCFCF;
+    border-radius: 18px;
+}
+
+.blackTag {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    background: #333;
+    border: 3px solid #CFCFCF;
+    border-radius: 18px;
+}
+
+.redTag {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    background: #ff4500;
+    border: 3px solid #fff;
+    border-radius: 18px;
+    -moz-border-radius: 18px;
+    -webkit-border-radius: 18px;
+}
+
+#advertiser {
+    padding: 30px;
+    border: 10px solid #ACACAC;
+    background: #ffc0cb;
+}
+
+.ad-tag {
+    width: 620px;
+    height: 80px;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.ad-tag .tag-box {
+    height:80px;
+}
+
+.ad-tag s {
+    position: absolute;
+    display: block;
+    top:0;
+    left:0;
+    width: 620px;
+    height: 80px;
+    background: #666;
+    opacity: 0.3;
+    z-index: 1;
+}
+
+.ad-tag a {
+    position: absolute;
+    display: block;
+    top:5px;
+    left:0;
+    width: 620px;
+    height: 80px;
+    z-index: 2;
+}
+
+.ad-tag .tag-close {
+    position: absolute;
+    display: block;
+    top:0;
+    right:5px;
+    color:#333;
+    font-size: 12px;
+    cursor:pointer;
+    z-index:10003;
+}
+
+.tag-plus {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 17px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color:#0099FF;
+    background: #fff;
+    border: 2px solid #0099FF;
+}
+
+.tag-minus {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 17px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color:#fff;
+    background: #0099FF;
+    border:2px solid #fff;
+}
+
+.tag-face {
+    position: absolute;
+    display: block;
+    width:100px;
+    height:100px;
+}
+
+.face-tag-popup {
+    display: block;
+    width:98px;
+    height:98px;
+    border: 1px #ddd solid;
+    background:url(http://img03.taobaocdn.com/tps/i3/T1O2WKXcdfXXXXXXXX-1-1.png) repeat;
+    opacity: 0;
+    _filter:alpha(opacity=0);
+}
+
+.face-tag-popup:hover {
+    width:96px;
+    height:96px;
+    border: 2px #fff solid;
+    opacity: 100;
+    _filter:alpha(opacity=100);
+}
+
+.ks-overlay {
+    position:absolute;
+    top:-9999px;
+    left:-9999px;
+}
+
+.face-tip {
+    position:absolute;
+    visibility: hidden;
+    display: block;
+    bottom:0px;
+    left:100px;
+    width:120px;
+    height:50px;
+    line-height: 20px;
+    background:#EFEFEF;
+    border:1px solid #fff;
+    color:#333;
+    font-size: 12px;
+
+}
