@@ -230,6 +230,7 @@ KISSY.add('gallery/image-tagging/1.0/image-tagging', function (S, Overlay) {
                     });
                 }
                 overlayNode.render();
+                overlayNode.show();
                 this.tagNodes.push(overlayNode);
             }
             this.wrapNode = wrapNode;
