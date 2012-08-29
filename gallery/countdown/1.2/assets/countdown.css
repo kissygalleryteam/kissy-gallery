@@ -1,0 +1,81 @@
+.cd-large .hand,
+.cd-flip .handlet {
+    background: url(http://img02.taobaocdn.com/tps/i2/T1N4t1XfxgXXXXXXXX-95-35.png) no-repeat;
+}
+.cd-lite,
+.cd-medium,
+.cd-large {
+    display: none;
+    color: #808080;
+    font-size: 12px;
+    font-family: arial, '\5b8b\4f53';
+}
+.cd-lite .clock,
+.cd-medium .clock,
+.cd-large .clock {
+    font-weight: bold;
+}
+.cd-lite s,
+.cd-medium s,
+.cd-large s {
+    text-decoration: none;
+}
+.cd-lite .hand,
+.cd-medium .hand,
+.cd-large .hand {
+    margin: 0 3px;
+}
+.cd-large .hand {
+    display: inline-block;
+    padding: 0 2px;
+    width: 32px;
+    height: 35px;
+    line-height: 35px;
+}
+.cd-large .hand-s-ext {
+    width: 59px;
+    background-position: -36px 0;
+}
+.cd-lite .digital,
+.cd-medium .digital,
+.cd-large .digital {
+    color: #f60;
+    font-size: 14px;
+    font-weight: normal;
+}
+.cd-medium .digital {
+    color: #404040;
+    font-size: 24px;
+}
+.cd-large .digital {
+    color: #fff;
+    font-size: 28px;
+}
+.cd-slide .hand {
+    display: inline-block;
+    *position: relative;
+    overflow: hidden;
+    vertical-align: middle;
+}
+.cd-slide .slide-wrap {
+    position: relative;
+    float: left;
+}
+.cd-slide .digital {
+    float: left;
+}
+.cd-slide .slide-wrap .digital {
+    clear: left;
+}
+.cd-flip .hand {
+    position: relative;
+    vertical-align: middle;
+}
+.cd-flip .handlet {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 2px;
+    width: 32px;
+    height: 35px;
+}
