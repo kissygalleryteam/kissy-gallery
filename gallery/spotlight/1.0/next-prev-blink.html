@@ -113,13 +113,9 @@ KISSY.use('gallery/spotlight/1.0/,overlay',function(S,Spotlight,overlay){
 			,arrNode = []
 		
 			,listText = []
-			,popup = new overlay.Popup(
-				S.get('#drop')
-				,{
-					
-				}
-				)
-			;
+			,popup = new overlay.Popup({
+					srcNode:S.get('#drop')
+				});
 			popup.on('show',function(){
 				var el = popup.get('el') , top = el.offset().top;
 				el.stop()
