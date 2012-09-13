@@ -1,0 +1,170 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @fileoverview 默认主题
+<span class='line'>  3</span>  * @author 剑平（明河）&lt;minghe36@126.com>
+<span class='line'>  4</span>  **/</span><span class="WHIT">
+<span class='line'>  5</span> </span><span class="NAME">KISSY.add</span><span class="PUNC">(</span><span class="STRN">'gallery/form/1.3/uploader/themes/default/index'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">S</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Node</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Theme</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">EMPTY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">$</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Node.all</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  7</span> 
+<span class='line'>  8</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>  9</span>      * @name DefaultTheme
+<span class='line'> 10</span>      * @class 默认主题
+<span class='line'> 11</span>      * @constructor
+<span class='line'> 12</span>      * @extends Theme
+<span class='line'> 13</span>      * @requires Theme
+<span class='line'> 14</span>      * @requires  ProgressBar
+<span class='line'> 15</span>      * @author 剑平（明河）&lt;minghe36@126.com>
+<span class='line'> 16</span>      */</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="WHIT">    </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">DefaultTheme</span><span class="PUNC">(</span><span class="NAME">config</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="WHIT">        </span><span class="COMM">//调用父类构造函数</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">        </span><span class="NAME">DefaultTheme.superclass.constructor.call</span><span class="PUNC">(</span><span class="NAME">self</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">config</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 22</span> 
+<span class='line'> 23</span> </span><span class="WHIT">    </span><span class="NAME">S.extend</span><span class="PUNC">(</span><span class="NAME">DefaultTheme</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Theme</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">/** @lends DefaultTheme.prototype*/</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 25</span>          * 在上传组件运行完毕后执行的方法（对上传组件所有的控制都应该在这个函数内）
+<span class='line'> 26</span>          * @param {Uploader} uploader
+<span class='line'> 27</span>          */</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">        </span><span class="NAME">afterUploaderRender</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">uploader</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 29</span> 
+<span class='line'> 30</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 32</span>          * 获取状态容器
+<span class='line'> 33</span>          * @param {KISSY.NodeList} target 文件的对应的dom（一般是li元素）
+<span class='line'> 34</span>          * @return {KISSY.NodeList}
+<span class='line'> 35</span>          */</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">        </span><span class="NAME">_getStatusWrapper</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">target</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">target</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">target.children</span><span class="PUNC">(</span><span class="STRN">'.J_FileStatus'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">''</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 40</span>          * 文件处于等待上传状态时触发
+<span class='line'> 41</span>          */</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">       </span><span class="NAME">_waitingHandler</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">ev</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 43</span> 
+<span class='line'> 44</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 46</span>          * 文件处于开始上传状态时触发
+<span class='line'> 47</span>          */</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">        </span><span class="NAME">_startHandler</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">ev</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">             </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">                 </span><span class="NAME">uploader</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ev.uploader</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">                 </span><span class="NAME">index</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ev.index</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">                 </span><span class="NAME">queue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">self.get</span><span class="PUNC">(</span><span class="STRN">'queue'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">                 </span><span class="COMM">//上传方式</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">                 </span><span class="NAME">uploadType</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">uploader.get</span><span class="PUNC">(</span><span class="STRN">'type'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">                 </span><span class="COMM">//进度条容器</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">                 </span><span class="NAME">$progressBar</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'.J_ProgressBar_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">ev.id</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">            </span><span class="COMM">//如果是ajax或flash异步上传，加入进度条</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">uploadType</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'ajax'</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">uploadType</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'flash'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ProgressBar</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">self.get</span><span class="PUNC">(</span><span class="STRN">'oPlugin'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">progressBar</span><span class="PUNC">,</span><span class="NAME">progressBar</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">ProgressBar</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">                    </span><span class="NAME">progressBar</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">ProgressBar</span><span class="PUNC">(</span><span class="NAME">$progressBar</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">                    </span><span class="NAME">progressBar.on</span><span class="PUNC">(</span><span class="STRN">'change'</span><span class="PUNC">,</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">ev</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">                        </span><span class="COMM">//百分百进度隐藏进度条</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">                        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">ev.value</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">100</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">                            </span><span class="NAME">progressBar.hide</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">                        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">                    </span><span class="NAME">progressBar.render</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> 
+<span class='line'> 70</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">                </span><span class="COMM">//将进度条实例写入到队列的文件数据上备用</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">                </span><span class="NAME">queue.updateFile</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="NAME">progressBar</span><span class="PUNC">:</span><span class="NAME">progressBar</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 74</span> 
+<span class='line'> 75</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 77</span>          * 文件处于正在上传状态时触发
+<span class='line'> 78</span>          */</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">        </span><span class="NAME">_progressHandler</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">ev</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">file</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ev.file</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">                </span><span class="COMM">//已加载字节数</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">                </span><span class="NAME">loaded</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ev.loaded</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">                </span><span class="COMM">//总字节数</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">                </span><span class="NAME">total</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ev.total</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">                </span><span class="NAME">val</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.ceil</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">loaded</span><span class="PUNC">/</span><span class="NAME">total</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">100</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">                </span><span class="NAME">progressBar</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">file.progressBar</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">progressBar</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">            </span><span class="COMM">//处理进度</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">            </span><span class="NAME">progressBar.set</span><span class="PUNC">(</span><span class="STRN">'value'</span><span class="PUNC">,</span><span class="NAME">val</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 92</span>          * 文件处于上传成功状态时触发
+<span class='line'> 93</span>          */</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">        </span><span class="NAME">_successHandler</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">ev</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">file</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ev.file</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">                </span><span class="NAME">id</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">file.id</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">                </span><span class="NAME">$del</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">".J_Del_"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">                </span><span class="NAME">$cancel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">".J_Cancel_"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">                </span><span class="NAME">progressBar</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">file.progressBar</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">            </span><span class="NAME">$del.show</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">            </span><span class="NAME">$cancel.hide</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">            </span><span class="COMM">//不存在进度条直接予以隐藏</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">progressBar</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">                </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'.J_ProgressBar_'</span><span class="PUNC">+</span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">hide</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">            </span><span class="COMM">//处理进度</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">            </span><span class="NAME">progressBar.set</span><span class="PUNC">(</span><span class="STRN">'value'</span><span class="PUNC">,</span><span class="NUMB">100</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>111</span>          * 文件处于上传错误状态时触发
+<span class='line'>112</span>          */</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">        </span><span class="NAME">_errorHandler</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">ev</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">msg</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ev.msg</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">                </span><span class="NAME">id</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ev.id</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">            </span><span class="COMM">//打印错误消息</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">            </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'.J_ErrorMsg_'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">html</span><span class="PUNC">(</span><span class="NAME">msg</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">ATTRS</span><span class="PUNC">:</span><span class="COMM">/** @lends DefaultTheme.prototype*/</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>121</span>          *  主题名（文件名）
+<span class='line'>122</span>          * @type String
+<span class='line'>123</span>          * @default "defaultTheme"
+<span class='line'>124</span>          */</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">        </span><span class="NAME">name</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="STRN">'defaultTheme'</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>127</span>          * css模块路径
+<span class='line'>128</span>          * @type String
+<span class='line'>129</span>          * @default "gallery/form/1.3/uploader/themes/default/style.css"
+<span class='line'>130</span>          */</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">        </span><span class="NAME">cssUrl</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="STRN">'gallery/form/1.3/uploader/themes/default/style.css'</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>133</span>          * 队列使用的模板
+<span class='line'>134</span>          * @type String
+<span class='line'>135</span>          * @default ""
+<span class='line'>136</span>          */</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">        </span><span class="NAME">fileTpl</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">            </span><span class="STRN">'&lt;li id="queue-file-{id}" class="clearfix" data-name="{name}">'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">                </span><span class="STRN">'&lt;div class="f-l sprite file-icon">&lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">                </span><span class="STRN">'&lt;div class="f-l">{name}&lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">                </span><span class="STRN">'&lt;div class="f-l status-wrapper J_FileStatus">'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">                    </span><span class="STRN">'&lt;div class="status waiting-status">等待上传，&lt;a class="J_Upload_{id}" href="#Upload">点此上传&lt;/a> &lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">                    </span><span class="STRN">'&lt;div class="status start-status progress-status success-status clearfix">'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">                        </span><span class="STRN">'&lt;div class="J_ProgressBar_{id} f-l uploader-progress">&lt;img class="loading" src="http://img01.taobaocdn.com/tps/i1/T1F5tVXjRfXXXXXXXX-16-16.gif" alt="loading" />&lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">                        </span><span class="STRN">' &lt;a  class="J_Cancel_{id} f-l upload-cancel" href="#uploadCancel">取消&lt;/a>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">                        </span><span class="STRN">'&lt;a href="#fileDel" class=" f-l J_Del_{id}" style="display:none;">删除&lt;/a>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">                    </span><span class="STRN">'&lt;/div> '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">                    </span><span class="STRN">'&lt;div class="status cancel-status">已经取消上传，&lt;a href="#reUpload" id="J_ReUpload_{id}" class="J_Upload_{id}">点此重新上传&lt;/a> &lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">                    </span><span class="STRN">'&lt;div class="status error-status upload-error">&lt;span class="J_ErrorMsg_{id}">&lt;/span>&lt;a href="#fileDel" class="J_Del_{id}">删除&lt;/a>&lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">                </span><span class="STRN">'&lt;/div>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">            </span><span class="STRN">'&lt;/li>'</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>154</span>          * 需要加载的插件，需要手动实例化
+<span class='line'>155</span>          * @type Array
+<span class='line'>156</span>          * @default [''progressBar'] 进度条
+<span class='line'>157</span>          */</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">        </span><span class="NAME">plugins</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">            </span><span class="NAME">value</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="STRN">'progressBar'</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">DefaultTheme</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">requires</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="STRN">'node'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'../../theme'</span><span class="PUNC">]</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

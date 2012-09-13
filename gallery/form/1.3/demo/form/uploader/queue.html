@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>queue事件测试</title>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js" charset="utf-8"></script>
+</head>
+<body>
+<div class="grid">
+    <input class="g-u" id="J_QueueUploaderBtn" name="Filedata" type="image-uploader" value="上传图片"
+           action="upload.php" urlsInputName="imageUrls3" maxSize="500" max="4">
+    <input type="hidden" name="imageUrls3">
+</div>
+<ul id="J_QueueUploaderQueue" class="grid">
+
+</ul>
+<input class="btn" id="J_Add" type="button" value="添加一个文件">
+<input class="btn" id="J_DelFirst" type="button" value="删除第一个文件">
+<input class="btn" id="J_ChangeStatus" type="button" value="改变第一个文件状态为success">
+<input class="btn" id="J_Clear" type="button" value="删除所有文件">
+<input class="btn" id="J_GetAll" type="button" value="获取所有文件id">
+<input class="btn" id="J_GetStatusFileIds" type="button" value="获取所有等待状态的文件id">
+<input class="btn" id="J_GetStatusFilesIndex" type="button" value="获取所有等待状态文件index">
+
+<script type="text/javascript">
+    var S = KISSY;
+    //包路径，实际使用请直接配置为"http://a.tbcdn.cn/s/kissy/"
+    var path = S.Config.debug && "../../../../../../" || "http://a.tbcdn.cn/s/kissy/";
+    S.config({
+        packages:[
+            {
+                name:"gallery",
+                path:path,
+                charset:"utf-8"
+            }
+        ]
+    });
+    var $ = S.Node.all;
+
+
+    KISSY.use('gallery/form/1.3/uploader/imageUploader', function (S, ImageUploader) {
+        var uploaderQueueTest = new ImageUploader('#J_QueueUploaderBtn','#J_QueueUploaderQueue');
+        uploaderQueueTest.on('render',function(ev){
+            var queue = ev.queue;
+
+            $('#J_Add').on('click', function (ev) {
+                //测试文件数据
+                var testFile = {'name':'test.jpg',
+                    'size':2000,
+                    'input':{},
+                    'file':{'name':'http://tp4.sinaimg.cn/1653905027/180/5601547226/1', 'type':'image/jpeg', 'size':2000}
+                };
+                //向队列添加文件
+                var file = queue.add(testFile);
+                S.log('添加的文件数据为：'+file);
+            });
+            $('#J_DelFirst').on('click', function (ev) {
+                var removeFile = queue.remove(0);
+                S.log('删除的文件数据为：'+removeFile);
+            });
+            $('#J_Clear').on('click', function (ev) {
+                queue.clear();
+            });
+            $('#J_GetAll').on('click', function (ev) {
+                var ids = [],
+                        files = queue.get('files');
+                S.each(files, function (file) {
+                    ids.push(file.id);
+                });
+                alert('所有文件id：' + ids);
+            });
+            $('#J_ChangeStatus').on('click', function (ev) {
+                queue.fileStatus(0, 'success');
+            });
+            $('#J_GetStatusFileIds').on('click', function (ev) {
+                var files = queue.getFiles('waiting'),
+                        ids = [];
+                S.each(files, function (file) {
+                    ids.push(file.id);
+                });
+                alert('所有等待中的文件id为：' + ids);
+            });
+            $('#J_GetStatusFilesIndex').on('click', function () {
+                var indexs = queue.getIndexs('waiting');
+                alert('所有等待中的文件index为：' + indexs);
+            })
+
+        });
+        uploaderQueueTest.render();
+    })
+
+</script>
+
+</body>
+</html>

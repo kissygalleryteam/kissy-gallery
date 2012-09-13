@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>只使用flash上传的demo</title>
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js" charset="utf-8"></script>
+</head>
+<body>
+<h2>只使用flash上传的demo</h2>
+<div class="grid">
+
+    <input class="g-u" id="J_UploaderBtn" name="Filedata" type="image-uploader" value="上传图片"
+           action="upload.php" urlsInputName="imageUrls" max="3" maxSize="500">
+
+    <!--用来存放服务器端返回的图片路径，多个图片以逗号隔开-->
+    <input type="hidden" name="imageUrls">
+</div>
+<ul id="J_UploaderQueue" class="grid">
+
+</ul>
+<p>flash上传在chrome和firefox下可能存在session丢失的问题，建议在基于webkit的浏览器下使用ajax上传</p>
+<script>
+    var S = KISSY;
+    //包路径，实际使用请直接配置为"http://a.tbcdn.cn/s/kissy/"
+    var path = S.Config.debug && "../../../../../../" || "http://a.tbcdn.cn/s/kissy/";
+    S.config({
+        packages:[
+            {
+                name:"gallery",
+                path:path,
+                charset:"utf-8"
+            }
+        ]
+    });
+    //加载上传组件入口文件
+    KISSY.use('gallery/form/1.3/uploader/imageUploader', function (S, ImageUploader) {
+        var iframeUploader = new ImageUploader('#J_UploaderBtn', '#J_UploaderQueue',{
+            // 上传方式切成flash
+            type : "iframe"
+        });
+        iframeUploader.on('render', function (ev) {
+
+        });
+        iframeUploader.render();
+    })
+</script>
+</body>
+</html>

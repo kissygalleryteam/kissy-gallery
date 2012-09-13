@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="JsDoc Toolkit" />
+        
+        <title>Queue</title>
+        <style>
+            /*************************************************************************************
+ * Reset
+ *************************************************************************************/
+
+/** 清除内外边距 **/
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */
+dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+form, fieldset, legend, button, input, textarea, /* form elements 表单元素 */
+th, td /* table elements 表格元素 */ {
+    margin: 0;
+    padding: 0;
+}
+
+/** 设置默认字体 **/
+body,
+button, input, select, textarea /* for ie */ {
+    font: 14px/1.5 Microsoft YaHei, tahoma, arial, \5b8b\4f53, sans-serif;
+}
+h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+address, cite, dfn, em, var { font-style: normal; } /* 将斜体扶正 */
+code, kbd, pre, samp { font-family: courier new, courier, monospace; } /* 统一等宽字体 */
+small { font-size: 12px; } /* 小于 12px 的中文很难阅读，让 small 正常化 */
+
+/** 重置列表元素 **/
+ul, ol { list-style: none; }
+
+/** 重置文本格式元素 **/
+
+sup { vertical-align: text-top; } /* 重置，减少对行高的影响 */
+sub { vertical-align: text-bottom; }
+
+/** 重置表单元素 **/
+legend { color: #000; } /* for ie6 */
+fieldset, img { border: 0; } /* img 搭车：让链接里的 img 无边框 */
+button, input, select, textarea { font-size: 100%; } /* 使得表单元素在 ie 下能继承字体大小 */
+/* 注：optgroup 无法扶正 */
+
+/** 重置表格元素 **/
+table { border-collapse: collapse; border-spacing: 0; }
+
+/*************************************************************************************
+ * Layout
+ *************************************************************************************/
+
+/* 居中 */
+#content{
+    margin:0 10px;
+}
+
+/** 布局基础样式 **/
+.col-main {
+    float: left;
+    width: 100%;
+    /* bug fix: 主栏没有内容时，在 Firefox 和 Chrome 等浏览器下，布局不对 */
+    min-height: 1px;
+}
+.col-sub, .col-extra {
+    float: left;
+    /*position: relative;  按需设置，仅在需要时添加 */
+}
+
+/** 清除浮动 **/
+.layout:after, .main-wrap:after, .col-sub:after, .col-extra:after {
+    content: '\20';
+    display: block;
+    height: 0;
+    clear: both;
+}
+.layout, .main-wrap, .col-sub, .col-extra {
+    *zoom: 1;
+}
+
+/** 两栏布局 **/
+.layout .main-wrap { margin-left: 220px; }
+.layout .col-sub { width: 200px; margin-left: -100%; }
+
+/*************************************************************************************
+ * JSDoc
+ * gray:444, blue:06f, green:0c9, red:930
+ *************************************************************************************/
+
+/* reset for jsDoc */
+body{color:#444;}
+a{color: #06f;}
+h1,h2,h3{margin-bottom:10px;padding:8px 0;font:18px tahoma, "Microsoft YaHei", sans-serif;;}
+h1{font-size:28px;}
+dt{margin-bottom:5px;font-weight:bold;}
+dd{margin-bottom:10px;padding-left:30px;font-size:12px;}
+hr{margin:10px 0;height:0;overflow:hidden;border:none;border-top:1px dotted #ccc;}
+
+#header{margin:0 10px;border-bottom: 1px solid #a4d3f2;}
+.col-sub{border: 1px solid #a4d3f2;border-top:none;background:#f2f8fa;}
+#footer{margin-top:10px;padding:10px 10px 30px 10px;text-align:center;color:#666;border-top:1px solid #ddd;}
+
+.box{margin-bottom:10px;}
+.box-hd h3{margin-top:15px;font-size:18px;color:#404040;margin-bottom:0;}
+.box-bd{padding-left:20px;}
+
+.col-sub .box{margin:0 10px 10px 10px;}
+
+.class-title{color:#0c9;}
+.summary-box{color:#666;font-size:12px;}
+.param-list .name{color:#362e2b;}
+.code{margin-top:10px;padding:6px 10px;border-left:3px solid #0c9;background:#edfae5;}
+.attr,
+.desc{color:#666;font-size:14px;}
+.name{color:#930;}
+
+.detail-list li{padding-bottom:5px;margin-bottom:10px;border-bottom:1px dotted #ccc;}
+.detail-list li li{padding-bottom:0;margin-bottom:0;border-bottom:none;}
+.detail-list div.desc{margin-bottom:10px;}
+
+.detail-list li .view-source{display:none;_display:inline;}
+.detail-list li:hover .view-source{display:inline;font-size:14px;}
+
+.go-top{position:fixed;width:24px;height:24px;bottom:0;right:10px;line-height:24px;text-align:center;color:#fff;font-size:14px;font-weight:bold;background:#06f;
+    -moz-border-radius: 2px;
+    -khtml-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+}
+a.go-top:hover,
+a.go-top:active{text-decoration:none;}
+
+
+#header, #content, #footer {
+    margin: 0 10px;
+}
+#footer {
+    border-top: 1px solid #DFDFDF;
+    margin: 20px 0 10px;
+    padding-top: 10px;
+    text-align: center;
+}
+#header {
+    height: 100px;
+}
+#header .logo {
+    border: medium none;
+    float: left;
+    margin: 20px 0 0;
+    padding: 0;
+}
+#header .sub-title {
+    color: #AAAAAA;
+    float: left;
+    font: 25px "Microsoft YaHei";
+    margin: 45px 5px 0;
+}
+#header .desc {
+    color: #80C269;
+    float: left;
+    font-family: "Microsoft YaHei";
+    font-size: 15px;
+    font-weight: bold;
+    margin-left: 5px;
+    margin-top: 55px;
+}
+#header .navigation {
+    float: right;
+    list-style: none outside none;
+    margin: 55px 0 0;
+    overflow: hidden;
+}
+#header .navigation li {
+    border-left: 1px solid #DDDDDD;
+    float: left;
+    line-height: 1em;
+    margin-left: -1px;
+    padding: 0 10px 0 25px;
+}
+a{
+    color:#00A0E9;
+    text-decoration: none;
+}
+a:link, a:visited {
+    color:#00A0E9;
+}
+a:hover {
+    color: #3366CC;
+    text-decoration: underline;
+}
+.class-list li{
+    margin-top:6px;
+}
+dl.data{
+    border-bottom: 1px dotted #CCCCCC;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+}
+dl.data  tt {
+    font-family: arial;
+}
+dl.data tt.descclassname, tt.descname {
+    color: #9F2A2A;
+}
+dl.data .dd{
+    color:#404040;
+}
+.type{
+    color:#888888;
+}
+.detail-list  dt{
+    color: #444444;
+    border-left: 3px solid #A4D3F2;
+    padding-left: 6px;
+}
+.detail-list  dl{
+    margin-left:15px;
+}
+.list{
+    line-height: 28px;
+}
+.member-data {
+    border-left: 3px solid #A4D3F2;
+    padding-left: 10px;
+    color:#404040;
+    margin-left:15px;
+    margin-bottom:10px;
+}
+.member-data span{
+    color: #444444;
+    font-weight: bold;
+}
+.constructor-box p{
+    line-height: 24px;
+}
+.static-list li{
+    border-bottom: 1px dashed #CCCCCC;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+        </style>
+    </head>
+
+    <body>
+        <div id="page">
+        
+            <div id="header">
+    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="http://docs.kissyui.com/docs/html/_static/logo.png"/></a></h1>
+    <p class="sub-title">KF（kissy-form）V1.2—API文档</p>
+    <ul class="navigation">
+        <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.3/doc/index.html" target="_blank">文档</a></li>
+        <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/uploader/index.html" target="_blank">示例</a></li>
+        <li><a href="http://www.36ria.com/5041">使用指南</a></li>
+        <li><a href="https://github.com/KF-kissyForm/kissy-gallery">源码</a></li>
+    </ul>
+</div>
+
+            <div id="content">
+                <div class="layout">
+                    <div class="col-main">
+                        <div class="main-wrap">
+                            
+                            <!-- contructor START -->
+                            <div class="box constructor-box">
+                                <div class="box-hd">
+                                    
+                                    <h3><b class="name"><a href="../symbols/Queue.html#constructor">Queue</a></b>
+                                        <span class="param">(config)</span>
+                                        
+                                        
+                                        
+                                    </h3>
+                                    
+                                </div>
+                                <div class="box-bd">
+                                    
+                                        <p class="desc">描述：文件上传队列，用于存储文件数据</p>
+                                    
+
+                                    
+
+                                    
+                                        <p>继承自：
+                                            Base
+                                        </p>
+                                    
+
+                                    
+
+                                    
+                                        <p>源码：
+                                            <a href="../symbols/src/D__www_htdocs_gallery_gallery_form_1.2_uploader_queue.js.html">queue.js</a></p>
+
+                                    
+
+                                    
+                                </div>
+                            </div>
+                            <!-- constructor END -->
+                            
+                            <!-- properties START -->
+                            
+                                
+                                
+                                <div class="box properties-box">
+                                    <div class="box-hd">
+                                        <h3>Config Attributes（Properties）- 使用get和set方法获取/设置属性</h3>
+                                    </div>
+                                    <div class="box-bd">
+                                        <ul class="list summary-list">
+                                            
+                                                
+                                            
+                                                
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/Queue.html#files">files</a></b>
+                                                        <span class="type">{Array}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">队列内所有文件数据集合</span>
+                                                    </li>
+                                                
+                                            
+                                                
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/Queue.html#fnAdd">fnAdd</a></b>
+                                                        <span class="type">{Function}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">添加完文件数据后执行的回调函数，会在add事件前触发</span>
+                                                    </li>
+                                                
+                                            
+                                                
+                                            
+                                                
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/Queue.html#theme">theme</a></b>
+                                                        <span class="type">{Theme}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">主题实例</span>
+                                                    </li>
+                                                
+                                            
+                                                
+                                            
+                                                
+                                                    <li class="li">
+                                                        <b class="name"><a href="../symbols/Queue.html#uploader">uploader</a></b>
+                                                        <span class="type">{Uploader}</span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        <span class="desc">该队列对应的Uploader实例</span>
+                                                    </li>
+                                                
+                                            
+                                        </ul>
+                                        
+                                    </div>
+                                </div>
+                                                    
+                            
+                            <!-- properties END -->
+                            
+                            <!-- methods START -->
+                            
+                                
+                                
+                                <div class="box methods-box">
+                                    <div class="box-hd">
+                                        <h3>Methods</h3>
+                                    </div>
+                                    <div class="box-bd">
+                                        <ul class="list summary-list">
+                                            
+                                            <li class="li">                                                
+                                                
+                                                <b class="name"><a href="../symbols/Queue.html#add">add</a></b>
+                                                <span class="param">(files, callback)</span>
+                                                
+                                                
+                                                
+                                                <span class="desc">向上传队列添加文件</span>                                                
+                                            </li>
+                                            
+                                            <li class="li">                                                
+                                                
+                                                <b class="name"><a href="../symbols/Queue.html#clear">clear</a></b>
+                                                <span class="param">()</span>
+                                                
+                                                
+                                                
+                                                <span class="desc">清理队列</span>                                                
+                                            </li>
+                                            
+                                            <li class="li">                                                
+                                                
+                                                <b class="name"><a href="../symbols/Queue.html#fileStatus">fileStatus</a></b>
+                                                <span class="param">(index, status, args)</span>
+                                                
+                                                
+                                                
+                                                <span class="desc">获取或设置文件状态，默认的主题共有以下文件状态：'waiting'、'start'、'progress'、'success'、'cancel'、'error' ,每种状态的dom情况都不同，刷新文件状态时候同时刷新状态容器类下的DOM节点内容。</span>                                                
+                                            </li>
+                                            
+                                            <li class="li">                                                
+                                                
+                                                <b class="name"><a href="../symbols/Queue.html#getFile">getFile</a></b>
+                                                <span class="param">(index)</span>
+                                                
+                                                
+                                                
+                                                <span class="desc">获取指定索引值的队列中的文件</span>                                                
+                                            </li>
+                                            
+                                            <li class="li">                                                
+                                                
+                                                <b class="name"><a href="../symbols/Queue.html#getFileIndex">getFileIndex</a></b>
+                                                <span class="param">(fileId)</span>
+                                                
+                                                
+                                                
+                                                <span class="desc">根据文件id来查找文件在队列中的索引</span>                                                
+                                            </li>
+                                            
+                                            <li class="li">                                                
+                                                
+                                                <b class="name"><a href="../symbols/Queue.html#getFiles">getFiles</a></b>
+                                                <span class="param">(status)</span>
+                                                
+                                                
+                                                
+                                                <span class="desc">获取指定状态下的文件</span>                                                
+                                            </li>
+                                            
+                                            <li class="li">                                                
+                                                
+                                                <b class="name"><a href="../symbols/Queue.html#getIndexs">getIndexs</a></b>
+                                                <span class="param">(type)</span>
+                                                
+                                                
+                                                
+                                                <span class="desc">获取等指定状态的文件对应的文件数组index的数组</span>                                                
+                                            </li>
+                                            
+                                            <li class="li">                                                
+                                                
+                                                <b class="name"><a href="../symbols/Queue.html#remove">remove</a></b>
+                                                <span class="param">(indexOrFileId, callback)</span>
+                                                
+                                                
+                                                
+                                                <span class="desc">删除队列中指定id的文件</span>                                                
+                                            </li>
+                                            
+                                            <li class="li">                                                
+                                                
+                                                <b class="name"><a href="../symbols/Queue.html#updateFile">updateFile</a></b>
+                                                <span class="param">(index, data)</span>
+                                                
+                                                
+                                                
+                                                <span class="desc">更新文件数据对象，你可以追加数据</span>                                                
+                                            </li>
+                                            
+                                        </ul>
+                                        
+                                    </div>
+                                </div>
+                                
+                            
+                            <!-- methods END -->
+                            
+                            <!-- events START -->
+                            
+                                
+                                
+                                <div class="box events-box">
+                                    <div class="box-hd">
+                                        <h3>Events</h3>
+                                    </div>
+                                    <div class="box-bd">
+                                        <ul class="list summary-list">
+                                            
+                                            <li class="li">
+                                                
+                                                <b class="name"><a href="../symbols/Queue.html#event:add">add</a></b>
+                                                <span class="param">()</span>
+                                                
+                                                
+                                                
+                                                <span class="desc">添加完文件后触发</span>
+                                            </li>
+                                            
+                                            <li class="li">
+                                                
+                                                <b class="name"><a href="../symbols/Queue.html#event:addFiles">addFiles</a></b>
+                                                <span class="param">()</span>
+                                                
+                                                
+                                                
+                                                <span class="desc">批量添加文件后触发</span>
+                                            </li>
+                                            
+                                            <li class="li">
+                                                
+                                                <b class="name"><a href="../symbols/Queue.html#event:clear">clear</a></b>
+                                                <span class="param">()</span>
+                                                
+                                                
+                                                
+                                                <span class="desc">清理队列所有的文件后触发</span>
+                                            </li>
+                                            
+                                            <li class="li">
+                                                
+                                                <b class="name"><a href="../symbols/Queue.html#event:remove">remove</a></b>
+                                                <span class="param">()</span>
+                                                
+                                                
+                                                
+                                                <span class="desc">删除文件后触发</span>
+                                            </li>
+                                            
+                                            <li class="li">
+                                                
+                                                <b class="name"><a href="../symbols/Queue.html#event:restore">restore</a></b>
+                                                <span class="param">()</span>
+                                                
+                                                
+                                                
+                                                <span class="desc">恢复文件后触发</span>
+                                            </li>
+                                            
+                                            <li class="li">
+                                                
+                                                <b class="name"><a href="../symbols/Queue.html#event:statusChange">statusChange</a></b>
+                                                <span class="param">()</span>
+                                                
+                                                
+                                                
+                                                <span class="desc">当改变文件状态后触发</span>
+                                            </li>
+                                            
+                                            <li class="li">
+                                                
+                                                <b class="name"><a href="../symbols/Queue.html#event:updateFile">updateFile</a></b>
+                                                <span class="param">()</span>
+                                                
+                                                
+                                                
+                                                <span class="desc">更新文件数据后触发</span>
+                                            </li>
+                                            
+                                        </ul>
+                                        
+                                    </div>
+                                </div>
+                                
+                            
+                            <!-- events END -->
+
+                            <!-- constructor details START-->
+                            
+                            <div class="detail-box">
+                                <a name="constructor"></a>
+                                <div class="box-hd">
+                                    <h3>Class Detail</h3>
+                                </div>
+                                <div class="box-bd">
+                                    <ul class="list detail-list">
+                                        <li class="li">
+                                            <div class="title">
+                                                <b class="name">Queue</b>
+                                                <span class="param">(config)</span>
+                                            </div>
+                                            
+                                            <div class="desc">文件上传队列，用于存储文件数据</div>
+                                            
+                                            <dl>                                                
+                                                
+                                                
+                                                
+                                                <dt>params：</dt>
+                                                <dd>
+                                                    <ul class="list param-list">
+                                                        
+                                                        <li class="li">
+                                                            &nbsp;
+                                                                <b>config</b>
+                                                            
+                                                            
+                                                            <span class="type"><span class="light fixedFont">{Object}</span> </span>
+                                                            <span class="desc">Queue没有必写的配置</span>
+                                                        </li>
+                                                        
+                                                        <li class="li">
+                                                            &nbsp;
+                                                                <b>config.uploader</b>
+                                                            
+                                                            
+                                                            <span class="type"><span class="light fixedFont">{<a href="../symbols/Uploader.html">Uploader</a>}</span> </span>
+                                                            <span class="desc">Uploader的实例</span>
+                                                        </li>
+                                                        
+                                                    </ul>
+                                                </dd>
+                                                
+                                                
+                                                
+
+                                                
+                                                
+
+                                                
+                                                
+                                                
+                                                
+                                                <dt>example：</dt>
+                                                <dd>
+                                                    
+                                                    <pre class='brush: js;'>S.use('gallery/form/1.3/uploader/queue/base,gallery/form/1.3/uploader/themes/default/style.css', function (S, Queue) {
+   var queue = new Queue();
+   queue.render();
+})</pre>
+                                                    
+                                                </dd>                                                
+                                                
+                                            </dl>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <!-- constructor details START-->
+
+                            <!-- properties details START -->
+                            
+                            <div class="box">
+                                <div class="box-hd">
+                                    <h3>Properties Detail</h3>
+                                </div>
+                                <div class="box-bd">
+                                    <ul class="list detail-list">
+                                    
+                                    
+                                    
+                                    
+                                        <li class="li">
+                                            <a name="files"> </a>
+                                            <div class="title">                                                
+                                                <b class="name">files</b>
+                                                <span class="type">{Array}</span> 
+                                                
+                                                
+                                                
+                                                
+                                                <span class="desc">
+                                                    — 队列内所有文件数据集合
+                                                    
+                                                    
+                                                </span>
+                                            </div>
+                                            <!--
+                                            -->
+                                            
+                                            
+                                                <div class="member-data"><span>default：</span>[]</div>
+                                            
+                                            
+                                            
+                                                <dl>
+                                                    <dt>example：</dt>
+                                                    <dd>
+                                                            
+                                                                <pre class='brush: js;'>
+                                                                    var ids = [],
+         files = queue.get('files');
+         S.each(files, function (file) {
+         ids.push(file.id);
+         });
+         alert('所有文件id：' + ids);
+                                                                </pre>
+                                                            
+                                                    </dd>
+                                                </dl>
+                                            
+                                        </li>
+                                    
+                                    
+                                    
+                                        <li class="li">
+                                            <a name="fnAdd"> </a>
+                                            <div class="title">                                                
+                                                <b class="name">fnAdd</b>
+                                                <span class="type">{Function}</span> 
+                                                
+                                                
+                                                
+                                                
+                                                <span class="desc">
+                                                    — 添加完文件数据后执行的回调函数，会在add事件前触发
+                                                    
+                                                    
+                                                </span>
+                                            </div>
+                                            <!--
+                                            -->
+                                            
+                                            
+                                                <div class="member-data"><span>default：</span>''</div>
+                                            
+                                            
+                                            
+                                        </li>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                        <li class="li">
+                                            <a name="theme"> </a>
+                                            <div class="title">                                                
+                                                <b class="name">theme</b>
+                                                <span class="type">{<a href="../symbols/Theme.html">Theme</a>}</span> 
+                                                
+                                                
+                                                
+                                                
+                                                <span class="desc">
+                                                    — 主题实例
+                                                    
+                                                    
+                                                </span>
+                                            </div>
+                                            <!--
+                                            -->
+                                            
+                                            
+                                                <div class="member-data"><span>default：</span>""</div>
+                                            
+                                            
+                                            
+                                        </li>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                        <li class="li">
+                                            <a name="uploader"> </a>
+                                            <div class="title">                                                
+                                                <b class="name">uploader</b>
+                                                <span class="type">{<a href="../symbols/Uploader.html">Uploader</a>}</span> 
+                                                
+                                                
+                                                
+                                                
+                                                <span class="desc">
+                                                    — 该队列对应的Uploader实例
+                                                    
+                                                    
+                                                </span>
+                                            </div>
+                                            <!--
+                                            -->
+                                            
+                                            
+                                                <div class="member-data"><span>default：</span>""</div>
+                                            
+                                            
+                                            
+                                        </li>
+                                    
+                                    
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <!-- properties detail END -->
+
+                            <!-- methods detail START -->
+                            
+                            <div class="box">
+                                <div class="box-hd">
+                                    <h3>Methods Detail</h3>
+                                </div>
+                                <div class="box-bd">
+                                    <ul class="list detail-list">
+                                        
+                                        <li class="li">
+                                            <div class="title">
+                                                
+                                                <b class="name">add</b>
+                                                <span class="param">(files, callback)</span>
+                                                
+                                                
+                                                
+                                            </div>
+
+                                            <div class="desc">
+                                                向上传队列添加文件
+                                                
+                                                
+                                            </div>
+                                            
+                                            <dl>                                            
+                                                
+                                                
+                                                <dt>Parameters</dt>
+                                                <dd>
+                                                    <ul class="list param-list">
+                                                    
+                                                        <li class="li">
+                                                            &nbsp;
+                                                            <b class="name">files</b>
+                                                            
+                                                            
+                                                            <span class="type">{Object | Array}</span> 
+                                                            <span class="desc">文件数据，传递数组时为批量添加</span>
+                                                        </li>
+                                                    
+                                                        <li class="li">
+                                                            &nbsp;
+                                                            <b class="name">callback</b>
+                                                            
+                                                            
+                                                            
+                                                            <span class="desc"></span>
+                                                        </li>
+                                                    
+                                                    </ul>
+                                                </dd>
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                                                                
+                                                
+                                                
+                                                <dt>Example</dt>
+                                                <dd>
+                                                        
+                                                            <pre class="brush: js; ">//测试文件数据
+ var testFile = {'name':'test.jpg',
+     'size':2000,
+     'input':{},
+     'file':{'name':'test.jpg', 'type':'image/jpeg', 'size':2000}
+ };
+ //向队列添加文件
+ queue.add(testFile);</pre>
+                                                        
+                                                </dd>
+                                                
+                                                
+                                            </dl>                                            
+                                        </li>
+                                        
+                                        <li class="li">
+                                            <div class="title">
+                                                
+                                                <b class="name">clear</b>
+                                                <span class="param">()</span>
+                                                
+                                                
+                                                
+                                            </div>
+
+                                            <div class="desc">
+                                                清理队列
+                                                
+                                                
+                                            </div>
+                                            
+                                            <dl>                                            
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                                                                
+                                                
+                                                
+                                                
+                                            </dl>                                            
+                                        </li>
+                                        
+                                        <li class="li">
+                                            <div class="title">
+                                                
+                                                <b class="name">fileStatus</b>
+                                                <span class="param">(index, status, args)</span>
+                                                
+                                                
+                                                
+                                            </div>
+
+                                            <div class="desc">
+                                                获取或设置文件状态，默认的主题共有以下文件状态：'waiting'、'start'、'progress'、'success'、'cancel'、'error' ,每种状态的dom情况都不同，刷新文件状态时候同时刷新状态容器类下的DOM节点内容。
+                                                
+                                                
+                                            </div>
+                                            
+                                            <dl>                                            
+                                                
+                                                
+                                                <dt>Parameters</dt>
+                                                <dd>
+                                                    <ul class="list param-list">
+                                                    
+                                                        <li class="li">
+                                                            &nbsp;
+                                                            <b class="name">index</b>
+                                                            
+                                                            
+                                                            <span class="type">{Number}</span> 
+                                                            <span class="desc">文件数组的索引值</span>
+                                                        </li>
+                                                    
+                                                        <li class="li">
+                                                            &nbsp;
+                                                            <b class="name">status</b>
+                                                            
+                                                            
+                                                            <span class="type">{String}</span> 
+                                                            <span class="desc">文件状态</span>
+                                                        </li>
+                                                    
+                                                        <li class="li">
+                                                            &nbsp;
+                                                            <b class="name">args</b>
+                                                            
+                                                            
+                                                            
+                                                            <span class="desc"></span>
+                                                        </li>
+                                                    
+                                                    </ul>
+                                                </dd>
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                <dt>Returns</dt>
+                                                <dd>
+                                                    <ul class="list">
+                                                    
+                                                        <li class="li">
+                                                            <span class="type">{Object}</span> 
+                                                            <span></span>
+                                                        </li>
+                                                    
+                                                    </ul>
+                                                </dd>
+                                                
+                                                
+                                                
+                                                
+                                                                                                
+                                                
+                                                
+                                                <dt>Example</dt>
+                                                <dd>
+                                                        
+                                                            <pre class="brush: js; ">queue.fileStatus(0, 'success');</pre>
+                                                        
+                                                </dd>
+                                                
+                                                
+                                            </dl>                                            
+                                        </li>
+                                        
+                                        <li class="li">
+                                            <div class="title">
+                                                
+                                                <b class="name">getFile</b>
+                                                <span class="param">(index)</span>
+                                                
+                                                
+                                                
+                                            </div>
+
+                                            <div class="desc">
+                                                获取指定索引值的队列中的文件
+                                                
+                                                
+                                            </div>
+                                            
+                                            <dl>                                            
+                                                
+                                                
+                                                <dt>Parameters</dt>
+                                                <dd>
+                                                    <ul class="list param-list">
+                                                    
+                                                        <li class="li">
+                                                            &nbsp;
+                                                            <b class="name">index</b>
+                                                            
+                                                            
+                                                            <span class="type">{Number}</span> 
+                                                            <span class="desc">文件在队列中的索引</span>
+                                                        </li>
+                                                    
+                                                    </ul>
+                                                </dd>
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                <dt>Returns</dt>
+                                                <dd>
+                                                    <ul class="list">
+                                                    
+                                                        <li class="li">
+                                                            <span class="type">{Object}</span> 
+                                                            <span></span>
+                                                        </li>
+                                                    
+                                                    </ul>
+                                                </dd>
+                                                
+                                                
+                                                
+                                                
+                                                                                                
+                                                
+                                                
+                                                
+                                            </dl>                                            
+                                        </li>
+                                        
+                                        <li class="li">
+                                            <div class="title">
+                                                
+                                                <b class="name">getFileIndex</b>
+                                                <span class="param">(fileId)</span>
+                                                
+                                                
+                                                
+                                            </div>
+
+                                            <div class="desc">
+                                                根据文件id来查找文件在队列中的索引
+                                                
+                                                
+                                            </div>
+                                            
+                                            <dl>                                            
+                                                
+                                                
+                                                <dt>Parameters</dt>
+                                                <dd>
+                                                    <ul class="list param-list">
+                                                    
+                                                        <li class="li">
+                                                            &nbsp;
+                                                            <b class="name">fileId</b>
+                                                            
+                                                            
+                                                            <span class="type">{String}</span> 
+                                                            <span class="desc">文件id</span>
+                                                        </li>
+                                                    
+                                                    </ul>
+                                                </dd>
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                <dt>Returns</dt>
+                                                <dd>
+                                                    <ul class="list">
+                                                    
+                                                        <li class="li">
+                                                            <span class="type">{Number}</span> 
+                                                            <span>index</span>
+                                                        </li>
+                                                    
+                                                    </ul>
+                                                </dd>
+                                                
+                                                
+                                                
+                                                
+                                                                                                
+                                                
+                                                
+                                                
+                                            </dl>                                            
+                                        </li>
+                                        
+                                        <li class="li">
+                                            <div class="title">
+                                                
+                                                <b class="name">getFiles</b>
+                                                <span class="param">(status)</span>
+                                                
+                                                
+                                                
+                                            </div>
+
+                                            <div class="desc">
+                                                获取指定状态下的文件
+                                                
+                                                
+                                            </div>
+                                            
+                                            <dl>                                            
+                                                
+                                                
+                                                <dt>Parameters</dt>
+                                                <dd>
+                                                    <ul class="list param-list">
+                                                    
+                                                        <li class="li">
+                                                            &nbsp;
+                                                            <b class="name">status</b>
+                                                            
+                                                            
+                                                            <span class="type">{String}</span> 
+                                                            <span class="desc">状态类型</span>
+                                                        </li>
+                                                    
+                                                    </ul>
+                                                </dd>
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                <dt>Returns</dt>
+                                                <dd>
+                                                    <ul class="list">
+                                                    
+                                                        <li class="li">
+                                                            <span class="type">{Array}</span> 
+                                                            <span></span>
+                                                        </li>
+                                                    
+                                                    </ul>
+                                                </dd>
+                                                
+                                                
+                                                
+                                                
+                                                                                                
+                                                
+                                                
+                                                <dt>Example</dt>
+                                                <dd>
+                                                        
+                                                            <pre class="brush: js; ">//获取等待中的所有文件
+var files = queue.getFiles('waiting');</pre>
+                                                        
+                                                </dd>
+                                                
+                                                
+                                            </dl>                                            
+                                        </li>
+                                        
+                                        <li class="li">
+                                            <div class="title">
+                                                
+                                                <b class="name">getIndexs</b>
+                                                <span class="param">(type)</span>
+                                                
+                                                
+                                                
+                                            </div>
+
+                                            <div class="desc">
+                                                获取等指定状态的文件对应的文件数组index的数组
+                                                
+                                                
+                                            </div>
+                                            
+                                            <dl>                                            
+                                                
+                                                
+                                                <dt>Parameters</dt>
+                                                <dd>
+                                                    <ul class="list param-list">
+                                                    
+                                                        <li class="li">
+                                                            &nbsp;
+                                                            <b class="name">type</b>
+                                                            
+                                                            
+                                                            <span class="type">{String}</span> 
+                                                            <span class="desc">状态类型</span>
+                                                        </li>
+                                                    
+                                                    </ul>
+                                                </dd>
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                <dt>Returns</dt>
+                                                <dd>
+                                                    <ul class="list">
+                                                    
+                                                        <li class="li">
+                                                            <span class="type">{Array}</span> 
+                                                            <span></span>
+                                                        </li>
+                                                    
+                                                    </ul>
+                                                </dd>
+                                                
+                                                
+                                                
+                                                
+                                                                                                
+                                                
+                                                
+                                                <dt>Example</dt>
+                                                <dd>
+                                                        
+                                                            <pre class="brush: js; ">//getFiles()和getFileIds()的作用是不同的，getFiles()类似过滤数组，获取的是指定状态的文件数据，而getFileIds()只是获取指定状态下的文件对应的在文件数组内的索引值。
+var indexs = queue.getFileIds('waiting');</pre>
+                                                        
+                                                </dd>
+                                                
+                                                
+                                            </dl>                                            
+                                        </li>
+                                        
+                                        <li class="li">
+                                            <div class="title">
+                                                
+                                                <b class="name">remove</b>
+                                                <span class="param">(indexOrFileId, callback)</span>
+                                                
+                                                
+                                                
+                                            </div>
+
+                                            <div class="desc">
+                                                删除队列中指定id的文件
+                                                
+                                                
+                                            </div>
+                                            
+                                            <dl>                                            
+                                                
+                                                
+                                                <dt>Parameters</dt>
+                                                <dd>
+                                                    <ul class="list param-list">
+                                                    
+                                                        <li class="li">
+                                                            &nbsp;
+                                                            <b class="name">indexOrFileId</b>
+                                                            
+                                                            
+                                                            <span class="type">{Number}</span> 
+                                                            <span class="desc">文件数组索引或文件id</span>
+                                                        </li>
+                                                    
+                                                        <li class="li">
+                                                            &nbsp;
+                                                            <b class="name">callback</b>
+                                                            
+                                                            
+                                                            <span class="type">{Function}</span> 
+                                                            <span class="desc">删除元素后执行的回调函数</span>
+                                                        </li>
+                                                    
+                                                    </ul>
+                                                </dd>
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                                                                
+                                                
+                                                
+                                                <dt>Example</dt>
+                                                <dd>
+                                                        
+                                                            <pre class="brush: js; ">queue.remove(0);</pre>
+                                                        
+                                                </dd>
+                                                
+                                                
+                                            </dl>                                            
+                                        </li>
+                                        
+                                        <li class="li">
+                                            <div class="title">
+                                                
+                                                <b class="name">updateFile</b>
+                                                <span class="param">(index, data)</span>
+                                                
+                                                
+                                                
+                                            </div>
+
+                                            <div class="desc">
+                                                更新文件数据对象，你可以追加数据
+                                                
+                                                
+                                            </div>
+                                            
+                                            <dl>                                            
+                                                
+                                                
+                                                <dt>Parameters</dt>
+                                                <dd>
+                                                    <ul class="list param-list">
+                                                    
+                                                        <li class="li">
+                                                            &nbsp;
+                                                            <b class="name">index</b>
+                                                            
+                                                            
+                                                            <span class="type">{Number}</span> 
+                                                            <span class="desc">文件数组内的索引值</span>
+                                                        </li>
+                                                    
+                                                        <li class="li">
+                                                            &nbsp;
+                                                            <b class="name">data</b>
+                                                            
+                                                            
+                                                            <span class="type">{Object}</span> 
+                                                            <span class="desc">数据</span>
+                                                        </li>
+                                                    
+                                                    </ul>
+                                                </dd>
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                <dt>Returns</dt>
+                                                <dd>
+                                                    <ul class="list">
+                                                    
+                                                        <li class="li">
+                                                            <span class="type">{Object}</span> 
+                                                            <span></span>
+                                                        </li>
+                                                    
+                                                    </ul>
+                                                </dd>
+                                                
+                                                
+                                                
+                                                
+                                                                                                
+                                                
+                                                
+                                                
+                                            </dl>                                            
+                                        </li>
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <!-- methods detail END -->
+
+                            <!-- events detail START -->
+                            
+                            <div class="box">
+                                <div class="box-hd">
+                                    <h3>Events Detail</h3>
+                                </div>
+                                <div class="box-bd">
+                                <ul class="detail-list">
+                                    
+                                    <li>
+                                        <div class="title">
+                                            
+                                            
+                                            <b class="name">add</b>
+                                            <span class="param">()</span>
+                                            
+                                            
+                                            
+                                        </div>
+                                        
+                                        <div class="desc">
+                                            添加完文件后触发
+                                            
+                                            
+                                        </div>
+                                        
+                                        <dl>
+                                            
+                                            <dt>参数：</dt>
+                                            <dd>
+                                                <ul class="list param-list">
+                                                
+                                                    <li class="li">
+                                                        &nbsp;
+                                                        <b class="name">ev.index</b>
+                                                        
+                                                        
+                                                        <span class="type">{Number}</span> 
+                                                        <span class="desc">文件在队列中的索引值</span>
+                                                    </li>
+                                                
+                                                    <li class="li">
+                                                        &nbsp;
+                                                        <b class="name">ev.file</b>
+                                                        
+                                                        
+                                                        <span class="type">{Object}</span> 
+                                                        <span class="desc">文件数据</span>
+                                                    </li>
+                                                
+                                                </ul>
+                                            </dd>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            <dt>
+
+                                            
+                                            
+                                        </dl>
+                                    </li>
+                                    
+                                    <li>
+                                        <div class="title">
+                                            
+                                            
+                                            <b class="name">addFiles</b>
+                                            <span class="param">()</span>
+                                            
+                                            
+                                            
+                                        </div>
+                                        
+                                        <div class="desc">
+                                            批量添加文件后触发
+                                            
+                                            
+                                        </div>
+                                        
+                                        <dl>
+                                            
+                                            <dt>参数：</dt>
+                                            <dd>
+                                                <ul class="list param-list">
+                                                
+                                                    <li class="li">
+                                                        &nbsp;
+                                                        <b class="name">ev.files</b>
+                                                        
+                                                        
+                                                        <span class="type">{Array}</span> 
+                                                        <span class="desc">添加后的文件数据集合</span>
+                                                    </li>
+                                                
+                                                </ul>
+                                            </dd>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            <dt>
+
+                                            
+                                            
+                                        </dl>
+                                    </li>
+                                    
+                                    <li>
+                                        <div class="title">
+                                            
+                                            
+                                            <b class="name">clear</b>
+                                            <span class="param">()</span>
+                                            
+                                            
+                                            
+                                        </div>
+                                        
+                                        <div class="desc">
+                                            清理队列所有的文件后触发
+                                            
+                                            
+                                        </div>
+                                        
+                                        <dl>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            <dt>
+
+                                            
+                                            
+                                        </dl>
+                                    </li>
+                                    
+                                    <li>
+                                        <div class="title">
+                                            
+                                            
+                                            <b class="name">remove</b>
+                                            <span class="param">()</span>
+                                            
+                                            
+                                            
+                                        </div>
+                                        
+                                        <div class="desc">
+                                            删除文件后触发
+                                            
+                                            
+                                        </div>
+                                        
+                                        <dl>
+                                            
+                                            <dt>参数：</dt>
+                                            <dd>
+                                                <ul class="list param-list">
+                                                
+                                                    <li class="li">
+                                                        &nbsp;
+                                                        <b class="name">ev.index</b>
+                                                        
+                                                        
+                                                        <span class="type">{Number}</span> 
+                                                        <span class="desc">文件在队列中的索引值</span>
+                                                    </li>
+                                                
+                                                    <li class="li">
+                                                        &nbsp;
+                                                        <b class="name">ev.file</b>
+                                                        
+                                                        
+                                                        <span class="type">{Object}</span> 
+                                                        <span class="desc">文件数据</span>
+                                                    </li>
+                                                
+                                                </ul>
+                                            </dd>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            <dt>
+
+                                            
+                                            
+                                        </dl>
+                                    </li>
+                                    
+                                    <li>
+                                        <div class="title">
+                                            
+                                            
+                                            <b class="name">restore</b>
+                                            <span class="param">()</span>
+                                            
+                                            
+                                            
+                                        </div>
+                                        
+                                        <div class="desc">
+                                            恢复文件后触发
+                                            
+                                            
+                                        </div>
+                                        
+                                        <dl>
+                                            
+                                            <dt>参数：</dt>
+                                            <dd>
+                                                <ul class="list param-list">
+                                                
+                                                    <li class="li">
+                                                        &nbsp;
+                                                        <b class="name">ev.files</b>
+                                                        
+                                                        
+                                                        <span class="type">{Array}</span> 
+                                                        <span class="desc">文件数据集合</span>
+                                                    </li>
+                                                
+                                                </ul>
+                                            </dd>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            <dt>
+
+                                            
+                                            
+                                        </dl>
+                                    </li>
+                                    
+                                    <li>
+                                        <div class="title">
+                                            
+                                            
+                                            <b class="name">statusChange</b>
+                                            <span class="param">()</span>
+                                            
+                                            
+                                            
+                                        </div>
+                                        
+                                        <div class="desc">
+                                            当改变文件状态后触发
+                                            
+                                            
+                                        </div>
+                                        
+                                        <dl>
+                                            
+                                            <dt>参数：</dt>
+                                            <dd>
+                                                <ul class="list param-list">
+                                                
+                                                    <li class="li">
+                                                        &nbsp;
+                                                        <b class="name">ev.index</b>
+                                                        
+                                                        
+                                                        <span class="type">{Number}</span> 
+                                                        <span class="desc">文件在队列中的索引值</span>
+                                                    </li>
+                                                
+                                                    <li class="li">
+                                                        &nbsp;
+                                                        <b class="name">ev.status</b>
+                                                        
+                                                        
+                                                        <span class="type">{String}</span> 
+                                                        <span class="desc">文件状态</span>
+                                                    </li>
+                                                
+                                                </ul>
+                                            </dd>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            <dt>
+
+                                            
+                                            
+                                        </dl>
+                                    </li>
+                                    
+                                    <li>
+                                        <div class="title">
+                                            
+                                            
+                                            <b class="name">updateFile</b>
+                                            <span class="param">()</span>
+                                            
+                                            
+                                            
+                                        </div>
+                                        
+                                        <div class="desc">
+                                            更新文件数据后触发
+                                            
+                                            
+                                        </div>
+                                        
+                                        <dl>
+                                            
+                                            <dt>参数：</dt>
+                                            <dd>
+                                                <ul class="list param-list">
+                                                
+                                                    <li class="li">
+                                                        &nbsp;
+                                                        <b class="name">ev.index</b>
+                                                        
+                                                        
+                                                        <span class="type">{Number}</span> 
+                                                        <span class="desc">文件在队列中的索引值</span>
+                                                    </li>
+                                                
+                                                    <li class="li">
+                                                        &nbsp;
+                                                        <b class="name">ev.file</b>
+                                                        
+                                                        
+                                                        <span class="type">{Object}</span> 
+                                                        <span class="desc">文件数据</span>
+                                                    </li>
+                                                
+                                                </ul>
+                                            </dd>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            <dt>
+
+                                            
+                                            
+                                        </dl>
+                                    </li>
+                                    
+                                </ul>
+                                </div>
+                            </div>
+                            
+                            <!-- events detail START -->
+
+                        </div>
+                    </div>
+                    <div class="col-sub">
+                        <div class="box">
+    <div class="box-bd">
+        <ul class="list class-list">
+            <li><a href="Limiter.html">Limiter</a></li>
+            <li><a href="SpinBox.html">SpinBox</a></li>
+            <li><a href="Radio.html">Radio</a></li>
+            <li><a href="Checkbox.html">Checkbox</a></li>
+        </ul>
+    </div>
+    <hr />
+    <div class="box-hd">
+        <h3>Uploader</h3>
+    </div>
+    <div class="box-bd">
+        <ul class="list class-list">
+            <li><a href="RenderUploader.html">RenderUploader</a></li>
+            <li><a href="Uploader.html">Uploader</a></li>
+            <li><a href="Queue.html">Queue</a></li>
+            <li><a href="Auth.html">Auth</a></li>
+            <li><a href="Theme.html">Theme</a></li>
+            <li><a href="ProgressBar.html">ProgressBar</a></li>
+        </ul>
+    </div>
+</div>
+                    </div>
+                </div>
+            </div>
+            <div id="footer">
+    <div>
+        Copyright 2010-2012 , <a href="http://docs.kissyui.com" target="_blank">kissyteam</a>
+    </div>
+</div>
+<a class="go-top" href="#page">Top</a>
+        </div>
+<link href='http://www.36ria.com/demo/gal/gallery/form/1.0/demo/form/uploader/assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="http://www.36ria.com/demo/gal/gallery/form/1.0/demo/form/uploader/assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+    </body>
+</html>

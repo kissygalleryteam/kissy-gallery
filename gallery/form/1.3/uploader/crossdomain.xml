@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--flash的跨域访问文件，请将此文件移到域名根目录下，比如应用域名为refund.taobao.com，那么就应该有http://www.refund.taobao.com/crossdomain.xml-->
+<!--详细配置方法请看：http://shihuan830619.iteye.com/blog/784971-->
+<cross-domain-policy>
+    <allow-access-from domain="*"/>
+<!--<allow-access-from domain="*.taobao.com" />
+<allow-access-from domain="*.taobao.net"/>
+<allow-access-from domain="*.taobaocdn.com"/>
+<allow-access-from domain="*.tbcdn.cn"/>
+<allow-access-from domain="*.allyes.com"/>-->
+
+</cross-domain-policy>

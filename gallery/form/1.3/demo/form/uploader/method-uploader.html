@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Uploader方法测试</title>
+<link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js" charset="utf-8"></script>
+</head>
+<body>
+<article id="doc">
+    <h4>Uploader方法测试</h4>
+    <p>请先多选择几个文件</p>
+    <a id="J_UploaderBtn" class="uploader-button" data-config=
+            '{"type" : "auto",
+            "autoUpload" : false,
+           "serverConfig":{"action":"upload.php","data":{"dir":"files/"},"dataType" : "json"},
+           "name":"Filedata",
+           "urlsInputName":"fileUrls"}'
+       href="#">
+        选择要上传的文件
+    </a>
+    <!-- 文件上传队列 -->
+    <ul id="J_UploaderQueue">
+
+    </ul>
+    <div class="btn-wrapper">
+        <input id="J_Upload" type="button" value="上传第一个文件">
+        <input id="J_UploadFiles" type="button" value="上传所有等待中的文件">
+        <input id="J_Cancel" type="button" value="取消正在文件的上传">
+        <input id="J_Stop" type="button" value="停止上传">
+    </div>
+    <h5>upload(index)：上传指定队列索引的文件</h5>
+    上传队列中的第一个文件（等待状态）：
+    <pre class='brush: js;'>
+        uploader.upload(0);
+    </pre>
+    <h5>uploadFiles(status)：批量上传队列中的指定状态下的文件</h5>
+    <p>上传所有等待中的文件</p>
+    <pre class='brush: js;'>
+        uploader.uploadFiles('waiting');
+    </pre>
+    无参时默认为'waiting'。
+    <h5>cancel(index)：取消当前正在上传的文件的上传</h5>
+    <pre class='brush: js;'>
+        uploader.cancel();
+    </pre>
+    <p>带参数时，将改变文件的状态为“取消”，留意无法改变上传成功的文件状态。</p>
+    <h5>stop()：停止上传动作</h5>
+    <pre class='brush: js;'>
+        uploader.stop();
+    </pre>
+</article>
+<script>
+    var S = KISSY, $ = S.Node.all;
+    S.config({
+        packages:[
+            {
+                name:"gallery",
+                path:"../../../../../../",
+                charset:"utf-8"
+            }
+        ]
+    });
+    //加载上传组件入口文件
+    KISSY.use('gallery/form/1.3/uploader/index', function (S, RenderUploader) {
+        var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
+        ru.on("init",function(ev){
+            var uploader = ev.uploader;
+            $('#J_Upload').on('click',function(){
+                uploader.upload(0);
+            });
+            $('#J_UploadFiles').on('click',function(){
+                uploader.uploadFiles('waiting');
+            });
+            $('#J_Cancel').on('click',function(){
+                uploader.cancel();
+            });
+            $('#J_Stop').on('click',function(){
+                uploader.stop();
+            });
+        })
+    })
+</script>
+
+<!-- 代码高亮 START  -->
+<link href='../../assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="../../assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+</body>
+</html>

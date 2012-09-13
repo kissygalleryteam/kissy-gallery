@@ -1,0 +1,244 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Limiter：字数统计组件</title>
+    <link rel="shortcut icon" href="http://docs.kissyui.com/kissy-dpl/base/assets/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/docs.css"/>
+    <!--[if lt IE 8]>
+    <link href="http://a.tbcdn.cn/s/kissy/1.1.7/editor/theme/cool/editor-pkg-min-mhtml.css" rel="stylesheet"/>
+    <![endif]-->
+    <!--[if gte IE 8]><!-->
+    <link href="http://a.tbcdn.cn/s/kissy/1.1.7/editor/theme/cool/editor-pkg-min-datauri.css" rel="stylesheet"/>
+    <!--<![endif]-->
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js" charset="utf-8"></script>
+    <script src="../../assets/feedback.js" charset="utf-8"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" charset="utf-8"></script>
+    <script src="../../assets/bootstrap.min.js" charset="utf-8"></script>
+    <script src="../../assets/scrollspy.js" charset="utf-8"></script>
+    <script src="../../assets/affix.js" charset="utf-8"></script>
+    <script src="../../assets/app.js" charset="utf-8"></script>
+    <style type="text/css">
+        #textarea-wrapper{
+            border:none;
+        }
+        span.ks-letter-count{
+            color: #999999;
+            font-size:12px;
+            display: block;
+            margin-top:10px;
+        }
+        span.ks-letter-count em{
+            color:#15428B;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo.html" id="logo">BUTTERFLY</a>
+
+            <div class="nav-collapse">
+
+                <ul class="nav">
+                    <li><a href="http://docs.kissyui.com/kissy-gallery/gallery/form/1.3/demo.html">首页</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">组件 <b
+                            class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/uploader/index.html">Uploader</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/limiter/index.html">Limiter</a>
+                            </li>
+                            <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/spinbox/index.html">SpinBox</a>
+                            </li>
+                            <li>
+                                <a href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/auth/index.html">Auth</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/checkbox/index.html">checkbox</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/radio/index.html">radio</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="https://github.com/kissyteam/kissy-gallery/tree/master/gallery/form">源码</a></li>
+                    <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.3/doc/index.html">API文档</a></li>
+                </ul>
+                <ul class="nav pull-right">
+                    <li><a rel="tooltip" target="_blank" href="http://docs.kissyui.com/kissy-gallery/index.html">kissy
+                        gallery</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<header id="header" class="jumbotron subhead">
+    <div class="header-content">
+        <h1 class="title-h1">Limiter </h1>
+        <p class="header-dec">字数统计，能够区别中英文，能够排除html标签，接口文档：<a href="http://www.36ria.com/demo/gal/gallery/form/1.3/doc/symbols/Limiter.html" target="_blank">Limiter</a></p>
+    </div>
+</header>
+
+<div id="content" class="container" style="margin-top:40px;">
+        <div class="row">
+            <div class="span4">
+                <form id="J_DefaultForm" class="form-horizontal" action="#">
+                    <div class="control-group">
+                        <label class="control-label" for="J_AucTitle">用户名</label>
+                        <div class="controls">
+                            <input type="text" id="J_AucTitle" name="item-title" value="明河">
+                            <div id="J_LimiterWrapper"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="span8">
+                <pre class='brush: xml;'>
+                    <input type="text" id="J_AucTitle" name="item-title" value="明河">
+                    <div id="J_LimiterWrapper"></div>
+                </pre>
+                <pre class='brush: js;'>
+                 KISSY.use('gallery/form/1.3/limiter/index', function (S, Limiter) {
+                    var textLimiter = new Limiter('#J_AucTitle',{wrapper:'#J_LimiterWrapper'});
+                    textLimiter.render();
+                 })
+                </pre>
+            </div>
+        </div>
+
+    <div class="row">
+        <div class="span4">
+            <form class="form-horizontal" action="#">
+                <div class="control-group">
+                    <label class="control-label">英文算半个汉字</label>
+                    <div class="controls">
+                        <input type="text" id="J_EnText" name="item-title" value="明河">
+                        <div id="J_EnTextLimiter"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="span8">
+                <pre class='brush: js;'>
+var enTextLimiter = new Limiter('#J_EnText',{wrapper:'#J_EnTextLimiter',isEnToCn:true});
+textLimiter.render();
+
+                </pre>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span4">
+            <form class="form-horizontal" action="#">
+                <div class="control-group">
+                    <label class="control-label">超出截断</label>
+                    <div class="controls">
+                        <input type="text" id="J_CutText" name="item-title" value="明河">
+                        <div id="J_CutLimiter"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="span8">
+                <pre class='brush: js;'>
+        var cutLimiter = new Limiter('#J_CutText',{wrapper:'#J_CutLimiter',isCut:true,max:8});
+        cutLimiter.render();
+
+                </pre>
+        </div>
+    </div>
+
+    <div class="row">
+        <form class="form-horizontal" action="#">
+            <div class="control-group">
+                <label class="control-label">描述</label>
+                <div class="controls">
+                    <textarea class="dec-textarea" id="J_Dec" name="_fm.g._0.d"></textarea>
+                    <div id="J_DecCount"></div>
+
+                    <p>编辑器的初始化代码就不贴出来了。</p>
+
+                    <p>监听键盘按起事件，同步下数据，然后触发统计组件。</p>
+        <pre class='brush: js;'>
+            editor.ready(function(){
+                var decLimiter = new Limiter('#J_Dec',{wrapper:'#J_DecCount',max:1000,isRejectTag:true});
+                decLimiter.render();
+                KISSY.Event.on(editor.document, "keyup", function (ev) {
+                    editor.sync();
+                    decLimiter.count();
+                })
+            });
+        </pre>
+                    <p>isRejectTag:true后，将不统计html标签所占的字数</p>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+<script type="text/javascript">
+    var S = KISSY;
+    //包路径，实际使用请直接配置为"http://a.tbcdn.cn/s/kissy/"
+    var path = S.Config.debug && "../../../../../../" || "http://a.tbcdn.cn/s/kissy/";
+    S.config({
+        packages:[
+            {
+                name:"gallery",
+                path:path,
+                charset:"utf-8"
+            }
+        ]
+    });
+    KISSY.use('gallery/form/1.3/limiter/index', function (S, Limiter) {
+        var textLimiter = new Limiter('#J_AucTitle',{wrapper:'#J_LimiterWrapper'});
+        textLimiter.render();
+
+        var enTextLimiter = new Limiter('#J_EnText',{wrapper:'#J_EnTextLimiter',isEnToCn:true});
+        enTextLimiter.render();
+
+        var cutLimiter = new Limiter('#J_CutText',{wrapper:'#J_CutLimiter',isCut:true,max:10});
+        cutLimiter.render();
+
+        KISSY.use('editor',function(S){
+            var KE = KISSY.Editor,
+                editor = KE("#J_Dec", {
+                    attachForm:true,
+                    baseZIndex:10000
+                }).use("htmldataprocessor,enterkey,clipboard," +
+                        "sourcearea,preview," +
+                        "separator," +
+                        "undo,separator,removeformat,font,color,separator," +
+                        "list,indent,justify,separator,link,image,smiley," +
+                        "separator,table,resize,draft,maximize"
+                        , function() {
+
+                 });
+            editor.ready(function(){
+                var decLimiter = new Limiter('#J_Dec',{wrapper:'#J_DecCount',max:10,isRejectTag:true,isCut:true});
+                decLimiter.render();
+                KISSY.Event.on(editor.document, "keyup", function (ev) {
+                    editor.sync();
+                    decLimiter.count();
+                })
+            });
+        })
+    })
+</script>
+<!-- 代码高亮 START  -->
+<link href='../../assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css'/>
+<script type="text/javascript" src="../../assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <title>refundUploader主题 </title>
+     <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js" charset="utf-8"></script>
+     <link rel="stylesheet" type="text/css" href="../../assets/bootstrap.min.css"/>
+     <link rel="stylesheet" type="text/css" href="../../assets/bootstrap-responsive.css"/>
+     <link rel="stylesheet" type="text/css" href="../../assets/docs.css"/>
+ </head>
+
+ <body style="padding:20px;">
+ <h2>refundUploader主题</h2>
+ <ul>
+     <li>作者：明河</li>
+     <li>设计：苛卡</li>
+     <li>描述：v1.3新增主题，来源于淘宝退款，亮点在于满最大上传数时按钮文案的变化</li>
+     <li>案例：淘宝退款申请页面的上传凭证</li>
+     <li>兼容：IE6+、chrome、firefox、safari</li>
+ </ul>
+ <script type="text/uploader-restore" id="J_RefundImageRestore">
+     [
+     {"name":"icon_evil.gif",
+     "size":1446,
+     "type":"image/gif",
+     "result":{
+     "status":1,
+     "data":{
+     "name":"icon_evil.gif",
+     "url":"http://tp4.sinaimg.cn/1653905027/180/5601547226/1",
+     "item_id":"42458"
+     }
+     }
+     }
+     ]
+ </script>
+
+ <div class="grid">
+     <input class="g-u" id="J_RefundUploaderBtn" name="Filedata" type="image-uploader" value="选择要上传的图片"
+            theme="refundUploader" queueTarget="#J_RefundUploaderQueue"
+            action="http://yuyue.daily.hitao.net/yuyue/pic_Upload.do" urlsInputName="refundImageUrls" maxSize="500" max="3"
+            restoreHook="#J_RefundImageRestore"
+             >
+     <input type="hidden" name="refundImageUrls">
+ </div>
+ <ul id="J_RefundUploaderQueue" class="grid">
+
+ </ul>
+
+	<script type="text/javascript">
+        var S = KISSY;
+        //包路径，实际使用请直接配置为"http://a.tbcdn.cn/s/kissy/"
+        var path = S.Config.debug && "../../../../../../" || "http://a.tbcdn.cn/s/kissy/";
+        S.config({
+            packages:[
+                {
+                    name:"gallery",
+                    path:path,
+                    charset:"utf-8"
+                }
+            ]
+        });
+
+        KISSY.use('gallery/form/1.3/uploader/imageUploader', function (S, ImageUploader) {
+            var refundUploader = new ImageUploader('#J_RefundUploaderBtn');
+            refundUploader.render();
+        })
+	</script>
+ </body>
+</html>

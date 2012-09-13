@@ -1,0 +1,308 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>KF/Radio</title>
+    <link rel="shortcut icon" href="http://docs.kissyui.com/kissy-dpl/base/assets/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/docs.css"/>
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+    <script src="../../assets/feedback.js" charset="utf-8"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" charset="utf-8"></script>
+    <script src="http://bootswatch.com/assets/js/bootstrap-dropdown.js" charset="utf-8"></script>
+    <script src="http://bootswatch.com/assets/js/bootstrap-scrollspy.js" charset="utf-8"></script>
+    <script src="../../assets/app.js" charset="utf-8"></script>
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo.html" id="logo">BUTTERFLY</a>
+
+            <div class="nav-collapse">
+
+                <ul class="nav">
+                    <li><a href="http://docs.kissyui.com/kissy-gallery/gallery/form/1.3/demo.html">首页</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">组件 <b
+                            class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/uploader/index.html">Uploader</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/limiter/index.html">Limiter</a>
+                            </li>
+                            <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/spinbox/index.html">SpinBox</a>
+                            </li>
+                            <li>
+                                <a href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/auth/index.html">Auth</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/checkbox/index.html">checkbox</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/radio/index.html">radio</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="https://github.com/kissyteam/kissy-gallery/tree/master/gallery/form">源码</a></li>
+                    <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.3/doc/index.html">API文档</a></li>
+                </ul>
+                <ul class="nav pull-right">
+                    <li><a rel="tooltip" target="_blank" href="http://docs.kissyui.com/kissy-gallery/index.html">kissy
+                        gallery</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <header id="header" class="jumbotron subhead">        
+        <h1 class="title-h1">Radio
+            <small>radio单选框美化组件</small>
+        </h1>
+        <div class="dec">
+            <ul>
+                <li>作者：<b>伯方</b></li>
+                <li>接口文档：<a href="http://www.36ria.com/demo/gal/gallery/form/1.3/doc/symbols/Radio.html" target="_blank">Auth</a></li>
+            </ul>
+        </div>
+    </header>
+    <div id="content">
+        <div class="demo-wrapper">
+            <form action="">
+                <div id="J_Content" class="control-group">
+                    <div class="controls">
+
+
+                      <!--label>input-->
+                      <label class="radio inline">
+                            <input type="radio" name="ch" value="1"/>1111
+                        </label>
+                        <label class="radio inline">
+                            <input  type="radio" name="ch" value="2"/>2222
+                        </label>
+                        <label class="radio inline">
+                            <input disabled="disabled"  type="radio" name="ch" value="3"/>3333
+                        </label>
+                        <label class="radio inline">
+                            <input disabled="disabled"  type="radio" name="ch" value="4"/>4444
+                        </label>
+                        <label class="radio inline">
+                            <input id="J_5" type="radio" name="ch" value="5"/>5555
+                        </label>
+                        <label class="radio inline">
+                            <input id="J_6"  type="radio" checked="checked" name="ch" value="6"/>6666
+                        </label>
+                        <label class="radio inline">
+                            <input  type="radio" name="ch" value="7"/>7777
+                        </label>
+                        <label class="radio inline">
+                            <input  type="radio" checked="checked" name="ch" value="8"/>8888
+                        </label>
+                        <label class="radio inline">
+                            <input  type="radio" name="ch" value="9"/>9999
+                        </label>
+          
+
+<!--label+input-->
+<!--
+
+                        <input type="radio" name="ch" value="1"/>
+                        <label class="radio inline">1111</label>
+
+                        <input type="radio" name="ch" value="2"/>
+                        <label class="radio inline">2222</label>
+
+                        <input disabled="disabled" name="ch" value="3"/>
+                        <label class="radio inline">3333</label>
+
+                        <input disabled="disabled" name="ch" value="4"/>
+                        <label class="radio inline">4444</label>
+
+                        <input type="radio" name="ch" value="5"/>
+                        <label class="radio inline">5555</label>
+
+                        <input type="radio" name="ch" value="5"/>
+                        <label class="radio inline" checked="checked" >6666</label>
+
+                        <input type="radio" name="ch" value="7"/>
+                        <label class="radio inline">7777</label>
+
+                        <input type="radio" name="ch" value="8"/>
+                        <label class="radio inline">8888</label>
+
+                        <input type="radio" name="ch" value="9"/>
+                        <label class="radio inline">9999</label>
+-->
+
+
+                    </div>
+                </div>
+                <input class="bt btn-primary" type="submit" class="haspadding" name="" value="提交表单查看radio选中情况">
+            </form>
+        </div>
+        <h3>使用配置</h3>
+        <p>下面是页面上本身的一组原生的radio，注意观察第3、4、8的属性,美化的结果如上面所示。</p>
+        <p><strong>需要注意的是，组件里与radio对应的label默认是通过dom.next()获取的，如果获取不到，需要传递getLabelFunc来获取label的位置</strong></p>
+    <pre class='brush: xml;'>
+  <div id="J_Content" class="control-group">
+      <div class="controls">
+        <label class="radio inline">
+            <input type="radio" name="ch" value="1"/>1111
+        </label>
+        <label class="radio inline">
+            <input  type="radio" name="ch" value="2"/>2222
+        </label>
+        <label class="radio inline">
+            <input disabled="disabled"  type="radio" name="ch" value="3"/>3333
+        </label>
+        <label class="radio inline">
+            <input disabled="disabled"  type="radio" name="ch" value="4"/>4444
+        </label>
+        <label class="radio inline">
+            <input id="J_5" type="radio" name="ch" value="5"/>5555
+        </label>
+        <label class="radio inline">
+            <input id="J_6"  type="radio" checked="checked" name="ch" value="6"/>6666
+        </label>
+        <label class="radio inline">
+            <input  type="radio" name="ch" value="7"/>7777
+        </label>
+        <label class="radio inline">
+            <input  type="radio" checked="checked" name="ch" value="8"/>8888
+        </label>
+        <label class="radio inline">
+            <input  type="radio" name="ch" value="9"/>9999
+        </label>
+      </div>
+  </div>
+    </pre>
+        <h4>使用radio组件美化，只需要使用如下方式即可</h4>
+    <pre class='brush: xml;'>
+        //初始化
+        var r = new radio('#J_Content input',{
+            hasLabel:true, //是否需要label-for，默认是false
+            accessible:true//是否需要无障碍，默认为false
+        })
+        //执行
+        r.render();
+    </pre>
+        <p>如果不需要提供默认的样式，可以自己提供样式地址只需要在初始化的时候，提供配置的样式地址即可，然后使用自己自定义的样式，需要给这些默认的样式名提供ks-radio(默认样式),ks-radio-checked(选中),ks-radio-disabled(禁用),ks-radio-hover(hover)样式</p>
+    <pre class='brush: xml;'>
+        //初始化
+        var r = new radio('#J_Content input',{isUseCss:false});
+    </pre>
+        <p>如果页面的结构通过radio 和label 不在同一级等复杂一些的情况，初始化的时候可以传入一个函数进行关联</p>
+    <pre class='brush: xml;'>
+        //首先定义一个查找label节点的函数
+        function getLabel(value){
+            return value.next('label');
+        }
+        //初始化传入getLabel
+         var r = new radio('#J_Content input',{
+            hasLabel:true,
+            accessible:true,
+            getLabelFunc:getLabel //传入查找函数
+        })
+    </pre>
+
+        <h3>radio提供的外部方法</h3>
+        <h4>1、根据index禁用radio</h4>
+        <input class="btn btn-primary" type="button" id="J_Five" name="" value="禁用第5个"><br/>
+        <br />
+    <pre class='brush: xml;'>
+        //禁用
+        r.setDisabled(index);
+        //恢复
+        r.setDisabled(index);
+    </pre>
+
+
+        <h4>2、获取所有选中的radio的索引</h4>
+        <input class="btn btn-primary" type="button" id="J_GetAll" value="获取所有选中radio的key"><br/>
+        <br/>
+    <pre class='brush: xml;'>
+        //返回数字数组
+        r.getAllChecked();
+    </pre>
+
+
+        <h4>3、还原成为原生的radio</h4>
+        <input class="btn btn-primary" type="button" id="J_Recover" name="" key="1" value="还原radio"><br />
+        <br/>
+    <pre class='brush: xml;'>
+        //还原成为原生的radio
+        r.recoverradio();
+    </pre>
+    </div>
+</div>
+<script type="text/javascript">
+    KISSY.config({
+       packages:[ {
+            name:"gallery",
+            path:"../../../../../../",
+        charset:"utf-8"
+       } ]
+    });
+</script>
+<script type="text/javascript">
+        function getLabel(value){
+            return value.parent();
+        }     
+        KISSY.use('gallery/form/1.3/radio/index,node', function (S, R,Node) {
+            var  $ = Node.all,
+                r = new R('#J_Content input',{
+                    hasLabel:true, //是否需要label-for，默认是false
+                    accessible:true,//是否需要无障碍，默认为false 
+                    getLabelFunc:getLabel
+                }),
+                btn = $('#J_GetAll');
+            r.render();
+            //获取结果
+            btn.on('click',function(){
+                alert(r.getSelected());
+                location.href="#radiodemo";
+            })
+            //设置某个disabled
+            $('#J_Five').on('click',function(){
+                var key = $(this).attr('key');
+                if(key === '1'){
+                    r.setAvailabe(4);
+                    $(this).attr('key',2);
+                    $(this).val('禁用第五个')
+                }else{
+                    r.setDisabled(4);
+                    $(this).attr('key',1);
+                    $(this).val('还原第五个')
+                } 
+                location.href="#radiodemo";
+            })           
+            //还原radio
+            $('#J_Recover').on('click',function(){                                 
+                var key = $(this).attr('key');
+                if(key === '1'){
+                    r.recoverKfbtn();
+                    $(this).attr('key',2);
+                    $(this).val('美化radio')
+                }else{
+                    r.render();
+                    $(this).attr('key',1);
+                    $(this).val('还原radio')
+                } 
+                 location.href="#radiodemo";               
+            })
+        })
+    </script>
+<!-- 代码高亮 START  -->
+<link href='../../assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="../../assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+</body>
+</html>

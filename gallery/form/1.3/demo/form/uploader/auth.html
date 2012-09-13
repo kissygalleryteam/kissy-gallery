@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>上传验证控制的demo</title>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js" charset="utf-8"></script>
+
+</head>
+<body>
+<h2>上传验证控制的demo</h2>
+<div class="grid">
+    <input type="image-uploader" class="g-u" id="J_AuthBtn" name="Filedata" value="上传图片"
+           maxSize="500" max="4" allowExts="jpg,png" required data-valid="{maxSize:'图片大小超过{maxSize}！'}" >
+</div>
+<ul id="J_AuthQueue" class="grid">
+
+</ul>
+<p>组件的验证配置信息：<span class="J_AuthMsg"></span></p>
+
+<p><input class="btn btn-primary" id="J_TestRequired" value="验证是否上传了一个文件" type="button"><input class="btn btn-primary" id="J_TestMax" value="验证是否达到最大上传数" type="button"></p>
+
+<script type="text/javascript">
+    var S = KISSY;
+    //包路径，实际使用请直接配置为"http://a.tbcdn.cn/s/kissy/"
+    var path = S.Config.debug && "../../../../../../" || "http://a.tbcdn.cn/s/kissy/";
+    S.config({
+        packages:[
+            {
+                name:"gallery",
+                path:path,
+                charset:"utf-8"
+            }
+        ]
+    });
+    var $ = S.Node.all;
+    KISSY.use('gallery/form/1.3/uploader/imageUploader', function (S, ImageUploader) {
+        var authImageUploader = new ImageUploader('#J_AuthBtn','#J_AuthQueue',{
+            action:"upload.php",
+            urlsInputName:"authImageUrls"
+        });
+        authImageUploader.on('render',function(ev){
+            var uploader = ev.uploader;
+            var max = uploader.get('max');
+            var required = uploader.get('required');
+            var allowExts = uploader.get('allowExts');
+            var maxSize = uploader.get('maxSize');
+            var allowRepeat = uploader.get('allowRepeat');
+            $('.J_AuthMsg').text('max:'+max + ',required:' + required + ',allowExts:' + allowExts + ',maxSize:' + maxSize + ',allowRepeat:' +allowRepeat);
+
+            $('#J_TestRequired').on('click',function(ev){
+                var isPass = uploader.testRequired();
+                alert(isPass);
+            });
+
+            $('#J_TestMax').on('click',function(ev){
+                var isPass = uploader.testMax();
+                alert(isPass);
+            });
+        });
+        authImageUploader.render();
+    })
+
+</script>
+</body>
+</html>

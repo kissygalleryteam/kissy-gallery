@@ -1,0 +1,1479 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>ImageUploader：图片上传组件</title>
+    <link rel="shortcut icon" href="http://docs.kissyui.com/kissy-dpl/base/assets/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/docs.css"/>
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js" charset="utf-8"></script>
+    <script src="../../assets/feedback.js" charset="utf-8"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" charset="utf-8"></script>
+    <script src="../../assets/bootstrap.min.js" charset="utf-8"></script>
+    <script src="../../assets/scrollspy.js" charset="utf-8"></script>
+    <script src="../../assets/affix.js" charset="utf-8"></script>
+    <script src="../../assets/app.js" charset="utf-8"></script>
+</head>
+<body  data-spy="scroll" data-target=".bs-docs-sidebar">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo.html"
+               id="logo">BUTTERFLY</a>
+
+            <div class="nav-collapse">
+
+                <ul class="nav">
+                    <li><a href="http://docs.kissyui.com/kissy-gallery/gallery/form/1.2/demo.html">首页</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">组件 <b
+                            class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/uploader/index.html">Uploader</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/limiter/index.html">Limiter</a>
+                            </li>
+                            <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/spinbox/index.html">SpinBox</a>
+                            </li>
+                            <li>
+                                <a href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/auth/index.html">Auth</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/checkbox/index.html">checkbox</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.2/demo/form/radio/index.html">radio</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="https://github.com/kissyteam/kissy-gallery/tree/master/gallery/form">源码</a></li>
+                    <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.2/doc/index.html">API文档</a></li>
+                </ul>
+                <ul class="nav pull-right">
+                    <li><a rel="tooltip" target="_blank" href="http://docs.kissyui.com/kissy-gallery/index.html">kissy
+                        gallery</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<header id="header" class="jumbotron subhead">
+    <div class="row header-content">
+        <div class="span6">
+            <div>
+                <h1 class="title-h1">ImageUploader </h1>
+                <p class="header-dec">图片上传组件</p>
+            </div>
+        </div>
+        <div class="span5">
+            <div id="imageUploader--top-bg"></div>
+        </div>
+    </div>
+</header>
+<div id="content" class="container">
+    <div class="row">
+        <div class="span3 bs-docs-sidebar">
+            <ul class="nav nav-list bs-docs-sidenav">
+                <li><a data-href="" href="#imageUploaderDec"><i class="icon-chevron-right"></i>综述</a></li>
+                <li><a data-href="#demos" href="#demos"><i class="icon-chevron-right"></i>demo汇总</a></li>
+                <li><a data-href="#themes" href="#themes"><i class="icon-chevron-right"></i>组件内置的主题</a></li>
+                <li><a data-href="#init" href="#init"><i class="icon-chevron-right"></i>3种方式初始化组件</a></li>
+                <li><a data-href="#server" href="#server"><i class="icon-chevron-right"></i>与服务器端的交互</a></li>
+                <li><a data-href="#crossdomain" href="#crossdomain"><i class="icon-chevron-right"></i>IE下上传失败的处理</a></li>
+                <li><a data-href="#auth" href="#auth"><i class="icon-chevron-right"></i> 上传验证控制</a></li>
+                <li><a data-href="#defaultData" href="#defaultData"><i class="icon-chevron-right"></i>如何渲染默认队列数据</a></li>
+
+                <li><a href="#use-theme"><i class="icon-chevron-right"></i>使用其他主题</a></li>
+                <li><a href="#events"><i class="icon-chevron-right"></i>ImageUploader支持的所有事件</a></li>
+                <li><a href="#disabled-multiple"><i class="icon-chevron-right"></i>多选/禁用/立即上传控制</a></li>
+
+                <li><a href="#queue"><i class="icon-chevron-right"></i>Queue图片队列控制</a></li>
+
+                <li><a href="#methods"><i class="icon-chevron-right"></i>Uploader常用方法</a></li>
+                <li><a href="#pros"><i class="icon-chevron-right"></i>Uploader常用属性</a></li>
+            </ul>
+        </div>
+        <div class="span9 scrollspy-area">
+            <h2 id="imageUploaderDec">综述</h2>
+
+            <p>ImageUploader继承于Uploader，用于解决Uploader过于复杂，调用不便的问题，ImageUploader专门用于图片上传，自带图片验证，改进了伪属性配置方式。</p>
+            <div class="alert alert-info"><strong>PS:</strong> 如果是图片上传，不再建议使用Uploader，也不再建议用户自己设置type来控制上传方式。</div>
+
+            <h4>ImageUploader的特性</h4>
+            <ul>
+                <li>支持ajax、flash、iframe三方案，兼容所有浏览器。（iframe不推荐使用）</li>
+                <li>多主题支持，可以自己定制主题</li>
+                <li>支持多选批量上传</li>
+                <li>支持上传进度显示</li>
+                <li>支持取消上传</li>
+                <li>支持图片预览（使用flash上传不支持）</li>
+                <li>支持上传验证</li>
+                <li>多种配置方式</li>
+            </ul>
+            <h2 id="demos">demo汇总</h2>
+
+            <p>文档内容非常详实，为了方便大家快速使用，将文档中的demo做了提取，即拿即用。</p>
+            <ul class="thumbnails">
+                <li class="span3">
+                    <a href="./js-config-use.html" class="demo-item" target="_blank">
+                        <div class="thumbnail">
+                                简单demo：js配置上传组件
+                        </div>
+                    </a>
+                </li>
+                <li class="span3">
+                    <a href="./pro-config-use.html" class="demo-item" target="_blank">
+                        <div class="thumbnail">
+                            简单demo：属性配置上传组件
+                        </div>
+                    </a>
+                </li>
+                <li class="span3">
+                    <a href="./auth.html" class="demo-item" target="_blank">
+                        <div class="thumbnail">
+                            上传验证控制的demo
+                        </div>
+                    </a>
+                </li>
+                <li class="span3">
+                    <a href="./events.html" class="demo-item" target="_blank">
+                        <div class="thumbnail">
+                            组件全部事件演示
+                        </div>
+                    </a>
+                </li>
+                <li class="span3">
+                    <a href="default-data-show.html" class="demo-item" target="_blank">
+                        <div class="thumbnail">
+                            渲染默认队列数据的demo
+                        </div>
+                    </a>
+                </li>
+                <li class="span3">
+                    <a href="queue.html" class="demo-item" target="_blank">
+                        <div class="thumbnail">
+                            图片队列控制的demo
+                        </div>
+                    </a>
+                </li>
+                <li class="span3">
+                    <a href="flash-upload-type.html" class="demo-item" target="_blank">
+                        <div class="thumbnail">
+                            只使用flash上传的demo
+                        </div>
+                    </a>
+                </li>
+                <li class="span3">
+                    <a href="iframe-upload-type.html" class="demo-item" target="_blank">
+                        <div class="thumbnail">
+                            只使用iframe上传的demo
+                        </div>
+                    </a>
+                </li>
+                <li class="span3">
+                    <a href="" class="demo-item" target="_blank">
+                        <div class="thumbnail">
+                            常用属性控制
+                        </div>
+                    </a>
+                </li>
+                <li class="span3">
+                    <a href="" class="demo-item" target="_blank">
+                        <div class="thumbnail">
+                            常用方法控制
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <h2 id="themes">ImageUploader内置的主题</h2>
+            <ul class="thumbnails">
+                <li class="span3">
+                    <a href="theme-imageUploader.html" class="demo-item" target="_blank">
+                        <div class="thumbnail">
+                            <h4>主题：imageUploader</h4>
+                            <img alt="imageUploader" src="http://www.36ria.com/wp-content/uploads/2012/08/imageUploader.png">
+                        </div>
+                    </a>
+                </li>
+                <li class="span3">
+                    <a href="theme-refundUploader.html" class="demo-item" target="_blank">
+                        <div class="thumbnail">
+                            <h4>主题：refundUploader</h4>
+                            <img alt="refundUploader" src="http://www.36ria.com/wp-content/uploads/2012/08/refundUploader.png">
+                        </div>
+                    </a>
+                </li>
+                <li class="span3">
+                    <a href="theme-loveUploader.html" class="demo-item" target="_blank">
+                        <div class="thumbnail">
+                            <h4>主题：loveUploader</h4>
+                            <img alt="uploader" src="http://www.36ria.com/wp-content/uploads/2012/05/uploader.png">
+                        </div>
+                    </a>
+                </li>
+                <li class="span3">
+                    <a href="" class="demo-item" target="_blank">
+                        <div class="thumbnail">
+                            <h4>主题：ershouUploader</h4>
+                            <img alt="uploader" src="http://www.36ria.com/wp-content/uploads/2012/03/uploader-theme-3-400x138.png">
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <h2 id="init">3种方式初始化组件</h2>
+
+            <p>gallery的包配置是必不可少：</p>
+            <pre class='brush: js; '>
+KISSY.config({
+    packages:[
+        {
+            name:"gallery",
+            path:"http://a.tbcdn.cn/s/kissy/",
+            charset:"utf-8"
+        }
+    ]
+});
+            </pre>
+            <p></p>
+            <h3>1.使用js配置初始化组件</h3>
+            <div class="bs-docs-example">
+                <form action="#" style="font-size:12px;">
+                    <div class="grid">
+                        <input type="image-uploader" class="g-u" id="J_JsUploaderBtn" value="上传图片" >
+                    </div>
+                    <ul id="J_JsUploaderQueue" class="grid">
+
+                    </ul>
+                </form>
+            </div>
+            <pre class='brush: xml; '>
+<div class="grid">
+    <input type="image-uploader" class="g-u" id="J_JsUploaderBtn" value="上传图片" >
+</div>
+<ul id="J_JsUploaderQueue" class="grid">
+
+</ul>
+            </pre>
+            <pre class='brush: js; '>
+KISSY.use('gallery/form/1.3/uploader/imageUploader', function (S, ImageUploader) {
+
+    new ImageUploader('#J_JsUploaderBtn','#J_JsUploaderQueue',{
+        // 文件域
+        name:"Filedata",
+        //处理上传的服务器端脚本路径
+        action:"upload.php",
+        //用于放服务器端返回的url的隐藏域
+        urlsInputName:"jsImageUrls"
+    }).render();
+})
+            </pre>
+            <h4>配置参数说明</h4>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th style="width: 100px;">参数名</th>
+                    <th style="width: 50px;">类型</th>
+                    <th style="width: 100px;">默认值</th>
+                    <th>描述</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>action</td>
+                    <td>String</td>
+                    <td>""</td>
+                    <td>服务器端处理上传的路径
+                    </td>
+                </tr>
+                <tr>
+                    <td>name</td>
+                    <td>String</td>
+                    <td>Filedata</td>
+                    <td>文件上传域name名，服务器端通过name来获取和处理上传数据
+                    </td>
+                </tr>
+                <tr>
+                    <td>urlsInputName</td>
+                    <td>String</td>
+                    <td>''</td>
+                    <td>用于存放服务器端返回的文件路径的input（type="hidden"），当页面内不存在这个input时，组件会自动创建一个
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="alert alert-info"><strong>PS:</strong> 这三个配置是最核心的配置，一般是必不可少，更多的接口说明请看<a
+                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/doc/symbols/Uploader.html" target="_blank">API
+                doc</a>，后面将逐步介绍更多API。
+            </div>
+            <h3>2.使用标签属性配置初始化</h3>
+            <div class="bs-docs-example">
+                <form action="#" style="font-size:12px;">
+                    <div class="grid">
+
+                        <input class="g-u" id="J_UploaderBtn" name="Filedata" type="image-uploader" value="上传图片" queueTarget="#J_UploaderQueue"
+                               action="upload.php" urlsInputName="imageUrls">
+
+                        <!--用来存放服务器端返回的图片路径，多个图片以逗号隔开-->
+                        <input type="hidden" name="imageUrls">
+                    </div>
+                    <ul id="J_UploaderQueue" class="grid">
+
+                    </ul>
+                </form>
+
+            </div>
+            <h4>1) 需要个input标签（type="image-uploader"）</h4>
+             <pre class='brush: xml; '>
+                <input type="image-uploader" class="g-u" id="J_UploaderBtn" name="Filedata" value="上传图片">
+             </pre>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th style="width: 200px;">属性</th>
+                    <th>描述</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><code>type="image-uploader"</code></td>
+                    <td>此属性为了配合Butterfly使用，表明此input为图片上传专用组件</td>
+                </tr>
+                <tr>
+                    <td><code>id="J_UploaderBtn"</code></td>
+                    <td>脚本实例化上传组件时使用的钩子</td>
+                </tr><tr>
+                    <td><code>name="Filedata"</code></td>
+                    <td>非常重要，文件上传域name名，服务器端通过name来获取和处理上传数据</td>
+                </tr>
+                <tr>
+                    <td><code>value="上传图片"</code></td>
+                    <td>上传按钮上的文案</td>
+                </tr>
+                </tbody>
+            </table>
+            <h4>2) 创建一个input（hidden）用于存放服务器端返回的url</h4>
+             <pre class='brush: xml; '>
+                    <input type="hidden" name="imageUrls">
+             </pre>
+            <p>给上传按钮input加上<code>urlsInputName="imageUrls"</code>属性，这样当上传成功后图片url会被加入到这个隐藏域中（多个图片路径以逗号隔开）。</p>
+            <h4>3) 创建一个空的图片队列</h4>
+             <pre class='brush: xml; '>
+                    <ul id="J_UploaderQueue" class="grid"></ul>
+             </pre>
+            <p>给上传按钮input加上<code>queueTarget="#J_UploaderQueue"</code>属性，将上传按钮和上传队列关联起来，当选择完图片后，自动显示图片。</p>
+            <h4>4) 配置服务器端参数</h4>
+
+            <p>上传组件必须有服务器端脚本配合，所以需要个服务器端路径。可以使用<code>action</code>属性。</p>
+
+            <p>可能你还需要向服务器post一些参数，比如用户名，商品id等，可以使使用<code>postData='{"author":"明河"}'</code>。</p>
+
+            <h4>5) demo中完整的html结构</h4>
+            <pre class='brush: xml; '>
+                    <div class="grid">
+                        <input class="g-u" id="J_UploaderBtn" name="Filedata" type="image-uploader" value="上传图片" queueTarget="#J_UploaderQueue" action="upload.php" urlsInputName="imageUrls">
+                        <!--用来存放服务器端返回的图片路径，多个图片以逗号隔开-->
+                        <input type="hidden" name="imageUrls">
+                    </div>
+                    <ul id="J_UploaderQueue" class="grid">
+
+                    </ul>
+            </pre>
+            <h4>6) 初始化ImageUploader</h4>
+
+            <p>配置下gallery包路径（为了利用淘宝cdn，可以快速引用butterfly库，所以将代码托管在kissy gallery下）。</p>
+            <pre class='brush: js; '>
+                var S = KISSY,
+                      path = "http://a.tbcdn.cn/s/kissy/";
+                KISSY.config({
+                    packages:[
+                        {
+                            name:"gallery",
+                            path:path,
+                            charset:"utf-8"
+                        }
+                    ]
+                });
+            </pre>
+            <p>初始化ImageUploader：</p>
+            <pre class='brush: js; '>
+            KISSY.use('gallery/form/1.3/uploader/imageUploader', function (S, ImageUploader) {
+                new ImageUploader('#J_UploaderBtn').render();
+            })
+            </pre>
+            <div class="alert alert-info">
+                当实例化ImageUploader时，组件会自动加载主题js和css文件，比如没用<code>theme</code>属性时，加载默认主题<code>theme="imageUploader"</code>，<code>gallery/form/1.3/uploader/themes/imageUploader/index-min.js</code> 和<code>gallery/form/1.3/uploader/themes/imageUploader/style.css</code>。
+            </div>
+
+            <h2 id="server">与服务器端的交互</h2>
+
+            <p>服务器端处理异步上传跟同步上传没太大区别，核心的操作是获取前端post到服务器端的数据，比如前端post的文件域<code>name</code>为Filedata，服务器端处理Filedata内的文件数据即可。</p>
+
+            <p>服务器端处理完上传（无论是成功还是失败），需要返回一个json结果集，格式如下：</p>
+
+            <div class="alert alert-success" style="width:250px;">上传成功时</div>
+                <pre class='brush: js; '>
+                    {"status":1,"data":{"name":"minghe.jpg","url":"www.36ria.com/minghe.jpg"}}
+                </pre>
+            <div class="alert alert-error" style="width:250px;">上传失败时</div>
+                <pre class='brush: js; '>
+                   {"status":0,"message":"图片过大！"}
+                </pre>
+            <div class="alert alert-info"><strong>PS:</strong>留意引号！！！特别是键名要加<code>""</code>，不然json会解析失败。</div>
+            <div class="alert alert-info"><strong>PS:</strong><code>"status":1</code>，才是上传成功的标识，其他任何状态码都认定为失败。</div>
+            <p>demo php可以看<a
+                    href="https://github.com/kissyteam/kissy-gallery/blob/master/gallery/form/1.3/demo/form/uploader/upload.php"
+                    target="_blank"> 源码</a>。</p>
+
+            <div class="alert alert-info"><strong>PS:</strong>文件上传成功后，组件会自动提取url放进<code>urlsInputName</code>配置的隐藏域内。</div>
+            <h3>如何向服务器端post额外的数据？</h3>
+
+            <p>使用js传参方式，增加<code>post</code>配置项即可，比如下面的代码：</p>
+            <pre class='brush: js; '>
+KISSY.use('gallery/form/1.3/uploader/ImageUploader', function (S, ImageUploader) {
+    var imageUploader = new ImageUploader('#J_UploaderBtn', '#J_UploaderQueue',{
+        data:{userName:"minghe",email:"minghe36@126.com"},
+        name:"Filedata",
+        urlsInputName:"fileUrls"
+    });
+})
+            </pre>
+            <p>如果是使用属性传参，在input上增加<code>postData</code>（不是data）属性即可，比如下面代码：</p>
+<pre class='brush: js; '>
+<input class="g-u" id="J_UploaderBtn" name="Filedata" type="image-uploader" value="上传图片" postData='{"userName":"minghe","email":"minghe36@126.com"}'>
+</pre>
+            <div class="alert alert-info">留意引号.</div>
+            <h3>如何通过脚本动态修改post数据？</h3>
+  <pre class='brush: js; '>
+imageUploader.on('render',function(ev){
+    var uploader = ev.uploader;
+    uploader.set('data',{userName:"ziying",email:"daxingplay@gmail.com"})
+})
+</pre>
+            <p>通过set<code>data</code>属性值来动态修改post到服务器端数据。</p>
+
+            <h3>如果服务器返回的数据结构不符合解析要求，如何处理呢？</h3>
+
+            <p>1.3后Uploader新增<code>filter</code>属性，可以通过这个过滤器，重新map下丢给组件处理的数据。</p>
+            <pre class='brush: js; '>
+uploader.set('filter',function(data){
+    data = S.JSON.parse(data);
+    //unicode自动转换测试
+    data.author = '\u660e\u6cb3';
+    return data;
+})
+            </pre>
+            <h3>服务器端如何根据上传类型来做些返回数据的差异处理呢？</h3>
+
+            <p>典型的使用场景如下：flash上传，服务器返回的中文错误消息，打印到页面中时会乱码，这时候需要服务器端根据上传类型，在flash上传的情况下，将中文打印成unicode的编码，比如明河，输出为\u660e\u6cb3。</p>
+
+            <p>组件会自动会post上传方式到服务器端，字段为<code>type</code>。</p>
+            <div class="alert alert-info">1.3开始Uploader会自动对unicode进行转码。</div>
+
+            <h3>如何处理服务器返回的错误消息？</h3>
+
+            <p>可以监听uploader的error事件，然后处理出错消息，比如下面的代码：</p>
+            <pre class='brush: js; '>
+uploader.on('error',function(ev){
+    var result = ev.result;
+    alert(result.msg);
+})
+            </pre>
+            <h2 id="crossdomain">IE下上传失败的处理</h2>
+            <div class="alert alert-info">IE下是使用flash上传方式，依赖于flash的安全策略crossdomain.xml，flash上传常见问题，可以看<a href="https://github.com/KF-kissyForm/butterfly/issues/12" target="_blank">《flash（IE）上传问题汇总》</a> </div>
+            <p>如果你在使用uploader中遇到IE下进度条不走的情况，多半的原因是由于在域名根目录下没有放跨域策略文件<code>crossdomain.xml</code>导致的。</p>
+
+            <p>以淘宝网的跨域策略为例：</p>
+        <pre class='brush: xml; '>
+            <?xml version="1.0"?>
+            <cross-domain-policy>
+                <allow-access-from domain="*.tbcdn.cn"> </allow-access-from>
+                <allow-access-from domain="*.taobao.com"></allow-access-from>
+                <allow-access-from domain="*.taobao.net"></allow-access-from>
+            </cross-domain-policy>
+        </pre>
+            <p>tbcdn.cn为swf文件所在的位置，安全策略文件需要加上。</p>
+            当不存在crossdomain.xml文件时，控制台会打印错误消息，比如：
+            <p><img src="http://www.36ria.com/wp-content/uploads/2012/05/uploader-v1.2.png"/></p>
+            上传成功后，会打印服务器返回的json数据，比如：
+            <p><img src="http://www.36ria.com/wp-content/uploads/2012/05/uploader-v1.2-2.png"/></p>
+
+            <h2 id="auth">上传验证控制</h2>
+            <div class="bs-docs-example">
+                <form action="#" style="font-size:12px;">
+                    <div class="grid">
+                        <input type="image-uploader" class="g-u" id="J_AuthBtn" name="Filedata" value="上传图片" maxSize="500" max="4" allowExts="png" required >
+                    </div>
+                    <ul id="J_AuthQueue" class="grid">
+
+                    </ul>
+                    <p>组件的验证配置信息：<span class="J_AuthMsg"></span></p>
+
+                    <p><input class="btn btn-primary" id="J_TestRequired" value="验证是否上传了一个文件" type="button"><input class="btn btn-primary" id="J_TestMax" value="验证是否达到最大上传数" type="button"></p>
+                </form>
+            </div>
+            <pre class='brush: xml; '>
+<div class="grid">
+  <input type="image-uploader" class="g-u" id="J_AuthBtn" name="Filedata" value="上传图片" maxSize="500" max="4" allowExts="png" required >
+</div>
+<ul id="J_AuthQueue" class="grid">
+
+</ul>
+            </pre>
+            <pre class='brush: js; '>
+var authImageUploader = new ImageUploader('#J_AuthBtn','#J_AuthQueue',{
+    action:"upload.php",
+    urlsInputName:"authImageUrls"
+});
+authImageUploader.on('render',function(ev){
+    var uploader = ev.uploader;
+    var max = uploader.get('max');
+    var required = uploader.get('required');
+    var allowExts = uploader.get('allowExts');
+    var maxSize = uploader.get('maxSize');
+
+
+    $('.J_AuthMsg').text('max:'+max + ',required:' + required + ',allowExts:' + allowExts + ',maxSize:' + maxSize);
+
+    $('#J_TestRequired').on('click',function(ev){
+        var isPass = uploader.testRequired();
+        alert(isPass);
+    });
+
+    $('#J_TestMax').on('click',function(ev){
+        var isPass = uploader.testMax();
+        alert(isPass);
+    });
+});
+authImageUploader.render();
+            </pre>
+            <h3>支持的验证规则</h3>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th style="width: 100px;">规则名</th>
+                    <th style="width: 200px;">默认值</th>
+                    <th>描述</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>allowExts</td>
+                    <td> jpg,jpeg,png,gif,bmp</td>
+                    <td>
+                        图片格式验证控制，ImageUploader自带此验证。
+                    </td>
+                </tr>
+                <tr>
+                    <td>required</td>
+                    <td>true</td>
+                    <td>
+                        必须至少上传一个文件
+                        <div class="alert alert-info">组件默认不触发，可以使用uploader的testRequired()方法手动验证。</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>max</td>
+                    <td>3</td>
+                    <td>
+                        最多上传N个图片，当达到N个图片后按钮会增加禁用样式<code>uploader-button-disabled</code>，用户可以通过这个样式名定制需要的置灰样式。
+                        <div class="alert alert-info">可以用uploader.get('max')来获取该配置项值。</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>maxSize</td>
+                    <td>1024</td>
+                    <td>
+                        单图片最大允许上传的文件大小，单位是<code>KB</code>
+                        <div class="alert alert-info">如果是iframe上传方式，此验证无效。</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>allowRepeat</td>
+                    <td>false</td>
+                    <td>是否允许多次上传同一个文件
+                        <div class="alert alert-info">不推荐增加这个验证，比较粗糙，只是根据文件名来做重复判断。</div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <h3>如何配置验证？</h3>
+            <p>1) 伪属性配置方式：</p>
+            <pre class='brush: xml; '>
+                    <input type="image-uploader" class="g-u" id="J_AuthBtn" name="Filedata" value="上传图片" maxSize="500" max="4" allowExts="png" required >
+            </pre>
+            <p>2) js配置方式：</p>
+            <pre class='brush: js; '>
+var authImageUploader = new ImageUploader('#J_AuthBtn','#J_AuthQueue',{
+    maxSize: 500,
+    max:4,
+    allowExts:"png",
+    required,
+    authMsg:{
+        max:'每次最多上传{max}个图片！',
+        maxSize:'图片大小为{size}，超过{maxSize}！',
+        required:'至少上传一张图片！',
+        require:'至少上传一张图片！',
+        allowExts:'不支持{ext}格式图片！'
+    }
+});
+            </pre>
+            <p>authMsg用于配置验证消息，一般采用默认的即可。</p>
+            <h3>如何获取和设置验证配置？</h3>
+
+            <p>想要获取验证配置非常简单，获取uploader对应的属性即可：</p>
+<pre class='brush: js; '>
+authImageUploader.on('render',function(ev){
+    var uploader = ev.uploader;
+    var max = uploader.get('max');
+    var required = uploader.get('required');
+    var allowExts = uploader.get('allowExts');
+    var maxSize = uploader.get('maxSize');
+});
+</pre>
+            <div class="alert alert-info">留意不是获取ImageUploader的属性，而是先监听<code>render</code>事件，然后监听<code>ev.uploader</code>。</div>
+            <p>设置验证配置，同样简单，使用uploader的set方法，比如<code>uploader.set('max',5) </code>。</p>
+
+            <h3>如何在外部验证max和required？</h3>
+            <p>可以使用<code>uploader.testMax()</code>和<code>uploader.testRequired()</code>，比如下面的代码：</p>
+            <pre class='brush: js; '>
+$('#J_TestRequired').on('click',function(ev){
+    var isPass = uploader.testRequired();
+    alert(isPass);
+});
+
+$('#J_TestMax').on('click',function(ev){
+    var isPass = uploader.testMax();
+    alert(isPass);
+});
+            </pre>
+            <h3>监听error出错事件</h3>
+
+            <p>当验证没有通过时，会触发uploader的error事件，示例代码如下：</p>
+            <pre class='brush: js; '>
+uploader.on('error',function(ev){
+    var rule = ev.rule, msg = ev.msg,status = ev.status;
+    if (rule == 'max') {
+        alert(msg);
+    }
+    if(status === -1){
+        alert('前端验证错误');
+    }
+})
+            </pre>
+
+            <h2 id="defaultData">如何渲染默认队列数据？</h2>
+            <p>在实际应用中通常会有个需求：用户已经上传了三张图片，然后保存，那么用户再进入这个页面时，应该如何展示这三张图片呢？</p>
+            <p>这里有个难点，我们需要把图片插入到组件的队列中，这样文件数的统计、删除等行为才是一致的。</p>
+            <div class="bs-docs-example">
+                <form action="#" style="font-size:12px;">
+                    <div class="grid">
+                        <input type="image-uploader" class="g-u" id="J_DefaultShowBtn" value="上传图片" >
+                        <input name="defaultUrls" type="hidden" value="http://tp4.sinaimg.cn/1653905027/180/5601547226/1,http://img02.taobaocdn.com/imgextra/i2/748902859/T2OTOdXm0bXXXXXXXX_!!748902859.jpg_310x310.jpg">
+                    </div>
+                    <ul id="J_DefaultShowQueue" class="grid">
+
+                    </ul>
+                </form>
+
+            </div>
+            <p>只要开发将图片的url打印到urlsInput隐藏域中即可，组件会自动渲染，比如下面的代码：</p>
+
+            <pre class='brush: xml; '>
+                 <input name="defaultUrls" type="hidden" value="http://tp4.sinaimg.cn/1653905027/180/5601547226/1,http://img02.taobaocdn.com/imgextra/i2/748902859/T2OTOdXm0bXXXXXXXX_!!748902859.jpg_310x310.jpg">
+            </pre>
+
+
+            <h2 id="use-theme">如何使用其他主题</h2>
+            <p>使用<code>refundUploader</code>主题，增加个属性<code>theme="refundUploader"</code>，该主题是从淘宝退款的上传凭证提炼出来的。</p>
+            <p>使用js传参方式，加上<code>theme:"refundUploader"</code>即可。</p>
+            <div class="row">
+                <div class="span6">
+
+                    <div class="grid">
+                        <input class="g-u" id="J_RefundUploaderBtn" name="Filedata" type="image-uploader" value="选择要上传的图片"
+                               theme="refundUploader" queueTarget="#J_RefundUploaderQueue"
+                               action="upload.php" urlsInputName="refundImageUrls" maxSize="500" max="3"
+                                >
+                        <input type="hidden" name="refundImageUrls" value="http://tp4.sinaimg.cn/1653905027/180/5601547226/1,http://img02.taobaocdn.com/imgextra/i2/748902859/T2OTOdXm0bXXXXXXXX_!!748902859.jpg_310x310.jpg">
+                    </div>
+                    <ul id="J_RefundUploaderQueue" class="grid">
+
+                    </ul>
+                </div>
+                <div class="span6">
+
+                </div>
+            </div>
+            <p style="margin-top:15px">内置的主题，无法满足实际的需求场景，还可以自制主题，可以看<a href="http://www.36ria.com/5137" target="_blank">《如何制作属于自己的主题》</a>。</p>
+
+        <h2 id="events">事件演示</h2>
+
+        <div class="row">
+            <div class="span6">
+                <div class="grid">
+                    <input class="g-u" id="J_UploaderBtn2" name="Filedata" type="image-uploader" value="上传图片"
+                           action="upload.php" urlsInputName="imageUrls2" maxSize="500" max="4">
+                    <input type="hidden" name="imageUrls2">
+                </div>
+                <ul id="J_UploaderQueue2" class="grid">
+
+                </ul>
+            </div>
+            <div class="span6">
+                <div id="J_Panel" class="event-panel">
+
+                </div>
+            </div>
+        </div>
+
+
+        <h3>ImageUploader支持的所有事件</h3>
+        <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th style="width: 100px;">事件名</th>
+                    <th>描述</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>select </td>
+                    <td>选择完文件后触发</td>
+                </tr>
+                <tr>
+                    <td>add </td>
+                    <td>向队列添加完文件后触发</td>
+                </tr>
+                <tr>
+                    <td>start </td>
+                    <td>开始上传后触发</td>
+                </tr>
+                <tr>
+                    <td>progress </td>
+                    <td>正在上传中时触发，这个事件在iframe上传方式中不存在</td>
+                </tr>
+                <tr>
+                    <td>success  </td>
+                    <td>上传成功后触发</td>
+                </tr>
+                <tr>
+                    <td>error </td>
+                    <td>上传失败后触发</td>
+                </tr>
+                <tr>
+                    <td>cancel </td>
+                    <td>取消上传后触发</td>
+                </tr>
+                <tr>
+                    <td>restore </td>
+                    <td>渲染默认队列数据结束后触发</td>
+                </tr>
+                <tr>
+                    <td>remove </td>
+                    <td>删除队列中的图片后触发</td>
+                </tr>
+                <tr>
+                    <td>statusChange </td>
+                    <td>队列中的图片上传状态发生改变后触发</td>
+                </tr>
+                </tbody>
+            </table>
+
+        <h3>用法举例</h3>
+        <pre class='brush: js; '>
+var imageUploader2 = new ImageUploader('#J_UploaderBtn2', '#J_UploaderQueue2');
+imageUploader2.on('render', function (ev) {
+    addMsg(ev, '上传组件准备就绪！');
+});
+imageUploader2.on('select', function (ev) {
+    var files = ev.files;
+    addMsg(ev, '选择了' + files.length + '个文件');
+});
+imageUploader2.on('start', function (ev) {
+    var index = ev.index, file = ev.file;
+    addMsg(ev, '开始上传,文件名：' + file.name + '，队列索引为：' + index);
+});
+imageUploader2.on('progress', function (ev) {
+    var file = ev.file, loaded = ev.loaded, total = ev.total;
+    addMsg(ev, '正在上传,文件名：' + file.name + '，大小：' + total + '，已经上传：' + loaded);
+});
+imageUploader2.on('success', function (ev) {
+    var index = ev.index, file = ev.file;
+    //服务器端返回的结果集
+    var result = ev.result;
+    addMsg(ev, '上传成功,服务器端返回上传方式：' + result.type);
+});
+imageUploader2.on('complete', function (ev) {
+    var index = ev.index, file = ev.file;
+    //服务器端返回的结果集
+    var result = ev.result;
+    addMsg(ev, '上传结束,服务器端返回上传状态：' + result.status);
+});
+imageUploader2.on('error', function (ev) {
+    var index = ev.index, file = ev.file;
+    //服务器端返回的结果集
+    var result = ev.result;
+    addMsg(ev, '上传失败,错误消息为：' +result.msg);
+});
+imageUploader2.on('add',function(ev){
+    var queue = ev.queue;
+    var file = ev.file;
+    addMsg(ev, '队列添加文件！文件名为：'+file.name);
+});
+imageUploader2.on('remove',function(ev){
+    var queue = ev.queue;
+    addMsg(ev, '队列删除文件！文件索引值：'+ev.index);
+    alert('队列中的文件数为：'+queue.get('files').length);
+});
+imageUploader2.render();
+        </pre>
+
+            <p>所有的事件对象（ev）都带有Uploader和queue的实例，可以通过<code>ev.uploader</code>和<code>ev.queue</code>来控制上传和队列。</p>
+
+
+        <h2 id="disabled-multiple">多选/禁用/立即上传控制</h2>
+
+        <div class="row">
+            <div class="span4">
+                <div class="grid">
+                    <input class="g-u" id="J_UploaderBtn3" name="Filedata" type="image-uploader" value="上传图片"
+                           action="upload.php" urlsInputName="imageUrls3" maxSize="500" max="4">
+                    <input type="hidden" name="imageUrls3">
+                </div>
+                <ul id="J_UploaderQueue3" class="grid">
+
+                </ul>
+            </div>
+            <div class="span4">
+
+                <div class="control-group">
+                    <div class="controls">
+                        <label class="checkbox inline">
+                            <input id="J_Disabled" name="disabled" type="checkbox" value="1" checked />
+                            禁用按钮
+                        </label>
+                        <label class="checkbox inline">
+                            <input id="J_Multiple" name="multiple" type="checkbox" value="1" />
+                            开启多选
+                        </label>
+                    </div>
+                </div>
+                <p style="margin-top:10px;">        <input class="btn" id="J_UploadAll" type="button" value="上传所有等待的文件"></p>
+            </div>
+        </div>
+        <p>使用js传参的配置方式：</p>
+        <pre class='brush: js; '>
+var imageUploader3 = new ImageUploader('#J_UploaderBtn3', '#J_UploaderQueue3',{
+    autoUpload: false,
+    multiple:false,
+    disabled:true
+});
+imageUploader3.render();
+        </pre>
+        <p>html标签属性配置方式：</p>
+        <pre class='brush: xml; '>
+                <input id="J_UploaderBtn3" name="Filedata" type="image-uploader" value="上传图片"  disabled multiple autoUpload>
+        </pre>
+        <div class="alert alert-info">留意：设置<code>disabled="false"</code>无效</div>
+        <h3>接口说明</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th style="width: 100px;">参数名</th>
+                <th style="width: 50px;">类型</th>
+                <th style="width: 100px;">默认值</th>
+                <th>描述</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>autoUpload</td>
+                <td>Boolean</td>
+                <td>true</td>
+                <td>是否自动上传，当为<code>false</code>时，可以通过uploader的<code>upload()</code>和<code>uploadFiles()</code>手动上传队列中的文件。</td>
+            </tr>
+            <tr>
+                <td>multiple</td>
+                <td>Boolean</td>
+                <td>true</td>
+                <td>是否开启多选支持
+                    <div class="alert alert-info">如果采用iframe上传，请设置为<code>false</code></div>
+                </td>
+            </tr>
+            <tr>
+                <td>disabled</td>
+                <td>Boolean</td>
+                <td>false</td>
+                <td>是否可用,false为按钮可用</td>
+            </tr>
+            </tbody>
+        </table>
+        <h3>通过uploader的set方法手动改变这三个状态</h3>
+
+        <p>用法举例：</p>
+        <pre class='brush: js; '>
+imageUploader3.on('render',function(ev){
+    var uploader = ev.uploader;
+    $('#J_Disabled').on('change',function(ev){
+        var isChecked = $(ev.target).prop('checked');
+        uploader.set('disabled',isChecked);
+    });
+    $('#J_Multiple').on('change',function(ev){
+        var isChecked = $(ev.target).prop('checked');
+        uploader.set('multiple',isChecked);
+    });
+    $('#J_UploadAll').on('click',function(){
+        uploader.uploadFiles();
+    })
+});
+        </pre>
+
+        <div class="alert alert-info">
+            <code>uploadFiles()</code>方法为上传所有队列中等待的文件。
+        </div>
+
+        <h2 id="queue">queue（队列实例）控制</h2>
+        <div class="alert alert-info">queue的详细API请看<a href="http://www.36ria.com/demo/gal/gallery/form/1.3/doc/symbols/Queue.html" target="_blank">文档</a></div>
+                <h3>示例</h3>
+                <div class="grid">
+                    <input class="g-u" id="J_QueueUploaderBtn" name="Filedata" type="image-uploader" value="上传图片"
+                           action="upload.php" urlsInputName="imageUrls3" maxSize="500" max="4">
+                    <input type="hidden" name="imageUrls3">
+                </div>
+                <ul id="J_QueueUploaderQueue" class="grid">
+
+                </ul>
+
+                <p>想要操作队列，就必须先获取Queue实例，比如下面的代码：</p>
+    <pre class='brush: js; '>
+    //uploaderQueueTest为RenderUploader的实例
+    uploaderQueueTest.on('render',function(ev){
+       var queue = ev.queue;
+    });
+    </pre>
+                <p>下面举例说明常用的方法和属性。</p>
+                <h3>add():向队列添加文件</h3>
+                <p>
+                    <input class="btn" id="J_Add" type="button" value="添加一个文件">
+                </p>
+    <pre class='brush: js; '>
+           $('#J_Add').on('click', function (ev) {
+            //测试文件数据
+            var testFile = {'name':'test.jpg',
+                'size':2000,
+                'input':{},
+                'file':{'name':'test.jpg', 'type':'image/jpeg', 'size':2000}
+            };
+            //向队列添加文件
+            var file = queue.add(testFile);
+            S.log('添加的文件数据为：'+file);
+        });
+    </pre>
+                <h3>remove():删除队列中的文件</h3>
+                <p>
+                    <input class="btn" id="J_DelFirst" type="button" value="删除第一个文件">
+                </p>
+    <pre class='brush: js; '>
+           $('#J_DelFirst').on('click', function (ev) {
+                var removeFile = queue.remove(0);
+                S.log('删除的文件数据为：'+removeFile);
+            });
+    </pre>
+                <div class="alert alert-info">留意remove()的参数可以是队列数组的索引，比如上面代码的0，是取队列第一个文件数据；也可以是文件的id（唯一），比如remove('file-26')</div>
+                <h3>fileStatus(index, status, args):改变文件状态</h3>
+                <p>默认的主题共有以下文件状态：'waiting'、'start'、'progress'、'success'、'cancel'、'error'</p>
+                <p>不同的主题拥有的状态情况可能存在差异。</p>
+                <p>
+                    <input class="btn" id="J_ChangeStatus" type="button" value="改变第一个文件状态为success">
+                </p>
+    <pre class='brush: js; '>
+       $('#J_ChangeStatus').on('click', function (ev) {
+            queue.fileStatus(0, 'success');
+        });
+    </pre>
+                <h3>clear():删除队列内的所有文件</h3>
+                <p>
+                    <input class="btn" id="J_Clear" type="button" value="删除所有文件">
+                </p>
+    <pre class='brush: js; '>
+       $('#J_Clear').on('click', function (ev) {
+        queue.clear();
+        });
+    </pre>
+
+                <h3>files：通过该属性可以获取队列中所有的文件数据</h3>
+                <p>
+                    <input class="btn" id="J_GetAll" type="button" value="获取所有文件id">
+                </p>
+    <pre class='brush: js; '>
+           $('#J_GetAll').on('click', function (ev) {
+                var ids = [],
+                        files = queue.get('files');
+                S.each(files, function (file) {
+                    ids.push(file.id);
+                });
+                alert('所有文件id：' + ids);
+            });
+    </pre>
+                <h3>getFiles(type):获取指定状态下的文件</h3>
+                <p>
+                    <input class="btn" id="J_GetStatusFileIds" type="button" value="获取所有等待状态的文件id">
+                </p>
+    <pre class='brush: js; '>
+       $('#J_GetStatusFileIds').on('click', function (ev) {
+            var files = queue.getFiles('waiting'),
+                    ids = [];
+            S.each(files, function (file) {
+                ids.push(file.id);
+            });
+            alert('所有等待中的文件id为：' + ids);
+        });
+    </pre>
+                <h3>getIndexs(type):获取等指定状态的文件对应的文件数组索引值组成的数组</h3>
+                <p>getFiles()和getFileIds()的作用是不同的，getFiles()类似过滤数组，获取的是指定状态的文件数据，而getFileIds()只是获取指定状态下的文件对应的在文件数组内的索引值。</p>
+                <p>
+                    <input class="btn" id="J_GetStatusFilesIndex" type="button" value="获取所有等待状态文件index">
+                </p>
+    <pre class='brush: js; '>
+       $('#J_GetStatusFilesIndex').on('click', function () {
+            var indexs = queue.getIndexs('waiting');
+            alert('所有等待中的文件index为：' + indexs);
+        })
+    </pre>
+
+    <h2 id=“methods”>uploader常用方法</h2>
+    <h4>upload (index)</h4>
+    <p>上传指定队列索引的文件。</p>
+<pre class='brush: js; '>
+//上传队列中的第一个文件，uploader为Uploader的实例
+uploader.upload(0)
+</pre>
+    <h4>uploadFiles (status)</h4>
+    <p>批量上传队列中的指定状态下的文件。</p>
+<pre class='brush: js; '>
+//上传队列中所有等待的文件
+uploader.uploadFiles("waiting")
+</pre>
+    <h4>cancel  (index)</h4>
+    <p>取消文件上传，当index参数不存在时取消当前正在上传的文件的上传。cancel并不会停止其他文件的上传（对应方法是stop）。</p>
+<pre class='brush: js; '>
+//取消当前正在上传的文件的上传
+uploader.cancel();
+</pre>
+    <h4>stop()：停止上传动作</h4>
+<pre class='brush: js; '>
+//停止上传
+uploader.stop();
+</pre>
+    <h4>testMax()：验证图片是否已经达到最大允许上传数</h4>
+<pre class='brush: js; '>
+//return false | true;
+uploader.testMax();
+</pre>
+    <h4>testRequired()：验证是否至少上传了一个文件</h4>
+<pre class='brush: js; '>
+//return false | true;
+uploader.testRequired();
+</pre>
+        <h2 id="pros">uploader常用属性/配置</h2>
+                <p>uploader的配置都会写入成uploader的属性内。uploader的几个关键配置前面都有提到了，这里做个汇总。</p>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th style="width: 100px;">属性名</th>
+                        <th style="width: 50px;">类型</th>
+                        <th style="width: 100px;">默认值</th>
+                        <th style="width: 50px;">是否只读</th>
+                        <th>描述</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>type
+                            <code>不推荐使用</code>
+                        </td>
+                        <td>String|Array</td>
+                        <td>"auto"</td>
+                        <td>只读</td>
+                        <td>采用的上传方案，当值是数组时，比如“type” : ["flash","ajax","iframe"]，按顺序获取浏览器支持的方式，该配置会优先使用flash上传方式，如果浏览器不支持flash，会降级为ajax，如果还不支持ajax，会降级为iframe；当值是字符串时，比如“type” : “ajax”，表示只使用ajax上传方式。这种方式比较极端，在不支持ajax上传方式的浏览器会不可用；
+                            <div class="alert alert-info">当“type” : “auto”，auto是一种特例，等价于["ajax","flash","iframe"]。</div>
+                            <div class="alert alert-error">不再推荐配置type，除非在使用flash时遇到难以解决的问题。</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>curUploadIndex</td>
+                        <td>Number</td>
+                        <td>""</td>
+                        <td>只读</td>
+                        <td>
+                            当前上传的文件对应的在数组内的索引值，如果没有文件正在上传，值为空
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>isAllowUpload</td>
+                        <td>Boolean</td>
+                        <td>true</td>
+                        <td>只读</td>
+                        <td>
+                            是否允许上传文件
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>queue</td>
+                        <td>Queue</td>
+                        <td>''</td>
+                        <td>只读</td>
+                        <td>
+                            Queue队列的实例，想要对队列进行操作或监听队列的事件，就必须先获取这个属性
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>restoreHook</td>
+                        <td>String</td>
+                        <td>''</td>
+                        <td>只读</td>
+                        <td>
+                            已经存在的文件数据待提取的容器钩子，用法请看<a href="#defaultData">默认数据展现</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>autoUpload</td>
+                        <td>Boolean</td>
+                        <td>true</td>
+                        <td>读/写</td>
+                        <td>是否自动上传，当为<code>false</code>时，可以通过uploader的<code>upload()</code>和<code>uploadFiles()</code>手动上传队列中的文件。</td>
+                    </tr>
+                    <tr>
+                        <td>multiple</td>
+                        <td>Boolean</td>
+                        <td>true</td>
+                        <td>读/写</td>
+                        <td>是否开启多选支持
+                            <div class="alert alert-info">如果采用iframe上传，请设置为<code>false</code></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>multipleLen</td>
+                        <td>Number</td>
+                        <td>-1</td>
+                        <td>读/写</td>
+                        <td>用于限制多选文件个数，值为负时不设置多选限制（v1.2.6+）
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>disabled</td>
+                        <td>Boolean</td>
+                        <td>false</td>
+                        <td>读/写</td>
+                        <td>是否可用,false为按钮可用</td>
+                    </tr>
+                    <tr>
+                        <td>serverConfig
+                            <code>弃用</code>
+                        </td>
+                        <td>Object</td>
+                        <td>{action:'', data:{}, dataType:'json'}</td>
+                        <td>读/写</td>
+                        <td>服务器端配置，包括最重要的<code>action</code>（路径）配置，<code>data</code>为post到服务器端数据
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>action</td>
+                        <td>String</td>
+                        <td>''</td>
+                        <td>读/写</td>
+                        <td>服务器端处理上传的路径（v1.3.0+）
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>data</td>
+                        <td>Object</td>
+                        <td>{}</td>
+                        <td>读/写</td>
+                        <td>此配置用于动态修改post给服务器的数据，会覆盖serverConfig的data配置（v1.2.6+）
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>name</td>
+                        <td>String</td>
+                        <td>Filedata</td>
+                        <td>只读</td>
+                        <td>文件上传域name名
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>urlsInputName</td>
+                        <td>String</td>
+                        <td>''</td>
+                        <td>只读</td>
+                        <td>用于存放服务器端返回的文件路径的input（type="hidden"）
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>max</td>
+                        <td>Number</td>
+                        <td>3</td>
+                        <td>读/写</td>
+                        <td>最多上传N张图片，没有配置该项验证时不存在（v1.3.0+）
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>maxSize</td>
+                        <td>Number</td>
+                        <td>1024</td>
+                        <td>读/写</td>
+                        <td>单文件最大允许上传的文件大小，单位是<code>KB</code>，没有配置该项验证时不存在（v1.3.0+）
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>required</td>
+                        <td>Boolean</td>
+                        <td>false</td>
+                        <td>读/写</td>
+                        <td>必须至少上传一个文件，没有配置该项验证时不存在（v1.3.0+）
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>allowExts</td>
+                        <td>String</td>
+                        <td>'jpg,jpeg,png,gif,bmp'</td>
+                        <td>读/写</td>
+                        <td>文件格式验证，没有配置该项验证时不存在（v1.3.0+）
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>allowRepeat</td>
+                        <td>Boolean</td>
+                        <td>false</td>
+                        <td>读/写</td>
+                        <td>是否允许多次上传同一个文件，没有配置该项验证时不存在（v1.3.0+）
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+ </div>
+</div>
+<script>
+    var S = KISSY,
+    //包路径，实际使用请直接配置为"http://a.tbcdn.cn/s/kissy/"
+            path = S.Config.debug && "../../../../../../" || "http://a.tbcdn.cn/s/kissy/";
+    S.config({
+        packages:[
+            {
+                name:"gallery",
+                path:path,
+                charset:"utf-8"
+            }
+        ]
+    });
+
+    var $ = S.Node.all;
+
+    /**
+     * 向事件面板添加消息
+     * @param evt
+     * @param msg
+     */
+    function addMsg(evt, msg) {
+        var $ = S.Node.all;
+        var $panel = $("#J_Panel");
+        var text = "<p>事件名称：" + evt.type + "，" + msg + "</p>";
+        $panel.append(text);
+        S.log(text);
+    }
+
+    //加载上传组件入口文件
+    KISSY.use('gallery/form/1.3/uploader/imageUploader', function (S, ImageUploader) {
+        new ImageUploader('#J_JsUploaderBtn','#J_JsUploaderQueue',{
+            // 文件域
+            name:"Filedata",
+            //处理上传的服务器端脚本路径
+            action:"upload.php",
+            //用于放服务器端返回的url的隐藏域
+            urlsInputName:"jsImageUrls"
+        }).render();
+
+        new ImageUploader('#J_UploaderBtn').render();
+
+
+        var authImageUploader = new ImageUploader('#J_AuthBtn','#J_AuthQueue',{
+            action:"upload.php",
+            urlsInputName:"authImageUrls"
+        });
+        authImageUploader.on('render',function(ev){
+            var uploader = ev.uploader;
+            var max = uploader.get('max');
+            var required = uploader.get('required');
+            var allowExts = uploader.get('allowExts');
+            var maxSize = uploader.get('maxSize');
+            $('.J_AuthMsg').text('max:'+max + ',required:' + required + ',allowExts:' + allowExts + ',maxSize:' + maxSize);
+
+            $('#J_TestRequired').on('click',function(ev){
+                var isPass = uploader.testRequired();
+                alert(isPass);
+            });
+
+            $('#J_TestMax').on('click',function(ev){
+                var isPass = uploader.testMax();
+                alert(isPass);
+            });
+        });
+        authImageUploader.render();
+
+        //事件演示demo
+        var imageUploader2 = new ImageUploader('#J_UploaderBtn2', '#J_UploaderQueue2');
+        imageUploader2.on('render', function (ev) {
+            addMsg(ev, '上传组件准备就绪！');
+        });
+        imageUploader2.on('select', function (ev) {
+            var files = ev.files;
+            addMsg(ev, '选择了' + files.length + '个文件');
+        });
+        imageUploader2.on('start', function (ev) {
+            var index = ev.index, file = ev.file;
+            addMsg(ev, '开始上传,文件名：' + file.name + '，队列索引为：' + index);
+        });
+        imageUploader2.on('progress', function (ev) {
+            var file = ev.file, loaded = ev.loaded, total = ev.total;
+            addMsg(ev, '正在上传,文件名：' + file.name + '，大小：' + total + '，已经上传：' + loaded);
+        });
+        imageUploader2.on('success', function (ev) {
+            var index = ev.index, file = ev.file;
+            //服务器端返回的结果集
+            var result = ev.result;
+            addMsg(ev, '上传成功,服务器端返回上传方式：' + result.type);
+        });
+        imageUploader2.on('complete', function (ev) {
+            var index = ev.index, file = ev.file;
+            //服务器端返回的结果集
+            var result = ev.result;
+            addMsg(ev, '上传结束,服务器端返回上传状态：' + result.status);
+        });
+        imageUploader2.on('error', function (ev) {
+            var index = ev.index, file = ev.file;
+            //服务器端返回的结果集
+            var result = ev.result;
+            addMsg(ev, '上传失败,错误消息为：' +result.msg);
+        });
+        imageUploader2.on('add',function(ev){
+            var queue = ev.queue;
+            var file = ev.file;
+            addMsg(ev, '队列添加文件！文件名为：'+file.name);
+        });
+        imageUploader2.on('remove',function(ev){
+            var queue = ev.queue;
+            addMsg(ev, '队列删除文件！文件索引值：'+ev.index);
+            alert('队列中的文件数为：'+queue.get('files').length);
+        });
+        imageUploader2.render();
+
+        var imageUploader3 = new ImageUploader('#J_UploaderBtn3', '#J_UploaderQueue3',{
+            autoUpload: false,
+            multiple:false,
+            disabled:true
+        });
+        imageUploader3.on('render',function(ev){
+            var uploader = ev.uploader;
+            $('#J_Disabled').on('change',function(ev){
+                var isChecked = $(ev.target).prop('checked');
+                uploader.set('disabled',isChecked);
+            });
+            $('#J_Multiple').on('change',function(ev){
+                var isChecked = $(ev.target).prop('checked');
+                uploader.set('multiple',isChecked);
+            });
+            $('#J_UploadAll').on('click',function(){
+                uploader.uploadFiles();
+            })
+        });
+        imageUploader3.render();
+
+        var refundUploader = new ImageUploader('#J_RefundUploaderBtn');
+        refundUploader.on('render',function(ev){
+            var uploader = ev.uploader;
+            uploader.set('filter',function(data){
+                data = S.JSON.parse(data);
+                //unicode自动转换测试
+                data.author = '\u660e\u6cb3';
+                return data;
+            })
+        });
+        refundUploader.render();
+
+        var uploaderQueueTest = new ImageUploader('#J_QueueUploaderBtn','#J_QueueUploaderQueue');
+        uploaderQueueTest.on('render',function(ev){
+           var queue = ev.queue;
+
+            $('#J_Add').on('click', function (ev) {
+                //测试文件数据
+                var testFile = {'name':'test.jpg',
+                    'size':2000,
+                    'input':{},
+                    'file':{'name':'http://tp4.sinaimg.cn/1653905027/180/5601547226/1', 'type':'image/jpeg', 'size':2000}
+                };
+                //向队列添加文件
+                var file = queue.add(testFile);
+                S.log('添加的文件数据为：'+file);
+            });
+            $('#J_DelFirst').on('click', function (ev) {
+                var removeFile = queue.remove(0);
+                S.log('删除的文件数据为：'+removeFile);
+            });
+            $('#J_Clear').on('click', function (ev) {
+                queue.clear();
+            });
+            $('#J_GetAll').on('click', function (ev) {
+                var ids = [],
+                        files = queue.get('files');
+                S.each(files, function (file) {
+                    ids.push(file.id);
+                });
+                alert('所有文件id：' + ids);
+            });
+            $('#J_ChangeStatus').on('click', function (ev) {
+                queue.fileStatus(0, 'success');
+            });
+            $('#J_GetStatusFileIds').on('click', function (ev) {
+                var files = queue.getFiles('waiting'),
+                        ids = [];
+                S.each(files, function (file) {
+                    ids.push(file.id);
+                });
+                alert('所有等待中的文件id为：' + ids);
+            });
+            $('#J_GetStatusFilesIndex').on('click', function () {
+                var indexs = queue.getIndexs('waiting');
+                alert('所有等待中的文件index为：' + indexs);
+            })
+
+        });
+        uploaderQueueTest.render();
+
+        var defaultDataUploader = new ImageUploader('#J_DefaultShowBtn','#J_DefaultShowQueue',{
+            name:"Filedata",
+            action:"upload.php",
+            urlsInputName:"defaultUrls",
+            max:3,
+            maxSize:500
+        });
+        defaultDataUploader.render();
+    })
+</script>
+
+<!-- 代码高亮 START  -->
+<link href='../../assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css'/>
+<script type="text/javascript" src="../../assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+</body>
+</html>
+

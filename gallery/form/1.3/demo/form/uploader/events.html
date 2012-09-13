@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>ImageUploader事件demo</title>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js" charset="utf-8"></script>
+</head>
+<body>
+<div class="grid">
+    <input class="g-u" id="J_UploaderBtn2" name="Filedata" type="image-uploader" value="上传图片"
+           action="upload.php" urlsInputName="imageUrls2" maxSize="500" max="4">
+    <input type="hidden" name="imageUrls2">
+</div>
+<ul id="J_UploaderQueue2" class="grid">
+
+</ul>
+<div id="J_Panel" class="event-panel" style="margin-top: 20px;">
+
+</div>
+<script type="text/javascript">
+    var S = KISSY;
+    //包路径，实际使用请直接配置为"http://a.tbcdn.cn/s/kissy/"
+    var path = S.Config.debug && "../../../../../../" || "http://a.tbcdn.cn/s/kissy/";
+    S.config({
+        packages:[
+            {
+                name:"gallery",
+                path:path,
+                charset:"utf-8"
+            }
+        ]
+    });
+    var $ = S.Node.all;
+
+    /**
+     * 向事件面板添加消息
+     * @param evt
+     * @param msg
+     */
+    function addMsg(evt, msg) {
+        var $ = S.Node.all;
+        var $panel = $("#J_Panel");
+        var text = "<p>事件名称：" + evt.type + "，" + msg + "</p>";
+        $panel.append(text);
+        S.log(text);
+    }
+
+    KISSY.use('gallery/form/1.3/uploader/imageUploader', function (S, ImageUploader) {
+        var imageUploader2 = new ImageUploader('#J_UploaderBtn2', '#J_UploaderQueue2');
+        imageUploader2.on('render', function (ev) {
+            addMsg(ev, '上传组件准备就绪！');
+        });
+        imageUploader2.on('select', function (ev) {
+            var files = ev.files;
+            addMsg(ev, '选择了' + files.length + '个文件');
+        });
+        imageUploader2.on('start', function (ev) {
+            var index = ev.index, file = ev.file;
+            addMsg(ev, '开始上传,文件名：' + file.name + '，队列索引为：' + index);
+        });
+        imageUploader2.on('progress', function (ev) {
+            var file = ev.file, loaded = ev.loaded, total = ev.total;
+            addMsg(ev, '正在上传,文件名：' + file.name + '，大小：' + total + '，已经上传：' + loaded);
+        });
+        imageUploader2.on('success', function (ev) {
+            var index = ev.index, file = ev.file;
+            //服务器端返回的结果集
+            var result = ev.result;
+            addMsg(ev, '上传成功,服务器端返回上传方式：' + result.type);
+        });
+        imageUploader2.on('complete', function (ev) {
+            var index = ev.index, file = ev.file;
+            //服务器端返回的结果集
+            var result = ev.result;
+            addMsg(ev, '上传结束,服务器端返回上传状态：' + result.status);
+        });
+        imageUploader2.on('error', function (ev) {
+            var index = ev.index, file = ev.file;
+            //服务器端返回的结果集
+            var result = ev.result;
+            addMsg(ev, '上传失败,错误消息为：' +result.msg);
+        });
+        imageUploader2.on('add',function(ev){
+            var queue = ev.queue;
+            var file = ev.file;
+            addMsg(ev, '队列添加文件！文件名为：'+file.name);
+        });
+        imageUploader2.on('remove',function(ev){
+            var queue = ev.queue;
+            addMsg(ev, '队列删除文件！文件索引值：'+ev.index);
+            alert('队列中的文件数为：'+queue.get('files').length);
+        });
+        imageUploader2.render();
+    })
+
+</script>
+
+</body>
+</html>

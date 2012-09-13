@@ -1,0 +1,427 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>KISSY.gallery.form</title>
+    <link rel="shortcut icon" href="http://docs.kissyui.com/kissy-dpl/base/assets/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="demo/assets/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="demo/assets/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="demo/assets/docs.css"/>
+    <link rel="stylesheet" type="text/css" href="demo/assets/style.css"/>
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" charset="utf-8"></script>
+    <script src="../../assets/bootstrap.min.js" charset="utf-8"></script>
+    <script src="../../assets/app.js" charset="utf-8"></script>
+</head>
+<body class="index-body">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo.html" id="logo">BUTTERFLY</a>
+
+            <div class="nav-collapse">
+
+                <ul class="nav">
+                    <li><a href="http://docs.kissyui.com/kissy-gallery/gallery/form/1.3/demo.html">首页</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">组件 <b
+                            class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/uploader/index.html">Uploader</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/limiter/index.html">Limiter</a>
+                            </li>
+                            <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/spinbox/index.html">SpinBox</a>
+                            </li>
+                            <li>
+                                <a href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/auth/index.html">Auth</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/checkbox/index.html">checkbox</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/radio/index.html">radio</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="https://github.com/kissyteam/kissy-gallery/tree/master/gallery/form">源码</a></li>
+                    <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.3/doc/index.html">API文档</a></li>
+                </ul>
+                <ul class="nav pull-right">
+                    <li><a rel="tooltip" target="_blank" href="http://docs.kissyui.com/kissy-gallery/index.html">kissy
+                        gallery</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <header id="header" class="jumbotron subhead">
+        <div class="row home-header">
+            <div class="span2 logo-wrapper">
+                <img src="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/assets/logo.png" alt="logo" />
+            </div>
+            <div class="span6">
+                <h1>KF
+                    <small>kissy的表单组件集合</small>
+                </h1>
+                <p>版本：V1.3（KF不兼容kissy1.1.6）</p>
+                <div class="row authors">
+                    <div class="span2">
+                        <a href="http://www.36ria.com" target="_blank">
+                            <img src="https://secure.gravatar.com/avatar/eba2d15b16971d6ea0800c8cc1801a1c?s=40" />
+                            <span>明河</span>
+                        </a>
+                    </div>
+                    <div class="span2">
+                        <a href="http://weibo.com/416105112" target="_blank">
+                            <img src="https://secure.gravatar.com/avatar/963bdf6820fcd57a373b5ff1449a7b57?s=40" />
+                            <span>紫英</span>
+                        </a>
+                    </div>
+                    <div class="span2">
+                        <a href="http://weibo.com/u/1853213312" target="_blank">
+                            <img src="https://secure.gravatar.com/avatar/c4e414b7264b513a00bbd8ec3e9a0d66?s=40" />
+                            <span>张挺</span>
+                        </a>
+                    </div>
+                    <div class="span2">
+                        <a href="http://weibo.com/u/1640069777" target="_blank">
+                            <img src="https://secure.gravatar.com/avatar/d231b976959cad1e35dfd9bff87186d0?s=40" />
+                            <span>牧云</span>
+                        </a>
+                    </div>
+                    <div class="span2">
+                        <a href="http://weibo.com/flyinhigh" target="_blank">
+                            <img src="https://secure.gravatar.com/avatar/df4ecf9a3bd490f9ab031cba1430c656?s=40" />
+                            <span>易敛</span>
+                        </a>
+                    </div>
+                    <div class="span2">
+                        <a href="http://weibo.com/greenery" target="_blank">
+                            <img src="https://secure.gravatar.com/avatar/5150901bce8833282c33284969ee56cf?s=40" />
+                            <span>飞绿</span>
+                        </a>
+                    </div>
+                    <div class="span2">
+                        <a href="" target="_blank">
+                            <img src="https://secure.gravatar.com/avatar/d45474df59fdd62e5f3cae27e705a10e?s=40" />
+                            <span>伯方</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="content">
+        <h2>包配置</h2>
+    <pre class='brush: js;'>
+        KISSY.config({
+            packages:[ {
+                name:"gallery",
+                path:"http://a.tbcdn.cn/s/kissy/",
+                charset:"utf-8"
+            } ]
+        });
+    </pre>
+        <p>（PS:kissy1.3不再需要配置gallery包路径。）</p>
+        <h2>组件列表</h2>
+        <ul class="thumbnails">
+            <li class="span4">
+                <div class="thumbnail">
+                    <img alt="uploader" src="http://www.36ria.com/wp-content/uploads/2012/05/uploader.png">
+
+                    <div class="caption">
+                        <h4>Uploader</h4>
+
+                        <p class="dec">异步文件上传组件，支持ajax、iframe、flash三种上传方案,由明河（剑平）、紫英、飞绿完成，请勿使用v1.0和v1.1的代码。</p>
+
+                        <p><a class="btn btn-primary"
+                              href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/uploader/index.html">demo</a>
+                            <a class="btn"
+                               href="http://www.36ria.com/demo/gal/gallery/form/1.3/doc/symbols/RenderUploader.html">doc</a><a
+                                    class="btn" href="http://www.36ria.com/5041">使用指南</a></p>
+                    </div>
+                </div>
+            </li>
+            <li class="span4">
+                <div class="thumbnail">
+                    <img alt="uploader" src="http://www.36ria.com/wp-content/uploads/2012/05/limiter.png">
+
+                    <div class="caption">
+                        <h4>Limiter</h4>
+
+                        <p class="dec">字数统计组件，支持对kissy的富编辑器editor的统计，由明河（剑平）完成。</p>
+
+                        <p><a class="btn btn-primary"
+                              href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/limiter/index.html">demo</a>
+                            <a
+                                    class="btn"
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/doc/symbols/Limiter.html">doc</a>
+                        </p>
+                    </div>
+                </div>
+            </li>
+            <li class="span4">
+                <div class="thumbnail">
+                    <img alt="uploader" src="http://www.36ria.com/wp-content/uploads/2012/05/splinBox.png">
+
+                    <div class="caption">
+                        <h4>SpinBox</h4>
+
+                        <p class="dec">数字增减器，由易敛完成。</p>
+
+                        <p><a class="btn btn-primary"
+                              href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/spinbox/index.html">demo</a>
+                            <a
+                                    class="btn"
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/doc/symbols/SpinBox.html">doc</a>
+                        </p>
+                    </div>
+                </div>
+            </li>
+            <li class="span4">
+                <div class="thumbnail">
+                    <img alt="uploader" src="http://www.36ria.com/wp-content/uploads/2012/05/kf-auth.png">
+
+                    <div class="caption">
+                        <h4>Auth</h4>
+
+                        <p class="dec">表单验证，由张挺完成。</p>
+
+                        <p><a class="btn btn-primary"
+                              href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/auth/index.html">demo</a>
+                            <a
+                                    class="btn"
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/doc/symbols/auth.html">doc</a>
+                        </p>
+                    </div>
+                </div>
+            </li>
+            <li class="span4">
+                <div class="thumbnail">
+                    <img alt="uploader" src="http://www.36ria.com/wp-content/uploads/2012/05/checkbox.png">
+
+                    <div class="caption">
+                        <h4>checkbox</h4>
+
+                        <p class="dec">模拟多选框，用于表单美化，由伯方完成。</p>
+
+                        <p><a class="btn btn-primary"
+                              href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/checkbox/index.html">demo</a>
+                            <a class="btn"
+                               href="http://www.36ria.com/demo/gal/gallery/form/1.3/doc/symbols/Checkbox.html">doc</a>
+                        </p>
+                    </div>
+                </div>
+            </li>
+            <li class="span4">
+                <div class="thumbnail">
+                    <img alt="uploader" src="http://www.36ria.com/wp-content/uploads/2012/05/radio.png">
+
+                    <div class="caption">
+                        <h4>radio</h4>
+
+                        <p class="dec">模拟单选框，用于表单美化，由伯方完成。</p>
+
+                        <p><a class="btn btn-primary"
+                              href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/radio/index.html">demo</a>
+                            <a
+                                    class="btn"
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/doc/symbols/radio.html">doc</a>
+                        </p>
+                    </div>
+                </div>
+            </li>
+            <li class="span4">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h4>其他组件正在开发中...</h4>
+
+                        <p>如果你有完成了form相关的组件，欢迎提交到gallery的form目录。</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <h2>组件变更</h2>
+        <h3>V1.3.0 change</h3>
+        <h5>[+] 新增Butterfly</h5>
+        <h5>[+] 新增Select</h5>
+        <h5>[+] 新增List</h5>
+        <h5>Limiter</h5>
+        <ol class="list detail-list">
+            <li>[+] #30 增加isCut参数，超过最大允许字数，不允许输入</li>
+            <li>[+] #29 增加isEn参数，中英文情况的字数统计的处理</li>
+        </ol>
+        <h5>Uploader</h5>
+        <ol class="list detail-list">
+            <li>[+] 新增ImageUploader专用图片上传组件</li>
+            <li>[+] #31 restore方法重构</li>
+            <li>[+] ImageUploader可以使用优化的伪属性传参方式</li>
+            <li>[+] Uploader新增action参数，用于配置服务器端路径</li>
+            <li>[+] 新增filter参数，用于手动过滤服务器端不合法数据</li>
+            <li>[+] 新增refundUploader主题</li>
+            <li>[+] 新增testRequired</li>
+            <li>[+] 自动将unicode转成中文</li>
+            <li>[+] 可以直接通过uploader的实例，来获取验证配置</li>
+            <li>[+] 给uploader增加testMax和testRequired方法</li>
+            <li>[+] #25可以通过data-valid来配置验证消息</li>
+            <li>[!] 1.2的imageUploader主题变成loveUploader</li>
+            <li>[!] 重构imageUploader主题，让主题更具通用性</li>
+            <li>[!] 优化图片预览插件，支持多选图片预览（IE下不支持图片预览）</li>
+            <li>[!] 修正flash下返回的服务器端编码乱码的问题</li>
+            <li>[!] 验证规则require改成required，为了和html中的required属性保持统一</li>
+            <li>[!] auth的error事件对象增加index</li>
+            <li>[!] 不再建议操作auth的实例</li>
+            <li>[!] #27修正imageUploader主题打印出错消息时，不隐藏mask层</li>
+            <li>[-] Uploader弃用restoreHook</li>
+            <li>[-] Auth弃用require</li>
+            <li>[-] Uploader弃用serverConfig</li>
+            <li>[-] Uploader弃用restore事件</li>
+        </ol>
+        <h3>V1.2.7 change</h3>
+        <h5>Uploader</h5>
+        <ol class="list detail-list">
+            <li>修正最大文件字节数统计错误的bug</li>
+            <li>#92 增加restore事件</li>
+            <li>#93 当达到最大允许上传数时，删除一张图片，再传一张，testMax验证失效，没有禁用按钮</li>
+        </ol>
+        <h3>V1.2.6 change</h3>
+        <h5>Uploader</h5>
+        <ol class="list detail-list">
+            <li>error事件数据增加status和file</li>
+            <li>优化imageUploader主题</li>
+            <li>前端验证，事件参数增加result:{},与uploader的error事件保持一致</li>
+            <li>#85 uploader增加data属性，用于动态配置post到服务器端的数据</li>
+            <li>#84 uploader增加multipleLen参数控制多选图片最大张数</li>
+            <li>#69 修正flash上传隐藏按钮后无法上传</li>
+            <li>#75 修正restore数据时不触发auth验证的bug</li>
+            <li>#76 auth的事件集成到uploader的error事件中</li>
+            <li>#80 修正在chrome19下文件多选时首次可以多选，之后就只能单选的bug</li>
+            <li>#81 修正开启拖拽后，禁用按钮时，没有移除拖拽区域的bug</li>
+            <li>#82 修正默认主题状态层有进度条时删除入口跑到第二行的bug</li>
+        </ol>
+        <h5>Radio</h5>
+        <ol class="list detail-list">
+            <li>美化样式</li>
+            <li>#78 当label不存在时，只初始化一个radio</li>
+        </ol>
+        <h5>Checkbox</h5>
+        <ol class="list detail-list">
+            <li>美化样式</li>
+            <li>当label不存在时，只初始化一个checkbox</li>
+        </ol>
+        <h3>早期版本（主要是uploader的更新）</h3>
+        <h5>V1.2.3 change</h5>
+        <ol class="list detail-list">
+            <li>#69 修正flash上传隐藏按钮后无法上传</li>
+            <li>修正flash文件无法过滤</li>
+            <li>imageUploader主题增加isMaxHideBtn配置</li>
+        </ol>
+        <h5>V1.2.2 change</h5>
+        <ol class="list detail-list">
+            <li>#68 修正iframe上传按钮在IE下无法点击的bug</li>
+            <li>#67 修正flash上传，安全漏洞问题的bug</li>
+            <li>#66 修正restore方法时没有触发auth的max验证的bug</li>
+            <li>post上传方式到服务器端(type)</li>
+            <li>解析json前先清空空格</li>
+            <li>demo中心优化</li>
+        </ol>
+        <h5>V1.2.1 change</h5>
+        <ol class="list detail-list">
+            <li>#57 修正小版本firefox出现按钮无法点击的bug</li>
+            <li>#58 修正flash上传存在无法找到文件域的bug</li>
+            <li>#59 修正初始按钮过大</li>
+            <li>#35 修正鼠标手型bug</li>
+            <li>#60 修正iframe上传方式在不存在data的情况下会报错的bug</li>
+            <li>#61 修正queueTarget不存在时会有bug的bug</li>
+            <li>#61 uploader增加swfSize参数，用于强制设置flash大小</li>
+            <li>#65 flash多个实例的情况下会出现冲突的bug</li>
+            <li>#64 图片上传进度条存在bug</li>
+        </ol>
+        <h5>V1.2.0 change</h5>
+        <ol class="list detail-list">
+            <li>#43 修正取消操作无用的bug</li>
+            <li>#44 修正IE6/IE7会报缺少）的错误的bug</li>
+            <li>#49 修正IE6下可点击区域过小无法调整的bug</li>
+            <li>#51 修正进度条bug</li>
+            <li>图片预览在多选下存在bug，先予以禁用</li>
+            <li>#26 type:auto，改成等价于["ajax","flash","iframe"]，除非是特别需求，不推荐修改type</li>
+            <li>#27 IE下优先使用flash，解决多选问题</li>
+            <li>#50 增加themeConfig、authConfig参数</li>
+            <li>#50 button的配置集成到uploader/base.js，uploader增加multiple和disabled二个属性， 非特殊需求请勿直接修改button实例的属性，去掉data-button-config支持</li>
+            <li>#52 修正type设置有flash，却不实例化flash按钮的bug</li>
+            <li>优化主题样式加载时机（之前按钮的大小设置有问题）</li>
+            <li>Filedrop增加isSupport属性</li>
+        </ol>
+        <h5>V1.1.4 change</h5>
+        <ol class="list detail-list">
+            <li>修正进度换算bug</li>
+            <li>修正不加载插件不执行回调bug</li>
+            <li>修正不使用主题的情况下，监听init事件无效的bug</li>
+            <li>修正多个iframe上传的bug</li>
+            <li>修正imageUploader主题删除图片后无法显示按钮的bug</li>
+            <li>修正不使用插件，对应插件没做容错处理的bug</li>
+        </ol>
+        <h5>V1.1.3 change</h5>
+        <ol class="list detail-list">
+            <li>修正restore方法无法处理服务器端的bug</li>
+            <li>支持不使用内置主题的情况，设置theme:''</li>
+            <li>queue初始化过程移到RenderUploader</li>
+            <li>增加个不使用内置主题的demo</li>
+            <li>修正ajax上传，修改了传给服务器端的参数,serverConfig，但上传时依旧post旧的数据</li>
+            <li>淘宝二手市场主题重新可用</li>
+            <li>去掉isUseCss多余的判断</li>
+        </ol>
+        <h5>V1.1.2 change</h5>
+        <ol class="list detail-list">
+            <li> 优化Queue类，Queue不再包含dom操作</li>
+            <li>Queue配置项，增加fnAdd（添加文件后执行的回调函数）</li>
+            <li>删除与DOM相关的配置项和属性</li>
+            <li> Queue的dom操作移到theme处理，用户可以自由覆盖控制li元素的显隐，以及是否输出DOM结构</li>
+            <li> Theme增加plugins参数，组件自动加载插件</li>
+            <li>修正主题引用路径的bug</li>
+            <li>默认开启文件多选（多选bug已经修复）</li>
+            <li>优化默认主题的样式</li>
+            <li>修正imageUploader，默认有数据的情况下统计失败的问题</li>
+        </ol>
+        <h5>V1.1 change</h5>
+        <ol class="list detail-list">
+            <li>
+                重构主题基类，让主题制作更简单
+            </li>
+            <li>去掉难以理解的Status类，状态变更集成到Theme</li>
+            <li>增加Theme主题基类，主题不再继承DefaultTheme，导致会加载多余样式</li>
+            <li>新增imageUploader主题，先去除不可用的grayQueue和lineQueue主题</li>
+            <li>增加拖拽上传插件</li>
+            <li>增加拖拽主题</li>
+            <li>修正多处兼容性bug</li>
+            <li>主题路径，如果使用的是组件内置主题，只要传递主题名就好</li>
+            <li>修正ajax多选上传，只上传一个图片的bug</li>
+            <li>优化拖拽上传插件，支持点击上传</li>
+            <li>修正验证失败依旧上传的bug</li>
+            <li>重写restore方法，可以从页面抓取文件数据，而不是从urlsInput</li>
+            <li>修正图片预览报错bug</li>
+        </ol>
+        <h2>KF组件规划</h2>
+        <img alt="kf-models" src="http://www.36ria.com/wp-content/uploads/2012/05/KF组件规划.png">
+    </div>
+</div>
+<div id="footer">
+    &copy; Copyright 2010~2011, KISSY Team.
+</div>
+<!-- 代码高亮 START  -->
+<link href='http://www.36ria.com/demo/gal/gallery/form/1.3/demo/assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet'
+      type='text/css'/>
+<script type="text/javascript"
+        src="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+</body>
+</html>
