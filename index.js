@@ -6,6 +6,16 @@
         "desc":"表格 grid"
     },
     {
+        "name":"chart",
+        
+        "desc":"Kissy 图表引擎，提供条形图，折线图基于HTML5 Canvas， 支持IE"
+    },
+    {
+        "name":"countdown",
+        
+        "desc":"倒计时组件"
+    },
+    {
         "name":"timeline",
         
         "desc":"时间轴 timeline"
@@ -26,10 +36,10 @@
         "desc":"scrollspy"
     },
     {
-        "name":"selectable",
+        "name":"magnifier",
         
-        "desc":"选择/下拉框"
-    },
+        "desc":"圆形放大器"
+    },    
     {
         "name":"form",
         
@@ -39,6 +49,16 @@
         "name":"kscroll",
         
         "desc":"滚动条组件"
+    },
+    {
+        "name":"spotlight",
+        
+        "desc":"聚焦灯效果"
+    },
+    {
+        "name":"huabao",
+        
+        "desc":"画报组件"
     },
     {
         "name":"urlparser",
@@ -64,17 +84,8 @@
         "name":"digital-clock",
         
         "desc":"数字时钟"
-    },
-    {
-        "name":"chart",
-        
-        "desc":"Kissy 图表引擎，提供条形图，折线图基于HTML5 Canvas， 支持IE"
-    },
-    {
-        "name":"countdown",
-        
-        "desc":"倒计时组件"
-    },
+    },    
+    
     {
         "name":"easycountdown",
         
@@ -85,11 +96,7 @@
         
         "desc":"开关灯，同优酷视频播放的黑白屏效果"
     },
-    {
-        "name":"spotlight",
-        
-        "desc":"聚焦灯效果"
-    },
+    
     {
         "name":"couple-select",
         
@@ -141,16 +148,6 @@
         "desc":"图片标记组件"
     },
     {
-        "name":"huabao",
-        
-        "desc":"画报组件"
-    },
-    {
-        "name":"magnifier",
-        
-        "desc":"圆形放大器"
-    },
-    {
         "name":"province",
         
         "desc":"省市区联动组件，淘宝最新省市区数据"
@@ -159,6 +156,11 @@
         "name":"combine",
         
         "desc":"适用 KISSY 1.2 的自动 combo patch"
+    },
+    {
+        "name":"selectable",
+        
+        "desc":"选择/下拉框"
     }
    ]   
 }
