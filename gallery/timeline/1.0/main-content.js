@@ -469,6 +469,7 @@ KISSY.add('gallery/timeline/1.0/main-content', function(S, Base, TT, Anim){
       // window.location.hash = '!timeline{idx:' + self.activeMarkerIdx + '}';
     }
     ,setHash: function(){
+      return false;
       var hash = window.location.hash;
       var reg = /\!timeline{idx:(\d+)}/i;
       var regret =  hash.match(reg);
