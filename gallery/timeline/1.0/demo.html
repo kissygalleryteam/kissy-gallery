@@ -31,12 +31,12 @@
   min-width: 1000px;
   margin: 0 auto;
   overflow: auto;
-  max-height: 50px;
+  max-height: 250px;
   overflow: auto;
   border: 1px solid pink;
 }
 .ks-timeline .main-content img{
-    height: 300px;
+    
 }
 
 .ks-timeline .kt-navigation{
@@ -157,6 +157,11 @@ console.log(e.data);
     <div id="K_Track" class="ks-timeline">
         <div id="KT_MainContent" class="main-content"></div>
         <div id="KT_Navigation" class="kt-navigation"></div>
+        <span>Controler: </span>
+        <button href="#" onclick="window.track.prev();" style="padding: 3px 5px;">prev</button>
+        <button href="#" onclick="window.track.next();" style="padding: 3px 5px;">next</button>
+        <button href="#" onclick="window.track.switchTo(document.getElementById('J_Track2SwitchTo2').value);" style="margin-left: 10px;padding: 3px 5px;">switchTo</button>
+        <input type="text" id="J_Track2SwitchTo2" value="0" style="width: 30px;" />
     </div>
     <a href="javascript:;" onclick="KISSY.all('#J_ToggleTrackCode').slideToggle();">查看源码</a>
     <div id="J_ToggleTrackCode" style="display: none;">
@@ -208,13 +213,16 @@ KISSY.use('gallery/timeline/1.0/index, gallery/timeline/1.0/assets/default.css',
   track.on('change', function(e){
     S.log('[timeline]:',e);
     S.io({
-      type: 'post'
-      ,url: 'demoajax/' + e.data.time + '.php'
-      ,success: function(data){
-        $('#KT_MainContent').html(data);
-      }
+      type: 'get'
+      ,dataType: 'jsonp'
+      ,url: 'demoajax/' + e.data.time + '.js'
+      ,success: 'jsonp_timeline'
     });
   });
+
+  window.jsonp_timeline = function(data){
+    $('#KT_MainContent').html(data.html);    
+  }
 
   window.track = track;
   track.switchTo(1);
