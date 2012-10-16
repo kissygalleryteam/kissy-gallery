@@ -1,0 +1,126 @@
+//yumen t=20120530
+
+//保存一些常用的样式 mixin
+//包含 hack
+
+//清除浮动clear fix
+.clearfix(){
+    &:after{
+        content: '\20';
+        display: block;
+        height: 0;
+        visibility: hidden;
+        clear:both;
+    }
+    *zoom: 1;
+}
+
+.word-break(){
+    word-break: break-all;
+    word-wrap: break-word
+}
+.no-wrap(){
+    word-break: normal;
+    word-wrap: keep-all;
+    word-spacing: nowrap;
+}
+
+//半透明 alpha为函数，因此此为函数嵌套函数，需要~转义
+.opacity(@opacity){
+    opacity: @opacity;
+    filter: ~"alpha(opacity="@opacity*100~")";
+    //filter: ~"alpha(opacity=@{opacity})";
+}
+
+//ie67: display:inline-block
+.ie67-inline-block(){
+    *display: inline;
+    *zoom: 1;
+}
+.inline-block(){
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+
+//text-overflow 超出宽度的文本自动截断并加...
+.text-overflow(){
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+
+//强制不断行
+.text-nowrap(){
+    word-break: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+}
+//断行
+.text-wrap(){
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: normal;
+}
+.normal-wrap(){
+    word-break: normal;
+    word-wrap: normal;
+    white-space: normal;
+}
+
+//图片居中
+.img-center(@width, @height){
+    display: table-cell;
+    vertical-align: middle;
+    
+    text-align: center;
+    
+    *display: block;
+    *font-size: round(@height*0.875);
+    *font-family: Arial;
+    *line-height: @height;
+    
+    width: @width;
+    height: @height;
+}
+
+//css圆角
+.border-radius(@radius: 5px 5px 5px 5px){
+    -webkit-border-radius: @radius ;
+    -moz-border-radius: @radius;
+    border-radius: @radius;
+}
+
+//box-shadow
+.box-shadow(@boxShadow){
+    -webkit-box-shadow: @boxShadow;
+    -mox-box-shadow: @boxShadow;
+    box-shadow: @boxShadow;
+}
+
+//text-shadow
+.text-shadow(@textShadow){
+    -webkit-text-shadow: @textShadow;
+       -moz-text-shadow: @textShadow;
+            text-shadow: @textShadow;
+}
+
+//css阴影 @shadow: 0 1px 3px rgba(0,0,0,0.5)
+.border-shadow(@shadow: 0 1px 3px rgba(0,0,0,0.5)){
+    -webkit-box-shadow: @shadow;
+    -moz-box-shadow: @shadow;
+    box-shadow: @shadow;
+}
+
+//css transition
+.transition(@style){
+    -webkit-transition: @style;
+    -moz-transition: @style;
+    transition: @style;
+}
+
+.transform(@style){
+    -webkit-transform: @style;
+    -moz-transform: @style;
+    transform: @style;
+}
