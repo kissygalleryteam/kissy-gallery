@@ -113,7 +113,7 @@ console.log(e.data);
             S.log('[timeline]:',e)
             S.io({
                 type: 'post'
-                ,url: 'demoajax/' + e.data.time + '.php'
+                ,url: '../demoajax/' + e.data.time + '.php'
                 ,success: function(data){
                 $('#KT_MainContent').html(data);
                 }
@@ -184,7 +184,7 @@ console.log(e.data);
             
             S.io({
                 type: 'post'
-                ,url: 'demoajax/' + e.data.time + '.php'
+                ,url: '../demoajax/' + e.data.time + '.php'
                 ,success: function(data){
                 $('#KT_MainContent').html(data);
                 }
@@ -215,7 +215,7 @@ KISSY.use('gallery/timeline/1.0/index, gallery/timeline/1.0/assets/default.css',
     S.io({
       type: 'get'
       ,dataType: 'jsonp'
-      ,url: 'demoajax/' + e.data.time + '.js'
+      ,url: '../demoajax/' + e.data.time + '.js'
       ,success: 'jsonp_timeline'
     });
   });
