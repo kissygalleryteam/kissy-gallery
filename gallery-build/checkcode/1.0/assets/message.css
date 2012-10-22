@@ -1,0 +1,56 @@
+@charset "gb2312";
+/*
+ * @name:message.css
+ * @description:rebuild msg.css
+ * @author:yanmu.wj@taobao.com
+ * @date:2012-02-14
+ * @example:
+ *      <div class="msg msg-inline msg-ok">
+ *          <i></i>
+ *          <p>ok</p>
+ *      </div>
+ */
+.msg{padding:4px 4px 4px 24px;font-size:12px;line-height:16px;color:#404040;background-color:#FFFFE5;border:1px solid #FFCC7F;overflow:hidden;zoom:1;}
+.msg-b{padding:9px 9px 9px 50px;font-size:14px;line-height:16px;color:#404040;background-color:#FFFFE5;border:1px solid #FFCC7F;overflow:hidden;zoom:1;}
+.msg-inline{display:inline-block;zoom:1;*display:inline;}
+.msg-b .msg-vm,.msg-b-weak .msg-vm{padding-top:7px;}
+.msg-b .msg-middle{padding-top:7px;}
+
+.msg-ok,.msg-b-ok{background-color:#F0FFE5;border-color:#4DBF00;}
+.msg-error,.msg-stop,.msg-b-error,.msg-b-stop{background-color:#FFF2F2;border-color:#FF8080;}
+.msg-attention,.msg-b-attention{background-color:#E5F5FF;border-color:#40B3FF;}
+
+.msg-weak{padding:5px 5px 5px 25px;font-size:12px;line-height:16px;color:#404040;background:none;border:none;}
+    .msg i,.msg-weak i{display:inline;float:left;margin-left:-20px;width:16px;height:16px;background:url(http://img01.taobaocdn.com/tps/i1/T1g3uoXdpQXXXXXXXX-60-280.png) no-repeat 0 -160px;}
+.msg-b-weak{padding:10px 10px 10px 46px;font-size:14px;line-height:16px;color:#404040;background:none;border:none;}
+    .msg-b i,.msg-b-weak i{display:inline;float:left;margin-left:-41px;width:32px;height:32px;background:url(http://img01.taobaocdn.com/tps/i1/T1g3uoXdpQXXXXXXXX-60-280.png) no-repeat 100% -160px;}
+
+.msg-ok{}
+    .msg-ok i{background-position:0 -200px;}
+.msg-error{}
+    .msg-error i{background-position:0 0;}
+.msg-stop{}
+    .msg-stop i{background-position:0 -40px;}
+.msg-question{}
+    .msg-question i{background-position:0 -80px;}
+.msg-notice{}
+    .msg-notice i{background-position:0 -240px;}
+.msg-attention{}
+    .msg-attention i{background-position:0 -120px;}
+.msg-tips{}
+    .msg-tips i{background-position:0 -160px;}
+
+.msg-b-ok{}
+    .msg-b-ok i{background-position:100% -200px;}
+.msg-b-error{}
+    .msg-b-error i{background-position:100% 0;}
+.msg-b-stop{}
+    .msg-b-stop i{background-position:100% -40px;}
+.msg-b-question{}
+    .msg-b-question i{background-position:100% -80px;}
+.msg-b-notice{}
+    .msg-b-notice i{background-position:100% -240px;}
+.msg-b-attention{}
+    .msg-b-attention i{background-position:100% -120px;}
+.msg-b-tips{}
+    .msg-b-tips i{background-position:100% -160px;}

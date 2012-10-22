@@ -1,0 +1,196 @@
+/*-------------- 灰色队列样式，仿plupload BY 明河 --------------*/
+.clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    zoom: 1;
+    clear: both\9;
+}
+
+.f-r {
+    float: right;
+}
+
+.f-l {
+    float: left;
+}
+
+.uploadify {
+    width: 600px;
+    border: 1px solid #CDCDCD;
+    font-family: 'Microsoft YaHei';
+    font-size: 12px;
+    color: #404040;
+}
+
+/*--- 上传按钮 START ---*/
+.uploadify .uploader-icon {
+    background: url("images/icons.png") 3px 3px no-repeat;
+}
+
+.uploadify .uploader-button {
+    font-size: 12px;
+    text-align: center;
+    line-height: 14px;
+    height: 14px;
+    width: 50px;
+    display: block;
+    position: relative;
+    z-index: 500;
+    border: 1px solid #BABABA;
+    border-radius: 3px 3px 3px 3px;
+    color: #42454A;
+    margin-right: 4px;
+    outline: 0 none;
+    padding: 4px 8px 4px 20px;
+    text-decoration: none;
+    margin-top: 4px;
+    background-color: #ECF3DC;
+}
+
+.uploadify .uploader-button-hover, .uploadify .uploader-button:hover {
+    text-decoration: none;
+    color: black;
+    background: url("images/icons.png") 3px 3px no-repeat #F7FEE7;
+}
+
+.uploadify .uploader-button:active {
+    background: #DFE7EF;
+    filter: none;
+}
+
+.uploadify .start-upload {
+    background-position: 3px -57px;
+}
+
+.uploadify .start-upload:hover {
+    background-position: 3px -57px;
+}
+
+.uploadify  .start-upload-disabled {
+    border: 1px solid #BFBFBF;
+    color: #404040;
+    background-color: #E5E5E5;
+    background-position: 3px -88px;
+}
+
+.uploadify  .start-upload-disabled:hover {
+    color: #404040;
+    background-color: #E5E5E5;
+    background-position: 3px -88px;
+}
+
+.uploadify  .uploader-button input {
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    cursor: pointer;
+    height: 25px;
+    width: 110px;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity = 0);
+    position: absolute;
+    font-size: 12px !important;
+}
+
+*html .uploader-button input {
+    font-size: 400px;
+}
+
+*+html .uploader-button input {
+    font-size: 400px;
+}
+
+/*--- 上传按钮 END ---*/
+
+.uploadify .header-footer {
+    line-height: 32px;
+    height: 32px;
+    background-color: #DFDFDF;
+    color: #404040;
+    padding: 0 10px;
+}
+
+.uploadify .uploadify-header {
+    border-bottom: 1px solid #CDCDCD;
+}
+
+.uploadify .file-name {
+    width: 200px;
+}
+
+.uploadify .file-status, .uploadify .file-size {
+    width: 80px;
+}
+
+.uploadify .header-footer .file-status {
+    margin-right: 16px;
+}
+
+.uploadify .uploadify-list {
+    background: none repeat scroll 0 0 #F5F5F5;
+    width: 100%;
+    height: 180px;
+    overflow-y: scroll;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+
+.uploadify .uploadify-list li.queue-file {
+    line-height: 32px;
+    height: 32px;
+    border-bottom: 1px solid #CDCDCD;
+    padding: 0 10px;
+    margin: 0;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#F5F5F5));
+    background: -moz-linear-gradient(top, #ffffff, #F5F5F5);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ffffff', endColorstr = '#F5F5F5');
+}
+
+.uploadify .uploadify-list li.current-upload-file {
+    background: -webkit-gradient(linear, left top, left bottom, from(#F7FFE8), to(#ECF3DC));
+    background: -moz-linear-gradient(top, #F7FFE8, #ECF3DC);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#F7FFE8', endColorstr = '#ECF3DC');
+}
+
+.uploadify .uploadify-list li .success-icon {
+    background-position: 38px -114px;
+}
+
+.uploadify .uploadify-list li .del-icon {
+    background-position: 0 -150px;
+    height: 17px;
+    margin-left: 4px;
+    margin-top: 6px;
+    width: 16px;
+}
+
+.uploadify .uploader-btn-wrapper .uploader-button-disabled {
+    border-color: #C5C5C5;
+    color: #737373;
+    cursor: default;
+}
+
+.uploadify .uploadify-footer .progress-wrapper {
+    width: 80px;
+}
+
+.uploadify .uploadify-footer .ks-progress-bar {
+    padding: 1px;
+    height: 8px;
+    border: 1px solid #CCCCCC;
+    margin-right: 10px;
+    margin-top: 9px;
+}
+
+.uploadify .uploadify-footer .ks-progress-bar .ks-progress-bar-value {
+    background-color: #CDEB8B;
+}

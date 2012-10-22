@@ -112,6 +112,7 @@
         position: absolute;
         left: -9999px;
         top: -9999px;
+        z-index: 9999;
     }
 
     #pp-content {
@@ -122,12 +123,12 @@
 <script src="../../../../kissy/build/kissy.js"></script>
 <script>
     KISSY.config({
-        packages:[
+        packages: [
             {
-                name:"gallery",
-                tag:"20111220",
-                path:"../../../", // cdn上适当修改对应路径
-                charset:"utf-8"
+                name: "gallery",
+                tag: "20111220",
+                path: "../../../", // cdn上适当修改对应路径
+                charset: "utf-8"
             }
         ]
     });
@@ -142,26 +143,25 @@
                     , listText = [];
 
             var popup = new overlay.Popup(
-                    S.get('#drop')
-                    , {
-
-                    }
-            )
+                            {
+                                srcNode: S.get('#drop')
+                            }
+                    )
                     ;
             S.log(popup.get("el"));
             popup.on('show', function () {
                 var el = popup.get('el') , top = el.offset().top;
                 el.stop()
 
-                el.css({top:top + 20, opacity:0})
+                el.css({top: top + 20, opacity: 0})
                 S.Anim(el, {
-                    opacity:1, top:top
+                    opacity: 1, top: top
                 }, .2).run()
 
 
             })
             S.each(nodes, function (item, i) {
-                arrNode.push({node:item});
+                arrNode.push({node: item});
                 listText.push(Array(10).join(i + ''))
             })
             popup.align(
@@ -172,14 +172,14 @@
 
 
             var spot = new Spotlight({
-                quene:arrNode, anim:{
-                    duration:.1
-                }, opacity:.3, zIndex:9000, toggleOnAnim:false, listeners:{
-                    hide:function () {
+                quene: arrNode, anim: {
+                    duration: .1
+                }, opacity: .3, zIndex: 9000, toggleOnAnim: false, listeners: {
+                    hide: function () {
                         nextBtns.attr('disabled', true);
                         prevBtns.attr('disabled', true);
                         popup.hide();
-                    }, focusTo:function (e) {
+                    }, focusTo: function (e) {
                         popup.hide();
                         S.one('#pp-content').html(listText[e.index])
                         setTimeout(function () {
@@ -219,6 +219,7 @@
 
     <div class="mask-target">
         <img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png"/>
+
         <div>
             <button class="next">next</button>
             <button class="prev">prev</button>
@@ -226,6 +227,7 @@
     </div>
     <div class="mask-target">
         <img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png"/>
+
         <div>
             <button class="next">next</button>
             <button class="prev">prev</button>
@@ -233,6 +235,7 @@
     </div>
     <div class="mask-target">
         <img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png"/>
+
         <div>
             <button class="next">next</button>
             <button class="prev">prev</button>
@@ -240,6 +243,7 @@
     </div>
     <div class="mask-target">
         <img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png"/>
+
         <div>
             <button class="next">next</button>
             <button class="prev">prev</button>
@@ -247,6 +251,7 @@
     </div>
     <div class="mask-target">
         <img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png"/>
+
         <div>
             <button class="next">next</button>
             <button class="prev">prev</button>
@@ -254,6 +259,7 @@
     </div>
     <div class="mask-target">
         <img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png"/>
+
         <div>
             <button class="next">next</button>
             <button class="prev">prev</button>
@@ -306,5 +312,6 @@
             </tbody>
         </table>
     </div>
+</div>
 </body>
 </html>

@@ -307,13 +307,19 @@ KISSY.add("gallery/kscroll/1.1/index", function (S, Node) {
 			container.css("outline","none").attr("tabindex",S.guid()).on("keydown", function (ev) {
 				var keycode = ev.keyCode,
 					sh = self.get("step");
+				
+				//修复内容区域含有textarea bug
+				if(~"INPUT,TEXTAREA".indexOf(ev.target.nodeName.toUpperCase())){
+					return;
+				}
+					
 				if(!~"38,39,36,40,37,35".indexOf(keycode)){
 					return;
-				}else{
-					var d = ~"38,39,36".indexOf(keycode)?sh:-sh;
-					if(canMousewheel(d)){
-						ev.halt();
-					}	
+				}
+
+				var d = ~"38,39,36".indexOf(keycode)?sh:-sh;
+				if(canMousewheel(d)){
+					ev.halt();
 				}
 				
 				switch(keycode){
@@ -358,6 +364,33 @@ KISSY.add("gallery/kscroll/1.1/index", function (S, Node) {
                     track.removeClass(prefix + "track-hover");
                 });
         },
+		
+		//拖动内容区域滚动
+		_bindBodyDrag: function(){
+			var self = this,
+				doc = $(document),
+				body = self.get("body"),
+				pageY = 0,
+				moveFn = function(ev){
+					if(pageY>ev.pageY){
+						self.scrollByDistance(5);
+					}else{
+						self.scrollByDistance(-5);
+					}
+				};
+			
+			body.on("mousedown", function(ev){
+				pageY = ev.pageY;
+				doc
+					.on("mousemove", moveFn)
+					.on("mouseup", function () {
+						doc.detach("mousemove", moveFn);
+						doc.detach("mouseup", arguments.callee);
+						pageY = 0;
+					});
+			});
+			
+		},
 
         _bindContainer:function () {
             var self = this,
@@ -403,7 +436,15 @@ KISSY.add("gallery/kscroll/1.1/index", function (S, Node) {
             self._bindDrag();
 			
 			//键盘支持
-			self._bindHotkey();
+			if(self.get("hotkey")===true){
+				self._bindHotkey();
+			}
+			
+			//支持在内容区域拖动
+			if(self.get("bodydrag")){
+				self._bindBodyDrag();
+			}
+			
         },
 
         //重置大小

@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>使用ershouUploader模板的demo</title>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://a.tbcdn.cn/s/kissy/1.2.0/css/reset-min.css" />
+</head>
+<style>
+    body {
+        font-family: 'Microsoft YaHei';
+        font-size: 12px;
+        color: #404040;
+    }
+    h4{
+        font-size:16px;
+        color:#C58080;
+        margin:10px 0;
+    }
+    .demo-wrapper {
+        padding: 20px;
+    }
+</style>
+<body>
+
+<article id="main">
+    <h4>模板名：ershouUploader（由1.0的lineQueue升级而来）</h4>
+    <p>作者：紫英（橘子）&lt;daxingplay@gmail.com&gt;</p>
+    <p>版本：V1.1 Beta</p>
+    <div class="demo-wrapper">
+        <form id="J_UploaderForm" action="test.php">
+            <div class="form-area">
+                <a id="J_UploadBtn" href="#upload()" data-config='{"type":"flash","theme":"ershouUploader","urlsInputName":"urlsInput","serverConfig":{"action":"./upload.php"},"name":"Filedata"}' data-auth='{"require":[true,"必须至少上传一个文件！"],"maxSize":[500,"文件大小为{size}，文件太大！"],"allowExts":[{"desc":"JPG,JPEG,PNG,GIF,BMP","ext":"*.jpg;*.jpeg;*.png;*.gif;*.bmp"},"文件格式错误！"],"max":[5,"最多允许上传五张图片！"]}' data-button-config='{"multiple":false}' class="upload-btn">
+                    上传图片
+                    <input type="file" name="Filedata" hidefoucs="true" class="original-file-input">
+                </a>
+                <span id="J_MsgBoxUpload" class="upload-tips">最多上传<em>5张</em>照片，每张图片小于<em>5M</em></span>
+            </div>
+            <div id="J_UploadQueueContainer" class="upload-queue">
+                <ul id="J_UploadQueue">
+                    
+                </ul>
+            </div>
+            <input id="J_MainPicUrl" type="hidden" name="mainPicUrl" value="" />
+            <input id="J_UrlsInput" type="hidden" name="urlsInput" value="" />
+        </form>
+    </div>
+</article>
+<script>
+    var S = KISSY,
+        //包路径，实际使用请直接配置为"http://a.tbcdn.cn/s/kissy/"
+            path = S.Config.debug && "../../../../../../" || "http://a.tbcdn.cn/s/kissy/";
+    S.config({
+        packages:[ {
+            name:"gallery",
+            path:path,
+            charset:"utf-8"
+        } ]
+    });
+    //加载上传组件入口文件
+    KISSY.use('gallery/form/1.3/uploader/index', function (S, RenderUploader) {
+        new RenderUploader('#J_UploadBtn', '#J_UploadQueue');
+    });
+</script>
+</body>
+</html>

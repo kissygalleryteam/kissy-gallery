@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>KF/SpinBox—数字增减器</title>
+    <link rel="shortcut icon" href="http://docs.kissyui.com/kissy-dpl/base/assets/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/docs.css"/>
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+    <script src="../../assets/feedback.js" charset="utf-8"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" charset="utf-8"></script>
+    <script src="http://bootswatch.com/assets/js/bootstrap-dropdown.js" charset="utf-8"></script>
+    <script src="http://bootswatch.com/assets/js/bootstrap-scrollspy.js" charset="utf-8"></script>
+    <script src="../../assets/app.js" charset="utf-8"></script>
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo.html" id="logo">BUTTERFLY</a>
+
+            <div class="nav-collapse">
+
+                <ul class="nav">
+                    <li><a href="http://docs.kissyui.com/kissy-gallery/gallery/form/1.3/demo.html">首页</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">组件 <b
+                            class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/uploader/index.html">Uploader</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/limiter/index.html">Limiter</a>
+                            </li>
+                            <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/spinbox/index.html">SpinBox</a>
+                            </li>
+                            <li>
+                                <a href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/auth/index.html">Auth</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/checkbox/index.html">checkbox</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/radio/index.html">radio</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="https://github.com/kissyteam/kissy-gallery/tree/master/gallery/form">源码</a></li>
+                    <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.3/doc/index.html">API文档</a></li>
+                </ul>
+                <ul class="nav pull-right">
+                    <li><a rel="tooltip" target="_blank" href="http://docs.kissyui.com/kissy-gallery/index.html">kissy
+                        gallery</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <header id="header" class="jumbotron subhead">
+        <h1 class="title-h1">SpinBox
+            <small>数字增减器</small>
+        </h1>
+        <div class="dec">
+            <p>
+                作者：<b>易敛</b>
+            </p>
+
+            <p>接口文档：<a href="http://www.36ria.com/demo/gal/gallery/form/1.3/doc/symbols/SpinBox.html" target="_blank">SpinBox</a>
+            </p>
+        </div>
+    </header>
+    <div id="content">
+        <div style="margin:20px 0;">
+            <input type="text" value="40.00" class="ks-spinbox" data-range="2.00" data-max="88.00" data-min="1">
+        </div>
+        <!-- / -->
+        <div>
+            <input type="text" value="60.00" class="ks-spinbox" data-range="12.00" data-max="88.00" data-min="10">
+        </div>
+        <!-- / -->
+        <pre class='brush: xml;'>
+            <input type="text" value="40.00" class="ks-spinbox" data-range="2.00" data-max="88.00" data-min="1">
+        </pre>
+        <pre class='brush: js;'>
+             KISSY.use('gallery/form/1.3/spinbox/index,node', function (S, SpinBox, Node) {
+                var spinbox = new SpinBox('.ks-spinbox',{ariaLabel: '出价框，请输入价格'});
+                spinbox.render();
+             })
+        </pre>
+    </div>
+</div>
+<script type="text/javascript">
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                path:"../../../../../../",
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+<script type="text/javascript">
+    KISSY.use('gallery/form/1.3/spinbox/index,node', function (S, SpinBox, Node) {
+        var spinbox = new SpinBox('.ks-spinbox', {ariaLabel:'出价框，请输入价格'});
+        spinbox.render();
+    })
+</script>
+<!-- 代码高亮 START  -->
+<link href='../../assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css'/>
+<script type="text/javascript" src="../../assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+
+</body>
+</html>

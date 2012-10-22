@@ -68,8 +68,10 @@ KISSY.add('gallery/form/1.2/uploader/plugins/filedrop/filedrop', function (S, No
             if($dropArea.length){
                 $dropArea.on('click',self._clickHandler,self);
             }
-            console.log('after randeer');
-            // self.fire('afterRender', {'buttonWrap': self.get('buttonWrap'), 'config': {'tpl' : self.get('btnTpl')}});
+            //当uploader的禁用状态发生改变后显隐拖拽区域
+            uploader.on('afterDisabledChange',function(ev){
+                self[ev.newVal && 'hide' || 'show']();
+            });
             self.fire('afterRender', {'buttonTarget':self.get('buttonWrap')});
         },
         /**

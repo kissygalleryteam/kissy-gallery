@@ -1,0 +1,68 @@
+//base.less
+// 修改自bootstrap的forms.less
+// -------------------------------------------------------------
+
+
+@import "vars.less";
+@baseLineHeight: 18px;
+@baseFontSize: 13px;
+@baseFontFamily:        "Helvetica Neue", Helvetica, Arial, sans-serif;
+@grayDark:              #333;
+@grayLight:             #999;
+
+#font {
+   .shorthand(@size: @baseFontSize, @weight: normal, @lineHeight: @baseLineHeight) {
+     font-size: @size;
+     font-weight: @weight;
+     line-height: @lineHeight;
+   }
+}
+
+// 重置样式
+// --------------
+form {
+  margin: 0 0 @baseLineHeight;
+}
+
+fieldset {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+legend {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin-bottom: @baseLineHeight * 1.5;
+  font-size: @baseFontSize * 1.5;
+  line-height: @baseLineHeight * 2;
+  color: @grayDark;
+  border: 0;
+  border-bottom: 1px solid #eee;
+
+  // Small
+  small {
+    font-size: @baseLineHeight * .75;
+    color: @grayLight;
+  }
+}
+
+label,
+input,
+button,
+select,
+textarea {
+  #font > .shorthand(@baseFontSize,normal,@baseLineHeight); // Set size, weight, line-height here
+}
+
+input,
+button,
+select,
+textarea {
+  font-family: @baseFontFamily; // And only set font-family here for those that need it (note the missing label element)
+}
+
+// --------------
+
+

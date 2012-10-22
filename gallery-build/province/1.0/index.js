@@ -55,7 +55,12 @@ KISSY.add("gallery/province/1.0/index",function(S, undefined){
 	
 		//获取option的值
 		getValue: function(el){
-			return (el && el.options)?(el.options[el.selectedIndex]?el.options[el.selectedIndex].value:""):"";
+			//return (el && el.options)?(el.options[el.selectedIndex]?el.options[el.selectedIndex].value:""):"";
+			if(el && el.options && el.options.length>0 && el.selectedIndex>0){
+				return el.options[el.selectedIndex].value;
+			}else{
+				return null;
+			}
 		},
 	
 		//向前渲染

@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>progressBar进度条demo</title>
+<link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js" charset="utf-8"></script>
+</head>
+<body>
+
+<article id="main">
+    <h4>progressBar进度条demo</h4>
+    <div class="demo-wrapper">
+        <div id="J_ProgressBarWrapper"></div>
+        <div style="margin-top: 10px;"><input type="button" value="增加10%" id="J_AddValue"></div>
+    </div>
+    <pre class='brush: js;'>
+        S.use('gallery/form/1.3/uploader/plugins/progressBar/progressBar,gallery/form/1.3/uploader/themes/default/style.css', function (S, ProgressBar) {
+            var bar = new ProgressBar('#J_ProgressBarWrapper');
+            bar.render();
+            $("#J_AddValue").on('click', function (ev) {
+                var val = bar.get('value');
+                bar.set('value', val + 20);
+            })
+        });
+    </pre>
+    <h5>修改进度</h5>
+    <p>设置value属性即可修改进度条的进度。</p>
+    <pre class='brush: js;'>
+        bar.set('value', 20);
+    </pre>
+    <h5>设置进度条宽度</h5>
+    <pre class='brush: js;'>
+        var bar = new ProgressBar('#J_ProgressBarWrapper',{width:200});
+    </pre>
+    <h5>show()：显示进度条</h5>
+    <pre class='brush: js;'>
+        bar.show();
+    </pre>
+    <h5>hide()：隐藏进度条</h5>
+    <pre class='brush: js;'>
+        bar.hide();
+    </pre>
+    <script>
+        var S = KISSY, $ = S.Node.all;
+        S.config({
+            packages:[
+                {
+                    name:"gallery",
+                    path:"../../../../../../",
+                    charset:"utf-8"
+                }
+            ]
+        });
+        S.use('gallery/form/1.3/uploader/plugins/progressBar/progressBar,gallery/form/1.3/uploader/themes/default/style.css', function (S, ProgressBar) {
+            var bar = new ProgressBar('#J_ProgressBarWrapper');
+            bar.render();
+            $("#J_AddValue").on('click', function (ev) {
+                var val = bar.get('value');
+                bar.set('value', val + 20);
+            })
+        });
+    </script>
+</article>
+<!-- 代码高亮 START  -->
+<link href='../../assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="../../assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+</body>
+</html>

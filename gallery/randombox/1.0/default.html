@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>randombox default</title>
+<link rel="stylesheet" href="assets/reset.css">
+<link rel="stylesheet" href="assets/default.css">
+<style type="text/css">
+body{font-family: Microsoft Yahei;}
+.container{width:400px;margin: 100px auto;}
+.container h1{color:#005288;font-weight: normal;}
+.container input{width:80px;height:26px;}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>默认样式</h1>
+<div id="demo" class="ks-randombox-default clearfix">
+	<span id="b1">1</span>
+	<span id="b2">2</span>
+	<span id="b3">3</span>
+	<span id="b4">4</span>
+	<span id="b5">5</span>
+	<span id="b6">6</span>
+	<span id="b7">7</span>
+	<span id="b8">8</span>
+	<span id="b9">9</span>
+	<span id="b10">10</span>
+	<span id="b11">11</span>
+	<span id="b12">12</span>
+	<span id="b13">13</span>
+	<span id="b14">14</span>
+	<span id="b15">15</span>
+	<span id="b16">16</span>
+	<span id="b17">17</span>
+	<span id="b18">18</span>
+	<span id="b19">19</span>
+	<span id="b20">20</span>
+	<span id="b21">21</span>
+	<span id="b22">22</span>
+	<span id="b23">23</span>
+	<span id="b24">24</span>
+	<span id="b25">25</span>
+</div>
+<input type="button" value="点击开始" id="start"> 
+<input type="button" value="停止" id="stop"> 
+<input type="button" value="重置" id="reset"> 
+<input type="button" value="在摇一次" id="again"> 
+</div>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+<script type="text/javascript">
+(function(S){
+	var $ = S.all,
+		E = S.Event,
+		box;
+	S.use("gallery/randombox/1.0/index",function(S,RandomBox){
+			box = new RandomBox({
+			//配置id数组   "#"号勿忘
+			list:["#b1","#b2","#b3","#b4","#b5",	
+			      "#b10","#b15","#b20","#b25","#b24",
+			      "#b23","#b22","#b21","#b16","#b11",
+			      "#b6","#b7","#b8","#b9","#b14",
+			      "#b19","#b18","#b17","#b12","#b13"],
+			//配置旋转圈数
+			rollTimes:2,
+			//配置CSS类名  （选中时效果）
+			cls:"sel-item",	
+			//配置动画周期 (ms)
+			duration:40
+			//配置最终选中的id "#"号勿忘 不填为随机 
+			//finalId:"#b6"		
+		},function(targetId){
+			//执行选中后的回调函数
+			setTimeout(function(){alert("你选中了"+$(targetId).html());},400);
+		});
+
+		E.on($("#start"),'click',function(){
+			//开始摇奖
+			box.start();
+		});
+		E.on($("#stop"),'click',function(){
+			//停止摇奖
+			box.stop();
+		});
+		E.on($("#reset"),'click',function(){
+			//复位
+			box.reset();
+		});
+		E.on($("#again"),'click',function(){
+			box.reset();
+			box.start();
+		});
+	});
+})(KISSY);
+</script>
+</body>
+</html>

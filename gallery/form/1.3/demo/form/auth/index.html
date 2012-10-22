@@ -1,0 +1,298 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>KF/Auth</title>
+    <link rel="shortcut icon" href="http://docs.kissyui.com/kissy-dpl/base/assets/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="../../assets/docs.css"/>
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+    <script src="../../assets/feedback.js" charset="utf-8"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" charset="utf-8"></script>
+    <script src="http://bootswatch.com/assets/js/bootstrap-dropdown.js" charset="utf-8"></script>
+    <script src="http://bootswatch.com/assets/js/bootstrap-scrollspy.js" charset="utf-8"></script>
+    <script src="../../assets/app.js" charset="utf-8"></script>
+
+    <link rel="stylesheet" type="text/css" href="../../../auth/style.css"/>
+    <script src="../../../auth/index.js" charset="utf-8"></script>
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo.html" id="logo">BUTTERFLY</a>
+
+            <div class="nav-collapse">
+
+                <ul class="nav">
+                    <li><a href="http://docs.kissyui.com/kissy-gallery/gallery/form/1.3/demo.html">首页</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">组件 <b
+                            class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/uploader/index.html">Uploader</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/limiter/index.html">Limiter</a>
+                            </li>
+                            <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/spinbox/index.html">SpinBox</a>
+                            </li>
+                            <li>
+                                <a href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/auth/index.html">Auth</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/checkbox/index.html">checkbox</a>
+                            </li>
+                            <li class=""><a
+                                    href="http://www.36ria.com/demo/gal/gallery/form/1.3/demo/form/radio/index.html">radio</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="https://github.com/kissyteam/kissy-gallery/tree/master/gallery/form">源码</a></li>
+                    <li><a href="http://www.36ria.com/demo/gal/gallery/form/1.3/doc/index.html">API文档</a></li>
+                </ul>
+                <ul class="nav pull-right">
+                    <li><a rel="tooltip" target="_blank" href="http://docs.kissyui.com/kissy-gallery/index.html">kissy
+                        gallery</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <header id="header" class="jumbotron subhead">
+        <h1 class="title-h1">Auth
+            <small>表单验证组件</small>
+        </h1>
+        <div class="dec">
+            <ul>
+                <li>作者：<b>张挺</b></li>
+                <li>接口文档：<a href="http://www.36ria.com/demo/gal/gallery/form/1.3/doc/symbols/Auth.html" target="_blank">Auth</a></li>
+            </ul>
+        </div>
+    </header>
+    <div id="content">
+        <h2>示例 - 用户注册</h2>
+        <div class="row">
+            <div class="span6">
+                <form method="post" id="J_form_eg1" class="form-horizontal well" style="width:550px;">
+                    <div class="control-group">
+                        <label class="control-label" for="username">用户名</label>
+                        <div class="controls">
+                            <input id="username" class="text" type="text" value="test@tb.com" required data-valid="{required:'必填'}"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="password">密码</label>
+                        <div class="controls">
+                            <input class="text" type="text" name="password" id="password" required pattern="[A-z]{3}"
+                                   data-valid="{required:'密码必填',pattern:'密码格式不正确'}"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="repassword">重复密码</label>
+                        <div class="controls">
+                            <input class="text" type="text" id="repassword" name="repassword" data-valid="{equalTo:'两次密码不一致了'}" equalTo="#password"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="email">邮箱</label>
+                        <div class="controls">
+                            <input class="text" id="email" name="email" type="text"
+                                   pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$"
+                                   data-valid="{pattern:'邮箱格式不对'}"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="card">银行卡</label>
+                        <div class="controls">
+                            <input class="text" type="text" id="card"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="card">性别</label>
+                        <div class="controls">
+                            <label class="radio inline">
+                                <input class="text" type="radio" name="sex" value="男"/>男
+                            </label>
+                            <label class="radio inline">
+                                <input class="text" type="radio" name="sex" value="女"/>女
+                            </label>
+                            <label class="radio inline">
+                                <input class="text" type="radio" name="sex" value="其他"  required="required" data-valid="{required:'性别必填'}"/>其他
+                            </label>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="card">个人主页</label>
+                        <div class="controls">
+                            <input class="text" type="text"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">爱好</label>
+
+                        <div class="controls">
+                            <label class="checkbox inline">
+                                <input class="text" type="checkbox" name="interest" value="option1">
+                                爬山
+                            </label>
+                            <label class="checkbox inline">
+                                <input class="text" type="checkbox" name="interest" value="option2">
+                                游泳
+                            </label>
+                            <label class="checkbox inline">
+                                <input class="text" type="checkbox" name="interest" value="option3">
+                                旅游
+                            </label>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">上传头像</label>
+                        <div class="controls">
+                            <input type="file" required  data-valid="{required:'请选择头像图片'}"/>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">提交</button>
+                    </div>
+                </form>
+            </div>
+            <div class="span6">
+                <h3>初始化组件</h3>
+                <pre class='brush: js; '>
+                    KISSY.use("gallery/form/1.3/auth/index", function (S, Auth) {
+                        var form = new Auth('#J_form_eg1', {
+                            msg:{
+                                tpl:'<div class="msg {prefixCls}"><p class="{style}">{msg}</p></div>',
+                                args:{
+                                    prefixCls:'under'
+                                }
+                            }
+                        });
+                    })
+                </pre>
+                <h3>自定义验证规则</h3>
+                <p>以自定义银行卡号验证规则为例</p>
+                <pre class='brush: js; '>
+                //在全局上下文中添加一个自定义规则
+                form.register('card', function (value) {
+                    return value.length > 3;
+                });
+                form.add('#card', {
+                    rules:{
+                        card: {
+                            success:'输入卡号正确',
+                            error:'卡号必须大于3位'
+                        }
+                    },
+                    style:{
+                        success:'attention',
+                        error:'error'
+                    }
+                });
+                </pre>
+                <h3>手动验证某个字段</h3>
+                <pre class='brush: js; '>
+                    form.getField('card').validate();
+                </pre>
+                <h3>手动验证表单所有规则</h3>
+                <pre class='brush: js; '>
+                KISSY.Event.on('#J_form_eg1', "submit", function () {
+                    return form.validate();
+                });
+
+                form.on('validate', function(e) {
+                    alert(e.msg);
+                });
+                </pre>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="eg">
+    <script>
+        //http://www.w3.org/TR/html5/constraints.html#the-constraint-validation-api
+        KISSY.config({
+            packages:[
+                {
+                    name:'gallery',
+                    path:'../../../../../../',
+                    tag:'test',
+                    charset:'utf-8'
+                }
+            ]
+        });
+        KISSY.use("gallery/form/1.3/auth/index", function (S, Auth) {
+
+            var form = new Auth('#J_form_eg1', {
+                autoBind:true,
+                stopOnError:false,
+                msg:{
+                    tpl:'<div class="msg {prefixCls}"><p class="{style}">{msg}</p></div>',
+                    args:{
+                        prefixCls:'under'
+                    }
+                }
+            });
+
+            //在全局上下文中添加一个自定义规则
+            form.register('card', function (value) {
+                return value.length > 3;
+            });
+
+            form.register('moreselect', function (values) {
+                return values.length > 1;
+            });
+
+            form.add('#card', {
+                rules:{
+                    card: {
+                        success:'输入卡号正确',
+                        error:'卡号必须大于3位'
+                    }
+                },
+                style:{
+                    success:'attention',
+                    error:'error'
+                }
+            });
+
+            form.add('#interest', {
+                rules:{
+                    moreselect: {
+                        error:'必须选择超过1个'
+                    }
+                },
+                style:{
+                    error:'error'
+                }
+            });
+
+            form.getField('card').validate();
+
+            KISSY.Event.on('#J_form_eg1', "submit", function () {
+                form.validate();
+                return form.get('result');
+            });
+
+        });
+
+    </script>
+</div>
+
+<!-- 代码高亮 START  -->
+<link href='../../assets/syntaxhighlighter_3.0.83/sh.css' rel='stylesheet'
+      type='text/css'/>
+<script type="text/javascript"
+        src="../../assets/syntaxhighlighter_3.0.83/sh.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 代码高亮 END  -->
+</body>
+</html>

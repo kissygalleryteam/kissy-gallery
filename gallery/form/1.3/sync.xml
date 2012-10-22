@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="sync" default="sync-gallery">
+    <property file="build.properties"/>
+    <property name="src" location="."/>
+    <property name="gallery-dest" location="d:\www\htdocs\gal\gallery\form\1.3"/>
+    <target name="sync-gallery">
+        <copydir src="${src}" dest="${gallery-dest}" forceoverwrite="true"/>
+    </target>
+</project>

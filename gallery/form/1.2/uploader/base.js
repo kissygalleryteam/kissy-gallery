@@ -57,7 +57,9 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
             //取消上传后触发
             CANCEL:'cancel',
             //上传失败后触发
-            ERROR:'error'
+            ERROR:'error',
+            //初始化默认文件数据时触发
+            RESTORE:'restore'
         },
         /**
          * 文件上传所有的状态，{ WAITING : 'waiting', START : 'start', PROGRESS : 'progress', SUCCESS : 'success', CANCEL : 'cancel', ERROR : 'error', RESTORE: 'restore' }
@@ -121,6 +123,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
      * @param {Number} ev.index 上传中的文件在队列中的索引值
      * @param {Object} ev.file 文件数据
      * @param {Object} ev.result 服务器端返回的数据
+     * @param {Object} ev.status 服务器端返回的状态码，status如果是-1，说明是前端验证返回的失败
      */
 
     /**
@@ -135,6 +138,13 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
      * @desc  批量上传结束后触发
      * @event
      */
+
+    /**
+     * @name Uploader#restore
+     * @desc 添加默认数据到队列后触发
+     * @event
+     */
+
     //继承于Base，属性getter和setter委托于Base处理
     S.extend(Uploader, Base, /** @lends Uploader.prototype*/{
         /**
@@ -405,6 +415,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 //如果是flash上传，并不存在文件上传域input
                 file.input = ev.input || file;
             });
+            files = self._processExceedMultiple(files);
             self.fire(Uploader.event.SELECT, {files : files});
             //阻止文件上传
             if (!self.get('isAllowUpload')) return false;
@@ -413,6 +424,16 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 if (curId == EMPTY && autoUpload) {
                     self.uploadFiles();
                 }
+            });
+        },
+        /**
+         * 超过最大多选数予以截断
+         */
+        _processExceedMultiple:function(files){
+            var self = this,multipleLen = self.get('multipleLen');
+            if(multipleLen < 0 || !S.isArray(files) || !files.length) return files;
+            return S.filter(files,function(file,index){
+                 return index < multipleLen;
             });
         },
         /**
@@ -446,7 +467,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 var msg = result.msg || result.message  || EMPTY;
                 //修改队列中文件的状态为error（上传失败）
                 queue.fileStatus(index, Uploader.status.ERROR, {msg:msg,result:result});
-                self.fire(event.ERROR, {status:status,result:result});
+                self.fire(event.ERROR, {status:status,result:result,index:index,file:queue.getFile(index)});
             }
             //置空当前上传的文件在队列中的索引值
             self.set('curUploadIndex', EMPTY);
@@ -518,12 +539,14 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 if(!file.sUrl && file.result) file.sUrl = file.result.data.url;
                 //向队列添加文件
                 var fileData = queue.add(file),
-                    id = fileData.id,index = queue.getFileIndex(id),
-                    files = queue.get('files');
+                    id = fileData.id,index = queue.getFileIndex(id);
                 urlsInput.add(file.sUrl);
                 //改变文件状态为成功
                 queue.fileStatus(index,'success',{index:index,id:id,file:fileData});
             });
+            S.later(function(){
+                self.fire(Uploader.event.RESTORE,{files:queue.get('files')});
+            },500);
         },
         /**
          * 抓取restoreHook容器内的数据
@@ -534,7 +557,7 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
                 restoreHook = self.get('restoreHook'),
                 $restore = $(restoreHook);
             if(!$restore.length) return [];
-            return S.JSON.parse($restore.html());
+            return S.JSON.parse(S.trim($restore.html()));
         }
     }, {ATTRS:/** @lends Uploader.prototype*/{
         /**
@@ -573,6 +596,13 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
             }
         },
         /**
+         * 用于限制多选文件个数，值为负时不设置多选限制
+         * @type Number
+         * @default -1
+         * @since V1.2.6
+         */
+        multipleLen:{ value:-1 },
+        /**
          * 是否可用,false为可用
          * @type Boolean
          * @default false
@@ -594,6 +624,33 @@ KISSY.add('gallery/form/1.2/uploader/base', function (S, Base, Node, UrlsInput, 
          * @default  {action:EMPTY, data:{}, dataType:'json'}
          */
         serverConfig:{value:{action:EMPTY, data:{}, dataType:'json'}},
+        /**
+         * 此配置用于动态修改post给服务器的数据，会覆盖serverConfig的data配置
+         * @type Object
+         * @default {}
+         * @since V1.2.6
+         */
+        data:{
+            value:{},
+            getter:function(){
+                var self = this,uploadType = self.get('uploadType'),
+                    data = self.get('serverConfig').data || {};
+                if(uploadType){
+                    data = uploadType.get('data');
+                }
+                return data;
+            },
+            setter:function(v){
+                if(S.isObject(v)){
+                    var self = this,uploadType = self.get('uploadType');
+                    if(uploadType){
+                        uploadType.set('data',v);
+                        self.set('serverConfig',S.mix(self.get('serverConfig'),{data:v}));
+                    }
+                }
+                return v;
+            }
+        },
         /**
          * 是否允许上传文件
          * @type Boolean

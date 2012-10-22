@@ -1,0 +1,59 @@
+/*-----------模拟选择框----------*/
+.ks-select {
+    position: relative;
+    cursor: pointer;
+    z-index : 1000;
+}
+
+.ks-select .ks-select-button {
+    border: 1px solid #cccccc;
+    height: 22px;
+    line-height: 22px;
+}
+.ks-select .ks-select-button .select-text{
+    display: block;
+    margin-left:4px;
+}
+.ks-select .select-icon {
+    background: url("http://img02.taobaocdn.com/tps/i2/T1SHzzXlNlXXcOGA_a-22-62.png") 0 -40px no-repeat;
+    display: block;
+    position: absolute;
+    right: -1px;
+    top:1px;
+    height:22px;
+    width:22px;
+    border-left:1px solid #cccccc;
+}
+*html .ks-select .select-icon {
+    right: 1px;
+}
+.ks-select .select-button-hover {
+    border-color:#369BD7;
+}
+.ks-select .select-button-hover .select-icon{
+    background-position: 0 0;
+    border-left:1px solid #369BD7;
+}
+.ks-select .ks-nice-list{
+    border: 1px solid #B5B8C8;
+    border-top:none;
+    margin:0;
+    line-height: 24px;
+    position: absolute;
+    top:24px;
+    left:0;
+    background-color: #fff;
+    z-index : 1001;
+}
+.ks-select .ks-nice-list li{
+    padding-left:4px;
+    list-style: none;
+}
+.ks-select .ks-nice-list li.ks-nice-hover{
+    background-color: #369BD7;
+    color: #fff;
+}
+.time-select .ks-nice-list{
+    height:170px;
+    overflow-y: scroll;
+}

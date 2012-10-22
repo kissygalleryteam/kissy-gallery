@@ -9,7 +9,6 @@
     <property name="form.build.dir" location="../../../../gallery-build/form/${version}"/>
     <property name="src.dir" location="."/>
     <property name="uploader.build.dir" location="${form.build.dir}/uploader"/>
-
     <!--合并源码文件，排除模板js-->
     <target name="concat">
         <concat destfile="index-pkg.js" encoding="${charset}" outputencoding="${charset}" overwrite="true">

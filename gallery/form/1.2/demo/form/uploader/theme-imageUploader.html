@@ -5,7 +5,7 @@
 <title>图片上传主题</title>
 <link rel="stylesheet" type="text/css" href="http://docs.kissyui.com/kissy-dpl/base/build/css/dpl-pkg.css"/>
 <link rel="stylesheet" type="text/css" href="../../assets/demo.css"/>
-<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js" charset="utf-8"></script>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js" charset="utf-8"></script>
 </head>
 <body>
 <article id="doc">
@@ -47,7 +47,7 @@
                                         "allowExts":[
                                             {"desc":"JPG,JPEG,PNG,GIF,BMP", "ext":"*.jpg;*.jpeg;*.png;*.gif;*.bmp"},
                                             "文件格式错误！"],
-                                        "max":[5,"最多允许上传五张图片！"]
+                                        "max":[3,"最多允许上传五张图片！"]
                        }'>
                         <span class="count"> 还可以上传<em id="J_UploadCount">5</em>图片！ </span>
                         <s class="bg"></s>
@@ -128,20 +128,25 @@
     </pre>
 </article>
 <script>
-    var S = KISSY;
+    var S = KISSY,
+        //包路径，实际使用请直接配置为"http://a.tbcdn.cn/s/kissy/"
+            path = S.Config.debug && "../../../../../../" || "http://a.tbcdn.cn/s/kissy/";
     S.config({
-        packages:[
-            {
-                name:"gallery",
-                path:"../../../../../../",
-                //path:"http://a.tbcdn.cn/s/kissy/",
-                charset:"utf-8"
-            }
-        ]
+        packages:[ {
+            name:"gallery",
+            path:path,
+            charset:"utf-8"
+        } ]
     });
     //加载上传组件入口文件
     KISSY.use('gallery/form/1.2/uploader/index', function (S, RenderUploader) {
-        new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
+        var ru = new RenderUploader('#J_UploaderBtn', '#J_UploaderQueue');
+        ru.on('init',function(ev){
+            var uploader = ev.uploader;
+            uploader.on('restore',function(ev){
+                S.log(ev.files);
+            })
+        })
     })
 </script>
 

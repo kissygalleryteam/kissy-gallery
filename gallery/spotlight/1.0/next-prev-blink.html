@@ -2,272 +2,285 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-<style>
+    <style>
 
-body{margin:0;padding:0;overflow:}
-div.mask-target{
-	display:inline-block;
-	border-radius:3px;
-	border:1px solid #A4D3F2;
-	width:30%;height:200px;
-	float:left;
-	margin:100px;
-	*display:inline;
-	zoom:1
-}
-body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td {
-margin: 0;
-padding: 0;
-}
-table {
-border-collapse: collapse;
-border-spacing: 0;
-}
-.popup {
-    position: absolute;
-    z-index: 50;
-    border-collapse: collapse;
-    visibility: hidden;
-}
-.popup td.corner {
-    height: 15px;
-    width: 19px;
-}
-.popup td#topleft {
-    background-image: url(tmp/images/bubble-1.png);
-}
-.popup td.top {
-    background-image: url(tmp/images/bubble-2.png);
-}
-.popup td#topright {
-    background-image: url(tmp/images/bubble-3.png);
-}
-.popup td.left {
-    background-image: url(tmp/images/bubble-4.png);
-}
-.popup td.right {
-    background-image: url(tmp/images/bubble-5.png);
-}
-.popup td#bottomleft {
-    background-image: url(tmp/images/bubble-6.png);
-}
-.popup td.bottom {
-    background-image: url(tmp/images/bubble-7.png);
-    text-align: center;
-}
-.popup td.bottom img {
-    display: block;
-    margin: 0 auto;
-}
-.popup td#bottomright {
-    background-image: url(tmp/images/bubble-8.png);
-}
-.popup table.popup-contents {
-    font-size: 12px;
-    line-height: 1.2em;
-    background-color: #fff;
-    color: #666;
-    font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", sans-serif;
-}
-table.popup-contents th {
-    text-align: right;
-    text-transform: lowercase;
-}
-table.popup-contents td {
-    text-align: left;
-}
-tr#release-notes th {
-    text-align: left;
-    text-indent: -9999px;
-    height: 17px;
-}
-tr#release-notes td a {
-    color: #333;
-}
-.ks-overlay {
-        position:absolute;
-        left:-9999px;
-        top:-9999px;
-    }
-#pp-content{
-	padding:10px
-}
+        body {
+            margin: 0;
+            padding: 0;
+        }
 
-</style>
-<script src="../../../../kissy/build/kissy.js"></script>
-<script>
-    KISSY.config({
-        packages:[
-            {
-                name:"gallery",
-                tag:"20111220",
-                path:"../../../",  // cdn上适当修改对应路径
-                charset:"utf-8"
-            }
-        ]
-    });
+        div.mask-target {
+            display: inline-block;
+            border-radius: 3px;
+            border: 1px solid #A4D3F2;
+            width: 30%;
+            height: 200px;
+            float: left;
+            margin: 100px;
+            *display: inline;
+            zoom: 1
+        }
 
-KISSY.use('gallery/spotlight/1.0/,overlay',function(S,Spotlight,overlay){
-	S.ready(function(){
-		var nodes = S.DOM.query('.mask-target')
-			,arrNode = []
-		
-			,listText = []
-			,popup = new overlay.Popup(
-				S.get('#drop')
-				,{
-					
-				}
-				)
-			;
-			popup.on('show',function(){
-				var el = popup.get('el') , top = el.offset().top;
-				el.stop()
-				//el.hide();
-				el.css({top:top+20,opacity:0})
-				S.Anim(el,{
-					opacity:1
-					,top:top
-				},.2).run()
-			
-			
-			})
-		S.each(nodes,function(item,i){
-			arrNode.push({node:item});
-			listText.push(Array(10).join(i+'')+'<div><button class="prev">previous</button><button class="next">next</button></div>')
-		})
-		popup.align(
-			S.one(nodes[0])
-			, ['tc', 'bc']
-            , [0, 20]
-		);
-		console.log(popup.getContentElement())
-	
-		var spot = new Spotlight({
-				quene:arrNode
-				,anim:{
-					duration:.1
-				}
-				,opacity:0
-				,zIndex:9000
-				,toggleOnAnim:false
-				,clickOnHide:false
-				,focusBorder:{
-					focusOnBlink:true
-					,blinkTime:5000
-					,borderStyle:'1px solid red'
-					,interval:300
-				}
-				,listeners:{
-					hide:function(){
-						
-						popup.hide();
-					}
-					
-					,focusTo:function(e){
-						popup.hide();
-						S.one('#pp-content').html(listText[e.index])
-						setTimeout(function(){
-							popup.align(
-								S.one(e.target)
-								, ['tc', 'bc']
-					            , [0, 20]
-							);
-							popup.show();
-						
-					
-						},300)
-						
-					}
-				}
-			});
-		S.one('button').on('click',function(){
-			spot.start();
-		
-		});
-		S.one(document.body).delegate('click','.next',function(){
-	
-			spot.canNext() ? spot.nextFocus() : spot.end();
-			popup.hide()
-		});
-		S.one(document.body).delegate('click','.prev',function(){
-		
-			spot.canPrevious() ? spot.prevFocus() : spot.end();
-			popup.hide()
-		});
-		
-	
-	})
-})
-</script>
+        body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td {
+            margin: 0;
+            padding: 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        .popup {
+            position: absolute;
+            z-index: 50;
+            border-collapse: collapse;
+            visibility: hidden;
+
+        }
+
+        .popup td.corner {
+            height: 15px;
+            width: 19px;
+        }
+
+        .popup td#topleft {
+            background-image: url(tmp/images/bubble-1.png);
+        }
+
+        .popup td.top {
+            background-image: url(tmp/images/bubble-2.png);
+        }
+
+        .popup td#topright {
+            background-image: url(tmp/images/bubble-3.png);
+        }
+
+        .popup td.left {
+            background-image: url(tmp/images/bubble-4.png);
+        }
+
+        .popup td.right {
+            background-image: url(tmp/images/bubble-5.png);
+        }
+
+        .popup td#bottomleft {
+            background-image: url(tmp/images/bubble-6.png);
+        }
+
+        .popup td.bottom {
+            background-image: url(tmp/images/bubble-7.png);
+            text-align: center;
+        }
+
+        .popup td.bottom img {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .popup td#bottomright {
+            background-image: url(tmp/images/bubble-8.png);
+        }
+
+        .popup table.popup-contents {
+            font-size: 12px;
+            line-height: 1.2em;
+            background-color: #fff;
+            color: #666;
+            font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", sans-serif;
+        }
+
+        table.popup-contents th {
+            text-align: right;
+            text-transform: lowercase;
+        }
+
+        table.popup-contents td {
+            text-align: left;
+        }
+
+        tr#release-notes th {
+            text-align: left;
+            text-indent: -9999px;
+            height: 17px;
+        }
+
+        tr#release-notes td a {
+            color: #333;
+        }
+
+        .ks-overlay {
+            position: absolute;
+            left: -9999px;
+            top: -9999px;
+            z-index: 9999;
+        }
+
+        #pp-content {
+            padding: 10px
+        }
+
+    </style>
+    <script src="../../../../kissy/build/kissy.js"></script>
+    <script>
+        KISSY.config({
+            packages: [
+                {
+                    name: "gallery",
+                    tag: "20111220",
+                    path: "../../../", // cdn上适当修改对应路径
+                    charset: "utf-8"
+                }
+            ]
+        });
+
+        KISSY.use('gallery/spotlight/1.0/,overlay', function (S, Spotlight, overlay) {
+            S.ready(function () {
+                var nodes = S.DOM.query('.mask-target')
+                        , arrNode = []
+
+                        , listText = []
+                        , popup = new overlay.Popup({
+                            srcNode: S.get('#drop')
+                        });
+                popup.on('show', function () {
+                    var el = popup.get('el') , top = el.offset().top;
+                    el.stop()
+                    //el.hide();
+                    el.css({top: top + 20, opacity: 0})
+                    S.Anim(el, {
+                        opacity: 1, top: top
+                    }, .2).run()
+
+
+                })
+                S.each(nodes, function (item, i) {
+                    arrNode.push({node: item});
+                    listText.push(Array(10).join(i + '') + '<div><button class="prev">previous</button><button class="next">next</button></div>')
+                })
+                popup.align(
+                        S.one(nodes[0])
+                        , ['tc', 'bc']
+                        , [0, 20]
+                );
+                console.log(popup.getContentElement())
+
+                var spot = new Spotlight({
+                    quene: arrNode, anim: {
+                        duration: .1
+                    }, opacity: 0, zIndex: 9000, toggleOnAnim: false, clickOnHide: false, focusBorder: {
+                        focusOnBlink: true, blinkTime: 5000, borderStyle: '1px solid red', interval: 300
+                    }, listeners: {
+                        hide: function () {
+
+                            popup.hide();
+                        }, focusTo: function (e) {
+                            popup.hide();
+                            S.one('#pp-content').html(listText[e.index])
+                            setTimeout(function () {
+                                popup.align(
+                                        S.one(e.target)
+                                        , ['tc', 'bc']
+                                        , [0, 20]
+                                );
+                                popup.show();
+
+
+                            }, 300)
+
+                        }
+                    }
+                });
+                S.one('button').on('click', function () {
+                    spot.start();
+
+                });
+                S.one(document.body).delegate('click', '.next', function () {
+
+                    spot.canNext() ? spot.nextFocus() : spot.end();
+                    popup.hide()
+                });
+                S.one(document.body).delegate('click', '.prev', function () {
+
+                    spot.canPrevious() ? spot.prevFocus() : spot.end();
+                    popup.hide()
+                });
+
+
+            })
+        })
+    </script>
 </head>
 <body>
 <button>start</button>
 <div>
 
-	<div class="mask-target">
-		<img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png" />
-	</div>
-	<div class="mask-target">
-		<img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png" />
-	</div>
-	<div class="mask-target">
-		<img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png" />
-	</div>
-	<div class="mask-target">
-		<img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png" />
-	</div>
-	<div class="mask-target">
-		<img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png" />
-	</div>
-	<div class="mask-target">
-		<img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png" />
-	</div>
-	
+    <div class="mask-target">
+        <img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png"/>
+    </div>
+    <div class="mask-target">
+        <img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png"/>
+    </div>
+    <div class="mask-target">
+        <img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png"/>
+    </div>
+    <div class="mask-target">
+        <img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png"/>
+    </div>
+    <div class="mask-target">
+        <img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png"/>
+    </div>
+    <div class="mask-target">
+        <img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png"/>
+    </div>
+
 </div>
-<div class="popup ks-popup ks-overlay ks-ext-position" id="drop" >
-<div class="ks-contentbox ">
-    <table>
-        <tbody><tr>
-            <td class="corner" id="topleft"></td>
-            <td class="top"></td>
-            <td class="corner" id="topright"></td>
-        </tr>
-        <tr>
-            <td class="left"></td>
-            <td>
-            	<div class="popup-contents" id="pp-content" style="background-color:#fff"></div>
-                <!-- <table class="popup-contents">
-                    <tbody><tr>
-                        <th>File:</th>
-                        <td>coda 1.7.zip</td>
-                    </tr>
-                    <tr>
-                        <th>Date:</th>
-                        <td>11/5/10</td>
-                    </tr>
-                    <tr>
-                        <th>Size:</th>
-                        <td>20 MB</td>
-                    </tr>
-                    <tr>
-                        <th>Req:</th>
-                        <td>Mac OS X 10.4+</td>
-                    </tr>
-                    <tr id="release-notes">
-                        <th>Read the release notes:</th>
-                        <td><a href="#" title="Read the release notes">release notes</a></td>
-                    </tr>
-                </tbody></table> -->
-            </td>
-            <td class="right"></td>
-        </tr>
-        <tr>
-            <td id="bottomleft" class="corner"></td>
-            <td class="bottom"><img src="tmp/images/bubble-tail2.png" width="30" height="29" alt="popup tail"></td>
-            <td class="corner" id="bottomright"></td>
-        </tr>
-    </tbody></table>
+<div class="popup ks-popup ks-overlay ks-ext-position" id="drop">
+    <div class="ks-contentbox ">
+        <table>
+            <tbody>
+            <tr>
+                <td class="corner" id="topleft"></td>
+                <td class="top"></td>
+                <td class="corner" id="topright"></td>
+            </tr>
+            <tr>
+                <td class="left"></td>
+                <td>
+                    <div class="popup-contents" id="pp-content" style="background-color:#fff"></div>
+                    <!-- <table class="popup-contents">
+                       <tbody><tr>
+                           <th>File:</th>
+                           <td>coda 1.7.zip</td>
+                       </tr>
+                       <tr>
+                           <th>Date:</th>
+                           <td>11/5/10</td>
+                       </tr>
+                       <tr>
+                           <th>Size:</th>
+                           <td>20 MB</td>
+                       </tr>
+                       <tr>
+                           <th>Req:</th>
+                           <td>Mac OS X 10.4+</td>
+                       </tr>
+                       <tr id="release-notes">
+                           <th>Read the release notes:</th>
+                           <td><a href="#" title="Read the release notes">release notes</a></td>
+                       </tr>
+                   </tbody></table> -->
+                </td>
+                <td class="right"></td>
+            </tr>
+            <tr>
+                <td id="bottomleft" class="corner"></td>
+                <td class="bottom"><img src="tmp/images/bubble-tail2.png" width="30" height="29" alt="popup tail"></td>
+                <td class="corner" id="bottomright"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

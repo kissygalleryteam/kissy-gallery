@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>渲染默认队列数据的demo</title>
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js" charset="utf-8"></script>
+
+</head>
+<body>
+<h2>渲染默认队列数据的demo</h2>
+
+<div class="grid">
+    <input type="image-uploader" class="g-u" id="J_DefaultShowBtn" value="上传图片" >
+    <input name="urls" type="hidden" value="http://tp4.sinaimg.cn/1653905027/180/5601547226/1,http://img02.taobaocdn.com/imgextra/i2/748902859/T2OTOdXm0bXXXXXXXX_!!748902859.jpg_310x310.jpg">
+
+    <!--以下内容不是必须的，假设需要给默认渲染的file添加额外数据-->
+    <script type="text/uploader-restore" id="J_ExtraData">
+        [{"author":"明河"},{"author":"剑平"}]
+    </script>
+</div>
+<ul id="J_DefaultShowQueue" class="grid">
+
+</ul>
+<script>
+    var S = KISSY,
+    //包路径，实际使用请直接配置为"http://a.tbcdn.cn/s/kissy/"
+            path = S.Config.debug && "../../../../../../" || "http://a.tbcdn.cn/s/kissy/";
+    S.config({
+        packages:[
+            {
+                name:"gallery",
+                path:path,
+                charset:"utf-8"
+            }
+        ]
+    });
+
+    KISSY.use('gallery/form/1.3/uploader/imageUploader', function (S, ImageUploader) {
+
+        var imageUploader = new ImageUploader('#J_DefaultShowBtn','#J_DefaultShowQueue',{
+            // 文件域
+            name:"Filedata",
+            //处理上传的服务器端脚本路径
+            action:"upload.php",
+            //用于放服务器端返回的url的隐藏域
+            urlsInputName:"urls",
+            //最多上传个数
+            max:3,
+            //图片最大允许大小
+            maxSize:500
+        });
+        //添加完默认数据后，额外添加一些数据
+
+        var $ = S.Node.all;
+        var defaultExtraData = S.JSON.parse($('#J_ExtraData').text());
+
+        imageUploader.on('add',function(ev){
+            var queue = ev.queue;
+            var index = ev.index;
+            var file = ev.file;
+            var type = file.type;
+            //非restore方法默认渲染的数据
+            if(type != 'restore') return false;
+            if(!defaultExtraData[index]) return false;
+            queue.updateFile(index,defaultExtraData[index]);
+            S.log('额外数据：'+queue.getFile(index).author);
+        });
+
+        imageUploader.render();
+    })
+
+</script>
+</body>
+</html>

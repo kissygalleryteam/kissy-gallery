@@ -16,7 +16,7 @@ KISSY.add('gallery/form/1.1/checkbox/index', function(S, Base, Node, Radio) {
      * @example
      * var ck = new Checkbox('#J_Content input');
        ck.render();
-     */
+     */   
     function Checkbox(target, config) {
         var self = this;
         config = S.merge({

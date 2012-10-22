@@ -2,245 +2,272 @@
 <html>
 
 <head>
-    <meta charset="utf-8"/>
+<meta charset="utf-8"/>
 <style>
 
-body{margin:0;padding:0;-webkit-user-select:none;font-size:12px;}
-div.mask-target{
-	margin:100px;
-	display:inline-block;
-	*display:inline;
-	zoom:1
-}
-body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td {
-margin: 0;
-padding: 0;
-}
-table {
-border-collapse: collapse;
-border-spacing: 0;
-}
-.popup {
-    position: absolute;
-    z-index: 50;
-    border-collapse: collapse;
-    visibility: hidden;
-}
-.popup td.corner {
-    height: 15px;
-    width: 19px;
-}
-.popup td#topleft {
-    background-image: url(tmp/images/bubble-1.png);
-}
-.popup td.top {
-    background-image: url(tmp/images/bubble-2.png);
-}
-.popup td#topright {
-    background-image: url(tmp/images/bubble-3.png);
-}
-.popup td.left {
-    background-image: url(tmp/images/bubble-4.png);
-}
-.popup td.right {
-    background-image: url(tmp/images/bubble-5.png);
-}
-.popup td#bottomleft {
-    background-image: url(tmp/images/bubble-6.png);
-}
-.popup td.bottom {
-    background-image: url(tmp/images/bubble-7.png);
-    text-align: center;
-}
-.popup td.bottom img {
-    display: block;
-    margin: 0 auto;
-}
-.popup td#bottomright {
-    background-image: url(tmp/images/bubble-8.png);
-}
-.popup table.popup-contents {
-    font-size: 12px;
-    line-height: 1.2em;
-    background-color: #fff;
-    color: #666;
-    font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", sans-serif;
-}
-table.popup-contents th {
-    text-align: right;
-    text-transform: lowercase;
-}
-table.popup-contents td {
-    text-align: left;
-}
-tr#release-notes th {
-    text-align: left;
-    text-indent: -9999px;
-    height: 17px;
-}
-tr#release-notes td a {
-    color: #333;
-}
-.ks-overlay {
-        position:absolute;
-        left:-9999px;
-        top:-9999px;
+    body {
+        margin: 0;
+        padding: 0;
+        -webkit-user-select: none;
+        font-size: 12px;
     }
-#pp-content{
-	padding:1px;
-	width:200px
-}
-#main{
-	margin:0 auto;
-	position:relative;overflow:hidden
-}
-#logo{
-	width:188px;
-	height:61px;
-	top: 85px;
-	left: 170px;
-}
-.focus-target{
-	position:absolute;
-	
-}
-.next,.prev{
-	cursor:pointer;
-	color:green
-}
-.floatRight{
-	float:right;
-	color:green
-}
-.pn{margin-top:5px;}
+
+    div.mask-target {
+        margin: 100px;
+        display: inline-block;
+        *display: inline;
+        zoom: 1
+    }
+
+    body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td {
+        margin: 0;
+        padding: 0;
+    }
+
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    .popup {
+        position: absolute;
+        z-index: 50;
+        border-collapse: collapse;
+        visibility: hidden;
+    }
+
+    .popup td.corner {
+        height: 15px;
+        width: 19px;
+    }
+
+    .popup td#topleft {
+        background-image: url(tmp/images/bubble-1.png);
+    }
+
+    .popup td.top {
+        background-image: url(tmp/images/bubble-2.png);
+    }
+
+    .popup td#topright {
+        background-image: url(tmp/images/bubble-3.png);
+    }
+
+    .popup td.left {
+        background-image: url(tmp/images/bubble-4.png);
+    }
+
+    .popup td.right {
+        background-image: url(tmp/images/bubble-5.png);
+    }
+
+    .popup td#bottomleft {
+        background-image: url(tmp/images/bubble-6.png);
+    }
+
+    .popup td.bottom {
+        background-image: url(tmp/images/bubble-7.png);
+        text-align: center;
+    }
+
+    .popup td.bottom img {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .popup td#bottomright {
+        background-image: url(tmp/images/bubble-8.png);
+    }
+
+    .popup table.popup-contents {
+        font-size: 12px;
+        line-height: 1.2em;
+        background-color: #fff;
+        color: #666;
+        font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", sans-serif;
+    }
+
+    table.popup-contents th {
+        text-align: right;
+        text-transform: lowercase;
+    }
+
+    table.popup-contents td {
+        text-align: left;
+    }
+
+    tr#release-notes th {
+        text-align: left;
+        text-indent: -9999px;
+        height: 17px;
+    }
+
+    tr#release-notes td a {
+        color: #333;
+    }
+
+    .ks-overlay {
+        position: absolute;
+        left: -9999px;
+        top: -9999px;
+        z-index: 9999;
+    }
+
+    #pp-content {
+        padding: 1px;
+        width: 200px
+    }
+
+    #main {
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden
+    }
+
+    #logo {
+        width: 188px;
+        height: 61px;
+        top: 85px;
+        left: 170px;
+    }
+
+    .focus-target {
+        position: absolute;
+
+    }
+
+    .next, .prev {
+        cursor: pointer;
+        color: green
+    }
+
+    .floatRight {
+        float: right;
+        color: green
+    }
+
+    .pn {
+        margin-top: 5px;
+    }
 
 </style>
 <script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
 <script>
     KISSY.config({
-        packages:[
+        packages: [
             {
-                name:"gallery",
-                tag:"20111220",
-                path:"../../../",  // cdn上适当修改对应路径
-                charset:"utf-8"
+                name: "gallery",
+                tag: "20111220",
+                path: "../../../", // cdn上适当修改对应路径
+                charset: "utf-8"
             }
         ]
     });
 
-KISSY.use('gallery/spotlight/1.0/,overlay',function(S,Spotlight,overlay){
-	S.ready(function(){
-		var nodes = S.DOM.query('.focus-target')
-			,arrNode = []
-			,nextBtns = S.all('button.next')
-			,prevBtns = S.all('button.prev')
-			,listText = [
-				'淘宝网是亚太最大的网络零售商圈，由阿里巴巴集团在2003年5月10日投资创立。<br/><div><div class="next floatRight">开始</div></div>'
-				,'您可以注册后购买物品.<div class="pn"><span class="prev floatLeft">previous</span><span class="next floatRight">next</span></div>'
-				,'也可以在这儿开一家店铺!<div class="pn"><span class="prev floatLeft">previous</span><span class="next floatRight">next</span></div>'
-				,'这里应有尽有!<div class="pn"><span class="prev floatLeft">previous</span><span class="next floatRight">next</span></div>'
-				,'很多数驴友在这儿订机票!<div class="pn"><span class="prev floatLeft">previous</span><span class="next floatRight">next</span></div>'
-				,'还有各种精品拍卖会!<div class="pn"><span class="prev floatLeft">previous</span><span class="next floatRight">next</span></div>'
-				,'二手市场也是不错的省钱选择!<div class="pn"><span class="prev floatLeft">previous</span><span class="next floatRight">next</span></div>'
-				,'消保系统为您购物保驾护航!<div class="pn"><span class="prev floatLeft">previous</span><span class="next floatRight">结束</span></div>'
-			]
-			,popup = new overlay.Popup(
-				S.one('#drop')
-				,{}
-				)
-			;
-			popup.on('show',function(e){
-    				var el = popup.get('el') , top = el.offset().top;
-    				el.stop()
-    			    
-    				el.css({top:top+20,opacity:0})
-    				el.animate({
-    					opacity:1
-    					,top:top
-    				},.2);
-			
-			})
-		S.each(nodes,function(item,i){
-			arrNode.push({node:item});
-		})
-	
-	
-	
-		var spot = new Spotlight({
-				quene:arrNode
-				,anim:{
-					easing:'bounceOut'
-					,duration:.1
-				}
-				,opacity:.3
-				,zIndex:9000
-				,toggleOnAnim:false
-				,clickOnHide:false
-				// ,focusBorder:{
-				// 	focusOnBlink:true
-				// 	,borderStyle:'1px solid red'//{width:'1px',color:'red',style:'solid'}
-				// 	,interval:500
-				// 	//,blinkTime:3000
-				// }
-				,listeners:{
-					hide:function(){
-						nextBtns.attr('disabled',true);
-						prevBtns.attr('disabled',true);
-						popup.hide();
-					}
-					
-					,focusTo:function(e){
-						popup.hide();
-						S.one('#pp-content').html(listText[e.index])
-						setTimeout(function(){
-							popup.align(
-								S.one(e.target)
-								, ['tc', 'bc']
-					            , [0, 20]
-							);
-							popup.show();
-							// nextBtns.attr('disabled',false);
-							// prevBtns.attr('disabled',false);
-							
-						},300)
-						
-					}
-				}
-			});
-		var body = S.one(document.body);
-		body.delegate('click','.next',function(){
-		
-			spot.canNext() ? spot.nextFocus() : spot.end();
-			popup.hide()
-		});
-		body.delegate('click','.prev',function(){
-		
-			spot.canPrevious() ? spot.prevFocus() : spot.end();
-			popup.hide()
-		});
-		
-		setTimeout(function(){
-			spot.start()
-		},0)
-	})
-})
+    KISSY.use('gallery/spotlight/1.0/,overlay', function (S, Spotlight, overlay) {
+        S.ready(function () {
+            var nodes = S.DOM.query('.focus-target')
+                    , arrNode = []
+                    , nextBtns = S.all('button.next')
+                    , prevBtns = S.all('button.prev')
+                    , listText = [
+                        '淘宝网是亚太最大的网络零售商圈，由阿里巴巴集团在2003年5月10日投资创立。<br/><div><div class="next floatRight">开始</div></div>'
+                        , '您可以注册后购买物品.<div class="pn"><span class="prev floatLeft">previous</span><span class="next floatRight">next</span></div>'
+                        , '也可以在这儿开一家店铺!<div class="pn"><span class="prev floatLeft">previous</span><span class="next floatRight">next</span></div>'
+                        , '这里应有尽有!<div class="pn"><span class="prev floatLeft">previous</span><span class="next floatRight">next</span></div>'
+                        , '很多数驴友在这儿订机票!<div class="pn"><span class="prev floatLeft">previous</span><span class="next floatRight">next</span></div>'
+                        , '还有各种精品拍卖会!<div class="pn"><span class="prev floatLeft">previous</span><span class="next floatRight">next</span></div>'
+                        , '二手市场也是不错的省钱选择!<div class="pn"><span class="prev floatLeft">previous</span><span class="next floatRight">next</span></div>'
+                        , '消保系统为您购物保驾护航!<div class="pn"><span class="prev floatLeft">previous</span><span class="next floatRight">结束</span></div>'
+                    ]
+                    , popup = new overlay.Popup({
+                                srcNode: S.one('#drop')
+                            }
+                    )
+                    ;
+            popup.on('show', function (e) {
+                var el = popup.get('el') , top = el.offset().top;
+                el.stop()
+
+                el.css({top: top + 20, opacity: 0})
+                el.animate({
+                    opacity: 1, top: top
+                }, .2);
+
+            })
+            S.each(nodes, function (item, i) {
+                arrNode.push({node: item});
+            })
+
+
+            var spot = new Spotlight({
+                quene: arrNode, anim: {
+                    easing: 'bounceOut', duration: .1
+                }, opacity: .3, zIndex: 9000, toggleOnAnim: false, clickOnHide: false
+                // ,focusBorder:{
+                // 	focusOnBlink:true
+                // 	,borderStyle:'1px solid red'//{width:'1px',color:'red',style:'solid'}
+                // 	,interval:500
+                // 	//,blinkTime:3000
+                // }
+                , listeners: {
+                    hide: function () {
+                        nextBtns.attr('disabled', true);
+                        prevBtns.attr('disabled', true);
+                        popup.hide();
+                    }, focusTo: function (e) {
+                        popup.hide();
+                        S.one('#pp-content').html(listText[e.index])
+                        setTimeout(function () {
+                            popup.align(
+                                    S.one(e.target)
+                                    , ['tc', 'bc']
+                                    , [0, 20]
+                            );
+                            popup.show();
+                            // nextBtns.attr('disabled',false);
+                            // prevBtns.attr('disabled',false);
+
+                        }, 300)
+
+                    }
+                }
+            });
+            var body = S.one(document.body);
+            body.delegate('click', '.next', function () {
+
+                spot.canNext() ? spot.nextFocus() : spot.end();
+                popup.hide()
+            });
+            body.delegate('click', '.prev', function () {
+
+                spot.canPrevious() ? spot.prevFocus() : spot.end();
+                popup.hide()
+            });
+
+            setTimeout(function () {
+                spot.start()
+            }, 0)
+        })
+    })
 </script>
 </head>
 <body>
 <div id="main">
-	<div id="logo" class="focus-target"></div>
-	<div class="focus-target" style="width:110px;height:42px;top: 228px;left: 870px;"></div>
-	<div class="focus-target" style="width:110px;height:42px;top: 228px;left: 1063px;"></div>
-	<div class="focus-target" style="width: 45px;height: 102px;top: 685px;left: 133px;"></div>
-	<div class="focus-target" style="width: 310px;height: 95px;top: 1800px;left: 870px;"></div>
-	<div class="focus-target" style="width: 310px;height: 95px;top: 1905px;left: 870px;"></div>
-	<div class="focus-target" style="width: 310px;height: 95px;top: 2005px;left: 870px;"></div>
-	<div class="focus-target" style="width:100px;height:100px;bottom: 290px;left: 593px;"></div>
-	<img src="tmp/images/home.png" >
+    <div id="logo" class="focus-target"></div>
+    <div class="focus-target" style="width:110px;height:42px;top: 228px;left: 870px;"></div>
+    <div class="focus-target" style="width:110px;height:42px;top: 228px;left: 1063px;"></div>
+    <div class="focus-target" style="width: 45px;height: 102px;top: 685px;left: 133px;"></div>
+    <div class="focus-target" style="width: 310px;height: 95px;top: 1800px;left: 870px;"></div>
+    <div class="focus-target" style="width: 310px;height: 95px;top: 1905px;left: 870px;"></div>
+    <div class="focus-target" style="width: 310px;height: 95px;top: 2005px;left: 870px;"></div>
+    <div class="focus-target" style="width:100px;height:100px;bottom: 290px;left: 593px;"></div>
+    <img src="tmp/images/home.png">
 </div>
-<div class="popup ks-popup ks-overlay ks-ext-position" id="drop" >
+<div class="popup ks-popup ks-overlay ks-ext-position" id="drop">
     <table>
-        <tbody><tr>
+        <tbody>
+        <tr>
             <td class="corner" id="topleft"></td>
             <td class="top"></td>
             <td class="corner" id="topright"></td>
@@ -248,8 +275,8 @@ KISSY.use('gallery/spotlight/1.0/,overlay',function(S,Spotlight,overlay){
         <tr>
             <td class="left"></td>
             <td style="background-color:#fff">
-            	<div class="popup-contents" id="pp-content" style="background-color:#fff"></div>
-            	
+                <div class="popup-contents" id="pp-content" style="background-color:#fff"></div>
+
             </td>
             <td class="right"></td>
         </tr>
@@ -258,7 +285,8 @@ KISSY.use('gallery/spotlight/1.0/,overlay',function(S,Spotlight,overlay){
             <td class="bottom"><img src="tmp/images/bubble-tail2.png" width="30" height="29" alt="popup tail"></td>
             <td class="corner" id="bottomright"></td>
         </tr>
-    </tbody></table>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

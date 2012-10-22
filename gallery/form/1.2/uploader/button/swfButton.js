@@ -152,13 +152,13 @@ KISSY.add('gallery/form/1.2/uploader/button/swfButton', function (S, Node, Base,
             if(!disabled){
                 $target.removeClass(disabledCls);
                 //显示swf容器
-                $swfWrapper.show();
+                $swfWrapper.css('top',0);
                 //TODO:之所以不使用更简单的unlock()方法，因为这个方法应用无效，有可能是bug
                 //swfUploader.unlock();
             }else{
                 $target.addClass(disabledCls);
                 //隐藏swf容器
-                $swfWrapper.hide();
+                $swfWrapper.css('top','-3000px');
                 //swfUploader.lock();
             }
             return disabled;
@@ -229,8 +229,11 @@ KISSY.add('gallery/form/1.2/uploader/button/swfButton', function (S, Node, Base,
             value:[],
             setter:function (v) {
                 var self = this, swfUploader = self.get('swfUploader');
+                if(S.isObject(v)) v = [v];
                 if (swfUploader && S.isArray(v)) {
-                    swfUploader.filter(v);
+                    S.later(function(){
+                        swfUploader.filter(v);
+                    },800);
                 }
                 return v;
             }
@@ -272,7 +275,7 @@ KISSY.add('gallery/form/1.2/uploader/button/swfButton', function (S, Node, Base,
          */
         flash:{
             value:{
-                src:'http://a.tbcdn.cn/s/kissy/gallery/form/1.1/uploader/plugins/ajbridge/uploader.swf',
+                src:'http://a.tbcdn.cn/s/kissy/gallery/form/1.2/uploader/plugins/ajbridge/uploader.swf',
                 id:'swfUploader',
                 params:{
                     bgcolor:"#fff",

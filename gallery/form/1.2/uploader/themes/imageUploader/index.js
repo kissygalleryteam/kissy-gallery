@@ -25,18 +25,9 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
          * 在上传组件运行完毕后执行的方法（对上传组件所有的控制都应该在这个函数内）
          * @param {Uploader} uploader
          */
-        afterUploaderRender:function (uploader) {
+        afterUploaderRender:function () {
             var self = this,
-               /* Preview = self.get('oPlugin').preview,
-                preview,*/
                 queue = self.get('queue');
-            /*if(Preview){
-                preview = new Preview();
-                //图片预览
-                self.set('preview',preview);
-            }*/
-           //达到最大允许上传数隐藏上传按钮
-            self._maxHideBtn(uploader);
             self._renderFiledrop();
             queue.on('add',self._addFileHandler,self);
         },
@@ -92,12 +83,7 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
          * 文件处于等待上传状态时触发
          */
         _waitingHandler:function (ev) {
-            /*var self = this,preview = self.get('preview'),
-                file = ev.file,input = file.input,
-                $imageWrapper = $('.J_Pic_'+file.id);
-            if(preview && input && $imageWrapper.length){
-                preview.preview(ev.file.input, $imageWrapper);
-            }*/
+
         },
         /**
          * 文件处于开始上传状态时触发
@@ -166,6 +152,7 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
                 //处理进度
                 progressBar.set('value',100);
             }
+            $('.J_Mask_'+id).hide();
         },
          /**
          * 文件处于上传错误状态时触发
@@ -187,19 +174,12 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
                 //用于显示上传数的容器
                 elCount = $(self.get('elCount')),
                 len = self.getFilesLen(),
-                auth = self.get('auth'),
-                uploader = self.get('uploader'),
-                button = uploader.get('button');
+                auth = self.get('auth') ;
             if(!auth) return false;
             var rules = auth.get('rules'),
                 //max的值类似[5, '最多上传{max}个文件！']
                 max = rules.max;
             if(!max) return false;
-            if(len<max[0]){
-                button.show();
-                var $li = button.get('target').parent('li');
-                if($li) $li.show();
-            }
             if(elCount.length) elCount.text(max[0]-len);
         },
         /**
@@ -207,35 +187,13 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
          */
         _setDisplayMsg:function(isShow,data){
             if(!data) return false;
-            var $mask = $('.J_Mask_' + data.id),
-                $statusWrapper = data.statusWrapper;
+            var $mask = $('.J_Mask_' + data.id);
             $mask[isShow && 'show' || 'hide']();
             if(isShow){
                 $mask.show();
-                $statusWrapper.show();
             }else{
                 $mask.hide();
-                $statusWrapper.hide();
             }
-        },
-        /**
-         * 达到最大允许上传数隐藏按钮
-         * @param {Uploader} uploader
-         */
-        _maxHideBtn:function(uploader){
-            //监听上传验证的error事件
-            var self = this,auth = self.get('auth');
-            if(auth == EMPTY) return false;
-            auth.on('error',function(ev){
-                var rule = ev.rule,button = uploader.get('button'),$btn = button.get('target');
-                //图片达到最大允许上传数，隐藏按钮
-                if(rule == 'max'){
-                    button.hide();
-                    //隐藏按钮之上的li容器
-                    var $li = $btn.parent('li');
-                    if($li) $li.hide();
-                }
-            })
         },
         /**
          * 删除图片后触发
@@ -327,7 +285,13 @@ KISSY.add('gallery/form/1.2/uploader/themes/imageUploader/index', function (S, N
          * @type KISSY.NodeList
          * @default '#J_UploadCount'
          */
-        elCount:{value:'#J_UploadCount'}
+        elCount:{value:'#J_UploadCount'},
+        /**
+         * 达到最大数是否隐藏
+         * @type Boolean
+         * @default true
+         */
+        isMaxHideBtn:{value:true}
     }});
     return ImageUploader;
 }, {requires:['node', '../../theme']});

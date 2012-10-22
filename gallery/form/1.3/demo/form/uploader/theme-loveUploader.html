@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <title>loveUploader主题 </title>
+     <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js" charset="utf-8"></script>
+     <link rel="stylesheet" type="text/css" href="../../assets/bootstrap.min.css"/>
+     <link rel="stylesheet" type="text/css" href="../../assets/bootstrap-responsive.css"/>
+     <link rel="stylesheet" type="text/css" href="../../assets/docs.css"/>
+ </head>
+
+ <body style="padding:20px;">
+ <h2>loveUploader主题</h2>
+ <ul>
+     <li>作者：苏河、明河</li>
+     <li>描述：支持拖拽上传，是原来1.2的imageUploader主题</li>
+     <li>案例：淘宝爱逛街</li>
+     <li>兼容：IE6+、chrome、firefox</li>
+ </ul>
+ <script type="text/uploader-restore" id="J_ImageRestore">
+     [
+     {"name":"icon_evil.gif",
+     "size":1446,
+     "type":"image/gif",
+     "result":{
+     "status":1,
+     "data":{
+     "name":"icon_evil.gif",
+     "url":"http://tp4.sinaimg.cn/1653905027/180/5601547226/1",
+     "item_id":"42458"
+     }
+     }
+     }
+     ]
+ </script>
+ <ul class="clearfix" id="J_UploaderQueue">
+     <li>
+         <div id="J_UploadBg" class="unupload-area">
+             <input class="g-u" id="J_UploaderBtn" name="Filedata" type="image-uploader" value="上传图片" queueTarget="#J_UploaderQueue"
+                    theme="loveUploader"  action="upload.php" urlsInputName="imageUrls" max="3" maxSize="500"  restoreHook="#J_ImageRestore">
+                 <span class="count"> 还可以上传<em id="J_UploadCount">5</em>图片！ </span>
+                 <s class="bg"></s>
+             <input type="hidden" name="imageUrls">
+             </a>
+         </div>
+     </li>
+ </ul>
+
+	<script type="text/javascript">
+        var S = KISSY;
+        //包路径，实际使用请直接配置为"http://a.tbcdn.cn/s/kissy/"
+        var path = S.Config.debug && "../../../../../../" || "http://a.tbcdn.cn/s/kissy/";
+        S.config({
+            packages:[
+                {
+                    name:"gallery",
+                    path:path,
+                    charset:"utf-8"
+                }
+            ]
+        });
+
+        KISSY.use('gallery/form/1.3/uploader/imageUploader', function (S, ImageUploader) {
+            var imageUploader = new ImageUploader('#J_UploaderBtn');
+            imageUploader.render();
+        })
+	</script>
+ </body>
+</html>
