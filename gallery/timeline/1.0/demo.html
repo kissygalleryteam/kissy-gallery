@@ -64,22 +64,26 @@
     <pre class="s-section" style="color: #aaa">             
 作者：g.gaokai@gmail.com(yumen.gk) 
     </pre>
+    <h3 class="s-title">update log</h3>
+    <pre>
+[20121010] add: window.location.hash tag, add prev,next,switchTo, add dd mask on mousemove
+[20121011] add: 时间刻度的月份的支持
+[20121019] bugfix: 快速点击放大|缩小，markers偏移出错、被hover的marker，z-index为最高层； 
+           add: 提供resizeWidth功能
+[20121021] add: scale,minRate,maxRate可配置
+    </pre>
     <h3 class="s-title">Demo</h3>
     <br/>
     <strong>KS-Timeline:</strong>
     <br/><br/>
-    <div id="K_Track2" class="ks-timeline">
-        <div id="KT_Navigation2" class="kt-navigation" style="height: 150px;"></div>
+    <div id="K_Track" class="ks-timeline">
+        <div id="KT_Navigation" class="kt-navigation" style="height: 150px;"></div>
         <span>Controler: </span>
-        <button href="#" onclick="window.track2.prev();" style="padding: 3px 5px;">prev</button>
-        <button href="#" onclick="window.track2.next();" style="padding: 3px 5px;">next</button>
-        <button href="#" onclick="window.track2.switchTo(document.getElementById('J_Track2SwitchTo').value);" style="margin-left: 10px;padding: 3px 5px;">switchTo</button>
-        <input type="text" id="J_Track2SwitchTo" value="0" style="width: 30px;" />
-        <textarea id="J_Track2ChangeCallback" style="width: 293px;height: 85px;">
-console.log(e.type);
-console.log(e.target);
-console.log(e.data);
-        </textarea>
+        <button href="#" onclick="window.track.prev();" style="padding: 3px 5px;">prev</button>
+        <button href="#" onclick="window.track.next();" style="padding: 3px 5px;">next</button>
+        <button href="#" onclick="window.track.switchTo(document.getElementById('J_TrackSwitchTo').value);" style="margin-left: 10px;padding: 3px 5px;">switchTo</button>
+        <input type="text" id="J_TrackSwitchTo" value="0" style="width: 30px;" />
+        
         <br/>
         <br/>
     </div>
@@ -87,50 +91,47 @@ console.log(e.data);
     <div id="J_ToggleTrackCode" style="display: none;">
     <pre style="color: green;">
     &lt;div class="ks-timeline"&gt;
-        &lt;div id="KT_Navigation2" class="kt-navigation"&gt;&lt;/div&gt;
+        &lt;div id="KT_Navigation" class="kt-navigation"&gt;&lt;/div&gt;
     &lt;/div&gt;
 
     KISSY.use('gallery/timeline/1.0/index, gallery/timeline/1.0/assets/default.css', function(S, KSTrack){
-        var $ = S.all;
-        <strong>//初始化 数据</strong>
-        window.myData2 = [
-        {'time': '20120301','title': '2012.03.01'},{'time': '20120806','title': '2012.08.06'}
-        ,{'time': '20120402','title': '2012.04.02'},{'time': '20120503','title': '2012.05.03'}
-        ,{'time': '20120604','title': '2012.06.04'},{'time': '20120705','title': '2012.07.05'}
-        ,{'time': '20120907','title': '2012.09.07'},{'time': '2013','title': 'Taobao UED'}];
+      var $ = S.all;
 
-        var config2 = {
-            panel: $('#KT_Navigation2')
-            ,data: myData2
-        };
+      var myData = [
+        {'time': '20120101','title': '20110101'},{'time': '2012-3-01','title': '2012.03.01'}
+        ,{'time': '2012.8.6','title': '2012.08.06'},{'time': '20120402','title': '2012.04.02'}
+        ,{'time': '20120503','title': '2012.05.03'},{'time': '20120604','title': '2012.06.04'}
+        ,{'time': '20120705','title': '2012.07.05'},{'time': '20120907','title': '2012.09.07'}
+        ,{'time': '20130121','title': '20130121'},{'time': '2013.11.12','title': '2013.11.12'}
+      ];//系统会对根据time 自动进行排序
 
-        var track2 = new KSTrack(config2);
-        <strong>//change自定义事件</strong>
-        track2.on('change', function(e){
-            /**
-              * e:  e.data(初始化数据对象)
-              */
-            S.log('[timeline]:',e)
-            S.io({
-                type: 'post'
-                ,url: '../demoajax/' + e.data.time + '.php'
-                ,success: function(data){
-                $('#KT_MainContent').html(data);
-                }
-            });
-        });
-        <strong>//滚到 索引为1的那个时间结点</strong>
-        track2.switchTo(1);
-        // track2.prev();
-        // track2.next();
+      var config = {
+        panel: $('#KT_Navigation')
+        ,data: myData
+        ,scale: 50 //初始化时，一月的在标尺上的宽度 默认100px
+        ,minRate: 2 //最大放大倍数(即放大可点击三次)
+        ,maxRate: 2 //最小缩小倍数
+      };
+
+      var track = new KSTrack(config);
+
+      track.on('change', function(e){
+        
+      });
+
+      track.switchTo(0);
+      window.track = track;
     });
     </pre>
     </div>
     <div style="color: #5A3A5A; font-weight: bolder;">
         <h3 class="s-title">参数配置(Config)</h3>
         <br/>
-        <p class="s-api-params">panel <em></em></p>
-        <p class="s-api-params">data</p>
+        <p class="s-api-params">panel: <em>时间轴容器DOM对象</em></p>
+        <p class="s-api-params">data: <em>节点数组</em></p>
+        <p class="s-api-params">scale: <em>初始化时间轴时，一个月的在标尺上的宽度 (默认100px)</em></p>
+        <p class="s-api-params">minRate: <em>时间轴，最大缩小倍数(默认为3)</em></p>
+        <p class="s-api-params">maxRate: <em>时间轴，最大放大倍数(默认为3)</em></p>
     </div>
     <div style="color: #E68C3A;">
         <h3 class="s-title">对象属性(Attributes)</h3>
@@ -138,174 +139,78 @@ console.log(e.data);
     <div style="color: #312184; font-weight: bolder;">
         <h3 class="s-title">方法(Methods)</h3>
         <br/>
-        <p class="s-api-params">switchTo</p>
-        <p class="s-api-params">prev</p>
-        <p class="s-api-params">next</p>
+        <p class="s-api-params">switchTo(idx): <em>idx: {Number}; 滚动到索引处</em></p>
+        <p class="s-api-params">prev(): <em>滚动到下一个时间节点</em></p>
+        <p class="s-api-params">next(): <em>滚动到上一个时间节点</em></p>
     </div>
 
     <div style="color: #298473;font-weight: bolder;">
         <h3 class="s-title">事件(Events)</h3>
-        <p class="s-api-params">change</p>
+        <p class="s-api-params">change: <em>e: {<br>target,//时间节点dom的引用;<br>data//初始化数组中对应于该节点的数据，传递到这个data中;<br>}</em></p>
     </div>
     <br>
     <br>
     <br>
     <br>
     <br>
-    <h3 class="s-title" style="margin: 0 0 20px 0;">其他demo</h3>
-    <!-- BEGIN Timeline Embed -->
-    <div id="K_Track" class="ks-timeline">
-        <div id="KT_MainContent" class="main-content"></div>
-        <div id="KT_Navigation" class="kt-navigation"></div>
-        <span>Controler: </span>
-        <button href="#" onclick="window.track.prev();" style="padding: 3px 5px;">prev</button>
-        <button href="#" onclick="window.track.next();" style="padding: 3px 5px;">next</button>
-        <button href="#" onclick="window.track.switchTo(document.getElementById('J_Track2SwitchTo2').value);" style="margin-left: 10px;padding: 3px 5px;">switchTo</button>
-        <input type="text" id="J_Track2SwitchTo2" value="0" style="width: 30px;" />
-    </div>
-    <a href="javascript:;" onclick="KISSY.all('#J_ToggleTrackCode').slideToggle();">查看源码</a>
-    <div id="J_ToggleTrackCode" style="display: none;">
-    <pre style="color: green;">
-    &lt;div id="K_Track2" class="ks-timeline"&gt;
-        &lt;div id="KT_MainContent" class="main-content"&gt;&lt;/div&gt;
-        &lt;div id="KT_Navigation" class="kt-navigation"&gt;&lt;/div&gt;
-    &lt;/div&gt;
-
-    KISSY.use('gallery/timeline/1.0/index, gallery/timeline/1.0/assets/default.css', function(S, KSTrack){
-        var $ = S.all;
-
-        var config = {
-            panel: $('#KT_Navigation')
-            ,data: myData
-        };
-        var track = new KSTrack(config);
-        <strong>//change自定义事件</strong>
-        track.on('change', function(e){
-            
-            S.io({
-                type: 'post'
-                ,url: '../demoajax/' + e.data.time + '.php'
-                ,success: function(data){
-                $('#KT_MainContent').html(data);
-                }
-            });
-        });
-        <strong>//滚到 索引为1的那个时间结点</strong>
-        track.switchTo(1);
-        // track.prev();
-        // track.next();
-    });
-    </pre>
-    </div>
-
 </div>
 <script>
 KISSY.use('gallery/timeline/1.0/index, gallery/timeline/1.0/assets/default.css', function(S, KSTrack){
   var $ = S.all;
 
-  var config = {
-    panel: $('#KT_Navigation')
-    ,data: myData
-  };
+  // var config = {
+  //   panel: $('#KT_Navigation')
+  //   ,data: myData
+  // };
 
-  var track = new KSTrack(config);
+  // var track = new KSTrack(config);
 
-  track.on('change', function(e){
-    S.log('[timeline]:',e);
-    S.io({
-      type: 'get'
-      ,dataType: 'jsonp'
-      ,url: '../demoajax/' + e.data.time + '.js'
-      ,success: 'jsonp_timeline'
-    });
-  });
+  // track.on('change', function(e){
+  //   // S.log('[timeline]:',e);
+  //   S.io({
+  //     type: 'get'
+  //     ,dataType: 'jsonp'
+  //     ,url: 'demoajax/' + e.data.time + '.js'
+  //     ,success: 'jsonp_timeline'
+  //   });
+  // });
 
   window.jsonp_timeline = function(data){
     $('#KT_MainContent').html(data.html);    
   }
 
-  window.track = track;
-  track.switchTo(1);
-  // track.prev();
-  // track.next();
-
-  var config2 = {
-    panel: $('#KT_Navigation2')
-    ,data: myData2
+  var config = {
+    panel: $('#KT_Navigation')
+    ,data: myData
+    ,scale: 50 //初始化时，一月的在标尺上的宽度 默认100px
+    ,minRate: 2 //最大放大倍数(即放大可点击三次)
+    ,maxRate: 2 //最小缩小倍数
   };
 
-  var track2 = new KSTrack(config2);
+  var track = new KSTrack(config);
 
-  track2.on('change', function(e){
-    S.log('[-----------change----------]');
-    var cb = new Function($('#J_Track2ChangeCallback').val());
-    var w_e = window.e;
-    window.e = e;
-    cb();
-    window.e = w_e;
+  track.on('change', function(e){
     
-    // (function(e){
-    //     cb();
-    // })(e);
-    // new Function($('#J_Track2ChangeCallback').val())();
-    S.log('[-----------change----------]');
   });
 
-  track2.switchTo(0);
+  track.switchTo(0);
   // console.log(track);
-  window.track2 = track2;
+  window.track = track;
 });
 
 //demo data
+
 window.myData = [
     {
-        'time': '19880308'
-        ,'title': '0'
+        'time': '20120101'
+        ,'title': '20110101'
     }
     ,{
-        'time': '19900308'
-        ,'title': '2'
-    }
-    ,{
-        'time': '19880408'
-        ,'title': '1'
-    }
-    ,{
-        'time': '199409'
-        ,'title': '3'
-    }
-    ,{
-        'time': '1997'
-        ,'title': '4'
-    }
-    ,{
-        'time': '2000'
-        ,'title': '5'
-    }
-    ,{
-        'time': '2001'
-    ,'title': '6'
-    }
-    // ,{
-    //     'time': '2003'
-    // ,'hidden': true
-    // }
-    ,{
-    'time': '2012'
-    ,'title': 'Taobao UED'
-    }
-    // ,{
-    //   'time': '3000'
-    //   ,'title': 'forever'
-    // }
-];
-window.myData2 = [
-    {
-        'time': '20120301'
+        'time': '2012-3-01'
         ,'title': '2012.03.01'
     }
     ,{
-        'time': '20120806'
+        'time': '2012.8.6'
         ,'title': '2012.08.06'
     }
     ,{
@@ -328,13 +233,13 @@ window.myData2 = [
         'time': '20120907'
     ,'title': '2012.09.07'
     }
-    // ,{
-    //     'time': '2003'
-    // ,'hidden': true
-    // }
     ,{
-    'time': '2013'
-    ,'title': 'Taobao UED'
+        'time': '20130121'
+        ,'title': '20130121'
+    }
+    ,{
+        'time': '2013.11.12'
+        ,'title': '2013.11.12'
     }
     // ,{
     //   'time': '3000'

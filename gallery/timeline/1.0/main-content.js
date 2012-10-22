@@ -4,6 +4,8 @@
  * describe: timeline main-content
  * log: [20121010] add window.location.hash tag, add prev,next,switchTo, add dd mask on mousemove
  *      [20121011] add 时间刻度的月份的支持
+ *      [20121019] bugfix 快速点击放大|缩小，markers偏移出错、被hover的marker，z-index为最高层； add 提供resizeWidth功能
+ *      [20121021] add scale,minRate,maxRate可配置
  */
 
 KISSY.add('gallery/timeline/1.0/main-content', function(S, Base, TT, Anim){
@@ -272,38 +274,32 @@ KISSY.add('gallery/timeline/1.0/main-content', function(S, Base, TT, Anim){
 
       var yDistance = trackConfig.widthRate;
       var _y = 1, _m = 1;
-      switch(yDistance){
-        case 2000:{
-          _y = 1;
-          _m = 1;
-          break;
-        }
-        case 1000:{
-          _y = 1;
-          _m = 2;
-          break;
-        } 
-        case 500:{
-          _y = 1;
-          _m = 3;
-          break;
-        }
-        case 250:{
-          _y = 1;
-          _m = 4;
-          break;
-        }
-        case 125:{
-          _y = 1;
-          _m = 6;
-          break;
-        }
-        case 62.5:{
-          _y = 2;
-          _m = 12;
-          break;
-        }
+      
+      if( yDistance >= 2000 ){
+        _y = 1;
+        _m = 1;
       }
+      else if( yDistance < 2000 && yDistance >= 1000){
+        _y = 1;
+        _m = 2;
+      }
+      else if( yDistance < 1000 && yDistance >= 500){
+        _y = 1;
+        _m = 3;
+      }
+      else if( yDistance < 500 && yDistance >= 250){
+        _y = 1;
+        _m = 4;
+      }
+      else if( yDistance < 250 && yDistance >= 125){
+        _y = 1;
+        _m = 6;
+      }
+      else if( yDistance < 125){
+        _y = 2;
+        _m = 12;  
+      }
+
       if( !onlyStyle || onlyStyle == false ){
         self._renderInterval(_y, _m);
       }
@@ -313,21 +309,29 @@ KISSY.add('gallery/timeline/1.0/main-content', function(S, Base, TT, Anim){
 
     }
 
-    ,_renderInterval: function(_y){
+    ,_renderInterval: function(_y, _m){
       var self = this, trackConfig = this.config.trackConfig;
       self.get('intervalBox').html('');
       for( var y = -1; y < trackConfig.endYear - trackConfig.beginYear + 1; ++y){
         // log(self.Config.beginYear + y, y * self.Config.widthRate);
-        $(TT(self.get('tpl_interal')).render({
+        var newY = $(TT(self.get('tpl_interal')).render({
           'left': parseInt(y * trackConfig.widthRate / 5 , 10) * 5 - 2
           ,'time': trackConfig.beginYear + y - 1 + '.12'
-        })).appendTo(self.get('intervalBox'));
+        }));
+        newY.appendTo(self.get('intervalBox'));
+        if( Math.abs(y)%_y != 0 ){
+          newY.hide();
+        }
         //[20121011]
         for(var m = 1; m <= 11; ++m){
-          $(TT(self.get('tpl_interal')).render({
+          var newM = $(TT(self.get('tpl_interal')).render({
             'left': parseInt( (y * trackConfig.widthRate + trackConfig.widthRate/12*m)/5,10)*5 - 2
             ,'time': trackConfig.beginYear + y + '.' + m
-          })).appendTo(self.get('intervalBox'));
+          }));
+          newM.appendTo(self.get('intervalBox'));
+          if( m%_m != 0){
+            newM.hide();
+          }
         }
       }
     }
@@ -399,6 +403,7 @@ KISSY.add('gallery/timeline/1.0/main-content', function(S, Base, TT, Anim){
         return ;
       }
       // self.isRating = true;
+      config.trackConfig.isScaling = true;
       self.stopAnim();
       var markers = $('.marker', self.get('timenav'));
       
@@ -420,6 +425,7 @@ KISSY.add('gallery/timeline/1.0/main-content', function(S, Base, TT, Anim){
       }, 0.5, 'easeNone', function(){
         self.adjustStyle();
         self.isRating = false;
+        config.trackConfig.isScaling = false;
       });
 
       self.renderInterval(true);
@@ -453,6 +459,9 @@ KISSY.add('gallery/timeline/1.0/main-content', function(S, Base, TT, Anim){
     ,clickThisMarder: function(target){
       var self = this;
       var dataQeq = S.JSON.parse( target.attr('data-req') );
+
+      self.gotoMarker( parseInt(target.css('left'), 10) , target);
+      
       if( self.activeMarkerIdx == dataQeq.count ){
         return false;
       }
@@ -462,7 +471,6 @@ KISSY.add('gallery/timeline/1.0/main-content', function(S, Base, TT, Anim){
         ,target: target
       });
 
-      self.gotoMarker( parseInt(target.css('left'), 10) , target);
 
       //location.hash modify
       self.setHash();

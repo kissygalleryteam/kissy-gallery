@@ -7,7 +7,7 @@
 KISSY.add('gallery/timeline/1.0/control', function(S, Base, BG, Toolbar, MainContent, DD, TrackConfig){
   var $ = S.all;
 
-  var reg_songtime = /(\d{4})(\d{2})?(\d{2})?/;
+  var reg_songtime = /(\d{4})(\d{1,2})?(\d{1,2})?/;
 
   var ATTRS = {
   };
@@ -25,6 +25,11 @@ KISSY.add('gallery/timeline/1.0/control', function(S, Base, BG, Toolbar, MainCon
 
       config.trackConfig = S.clone(TrackConfig);
       config.trackConfig.setData(config.data);
+      config.trackConfig.config({
+        minRate: config.minRate
+        ,maxRate: config.maxRate
+        ,scale: config.scale
+      });
       config.trackConfig.initAll(config.panel);
 
       //实例化 各组成插件
@@ -41,6 +46,10 @@ KISSY.add('gallery/timeline/1.0/control', function(S, Base, BG, Toolbar, MainCon
       self.get('mainContent').renderMarkers( self.transAjaxData(config.data) );
       self.get('mainContent').renderInterval();
 
+      var trackConfig = config.trackConfig;
+      self.set('maxRate', Math.pow(2,trackConfig.maxRate-1)*trackConfig.rate);
+      self.set('minRate', Math.pow(0.5,trackConfig.minRate-1)*trackConfig.rate);
+      
       // dd event handle
       self.get('dd').on('moving', function(e){
         self.get('mainContent').rigidResetOffset({
@@ -130,7 +139,7 @@ KISSY.add('gallery/timeline/1.0/control', function(S, Base, BG, Toolbar, MainCon
       });
 
       self.get('toolbar').on('large', function(e){
-        if( trackConfig.rate >= 500 ){
+        if( trackConfig.rate > self.get('maxRate') || trackConfig.isScaling === true){
           return;
         }
         trackConfig.largeRate( this.config.panel );
@@ -138,7 +147,7 @@ KISSY.add('gallery/timeline/1.0/control', function(S, Base, BG, Toolbar, MainCon
       });
 
       self.get('toolbar').on('mini', function(e){
-        if( trackConfig.rate <= 1){
+        if( trackConfig.rate < self.get('minRate') || trackConfig.isScaling === true){
           return ;
         }
         trackConfig.miniRate(config.panel);
@@ -178,6 +187,10 @@ KISSY.add('gallery/timeline/1.0/control', function(S, Base, BG, Toolbar, MainCon
     }
     ,switchTo: function(idx){
       this.get('mainContent').switchTo(idx);
+    }
+    ,resetWidth: function(w){
+      this.get('mainContent').adjustStyle();
+      this.get('bg').adjustStyle();
     }
   };
 
