@@ -158,15 +158,34 @@ KISSY.add('gallery/timeline/1.0/config', function(S){
     ,minLeft: null //导航条最小 css left 值
     ,maxLeft: null //导航条最大 css left 值
     ,rate: 10
-    ,scale: 1 //一个刻度单位的最小值 默认：天
-    ,minScale: 1
+    ,isScaling: false
+    ,reg_songtime: /(\d{4})[^0-9]*(\d{1,2})?[^0-9]*(\d{1,2})?/
+    //用户可配置
+    ,scale: 200 //初始化时，一月的在标尺上的宽度 默认100px
+    ,minRate: 3 //最大放大倍数
+    ,maxRate: 3 //最小缩小倍数
     ,setData: function(newData){
       this.myData = newData;
+      for(var i = 0; i < this.myData.length; ++i){
+        var matchRet = this.myData[i].time.match(this.reg_songtime);
+        this.myData[i].time = '' + matchRet[1];
+        if(matchRet[2]){
+          this.myData[i].time += '' + ( (parseInt(matchRet[2],10)>9)?(parseInt(matchRet[2],10)):('0'+parseInt(matchRet[2],10) ) ); 
+        }
+        if(matchRet[3]){
+          this.myData[i].time += '' + ( (parseInt(matchRet[3],10)>9)?(parseInt(matchRet[3],10)):('0'+parseInt(matchRet[3],10)) );
+        }
+      }
       this.myData = this.myData.sort(function(a,b){
         //字符串比较
         return a.time > b.time;
       });
       return this;
+    }
+    ,config: function(config){
+      config.minRate && (this.minRate = config.minRate);
+      config.maxRate && (this.maxRate = config.maxRate);
+      config.scale && (this.scale = config.scale);
     }
     ,largeRate: function(panel){
       this.rate = this.rate * 2;
@@ -179,18 +198,17 @@ KISSY.add('gallery/timeline/1.0/config', function(S){
       return this;
     }
     ,initAll: function(panel){
-      var reg_songtime = /(\d{4})[^0-9]*(\d{2})?[^0-9]*(\d{2})?/;
+      this.beginYear = parseInt( this.myData[0].time && (this.myData[0].time.match(this.reg_songtime)[1]) );
 
-      this.beginYear = parseInt( this.myData[0].time && (this.myData[0].time.match(reg_songtime)[1]) );
-
-      this.endYear = parseInt( this.myData[this.myData.length-1].time && (this.myData[this.myData.length-1].time.match(reg_songtime)[1]) );
-
+      this.endYear = parseInt( this.myData[this.myData.length-1].time && (this.myData[this.myData.length-1].time.match(this.reg_songtime)[1]) ) + 1;
       this.maxInterval = this.endYear - this.beginYear;
 
       //nav width
-      this.widthRate = this.rate / (1 / 200);
+      this.widthRate = this.rate / (1/1.2/this.scale);
+      // console.log('[log widthRate]',this.widthRate)
 
       this.navWidth = parseInt( this.widthRate * this.maxInterval, 10);
+      // console.log('[log]',this.navWidth)
       
       // this.spacer = parseInt( $(document.body).width() * 3 / 3, 10);
       this.spacer = parseInt( panel.width() * 3 / 3, 10);
@@ -214,7 +232,7 @@ KISSY.add('gallery/timeline/1.0/config', function(S){
 KISSY.add('gallery/timeline/1.0/control', function(S, Base, BG, Toolbar, MainContent, DD, TrackConfig){
   var $ = S.all;
 
-  var reg_songtime = /(\d{4})(\d{2})?(\d{2})?/;
+  var reg_songtime = /(\d{4})(\d{1,2})?(\d{1,2})?/;
 
   var ATTRS = {
   };
@@ -232,6 +250,11 @@ KISSY.add('gallery/timeline/1.0/control', function(S, Base, BG, Toolbar, MainCon
 
       config.trackConfig = S.clone(TrackConfig);
       config.trackConfig.setData(config.data);
+      config.trackConfig.config({
+        minRate: config.minRate
+        ,maxRate: config.maxRate
+        ,scale: config.scale
+      });
       config.trackConfig.initAll(config.panel);
 
       //实例化 各组成插件
@@ -248,6 +271,10 @@ KISSY.add('gallery/timeline/1.0/control', function(S, Base, BG, Toolbar, MainCon
       self.get('mainContent').renderMarkers( self.transAjaxData(config.data) );
       self.get('mainContent').renderInterval();
 
+      var trackConfig = config.trackConfig;
+      self.set('maxRate', Math.pow(2,trackConfig.maxRate-1)*trackConfig.rate);
+      self.set('minRate', Math.pow(0.5,trackConfig.minRate-1)*trackConfig.rate);
+      
       // dd event handle
       self.get('dd').on('moving', function(e){
         self.get('mainContent').rigidResetOffset({
@@ -337,7 +364,7 @@ KISSY.add('gallery/timeline/1.0/control', function(S, Base, BG, Toolbar, MainCon
       });
 
       self.get('toolbar').on('large', function(e){
-        if( trackConfig.rate >= 500 ){
+        if( trackConfig.rate > self.get('maxRate') || trackConfig.isScaling === true){
           return;
         }
         trackConfig.largeRate( this.config.panel );
@@ -345,7 +372,7 @@ KISSY.add('gallery/timeline/1.0/control', function(S, Base, BG, Toolbar, MainCon
       });
 
       self.get('toolbar').on('mini', function(e){
-        if( trackConfig.rate <= 1){
+        if( trackConfig.rate < self.get('minRate') || trackConfig.isScaling === true){
           return ;
         }
         trackConfig.miniRate(config.panel);
@@ -385,6 +412,10 @@ KISSY.add('gallery/timeline/1.0/control', function(S, Base, BG, Toolbar, MainCon
     }
     ,switchTo: function(idx){
       this.get('mainContent').switchTo(idx);
+    }
+    ,resetWidth: function(w){
+      this.get('mainContent').adjustStyle();
+      this.get('bg').adjustStyle();
     }
   };
 
@@ -585,6 +616,8 @@ KISSY.add('gallery/timeline/1.0/index', function(S, Control){
  * describe: timeline main-content
  * log: [20121010] add window.location.hash tag, add prev,next,switchTo, add dd mask on mousemove
  *      [20121011] add 时间刻度的月份的支持
+ *      [20121019] bugfix 快速点击放大|缩小，markers偏移出错、被hover的marker，z-index为最高层； add 提供resizeWidth功能
+ *      [20121021] add scale,minRate,maxRate可配置
  */
 
 KISSY.add('gallery/timeline/1.0/main-content', function(S, Base, TT, Anim){
@@ -853,38 +886,32 @@ KISSY.add('gallery/timeline/1.0/main-content', function(S, Base, TT, Anim){
 
       var yDistance = trackConfig.widthRate;
       var _y = 1, _m = 1;
-      switch(yDistance){
-        case 2000:{
-          _y = 1;
-          _m = 1;
-          break;
-        }
-        case 1000:{
-          _y = 1;
-          _m = 2;
-          break;
-        } 
-        case 500:{
-          _y = 1;
-          _m = 3;
-          break;
-        }
-        case 250:{
-          _y = 1;
-          _m = 4;
-          break;
-        }
-        case 125:{
-          _y = 1;
-          _m = 6;
-          break;
-        }
-        case 62.5:{
-          _y = 2;
-          _m = 12;
-          break;
-        }
+      
+      if( yDistance >= 2000 ){
+        _y = 1;
+        _m = 1;
       }
+      else if( yDistance < 2000 && yDistance >= 1000){
+        _y = 1;
+        _m = 2;
+      }
+      else if( yDistance < 1000 && yDistance >= 500){
+        _y = 1;
+        _m = 3;
+      }
+      else if( yDistance < 500 && yDistance >= 250){
+        _y = 1;
+        _m = 4;
+      }
+      else if( yDistance < 250 && yDistance >= 125){
+        _y = 1;
+        _m = 6;
+      }
+      else if( yDistance < 125){
+        _y = 2;
+        _m = 12;  
+      }
+
       if( !onlyStyle || onlyStyle == false ){
         self._renderInterval(_y, _m);
       }
@@ -894,21 +921,29 @@ KISSY.add('gallery/timeline/1.0/main-content', function(S, Base, TT, Anim){
 
     }
 
-    ,_renderInterval: function(_y){
+    ,_renderInterval: function(_y, _m){
       var self = this, trackConfig = this.config.trackConfig;
       self.get('intervalBox').html('');
       for( var y = -1; y < trackConfig.endYear - trackConfig.beginYear + 1; ++y){
         // log(self.Config.beginYear + y, y * self.Config.widthRate);
-        $(TT(self.get('tpl_interal')).render({
+        var newY = $(TT(self.get('tpl_interal')).render({
           'left': parseInt(y * trackConfig.widthRate / 5 , 10) * 5 - 2
           ,'time': trackConfig.beginYear + y - 1 + '.12'
-        })).appendTo(self.get('intervalBox'));
+        }));
+        newY.appendTo(self.get('intervalBox'));
+        if( Math.abs(y)%_y != 0 ){
+          newY.hide();
+        }
         //[20121011]
         for(var m = 1; m <= 11; ++m){
-          $(TT(self.get('tpl_interal')).render({
+          var newM = $(TT(self.get('tpl_interal')).render({
             'left': parseInt( (y * trackConfig.widthRate + trackConfig.widthRate/12*m)/5,10)*5 - 2
             ,'time': trackConfig.beginYear + y + '.' + m
-          })).appendTo(self.get('intervalBox'));
+          }));
+          newM.appendTo(self.get('intervalBox'));
+          if( m%_m != 0){
+            newM.hide();
+          }
         }
       }
     }
@@ -980,6 +1015,7 @@ KISSY.add('gallery/timeline/1.0/main-content', function(S, Base, TT, Anim){
         return ;
       }
       // self.isRating = true;
+      config.trackConfig.isScaling = true;
       self.stopAnim();
       var markers = $('.marker', self.get('timenav'));
       
@@ -1001,6 +1037,7 @@ KISSY.add('gallery/timeline/1.0/main-content', function(S, Base, TT, Anim){
       }, 0.5, 'easeNone', function(){
         self.adjustStyle();
         self.isRating = false;
+        config.trackConfig.isScaling = false;
       });
 
       self.renderInterval(true);
@@ -1034,6 +1071,9 @@ KISSY.add('gallery/timeline/1.0/main-content', function(S, Base, TT, Anim){
     ,clickThisMarder: function(target){
       var self = this;
       var dataQeq = S.JSON.parse( target.attr('data-req') );
+
+      self.gotoMarker( parseInt(target.css('left'), 10) , target);
+      
       if( self.activeMarkerIdx == dataQeq.count ){
         return false;
       }
@@ -1043,7 +1083,6 @@ KISSY.add('gallery/timeline/1.0/main-content', function(S, Base, TT, Anim){
         ,target: target
       });
 
-      self.gotoMarker( parseInt(target.css('left'), 10) , target);
 
       //location.hash modify
       self.setHash();
