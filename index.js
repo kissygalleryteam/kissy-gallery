@@ -1,5 +1,10 @@
 ﻿{
    "gs":[
+   {
+        "name":"image-dd",
+        
+        "desc":"图片拖拽缩放"
+    },
     {
         "name":"grid",
         
