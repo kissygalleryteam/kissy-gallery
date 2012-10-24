@@ -3,7 +3,7 @@
   */
 
 /**
-  * µ¥ÀıÍÏ×§
+  * å•ä¾‹æ‹–æ‹½
   */
 KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
   var D = S.DOM, E = S.Event, $ = S.all;
@@ -11,43 +11,43 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
   //asd
   var ATTRS = {
     //constant variables
-    WHEEL_STEP: 1 //Êó±êÖĞ¼ü¹ö¶¯¼¸´Î´¥·¢ĞĞÎª
-    ,WHEEL_PIX: 50 //Ò»´ÎËõ·ÅÏñËØÖµ
-    ,SHOW_DOWN: 0 //¼õËÙÔË¶¯µÄ¼õËÙ¶È´óĞ¡
-    ,MOUSE_MOVE_AUTO_CLOSE_TIMER: 5000 // Êó±êÔÚ¾­¹ı Éè¶¨µÄÊ±¼äÄÚÃ»ÓĞ·¢ÉúmoveµÄĞĞÎª£¬Âß¼­Ìø×ªµ½mouseup
-    ,DEGRADATION: 2 //½µ¼¶£¨Õë¶ÔmoveÊÂ¼ş´¥·¢ÆµÂÊ£©
+    WHEEL_STEP: 1 //é¼ æ ‡ä¸­é”®æ»šåŠ¨å‡ æ¬¡è§¦å‘è¡Œä¸º
+    ,WHEEL_PIX: 50 //ä¸€æ¬¡ç¼©æ”¾åƒç´ å€¼
+    ,SHOW_DOWN: 0 //å‡é€Ÿè¿åŠ¨çš„å‡é€Ÿåº¦å¤§å°
+    ,MOUSE_MOVE_AUTO_CLOSE_TIMER: 5000 // é¼ æ ‡åœ¨ç»è¿‡ è®¾å®šçš„æ—¶é—´å†…æ²¡æœ‰å‘ç”Ÿmoveçš„è¡Œä¸ºï¼Œé€»è¾‘è·³è½¬åˆ°mouseup
+    ,DEGRADATION: 2 //é™çº§ï¼ˆé’ˆå¯¹moveäº‹ä»¶è§¦å‘é¢‘ç‡ï¼‰
 
-    ,activeImg: null //µ±Ç°»îÔ¾µÄimg±êÇ©
-    ,activeImgPos: {left:0, top:0} //mousedownÊ±Í¼Æ¬ËùÔÚÎ»ÖÃ
-    ,mousedownCoo: {} //Êó±êmousedownÎ»ÖÃµÄ×ø±ê
-    ,anim: null//¹öÂÖ¿ØÖÆ·Å´óËõĞ¡µÄ¶¯»­¶ÔÏó
-    ,initAnim: null//³õÊ¼»¯¶¨Î»Í¼Æ¬¶¯»­¶ÔÏó
-    ,bigImgObj: new Image()//´óÍ¼img¶ÔÏó
+    ,activeImg: null //å½“å‰æ´»è·ƒçš„imgæ ‡ç­¾
+    ,activeImgPos: {left:0, top:0} //mousedownæ—¶å›¾ç‰‡æ‰€åœ¨ä½ç½®
+    ,mousedownCoo: {} //é¼ æ ‡mousedownä½ç½®çš„åæ ‡
+    ,anim: null//æ»šè½®æ§åˆ¶æ”¾å¤§ç¼©å°çš„åŠ¨ç”»å¯¹è±¡
+    ,initAnim: null//åˆå§‹åŒ–å®šä½å›¾ç‰‡åŠ¨ç”»å¯¹è±¡
+    ,bigImgObj: new Image()//å¤§å›¾imgå¯¹è±¡
     ,initWidth: 0
-    ,defaultMaxWidth: 10000//Í¼Æ¬·Å´óµ½×î´ó¿í¶È
-    ,defaultMinWidth: 50 //Í¼Æ¬ËõĞ¡µ½×îĞ¡¿í¶È
+    ,defaultMaxWidth: 10000//å›¾ç‰‡æ”¾å¤§åˆ°æœ€å¤§å®½åº¦
+    ,defaultMinWidth: 50 //å›¾ç‰‡ç¼©å°åˆ°æœ€å°å®½åº¦
     ,ieIframeMask: null
     
-    ,dragInfoX: [] //ÍÏ×§Í¼Æ¬µÄ×ø±ê¼ÇÂ¼
+    ,dragInfoX: [] //æ‹–æ‹½å›¾ç‰‡çš„åæ ‡è®°å½•
     ,dragInfoY: []
-    ,dragInfoTime: [] //ÍÏ×§·¢ÉúµÄÊ±¼ä¼ÇÂ¼
+    ,dragInfoTime: [] //æ‹–æ‹½å‘ç”Ÿçš„æ—¶é—´è®°å½•
     ,autoSlideAnim: null //Anim obj
 
-    ,popupMask: null //È«ÆÁ¸¡¿òÈİÆ÷
-    ,popupBd: null //µ¯³ö²ã£¬Í¼Æ¬ÈİÆ÷
+    ,popupMask: null //å…¨å±æµ®æ¡†å®¹å™¨
+    ,popupBd: null //å¼¹å‡ºå±‚ï¼Œå›¾ç‰‡å®¹å™¨
     ,popupOpacityBg: null
     ,popupBox: null
     ,popupHd: null
   };
 
   var STATUS = {
-    inited: false //µæÆ¬ÊÇ·ñ³õÊ¼»¯¹ı
+    inited: false //å«ç‰‡æ˜¯å¦åˆå§‹åŒ–è¿‡
   }
 
   var DATAS = {
-    POPUP_HD_TPL: '<div class="box-hd close-rt-wrap" ><a href="#" title="°´ÍË³ö¼ü£¬Ò²¿ÉÒÔ¹Ø±ÕÅ¶" class="close-rt J_Close" id="J_CloseImageDD"></a></div>'
+    POPUP_HD_TPL: '<div class="box-hd close-rt-wrap" ><a href="#" title="æŒ‰é€€å‡ºé”®ï¼Œä¹Ÿå¯ä»¥å…³é—­å“¦" class="close-rt J_Close" id="J_CloseImageDD"></a></div>'
 
-    ,POPUP_IMG: '<img title="Êó±ê¹öÂÖ¿ÉÒÔ·Å´óÍ¼Æ¬" class="G_K" style="width:{{showWidth}}px;left:{{left}}px;top:{{top}}px;" src="{{imgSrc}}"  />'
+    ,POPUP_IMG: '<img title="é¼ æ ‡æ»šè½®å¯ä»¥æ”¾å¤§å›¾ç‰‡" class="G_K" style="width:{{showWidth}}px;left:{{left}}px;top:{{top}}px;" src="{{imgSrc}}"  />'
 
     ,POPUP_TPL: '<div class="img-dd-mask">\
                     <div class="img-dd-opacity-bg"></div>\
@@ -60,7 +60,7 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
     ele: []
   };
   /**
-    * @param{HTMLIMGElement} Ò»¸öimg±êÇ©¶ÔÏóµÄÒıÓÃ
+    * @param{HTMLIMGElement} ä¸€ä¸ªimgæ ‡ç­¾å¯¹è±¡çš„å¼•ç”¨
     */
   function DDObj(ele){
     var self = this;
@@ -80,7 +80,7 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
     _init: function(){
       var self = this, cfg = self.config;
       
-      //³õÊ¼»¯ new ¶ÔÏóÊ±µÄ
+      //åˆå§‹åŒ– new å¯¹è±¡æ—¶çš„
       S.each(cfg.ele, function(item){
         self._bindEvent(item);
       });
@@ -102,7 +102,7 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
       // console.log(cfg.ele)
     }
     
-    //¸øadd½øÀ´µÄimg »ò imgµÄÈİÆ÷£¬×¢²áclickÊÂ¼ş
+    //ç»™addè¿›æ¥çš„img æˆ– imgçš„å®¹å™¨ï¼Œæ³¨å†Œclickäº‹ä»¶
     ,_bindEvent: function(ele, className){
       var self = this, cfg = self.config;
       
@@ -126,7 +126,7 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
         e.halt();
         //click img tag
         if( self.STATU('inited') != true ){
-          //³õÊ¼»¯µæÆ¬
+          //åˆå§‹åŒ–å«ç‰‡
           self._createPopup();
           self._initHTMLElement();
           self._bindPopupMousedown();
@@ -145,39 +145,39 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
       //mouse up
     }
     
-    //³õÊ¼»¯ÏÔÊ¾Í¼Æ¬´óÍ¼
+    //åˆå§‹åŒ–æ˜¾ç¤ºå›¾ç‰‡å¤§å›¾
     ,_showPopupImg: function(srcUrl, srcUrlThunmb){
       var self = this
       ,clientWidth  = document.body.clientWidth  || doucment.doucmentElement.clientWidth
       ;
       
-      //Ìí¼Óµ±Ç°Í¼Æ¬
+      //æ·»åŠ å½“å‰å›¾ç‰‡
       self.ATTR('popupBd').innerHTML = Template(self.DATA('POPUP_IMG')).render({
-        imgSrc: srcUrlThunmb//³õÊ¼»¯ÏÔÊ¾Ğ¡Í¼
-        ,imgAlt: 'Í¼Æ¬´óÍ¼'
+        imgSrc: srcUrlThunmb//åˆå§‹åŒ–æ˜¾ç¤ºå°å›¾
+        ,imgAlt: 'å›¾ç‰‡å¤§å›¾'
         ,showWidth: parseInt(clientWidth/2,10)
-        ,left: parseInt(clientWidth/4,10) //½«Í¼Æ¬ÏÔÊ¾ÔÚÕıÖĞ¼ä
+        ,left: parseInt(clientWidth/4,10) //å°†å›¾ç‰‡æ˜¾ç¤ºåœ¨æ­£ä¸­é—´
         ,top: 0
       });
       
-      //------------------------------------------------------------------³õÊ¼»¯Ò»Ğ©Êı¾İ
+      //------------------------------------------------------------------åˆå§‹åŒ–ä¸€äº›æ•°æ®
       if( S.UA.ie && S.UA.ie == 6){
         self.ATTR('popupMask').style.height = (document.body.scrollHeight || document.documentElement.scrollHeight) + 'px';
         self.ATTR('popupMask').style.width  = (document.body.scrollWidth || document.documentElement.scrollWidth) + 'px';
       }
-      self.ATTR('initWidth', parseInt(clientWidth/2,10));//³õÊ¼»¯Í¼Æ¬ÏÔÊ¾µÄ¿í¶È
+      self.ATTR('initWidth', parseInt(clientWidth/2,10));//åˆå§‹åŒ–å›¾ç‰‡æ˜¾ç¤ºçš„å®½åº¦
       
       self.cleanRecords(true);
       
-      self.ATTR('activeImg', D.get('IMG', self.ATTR('popupBd') ) );//»ñÈ¡ĞÂ²åÈëµÄÍ¼Æ¬µÄDOMÒıÓÃ
+      self.ATTR('activeImg', D.get('IMG', self.ATTR('popupBd') ) );//è·å–æ–°æ’å…¥çš„å›¾ç‰‡çš„DOMå¼•ç”¨
       
-      //µ÷ÕûÍ¼Æ¬µ½´°¿Ú¿É¼ûÇøÓò
+      //è°ƒæ•´å›¾ç‰‡åˆ°çª—å£å¯è§åŒºåŸŸ
       self.ATTR('initAnim') && self.ATTR('initAnim').stop(false);
       self.ATTR('initAnim', new Anim(self.ATTR('activeImg'), {
         top: (document.body.scrollTop || document.documentElement.scrollTop) + 30 + 'px'
       },1,'easeOutStrong').run() );
       
-      //´óÍ¼¼ÓÔØºÃºó ÏÔÊ¾´óÍ¼
+      //å¤§å›¾åŠ è½½å¥½å æ˜¾ç¤ºå¤§å›¾
       self.ATTR('bigImgObj').onload = null;
       if( srcUrl || srcUrl != ''){
         self.ATTR('bigImgObj', null);
@@ -189,7 +189,7 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
       };
       self.ATTR('bigImgObj').src = srcUrl;
       
-      //×¢²áÊó±êÖĞ¼ü¹öÂÖÊÂ¼ş
+      //æ³¨å†Œé¼ æ ‡ä¸­é”®æ»šè½®äº‹ä»¶
       self.registerWheelEvent();
       
     }
@@ -220,7 +220,7 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
       E.remove(document, 'mousemove', move, self);
     }
     
-    //È«ÆÁÃÉ°å this function run only one time
+    //å…¨å±è’™æ¿ this function run only one time
     ,_createPopup: function(){
       var self = this, cfg = self.config;
       self.ATTR('popupMask', D.create( self.DATA('POPUP_TPL') ) );
@@ -237,7 +237,7 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
       self.ATTR('popupMask').appendChild(self.ATTR('closeBtn'));
     }
     
-    //µ¯³ö¿òmousedownÊÂ¼ş×¢²á£¬ this function execute just one time , event will never remove
+    //å¼¹å‡ºæ¡†mousedownäº‹ä»¶æ³¨å†Œï¼Œ this function execute just one time , event will never remove
     ,_bindPopupMousedown: function(){
       var self = this, cfg = self.config;
       // E.on(self.ATTR('popupMask'),"dragstart",function(e){
@@ -250,16 +250,16 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
         }
         e.halt();
         
-        //Í£Ö¹³õÊ¼»¯µÄ¶¨Î»¶¯»­
+        //åœæ­¢åˆå§‹åŒ–çš„å®šä½åŠ¨ç”»
         self.ATTR('initAnim') && self.ATTR('initAnim').stop(false);
         self.ATTR('initAnim', null);
         
-        //³õÊ¼»¯ÍÏ×§ĞÅÏ¢
+        //åˆå§‹åŒ–æ‹–æ‹½ä¿¡æ¯
         self.cleanRecords(true);
         
-        self.ATTR('dragInfoX').push(getCurrentStyle(target, 'left')); //ÍÏ×§Í¼Æ¬µÄ×ø±ê¼ÇÂ¼
+        self.ATTR('dragInfoX').push(getCurrentStyle(target, 'left')); //æ‹–æ‹½å›¾ç‰‡çš„åæ ‡è®°å½•
         self.ATTR('dragInfoY').push(getCurrentStyle(target, 'top'));
-        self.ATTR('dragInfoTime').push(new Date().getTime()); //ÍÏ×§·¢ÉúµÄÊ±¼ä¼ÇÂ¼
+        self.ATTR('dragInfoTime').push(new Date().getTime()); //æ‹–æ‹½å‘ç”Ÿçš„æ—¶é—´è®°å½•
         
         
         self.ATTR( 'activeImg', target);
@@ -270,7 +270,7 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
           ,top: getCurrentStyle(target, 'top')
         });
         
-        //È¡ÏûÎÄ±¾Ñ¡ÖĞ
+        //å–æ¶ˆæ–‡æœ¬é€‰ä¸­
         // ( document.selection&&document.selection.empty&&document.selection.empty() ) || ( window.getSelection&&window.getSelection().removeAllRanges() );
         
         // console.log(self.ATTR('activeImgPos'));
@@ -298,7 +298,7 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
       return true;
     }
     
-    //´´½¨µ¯³ö¿òºĞ×Ó µÄhd¡¢bd¡¢btµÄÒıÓÃ
+    //åˆ›å»ºå¼¹å‡ºæ¡†ç›’å­ çš„hdã€bdã€btçš„å¼•ç”¨
     ,_initHTMLElement: function(){
       var self = this;
       self.ATTR('popupOpacityBg', D.get('.img-dd-opacity-bg', self.ATTR('popupMask') ) );
@@ -307,21 +307,21 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
     }
     
     
-    //¼¦Àß£º ¸ù¾İÍÏ×§¹ı³ÌÖĞ¼ÇÂ¼µÄ x¡¢y¡¢time ÖÆÔì ÍÏ×§mouseupºóµÄ»¬¶¯Ğ§¹û
+    //é¸¡è‚‹ï¼š æ ¹æ®æ‹–æ‹½è¿‡ç¨‹ä¸­è®°å½•çš„ xã€yã€time åˆ¶é€  æ‹–æ‹½mouseupåçš„æ»‘åŠ¨æ•ˆæœ
     ,afterUserDrag_MyShowTime: function(){
       var self = this;
-      // self.ATTR('dragInfoX', []); //ÍÏ×§Í¼Æ¬µÄ×ø±ê¼ÇÂ¼
+      // self.ATTR('dragInfoX', []); //æ‹–æ‹½å›¾ç‰‡çš„åæ ‡è®°å½•
       // self.ATTR('dragInfoY') = [];
-      // self.ATTR('dragInfoTime') = []; //ÍÏ×§·¢ÉúµÄÊ±¼ä¼ÇÂ¼
+      // self.ATTR('dragInfoTime') = []; //æ‹–æ‹½å‘ç”Ÿçš„æ—¶é—´è®°å½•
       var len = self.ATTR('dragInfoX').length;
       
       if(true || len < 3){
-        //×ßÖ±Ïß
+        //èµ°ç›´çº¿
         self.slide_straightLine();
         return false;
       }
       else{//closed
-        //×ßÒ»¸öÔ²È¦
+        //èµ°ä¸€ä¸ªåœ†åœˆ
         var x1 = self.ATTR('dragInfoX')[len-3], y1 = self.ATTR('dragInfoY')[len-3]
         ,x2 = self.ATTR('dragInfoX')[len-2], y2 = self.ATTR('dragInfoY')[len-2]
         ,x3 = self.ATTR('dragInfoX')[len-1], y3 = self.ATTR('dragInfoY')[len-1]
@@ -329,7 +329,7 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
       }
     }
     
-    //Ê¹ÓÃkissy anim×ßÒ»¶ÎÖ±Ïß
+    //ä½¿ç”¨kissy animèµ°ä¸€æ®µç›´çº¿
     ,slide_straightLine: function(){
       var self = this;
       
@@ -388,12 +388,12 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
 
     }
     
-    //ÇåÀíÍÏ×§¼ÇÂ¼Êı×é  ·ÀÖ¹°´×¡²»·ÅÊ±£¬Êı×é±ä³ÉÎŞÏŞ´óµÄÇé¿ö
+    //æ¸…ç†æ‹–æ‹½è®°å½•æ•°ç»„  é˜²æ­¢æŒ‰ä½ä¸æ”¾æ—¶ï¼Œæ•°ç»„å˜æˆæ— é™å¤§çš„æƒ…å†µ
     ,cleanRecords: function(clearAll){
       var self = this;
-      self.ATTR('dragInfoX', []); //ÍÏ×§Í¼Æ¬µÄ×ø±ê¼ÇÂ¼
+      self.ATTR('dragInfoX', []); //æ‹–æ‹½å›¾ç‰‡çš„åæ ‡è®°å½•
       self.ATTR('dragInfoY', []);
-      self.ATTR('dragInfoTime', []); //ÍÏ×§·¢ÉúµÄÊ±¼ä¼ÇÂ¼
+      self.ATTR('dragInfoTime', []); //æ‹–æ‹½å‘ç”Ÿçš„æ—¶é—´è®°å½•
       self.ATTR('autoSlideAnim') && self.ATTR('autoSlideAnim').isRunning&&self.ATTR('autoSlideAnim').stop(false);
     }
     
@@ -425,14 +425,14 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
   function move(e){
     e.halt();
       
-    if(moveCtlTimer < ATTRS.DEGRADATION){//×öÏŞÖÆ
+    if(moveCtlTimer < ATTRS.DEGRADATION){//åšé™åˆ¶
       ++moveCtlTimer;
       return false;
     }
     moveCtlTimer = 0;
     var self = this;
     
-    var currentMouseCoo = getMouseCoo(e);//µ±Ç°Êó±êËùÔÚ×ø±ê
+    var currentMouseCoo = getMouseCoo(e);//å½“å‰é¼ æ ‡æ‰€åœ¨åæ ‡
     
     var distance = {
       left: currentMouseCoo.x - self.ATTR('mousedownCoo').x
@@ -442,10 +442,10 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
     ,new_left = parseInt(self.ATTR('activeImgPos').left,10) + distance.left
     ;
     
-    //¼ÇÂ¼ÍÏ×§µÄĞÅÏ¢
-    self.ATTR('dragInfoX').push(new_left); //ÍÏ×§Í¼Æ¬µÄ×ø±ê¼ÇÂ¼
+    //è®°å½•æ‹–æ‹½çš„ä¿¡æ¯
+    self.ATTR('dragInfoX').push(new_left); //æ‹–æ‹½å›¾ç‰‡çš„åæ ‡è®°å½•
     self.ATTR('dragInfoY').push(new_top);
-    self.ATTR('dragInfoTime').push(new Date().getTime()); //ÍÏ×§·¢ÉúµÄÊ±¼ä¼ÇÂ¼
+    self.ATTR('dragInfoTime').push(new Date().getTime()); //æ‹–æ‹½å‘ç”Ÿçš„æ—¶é—´è®°å½•
     // self.ATTR('autoSlideAnim') = null; //Anim obj
     
     D.css(self.ATTR('activeImg'), 'top', new_top + 'px');
@@ -466,40 +466,40 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
     wheelCtlTimer = 0;
     
     var self = this;
-    //Çå¿Õ¼õËÙ»¬¶¯¶¯»­
+    //æ¸…ç©ºå‡é€Ÿæ»‘åŠ¨åŠ¨ç”»
     self.cleanRecords();
     
     var action = '';
     
-    //¼ÇÂ¼ ·Å´ó | ËõĞ¡
+    //è®°å½• æ”¾å¤§ | ç¼©å°
     if(e.deltaY){action = (e.deltaY > 0)?('zoom'):('shrunk');}
     // else if( e.detail){action = (e.detail == -3)?('zoom'):('shrunk');}
     if(action == '')return false;
-    //·´ÏòĞĞÎª£¬currentAction¼ÇÂ¼ÖØÖÃ
+    //åå‘è¡Œä¸ºï¼ŒcurrentActionè®°å½•é‡ç½®
     if(action != currentAction){currentAction = action;return false;}
         
-    //Í¼Æ¬µ±Ç° ¿í¸ß
+    //å›¾ç‰‡å½“å‰ å®½é«˜
     var activeImgSize = {
       width: getCurrentStyle(self.ATTR('activeImg'), 'width')
       ,height: getCurrentStyle(self.ATTR('activeImg'), 'height')
     };
     
-    //Í¼Æ¬µÄ³ß´çµ½´ïÉÏÏŞ »ò ÏÂÏŞ
+    //å›¾ç‰‡çš„å°ºå¯¸åˆ°è¾¾ä¸Šé™ æˆ– ä¸‹é™
     if( (action == 'shrunk' && activeImgSize.width < self.ATTR('defaultMinWidth')) 
       || ( action == 'zoom' && activeImgSize.width > self.ATTR('defaultMaxWidth') ) ){
       return false;
     }
     
-    //------------------------------------------------------------------¿ªÊ¼µ÷ÕûÍ¼Æ¬¿í¶È
-    //µ±Ç°Êó±êËùÔÚÎ»ÖÃ
+    //------------------------------------------------------------------å¼€å§‹è°ƒæ•´å›¾ç‰‡å®½åº¦
+    //å½“å‰é¼ æ ‡æ‰€åœ¨ä½ç½®
     var mouseCoo = getMouseCoo(e);
-    //µ±Ç°Í¼Æ¬µÄÆ«ÒÆÎ»ÖÃ(Ïà¶Ôbody)
+    //å½“å‰å›¾ç‰‡çš„åç§»ä½ç½®(ç›¸å¯¹body)
     var activeImgCoo = {
       'x': parseInt(self.ATTR('activeImg').style.left, 10)
       ,'y': parseInt(self.ATTR('activeImg').style.top, 10)
     };
 
-    //µ±Ç°Í¼Æ¬µÄÆ«ÒÆÎ»ÖÃ (Ïà¶ÔoffsetParent)
+    //å½“å‰å›¾ç‰‡çš„åç§»ä½ç½® (ç›¸å¯¹offsetParent)
     var activeImgOffset = {
       left: getCurrentStyle(self.ATTR('activeImg'),'left')
       ,top: getCurrentStyle(self.ATTR('activeImg'),'top')
@@ -508,25 +508,25 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
     var new_left = activeImgOffset.left
     ,new_top = activeImgOffset.top
     ,new_width = activeImgSize.width 
-    ,additionWidth = ATTRS.WHEEL_PIX * 3 * (activeImgSize.width/self.ATTR('initWidth'))//additionWidth ÊÇÒ»¸öËæ±ä»¯±ÈÀıÔö´ó¶øÔö´óµÄÖµ
+    ,additionWidth = ATTRS.WHEEL_PIX * 3 * (activeImgSize.width/self.ATTR('initWidth'))//additionWidth æ˜¯ä¸€ä¸ªéšå˜åŒ–æ¯”ä¾‹å¢å¤§è€Œå¢å¤§çš„å€¼
     ,additionHeight = additionWidth * (activeImgSize.height/activeImgSize.width)
     ;
-    //¹â±êÊÇ·ñÂäÔÚÍ¼Æ¬ÉÏ
+    //å…‰æ ‡æ˜¯å¦è½åœ¨å›¾ç‰‡ä¸Š
     if( mouseCoo.x >= activeImgCoo.x && mouseCoo.x <= (activeImgCoo.x + activeImgSize.width)
-      && mouseCoo.y >= activeImgCoo.y && mouseCoo.y <= (activeImgCoo.y + activeImgSize.height) ){//³¤·½ĞÎÇøÓò
+      && mouseCoo.y >= activeImgCoo.y && mouseCoo.y <= (activeImgCoo.y + activeImgSize.height) ){//é•¿æ–¹å½¢åŒºåŸŸ
       var ratio = 1, ratioX = 1, ratioY = 1;
       ratioX = (mouseCoo.x - activeImgCoo.x)/(activeImgSize.width);
       ratioY = (mouseCoo.y - activeImgCoo.y)/(activeImgSize.height);
-      if(action == 'shrunk'){//ËõĞ¡
+      if(action == 'shrunk'){//ç¼©å°
         new_left += additionWidth*ratioX;
         new_top  += additionHeight*ratioY;
       }
-      else{//·Å´ó
+      else{//æ”¾å¤§
         new_left -= additionWidth*ratioX;
         new_top  -= additionHeight*ratioY;
       }
     }
-    else{//¾ÓÖĞËõ·Å
+    else{//å±…ä¸­ç¼©æ”¾
       var ratio = 0.5;
       if(action == 'shrunk'){
         new_left += additionWidth*ratio;
@@ -558,8 +558,8 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
   //binded in document
   function mouseup(e){
     var self = this;
-    //¼ÇÂ¼ÍÏ×§µÄĞÅÏ¢
-    var currentMouseCoo = getMouseCoo(e);//µ±Ç°Êó±êËùÔÚ×ø±ê
+    //è®°å½•æ‹–æ‹½çš„ä¿¡æ¯
+    var currentMouseCoo = getMouseCoo(e);//å½“å‰é¼ æ ‡æ‰€åœ¨åæ ‡
     var distance = {
       left: currentMouseCoo.x - self.ATTR('mousedownCoo').x
       ,top: currentMouseCoo.y - self.ATTR('mousedownCoo').y
@@ -567,11 +567,11 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
      var new_top = parseInt(self.ATTR('activeImgPos').top,10) + distance.top
     ,new_left = parseInt(self.ATTR('activeImgPos').left,10) + distance.left
     ;
-    self.ATTR('dragInfoX').push(new_left); //ÍÏ×§Í¼Æ¬µÄ×ø±ê¼ÇÂ¼
+    self.ATTR('dragInfoX').push(new_left); //æ‹–æ‹½å›¾ç‰‡çš„åæ ‡è®°å½•
     self.ATTR('dragInfoY').push(new_top);
-    self.ATTR('dragInfoTime').push(new Date().getTime()); //ÍÏ×§·¢ÉúµÄÊ±¼ä¼ÇÂ¼
+    self.ATTR('dragInfoTime').push(new Date().getTime()); //æ‹–æ‹½å‘ç”Ÿçš„æ—¶é—´è®°å½•
     self.cancelEvent();
-    //¿ªÊ¼»úĞµ»¬¶¯
+    //å¼€å§‹æœºæ¢°æ»‘åŠ¨
     self.afterUserDrag_MyShowTime();
   }
   
@@ -584,7 +584,7 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
     }
   }
   
-  //get real style »ñÈ¡¸ß¶È¡¢¿í¶È¡¢µÈ±êÁ¿ĞÅÏ¢ (*IEÖĞ img±êÇ© ÓĞwidth¡¢srcÊôĞÔ£¬²»¹ıÒÀÈ»»ñÈ¡²»µ½heightÖµ
+  //get real style è·å–é«˜åº¦ã€å®½åº¦ã€ç­‰æ ‡é‡ä¿¡æ¯ (*IEä¸­ imgæ ‡ç­¾ æœ‰widthã€srcå±æ€§ï¼Œä¸è¿‡ä¾ç„¶è·å–ä¸åˆ°heightå€¼
   function getCurrentStyle(ele, attr){
     var result = '';
     //todo: if style.attr is setted get that
