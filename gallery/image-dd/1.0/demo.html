@@ -55,7 +55,11 @@ body{
     <h3 class="s-title">Demo <strong style="font-size:14px;font-weight: normal;">(image-dd:鼠标滚轮放大缩小，拖拽结束减速滑动)</strong></h3>
     <br/>
     <a href="javascript: (function() {
-  if(undefined != window.KISSY && KISSY.version > '1.1.6') {
+  if(undefined != window.KISSY && !(parseFloat(KISSY.version) > 1.16)){
+    alert('不支持kissy1.1.6');
+    return ;
+  }
+  if(undefined != window.KISSY) {
     KISSY.config({
       packages: [{
         name: 'gallery',
@@ -78,7 +82,7 @@ body{
         KISSY.config({
           packages: [{
             name: 'gallery',
-            path: 'http://a.tbcdn.cn/s/kissy/'
+            path: 'http://a.tbcdn.cn/s/kissy/',
             charset: 'gbk'
           }, {
             name: 'template',
@@ -152,8 +156,6 @@ KISSY.use('gallery/image-dd/1.0/index', function(S, IMGDD){
   var imgDD = new IMGDD();
   imgDD.add($('#J_ImgBox'), '.J_ImgDD');
 });
-
-//demo data
 
 </script>
 <div id="footer">
