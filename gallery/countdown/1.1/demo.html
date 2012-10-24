@@ -1,96 +1,96 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="gbk"/>
-<title>KISSY gallery - countdown</title>
-<link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/>
-<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/>
-<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
-<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
-<script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script>
-<script>
-    KISSY.config({
-        packages:[
-            {
-                name:"gallery",
-                tag:"20111220",
-                path:"../../../",  // cdnÉÏÊÊµ±ĞŞ¸Ä¶ÔÓ¦Â·¾¶
-                charset:"utf-8"
-            }
-        ]
-    });
-</script>
+    <meta charset="utf-8"/>
+    <title>KISSY gallery - countdown</title>
+    <link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/>
+    <link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/>
+    <link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
+    <script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+    <script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script>
+    <script>
+        KISSY.config({
+            packages:[
+                {
+                    name:"gallery",
+                    tag:"20111220",
+                    path:"../../../",  // cdnä¸Šé€‚å½“ä¿®æ”¹å¯¹åº”è·¯å¾„
+                    charset:"utf-8"
+                }
+            ]
+        });
+    </script>
 </head>
 <body>
 <div id="header">
     <h1 class="logo"><a href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png" alt="KISSY"/></a></h1>
     <div class="sub-title">Gallery</div>
     <ul class="navigation">
-        <li><a href="http://blog.kissyui.com/">²©¿Í</a></li>
-        <li><a href="http://github.com/kissyteam">Ô´Âë</a></li>
+        <li><a href="http://docs.kissyui.com/">é¦–é¡µ</a></li>
+        <li><a href="http://github.com/kissyteam">æºç </a></li>
     </ul>
 </div>
 <div id="content">
-<div class="s-crumbs">
-    <span>µ±Ç°Î»ÖÃ£º</span>
-    <a href="http://kissyui.com/">KISSY</a>
-    <a href="../../../index.html">Gallery</a>
-    <span>countdown</span>
-</div>
+    <div class="s-crumbs">
+        <span>å½“å‰ä½ç½®ï¼š</span>
+        <a href="http://kissyui.com/">KISSY</a>
+        <a href="../../../index.html">Gallery</a>
+        <span>countdown</span>
+    </div>
 
-<pre class="s-section">				
-×÷Õß£º jide<jide@taobao.com> »ùµÂ
-¹¦ÄÜ£º µ¹¼ÆÊ±
-ÃèÊö£º µ¹¼ÆÊ±
-Ô´Âë£º<a href="countdown.js">countdown.js</a>
+<pre class="s-section">
+ä½œè€…ï¼š jide<jide@taobao.com> åŸºå¾·
+åŠŸèƒ½ï¼š å€’è®¡æ—¶
+æè¿°ï¼š å€’è®¡æ—¶
+æºç ï¼š<a href="countdown.js">countdown.js</a>
 </pre>
 
-<h1>demo :</h1>
+    <h1>demo :</h1>
 
-<div id="demo">
-    <p>1</p>
-    <div class="cd-lite" data-total="1121685000">Ê£ÓàÊ±¼ä£º${d}Ìì${h}Ê±${m}·Ö</div>
-    <div class="cd-medium" data-total="1121685000">Ê£ÓàÊ±¼ä£º${d}Ìì${h}Ê±${m}·Ö</div>
-    <div class="cd-large" data-total="1121685000">Ê£ÓàÊ±¼ä£º<span class="clock">${d}Ìì${h}Ê±${m}·Ö</span></div>
-    <p>2</p>
-    <div class="cd-lite" data-total="1121685000">Ê£ÓàÊ±¼ä£º${h}Ê±${m}·Ö${s}Ãë</div>
-    <div class="cd-medium" data-total="1121685000">Ê£ÓàÊ±¼ä£º${h}Ê±${m}·Ö${s}Ãë</div>
-    <div class="cd-large" data-total="1121685000">Ê£ÓàÊ±¼ä£º<span class="clock">${h}Ê±${m}·Ö${s}Ãë</span></div>
-    <p>3</p>
-    <div class="cd-lite" data-total="1121685000">Ê£ÓàÊ±¼ä£º${h}Ê±${m}·Ö${s-ext}Ãë</div>
-    <div class="cd-medium" data-total="1121685000">Ê£ÓàÊ±¼ä£º${h}Ê±${m}·Ö${s-ext}Ãë</div>
-    <div class="cd-large" data-total="1121685000">Ê£ÓàÊ±¼ä£º<span class="clock">${h}Ê±${m}·Ö${s-ext}Ãë</span></div>
-    <p>4 »¬¶¯</p>
-    <div class="cd-lite cd-slide" data-total="1121685000">Ê£ÓàÊ±¼ä£º${h}Ê±${m}·Ö${s}Ãë</div>
-    <div class="cd-medium cd-slide" data-total="1121685000">Ê£ÓàÊ±¼ä£º${h}Ê±${m}·Ö${s}Ãë</div>
-    <div class="cd-large cd-slide" data-total="1121685000">Ê£ÓàÊ±¼ä£º<span class="clock">${h}Ê±${m}·Ö${s}Ãë</span></div>
-    <p>5 ²»Ì«ÍêÃÀµÄ·­ÅÆ</p>
-    <div class="cd-large cd-flip" data-total="1121685000">Ê£ÓàÊ±¼ä£º<span class="clock">${h}Ê±${m}·Ö${s}Ãë</span></div>
-</div>
-
-<script>
-    var S = KISSY;
-    
-    S.use("gallery/countdown/1.1/index, gallery/countdown/1.1/assets/countdown.css",function(S, Countdown){
-    
-        var slides = [],
-        flips = [];
-
-        function factory(cd) {
-            if (cd.hasClass('cd-slide')) {
-                slides.push(Countdown(cd, {effect: 'slide'}));
-            } else if (cd.hasClass('cd-flip')) {
-                flips.push(Countdown(cd, {effect: 'flip'}));
-            } else {
-                Countdown(cd);
-            }
-        }
-
-        S.all('.cd-lite').each(factory);
-        S.all('.cd-medium').each(factory);
-        S.all('.cd-large').each(factory);
-    });
-</script>
+    <div id="demo">
+        <p>1</p>
+        <div class="cd-lite" data-total="1121685000">å‰©ä½™æ—¶é—´ï¼š${d}å¤©${h}æ—¶${m}åˆ†</div>
+        <div class="cd-medium" data-total="1121685000">å‰©ä½™æ—¶é—´ï¼š${d}å¤©${h}æ—¶${m}åˆ†</div>
+        <div class="cd-large" data-total="1121685000">å‰©ä½™æ—¶é—´ï¼š<span class="clock">${d}å¤©${h}æ—¶${m}åˆ†</span></div>
+        <p>2</p>
+        <div class="cd-lite" data-total="1121685000">å‰©ä½™æ—¶é—´ï¼š${h}æ—¶${m}åˆ†${s}ç§’</div>
+        <div class="cd-medium" data-total="1121685000">å‰©ä½™æ—¶é—´ï¼š${h}æ—¶${m}åˆ†${s}ç§’</div>
+        <div class="cd-large" data-total="1121685000">å‰©ä½™æ—¶é—´ï¼š<span class="clock">${h}æ—¶${m}åˆ†${s}ç§’</span></div>
+        <p>3</p>
+        <div class="cd-lite" data-total="1121685000">å‰©ä½™æ—¶é—´ï¼š${h}æ—¶${m}åˆ†${s-ext}ç§’</div>
+        <div class="cd-medium" data-total="1121685000">å‰©ä½™æ—¶é—´ï¼š${h}æ—¶${m}åˆ†${s-ext}ç§’</div>
+        <div class="cd-large" data-total="1121685000">å‰©ä½™æ—¶é—´ï¼š<span class="clock">${h}æ—¶${m}åˆ†${s-ext}ç§’</span></div>
+        <p>4 æ»‘åŠ¨</p>
+        <div class="cd-lite cd-slide" data-total="1121685000">å‰©ä½™æ—¶é—´ï¼š${h}æ—¶${m}åˆ†${s}ç§’</div>
+        <div class="cd-medium cd-slide" data-total="1121685000">å‰©ä½™æ—¶é—´ï¼š${h}æ—¶${m}åˆ†${s}ç§’</div>
+        <div class="cd-large cd-slide" data-total="1121685000">å‰©ä½™æ—¶é—´ï¼š<span class="clock">${h}æ—¶${m}åˆ†${s}ç§’</span></div>
+        <p>5 ä¸å¤ªå®Œç¾çš„ç¿»ç‰Œ</p>
+        <div class="cd-large cd-flip" data-total="1121685000">å‰©ä½™æ—¶é—´ï¼š<span class="clock">${h}æ—¶${m}åˆ†${s}ç§’</span></div>
     </div>
+
+    <script>
+        var S = KISSY;
+
+        S.use("gallery/countdown/1.1/index, gallery/countdown/1.1/assets/countdown.css",function(S, Countdown){
+
+            var slides = [],
+                    flips = [];
+
+            function factory(cd) {
+                if (cd.hasClass('cd-slide')) {
+                    slides.push(Countdown(cd, {effect: 'slide'}));
+                } else if (cd.hasClass('cd-flip')) {
+                    flips.push(Countdown(cd, {effect: 'flip'}));
+                } else {
+                    Countdown(cd);
+                }
+            }
+
+            S.all('.cd-lite').each(factory);
+            S.all('.cd-medium').each(factory);
+            S.all('.cd-large').each(factory);
+        });
+    </script>
+</div>
 </body>
 </html>
