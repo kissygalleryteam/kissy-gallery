@@ -90,7 +90,6 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
     ,MOUSE_MOVE_AUTO_CLOSE_TIMER: 5000 // ����ھ��� �趨��ʱ����û�з���move����Ϊ���߼���ת��mouseup
     ,DEGRADATION: 2 //���������move�¼�����Ƶ�ʣ�
 
-    ,popup: null //ȫ�x�������
     ,activeImg: null //��ǰ��Ծ��img��ǩ
     ,activeImgPos: {left:0, top:0} //mousedownʱͼƬ����λ��
     ,mousedownCoo: {} //���mousedownλ�õ����
@@ -107,6 +106,7 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
     ,dragInfoTime: [] //��ק�����ʱ���¼
     ,autoSlideAnim: null //Anim obj
 
+    ,popupMask: null //ȫ�x�������
     ,popupBd: null //����㣬ͼƬ����
     ,popupOpacityBg: null
     ,popupBox: null
@@ -122,12 +122,10 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
 
     ,POPUP_IMG: '<img title="�����ֿ��ԷŴ�ͼƬ" class="G_K" style="width:{{showWidth}}px;left:{{left}}px;top:{{top}}px;" src="{{imgSrc}}"  />'
 
-    ,POPUP_TPL: '<div class="img-dd-popup">\
+    ,POPUP_TPL: '<div class="img-dd-mask">\
                     <div class="img-dd-opacity-bg"></div>\
-                    <div class="img-dd-box">\
-                    <div class="box-bd"></div>\
-                    </div>\
                  </div>'
+    ,POPUP_BOX_TPL: '<div class="img-dd-box"></div>'
     ,POPUP_IFRAME_TPL: '<iframe class="ie-popup-mask hidden"></iframe>'
   }
    
@@ -209,7 +207,8 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
         }
         
         self._showPopupImg(target.getAttribute('data-original-url'),  target.getAttribute('src') );
-        D.show(self.ATTR('popup'));
+        D.show(self.ATTR('popupMask'));
+        D.show(self.ATTR('popupBd'));
         
         D.show(self.ATTR('ieIframeMask'));
         D.show(self.ATTR('closeBtn'));
@@ -236,8 +235,8 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
       
       //------------------------------------------------------------------��ʼ��һЩ���
       if( S.UA.ie && S.UA.ie == 6){
-        self.ATTR('popup').style.height = (document.body.scrollHeight || document.documentElement.scrollHeight) + 'px';
-        self.ATTR('popup').style.width  = (document.body.scrollWidth || document.documentElement.scrollWidth) + 'px';
+        self.ATTR('popupMask').style.height = (document.body.scrollHeight || document.documentElement.scrollHeight) + 'px';
+        self.ATTR('popupMask').style.width  = (document.body.scrollWidth || document.documentElement.scrollWidth) + 'px';
       }
       self.ATTR('initWidth', parseInt(clientWidth/2,10));//��ʼ��ͼƬ��ʾ�Ŀ��
       
@@ -297,7 +296,8 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
     //ȫ���ɰ� this function run only one time
     ,_createPopup: function(){
       var self = this, cfg = self.config;
-      self.ATTR('popup', D.create( self.DATA('POPUP_TPL') ) );
+      self.ATTR('popupMask', D.create( self.DATA('POPUP_TPL') ) );
+      self.ATTR('popupBd', D.create( self.DATA('POPUP_BOX_TPL') ) );
       self.ATTR('closeBtn', D.create( self.DATA('POPUP_HD_TPL') ) );
       if(S.UA.ie && S.UA.ie == 6){
         self.ATTR('ieIframeMask', D.create( self.DATA('POPUP_IFRAME_TPL') ) );
@@ -305,17 +305,18 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
         self.ATTR('ieIframeMask').style.height = document.documentElement.scrollHeight + 'px';
         document.body.appendChild(self.ATTR('ieIframeMask'));
       }
-      document.body.appendChild(self.ATTR('popup'));
-      self.ATTR('popup').appendChild(self.ATTR('closeBtn'));
+      document.body.appendChild(self.ATTR('popupMask'));
+      document.body.appendChild(self.ATTR('popupBd'));
+      self.ATTR('popupMask').appendChild(self.ATTR('closeBtn'));
     }
     
     //�����mousedown�¼�ע�ᣬ this function execute just one time , event will never remove
     ,_bindPopupMousedown: function(){
       var self = this, cfg = self.config;
-      // E.on(self.ATTR('popup'),"dragstart",function(e){
+      // E.on(self.ATTR('popupMask'),"dragstart",function(e){
         // e.preventDefault();
       // });
-      E.on(self.ATTR('popup'), 'mousedown', function(e){
+      E.on(self.ATTR('popupBd'), 'mousedown', function(e){
         var target = e.target;
         if( target.tagName.toUpperCase() != 'IMG'){
           return ;
@@ -357,7 +358,7 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
         // }
       });
       
-      E.on(self.ATTR('popup'), 'click', function(e){
+      E.on(self.ATTR('popupMask'), 'click', function(e){
         if(S.UA.ie && S.UA.ie == 6){
           if( D.hasClass( e.target, 'img-dd-opacity-bg')){
             e.halt();
@@ -373,10 +374,9 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
     //������������ ��hd��bd��bt������
     ,_initHTMLElement: function(){
       var self = this;
-      self.ATTR('popupOpacityBg', D.get('.img-dd-opacity-bg', self.ATTR('popup') ) );
-      self.ATTR('popupBox', D.get('.img-dd-box', self.ATTR('popup') ) );
-      self.ATTR('popupHd', D.get('.box-hd', self.ATTR('popup')) );
-      self.ATTR('popupBd', D.get('.box-bd', self.ATTR('popup') ) );
+      self.ATTR('popupOpacityBg', D.get('.img-dd-opacity-bg', self.ATTR('popupMask') ) );
+      self.ATTR('popupBox', D.get('.img-dd-box', self.ATTR('popupMask') ) );
+      self.ATTR('popupHd', D.get('.box-hd', self.ATTR('popupMask')) );
     }
     
     
@@ -481,7 +481,8 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
       self.ATTR('activeImg', null);
       self.cancelWheelEvent();
       self.cancelEvent();
-      D.hide(self.ATTR('popup'));
+      D.hide(self.ATTR('popupMask'));
+      D.hide(self.ATTR('popupBd'));
       D.hide(self.ATTR('closeBtn'));
       D.hide(self.ATTR('ieIframeMask'));
     }
