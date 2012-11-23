@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>KISSY gallery - velocity</title>
+<link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
+<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+<script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+</head>
+<body>
+<div id="header">
+    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png"/></a></h1>
+    <div class="sub-title">Gallery</div>
+    <ul class="navigation">
+        <li><a href="http://docs.kissyui.com/">首页</a></li>
+        <li><a href="http://github.com/kissyteam">源码</a></li>
+    </ul>
+
+</div>
+<div id="content">
+    <div class="s-crumbs">
+        <span>当前位置：</span>
+        <a href="http://kissyui.com/">KISSY</a>
+        <a href="../../../index.html">Gallery</a>
+        <span>combine</span>
+    </div>
+      <pre class="s-section">				
+作者：翰文(hanwen.sah@taobao.com)
+功能：velocity模板解析器。
+描述：在浏览器执行velocity模板，语法分析和模板渲染两个过程分离，参考xtemplate的方案。
+项目地址：<a href="https://github.com/shepherdwind/velocity.js">on github</a>
+源码：<a href="index.js">velocity.js</a></pre>
+
+<h3 class="s-title">velocity</h3>
+<div class="s-section">
+  <div class="s-demo">
+    <p>
+    <a href="http://git.shepherdwind.com/velocity.js/try/">try it online</a>注：此页面不支持ie访问。
+    使用需配合velocity命令行工具(<a href="https://github.com/shepherdwind/velocity.js">on github</a>)做线下编译，直接使用velocity可能存在性能问题，velocity本身逻辑比较
+    复杂。
+    </p>
+  </div>
+</div>
+
+<h3 class="s-title">API</h3>
+<div class="s-section">
+  <h4 class="s-api-title">构造器</h4>
+  <div class="s-api-method">
+    new Velocity(asts)
+  </div>
+  <h4 class="s-api-title">参数</h4>
+  <div class="s-api-params">
+    <ul class="s-list">
+      <li>{Object} [ <em>asts</em> = {} ] asts是velocity/parse.js执行parse方法后得到的语法树，同时可以在线下使用velocity --build *.vm就行编译得到。</li>
+    </ul>
+  </div>
+
+  <h4 class="s-api-title">实例方法</h4>
+  <div class="s-api-method">
+    (new Velocity(asts)).render(context);
+  </div>
+  <div class="s-api-params">
+    <ul class="s-list">
+      <li>{Object} [ <em>context</em> = {} ] 数据对象，velocity执行时从context中获取值，context的属性可以是方法。</li>
+    </ul>
+  </div>
+
+</div>
+
+      </div>
+      <div id="footer">
+        &copy; Copyright 2010~2011, KISSY Team.
+      </div>
+    </body>
+  </html>
