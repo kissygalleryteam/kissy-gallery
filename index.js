@@ -1,6 +1,11 @@
 ﻿{
    "gs":[
    {
+        "name":"velocity",
+        
+        "desc":"velocity in js"
+    },
+   {
         "name":"image-dd",
         
         "desc":"图片拖拽缩放"
@@ -35,16 +40,7 @@
         
         "desc":"验证码"
     },
-    {
-        "name":"scrollspy",
-        
-        "desc":"scrollspy"
-    },
-    {
-        "name":"magnifier",
-        
-        "desc":"圆形放大器"
-    },    
+    
     {
         "name":"form",
         
@@ -55,6 +51,16 @@
         
         "desc":"滚动条组件"
     },
+    {
+        "name":"scrollspy",
+        
+        "desc":"scrollspy"
+    },
+    {
+        "name":"magnifier",
+        
+        "desc":"圆形放大器"
+    },    
     {
         "name":"spotlight",
         
