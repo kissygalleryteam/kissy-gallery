@@ -1,4 +1,4 @@
-KISSY.add(function(S){
+KISSY.add('gallery/velocity/1.0/index', function(S){
   var Velocity = function(asts){
     this.asts = asts;
     this.init();

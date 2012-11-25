@@ -1,4 +1,4 @@
-  KISSY.add(function(S){    /* Jison generated parser */
+KISSY.add('gallery/velocity/1.0/parse',function(S){    /* Jison generated parser */
 var velocity = (function(){
 var parser = {trace: function trace() { },
 yy: {},

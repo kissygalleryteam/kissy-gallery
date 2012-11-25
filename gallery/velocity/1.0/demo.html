@@ -1,89 +1,215 @@
 <!doctype html>
 <html>
-<head>
-<meta charset="utf-8"/>
-<title>KISSY gallery - velocity</title>
-<link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/>
-<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/>
-<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
-<script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
-<script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script>
-<script>
-    KISSY.config({
+  <head>
+    <meta charset="utf-8"/>
+    <title>KISSY gallery - velocity</title>
+    <link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/>
+    <link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/>
+    <link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
+    <link rel="stylesheet" href="assets/stylesheets/styles.css">
+    <link rel="stylesheet" href="assets/stylesheets/pygment_trac.css">
+    <script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+    <script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script>
+      KISSY.config({
         packages:[
-            {
-                name:"gallery",
-                tag:"20111220",
-                path:"../../../",  // cdn上适当修改对应路径
-                charset:"utf-8"
-            }
+        {
+          name:"gallery",
+          tag:"20111220",
+          path:"../../../",  // cdn上适当修改对应路径
+          charset:"utf-8"
+        }
         ]
-    });
-</script>
-</head>
-<body>
-<div id="header">
-    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png"/></a></h1>
-    <div class="sub-title">Gallery</div>
-    <ul class="navigation">
+      });
+    </script>
+  </head>
+  <body>
+    <div id="header">
+      <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png"/></a></h1>
+      <div class="sub-title">Gallery</div>
+      <ul class="navigation">
         <li><a href="http://docs.kissyui.com/">首页</a></li>
         <li><a href="http://github.com/kissyteam">源码</a></li>
-    </ul>
+      </ul>
 
-</div>
-<div id="content">
-    <div class="s-crumbs">
+    </div>
+    <div id="content">
+      <div class="s-crumbs">
         <span>当前位置：</span>
         <a href="http://kissyui.com/">KISSY</a>
         <a href="../../../index.html">Gallery</a>
         <span>velocity</span>
+      </div>
+      <section>
+      <h2 id="velocity---template-engine">Velocity - Template Engine</h2>
+
+      <p>velocity.js是velocity模板语法的javascript实现。
+      <a href="http://velocity.apache.org/">Velocity</a> 是基于Java的模板引擎，广泛应用在阿里集
+      体各个子公司。Velocity模板适用于大量模板使用的场景，支持复杂的逻辑运算，包含
+      基本数据类型、变量赋值和函数等功能。</p>
+
+      <p>velocity.js特点：</p>
+
+      <ul>
+        <li>支持客户端和服务器端使用</li>
+        <li>语法是富逻辑的，构成门微型的语言</li>
+        <li>语法分析和模板渲染分离</li>
+        <li>基本完全支持velocity语法</li>
+        <li>浏览器使用支持模板之间相互引用，依据kissy木块加载机制</li>
+        <li>三个Helper，友好的数据模拟解决方案</li>
+        <li><a href="https://github.com/shepherdwind/vim-velocity">Vim Syntax</a></li>
+      </ul>
+      <h2 id="install">Install</h2>
+
+      <p>via npm:</p>
+
+      <div class="highlight"><pre><span class="nv">$ </span>npm install velocity.js
+</pre></div>
+
+      <h2 id="broswer-support">Broswer Support</h2>
+
+      <h3>Example</h3>
+      <p><a href="./assets/web/index.html">点此</a></p>
+
+      <p>点击<a href="http://git.shepherdwind.com/velocity.js/try/index.html" target="_blank">此处</a>可以体验web
+      端velocity语法解析过程，注：使用ACE作为代码编辑器，仅支持高级浏览器访问。</p>
+
+      <p>执行<code>cake</code>命令进行打包velocity.js浏览器端脚本:</p>
+
+      <p>Velocity语法具有很高的容错能力，类似于html结构的解析，同时语法规则复杂，所以语法
+      解释器执行性能可能比较慢，<code>velocity.js</code>把语法结构分析运算和语法执行两个过程独立出来，
+      第一步，语法结构分析返回一个数组(语法树)，描述velocity语法，语法执行使用数据和语
+      法树，计算模板最终结果。</p>
+
+      <p>执行build后，得到两个文件，分别是<code>index.js</code>和<code>parse.js</code>，两者
+      相互独立，<code>parse.js</code>语法分析过程可以放在本地完成，执行命令：</p>
+
+      <div class="highlight"><pre><span class="c">#使用velocity命令行工具打包</span>
+veloctiy --build *.vm
+veloctiy -b *.vm
+</pre></div>
+
+      <p>把语法分析和模板拼接分开，为了方便在本地编译语法树，减少在web端js运算。本地编译
+      模板的思路，源自KISSY的<a href="http://docs.kissyui.com/docs/html/api/component/xtemplate/">xtemplate</a>。</p>
+
+      <p>虽然语法解释器可以在浏览器端执行，但是，不推荐那么使用。</p>
+
+      <h2 id="public-api">Public API</h2>
+
+      <h3>On Broswer</h3>
+
+      <p>1 . 使用线下打包方案：</p>
+
+      <div class="highlight"><pre><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'gallery/velocity/1.0/index, vm/directives'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">Velocity</span><span class="p">,</span> <span class="nx">asts</span><span class="p">){</span>
+  <span class="kd">var</span> <span class="nx">compile</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Velocity</span><span class="p">(</span><span class="nx">asts</span><span class="p">);</span>
+  <span class="nx">S</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="s1">'body'</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">compile</span><span class="p">.</span><span class="nx">render</span><span class="p">({foo: 'bar'}));</span>
+<span class="p">});</span>
+</pre></div>
+
+      <p>2 . 使用线上编译：</p>
+
+      <div class="highlight"><pre><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'gallery/velocity/1.0/index, gallery/velocity/1.0/parse'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">Velocity</span><span class="p">,</span> <span class="nx">Parser</span><span class="p">){</span>
+  <span class="kd">var</span> <span class="nx">html</span> <span class="o">=</span> <span class="p">(</span><span class="nx">S</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="s1">'#tpl'</span><span class="p">).</span><span class="nx">html</span><span class="p">());</span>
+  <span class="kd">var</span> <span class="nx">asts</span> <span class="o">=</span> <span class="nx">Parser</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">html</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">compile</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Velocity</span><span class="p">(</span><span class="nx">asts</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">compile</span><span class="p">.</span><span class="nx">render</span><span class="p">());</span>
+<span class="p">});</span>
+</pre></div>
+
+      <p>两者的区别在于asts的获取，第一种方式，直接取asts，第二种，需要首先执行语法分析过
+      程。</p>
+
+      <h3>node_module</h3>
+
+      <div class="highlight"><pre><span class="kd">var</span> <span class="nx">Velocity</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'../src/velocity'</span><span class="p">);</span>
+
+<span class="c1">//1. 直接解析</span>
+<span class="nx">Velocity</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="s1">'string of velocity'</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+
+<span class="c1">//2. 使用Parser和Compile</span>
+<span class="kd">var</span> <span class="nx">Parser</span> <span class="o">=</span> <span class="nx">Velocity</span><span class="p">.</span><span class="nx">Parser</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">Compile</span> <span class="o">=</span> <span class="nx">Velocity</span><span class="p">.</span><span class="nx">Compile</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">asts</span> <span class="o">=</span> <span class="nx">Parser</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">'string of velocity'</span><span class="p">);</span>
+<span class="p">(</span><span class="k">new</span> <span class="nx">Compile</span><span class="p">(</span><span class="nx">asts</span><span class="p">)).</span><span class="nx">render</span><span class="p">(</span><span class="nx">context</span><span class="p">);</span>
+</pre></div>
+
+      <h4>context</h4>
+
+      <p><code>context</code>是一个对象，可以为空，执行中<code>$foo.bar</code>，访问路径是<code>context.foo.bar</code>，
+      <code>context</code>的属性可以是函数，和vm中定义保持一致。</p>
+
+      <h2 id="syntax">Syntax</h2>
+
+      <p>具体语法请访问官网文档：<a href="http://velocity.apache.org/engine/devel/user-guide.html">velocity user guide</a>。</p>
+
+      <h3>Directives</h3>
+
+      <p>Directives支持<code>set</code>, <code>foreach</code>, <code>if|else|elseif</code>, <code>macro</code>, <code>parse</code>, <code>break</code>。不
+      支持有，<code>stop</code>, <code>evaluate</code>, <code>define</code>，感觉这些语法比较偏，用处不大，暂时没有实现。
+      其中<code>parse</code>，在web端，使用kissy的模块加载器加载，需要首先线下编译打包，<a href="http://git.shepherdwind.com/velocity.js/web/index.html">例子</a>。</p>
+
+      <h3>foreach</h3>
+
+      <p>foreach在velocity中对对象的遍历，和js有区别，java中对象是一个map，需要通过方法
+      <code>keyset</code>来获取map中的key，foreach循环写法等同于js的for in循环，感觉有点怪异。在
+      一个foreach，有一个<code>$foreach</code>的对象可以使用，此变量作用域为当前循环范围。</p>
+
+<pre><code>#foreach($num as [1..5])
+  index =&gt; $foreach.index 
+  count =&gt; $foreach.count
+  #if (!$foreach.hasNext) end #end
+#end
+结果：
+index =&gt; 0
+count =&gt; 1
+
+index =&gt; 1
+count =&gt; 2
+...
+index =&gt; 4
+count =&gt; 5
+end
+</code></pre>
+
+      <h3>string</h3>
+
+      <p>velocity中字符串求值和php类似，双引号字符串里面的变量会被替换变量对应的值，单引
+      号原样返回，推荐尽量使用单引号，那样性能好一些。此外，双引号中变量替换，没有再次
+      调用语法分析器，而是使用正则，只支持简单的引用替换，比如<code>"$varname1 $foo.bar"</code>，
+      <code>"$foo.bar[1] $foo.bar()"</code>都不支持。如果需要完整支持字符串双引号，需要反复调用语
+      法分析器，考虑到性能，基本引用基本够用了，vm本身支持强大的变量赋值，可以先赋值，
+      在放入字符串，或者使用加法进行字符串拼接。</p>
+
+      <p>在java中可能大量使用双引号方式，因为java对象无法自动转换类型，双引号做类型转换用，
+      而在web端，js无此需要。</p>
+
+      <h3>velocity cli</h3>
+
+<pre><code>Usage: velocity [options] [file ...]
+
+Options:
+
+  -h, --help         output usage information
+  -V, --version      output the version number
+  -b, --build        build .vm file to js ast module of kissy
+
+Example:
+
+  # parse vm file
+  $ velocity a.vm 
+
+  # parse vm file with json data
+  $ velocity a.vm  a.json
+
+  # build asts module of kissy
+  $ velocity *.vm
+</code></pre>
+      </section>
     </div>
-      <pre class="s-section">				
-作者：翰文(hanwen.sah@taobao.com)
-功能：velocity模板解析器。
-描述：在浏览器执行velocity模板，语法分析和模板渲染两个过程分离，参考 <a href='http://docs.kissyui.com/docs/html/tutorials/kissy/component/xtemplate/index.html'>KISSY XTemplate</a> 的方案。
-项目地址：<a href="https://github.com/shepherdwind/velocity.js">on github</a>
-源码：<a href="index.js">velocity.js</a></pre>
-
-<h3 class="s-title">velocity</h3>
-<div class="s-section">
-  <div class="s-demo">
-    <p>
-    <a href="http://git.shepherdwind.com/velocity.js/try/">try it online</a>注：此页面不支持ie访问。
-    使用需配合velocity命令行工具(<a href="https://github.com/shepherdwind/velocity.js">on github</a>)做线下编译，直接使用velocity可能存在性能问题，velocity本身逻辑比较
-    复杂。
-    </p>
-  </div>
-</div>
-
-<h3 class="s-title">API</h3>
-<div class="s-section">
-  <h4 class="s-api-title">构造器</h4>
-  <div class="s-api-method">
-    new Velocity(asts)
-  </div>
-  <h4 class="s-api-title">参数</h4>
-  <div class="s-api-params">
-    <ul class="s-list">
-      <li>{Object} [ <em>asts</em> = {} ] asts是velocity/parse.js执行parse方法后得到的语法树，同时可以在线下使用velocity --build *.vm就行编译得到。</li>
-    </ul>
-  </div>
-
-  <h4 class="s-api-title">实例方法</h4>
-  <div class="s-api-method">
-    (new Velocity(asts)).render(context);
-  </div>
-  <div class="s-api-params">
-    <ul class="s-list">
-      <li>{Object} [ <em>context</em> = {} ] 数据对象，velocity执行时从context中获取值，context的属性可以是方法。</li>
-    </ul>
-  </div>
-
-</div>
-
-      </div>
-      <div id="footer">
-        &copy; Copyright 2010~2011, KISSY Team.
-      </div>
-    </body>
-  </html>
+    <div id="footer">
+      &copy; Copyright 2010~2011, KISSY Team.
+    </div>
+  </body>
+</html>
