@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>KISSY gallery - input-cursor</title>
+    <link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/>
+    <link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/>
+    <link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
+    <!--
+    <script src="http://docs.kissyui.com/kissy/build/kissy.js"></script>
+    -->
+    <script src="http://a.tbcdn.cn/??s/kissy/1.2.0/kissy.js"></script>
+    <script src="../../../../kissy-dpl/base/assets/kissy-docs.js"></script>
+    <script>
+        KISSY.config({
+            packages: [
+                {
+                    name: "gallery",
+                    tag: "20111220",
+                    path: "../../../", // cdn上适当修改对应路径
+                    charset: "gbk"
+                }
+            ]
+        });
+    </script>
+</head>
+<body>
+<div id="header">
+    <h1 class="logo"><a href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png"
+                                                        alt="KISSY"/></a></h1>
+
+    <div class="sub-title">Gallery</div>
+    <ul class="navigation">
+        <li><a href="http://docs.kissyui.com/">首页</a></li>
+        <li><a href="http://github.com/kissyteam">源码</a></li>
+    </ul>
+</div>
+<div id="content">
+    <div class="s-crumbs">
+        <span>当前位置：</span>
+        <a href="http://kissyui.com/">KISSY</a>
+        <a href="../../../index.html">Gallery</a>
+        <strong>input-cursor</strong>
+    </div>
+    <pre class="s-section" style="color: #aaa">             
+作者：yiminghe@gmail.com
+功能：可以获取输入框光标所在处的位置坐标
+源码：<a href="./index.js">input-cursor.js</a>
+    </pre>
+    <h3 class="s-title">update log</h3>
+    <pre>
+[20121128] create
+    </pre>
+    <h3 class="s-title">Demo</h3>
+
+    <div>
+        <textarea id='t2' style='width:200px;height:200px;'>
+
+            移动光标
+
+        </textarea>
+
+        <br><br><br>
+
+        <input id="t3" style="width: 200px" value="移动光标"/>
+    </div>
+
+</div>
+<script>
+
+    KISSY.use('dom,gallery/input-cursor/1.0/index', function (S, DOM, cursorOffset) {
+        var cursor = DOM.create("<div style='width:10px;" +
+                "height:10px;" +
+                "background-color: red;" +
+                "position: absolute;" +
+                "left: -9999px;" +
+                "top:-9999px;'></div>");
+        DOM.prepend(cursor, document.body);
+
+        var t2 = DOM.get("#t2");
+        t2.onkeyup = t2.onmouseup = function () {
+            var curOffset = cursorOffset(t2);
+            DOM.offset(cursor, curOffset);
+        };
+
+        var t3 = DOM.get("#t3");
+        t3.onkeyup = t3.onmouseup = function () {
+            var curOffset = cursorOffset(t3);
+            DOM.offset(cursor, curOffset);
+        };
+    });
+
+</script>
+<div id="footer">
+    © Copyright 2010~2012, KISSY Team.
+</div>
+</body>
+</html>
