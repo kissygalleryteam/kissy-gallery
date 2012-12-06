@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+		<title>Validation</title><style>ul,li,p{margin:0;padding:0;list-style-type:none;}</style>
+<link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.3.0rc/css/dpl/base.css" />
+
+	<script src="http://docs.kissyui.com/assets/import-kissy.js"></script>
+	
+	<link rel="stylesheet" type="text/css"  href="doc.css" /> <script src="doc.js" charset="utf-8"></script>
+	<script  src="../../../../tools/syntaxhighlighter_3.0.83/scripts/shCore.js"></script>
+<script  src="../../../../tools/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
+<link type="text/css" rel="stylesheet" href="../../../../tools/syntaxhighlighter_3.0.83/styles/shCoreDefault.css"/>
+<script >SyntaxHighlighter.all();</script>
+
+
+	
+</head>
+<body>
+
+<textarea id="a" style="width:500px;height:300px;"></textarea>
+
+<button onClick="format();">go</button>
+
+
+<script>
+	
+function format(){
+	var a = document.getElementById("a");
+	
+	
+	a.value = a.value.replace(/\</g,"&lt;").replace(/\>/g,"&gt;");
+}
+	
+	
+</script>
+
+
+</body>
+</html>

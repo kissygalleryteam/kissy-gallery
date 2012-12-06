@@ -5,6 +5,16 @@
 
         "desc":"原 KISSY 1.3 Suggest"
     },
+    {
+        "name":"template",
+
+        "desc":"原 KISSY 1.3 Template"
+    },
+    {
+        "name":"validation",
+
+        "desc":"原 KISSY 1.3 Validation"
+    },
    {
         "name":"velocity",
 

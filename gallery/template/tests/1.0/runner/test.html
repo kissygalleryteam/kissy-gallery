@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+<title>KISSY.Template Test</title>
+<link rel="stylesheet" href="../../../../../tools/jasmine-1.2.0.rc3/jasmine.css">
+<script src="../../../../../tools/jasmine-1.2.0.rc3/jasmine.js"></script>
+<script src="../../../../../tools/jasmine-1.2.0.rc3/jasmine-html.js"></script>
+<script src="http://docs.kissyui.com/assets/import-kissy.js"></script>
+<script src="../../../1.0/index.js"></script>
+<script src="../specs/template-spec.js"></script>
+</head>
+
+<body>
+<h1>KISSY Template Test Cases</h1>
+<script>
+    KISSY.use('gallery/template/1.0/', function (S) {
+        setTimeout(function () {
+            jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+            jasmine.getEnv().addReporter(new jasmine.ConsoleReporter());
+            jasmine.getEnv().execute(function () {
+                jasmine.kissyNext(this.results().failedCount);
+            });
+        }, 100);
+    });
+</script>
+</body>
+</html>
+

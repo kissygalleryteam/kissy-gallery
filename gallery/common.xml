@@ -38,7 +38,7 @@
         <concat destfile="${component.build.dir}/index.js"
                 encoding="utf-8"
                 outputencoding="utf-8">
-            <fileset dir="${src.dir}" includes="*.js" excludes="modules.js"/>
+            <fileset dir="${src.dir}" includes="**/*.js" excludes="modules.js"/>
             <filterchain>
                 <deletecharacters chars="&#xFEFF;"/>
             </filterchain>
