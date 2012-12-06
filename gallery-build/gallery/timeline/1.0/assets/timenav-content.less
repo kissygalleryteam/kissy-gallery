@@ -1,0 +1,153 @@
+/**
+  * timenav 拖拽部分
+  * g.gaokai@gmail.com t=20120903
+  */
+.ks-timeline{
+.timenav .time-ruler{
+	background-image: ~"url(@{ruler-bg})";
+  _background-image: ~"url(@{ruler-bg_Ie6})";
+}
+
+.time-points .flag, .dot{
+	background-image: ~"url(@{spritesUrl})";
+  _background-image: ~"url(@{spriteUrl_Ie6})";
+	background-repeat: no-repeat;
+}
+
+.time-interval .time-interval-major .a-interval{
+  background-image: ~"url(@{a-interval})";
+  _background-image: ~"url(@{a-interval_Ie6})";
+  background-repeat: no-repeat;
+}
+
+.timenav{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+  overflow: visible !important;
+  .time-ruler{
+    position: absolute;
+    top: 100px;
+    width: 3000px;
+    height: 6px;
+    background-position: center top;
+    background-color: #eee;
+    white-space: nowrap;
+    color: #666;
+    margin-top: 0px;
+    padding-top: 0px;
+    _font-size: 0;
+    _z-index: -1;
+  }
+}
+.time-points{
+  position: absolute;
+  left: 0px;
+  top: 0;
+  display: block;
+  .marker{
+    position: absolute;
+    top: 0;
+    left: 0px;
+    z-index: 10000;
+    a,h3{
+      margin: 5px 0 0 0;
+      font-size: 11px;
+      line-height: 11px;
+      font-weight: bolder;
+      color: #ccc;
+    }
+    &:hover{
+      z-index: 10002;
+      .flag{
+        background-position: 0 -80px;
+      }
+      a,h3{
+        color: #f63;
+      }
+      .line{
+        background-color: #999;
+      }
+      .dot{
+        background-position: -48px 0;
+      }
+    }
+  }
+  .hover{
+    z-index: 10001;
+      .flag{
+        background-position: 0 -80px;
+      }
+      a,h3{
+        color: #f63;
+      }
+      .line{
+        background-color: #999;
+      }
+      .dot{
+        background-position: -48px 0;
+      }
+  }
+  .flag{
+    position: absolute;
+    left: 3px;
+    top: 20px;
+    width: 95px;
+    height: 33px;
+    background-position: 0 -48px;
+    cursor: pointer;
+    .flag-content{
+      padding: 0px 7px 0 6px;
+      overflow: hidden;
+    }
+  }
+  .dot{
+    position: absolute;
+    display: block;
+    top: 100px;
+    left: -0.5px;
+    width: 7px;
+    height: 6px;
+    background-color: #333;
+    z-index: 21;
+    background-position: -37px 0;
+    _font-size: 0;
+  }
+  .line{
+    position: absolute;
+    top: 0px;
+    left: 3px;
+    width: 1px;
+    height: 100px;
+    background-color: ~"rgba(204, 204, 204, 0.5)";
+    background-color: #ddd\9;
+    .box-shadow(1px 0 0 ~"rgba(255,255,255, 0.5)");
+    z-index: 22;
+  }
+}
+.time-interval{
+  .time-interval-major{
+    .a-interval{
+      position: absolute;
+      display: block;
+      left: 0px;
+      top: 100px;
+      height: 15px;
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 20px;
+      text-transform: uppercase;
+      text-align: left;
+      margin: 5px 0 0 0;
+      padding: 5px 0 0 0;
+      white-space: nowrap;
+      color: #999;
+      text-indent: -14px;
+      _text-indent: 0;
+      background-position: left top;
+      z-index: 5;
+		}
+	}
+}
+}

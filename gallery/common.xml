@@ -10,7 +10,7 @@
     <property name="component.name" value="component.name.need.override"/>
     <property name="component.version" value="component.version.need.override"/>
 
-    <property name="component.build.dir" location="${gallery.build.dir}/${component.name}/${component.version}"/>
+    <property name="component.build.dir" location="${gallery.build.dir}/gallery/${component.name}/${component.version}"/>
     <property name="component.build.dir.tmp" value="${component.build.dir}/tmp"/>
     <property name="copyright.files" value="**/*.css, **/*.js"/>
 
@@ -38,11 +38,14 @@
         <concat destfile="${component.build.dir}/index.js"
                 encoding="utf-8"
                 outputencoding="utf-8">
-            <fileset dir="${src.dir}" includes="*.js"/>
+            <fileset dir="${src.dir}" includes="*.js" excludes="modules.js"/>
             <filterchain>
                 <deletecharacters chars="&#xFEFF;"/>
             </filterchain>
         </concat>
+        <copy todir="${component.build.dir}">
+            <fileset dir="${src.dir}" includes="modules.js"/>
+        </copy>
     </target>
 
     <target name="componentassetsdircheck">
@@ -195,26 +198,6 @@
                  encoding="${charset}"/>
     </target>
 
-    <target name="common.build" depends="clear,concat,assets,compress,native2ascii,fix-cr-lf">
-        <!-- 1.2 不需要 pkg -->
-        <move encoding="${charset}" todir="${gallery.build.dir}">
-            <fileset dir="${component.build.dir}" includes="*-pkg*"/>
-            <mapper type="regexp" from="(.*)-pkg(.*)" to="\1\2"/>
-        </move>
-
-        <!-- 空组件文件夹直接删除 -->
-        <condition property="empty.component.build.dir">
-            <length length="0">
-                <fileset dir="${component.build.dir}"/>
-            </length>
-        </condition>
-
-        <ac:if>
-            <isset property="empty.component.build.dir"/>
-            <ac:then>
-                <delete dir="${component.build.dir}"/>
-            </ac:then>
-        </ac:if>
-
+    <target name="common.build" depends="clear,concat,assets,compress,native2ascii,fix-cr-lf">   
     </target>
 </project>

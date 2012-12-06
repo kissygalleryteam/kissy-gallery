@@ -1,0 +1,72 @@
+﻿
+/*Mask*/
+.lp-el-mask {
+    height:100%;
+    left:0;
+    opacity:0.5;
+    position:absolute;
+    top:0;
+    width:100%;
+    z-index:100;
+    filter: alpha(opacity=50);
+}
+
+.lp-el-mask {
+    background-color: #ccc;
+}
+
+.x-masked SELECT{
+    _visibility: hidden;
+}
+
+.x-masked .window-default SELECT{
+	_visibility: visible;
+}
+.x-masked-relative {
+    position: relative !important;
+}
+
+.lp-el-mask-msg {
+    background:none repeat-x scroll 0 -16px transparent;
+    border:1px solid;
+    left:0;
+    padding:2px;
+    position:absolute;
+    top:0;
+    z-index:20001;
+}
+
+.lp-el-mask-msg {
+    border-color:#6593cf;
+    background-color:#c3daf9;
+   
+}
+
+.lp-el-mask-msg div {
+    border:1px solid;
+    cursor:wait;
+    padding:5px 10px;
+}
+
+.x-mask-loading div {
+    background:none no-repeat scroll 5px 5px transparent;
+    line-height:16px;
+    padding:5px 10px 5px 25px;
+}
+
+.lp-el-mask-msg div {
+    background-color: #eee;
+    border-color:#a3bad9;
+    color:#222;
+    font:normal 12px tahoma, arial, helvetica, sans-serif;
+}
+
+.x-mask-loading div {
+    background-color:#fbfbfb;
+    background-image:url(img/loader.gif);
+}
+
+/*mask end*/
+
+
+

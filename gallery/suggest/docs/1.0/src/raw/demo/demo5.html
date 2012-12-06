@@ -1,0 +1,58 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Demo - 搜索提示的更多定制</title>
+<link href="http://a.tbcdn.cn/s/kissy/1.3.0rc/css/base.css" rel="stylesheet"/>
+<link rel="stylesheet" href="http://a.tbcdn.cn/p/global/1.0/global-min.css"/>
+<link rel="stylesheet" href="http://a.tbcdn.cn/p/fp/2011a/header/header.css"/>
+<style>
+    .section {
+        margin: 20px 0;
+    }
+</style>
+
+<script src="http://docs.kissyui.com/assets/import-kissy.js"></script>
+<script src="assets/searchsuggest.js"></script>
+</head>
+<body>
+<div class="section top-header">
+    <div class="demo">
+        <div class="tsearch" role="search">
+            <ul class="tsearch-tab clearfix" id="J_TSearchTabs">
+                <li class="current"><a href="http://list.taobao.com/browse/cat-0.htm">宝贝</a><b class="rc-lt"></b><b
+                        class="rc-rt"></b></li>
+                <li><a href="http://www.tmall.com/go/act/tmall/iwanttobuy.php">淘宝商城</a><b class="rc-lt"></b><b
+                        class="rc-rt"></b></li>
+                <li><a href="http://shopsearch.taobao.com/browse/shop_search.htm">店铺</a><b class="rc-lt"></b><b
+                        class="rc-rt"></b></li>
+                <li><a href="http://s.taobao.com/list.html?search_type=auction">拍卖</a><b class="rc-lt"></b><b
+                        class="rc-rt"></b></li>
+
+                <li><a href="http://8.taobao.com/index.htm">淘吧</a><b class="rc-lt"></b><b class="rc-rt"></b></li>
+                <li><a href="http://jianghu.taobao.com/square.htm">宝贝分享</a><b class="rc-lt"></b><b class="rc-rt"></b>
+                </li>
+            </ul>
+            <div class="tsearch-panel clearfix">
+                <form target="_top" name="search" action="http://s.taobao.com/search" id="J_TSearchForm">
+                    <div class="tsearch-fields focus">
+                        <label for="q" class=""></label>
+
+                        <input type="text" accesskey="s" id="q" name="q" autofocus="true" autocomplete="off">
+                        <b class="rc-lb"></b>
+                        <b class="rc-lt"></b>
+                    </div>
+                    <button type="submit" class="tsearch-submit">搜索<b class="rc-rt"></b><b class="rc-rb"></b></button>
+
+                    <input type="hidden" name="search_type" value="item"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="assets/demo5.js"></script>
+
+</body>
+</html>
+
+

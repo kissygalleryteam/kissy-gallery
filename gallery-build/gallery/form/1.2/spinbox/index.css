@@ -1,0 +1,40 @@
+.ks-plus-minus-operation {
+	position: relative;
+	margin-left: -5px;
+	float: none;
+	width: 100%;
+	text-align: inherit;
+	zoom: 1;
+	_vertical-align: middle;
+}
+.ks-plus-minus-operation .ks-spinbox-minus, .ks-plus-minus-operation .ks-spinbox-plus {
+	display: inline-block;
+	height: 14px;
+	line-height: 14px;
+	overflow: hidden;
+	text-indent: -9999em;
+	text-align: center;
+	width: 14px;
+	vertical-align: middle;
+	background: transparent url(http://img03.taobaocdn.com/tps/i3/T1j6CoXbxTXXXXXXXX-89-61.png) no-repeat -9999px -9999px;
+	outline: none;
+}
+.ks-plus-minus-operation .ks-spinbox-minus {
+	background-position: 0 -47px;
+	_background-position-x: 5px;
+	_width: 18px;
+}
+.ks-plus-minus-operation .ks-spinbox-plus {
+	background-position: 0 -32px;
+}
+.ks-spinbox {
+	width: 90px;
+	height: 20px;
+	border: 1px solid #C8C8C8;
+	margin: 0 3px;
+	text-align: center;
+	vertical-align: middle;
+	-moz-box-shadow: 1px 1px 1px #F0F0F0 inset;
+	-webkit-box-shadow: 1px 1px 1px #F0F0F0 inset;
+	box-shadow: 1px 1px 1px #F0F0F0 inset;
+}

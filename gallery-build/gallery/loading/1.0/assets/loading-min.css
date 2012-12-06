@@ -1,0 +1,1 @@
+.loading{position:absolute;z-index:10000}.loading .mask{left:0;top:0;width:100%;height:100%;background:url(img/bg-transparent.png);_background:#000;_filter:alpha(opacity=20)}.loading .text{position:absolute;height:19px;width:100%;top:50%;margin-top:-10px;text-align:center}.loading .text i{padding-left:20px;font-style:normal;background:url(img/loading.gif) no-repeat}

@@ -1,0 +1,199 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>搜索提示的更多定制 &mdash; KISSY Gallery Suggest 1.0 Documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="KISSY Gallery Suggest 1.0 Documentation" href="../index.html" />
+    <link rel="up" title="KISSY Gallery Suggest 使用示例" href="index.html" />
+    <link rel="prev" title="Google 的搜索提示" href="demo4.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="demo4.html" title="Google 的搜索提示"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">KISSY Gallery Suggest 1.0 Documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">KISSY Gallery Suggest 使用示例</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>搜索提示的更多定制<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="class">
+<h2>Class<a class="headerlink" href="#class" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="xref py py-class docutils literal"><span class="pre">Suggest</span></tt></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id2">
+<h2>搜索提示的更多定制<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><iframe width="100%" height="340" class="iframe-demo" src="../../../src/raw/demo/demo5.html"></iframe><p>没错, 上面这个就是淘宝首页的搜索框完整代码, 里面定制了很多, 例如, 不同tab公用一个suggest, 定制页脚, 替换返回数据等, 具体分析如下;</p>
+<p><strong>不同tab切换时, 关闭/开启suggest, 或者设置不同的数据源</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// 切换逻辑</span>
+<span class="c1">// __fp_sug 是对 suggest 封装了一层, 其中的 sug 对象就是一个 Suggest 实例</span>
+<span class="nx">switchToTab</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">__fp_sug</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+
+    <span class="c1">// 设置不同的数据源</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">__fp_sug</span><span class="p">.</span><span class="nx">sug</span><span class="p">.</span><span class="nx">dataSource</span> <span class="o">=</span> <span class="s1">&#39;http://suggest.taobao.com/sug?area=b2c&amp;code=utf-8&amp;extras=1&amp;callback=KISSY.Suggest.callback&#39;</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">__fp_sug</span><span class="p">.</span><span class="nx">sug</span><span class="p">.</span><span class="nx">dataSource</span> <span class="o">=</span> <span class="s1">&#39;http://suggest.taobao.com/sug?code=utf-8&amp;extras=1&amp;callback=KISSY.Suggest.callback&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// 由于多个数据源共享一个数据源的, 其中每次请求回来的数据都会被缓存下来, 当切换tab时, 需要清空下之前旧tab时的提示数据, 不然当不同tab, 输入相同关键词, 就不会触发请求, 导致提示层数据相同</span>
+    <span class="nx">__fp_sug</span><span class="p">.</span><span class="nx">sug</span><span class="p">.</span><span class="nx">_dataCache</span> <span class="o">=</span> <span class="p">{};</span>
+
+    <span class="c1">// 当切换到特定tab时, 开启/关闭提示, .ON 为自定义的属性, 不是suggest内置的属性, 他的用处见下:</span>
+    <span class="kd">var</span> <span class="nx">curRel</span> <span class="o">=</span> <span class="nx">searchType</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+    <span class="nx">__fp_sug</span><span class="p">.</span><span class="nx">ON</span> <span class="o">=</span> <span class="nx">curRel</span> <span class="o">===</span> <span class="s1">&#39;item&#39;</span> <span class="o">||</span> <span class="nx">curRel</span> <span class="o">===</span> <span class="s1">&#39;mall&#39;</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// 绑定sug的 beforeStart 事件, 当 beforeStart 返回 false 时, 不去请求数据源, 进而不更新提示层数据</span>
+<span class="c1">// 结合之前的 ON 属性, 给特定tab不发送请求,及开启/关闭搜索提示</span>
+<span class="nx">__fp_sug</span><span class="p">.</span><span class="nx">sug</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;beforeStart&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">self</span><span class="p">.</span><span class="nx">ON</span><span class="p">;</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p><strong>设置页脚</strong> , 当输入特定的关键词时, 更改页脚内容</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// 绑定 updateFooter 事件, 该事件会在每次数据返回更新提示层数据后触发</span>
+<span class="nx">sug</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;updateFooter&#39;</span><span class="p">,</span> <span class="nx">self</span><span class="p">.</span><span class="nx">_updateFooter</span><span class="p">,</span> <span class="nx">self</span><span class="p">);</span>
+
+<span class="c1">// _updateFooter 代码片段</span>
+<span class="kd">function</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span>
+        <span class="nx">sug</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">sug</span><span class="p">;</span>
+
+    <span class="c1">// ...</span>
+    <span class="nx">sug</span><span class="p">.</span><span class="nx">footer</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">D</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;&lt;div class=&quot;my-box&quot;&gt;&#39;</span><span class="p">));</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+<p><strong>动态修改数据或插入特定数据</strong></p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// 当请求数据返回的时候, 修改返回的数据</span>
+<span class="nx">sug</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;dataReturn&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">returnedData</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;返回结果只有一条数据了&#39;</span><span class="p">];</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">rawData</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">returnedData</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="c1">// 当显示之前, 添加数据到指定位置</span>
+<span class="nx">sug</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;beforeShow&#39;</span><span class="p">,</span> <span class="nx">self</span><span class="p">.</span><span class="nx">_beforeShow</span><span class="p">,</span> <span class="nx">self</span><span class="p">);</span>
+
+<span class="c1">// self._beforeShow 片段</span>
+<span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span>
+    <span class="nx">sug</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">sug</span><span class="p">,</span>
+    <span class="nx">cateString</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="nx">q</span> <span class="o">=</span> <span class="nx">S</span><span class="p">.</span><span class="nx">trim</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">q</span><span class="p">.</span><span class="nx">val</span><span class="p">());</span>
+
+<span class="nx">S</span><span class="p">.</span><span class="nx">each</span><span class="p">([[</span><span class="s1">&#39;新数据1&#39;</span><span class="p">,</span> <span class="s1">&#39;id1&#39;</span><span class="p">],[</span><span class="s1">&#39;新数据2&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">]],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cate</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">cateString</span> <span class="o">+=</span> <span class="s1">&#39;&lt;li class=&quot;ks-suggest-extras-my&quot; key=&quot;&#39;</span><span class="o">+</span><span class="nx">q</span><span class="o">+</span><span class="s1">&#39;&quot; &gt;&lt;span class=&quot;ks-suggest-key&quot;&gt;&#39;</span> <span class="o">+</span> <span class="nx">q</span> <span class="o">+</span> <span class="s1">&#39;&lt;/span&gt;&#39;</span><span class="o">+</span><span class="nx">cate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;&lt;/span&gt;&lt;/li&gt;&#39;</span><span class="p">;</span>
+<span class="p">});</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">cateString</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">D</span><span class="p">.</span><span class="nx">prepend</span><span class="p">(</span><span class="nx">D</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">cateString</span><span class="p">),</span> <span class="nx">sug</span><span class="p">.</span><span class="nx">content</span><span class="p">.</span><span class="nx">firstChild</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">搜索提示的更多定制</a><ul>
+<li><a class="reference internal" href="#class">Class</a></li>
+<li><a class="reference internal" href="#id2">搜索提示的更多定制</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="demo4.html"
+                        title="previous chapter">Google 的搜索提示</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/demo/demo5.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="demo4.html" title="Google 的搜索提示"
+             >previous</a> |</li>
+        <li><a href="../index.html">KISSY Gallery Suggest 1.0 Documentation</a> &raquo;</li>
+          <li><a href="index.html" >KISSY Gallery Suggest 使用示例</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010-2099, kissyteam.
+      Last updated on Dec 06, 2012.
+    </div>
+  </body>
+</html>

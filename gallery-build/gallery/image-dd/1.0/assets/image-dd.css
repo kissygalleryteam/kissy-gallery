@@ -1,0 +1,75 @@
+/**
+  * yumen t=20120515
+  */
+/*
+ * import mixin
+ */
+.close-rt {
+  background-image: url(http://img02.taobaocdn.com/tps/i2/T1Y1r0Xc8cXXXK3ITg-44-44.png);
+  background-repeat: no-repeat;
+}
+.img-dd-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10000;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  _position: absolute;
+}
+.img-dd-mask .img-dd-opacity-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10001;
+  background-color: black;
+  opacity: 0.5;
+  filter: alpha(opacity= 50 );
+}
+.img-dd-mask .img-dd-box {
+  position: absolute;
+  z-index: 10002;
+}
+.img-dd-box {
+  text-align: center;
+}
+.img-dd-box img {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  cursor: move;
+  z-index: 99999;
+}
+.close-rt-wrap {
+  position: fixed;
+  right: 0;
+  top: -1px;
+  z-index: 100000;
+  _display: none !important;
+}
+.close-rt-wrap .close-rt {
+  position: fixed;
+  display: block;
+  right: 0;
+  top: -1px;
+  width: 44px;
+  height: 44px;
+  background-position: 0 0;
+  cursor: pointer;
+}
+.ie-popup-mask {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  z-index: 1;
+  background: none;
+  opacity: 0;
+  filter: alpha(opacity= 0 );
+}

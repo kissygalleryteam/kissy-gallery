@@ -1,0 +1,140 @@
+.section {
+    margin: 20px;
+}
+
+.search-input {
+    height: 20px;
+    padding: 3px 2px 2px 4px;
+    width: 300px;
+    border: 1px solid #999;
+}
+
+.tb-srch-may .rc-lt,
+.tb-srch-may .rc-lb,
+.tb-srch-may .rc-rb,
+.tb-srch-may .rc-rt {
+    font-size: 0;
+    font-family: serif;
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    background-color: #fff;
+}
+
+.tb-srch-may .rc-lt {
+    left: 0;
+    top: 0;
+}
+
+.tb-srch-may .rc-lb {
+    left: 0;
+    bottom: 0;
+}
+
+.tb-srch-may .rc-rb {
+    right: 0;
+    bottom: 0;
+}
+
+.tb-srch-may .rc-rt {
+    right: 0;
+    top: 0;
+}
+
+.tb-srch-may .tb-srch-may-tab {
+    float: left;
+    height: 23px;
+}
+
+.tb-srch-may .tb-srch-may-tab li {
+    float: left;
+    position: relative;
+}
+
+.tb-srch-may .tb-srch-may-tab li .rc-lt,
+.tb-srch-may .tb-srch-may-tab li .rc-rt {
+    display: none;
+}
+
+.tb-srch-may .tb-srch-may-tab .current .rc-lt,
+.tb-srch-may .tb-srch-may-tab .current .rc-rt {
+    display: block;
+    background-color: #ffdebb;
+}
+
+.tb-srch-may .tb-srch-may-tab li a {
+    display: block;
+    float: left;
+    height: 23px;
+    line-height: 23px;
+    padding: 0 15px;
+}
+
+.tb-srch-may .tb-srch-may-tab li.current a {
+    font-weight: bold;
+    color: #fff;
+    background-color: #f27b04;
+}
+
+.tb-srch-may .tb-srch-may-panel {
+    clear: left;
+}
+
+.tb-suggest-container {
+    border-color: #5BA515
+}
+
+.tb-suggest-container li {
+    padding: 2px 0 3px;
+    font-size: 14px;
+    line-height: 20px
+}
+
+.tb-suggest-container .ks-selected {
+    background-color: #DEEFC5
+}
+
+.tb-suggest-container .ks-suggest-result {
+    font-size: 12px;
+    color: #999
+}
+
+.tb-suggest-container .ks-selected span {
+    color: #240055
+}
+
+.tb-suggest-container .ks-selected .ks-suggest-result {
+    color: #999
+}
+
+.bd-sug {
+    border-color: #666
+}
+
+.bd-sug li {
+    padding: 2px 0 3px
+}
+
+.bd-sug .ks-selected {
+    background-color: #D5E2FF
+}
+
+.bd-sug .ks-selected span {
+    color: #240055
+}
+
+.g-sug {
+    border-color: #666
+}
+
+.g-sug li {
+    padding: 2px 0 3px
+}
+
+.g-sug .ks-selected {
+    background-color: #D5E2FF
+}
+
+.g-sug .ks-selected span {
+    color: #240055
+}

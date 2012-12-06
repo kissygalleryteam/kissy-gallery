@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Demo - Google 的搜索提示</title>
+<link href="http://a.tbcdn.cn/s/kissy/1.3.0rc/css/base-min.css" rel="stylesheet"/>
+<link href="assets/common.css" rel="stylesheet"/><script src="http://docs.kissyui.com/assets/import-kissy.js"></script>
+</head>
+<body>
+<div class="section" style="width: 380px">
+    <form name="f" action="http://www.google.com/search">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr valign="top">
+                <td width="25%"></td>
+                <td nowrap="" align="center">
+                    <input type="hidden" value="en" name="hl"/>
+                    <input class="search-input" value="" title="Google Search" size="55" id="gq" name="q" maxlength="2048" autocomplete="off"/>
+                    <br/>
+                    <input type="submit" class="g-submit" onclick="this.checked=1" value="Google Search" name="btnG"/>
+                    <input type="submit" class="g-submit" onclick="this.checked=1" value="I'm Feeling Lucky" name="btnI"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <input type="hidden" name="aq" value="f"/><input type="hidden" name="oq" value="n"/><input type="hidden" name="aqi" value="g10"/>
+    </form>
+</div>
+<script src="assets/demo4.js"></script>
+
+</body>
+</html>

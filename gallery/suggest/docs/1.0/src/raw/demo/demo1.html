@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Demo - 淘宝首页的搜索提示</title>
+    <link href="http://a.tbcdn.cn/s/kissy/1.3.0rc/css/base.css" rel="stylesheet"/>
+    <link href="assets/common.css" rel="stylesheet"/>
+    <script src="http://docs.kissyui.com/assets/import-kissy.js"></script>
+</head>
+<body>
+
+<div class="section">
+    <div class="tb-srch-may" id="J_TBSearch">
+        <ul class="tb-srch-may-tab ks-clear">
+            <li class="current"><a href="http://list.taobao.com/browse/cat-0.htm">宝贝</a><b class="rc-lt"></b><b
+                    class="rc-rt"></b></li>
+            <li><a href="http://shopsearch.taobao.com/browse/shop_search.htm">商城</a><b class="rc-lt"></b><b
+                    class="rc-rt"></b></li>
+        </ul>
+        <div class="tb-srch-may-panel ks-clear">
+            <form name="search" method="get" action="http://search1.taobao.com/browse/search_auction.htm">
+                <input type="hidden" value="" name="sort"/>
+                <input type="hidden" value="D9_5_1" name="f"/>
+                <input type="hidden" value="" name="promote"/>
+                <input type="hidden" value="2" name="isnew"/>
+                <input type="hidden" value="b" name="atype"/>
+                <input type="hidden" value="all" name="commend"/>
+                <input type="hidden" value="auction" name="search_type"/>
+                <input type="hidden" value="initiative" name="user_action"/>
+                <input type="hidden" value="s1-e" name="ssid"/>
+
+                <input name="q" id="qstab" class="search-input"/>
+
+                <button type="submit" class="search-submit">淘我喜欢</button>
+            </form>
+        </div>
+    </div>
+
+    <p>
+        <button id="stop">停止</button>
+        <button id="start" disabled>开始</button>
+    </p>
+
+</div>
+<script src="assets/demo1.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,162 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Google 的搜索提示 &mdash; KISSY Gallery Suggest 1.0 Documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="KISSY Gallery Suggest 1.0 Documentation" href="../index.html" />
+    <link rel="up" title="KISSY Gallery Suggest 使用示例" href="index.html" />
+    <link rel="next" title="搜索提示的更多定制" href="demo5.html" />
+    <link rel="prev" title="百度的搜索提示" href="demo3.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="demo5.html" title="搜索提示的更多定制"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="demo3.html" title="百度的搜索提示"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">KISSY Gallery Suggest 1.0 Documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">KISSY Gallery Suggest 使用示例</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="google">
+<h1>Google 的搜索提示<a class="headerlink" href="#google" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="class">
+<h2>Class<a class="headerlink" href="#class" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="xref py py-class docutils literal"><span class="pre">Suggest</span></tt></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id1">
+<h2>Google 的搜索提示<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><iframe width="100%" height="300" class="iframe-demo" src="../../../src/raw/demo/demo4.html"></iframe><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&quot;suggest&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">Suggest</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// Google</span>
+    <span class="kd">var</span> <span class="nx">dataUrl</span> <span class="o">=</span> <span class="s1">&#39;http://clients1.google.com/complete/search?hl=en&#39;</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">sug</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Suggest</span><span class="p">(</span><span class="s1">&#39;#gq&#39;</span><span class="p">,</span> <span class="nx">dataUrl</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">resultFormat</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="nx">containerCls</span><span class="o">:</span> <span class="s1">&#39;g-sug&#39;</span><span class="p">,</span>
+        <span class="c1">// Suggest 会对 callbackFn 的值自动添加对应函数到 window 上, 不需要用户自动设置</span>
+        <span class="nx">callbackFn</span><span class="o">:</span> <span class="s1">&#39;google.ac.h&#39;</span>
+    <span class="p">});</span>
+
+    <span class="c1">// google: window.google.ac.h([&quot;ni&quot;,[[&quot;牛博网&quot;,&quot;73,248 结果&quot;,&quot;0z&quot;],[&quot;牛博网首页&quot;,&quot;12,200,617 结果&quot;,&quot;1z&quot;],[&quot;你是准备替党说话 还是准备替老百姓说话&quot;,&quot;136,545 结果&quot;,&quot;2z&quot;],[&quot;nike&quot;,&quot;117,000,000 结果&quot;,&quot;3&quot;],[&quot;nikon&quot;,&quot;127,000,000 结果&quot;,&quot;4&quot;],[&quot;nissan&quot;,&quot;135,000,000 结果&quot;,&quot;5&quot;],[&quot;nine west&quot;,&quot;40,000,000 结果&quot;,&quot;6&quot;],[&quot;nike鞋&quot;,&quot;3,380,000 结果&quot;,&quot;7&quot;],[&quot;倪萍 再婚&quot;,&quot;36,400 结果&quot;,&quot;8&quot;],[&quot;牛年祝福语&quot;,&quot;582,000 结果&quot;,&quot;9&quot;]]])</span>
+    <span class="c1">// taobao: g_ks_suggest_callback({&quot;result&quot;: [[&quot;nike 正品&quot;, &quot;2170000&quot;], [&quot;nike 专柜 正品&quot;, &quot;834000&quot;], [&quot;nike 短袖&quot;, &quot;242000&quot;], [&quot;nike 板 鞋&quot;, &quot;989000&quot;], [&quot;nike 女鞋&quot;, &quot;253000&quot;], [&quot;nike 运动鞋&quot;, &quot;550000&quot;], [&quot;nike 包&quot;, &quot;295000&quot;], [&quot;nike 鞋&quot;, &quot;3160000&quot;], [&quot;nike 单肩包&quot;, &quot;38500&quot;], [&quot;nike 09&quot;, &quot;786000&quot;]]})</span>
+    <span class="nx">sug</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;dataReturn&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">returnedData</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">returnedData</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">||</span> <span class="p">[];</span>
+    <span class="p">});</span>
+
+<span class="p">});</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Google 的搜索提示</a><ul>
+<li><a class="reference internal" href="#class">Class</a></li>
+<li><a class="reference internal" href="#id1">Google 的搜索提示</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="demo3.html"
+                        title="previous chapter">百度的搜索提示</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="demo5.html"
+                        title="next chapter">搜索提示的更多定制</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/demo/demo4.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="demo5.html" title="搜索提示的更多定制"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="demo3.html" title="百度的搜索提示"
+             >previous</a> |</li>
+        <li><a href="../index.html">KISSY Gallery Suggest 1.0 Documentation</a> &raquo;</li>
+          <li><a href="index.html" >KISSY Gallery Suggest 使用示例</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010-2099, kissyteam.
+      Last updated on Dec 06, 2012.
+    </div>
+  </body>
+</html>

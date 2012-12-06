@@ -1,0 +1,22 @@
+/**
+ * http://img04.taobaocdn.com/tps/i4/T1BWW_XcxjXXXXXXXX-17-128.gif
+ */
+.ks-checkbox,.ks-checkbox-hover,.ks-checkbox-checked,.ks-checkbox-disabled{
+	background:url('http://img04.taobaocdn.com/tps/i4/T1BWW_XcxjXXXXXXXX-17-128.gif') 0 -43px;
+	cursor: pointer;
+	height: 17px;
+	line-height: 18px;
+	margin-right: 4px;
+	vertical-align: middle;
+	width: 17px;
+	display: inline-block;			
+}
+.ks-checkbox-disabled{
+	background-position:0 -10px;			
+}
+.ks-checkbox-hover{
+	background-position:0 -75px;
+}
+.ks-checkbox-checked{
+	background-position:0 -105px;			
+}

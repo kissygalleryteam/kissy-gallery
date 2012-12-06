@@ -1,0 +1,163 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>百度的搜索提示 &mdash; KISSY Gallery Suggest 1.0 Documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="KISSY Gallery Suggest 1.0 Documentation" href="../index.html" />
+    <link rel="up" title="KISSY Gallery Suggest 使用示例" href="index.html" />
+    <link rel="next" title="Google 的搜索提示" href="demo4.html" />
+    <link rel="prev" title="淘宝首页的搜索提示" href="demo1.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="demo4.html" title="Google 的搜索提示"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="demo1.html" title="淘宝首页的搜索提示"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">KISSY Gallery Suggest 1.0 Documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">KISSY Gallery Suggest 使用示例</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>百度的搜索提示<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="class">
+<h2>Class<a class="headerlink" href="#class" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="xref py py-class docutils literal"><span class="pre">Suggest</span></tt></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id2">
+<h2>百度的搜索提示<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><iframe width="100%" height="300" class="iframe-demo" src="../../../src/raw/demo/demo3.html"></iframe><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&quot;suggest&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">Suggest</span><span class="p">)</span> <span class="p">{</span>
+
+
+    <span class="c1">// Baidu</span>
+    <span class="kd">var</span> <span class="nx">dataUrl</span> <span class="o">=</span> <span class="s1">&#39;http://suggestion.baidu.com/su?p=3&amp;cb=window.bdsug.sug&#39;</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">sug</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Suggest</span><span class="p">(</span><span class="s1">&#39;#kw&#39;</span><span class="p">,</span> <span class="nx">dataUrl</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">resultFormat</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="nx">containerCls</span><span class="o">:</span> <span class="s1">&#39;bd-sug&#39;</span><span class="p">,</span>
+        <span class="nx">charset</span><span class="o">:</span> <span class="s1">&#39;gb2312&#39;</span><span class="p">,</span>
+        <span class="nx">queryName</span><span class="o">:</span> <span class="s1">&#39;wd&#39;</span><span class="p">,</span>
+        <span class="nx">callbackFn</span><span class="o">:</span> <span class="s1">&#39;bdsug.sug&#39;</span>
+    <span class="p">});</span>
+
+    <span class="c1">// baidu: window.bdsug.sug({q:&quot;nike&quot;,p:true,s:[&quot;nike官网&quot;,&quot;妮可基德曼&quot;,&quot;妮可&quot;,&quot;妮可罗宾&quot;,&quot;妮可里奇&quot;,&quot;nike鞋&quot;,&quot;nike 官网&quot;,&quot;尼可&quot;,&quot;nike女&quot;,&quot;nike360&quot;]});</span>
+    <span class="c1">// taobao: g_ks_suggest_callback({&quot;result&quot;: [[&quot;nike 正品&quot;, &quot;2170000&quot;], [&quot;nike 专柜 正品&quot;, &quot;834000&quot;], [&quot;nike 短袖&quot;, &quot;242000&quot;], [&quot;nike 板 鞋&quot;, &quot;989000&quot;], [&quot;nike 女鞋&quot;, &quot;253000&quot;], [&quot;nike 运动鞋&quot;, &quot;550000&quot;], [&quot;nike 包&quot;, &quot;295000&quot;], [&quot;nike 鞋&quot;, &quot;3160000&quot;], [&quot;nike 单肩包&quot;, &quot;38500&quot;], [&quot;nike 09&quot;, &quot;786000&quot;]]})</span>
+    <span class="nx">sug</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;dataReturn&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">returnedData</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">returnedData</span><span class="p">.</span><span class="nx">s</span> <span class="o">||</span> <span class="p">[];</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">百度的搜索提示</a><ul>
+<li><a class="reference internal" href="#class">Class</a></li>
+<li><a class="reference internal" href="#id2">百度的搜索提示</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="demo1.html"
+                        title="previous chapter">淘宝首页的搜索提示</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="demo4.html"
+                        title="next chapter">Google 的搜索提示</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/demo/demo3.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="demo4.html" title="Google 的搜索提示"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="demo1.html" title="淘宝首页的搜索提示"
+             >previous</a> |</li>
+        <li><a href="../index.html">KISSY Gallery Suggest 1.0 Documentation</a> &raquo;</li>
+          <li><a href="index.html" >KISSY Gallery Suggest 使用示例</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010-2099, kissyteam.
+      Last updated on Dec 06, 2012.
+    </div>
+  </body>
+</html>

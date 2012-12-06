@@ -4,7 +4,7 @@
     <property file="build.properties"/>
     <property name="form.dir" location="."/>
     <property name="kissy.tool.dir" location="../../../../kissy-tools"/>
-    <property name="build.dir" location="${form.dir}/../../../gallery-build/form/${version}"/>
+    <property name="build.dir" location="${form.dir}/../../../gallery-build/gallery/form/${version}"/>
     <property name="jsdoc.dir" location="${kissy.tool.dir}/jsdoc-toolkit"/>
     <target name="dircheck">
         <condition property="form.build.dir.exists">

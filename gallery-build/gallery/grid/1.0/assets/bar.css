@@ -1,0 +1,204 @@
+﻿
+.pb-page-first ,.pb-page-last,.pb-page-next,.pb-page-prev,.pb-page-ok,.pb-item-input,.bar-item-separator,.pagging-bar .bar-item-over ,
+.bar-btn-add,.bar-btn-del{
+	background-image:url("./img/grid.gif");
+}
+/*bar*/
+.fr {
+    float:right;
+}
+.bar-btn-container{
+	background-color:transparent;
+    float:left;
+    position:relative;
+	display:block;
+	padding: 1px;
+    margin:4px 2px;
+}
+
+.bar-item-btn{
+	height: 14px;
+	line-height:14px;
+	padding-left:0;
+	padding-right:0;
+	border: 0 none;
+	background-color:transparent;
+	cursor:pointer;
+	display:block;
+	margin-top:1px;
+	*padding-top:2px;
+	font-size: 12px;
+}
+
+.bar-item-separator{
+    height: 14px;
+    margin: 7px 3px 0 2px;
+    width: 2px;
+	background-position: -80px 0;
+}
+.lp-item-disabled  .bar-item-btn{
+	cursor:default;
+}
+
+.bar-item-over .bar-item-btn{
+	color:#ff6600;
+}
+.bar-btn-custom{
+	background-image:none;
+	margin-top:0;
+} 
+
+/*Paging bar begin*/
+.pagging-bar
+{
+    font-size:12px;
+	height: 24px;
+	background-color: #D3E1F1;
+    border:1px solid #99BCE8;
+	border-top-width:0;
+	background-position:0 0;
+	overflow:hidden;
+	background: url("img/grid-back.gif") repeat-x scroll 0 0 transparent;
+}
+
+.pagging-bar .bar-item-over {
+	background-position:-130px 0px;
+}
+
+.pagging-bar .bar-btn-container{
+    margin:3px 2px;
+}
+
+.pagging-bar .bar-btn-custom{
+	margin:0 2px;
+	background-image:none;
+}
+
+.pagging-bar .bar-item-separator{
+    margin-top: 0;
+}
+
+.pb-input-container,.pb-text-container{
+	float:left;
+	padding: 2px 0;
+	color: #4C4C4C ;
+	line-height: 16px;
+	font-size: 11px;
+	font-family: tahoma,arial,verdana,sans-serif;
+    font-size: 11px;
+}
+.pb-text-container{
+    font-weight: normal;
+    margin-left: 4px;
+    margin-right: 6px;
+    white-space: nowrap;
+
+}
+
+.pb-item-input{
+	border: 0 none;
+    color: red;
+    font: 11px tahoma,arial,verdana,sans-serif;
+    height: 14px;
+    margin: 0;
+    padding: 0;
+    width: 20px;
+	background-position:-100px 0 ;
+}
+.lp-item-disabled 
+{
+	
+}
+
+.pagging-bar .bar-item-btn{
+	height: 16px;
+	width: 16px ;
+	margin:0;
+}
+
+
+
+.pagging-bar .pb-page-ok{
+	width:41px;
+	height:20px;
+	margin-top: 1px;
+	font-size:12px;
+	background-position:-80px -20px ;
+}
+.bar-item-over .pb-page-ok{
+	background-position:-150px -20px ;
+}
+.pb-page-first{
+	background-position:3px 2px ;
+}
+.pb-page-last{
+	background-position:-17px 2px ;
+}
+.pb-page-next{
+	background-position:-37px 2px ;
+}
+.pb-page-prev{
+	background-position:-57px 2px ;
+}
+.pb-page-refresh{
+	background-position:-77px 2px ;
+}
+
+.lp-item-disabled  .pb-page-first{
+	background-position:3px -18px ;
+}
+.lp-item-disabled  .pb-page-last{
+	background-position:-17px -18px ;
+}
+.lp-item-disabled  .pb-page-next{
+	background-position:-37px -18px ;
+}
+.lp-item-disabled .pb-page-prev{
+	background-position:-57px -18px ;
+}
+.lp-item-disabled .pb-page-refresh{
+	background-position:-77px -18px ;
+}
+
+
+
+/*Paging bar end*/
+
+/*button bar*/
+.button-bar{
+	font-size:12px;
+	height: 28px;
+	color:#333;
+	background-color: #D3E1F1;
+    border:1px solid #99BCE8;
+	border-bottom-width:0;
+	background-position:0 -30px;
+	overflow:hidden;
+}
+
+
+.bar-btn-add,.bar-btn-edit,.bar-btn-del,.bar-btn-close,.bar-btn-import,.bar-btn-export,.bar-btn-save,.bar-btn-create{
+	padding-left:18px;
+}
+.bar-btn-add{
+	background-position:-48px -139px ;
+}
+.bar-btn-del{
+	background-position:2px -249px ;
+}
+.bar-btn-close{
+	background-position:-48px -159px ;
+}
+.bar-btn-import{
+	background-position:2px -189px ;
+}
+.bar-btn-export{
+	background-position:2px -219px ;
+}
+.bar-btn-save{
+	background-position:2px -279px ;
+}
+.bar-btn-create{
+	background-position:2px -309px ;
+}
+

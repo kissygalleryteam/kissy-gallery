@@ -1,6 +1,11 @@
 ﻿{
    "gs":[
    {
+        "name":"suggest",
+
+        "desc":"原 KISSY 1.3 Suggest"
+    },
+   {
         "name":"velocity",
 
         "desc":"velocity in js"
@@ -47,6 +52,11 @@
         "desc":"滚动条组件"
     },
     {
+        "name":"starrating",
+
+        "desc":"打分"
+    },
+    {
         "name":"randombox",
 
         "desc":"转盘摇奖"
@@ -62,10 +72,11 @@
         "desc":"圆形放大器"
     },
     {
-        "name":"checkcode",
+        "name":"local-storage",
 
-        "desc":"验证码"
+        "desc":"本地存储"
     },
+    
     {
         "name":"spotlight",
 
@@ -75,17 +86,8 @@
         "name":"huabao",
 
         "desc":"画报组件"
-    },
-    {
-        "name":"urlparser",
-
-        "desc":"urlparser"
-    },
-    {
-        "name":"wwgroup",
-
-        "desc":"ww 点灯"
-    },
+    },   
+    
     {
         "name":"juicer",
 
@@ -95,22 +97,22 @@
         "name":"sliding-labels",
 
         "desc":"表单label浮动功能"
-    },
-    {
-        "name":"digital-clock",
-
-        "desc":"数字时钟"
-    },
-
-    {
-        "name":"easycountdown",
-
-        "desc":"倒计时组件，不同于传统倒计时组件的实现方式，容易扩展"
-    },
+    },   
+   
     {
         "name":"expose",
 
         "desc":"开关灯，同优酷视频播放的黑白屏效果"
+    },
+    {
+        "name":"image-tagging",
+
+        "desc":"图片标记组件"
+    },
+    {
+        "name":"province",
+
+        "desc":"省市区联动组件，淘宝最新省市区数据"
     },
 
     {
@@ -138,16 +140,19 @@
 
         "desc":"分页"
     },
+    
     {
-        "name":"starrating",
+        "name":"checkcode",
 
-        "desc":"打分"
+        "desc":"验证码"
     },
+    
     {
-        "name":"local-storage",
+        "name":"wwgroup",
 
-        "desc":"本地存储"
+        "desc":"ww 点灯"
     },
+    
     {
         "name":"browsercache",
 
@@ -158,20 +163,26 @@
 
         "desc":"mustache 模板引擎"
     },
+    
     {
-        "name":"image-tagging",
+        "name":"urlparser",
 
-        "desc":"图片标记组件"
-    },
-    {
-        "name":"province",
-
-        "desc":"省市区联动组件，淘宝最新省市区数据"
+        "desc":"urlparser"
     },
     {
         "name":"combine",
 
         "desc":"适用 KISSY 1.2 的自动 combo patch"
+    },
+     {
+        "name":"easycountdown",
+
+        "desc":"倒计时组件，不同于传统倒计时组件的实现方式，容易扩展"
+    },
+    {
+        "name":"digital-clock",
+
+        "desc":"数字时钟"
     },
     {
         "name":"selectable",
