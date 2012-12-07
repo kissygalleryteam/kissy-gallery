@@ -444,6 +444,10 @@ KISSY.add('gallery/velocity/1.0/index', function(S){
           ret = this.getExpression(exp[0]) < this.getExpression(exp[1]);
           break;
 
+          case '==':
+          ret = this.getExpression(exp[0]) == this.getExpression(exp[1]);
+          break;
+
           case 'minus':
           ret = - this.getExpression(exp[0]);
           break;
