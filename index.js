@@ -1,6 +1,10 @@
 ﻿{
    "gs":[
    {
+        "name":"raphael",
+        desc:"raphael 封装"
+   },
+   {
         "name":"suggest",
 
         "desc":"原 KISSY 1.3 Suggest"
