@@ -2,7 +2,7 @@
    "gs":[
    {
         "name":"raphael",
-        desc:"raphael 封装"
+        "desc":"raphael 封装"
    },
    {
         "name":"suggest",
