@@ -19,6 +19,11 @@
 
         "desc":"原 KISSY 1.3 Validation"
     },
+    {
+        "name":"flash",
+
+        "desc":"原 KISSY 1.3 flash"
+    },
    {
         "name":"velocity",
 

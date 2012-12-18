@@ -1,0 +1,232 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>flash-ua &mdash; KISSY Gallery Flash 1.0 Documentation</title>
+    
+<link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/nature.css" type="text/css" />
+<link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/jquery.js"></script>
+<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/underscore.js"></script>
+<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/doctools.js"></script>
+    <link rel="top" title="KISSY Gallery Flash 1.0 Documentation" href="../index.html" />
+    <link rel="next" title="flash-embed" href="flash-embed.html" />
+    <link rel="prev" title="gallery/flash" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="flash-embed.html" title="flash-embed"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="gallery/flash"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">KISSY Gallery Flash 1.0 Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="flash-ua">
+<h1>flash-ua<a class="headerlink" href="#flash-ua" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="fpv">
+<tt class="descname">fpv</tt><big>(</big><big>)</big><a class="headerlink" href="#fpv" title="Permalink to this definition">¶</a></dt>
+<dd><div class="line-block">
+<div class="line">Array <strong>fpv</strong> ( [force] )</div>
+<div class="line">返回当前客户端 Flash Player 的版本号数组, 格式为 [ Major, Minor, Revision ]</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Parameters:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><strong>force</strong> (<em>Boolean</em>) &#8211; 表示是否强制重新获取版本信息. 可选, 默认为false. 一般情况下, 出于性能考虑不带参数.     若不带参数, 则返回第一次运行时获取的版本号. 若在线安装后, 页面无刷新的情况下, 则可能需要强制获取最新版本号. `</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body">{Array} -数组依次为[主版本号,次版本号,修正版本号]</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">fpv 是 Flash Player Version 的简写.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fpvGEQ">
+<tt class="descname">fpvGEQ</tt><big>(</big><big>)</big><a class="headerlink" href="#fpvGEQ" title="Permalink to this definition">¶</a></dt>
+<dd><div class="line-block">
+<div class="line">Boolean <strong>fpvGEQ</strong> ( ver[, force] )</div>
+<div class="line">判断当前 Flash Player 版本号是否大于或等于指定版本.</div>
+<div class="line">一般用于判断是否可以播放当前flash内容.</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Parameters:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><ul class="first simple">
+<li><strong>ver</strong> (<em>String|Array|Number</em>) &#8211; 指定验证的版本号.  在这里我们推荐使用 小数点分隔&#8221;M.S.R&#8221;的写法. 如果你熟悉大名鼎鼎的SWFObject, 自然会喜欢这样的写法.  当然, 我们也允许其他的写法, 见示例.</li>
+<li><strong>force</strong> (<em>Boolean</em>) &#8211; 表示是否强制重新获取版本信息, 并用于版本判断.  和 fpv();的方法参数效果一致.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><p class="first last">{Boolean} - 如果大于或等于当前版本, 则返回true. 否则false</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>推荐的判断版本参数, 以&#8221;.&#8221;分隔.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="k">if</span><span class="p">(</span><span class="nx">KISSY</span><span class="p">.</span><span class="nx">UA</span><span class="p">.</span><span class="nx">fpvGEQ</span><span class="p">(</span><span class="s1">&#39;9.1.0&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do sth.</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>当然, 我们也允许其他癖好.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="k">if</span><span class="p">(</span><span class="nx">KISSY</span><span class="p">.</span><span class="nx">UA</span><span class="p">.</span><span class="nx">fpvGEQ</span><span class="p">(</span><span class="s2">&quot;10.1 r53&quot;</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">// do sth.</span>
+<span class="p">}</span>
+<span class="k">if</span><span class="p">(</span><span class="nx">KISSY</span><span class="p">.</span><span class="nx">UA</span><span class="p">.</span><span class="nx">fpvGEQ</span><span class="p">([</span><span class="s2">&quot;10&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;53&quot;</span><span class="p">])</span> <span class="p">{</span>
+<span class="c1">// do sth.</span>
+<span class="p">}</span>
+<span class="k">if</span><span class="p">(</span><span class="nx">KISSY</span><span class="p">.</span><span class="nx">UA</span><span class="p">.</span><span class="nx">fpvGEQ</span><span class="p">(</span><span class="mf">10.1</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">// do sth.</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">GEQ 是 Greater than or EQual 的简写,即&#8221;大于等于&#8221;.</p>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+            <div id="disqus_thread"></div>
+<script>
+    if((window.location.hostname.indexOf("kissyui.com")!=-1 )&& window.localStorage.getItem("kissy-commment")!="0"){
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kissy-docs'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+     //var disqus_identifier = '/anim';
+     //var disqus_url = window.location;
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    }
+</script>
+<!--<div id="google-search-box">
+    <div id="cse" style="width: 100%;">Loading</div>
+    <script>
+        if(window.location.hostname.indexOf("kissyui.com")!=-1){
+            document.write('<script src="http://www.google.com/jsapi" type="text/javascript"><'+'/script>');
+        }
+    </script>
+    <script>
+        if(window.location.hostname.indexOf("kissyui.com")!=-1){
+            google.load('search', '1', {language : 'zh-CN', style : google.loader.themes.MINIMALIST});
+            google.setOnLoadCallback(function() {
+                var customSearchControl = new google.search.CustomSearchControl('012347804910294994683:n4uzb24gqdm');
+                customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+                customSearchControl.draw('cse');
+            }, true);
+        }
+    </script>
+</div>-->
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">flash-ua</a><ul>
+<li><a class="reference internal" href="#methods">Methods</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">gallery/flash</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="flash-embed.html"
+                        title="next chapter">flash-embed</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/flash-ua.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="flash-embed.html" title="flash-embed"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="gallery/flash"
+             >previous</a> |</li>
+        <li><a href="../index.html">KISSY Gallery Flash 1.0 Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010-2099, kissyteam.
+      Last updated on Dec 18, 2012.
+    </div>
+  </body>
+</html>

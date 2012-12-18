@@ -1,0 +1,336 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>动态发布方式 &mdash; KISSY Gallery Flash 1.0 Documentation</title>
+    
+<link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/nature.css" type="text/css" />
+<link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/jquery.js"></script>
+<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/underscore.js"></script>
+<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/doctools.js"></script>
+    <link rel="top" title="KISSY Gallery Flash 1.0 Documentation" href="../index.html" />
+    <link rel="up" title="flash 基础" href="index.html" />
+    <link rel="next" title="静态发布方式" href="publishing-static.html" />
+    <link rel="prev" title="FlashPlayer 参数" href="flashplayer-parameters.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="publishing-static.html" title="静态发布方式"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="flashplayer-parameters.html" title="FlashPlayer 参数"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">KISSY Gallery Flash 1.0 Documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">flash 基础</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>动态发布方式<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="line-block">
+<div class="line">具有以下几种动态发布方式:</div>
+<div class="line">- <a class="reference internal" href="#flash-dynamic-section1"><em>最小限度的动态发布</em></a></div>
+<div class="line">- <a class="reference internal" href="#flash-dynamic-section2"><em>套用CSS</em></a></div>
+<div class="line">- <a class="reference internal" href="#flash-dynamic-section3"><em>使用flashvars配置flash对象</em></a></div>
+<div class="line">- <a class="reference internal" href="#flash-dynamic-section4"><em>使用 JSON 配置flash对象</em></a></div>
+<div class="line">- <a class="reference internal" href="#flash-dynamic-section5"><em>使用快速安装(express install)</em></a></div>
+</div>
+<blockquote>
+<div></div></blockquote>
+<div class="section" id="flash-dynamic-section1">
+<span id="id2"></span><h2>最小限度的动态发布<a class="headerlink" href="#flash-dynamic-section1" title="Permalink to this headline">¶</a></h2>
+<p><strong>HTML步骤:</strong></p>
+<p>1, 在SWF内容前，至少引入以下JS：</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;seed.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+</div>
+<p>2, 在期望插入SWF写上HTML钩子.如命名钩子为</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;myFlashContent&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>请不要在此入口HTML上写上其他HTML属性,此处内容将会被替换。</li>
+<li>尽可能减少针对此ID的CSS样式。</li>
+</ul>
+</div>
+<p><strong>Javascript步骤:</strong></p>
+<p>1, 期望插入的SWF对象之后，插入操作SWF的相关JS代码：</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;PATH2YOURSCRIPT.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+</div>
+<p>2, 或在SCRIPT标签中写上相关操作SWF的JS代码</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;script&gt;</span>
+    <span class="c1">//do sth.</span>
+<span class="nt">&lt;/script&gt;</span>
+</pre></div>
+</div>
+<p>3, 在代码中可以这么写：</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Flash</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;#myFlashContent&#39;</span><span class="p">,</span>
+    <span class="p">{</span>
+     <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;PATH2YOURSWF.swf&#39;</span>
+    <span class="p">}</span>
+<span class="p">);</span>  <span class="c1">//注意  &quot;#&quot; 号.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="css">
+<span id="flash-dynamic-section2"></span><h2>套用CSS<a class="headerlink" href="#css" title="Permalink to this headline">¶</a></h2>
+<p><strong>HTML步骤:</strong></p>
+<p>同上面的 <a class="reference internal" href="#flash-dynamic-section1"><em>最小限度的动态发布</em></a></p>
+<p><strong>Javascript步骤:</strong></p>
+<p>1, 仅需要修改&#8221;最小限度的动态发布&#8221;第3步:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Flash</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;#myFlashContent&#39;</span><span class="p">,</span>
+    <span class="p">{</span>
+     <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;PATH2YOURSWF.swf&#39;</span><span class="p">,</span>
+     <span class="nx">attrs</span><span class="o">:</span> <span class="p">{</span>
+                <span class="s1">&#39;class&#39;</span><span class="o">:</span><span class="s2">&quot;swfstyle&quot;</span><span class="p">,</span>
+                <span class="nx">width</span><span class="o">:</span> <span class="mi">800</span><span class="p">,</span>
+                <span class="nx">height</span><span class="o">:</span> <span class="mi">600</span>
+            <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>2, 如果希望仅由CSS来控制高宽变化，则请将高宽置 100%:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Flash</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;#myFlashContent&#39;</span><span class="p">,</span>
+    <span class="p">{</span>
+     <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;PATH2YOURSWF.swf&#39;</span><span class="p">,</span>
+     <span class="nx">attrs</span><span class="o">:</span> <span class="p">{</span>
+                <span class="s1">&#39;class&#39;</span><span class="o">:</span><span class="s2">&quot;swfstyle&quot;</span><span class="p">,</span>  <span class="c1">// 指定样式名 ，多个请由英文半角逗号隔开。</span>
+                <span class="nx">width</span><span class="o">:</span> <span class="s2">&quot;100%&quot;</span><span class="p">,</span>
+                <span class="nx">height</span><span class="o">:</span> <span class="s2">&quot;100%&quot;</span>
+            <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>CSS步骤:</strong></p>
+<div class="highlight-html"><div class="highlight"><pre>.swfstyle {
+    width: 250px;
+    height: 250px;
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="flashvarsflash">
+<span id="flash-dynamic-section3"></span><h2>使用flashvars配置flash对象<a class="headerlink" href="#flashvarsflash" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">本部分描述将假设您已了解以下内容：</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">- <a class="reference internal" href="#flash-dynamic-section1"><em>最小限度的动态发布</em></a></div>
+<div class="line">- <a class="reference internal" href="#flash-dynamic-section2"><em>套用CSS</em></a></div>
+</div>
+</div>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">flashvars</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1">// 以下为传递给 flash 对象的参数</span>
+    <span class="nx">name1</span><span class="o">:</span> <span class="s1">&#39;configuration value #1&#39;</span><span class="p">,</span>
+    <span class="nx">name2</span><span class="o">:</span> <span class="s1">&#39;configuration value #2&#39;</span><span class="p">,</span>
+    <span class="nx">name3</span><span class="o">:</span> <span class="s1">&#39;Hello World! I am changing&#39;</span>
+<span class="p">}</span>
+
+<span class="nx">Flash</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;#myFlashContent&#39;</span><span class="p">,</span>
+    <span class="p">{</span>
+     <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;PATH2YOURSWF.swf&#39;</span><span class="p">,</span>
+     <span class="nx">params</span><span class="o">:</span><span class="p">{</span>
+           <span class="nx">flashvars</span> <span class="o">:</span> <span class="nx">flashvars</span>
+     <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="json-flash">
+<span id="flash-dynamic-section4"></span><h2>使用 JSON 配置flash对象<a class="headerlink" href="#json-flash" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">本部分描述将假设您已了解以下内容：</div>
+<div class="line-block">
+<div class="line">- <a class="reference internal" href="#flash-dynamic-section1"><em>最小限度的动态发布</em></a></div>
+<div class="line">- <a class="reference internal" href="#flash-dynamic-section2"><em>套用CSS</em></a></div>
+</div>
+</div>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">flashvars</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1">// 以下为传递给 flash 对象的参数</span>
+    <span class="c1">// config 对象将被自动JSON字符串化</span>
+    <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">clip</span><span class="o">:</span>  <span class="p">{</span>
+            <span class="nx">autoPlay</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nx">autoBuffering</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">source</span><span class="o">:</span> <span class="p">[</span>
+                  <span class="s1">&#39;http://movie_a.flv&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;http://movie_b.flv&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;http://movie_c.flv&#39;</span>
+                  <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nx">array</span><span class="o">:</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="nx">Flash</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;#myFlashContent&#39;</span><span class="p">,</span>
+    <span class="p">{</span>
+     <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;PATH2YOURSWF.swf&#39;</span><span class="p">,</span>
+     <span class="nx">params</span><span class="o">:</span><span class="p">{</span>
+           <span class="nx">flashvars</span> <span class="o">:</span> <span class="nx">flashvars</span>
+     <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="express-install">
+<span id="flash-dynamic-section5"></span><h2>使用快速安装(express install)<a class="headerlink" href="#express-install" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">本部分描述将假设您已了解以下内容：</div>
+<div class="line-block">
+<div class="line">- <a class="reference internal" href="#flash-dynamic-section1"><em>最小限度的动态发布</em></a></div>
+<div class="line">- <a class="reference internal" href="#flash-dynamic-section2"><em>套用CSS</em></a></div>
+<div class="line">- <a class="reference external" href="http://www.adobe.com/devnet/flashplayer/articles/express_install.html">Flash快速安装(express install)</a></div>
+</div>
+</div>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">F</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;#myFlashContent&#39;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;assets/test.swf&#39;</span><span class="p">,</span>
+    <span class="nx">xi</span><span class="o">:</span> <span class="s1">&#39;express-install/expressInstall.swf&#39;</span><span class="p">,</span>
+    <span class="nx">version</span><span class="o">:</span> <span class="mf">20.2</span>   <span class="c1">// 强行观摩 :p</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">需要flash player 8 版本以上。</p>
+</div>
+</div>
+</div>
+
+
+            <div id="disqus_thread"></div>
+<script>
+    if((window.location.hostname.indexOf("kissyui.com")!=-1 )&& window.localStorage.getItem("kissy-commment")!="0"){
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kissy-docs'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+     //var disqus_identifier = '/anim';
+     //var disqus_url = window.location;
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    }
+</script>
+<!--<div id="google-search-box">
+    <div id="cse" style="width: 100%;">Loading</div>
+    <script>
+        if(window.location.hostname.indexOf("kissyui.com")!=-1){
+            document.write('<script src="http://www.google.com/jsapi" type="text/javascript"><'+'/script>');
+        }
+    </script>
+    <script>
+        if(window.location.hostname.indexOf("kissyui.com")!=-1){
+            google.load('search', '1', {language : 'zh-CN', style : google.loader.themes.MINIMALIST});
+            google.setOnLoadCallback(function() {
+                var customSearchControl = new google.search.CustomSearchControl('012347804910294994683:n4uzb24gqdm');
+                customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+                customSearchControl.draw('cse');
+            }, true);
+        }
+    </script>
+</div>-->
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">动态发布方式</a><ul>
+<li><a class="reference internal" href="#flash-dynamic-section1">最小限度的动态发布</a></li>
+<li><a class="reference internal" href="#css">套用CSS</a></li>
+<li><a class="reference internal" href="#flashvarsflash">使用flashvars配置flash对象</a></li>
+<li><a class="reference internal" href="#json-flash">使用 JSON 配置flash对象</a></li>
+<li><a class="reference internal" href="#express-install">使用快速安装(express install)</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="flashplayer-parameters.html"
+                        title="previous chapter">FlashPlayer 参数</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="publishing-static.html"
+                        title="next chapter">静态发布方式</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/practice/publishing-dynamic.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="publishing-static.html" title="静态发布方式"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="flashplayer-parameters.html" title="FlashPlayer 参数"
+             >previous</a> |</li>
+        <li><a href="../index.html">KISSY Gallery Flash 1.0 Documentation</a> &raquo;</li>
+          <li><a href="index.html" >flash 基础</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010-2099, kissyteam.
+      Last updated on Dec 18, 2012.
+    </div>
+  </body>
+</html>

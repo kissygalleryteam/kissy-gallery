@@ -1,0 +1,339 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>flash-embed &mdash; KISSY Gallery Flash 1.0 Documentation</title>
+    
+<link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/nature.css" type="text/css" />
+<link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/jquery.js"></script>
+<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/underscore.js"></script>
+<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/doctools.js"></script>
+    <link rel="top" title="KISSY Gallery Flash 1.0 Documentation" href="../index.html" />
+    <link rel="next" title="flash 基础" href="../practice/index.html" />
+    <link rel="prev" title="flash-ua" href="flash-ua.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../practice/index.html" title="flash 基础"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="flash-ua.html" title="flash-ua"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">KISSY Gallery Flash 1.0 Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="flash-embed">
+<h1>flash-embed<a class="headerlink" href="#flash-embed" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="add">
+<tt class="descname">add</tt><big>(</big><big>)</big><a class="headerlink" href="#add" title="Permalink to this definition">¶</a></dt>
+<dd><div class="line-block">
+<div class="line">void <strong>add</strong> ( target[, config, callback] )</div>
+<div class="line">通过指定SWF 容器 的 HTML 元素或 HTML 元素 ID. 对于是否添加成功, 需要依靠 callback 注册回调方法进行获取.</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Parameters:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><strong>target</strong> (<em>String|HTMLElement</em>) &#8211; 指定的HTML元素或HTML元素ID.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">如果不存在, 则自行创建 一个 div容器.  Flash.version 版本要 大于 1.2) 必选, 这里添加主要是将对象加入KISSY进行统一管理.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Parameters:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><strong>config</strong> (<em>Object</em>) &#8211; 指定Flash的一些配置信息.  可选, 如标签属性、播放器参数以及其他诸如在线安装、SWF引用地址等等.  见下文的《config 允许配置关键字》</li>
+<li><strong>callback</strong> (<em>Function</em>) &#8211; 回调函数.  可选.  返回添加的状态、id以及对应的SWF的HTML元素对象.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">由于依赖于DOM,请确保 在中使用 KISSY.ready().</p>
+</div>
+<p>config 配置示例：</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">conifg</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;test.swf&#39;</span><span class="p">,</span>       <span class="c1">// swf 路径  [唯一必选]</span>
+    <span class="nx">id</span><span class="o">:</span><span class="s1">&#39;myswfid&#39;</span>          <span class="c1">//swf id  如果没有定义 会自行创建</span>
+    <span class="nx">params</span><span class="o">:</span> <span class="p">{</span> <span class="nx">flashvars</span><span class="o">:</span><span class="p">{</span><span class="nx">a</span><span class="o">:</span><span class="mi">123</span><span class="p">,</span><span class="nx">b</span><span class="p">,</span><span class="s2">&quot;yes&quot;</span><span class="p">}</span> <span class="p">},</span> <span class="c1">// Flash Player 的配置参数</span>
+    <span class="nx">attrs</span><span class="o">:</span> <span class="p">{</span>         <span class="c1">// swf 对应 DOM 元素的属性</span>
+        <span class="nx">width</span><span class="o">:</span> <span class="mi">215</span><span class="p">,</span>    <span class="c1">// 最小控制面板宽度,小于此数字将无法支持在线快速安装</span>
+        <span class="nx">height</span><span class="o">:</span> <span class="mi">138</span>  <span class="c1">// 最小控制面板高度,小于此数字将无法支持在线快速安装</span>
+    <span class="p">},</span>
+    <span class="nx">xi</span><span class="o">:</span> <span class="s1">&#39;expressInstall.swf&#39;</span><span class="p">,</span>  <span class="c1">// 快速安装地址. 全称 express install</span>
+    <span class="nx">version</span><span class="o">:</span> <span class="mf">10.1</span>       <span class="c1">// 要求的 Flash Player 最低版本</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="practice/flashplayer-parameters.html">了解更多Flash播放器参数</a></p>
+<p>带 callback 的 返回示例：</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Flash</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;#myFlashContent2&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">version</span><span class="o">:</span> <span class="s1">&#39;9&#39;</span> <span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;My id:&quot;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;My status:&quot;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">status</span><span class="p">);</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;My html element:&quot;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">swf</span><span class="p">);</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;is dynamic publish:&quot;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">dynamic</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>关于flashvars的处理：
+flashvars 可以理解成为 向swf传参,是flash 页面播放器的一个参数,可以这样被组织：</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;object</span>  <span class="na">type=</span><span class="s">&quot;application/x-shockwave-flash&quot;</span>  <span class="na">data=</span><span class="s">&quot;PATH2SWF.swf&quot;</span> <span class="na">width=</span><span class="s">&quot;800&quot;</span> <span class="na">height=</span><span class="s">&quot;600&quot;</span> <span class="nt">&gt;</span>
+    <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;movie&quot;</span> <span class="na">value=</span><span class="s">&quot; PATH2SWF.swf &quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;flashvars&quot;</span> <span class="na">value=</span><span class="s">&quot;a=1&amp;b=2&quot;</span>  <span class="nt">/&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;go/getflashplayer&quot;</span> <span class="nt">&gt;</span>
+        <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;get_flash_player.gif&quot;</span> <span class="na">alt=</span><span class="s">&quot;Get Adobe Flash player&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/object&gt;</span>
+</pre></div>
+</div>
+<p>事实上就是类似这样的解释：</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">PATH2SWF</span><span class="p">.</span><span class="nx">swf</span><span class="o">?</span><span class="nx">a</span><span class="o">=</span><span class="mi">1</span><span class="o">&amp;</span><span class="nx">b</span><span class="o">=</span><span class="mi">2</span>
+</pre></div>
+</div>
+<p>这样传参的好处则可以避免了URL的长度限制,其本身可以承受最大64KB容量的数据意味着可以传递大规模的数据,为了解决 &#8220;较少的参数传递更多更复杂数据&#8221;.
+Flash支持复杂的flashvars传递. 同时,复杂数据意味着&#8221;杂质&#8221;,因此 Flash 将自行将参数值进行encodeURIComponent处理.
+因此,凡flashvars深度大于1的,都将会把数据转换为JSON数据给SWF.
+示例：</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">F</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;#test-flash3&#39;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">src</span><span class="o">:</span> <span class="s1">&#39;assets/test.swf&#39;</span><span class="p">,</span>
+    <span class="nx">version</span><span class="o">:</span> <span class="mi">9</span><span class="p">,</span>
+    <span class="nx">attrs</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">width</span><span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
+        <span class="nx">height</span><span class="o">:</span> <span class="mi">150</span>
+    <span class="p">},</span>
+    <span class="nx">params</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">flashvars</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">s</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+            <span class="nx">b</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nx">n</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nx">nul</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nx">und</span><span class="o">:</span> <span class="kc">undefined</span><span class="p">,</span>
+            <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;http://taobao.com/?x=1&amp;z=2&quot;</span><span class="p">,</span>
+            <span class="nx">o</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">s</span><span class="o">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+                <span class="nx">b</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+                <span class="nx">n</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;http://taobao.com/?x=1&amp;z=2&quot;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">status</span> <span class="o">!==</span> <span class="mi">1</span><span class="p">)</span> <span class="nx">test</span><span class="p">.</span><span class="nx">fail</span><span class="p">();</span>
+<span class="p">});</span>
+<span class="c1">// 见此页最后的完整测试页面示例</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="remove">
+<tt class="descname">remove</tt><big>(</big><big>)</big><a class="headerlink" href="#remove" title="Permalink to this definition">¶</a></dt>
+<dd><div class="line-block">
+<div class="line">void <strong>remove</strong> ( id )</div>
+<div class="line">通过指定的ID,移除已注册到 Flash 的 SWF 和 DOM 中对应的 HTML 元素.</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Parameters:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><strong>id</strong> (<em>String</em>) &#8211; 在 Flash 中注册的ID.  必选`</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">对于已存在DOM中,但未向 Flash注册的,则不会被移除.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="get">
+<tt class="descname">get</tt><big>(</big><big>)</big><a class="headerlink" href="#get" title="Permalink to this definition">¶</a></dt>
+<dd><div class="line-block">
+<div class="line">HTMLElement <strong>get</strong> ( id )</div>
+<div class="line">获得已注册到 Flash 的 SWF.</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Parameters:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><strong>id</strong> (<em>String</em>) &#8211; 在 Flash 中注册的ID.  必选</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body">{Boolean} - 返回 SWF 的 HTML 元素,可能是(&lt;object&gt;或&lt;embed&gt;).  未注册时,返回 undefined</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">注意,请不要混淆 DOM.get() 和 Flash.get().
+对于未向 Flash注册的SWF,请使用 DOM.get()方法.
+只有成功执行过 Flash.add() 的 SWF 才可以被获取.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="contains">
+<tt class="descname">contains</tt><big>(</big><big>)</big><a class="headerlink" href="#contains" title="Permalink to this definition">¶</a></dt>
+<dd><div class="line-block">
+<div class="line">Boolean <strong>contains</strong> ( target )</div>
+<div class="line">检测是否存在已注册的 swf.</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Parameters:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><strong>target</strong> (<em>String</em>) &#8211; 在 Flash 中注册的ID.  必选`</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body">{Boolean} - 只有有成功执行过 S.Flash.add() 的 SWF 返回 true,其他返回 false.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+            <div id="disqus_thread"></div>
+<script>
+    if((window.location.hostname.indexOf("kissyui.com")!=-1 )&& window.localStorage.getItem("kissy-commment")!="0"){
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kissy-docs'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+     //var disqus_identifier = '/anim';
+     //var disqus_url = window.location;
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    }
+</script>
+<!--<div id="google-search-box">
+    <div id="cse" style="width: 100%;">Loading</div>
+    <script>
+        if(window.location.hostname.indexOf("kissyui.com")!=-1){
+            document.write('<script src="http://www.google.com/jsapi" type="text/javascript"><'+'/script>');
+        }
+    </script>
+    <script>
+        if(window.location.hostname.indexOf("kissyui.com")!=-1){
+            google.load('search', '1', {language : 'zh-CN', style : google.loader.themes.MINIMALIST});
+            google.setOnLoadCallback(function() {
+                var customSearchControl = new google.search.CustomSearchControl('012347804910294994683:n4uzb24gqdm');
+                customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+                customSearchControl.draw('cse');
+            }, true);
+        }
+    </script>
+</div>-->
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">flash-embed</a><ul>
+<li><a class="reference internal" href="#methods">Methods</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="flash-ua.html"
+                        title="previous chapter">flash-ua</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../practice/index.html"
+                        title="next chapter">flash 基础</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/flash-embed.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../practice/index.html" title="flash 基础"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="flash-ua.html" title="flash-ua"
+             >previous</a> |</li>
+        <li><a href="../index.html">KISSY Gallery Flash 1.0 Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010-2099, kissyteam.
+      Last updated on Dec 18, 2012.
+    </div>
+  </body>
+</html>

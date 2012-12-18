@@ -1,0 +1,448 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>嵌入SWF的几种方式 &mdash; KISSY Gallery Flash 1.0 Documentation</title>
+    
+<link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/nature.css" type="text/css" />
+<link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/jquery.js"></script>
+<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/underscore.js"></script>
+<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/gallery/sphinx/1.1.3/doctools.js"></script>
+    <link rel="top" title="KISSY Gallery Flash 1.0 Documentation" href="../index.html" />
+    <link rel="up" title="flash 基础" href="index.html" />
+    <link rel="next" title="FlashPlayer 参数" href="flashplayer-parameters.html" />
+    <link rel="prev" title="关于 alternative content" href="alternative-content.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="flashplayer-parameters.html" title="FlashPlayer 参数"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="alternative-content.html" title="关于 alternative content"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">KISSY Gallery Flash 1.0 Documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">flash 基础</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="swf">
+<h1>嵌入SWF的几种方式<a class="headerlink" href="#swf" title="Permalink to this headline">¶</a></h1>
+<div class="line-block">
+<div class="line">一般来说，仅仅插入SWF不需要任何 JS代码。</div>
+<div class="line">当一个页面需要借助JS插入SWF,通常出于以下1个或多个情况:</div>
+<div class="line">- 消除某些浏览器存在的“点击激活(click-to-activate)”机制 。</div>
+<div class="line">- 当前页面和SWF间通讯。</div>
+<div class="line">- Flash player 版本向导及客户端版本控制。</div>
+<div class="line">- 动态增删改SWF及其涉及的元素属性及内容。</div>
+<div class="line"><br /></div>
+<div class="line">使用动态方式插入 SWF 时，代码会自行判断浏览器并以最恰当的方式进行插入。</div>
+<div class="line">代码差异性：指设定同样内容时，需要通过2种方式共同指定。</div>
+<div class="line"><br /></div>
+<div class="line">嵌入 SWF 有以下几种方式:</div>
+<div class="line">- <a class="reference internal" href="#flash-embed-section1"><em>O-E静态方式</em></a></div>
+<div class="line">- <a class="reference internal" href="#flash-embed-section2"><em>O-O静态方式</em></a></div>
+<div class="line">- <a class="reference internal" href="#flash-embed-section3"><em>L-O静态方式</em></a></div>
+<div class="line">- <a class="reference internal" href="#flash-embed-section4"><em>L-E静态方式</em></a></div>
+</div>
+<div class="section" id="o-e">
+<span id="flash-embed-section1"></span><h2>O-E静态方式<a class="headerlink" href="#o-e" title="Permalink to this headline">¶</a></h2>
+<p><strong>关于:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>由 OBEJCT 和 EMBED 两个标签组合而成</li>
+<li>Adobe Flash Pro 等官方工具产出的页面中 NOSCRIPT 标签间包含的内容</li>
+<li>通常附带名为 AC_RunActiveContent 的 javascript 文件</li>
+</ul>
+</div></blockquote>
+<p><strong>优点:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>最强兼容性</li>
+<li>遵从“优雅降级”(Gracefuldegradation)方式</li>
+<li>官方代码,具有官方技术人员负责维护核心部分代码。如 AC_RunActiveContent.js</li>
+</ul>
+</div></blockquote>
+<p><strong>缺点:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>最具差异性代码，不便于统一维护。</li>
+<li>无法自定义替换内容Alternative content。即不满足可用性(usable)。</li>
+<li>官方代码,具有官方技术人员负责维护核心部分代码。如 AC_RunActiveContent.js</li>
+<li>代码冗余</li>
+</ul>
+</div></blockquote>
+<p><strong>其他:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>默认官方代码主要依靠JS动态加载。可能会受限于页面控制权限。如第三方平台不允许用户使用。</li>
+<li>仅静态嵌入,需要用户从自动生成代码的 NOSCRIPT 标签中剥离。</li>
+<li>AC_RunActiveContent是document.write()方式写入object或embed标签。</li>
+</ul>
+</div></blockquote>
+<p><strong>适用:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>自己的站点，或不需要考虑太多问题的地方。因为官方都已做好，傻瓜式。</li>
+<li>需要最强兼容但不需要自定义替换内容Alternative content的应用。</li>
+</ul>
+</div></blockquote>
+<p><strong>示例代码:</strong></p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">language=</span><span class="s">&quot;javascript&quot;</span><span class="nt">&gt;</span><span class="nx">AC_FL_RunContent</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;AC_RunActiveContent.js&quot;</span> <span class="na">language=</span><span class="s">&quot;javascript&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">language=</span><span class="s">&quot;javascript&quot;</span><span class="nt">&gt;</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">AC_FL_RunContent</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;此页需要 AC_RunActiveContent.js&quot;</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">AC_FL_RunContent</span><span class="p">(</span>
+        <span class="s1">&#39;codebase&#39;</span><span class="p">,</span> <span class="s1">&#39;/swflash.cab#version=9,0,0,0&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="s1">&#39;950&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="s1">&#39;203&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="s1">&#39;SWF.swf&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;quality&#39;</span><span class="p">,</span> <span class="s1">&#39;high&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;pluginspage&#39;</span><span class="p">,</span> <span class="s1">&#39;http://www.macromedia.com/go/getflashplayer&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;align&#39;</span><span class="p">,</span> <span class="s1">&#39;middle&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;play&#39;</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;loop&#39;</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;scale&#39;</span><span class="p">,</span> <span class="s1">&#39;showall&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;wmode&#39;</span><span class="p">,</span> <span class="s1">&#39;window&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;devicefont&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;movie&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;bgcolor&#39;</span><span class="p">,</span> <span class="s1">&#39;#ffffff&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;movie&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;menu&#39;</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;allowFullScreen&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;allowScriptAccess&#39;</span><span class="p">,</span><span class="s1">&#39;sameDomain&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;movie&#39;</span><span class="p">,</span> <span class="s1">&#39;SWF.swf&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;salign&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span>
+        <span class="p">);</span> <span class="c1">//end AC code</span>
+<span class="p">}</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;noscript&gt;</span>
+
+<span class="nt">&lt;object</span>
+    <span class="na">classid=</span><span class="s">&quot;clsid:D27CDB6E-AE6D-11cf-96B8-444553540000&quot;</span>
+    <span class="na">codebase=</span><span class="s">&quot;/swflash.cab#version=6,0,0,0&quot;</span>
+    <span class="na">width=</span><span class="s">&quot;950&quot;</span>
+    <span class="na">height=</span><span class="s">&quot;203&quot;</span>
+    <span class="na">id=</span><span class="s">&quot;movie&quot;</span>
+<span class="nt">&gt;</span>
+
+    <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;movie&quot;</span> <span class="na">value=</span><span class="s">&quot;SWF.swf&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allowfullscreen&quot;</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allowscriptaccess&quot;</span> <span class="na">value=</span><span class="s">&quot;always&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allownetworking&quot;</span> <span class="na">value=</span><span class="s">&quot;all&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;wmode&quot;</span> <span class="na">value=</span><span class="s">&quot;transparent&quot;</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;embed</span> <span class="na">src=</span><span class="s">&quot;SWF.swf&quot;</span>
+            <span class="na">width=</span><span class="s">&quot;950&quot;</span>
+            <span class="na">height=</span><span class="s">&quot;203&quot;</span>
+            <span class="na">allowfullscreen=</span><span class="s">&quot;true&quot;</span>
+            <span class="na">allowscriptaccess=</span><span class="s">&quot;always&quot;</span>
+            <span class="na">allownetworking=</span><span class="s">&quot;all&quot;</span>
+            <span class="na">wmode=</span><span class="s">&quot;transparent&quot;</span>
+            <span class="na">name=</span><span class="s">&quot;movie&quot;</span>
+            <span class="na">type=</span><span class="s">&quot;application/x-shockwave-flash&quot;</span>
+            <span class="na">pluginspage=</span><span class="s">&quot;http://www.macromedia.com/go/getflashplayer&quot;</span>
+    <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/object&gt;</span>
+<span class="nt">&lt;/noscript&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="o-o">
+<span id="flash-embed-section2"></span><h2>O-O静态方式<a class="headerlink" href="#o-o" title="Permalink to this headline">¶</a></h2>
+<p><strong>关于:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>由 2 个OBEJCT 标签组合而成</li>
+<li>SWObject 作者推荐的静态潜入方式</li>
+<li>通常附带名为 AC_RunActiveContent 的 javascript 文件</li>
+</ul>
+</div></blockquote>
+<p><strong>优点:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>PC主流浏览器兼容。</li>
+<li>较少代码差异性，利于维护。</li>
+<li>可以自定义替换内容Alternative content。</li>
+</ul>
+</div></blockquote>
+<p><strong>缺点:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>在某些浏览器下会多一次自定义替换内容Alternative content的请求。</li>
+<li>在某些浏览器下多一次 SWF 请求，且不会从缓存取该内容。</li>
+<li>IE条件注释标签作可能在非IE浏览器下存在潜在问题</li>
+<li>代码部分冗余</li>
+</ul>
+</div></blockquote>
+<p><strong>其他:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>有在线生成器。</li>
+<li>SWFOject生成动态代码都是替换指定的 HTML 元素为一个 OBJECT 元素。</li>
+</ul>
+</div></blockquote>
+<p><strong>适用:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>所有PC上。</li>
+<li>当用户播放器可能没有安装或版本过低时，期望出现可替换内容的Alternative content。</li>
+<li>可能需要通过期望出现可替换内容的 Alternative content 面向SEO的。</li>
+</ul>
+</div></blockquote>
+<p><strong>示例代码:</strong></p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;object</span> <span class="na">classid=</span><span class="s">&quot;clsid:D27CDB6E-AE6D-11cf-96B8-444553540000&quot;</span> <span class="na">width=</span><span class="s">&quot;950&quot;</span>
+<span class="na">height=</span><span class="s">&quot;203&quot;</span> <span class="na">id=</span><span class="s">&quot;myFlashContent&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;movie&quot;</span> <span class="na">value=</span><span class="s">&quot;SWF.swf&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allowfullscreen&quot;</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allowscriptaccess&quot;</span> <span class="na">value=</span><span class="s">&quot;always&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allownetworking&quot;</span> <span class="na">value=</span><span class="s">&quot;all&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;wmode&quot;</span> <span class="na">value=</span><span class="s">&quot;transparent&quot;</span> <span class="nt">/&gt;</span>
+    <span class="c">&lt;!--[if !IE]&gt;--&gt;</span>
+    <span class="nt">&lt;object</span> <span class="na">type=</span><span class="s">&quot;application/x-shockwave-flash&quot;</span> <span class="na">data=</span><span class="s">&quot;SWF.swf&quot;</span>
+    <span class="na">width=</span><span class="s">&quot;950&quot;</span> <span class="na">height=</span><span class="s">&quot;203&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allowfullscreen&quot;</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span> <span class="nt">/&gt;</span>
+
+        <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allowscriptaccess&quot;</span> <span class="na">value=</span><span class="s">&quot;always&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allownetworking&quot;</span> <span class="na">value=</span><span class="s">&quot;all&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;scale&quot;</span> <span class="na">value=</span><span class="s">&quot;exactfit&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;wmode&quot;</span> <span class="na">value=</span><span class="s">&quot;transparent&quot;</span> <span class="nt">/&gt;</span>
+    <span class="c">&lt;!--&lt;![endif]--&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://www.adobe.com/go/getflashplayer&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;get_flash_player.gif&quot;</span> <span class="na">alt=</span><span class="s">&quot;Get Adobe Flash player&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/a&gt;</span>
+    <span class="c">&lt;!--[if !IE]&gt;--&gt;</span>
+    <span class="nt">&lt;/object&gt;</span>
+    <span class="c">&lt;!--&lt;![endif]--&gt;</span>
+<span class="nt">&lt;/object&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="l-o">
+<span id="flash-embed-section3"></span><h2>L-O静态方式<a class="headerlink" href="#l-o" title="Permalink to this headline">¶</a></h2>
+<p><strong>关于:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>L-O即 Lazy Object。</li>
+<li>仅有一个 OBJECT 标签。</li>
+<li>是O-O方式的偷懒写法。</li>
+</ul>
+</div></blockquote>
+<p><strong>优点:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>PC上所有主流浏览器兼容。</li>
+<li>代码差异性很小。</li>
+<li>代码量较少。</li>
+<li>可以自定义替换内容Alternative content。</li>
+</ul>
+</div></blockquote>
+<p><strong>缺点:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>由于是O-O方式的偷懒法，故拥有O-O方式全部缺点。</li>
+<li>在部分浏览器下，SWF将不能被缓存。</li>
+</ul>
+</div></blockquote>
+<p><strong>适用:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>对页面请求数要求不高的页面。</li>
+<li>想偷懒又想能自定义替换内容Alternative content的页面。</li>
+</ul>
+</div></blockquote>
+<p><strong>示例代码:</strong></p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;object</span>  <span class="na">type=</span><span class="s">&quot;application/x-shockwave-flash&quot;</span>  <span class="na">data=</span><span class="s">&quot;SWF.swf&quot;</span>
+<span class="na">width=</span><span class="s">&quot;950&quot;</span> <span class="na">height=</span><span class="s">&quot;203&quot;</span> <span class="na">id=</span><span class="s">&quot;myFlashContent&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;movie&quot;</span> <span class="na">value=</span><span class="s">&quot;SWF.swf&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allowfullscreen&quot;</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allowscriptaccess&quot;</span> <span class="na">value=</span><span class="s">&quot;always&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;allownetworking&quot;</span> <span class="na">value=</span><span class="s">&quot;all&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;wmode&quot;</span> <span class="na">value=</span><span class="s">&quot;transparent&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://www.adobe.com/go/getflashplayer&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;get_flash_player.gif&quot;</span> <span class="na">alt=</span><span class="s">&quot;Get Adobe Flash player&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/object&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="l-e">
+<span id="flash-embed-section4"></span><h2>L-E静态方式<a class="headerlink" href="#l-e" title="Permalink to this headline">¶</a></h2>
+<p><strong>关于:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>L-E即 Lazy Embed</li>
+<li>仅有一个 EMBED 标签。</li>
+</ul>
+</div></blockquote>
+<p><strong>优点:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>兼容当前所有主流浏览器。</li>
+<li>代码量最少。</li>
+<li>代码无差异性。</li>
+<li>无多余请求。</li>
+</ul>
+</div></blockquote>
+<p><strong>缺点:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>无法自定义替换内容Alternative content。</li>
+<li>非XHTML1.0规范(HTML5才正式纳入规范)。</li>
+<li>可能某些版本浏览器解析有问题。</li>
+</ul>
+</div></blockquote>
+<p><strong>适用:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>希望使用最少代码的页面</li>
+<li>不需要自定义替换内容Alternative content的页面</li>
+</ul>
+</div></blockquote>
+<p><strong>示例代码:</strong></p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;embed</span> <span class="na">src=</span><span class="s">&quot;SWF.swf&quot;</span>  <span class="na">width=</span><span class="s">&quot;950&quot;</span> <span class="na">height=</span><span class="s">&quot;203&quot;</span>
+        <span class="na">allowfullscreen=</span><span class="s">&quot;true&quot;</span>
+        <span class="na">allowscriptaccess=</span><span class="s">&quot;always&quot;</span>
+        <span class="na">allownetworking=</span><span class="s">&quot;all&quot;</span>
+        <span class="na">wmode=</span><span class="s">&quot;transparent&quot;</span>
+        <span class="na">name=</span><span class="s">&quot;movie&quot;</span>
+        <span class="na">pluginspage=</span><span class="s">&quot;http://www.macromedia.com/go/getflashplayer&quot;</span>
+<span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+            <div id="disqus_thread"></div>
+<script>
+    if((window.location.hostname.indexOf("kissyui.com")!=-1 )&& window.localStorage.getItem("kissy-commment")!="0"){
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kissy-docs'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+     //var disqus_identifier = '/anim';
+     //var disqus_url = window.location;
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    }
+</script>
+<!--<div id="google-search-box">
+    <div id="cse" style="width: 100%;">Loading</div>
+    <script>
+        if(window.location.hostname.indexOf("kissyui.com")!=-1){
+            document.write('<script src="http://www.google.com/jsapi" type="text/javascript"><'+'/script>');
+        }
+    </script>
+    <script>
+        if(window.location.hostname.indexOf("kissyui.com")!=-1){
+            google.load('search', '1', {language : 'zh-CN', style : google.loader.themes.MINIMALIST});
+            google.setOnLoadCallback(function() {
+                var customSearchControl = new google.search.CustomSearchControl('012347804910294994683:n4uzb24gqdm');
+                customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+                customSearchControl.draw('cse');
+            }, true);
+        }
+    </script>
+</div>-->
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">嵌入SWF的几种方式</a><ul>
+<li><a class="reference internal" href="#o-e">O-E静态方式</a></li>
+<li><a class="reference internal" href="#o-o">O-O静态方式</a></li>
+<li><a class="reference internal" href="#l-o">L-O静态方式</a></li>
+<li><a class="reference internal" href="#l-e">L-E静态方式</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="alternative-content.html"
+                        title="previous chapter">关于 alternative content</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="flashplayer-parameters.html"
+                        title="next chapter">FlashPlayer 参数</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/practice/embed-swf-onto-webpage.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="flashplayer-parameters.html" title="FlashPlayer 参数"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="alternative-content.html" title="关于 alternative content"
+             >previous</a> |</li>
+        <li><a href="../index.html">KISSY Gallery Flash 1.0 Documentation</a> &raquo;</li>
+          <li><a href="index.html" >flash 基础</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010-2099, kissyteam.
+      Last updated on Dec 18, 2012.
+    </div>
+  </body>
+</html>
