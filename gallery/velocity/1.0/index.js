@@ -411,6 +411,10 @@ KISSY.add('gallery/velocity/1.0/index', function(S){
           str += this.getMacro(ast);
           break;
 
+          case 'parse':
+          str += this.getParse(ast);
+          break;
+
           case 'end':
           //使用slide获取block的拷贝
           str += this.getBlock(block.slice());
@@ -620,12 +624,24 @@ KISSY.add('gallery/velocity/1.0/index', function(S){
      * 对双引号字符串进行eval求值，替换其中的变量，只支持最基本的变量类型替换
      */
     evalStr: function(str){
-      var ret = str;
-      var reg = /\$\{{0,1}([a-z][a-z_\-0-9.]*)\}{0,1}/gi;
-      var self = this;
-      ret = ret.replace(reg, function(){
-        return self._getFromVarname(arguments[1]);
-      });
+
+      // 如果是Broswer环境，使用正则执行evalStr，如果是node环境，或者自行设置
+      // Velocity.Parser = Parser，可以对evalStr完整支持
+      if (Velocity.Parser) {
+
+        var asts = Velocity.Parser.parse(str);
+        ret = this._render(asts);
+
+      } else {
+
+        var ret = str;
+        var reg = /\$\{{0,1}([_a-z][a-z_\-0-9.]*)\}{0,1}/gi;
+        var self = this;
+        ret = ret.replace(reg, function(){
+          return self._getFromVarname(arguments[1]);
+        });
+      }
+
       return ret;
     },
 
@@ -659,8 +675,38 @@ KISSY.add('gallery/velocity/1.0/index', function(S){
   });
 }(Velocity, utils);
 
+/** file: ./src/compile/parse.js*/
+!function(Velocity, utils){
+  /**
+   * #parse解析
+   */
+  utils.mixin(Velocity.prototype, {
+
+    getParse: function(ast){
+
+      var param = this.getLiteral(ast.id);
+
+      var getString = Velocity.getParseString;
+      var Parser = Velocity.Parser;
+
+      if (!getString || !Parser) {
+        return '#parse(' + (ast.id.type === 'references' ? 
+          Velocity.Helper.getRefText(ast.id) : ('"' + ast.id + '"') ) + ')';
+      } else {
+        var str = getString(param);
+        var asts = Parser.parse(str);
+
+        return this._render(asts);
+      }
+
+    }
+
+  });
+}(Velocity, utils);
+
 /** file: ./src/compile/references.js*/
 !function(Velocity, utils){
+
   utils.mixin(Velocity.prototype, {
     /**
      * 引用求值
@@ -801,10 +847,8 @@ KISSY.add('gallery/velocity/1.0/index', function(S){
       var id         = property.id;
       var ret        = '';
       var _id        = id.slice(3);
-      //特殊方法
-      var specialFns = ['keySet'];
 
-      if (id.indexOf('get') === 0) {
+      if (!(id in baseRef) && id.indexOf('get') === 0) {
 
         if (_id) {
           ret = baseRef[_id];
@@ -821,6 +865,11 @@ KISSY.add('gallery/velocity/1.0/index', function(S){
 
       } else if (id === 'keySet') {
         ret = utils.keys(baseRef);
+      } else if (id === 'entrySet') {
+        ret = [];
+        utils.forEach(baseRef, function(value, key){
+          ret.push({key: key, value: value});
+        });
       } else {
 
         ret = baseRef[id];
