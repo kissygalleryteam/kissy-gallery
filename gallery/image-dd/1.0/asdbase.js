@@ -1,4 +1,4 @@
-/**
+﻿/**
  * User: g.gaokai@gmail.com
  * Date: 12-09-16
  * describe: attr, status, data  getter setter
