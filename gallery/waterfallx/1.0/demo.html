@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="gbk" />
+    <title></title>
+    <script src="http://a.tbcdn.cn/??s/kissy/1.2.0/kissy.js" charset="gbk"></script>
+     <script type="text/javascript" src="waterfallx.js"></script>
+     <script type="text/javascript" src="demo.js"></script>
+    <style type="text/css">
+    	body {
+    		overflow-y:scroll;
+    	}
+        #container {
+            width: 90%;    
+            margin:0 auto;
+            position: relative;
+        }
+        
+        img {
+        	margin-top: 20px;
+
+
+        }
+        
+        .result-item {          
+            width:210px;
+            vertical-align: middle;
+            text-align:center;
+            padding: 20px;
+            margin:0 auto;          
+            margin-top:5px;
+            overflow:hidden;
+            background:#cad5eb;
+            
+        }
+
+
+    </style>
+</head>
+<body>
+<select name="" id="">
+    <option value="">0</option>
+</select>
+<div id="container">
+</div>
+<script type="tpl" id="tpl">
+    <div class="result-item ks-waterfall">
+        <div class="result-item-wrap">
+            <div class="item-pic">
+                <a href="{{titleUrl}}" target="_blank" title="{{title}}">
+                    <img src="{{picUrl}}" class="J_WaterfallImg"  width="210" />
+                </a>
+        </div>
+    </div>
+</script>
+</body>
+</html>
