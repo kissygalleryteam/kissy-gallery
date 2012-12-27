@@ -109,7 +109,7 @@ KISSY.add('waterfallx/base', function (S) {
                 effect.easing
             );
         } else {
-            colItems[col].append(item);
+            colItems[col][add](item);
             callback && callback();
         }
         return item;

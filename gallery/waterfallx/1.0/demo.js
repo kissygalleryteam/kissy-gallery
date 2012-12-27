@@ -13,7 +13,6 @@ KISSY.ready(function(S) {
             }
         }
     });
-    document.domain = 'taobao.com';
 	S.use('waterfallx, template', function(S, WaterFall, Template) {
 		var nextPage = 0;
 		wf = new WaterFall.Loader({
