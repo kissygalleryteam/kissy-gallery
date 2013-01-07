@@ -1,0 +1,148 @@
+﻿<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="assets/bootstrap.min.css">
+	<style type="text/css">
+		table{
+			border:solid 1px #eee;
+			width: 500px;
+		}
+		li{
+			list-style-type:none;
+		}
+		li span{
+			width: 80px;
+			text-align: right;
+			display: inline-block;
+			margin-right: 10px;
+		}
+		.left{
+			margin-left: 90px;
+		}
+		.div{
+			padding: 10px 0 20px 50px;
+		}
+	</style>	
+</head>
+<body>
+	<h1>
+		离线存储
+	</h1>
+	<ul>
+		<li><span>key:</span><input id="J_a"></li>
+		<li><span>value:</span><textarea rows="5" cols="10" id="J_b"></textarea></li>
+		<li><span>过期时间：</span><input id="J_c"></li>
+		<li><input type="button" id="J_Save" class="btn left" value="保存"></li>
+	</ul>
+
+	<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+	<script type="text/javascript">
+		KISSY.config({
+            packages: [{
+                name: "gallery",
+                path: "../../",
+                charset: "utf-8"
+            }]
+        });
+	</script>
+	
+	<div class="div">
+		<input id="J_ShowAll" type="hidden" class="btn" value="显示全部">
+		<input type="button" class="btn" id="J_Clear" value="清空">
+		<input type="button" class="btn" id="J_Used" value="使用字节">
+	</div>
+		
+	<table border="1">
+		<thead>
+			<tr>
+				<th>
+					key
+				</th>
+				<th>
+					value
+				</th>
+				<th>
+					操作
+				</th>
+				<th>
+					查看
+				</th>				
+			</tr>
+		</thead>
+		<tbody id="J_Tbody">			
+			<tr class="J_List">
+				
+			</tr>			
+		</tbody>
+	</table>
+	
+	
+	<script type="text/javascript">
+		//alert(document.addBehavior);
+		KISSY.use('gallery/offline/1.0/index',function (S,Offiline) {
+			var a = new Offiline();
+			var $ = S.all;
+			var TEMPLATE = '<tr class="J_List">'+
+								'<td>{key}</td>'+
+								'<td>{value}</td>'+
+								'<td><a class="J_Delete" href="javascript:void(0)" item-name="{key}">删除</a></td>'+
+								'<td><a class="J_Remain" href="javascript:void(0)" item-name="{key}">剩余时间</a></td>'+
+							'</tr>';
+
+
+/**
+	Template('Hello, <b color="{{_ks_value.color}}">{{_ks_value.user}}</b>{{/each}})')
+    .render({users: [{name: 'Frank', color: 'red'}, {name: 'yyfrankyy', color: 'green']});
+ */
+			$('#J_ShowAll').on('click',function(){
+				var o = a.getAll(true),
+					arr = [];
+				for(var i in o){
+					if(o.hasOwnProperty(i)){
+						arr.push(S.substitute(TEMPLATE,{
+							key:i,
+							value:o[i]
+						}));
+					}
+				}
+				$('.J_List').remove();
+				$('#J_Tbody').append($(arr.join('')));
+			});
+
+			S.later(function(){
+				$('#J_ShowAll').fire('click');
+			},1000);
+
+			$('#J_Save').on('click',function(){
+				a.setItem($('#J_a').val(),$('#J_b').val(),$('#J_c').val());
+				$('#J_ShowAll').fire('click');
+			});
+			//删除			
+			S.Event.delegate(document,'click','.J_Delete',function(e){
+				a.removeItem($(e.currentTarget).attr('item-name'));
+				$('#J_ShowAll').fire('click');
+			});
+			//剩余时间			
+			S.Event.delegate(document,'click','.J_Remain',function(e){
+				var time = a.timeRemain($(e.currentTarget).attr('item-name'));
+
+				alert(time===-1?'没有限制':time);
+			});
+
+			//清空
+			$('#J_Clear').on('click',function(){
+				a.clear();
+				$('#J_ShowAll').fire('click');
+			});
+
+
+			//统计
+			$('#J_Used').on('click',function(){
+				alert(a.usedByte());
+			});
+		});
+	</script>
+</body>
+</html>	
