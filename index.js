@@ -24,6 +24,10 @@
 
         "desc":"原 KISSY 1.3 flash"
     },
+    {
+        "name":"graph",
+        "desc":"图表"
+   },
    {
         "name":"velocity",
 
