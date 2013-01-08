@@ -5,6 +5,10 @@
         "desc":"raphael 封装"
    },
    {
+        "name":"ua-extra",
+        "desc":"国产浏览器探测"
+   },
+   {
         "name":"suggest",
 
         "desc":"原 KISSY 1.3 Suggest"
