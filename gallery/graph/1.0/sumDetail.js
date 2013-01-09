@@ -11,7 +11,6 @@ KISSY.add('gallery/graph/1.0/sumDetail', function(S, UA, Node, XTemplate){
 	}
 
 	S.augment(SumDetail, {
-
 		version: "1.0",
 
 		SVGTEMPLATE: {
@@ -19,8 +18,8 @@ KISSY.add('gallery/graph/1.0/sumDetail', function(S, UA, Node, XTemplate){
 			END: '</svg>',
 			CIRCLE: '<circle cx="{{cx}}" cy="{{cy}}" r="{{r}}" fill="{{style.background}}" style="position:absolute"/>',
 			LINE: '<line x1="{{sx}}" y1="{{sy}}" x2="{{dx}}" y2="{{dy}}" style="background-color:{{style.borderColor}};position:absolute;stroke:{{style.borderColor}};stroke-width:{{style.borderWidth}}"/>',
-			H1: '<text x="{{cx}}" y="{{cy}}" text-anchor="middle" fill="white"><tspan font-weight="bold" font-size="{{h1.fontSize}}px">{{h1.text}}</tspan></text>',
-			H2: '<text x="{{cx}}" y="{{cy+r/3}}" text-anchor="middle" fill="white"><tspan font-weight="400" font-size="{{h2.fontSize}}px" font-family="Microsoft Yahei">{{h2.text}}</tspan></text>'
+			H1: '<text x="{{cx}}" y="{{cy}}" text-anchor="middle" fill="{{h1.color}}"><tspan font-weight="bold" font-size="{{h1.fontSize}}px">{{h1.text}}</tspan></text>',
+			H2: '<text x="{{cx}}" y="{{cy+h2.fontSize*5/3}}" text-anchor="middle" fill="{{h2.color}}"><tspan font-weight="400" font-size="{{h2.fontSize}}px" font-family="Microsoft Yahei">{{h2.text}}</tspan></text>'
 		},
 
 		VMLTEMPLATE: {
@@ -30,7 +29,7 @@ KISSY.add('gallery/graph/1.0/sumDetail', function(S, UA, Node, XTemplate){
 					+'left:{{left}}px;'
 					+'top:{{top}}px;'
 					+'width:{{width}}px;'
-					+'height:{{height}}px"'
+					+'height:{{height}}px;"'
 					+'fillcolor="{{style.background}}"'
 					+'arcsize = ".5"'
 					+'stroked="f"></v:roundrect>',
@@ -44,10 +43,10 @@ KISSY.add('gallery/graph/1.0/sumDetail', function(S, UA, Node, XTemplate){
 				  +'strokeweight="{{style.borderWidth}}px"></v:line>',
 			H1: '<span style="display:block;position:absolute;width:{{2*r}}px;'
 				+'top:{{h1tt}}px;left:{{h1tl}}px;font-size: {{h1.fontSize}}px;'
-				+'font-weight: 700;color:#fff;text-align:center;">{{h1.text}}</span>',
+				+'font-weight: 700;color:{{h1.color}};text-align:center;">{{h1.text}}</span>',
 			H2: '<span style="display:block;position:absolute;width:{{2*r}}px;'
 				+'top:{{h2tt}}px;left:{{h2tl}}px;font-size: {{h2.fontSize}}px;'
-				+'font-weight: 700;color:#fff;text-align:center;">{{h2.text}}</span>'
+				+'font-weight: 700;color:{{h2.color}};text-align:center;">{{h2.text}}</span>'
 		},
 
 		CONFIG : {
@@ -127,13 +126,13 @@ KISSY.add('gallery/graph/1.0/sumDetail', function(S, UA, Node, XTemplate){
 			self.CONFIG.lines = lines;
 
 			//text居中问题
-			circles = cfg.son;
 			circles.push(cfg.father);
+			circles = circles.concat(cfg.son);
 			S.each(circles, function(c, i){
 				c['h1tl'] = c.cx - c.r;
-				c['h1tt'] = c.cy - c.r*1/4;
+				c['h1tt'] = c.cy - c.h1.fontSize*4/5;
 				c['h2tl'] = c.cx - c.r;
-				c['h2tt'] = c.cy + c.r*1/4;
+				c['h2tt'] = c.cy + c.h1.fontSize*4/5;
 			});
 			self.CONFIG.circles = circles;
 		},
