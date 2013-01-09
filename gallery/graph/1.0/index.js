@@ -5,7 +5,7 @@
  */
 
 KISSY.add('gallery/graph/1.0/index', function(S, SumDetail){
-    var $ = Node.all;
+
     function Graph(){}
     
     Graph.SumDetail = SumDetail;
