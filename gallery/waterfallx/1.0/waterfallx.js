@@ -15,7 +15,7 @@
  *
  * @author 踏风<tafeng.dxx@taobao.com>
  */
-KISSY.add('waterfallx/base', function (S) {
+KISSY.add('gallery/waterfallx/1.0/base', function (S) {
     var $ = S.Node.all,
         D = S.DOM,
         win = S.Env.host || window,
@@ -109,7 +109,7 @@ KISSY.add('waterfallx/base', function (S) {
                 effect.easing
             );
         } else {
-            colItems[col][add](item);
+            colItems[col].append(item);
             callback && callback();
         }
         return item;
@@ -345,11 +345,10 @@ KISSY.add('waterfallx/base', function (S) {
     return WaterFallX;
 });
 
-
 /*
  Loader
  * */
-KISSY.add("waterfallx/loader", function (S, Node, Waterfall) {
+KISSY.add("gallery/waterfallx/1.0/loader", function (S, Node, Waterfall) {
 
     var $ = Node.all,
         win = S.Env.host || window,
@@ -367,6 +366,7 @@ KISSY.add("waterfallx/loader", function (S, Node, Waterfall) {
         if (self.__loading || !self.__started) {
             return;
         }
+        console.log("waterfall:loaded")
         // 如果正在调整中，等会再看
         // 调整中的高度不确定，现在不适合判断是否到了加载新数据的条件
         if (self.isAdjusting()) {
@@ -376,10 +376,9 @@ KISSY.add("waterfallx/loader", function (S, Node, Waterfall) {
             return;
         }
         var diff = self.config.diff;
-
         // 动态载
         // 最小高度(或被用户看到了)低于预加载线
-        if (diff + $(win).scrollTop() + $(win).height() > self.container.outerHeight(true)) {
+        if (diff + $(win).scrollTop() + $(win).height() >= self.container.outerHeight(true)) {
             S.log("waterfall:loading");
             loadData.call(self);
         }
@@ -469,10 +468,9 @@ KISSY.add("waterfallx/loader", function (S, Node, Waterfall) {
     requires:['node', './base']
 });
 
-
-KISSY.add("waterfallx", function (S, WaterfallX, Loader) {
+KISSY.add("gallery/waterfallx/1.0/waterfallx", function (S, WaterfallX, Loader) {
     WaterfallX.Loader = Loader;
     return WaterfallX;
 }, {
-    requires:['waterfallx/base', 'waterfallx/loader']
+    requires:['gallery/waterfallx/1.0/base', 'gallery/waterfallx/1.0/loader']
 });
