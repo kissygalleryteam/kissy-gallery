@@ -366,11 +366,9 @@ KISSY.add("gallery/waterfallx/1.0/loader", function (S, Node, Waterfall) {
         if (self.__loading || !self.__started) {
             return;
         }
-        console.log("waterfall:loaded")
         // 如果正在调整中，等会再看
         // 调整中的高度不确定，现在不适合判断是否到了加载新数据的条件
         if (self.isAdjusting()) {
-            console.log(self.isAdjusting())
             // 恰好 __onScroll 是 buffered . :)
             self.__onScroll();
             return;
