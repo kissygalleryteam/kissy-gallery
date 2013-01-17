@@ -13,10 +13,6 @@
         "desc":"raphael 封装"
    },
    {
-        "name":"raphael",
-        "desc":"raphael 封装"
-   },
-   {
         "name":"ua-extra",
         "desc":"国产浏览器探测"
    },
