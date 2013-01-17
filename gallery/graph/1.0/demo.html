@@ -20,179 +20,245 @@
     });
 
     KISSY.use('gallery/graph/1.0/index', function(S, Graph){
-    new Graph.SumDetail({
-        container: '#J_cicrle1',
-        r: 200,
-        meanDeg: 60,
-        startDeg: 30,
-        lineStyle: {
-            borderColor: '#3c89b5',
-            borderWidth: 3
-        },
-        father: {
-            cx: 300,
-            cy: 300,
-            r: 100,
-            style: {
-                background: '#3c89b5'
-            },
-            h1: {
-                text: '¥1257865',
-                fontSize: 30
-            },
-            h2: {
-                text: '成交总金额',
-                fontSize: 18
-            }
-        },
-        son: [{
-            r: 60,
-            h1: {
-                text: '10000',
-                fontSize: 18
-            },
-            h2: {
-                text: '成交件数',
-                fontSize: 12
-            },
-            style: {
-                background: '#3c89b5'
-            }
-        },{
-            r: 60,
-            h1: {
-                text: '3786',
-                fontSize: 18
-            },
-            h2: {
-                text: '成交用户',
-                fontSize: 12
-            },
-            style: {
-                background: '#3c89b5'
-            }
-        },{
-            r: 60,
-            h1: {
-                text: '57866',
-                fontSize: 18
-            },
-            h2: {
-                text: '成交订单数',
-                fontSize: 12
-            },
-            style: {
-                background: '#3c89b5'
-            }
-        }]
-    });
-    new Graph.SumDetail({
-        container: '#J_cicrle2',
-        r: 200,
-        meanDeg: 60,
-        startDeg: 30,
-        lineStyle: {
-            borderColor: '#3c89b5',
-            borderWidth: 3
-        },
-        father: {
-            cx: 300,
-            cy: 300,
-            r: 100,
-            style: {
-                background: '#f44'
-            },
-            h1: {
-                text: '¥1257865',
-                fontSize: 30
-            },
-            h2: {
-                text: '成交总金额',
-                fontSize: 18
-            }
-        },
-        son: [{
-            r: 60,
-            h1: {
-                text: '10000',
-                fontSize: 18
-            },
-            h2: {
-                text: '成交件数',
-                fontSize: 12
-            },
-            style: {
-                background: '#3c89b5'
-            }
-        },{
-            r: 60,
-            h1: {
-                text: '3786',
-                fontSize: 18
-            },
-            h2: {
-                text: '成交用户',
-                fontSize: 12
-            },
-            style: {
-                background: '#3c89b5'
-            }
-        },{
-            r: 60,
-            h1: {
-                text: '57866',
-                fontSize: 18
-            },
-            h2: {
-                text: '成交订单数',
-                fontSize: 12
-            },
-            style: {
-                background: '#3c89b5'
-            }
-        },{
-            r: 60,
-            h1: {
-                text: '57866',
-                fontSize: 18
-            },
-            h2: {
-                text: '成交订单数',
-                fontSize: 12
-            },
-            style: {
-                background: '#3c89b5'
-            }
-        },{
-            r: 60,
-            h1: {
-                text: '57866',
-                fontSize: 18
-            },
-            h2: {
-                text: '成交订单数',
-                fontSize: 12
-            },
-            style: {
-                background: '#3c89b5'
-            }
-        },{
-            r: 60,
-            h1: {
-                text: '57866',
-                fontSize: 18
-            },
-            h2: {
-                text: '成交订单数',
-                fontSize: 12
-            },
-            style: {
-                background: '#3c89b5'
-            }
-        }]
-    });
 
-});
+        new Graph.SumDetail({
+            container: '#J_cicrle1',
+            r: 200,
+            meanDeg: 60,
+            startDeg: 30,
+            lineStyle: {
+                borderColor: '#3c89b5',
+                borderWidth: 3
+            },
+            father: {
+                cx: 300,
+                cy: 300,
+                r: 100,
+                style: {
+                    background: '#3c89b5'
+                },
+                h1: {
+                    text: '¥1257865',
+                    fontSize: 30,
+                    color: '#fff'
+                },
+                h2: {
+                    text: '成交总金额',
+                    fontSize: 18,
+                    color: '#fff'
+                }
+            },
+            son: [{
+                r: 60,
+                h1: {
+                    text: '10000',
+                    fontSize: 18,
+                    color: '#fff'
+                },
+                h2: {
+                    text: '成交件数',
+                    fontSize: 12,
+                    color: '#fff'
+                },
+                style: {
+                    background: '#3c89b5'
+                }
+            },{
+                r: 60,
+                h1: {
+                    text: '3786',
+                    fontSize: 18,
+                    color: '#fff'
+                },
+                h2: {
+                    text: '成交用户',
+                    fontSize: 12,
+                    color: '#fff'
+                },
+                style: {
+                    background: '#3c89b5'
+                }
+            },{
+                r: 60,
+                h1: {
+                    text: '57866',
+                    fontSize: 18,
+                    color: '#fff'
+                },
+                h2: {
+                    text: '成交订单数',
+                    fontSize: 12,
+                    color: '#fff'
+                },
+                style: {
+                    background: '#3c89b5'
+                }
+            }]
+        });
+        new Graph.SumDetail({
+            container: '#J_cicrle2',
+            r: 200,
+            meanDeg: 60,
+            startDeg: 30,
+            lineStyle: {
+                borderColor: '#3c89b5',
+                borderWidth: 3
+            },
+            father: {
+                cx: 300,
+                cy: 300,
+                r: 100,
+                style: {
+                    background: '#f44'
+                },
+                h1: {
+                    text: '¥1257865',
+                    fontSize: 30,
+                    color: '#fff'
+                },
+                h2: {
+                    text: '成交总金额',
+                    fontSize: 18,
+                    color: '#fff'
+                }
+            },
+            son: [{
+                r: 60,
+                h1: {
+                    text: '10000',
+                    fontSize: 18,
+                    color: '#fff'
+                },
+                h2: {
+                    text: '成交件数',
+                    fontSize: 12,
+                    color: '#fff'
+                },
+                style: {
+                    background: '#3c89b5'
+                }
+            },{
+                r: 60,
+                h1: {
+                    text: '3786',
+                    fontSize: 18,
+                    color: '#fff'
+                },
+                h2: {
+                    text: '成交用户',
+                    fontSize: 12,
+                    color: '#fff'
+                },
+                style: {
+                    background: '#3c89b5'
+                }
+            },{
+                r: 60,
+                h1: {
+                    text: '57866',
+                    fontSize: 18,
+                    color: '#fff'
+                },
+                h2: {
+                    text: '成交订单数',
+                    fontSize: 12,
+                    color: '#fff'
+                },
+                style: {
+                    background: '#3c89b5'
+                }
+            },{
+                r: 60,
+                h1: {
+                    text: '57866',
+                    fontSize: 18,
+                    color: '#fff'
+                },
+                h2: {
+                    text: '成交订单数',
+                    fontSize: 12,
+                    color: '#fff'
+                },
+                style: {
+                    background: '#3c89b5'
+                }
+            },{
+                r: 60,
+                h1: {
+                    text: '57866',
+                    fontSize: 18,
+                    color: '#fff'
+                },
+                h2: {
+                    text: '成交订单数',
+                    fontSize: 12,
+                    color: '#fff'
+                },
+                style: {
+                    background: '#3c89b5'
+                }
+            },{
+                r: 60,
+                h1: {
+                    text: '57866',
+                    fontSize: 18,
+                    color: '#fff'
+                },
+                h2: {
+                    text: '成交订单数',
+                    fontSize: 12,
+                    color: '#fff'
+                },
+                style: {
+                    background: '#3c89b5'
+                }
+            }]
+        });
+        new Graph.SumDetail({
+            container: '#J_cicrle3',
+            r: 118,
+            meanDeg: 90,
+            startDeg: 20,
+            lineStyle: {
+                borderColor: '#3c89b5',
+                borderWidth: 3
+            },
+            father: {
+                cx: 300,
+                cy: 300,
+                r: 200,
+                style: {
+                    background: '#3c89b5'
+                },
+                h1: {
+                    text: '8327642',
+                    fontSize: 24,
+                    color: '#fff'
+                },
+                h2: {
+                    text: '成交用户',
+                    fontSize: 14,
+                    color: '#fff'
+                }
+            },
+            son: [{
+                r: 80,
+                h1: {
+                    text: '10000',
+                    fontSize: 18,
+                    color: '#333'
+                },
+                h2: {
+                    text: '新用户',
+                    fontSize: 12,
+                    color: '#333'
+                },
+                style: {
+                    background: '#ffffff'
+                }
+            }]
+        });
+    });
     </script>
 </head>
 <body>
@@ -228,22 +294,26 @@ KISSY.use('gallery/graph/1.0/index', function(S, Graph){
             },
             h1: { //主标题
                 text: '¥1257865',
-                fontSize: 30
+                fontSize: 30,
+                color: '#fff'
             },
             h2: { //副标题
                 text: '成交总金额',
-                fontSize: 18
+                fontSize: 18,
+                color: '#fff'
             }
         },
         son: [{ //子圆配置项
             r: 60, //半径
             h1: {
                 text: '10000',
-                fontSize: 18
+                fontSize: 18,
+                color: '#fff'
             },
             h2: {
                 text: '成交件数',
-                fontSize: 12
+                fontSize: 12,
+                color: '#fff'
             },
             style: {
                 background: '#3c89b5'
@@ -252,11 +322,13 @@ KISSY.use('gallery/graph/1.0/index', function(S, Graph){
             r: 60,
             h1: {
                 text: '3786',
-                fontSize: 18
+                fontSize: 18,
+                color: '#fff'
             },
             h2: {
                 text: '成交用户',
-                fontSize: 12
+                fontSize: 12,
+                color: '#fff'
             },
             style: {
                 background: '#3c89b5'
@@ -265,11 +337,13 @@ KISSY.use('gallery/graph/1.0/index', function(S, Graph){
             r: 60,
             h1: {
                 text: '57866',
-                fontSize: 18
+                fontSize: 18,
+                color: '#fff'
             },
             h2: {
                 text: '成交订单数',
-                fontSize: 12
+                fontSize: 12,
+                color: '#fff'
             },
             style: {
                 background: '#3c89b5'
@@ -302,22 +376,26 @@ KISSY.use('gallery/graph/1.0/index', function(S, Graph){
             },
             h1: {
                 text: '¥1257865',
-                fontSize: 30
+                fontSize: 30,
+                color: '#fff'
             },
             h2: {
                 text: '成交总金额',
-                fontSize: 18
+                fontSize: 18,
+                color: '#fff'
             }
         },
         son: [{
             r: 60,
             h1: {
                 text: '10000',
-                fontSize: 18
+                fontSize: 18,
+                color: '#fff'
             },
             h2: {
                 text: '成交件数',
-                fontSize: 12
+                fontSize: 12,
+                color: '#fff'
             },
             style: {
                 background: '#3c89b5'
@@ -326,11 +404,13 @@ KISSY.use('gallery/graph/1.0/index', function(S, Graph){
             r: 60,
             h1: {
                 text: '3786',
-                fontSize: 18
+                fontSize: 18,
+                color: '#fff'
             },
             h2: {
                 text: '成交用户',
-                fontSize: 12
+                fontSize: 12,
+                color: '#fff'
             },
             style: {
                 background: '#3c89b5'
@@ -339,11 +419,13 @@ KISSY.use('gallery/graph/1.0/index', function(S, Graph){
             r: 60,
             h1: {
                 text: '57866',
-                fontSize: 18
+                fontSize: 18,
+                color: '#fff'
             },
             h2: {
                 text: '成交订单数',
-                fontSize: 12
+                fontSize: 12,
+                color: '#fff'
             },
             style: {
                 background: '#3c89b5'
@@ -352,11 +434,13 @@ KISSY.use('gallery/graph/1.0/index', function(S, Graph){
             r: 60,
             h1: {
                 text: '57866',
-                fontSize: 18
+                fontSize: 18,
+                color: '#fff'
             },
             h2: {
                 text: '成交订单数',
-                fontSize: 12
+                fontSize: 12,
+                color: '#fff'
             },
             style: {
                 background: '#3c89b5'
@@ -365,11 +449,13 @@ KISSY.use('gallery/graph/1.0/index', function(S, Graph){
             r: 60,
             h1: {
                 text: '57866',
-                fontSize: 18
+                fontSize: 18,
+                color: '#fff'
             },
             h2: {
                 text: '成交订单数',
-                fontSize: 12
+                fontSize: 12,
+                color: '#fff'
             },
             style: {
                 background: '#3c89b5'
@@ -378,14 +464,85 @@ KISSY.use('gallery/graph/1.0/index', function(S, Graph){
             r: 60,
             h1: {
                 text: '57866',
-                fontSize: 18
+                fontSize: 18,
+                color: '#fff'
             },
             h2: {
                 text: '成交订单数',
-                fontSize: 12
+                fontSize: 12,
+                color: '#fff'
             },
             style: {
                 background: '#3c89b5'
+            }
+        }]
+    });
+}
+            </pre>
+        </div>
+
+
+        <div id="J_cicrle3" class="circle"></div>
+        <div class="code">
+            <h3>代码：</h3>
+            <pre>
+KISSY.use('gallery/graph/1.0/index', function(S, Graph){
+    new Graph.SumDetail({
+        container: '#J_cicrle3',
+        r: 118,
+        meanDeg: 90,
+        startDeg: 20,
+        lineStyle: {
+            borderColor: '#3c89b5',
+            borderWidth: 3
+        },
+        father: {
+            cx: 300,
+            cy: 300,
+            r: 200,
+            style: {
+                background: '#3c89b5'
+            },
+            h1: {
+                text: '8327642',
+                fontSize: 24,
+                color: '#fff'
+            },
+            h2: {
+                text: '成交用户',
+                fontSize: 14,
+                color: '#fff'
+            }
+        },
+        son: [{
+            r: 60,
+            h1: {
+                text: '10000',
+                fontSize: 18,
+                color: '#333'
+            },
+            h2: {
+                text: '新用户',
+                fontSize: 12,
+                color: '#333'
+            },
+            style: {
+                background: '#ffffff'
+            }
+        },{
+            r: 60,
+            h1: {
+                text: '9999',
+                fontSize: 18,
+                color: '#333'
+            },
+            h2: {
+                text: '老用户',
+                fontSize: 12,
+                color: '#333'
+            },
+            style: {
+                background: '#ffffff'
             }
         }]
     });
