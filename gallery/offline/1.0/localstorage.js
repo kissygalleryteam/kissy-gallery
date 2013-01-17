@@ -2,7 +2,7 @@
  * @fileoverview 基于localStorage的离线存储
  * @author 伯方<bofang.zxj@taobao.com>
  **/
-KISSY.add(function(S) {
+KISSY.add('gallery/offline/1.0/localstorage',function(S) {
 	var re = {},
 		DEADLINE_KEY = 'DEADLINE-KEY',
 		ls, oDeadline;

@@ -2,7 +2,7 @@
  * @fileoverview IE6,7下面的离线存储
  * @author 伯方<bofang.zxj@taobao.com>
  **/
-KISSY.add(function(S) {
+KISSY.add('gallery/offline/1.0/ie-offline',function(S) {
 	var re = {},
 		doc = document,
 		initDate = new Date().getTime();

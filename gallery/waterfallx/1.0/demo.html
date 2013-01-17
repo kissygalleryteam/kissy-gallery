@@ -1,54 +1,48 @@
+
 <!DOCTYPE html>
 <html>
 <head>
+
 	<meta charset="gbk" />
     <title></title>
     <script src="http://a.tbcdn.cn/??s/kissy/1.2.0/kissy.js" charset="gbk"></script>
      <script type="text/javascript" src="waterfallx.js"></script>
      <script type="text/javascript" src="../assets/demo.js"></script>
+
     <style type="text/css">
-    	body {
-    		overflow-y:scroll;
-    	}
-        #container {
-            width: 90%;    
-            margin:0 auto;
-            position: relative;
+        #wrapper {
+            width: 990px;
+            margin: 0 auto;
+            min-height: 500px;
         }
-        
-        img {
-        	margin-top: 20px;
-
-
-        }
-        
-        .result-item {          
-            width:210px;
-            vertical-align: middle;
-            text-align:center;
-            padding: 20px;
-            margin:0 auto;          
-            margin-top:5px;
-            overflow:hidden;
-            background:#cad5eb;
-            
-        }
-
-
     </style>
 </head>
+
 <body>
-<div id="container">
+
+<div id="wrapper">
+
+
 </div>
 <script type="tpl" id="tpl">
-    <div class="result-item ks-waterfall">
-        <div class="result-item-wrap">
-            <div class="item-pic">
-                <a href="{{titleUrl}}" target="_blank" title="{{title}}">
-                    <img src="{{picUrl}}" class="J_WaterfallImg"  width="210" />
-                </a>
-        </div>
+    <div class="pin ks-waterfall" data-id="{{id}}">
+        <a href="#" class="image">
+            <img height="{{height}}" alt="{{title}}" src="http://farm{{farm}}.static.flickr.com/{{server}}/{{id}}_{{secret}}_m.jpg" />
+        </a>
+        <p class="description">{{title}}</p>
     </div>
+</script>
+<script type="text/javascript">
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // 开发时目录, 发布到cdn上需要适当修改
+                charset:"utf-8"
+            }
+        ]
+    });
 </script>
 </body>
 </html>

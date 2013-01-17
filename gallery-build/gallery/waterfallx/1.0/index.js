@@ -1,51 +1,9 @@
-KISSY.ready(function(S) {
-	var tpl = S.get('#tpl').innerHTML;
-	var items = [];
-	var ctn = S.all('#container');
-    var url = "http://zhoubian.taobao.com/GetAddressAuctionNew.htm?t=1354520492506233&p=1&cidLevels=50020808,1|50020611,1|50020485,1|50020579,1|50025705,1|21,1|50020332,1|50020857,1|50008164,1|27,1|50016348,1|50016349,1|50018004,1|14,1|50012082,1|11,1|1101,1|50023904,1|50011972,1|50018222,1|50007218,1|1512,1|&level=&cidLevels=50020808,1|50020611,1|50020485,1|50020579,1|50025705,1|21,1|50020332,1|50020857,1|50008164,1|27,1|50016348,1|50016349,1|50018004,1|14,1|50012082,1|11,1|1101,1|50023904,1|50011972,1|50018222,1|50007218,1|1512,1|&addressHashKey=0&parentHashKey=1770651072&orderType=&buyType=1&isShowAllCidOrTags=false";
-	for (var i = 0; i < 15; ++i) {
-		items.push(S.all(tpl));
-	}
-    S.io.setupConfig({
-        xdr : {
-            subDomain : {
-                proxy : '/crossdomain.htm'
-            }
-        }
-    });
-    document.domain = 'taobao.com';
-	S.use('waterfallx, template', function(S, WaterFall, Template) {
-		var nextPage = 0;
-		wf = new WaterFall.Loader({
-			colWidth : 290,
-            diff:200,
-			container : '#container',
-			load : function(success, end) {
-				S.io.get(url, {nextPage:nextPage}, function(data) {
-					var items = [];
-
-					S.each(data.groupToAucList[0].aucInfoList, function(item) {
-						//随机高度
-                        item.picUrl = "http://img03.taobaocdn.com/imgextra/" + item.picUrl;
-
-						items.push(S.all(Template(tpl).render(item)));
-					});
-//					success(items);
-                    var method = nextPage%2 ? 'addItems' : 'preAddItems';
-                    wf[method](items);
-                    wf.__loading = 0;
-					(++nextPage > 6) && end();
-					console.log('nextPage', nextPage)
-				}, 'json')
-			}
-		});
-	});
-})
-KISSY.add("gallery/waterfallx/1.0/index",function(S, WaterFallX){
+KISSY.add("gallery/waterfallx/1.0/waterfallx",function(S, WaterFallX){
     return WaterFallX;
 }, {
     requires:["./waterfallx"]
-});/**
+});
+/**
  * @fileoverview waterfallx
  * @desc What's this?
  * 就是个waterfallx，与kissy最大的不同是，采用了inline-block布局，而未采用KISSY的绝对定位布局
@@ -62,7 +20,7 @@ KISSY.add("gallery/waterfallx/1.0/index",function(S, WaterFallX){
  *
  * @author 踏风<tafeng.dxx@taobao.com>
  */
-KISSY.add('waterfallx/base', function (S) {
+KISSY.add('gallery/waterfallx/1.0/base', function (S) {
     var $ = S.Node.all,
         D = S.DOM,
         win = S.Env.host || window,
@@ -392,11 +350,10 @@ KISSY.add('waterfallx/base', function (S) {
     return WaterFallX;
 });
 
-
 /*
  Loader
  * */
-KISSY.add("waterfallx/loader", function (S, Node, Waterfall) {
+KISSY.add("gallery/waterfallx/1.0/loader", function (S, Node, Waterfall) {
 
     var $ = Node.all,
         win = S.Env.host || window,
@@ -417,16 +374,14 @@ KISSY.add("waterfallx/loader", function (S, Node, Waterfall) {
         // 如果正在调整中，等会再看
         // 调整中的高度不确定，现在不适合判断是否到了加载新数据的条件
         if (self.isAdjusting()) {
-            console.log(self.isAdjusting())
             // 恰好 __onScroll 是 buffered . :)
             self.__onScroll();
             return;
         }
         var diff = self.config.diff;
-
         // 动态载
         // 最小高度(或被用户看到了)低于预加载线
-        if (diff + $(win).scrollTop() + $(win).height() > self.container.outerHeight(true)) {
+        if (diff + $(win).scrollTop() + $(win).height() >= self.container.outerHeight(true)) {
             S.log("waterfall:loading");
             loadData.call(self);
         }
@@ -516,10 +471,9 @@ KISSY.add("waterfallx/loader", function (S, Node, Waterfall) {
     requires:['node', './base']
 });
 
-
-KISSY.add("waterfallx", function (S, WaterfallX, Loader) {
+KISSY.add("gallery/waterfallx/1.0/waterfallx", function (S, WaterfallX, Loader) {
     WaterfallX.Loader = Loader;
     return WaterfallX;
 }, {
-    requires:['waterfallx/base', 'waterfallx/loader']
+    requires:['gallery/waterfallx/1.0/base', 'gallery/waterfallx/1.0/loader']
 });

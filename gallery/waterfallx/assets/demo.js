@@ -1,43 +1,47 @@
-KISSY.ready(function(S) {
-	var tpl = S.get('#tpl').innerHTML;
-	var items = [];
-	var ctn = S.all('#container');
-    var url = "http://zhoubian.taobao.com/GetAddressAuctionNew.htm?t=1354520492506233&p=1&cidLevels=50020808,1|50020611,1|50020485,1|50020579,1|50025705,1|21,1|50020332,1|50020857,1|50008164,1|27,1|50016348,1|50016349,1|50018004,1|14,1|50012082,1|11,1|1101,1|50023904,1|50011972,1|50018222,1|50007218,1|1512,1|&level=&cidLevels=50020808,1|50020611,1|50020485,1|50020579,1|50025705,1|21,1|50020332,1|50020857,1|50008164,1|27,1|50016348,1|50016349,1|50018004,1|14,1|50012082,1|11,1|1101,1|50023904,1|50011972,1|50018222,1|50007218,1|1512,1|&addressHashKey=0&parentHashKey=1770651072&orderType=&buyType=1&isShowAllCidOrTags=false";
-	for (var i = 0; i < 15; ++i) {
-		items.push(S.all(tpl));
-	}
-    S.io.setupConfig({
-        xdr : {
-            subDomain : {
-                proxy : '/crossdomain.htm'
-            }
-        }
-    });
-    document.domain = 'taobao.com';
-	S.use('waterfallx, template', function(S, WaterFall, Template) {
-		var nextPage = 0;
-		wf = new WaterFall.Loader({
-			colWidth : 290,
-            diff:200,
-			container : '#container',
-			load : function(success, end) {
-				S.io.get(url, {nextPage:nextPage}, function(data) {
-					var items = [];
-
-					S.each(data.groupToAucList[0].aucInfoList, function(item) {
-						//随机高度
-                        item.picUrl = "http://img03.taobaocdn.com/imgextra/" + item.picUrl;
-
-						items.push(S.all(Template(tpl).render(item)));
-					});
-//					success(items);
-                    var method = nextPage%2 ? 'addItems' : 'preAddItems';
-                    wf[method](items);
-                    wf.__loading = 0;
-					(++nextPage > 6) && end();
-					console.log('nextPage', nextPage)
-				}, 'json')
-			}
-		});
-	});
+KISSY.use("gallery/waterfallx/1.0/waterfallx, template", function(S, Waterfall, Template) {
+    var $ = S.all;
+    var tpl = Template($('#tpl').html()),
+        nextpage = 1,
+        waterfall = new Waterfall.Loader({
+            container: "#wrapper",
+            load: function(success, end) {
+                $('#loadingPins').show();
+                S.ajax({
+                    data: {
+                        'method': 'flickr.photos.search',
+                        'api_key': '5d93c2e473e39e9307e86d4a01381266',
+                        'tags': 'rose',
+                        'page': nextpage,
+                        'per_page': 20,
+                        'format': 'json'
+                    },
+                    url: 'http://api.flickr.com/services/rest/',
+                    dataType: "jsonp",
+                    jsonp: "jsoncallback",
+                    success: function(d) {
+                        // 如果数据错误, 则立即结束
+                        if (d.stat !== 'ok') {
+                            alert('load data error!');
+                            end();
+                            return;
+                        }
+                        // 如果到最后一页了, 也结束加载
+                        nextpage = d.photos.page + 1;
+                        if (nextpage > d.photos.pages) {
+                            console.log(d.photos.pages)
+                            end();
+                            return;
+                        }
+                        // 拼装每页数据
+                        var items = [];
+                        S.each(d.photos.photo, function(item) {
+                            item.height = Math.round(Math.random() * (300 - 180) + 180); // fake height
+                            items.push(new S.Node(tpl.render(item)));
+                        });
+                        success(items);
+                    }
+                });
+            },
+            colWidth: 228
+        });
 })
