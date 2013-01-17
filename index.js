@@ -1,6 +1,18 @@
 ﻿{
    "gs":[
    {
+        "name":"offline",
+        "desc":"离线存储"
+   },
+   {
+        "name":"waterfallx",
+        "desc":"waterfall 增强"
+   },
+   {
+        "name":"raphael",
+        "desc":"raphael 封装"
+   },
+   {
         "name":"raphael",
         "desc":"raphael 封装"
    },
