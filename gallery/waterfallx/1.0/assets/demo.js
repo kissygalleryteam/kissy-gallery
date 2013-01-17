@@ -35,7 +35,6 @@ KISSY.use("gallery/waterfallx/1.0/waterfallx, template", function(S, Waterfall, 
                         // 拼装每页数据
                         var items = [];
                         S.each(d.photos.photo, function(item) {
-                            item.height = Math.round(Math.random() * (300 - 180) + 180); // fake height
                             items.push(new S.Node(tpl.render(item)));
                         });
                         success(items);
