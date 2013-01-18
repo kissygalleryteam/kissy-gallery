@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>KCharts doc</title>
+  <link rel="stylesheet" href="custom/index.css" type="text/css" media="screen" />
+</head>
+<body>
+  <xmp theme="spacelab" style="display:none;">
+# PieChart
+---
+代码示例
+---
+```
+KISSY.use('gallery/kcharts/1.0/piechart/index',function(S,PieChart){
+  function helperRand(a,b){
+    return Math.floor(Math.random()*(b-a+1)+a);
+  }
+  var data = [];
+  var labels = [];
+  for(var i=15;i>0;i--){
+    data.push(i);
+    var j = helperRand(1,10)
+      ,s = ''
+    for(;j>0;j--){
+      s+='标';
+    }
+    labels.push(s);
+  }
+  var piechar = new PieChart('#canvas',{cx:150,cy:150,r:100,data:data,labels:labels,anim:{type:'r',easing:'bounceOut',duration:1000}});
+});
+```
+
+---
+API
+---
+### 配置 PieChart(cotainer,cfg)
+
+`cotainer` piechart容器
+
+`cfg` 为一个`object`包含字段：
+
+- `cx` 饼图中心点x坐标
+- `cy` 饼图中心点y坐标
+- `r` 半径
+- `emptyRadius` 空心半径，必须小于r
+- `data` 数据
+- `labels` 与数据`data`对应的说明
+- `anim` 动画配置 `type:r` 半径动画，`type:sector`扇形展开动画，`easing` Kissy动画效果，`duration`动画运行时间
+
+### 事件 Event
+
+- `mouseenter` 事件对象`e.target`为触发事件的`sector`
+
+- `mouseleave` 
+
+- `click`
+
+- `afterRender`
+----
+demo
+----
+  [扇形逐渐展开动画](../tests/piechart.html)
+
+  [空心扇形](../tests/piechart-empty.html)
+
+  [半径逐渐增大动画](../tests/piechart-r.html)
+
+----
+其它label算法
+----
+  </xmp>
+
+<script src="strapdown.js"></script>
+</body>
+</html>

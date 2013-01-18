@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>A Linechart With Defferent Themes</title>
+<link rel="stylesheet" href="http://a.tbcdn.cn/p/global/1.0/global-min.css" />
+<style type="text/css">
+.demo-item{
+	width:1000px;
+	height:360px;
+	border: 1px solid #ccc;
+	margin:20px auto;
+}
+.demo-title{
+	width:1000px;
+	margin:10px auto;
+}
+
+/*自定义皮肤样式*/
+.ks-chart-mytheme{
+	background: #444;
+}
+/*网格*/
+.ks-chart-mytheme-gridsx{
+	color: #444;
+}
+
+.ks-chart-mytheme-gridsy{
+	color:#666;
+}
+/*坐标轴*/
+.ks-chart-mytheme-axisx,.ks-chart-mytheme-axisy{
+	border: 2px solid;
+	color: #999;
+}
+/*块状区域*/
+.ks-chart-mytheme-areas{
+	background: #444;
+	border: none;
+}
+/*坐标轴标注*/
+.ks-chart-mytheme-ylabels,.ks-chart-mytheme-xlabels{
+	color:#999;
+}
+
+/*tip*/
+.ks-chart-mytheme-tip{
+	background: #000;
+	color:#fff;
+    padding:2px 4px;
+    font-family: Microsoft Yahei;
+	font-size: 12px;
+	border: 1px solid #ccc;
+}
+</style>
+</head>
+<body>
+<h3 style="text-align:center">A Linechart With Defferent Themes</h3>
+<h4 class="demo-title">default</h4>
+<div id="demo1" class="demo-item"></div>
+<h4 class="demo-title">analytiks</h4>
+<div id="demo2" class="demo-item"></div>
+<h4 class="demo-title">darkgreen</h4>
+<div id="demo3" class="demo-item"></div>
+<h4 class="demo-title">自定义皮肤</h4>
+<div id="demo4" class="demo-item"></div>
+<script src="http://a.tbcdn.cn/??s/kissy/1.2.0/kissy-min.js"></script>
+<script>
+(function(S){
+
+	S.config({
+	  packages:[
+	    {
+	      name:"gallery",
+	      tag:"20130118",
+	      path:"../../../../",  // 开发时目录, 发布到cdn上需要适当修改
+	      charset:"utf-8"
+	    }
+	  ]
+	});
+
+	S.use('gallery/kcharts/1.0/linechart/index',function(S,LineChart){
+	
+		var lineChart1 = new LineChart({
+			renderTo:"#demo1",
+			canvasAttr:{x:90,y:60},
+			// lineType:"arc",
+			title:{
+            	content:"1周消费记录",
+            	css:{
+            	}
+            },
+            subTitle:{
+            	content:"week fee record",
+            	css:{
+
+            	}
+            },
+			 line:{
+			 	attr:{
+			 		"stroke-width":"3px"
+			 	}
+			 },
+
+			 xAxis: {
+			 		text:['JUN','JUL','AUG','SEP','OCT','NOV','DEC','JAN','FEB'],
+                    css:{}
+              },
+               yAxis:{
+                    num:6,
+                    min:0,
+                    max:45000
+               },
+               points:{
+					 	attr:{
+					 		stroke:"#fff",
+					 		"radius":4,
+					 		"stroke-width":1.5
+					 	}
+				},
+			series:[
+				{
+					data:[{y:1000,mon:'JUN'},{y:40000,mon:'JUL'},{y:1200,mon:'AUG'},{y:2340,mon:'SEP'},{y:2340,mon:'OCT'},{y:2340,mon:'NOV'},{y:2340,mon:'DEC'},{y:1000,mon:'JAN'},{y:10000,mon:'FEB'}]
+				},
+				{
+					data:[{y:5000,mon:'JUN'},{y:20000,mon:'JUL'},{y:2000,mon:'AUG'},{y:1840,mon:'SEP'},{y:434,mon:'OCT'},{y:10034,mon:'NOV'},{y:5304,mon:'DEC'},{y:7000,mon:'JAN'},{y:1800,mon:'FEB'}]
+				}
+			],
+			defineKey:{
+				x:"mon",
+				y:"y"
+			},
+			tip:{
+				template:"总支出：<h3>{{y}} <span>元</span></h3>",
+				css:{
+					"border-color":"{COLOR}"
+				}
+			}
+		});
+
+		var lineChart2 = new LineChart({
+			renderTo:"#demo2",
+			themeCls:"ks-chart-analytiks",
+			canvasAttr:{x:90,y:60},
+			colors:[
+				{DEFAULT:"#48BAF4",HOVER:"#48BAF4"},
+				{DEFAULT:"#ff7b6c",HOVER:"#ff7b6c"}
+			],
+			 line:{
+			 	attr:{
+			 		"stroke-width":"3px"
+			 	}
+			 },
+			 xGrids:{
+			 	css:{
+			 	}
+			 },
+			 yGrids:{
+			 	css:{
+
+			 	}
+			 },
+			 xAxis: {
+			 		text:['JUN','JUL','AUG','SEP','OCT','NOV','DEC','JAN','FEB'],
+                    css:{}
+              },
+              yAxis:{
+                    num:6,
+                    min:0,
+                    max:45000
+               },
+               points:{
+					 	attr:{
+					 		stroke:"#fff",
+					 		"radius":8,
+					 		"stroke-width":2
+					 	}
+				},
+			series:[
+				{
+					data:[{y:1000,mon:'JUN'},{y:40000,mon:'JUL'},{y:1200,mon:'AUG'},{y:2340,mon:'SEP'},{y:2340,mon:'OCT'},{y:2340,mon:'NOV'},{y:2340,mon:'DEC'},{y:1000,mon:'JAN'},{y:10000,mon:'FEB'}]
+				},
+				{
+					data:[{y:5000,mon:'JUN'},{y:20000,mon:'JUL'},{y:2000,mon:'AUG'},{y:1840,mon:'SEP'},{y:434,mon:'OCT'},{y:10034,mon:'NOV'},{y:5304,mon:'DEC'},{y:7000,mon:'JAN'},{y:1800,mon:'FEB'}]
+				}
+			],
+			defineKey:{
+				x:"mon",
+				y:"y"
+			},
+			tip:{
+				clsName:"ks-chart-analytiks",
+				template:"总支出：<h3>{{y}} <span>元</span></h3>",
+				css:{
+					background:"{COLOR}"
+				},
+				alignX:"center",
+				alignY:"bottom",
+				offset:{
+					x:0,
+					y:-5
+				}
+			}
+		});
+
+
+		var lineChart3 = new LineChart({
+			renderTo:"#demo3",
+			themeCls:"ks-chart-darkgreen",
+			canvasAttr:{x:90,y:60},
+			 xAxis: {
+			 		text:['JUN','JUL','AUG','SEP','OCT','NOV','DEC','JAN','FEB'],
+                    css:{
+
+                    }
+              },
+              yAxis:{
+               		css:{
+                    },
+                    num:6,
+                    min:0,
+                    max:45000
+               },
+               points:{
+					 	attr:{
+					 		stroke:"#7f7f7f",
+					 		"radius":5,
+					 		"stroke-width":1
+					 	}
+				},
+			series:[
+				{
+					data:[{y:1000,mon:'JUN'},{y:40000,mon:'JUL'},{y:1200,mon:'AUG'},{y:2340,mon:'SEP'},{y:2340,mon:'OCT'},{y:2340,mon:'NOV'},{y:2340,mon:'DEC'},{y:1000,mon:'JAN'},{y:10000,mon:'FEB'}]
+				},
+				{
+					data:[{y:5000,mon:'JUN'},{y:20000,mon:'JUL'},{y:2000,mon:'AUG'},{y:1840,mon:'SEP'},{y:434,mon:'OCT'},{y:10034,mon:'NOV'},{y:5304,mon:'DEC'},{y:7000,mon:'JAN'},{y:1800,mon:'FEB'}]
+				}
+			],
+			defineKey:{
+				x:"mon",
+				y:"y"
+			},
+			tip:{
+				template:"总支出：<h3>{{y}} <span>元</span></h3>",
+				css:{
+					border:"3px solid {COLOR}"
+				},
+				alignX:"center",
+				alignY:"bottom",
+				offset:{
+					x:0,
+					y:-5
+				}
+			}
+		});
+
+		var lineChart4 = new LineChart({
+			renderTo:"#demo4",
+			themeCls:"ks-chart-mytheme",
+			canvasAttr:{x:90,y:60},
+			 xAxis: {
+			 		text:['JUN','JUL','AUG','SEP','OCT','NOV','DEC','JAN','FEB'],
+                    css:{
+
+                    }
+              },
+              yAxis:{
+               		css:{
+                    },
+                    num:6,
+                    min:0,
+                    max:45000
+               },
+               points:{
+					 	attr:{
+					 		stroke:"#7f7f7f",
+					 		"radius":5,
+					 		"stroke-width":1
+					 	}
+				},
+			series:[
+				{
+					data:[{y:1000,mon:'JUN'},{y:40000,mon:'JUL'},{y:1200,mon:'AUG'},{y:2340,mon:'SEP'},{y:2340,mon:'OCT'},{y:2340,mon:'NOV'},{y:2340,mon:'DEC'},{y:1000,mon:'JAN'},{y:10000,mon:'FEB'}]
+				},
+				{
+					data:[{y:5000,mon:'JUN'},{y:20000,mon:'JUL'},{y:2000,mon:'AUG'},{y:1840,mon:'SEP'},{y:434,mon:'OCT'},{y:10034,mon:'NOV'},{y:5304,mon:'DEC'},{y:7000,mon:'JAN'},{y:1800,mon:'FEB'}]
+				}
+			],
+			defineKey:{
+				x:"mon",
+				y:"y"
+			},
+			tip:{
+				template:"总支出：<h3>{{y}} <span>元</span></h3>",
+				css:{
+					// border:"3px solid {COLOR}"
+				},
+				alignX:"center",
+				alignY:"bottom",
+				offset:{
+					x:0,
+					y:-5
+				}
+			}
+		});
+
+	});
+
+})(KISSY);
+</script>
+</body>
+</html>

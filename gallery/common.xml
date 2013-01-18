@@ -10,11 +10,22 @@
     <property name="component.name" value="component.name.need.override"/>
     <property name="component.version" value="component.version.need.override"/>
 
-    <property name="component.build.dir" location="${gallery.build.dir}/gallery/${component.name}/${component.version}"/>
+    <property name="component.build.dir"
+              location="${gallery.build.dir}/gallery/${component.name}/${component.version}"/>
     <property name="component.build.dir.tmp" value="${component.build.dir}/tmp"/>
-    <property name="copyright.files" value="**/*.css, **/*.js"/>
+
+    <property name="src.css.files" value="assets/**/*.css"/>
+    <property name="src.js.files" value="**/*.js"/>
+    <property name="component.build.js" value="index.js"/>
+    <property name="component.build.js.min" value="index-min.js"/>
+    <property name="component.build.css" value="assets/**/*.css"/>
+    <property name="component.build.css.min" value="assets/**/*-min.css"/>
+
+    <property name="component.build.files"
+              value="${component.build.css},${component.build.js},${component.build.js.min}"/>
 
     <property name="version" value="1.0dev"/>
+
     <tstamp>
         <format property="timestamp.isoformat"
                 pattern="yyyyMMddHHmmss" locale="en"/>
@@ -29,16 +40,16 @@
 
     <target name="clear" if="component.build.dir.exists" depends="componentduilddircheck">
         <delete includeemptydirs="true">
-            <fileset dir="${component.build.dir}" includes="**/*"/>
+            <fileset dir="${component.build.dir}" includes="${component.build.files}"/>
         </delete>
     </target>
 
     <target name="concat">
         <mkdir dir="${component.build.dir}"/>
-        <concat destfile="${component.build.dir}/index.js"
+        <concat destfile="${component.build.dir}/${component.build.js}"
                 encoding="utf-8"
                 outputencoding="utf-8">
-            <fileset dir="${src.dir}" includes="**/*.js" excludes="modules.js"/>
+            <fileset dir="${src.dir}" includes="${src.js.files}" excludes="modules.js"/>
             <filterchain>
                 <deletecharacters chars="&#xFEFF;"/>
             </filterchain>
@@ -63,7 +74,8 @@
         <apply executable="java" verbose="true"
                dest="${component.build.dir}">
             <fileset dir="${component.build.dir}"
-                     includes="**/*.css"/>
+                     includes="${component.build.css}"
+                     excludes="${component.build.css.min}"/>
             <arg line="-jar"/>
             <arg path="${kissy-tools.dir}/yuicompressor/yuicompressor.jar"/>
             <arg line="--charset ${charset}"/>
@@ -77,7 +89,8 @@
         <apply executable="java" verbose="true"
                dest="${component.build.dir}">
             <fileset dir="${component.build.dir}"
-                     includes="**/*.js"
+                     includes="${component.build.js}"
+                     excludes="${component.build.js.min}"
                     />
             <arg line="-jar"/>
             <arg path="${kissy-tools.dir}/closure-compiler/compiler.jar"/>
@@ -96,12 +109,12 @@
     <target name="native2ascii" depends="compress">
         <mkdir dir="${component.build.dir.tmp}"/>
         <move todir="${component.build.dir.tmp}">
-            <fileset dir="${component.build.dir}" includes="*-min.js"/>
+            <fileset dir="${component.build.dir}" includes="${component.build.min.js}"/>
         </move>
         <native2ascii encoding="${charset}"
                       src="${component.build.dir.tmp}"
                       dest="${component.build.dir}"
-                      includes="*.js"/>
+                      includes="${component.build.min.js}"/>
         <delete dir="${component.build.dir.tmp}"/>
     </target>
 
@@ -114,13 +127,13 @@
 
         <mkdir dir="${component.build.dir.tmp}"/>
         <move todir="${component.build.dir.tmp}">
-            <fileset dir="${component.build.dir}" includes="${copyright.files}"/>
+            <fileset dir="${component.build.dir}" includes="${component.build.files}"/>
         </move>
 
         <ac:for param="file">
             <path>
                 <fileset dir="${component.build.dir.tmp}"
-                         includes="${copyright.files}"/>
+                         includes="${component.build.files}"/>
             </path>
             <sequential>
                 <!--如果不是压缩文件，就加上 bom 头，否则 ie 诡异问题-->
@@ -142,7 +155,7 @@
                         outputencoding="${charset}">
                     <!-- ie need bom , wierd -->
                     <header filtering="no" trimleading="yes">${copyright.bomOrEmpty}/*
-                        Copyright ${build.year}, KISSY Gallery Library v${version}
+                        Copyright ${build.year}, KISSY Gallery Library
                         MIT Licensed
                         build time: ${stamp.time}
                         */
@@ -157,20 +170,12 @@
             </sequential>
         </ac:for>
 
-        <replaceregexp match="@VERSION@"
-                       replace="${version}"
-                       flags="g"
-                       encoding="${charset}"
-                       byline="true">
-            <fileset dir="${component.build.dir.tmp}" includes="*.js,*.css"/>
-        </replaceregexp>
-
         <replaceregexp match="@DEBUG@"
                        replace=""
                        flags="g"
                        byline="true"
                        encoding="${charset}">
-            <fileset dir="${component.build.dir.tmp}" includes="*-min.js,*-min.css"/>
+            <fileset dir="${component.build.dir.tmp}" includes="${component.build.css.min},${component.build.js.min}"/>
         </replaceregexp>
 
         <replaceregexp match="@TIMESTAMP@"
@@ -178,26 +183,25 @@
                        flags="g"
                        byline="true"
                        encoding="${charset}">
-            <fileset dir="${component.build.dir.tmp}" includes="*.js,*.css"/>
+            <fileset dir="${component.build.dir.tmp}" includes="${component.build.files}"/>
         </replaceregexp>
-
 
         <move todir="${component.build.dir}">
             <fileset dir="${component.build.dir.tmp}"
-                     includes="${copyright.files}"/>
+                     includes="${component.build.files}"/>
         </move>
+
         <delete dir="${component.build.dir.tmp}"/>
 
     </target>
 
-
     <target name="fix-cr-lf">
         <fixcrlf srcdir="${component.build.dir}"
                  tablength="4"
-                 includes="**/*.js,**/*.css"
+                 includes="${component.build.files}"
                  encoding="${charset}"/>
     </target>
 
-    <target name="common.build" depends="clear,concat,assets,compress,native2ascii,fix-cr-lf">   
+    <target name="common.build" depends="clear,concat,assets,compress,native2ascii,fix-cr-lf">
     </target>
 </project>
