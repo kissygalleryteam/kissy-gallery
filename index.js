@@ -1,6 +1,10 @@
 ﻿{
    "gs":[
    {
+        "name":"kcharts",
+        "desc":"全面的图表组件"
+   },
+   {
         "name":"offline",
         "desc":"离线存储"
    },
