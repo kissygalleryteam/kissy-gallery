@@ -23,8 +23,8 @@ gallery
 |          |         |---------pagination-part2.js                  // 如果组件源码有多个js文件, 也请放置此目录下, 例如 grid组件下的多个脚本;
 |          |         |---------index.js                             // 入口文件
 |          |         |---------demo.html                            // 示例
-|          |         |---------tmp                                  // 示例用到的assets资源, 这些不应该包含在组件中
-|          |         |---------build.xml                            // 打包配置, 添加新组件时, 请参考 yours下目录, 如果还是不清楚, 联系乔花;
+|          |-----tmp                                  // 示例用到的assets资源, 这些不应该包含在组件中
+|          |         |---------build.xml                            // 打包配置, 添加新组件时, 请参考 yours下目录, 
 |          |         |---------CHANGELOG.md                         // 变更点说明文档, 可选
 ```
 开发时写的demo, 需要头部配置:
@@ -67,7 +67,7 @@ gallery/pagination/1.0/tmp/demo.css,gallery/pagination/1.0/assets/pagination.css
 |          |-----index.html             // 组件索引 
 |          |-----1.0
 |          |         |---------assets    // 该目录会完整从github上的assets拷贝过去, 并且会压缩源码
-|          |         |---------index.js   // 将组件代码打包成一个文件 ,名字为 index.js 并压缩;
+|          |         |---------index.js   // 将版本号下的代码打包成一个文件 ,名字为 index.js 并压缩;
 ```
 
 这样使用 Gallery组件时, 可以 S.use("gallery/pagination/1.0/", function (S, Pagination) {});
@@ -83,7 +83,7 @@ gallery/pagination/1.0/tmp/demo.css,gallery/pagination/1.0/assets/pagination.css
 
   3.2) 提交新组件时:
   
-  - 务必gallery 中组件使用 1.2.0 Loader 的写法. 不考虑 1.1.6. 如果其他人要用该组件, 自行拷贝修改;
+  - 务必gallery 中组件使用 1.2.0 Loader 的写法.
   - 提交到 KISSY Gallery 请参考 yours 中目录结构;
   
   3.3) 修改组件时:
