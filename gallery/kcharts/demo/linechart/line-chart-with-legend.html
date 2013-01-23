@@ -6,13 +6,10 @@
 <link rel="stylesheet" href="http://a.tbcdn.cn/p/global/1.0/global-min.css" />
 <style type="text/css">
 .demo{
-	width:1000px;
+	width:1100px;
 	height:330px;
-	border: 1px solid #ccc;
 	margin:40px auto;
-}
-.demo img{
-	margin: 140px 0px 0px 480px;
+	float: left;
 }
 /*hover*/
 .demo .ks-chart-default-areas-hover{
@@ -27,11 +24,28 @@
 .demo .unit{
 	font-family: '宋体';
 }
+
+.legend{
+	width:60px;
+	height:330px;
+	margin: 100px 0px 0px 0px;
+	display: inline-block;
+	*display:inline;
+	*zoom:1;
+}
+.wrapper{
+	width:1200px;
+	margin:0px auto;
+	border: 1px solid #ccc;
+}
 </style>
 </head>
 <body>
 <h3 style="text-align:center">A Linechart Width Common Tip</h3>
-<div id="demo1" class="demo"></div>
+<div class="wrapper">
+	<div id="demo1" class="demo"></div>
+	<div id="legend1" class="legend">
+</div>
 <script src="http://a.tbcdn.cn/??s/kissy/1.2.0/kissy-min.js"></script>
 <script>
 (function(S){
@@ -47,7 +61,9 @@
 	  ]
 	});
 
-	S.use('gallery/kcharts/1.0/linechart/index',function(S,LineChart){
+	var $ = S.all,Evt = S.Event;
+
+	S.use('gallery/kcharts/1.0/linechart/index,gallery/kcharts/1.0/legend/index',function(S,LineChart,Legend){
 	
 		var lineChart = new LineChart({
 			renderTo:"#demo1",
@@ -65,7 +81,6 @@
             },
 			themeCls:"ks-chart-default",
 			comparable:true,
-			canvasAttr:{x:90,y:60},
 			line:{
 			 	attr:{
 			 		"stroke-width":"3px"
@@ -82,8 +97,7 @@
              },
              yAxis:{
              		num:10,
-                    min:0,
-                    max:4200
+                    min:0
              },
              points:{
 					attr:{
@@ -127,6 +141,33 @@
 				boundryDetect:true
 			}
 		});
+
+
+		var legend = new Legend({
+	      container:"#legend1",
+	      chart:lineChart
+	    });
+
+	    lineChart.on("afterRender",function(){
+
+        Evt.on($("li",$("#legend1")),"click",function(e){
+
+          var $li = $(e.currentTarget).toggleClass("disable");
+
+          var index = S.indexOf(e.currentTarget,$("li",$("#legend1")));
+
+          if(!$li.hasClass("disable")){
+
+            lineChart.showLine(index);
+
+          }else{
+
+            lineChart.hideLine(index);
+
+          }
+      });
+
+      });
 
 	});
 		

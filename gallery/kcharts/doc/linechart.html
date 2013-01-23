@@ -12,6 +12,16 @@
 代码示例
 ---
 ```
+//配置kissy包路径
+KISSY.config({
+  packages:[
+      {
+        name:"gallery",
+        path:"http://a.tbcdn.cn/s/kissy/"
+      }
+    ]
+});
+//载入linechart
 KISSY.use('gallery/kcharts/1.0/linechart/index',function(S,LineChart){
 
   var lineChart = new LineChart({
@@ -57,9 +67,9 @@ KISSY.use('gallery/kcharts/1.0/linechart/index',function(S,LineChart){
 ---
 Config（详细配置）
 ---
-### renderTo 
+### renderTo  
 
-{ id|HTMLElement } 容器
+{ id|HTMLElement } 容器 <span style='color:#f60'>注:容器必须要有width和height的绝对值</span>
 
 ### autoRender
 
@@ -85,21 +95,32 @@ Config（详细配置）
 ### colors 
 
 { array } 手动配置线的颜色 （可选） 如 [{"DEFAULT":"#fff","HOVER":"#ccc"},{"DEFAULT":"#fff","HOVER":"#ccc"}]
-    - `DEFAULT` { string } 默认颜色
-    - `HOVER` { string } hover颜色
+  
+  - `DEFAULT` { string } 默认颜色
+  - `HOVER` { string } hover颜色
 
 ### title
 
 {object} 主标题
 
-
-   - `isShow` { boolean } 是否渲染显示
-   - `css` { object } css样式
-   - `content` { string } 内容 可以是html或者text文本
+- `isShow` { boolean } 是否渲染显示
+- `css` { object } css样式
+- `content` { string } 内容 可以是html或者text文本
 
 ### subTitle
 
 {object} 副标题 同 title
+
+### points
+
+{object} 点的配置
+
+   - `attr` { object } 默认样式
+      >- `stroke` { string } 笔触颜色  如:"#ccc"
+      >- `r` { number } 圆点半径
+      >- `fill` { string } 填充色
+      >- `stroke-width` { number } 笔触宽度
+   - `hoverAttr` { object } hover样式 同attr
 
 ### xAxis 
 
@@ -125,6 +146,14 @@ Config（详细配置）
 
  {object} 纵向网格配置 同 xAxis
 
+###  xLabels
+
+ {object} x轴刻度文本 同 xAxis
+
+###  yLabels
+
+ {object} y轴刻度文本 同 xAxis
+
 ### series
    
    {array} 数据
@@ -138,12 +167,24 @@ Config（详细配置）
   {object} 数据提示层配置
 
    - `template` { string } 文本或者是模板 详见KISSY.Template
+   - `css` { object } css样式  注:"{COLOR}" 默认选择线的颜色，如{"border-color":"{COLOR}"}
    - `anim` { object } 动画配置 "easing" 和 "duration" 如 {easing:"easeOut",duration:0.3} 
    - `offset` { object } tip的偏移量 "x" 和 "y" 如 {x:100,y:40}
    - `boundryDetect` { boolean } 是否进行边缘检测
    - `alignX` { string } 水平对齐方式 有"left" "center" "right"三种 默认 "left"
    - `alignY` { string } 水平对齐方式 有"top" "middle" "bottom"三种 默认 "top"
 
+### comparable
+
+  {boolean} 是否为多线比较，公用tip数据 默认false
+
+### anim
+  
+  {object} 渲染动画配置 配置该项则具有动画效果
+  
+   - `duration` { number } 动画周期
+   - `easing` { object } 动画效果 默认"easeIn"
+   
 ---
 Method（方法）
 ---
@@ -152,13 +193,25 @@ Method（方法）
 
 渲染图表
 
-### clear()
+### getPaper()
 
-清除画布上的所有内容
+获取html画布
 
 ### data2GrapicData
 
 根据实际数据 获取相应轴上的偏移像素
+
+### showLine(lineIndex)
+
+展示直线
+
+### hideLine(lineIndex)
+
+隐藏直线
+
+### clear()
+
+清除画布上的所有内容
 
 ---
 Event（事件）
@@ -185,7 +238,7 @@ demo
   [line-chart-multi](../demo/linechart/line-chart-multi.html) 多线<br/>
   [line-chart-compare](../demo/linechart/line-chart-compare.html) 多线比较<br/>
   [line-chart-theme](../demo/linechart/line-chart-theme.html) 皮肤<br/>
-
+  [line-chart-with-legend](../demo/linechart/line-chart-with-legend.html) 具有legend<br/>
 
   </xmp>
 

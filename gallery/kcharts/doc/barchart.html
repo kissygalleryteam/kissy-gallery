@@ -12,6 +12,16 @@
 代码示例
 ---
 ```
+//配置kissy包路径
+KISSY.config({
+  packages:[
+      {
+        name:"gallery",
+        path:"http://a.tbcdn.cn/s/kissy/"
+      }
+    ]
+});
+//载入barchart
 KISSY.use('gallery/kcharts/1.0/barchart/index',function(S,BarChart){
 
   var barChart = new BarChart({
@@ -59,7 +69,7 @@ Config（详细配置）
 ---
 ### renderTo 
 
-{ id|HTMLElement } 容器
+{ id|HTMLElement } 容器 <span style='color:#f60'>注:容器必须要有width和height的绝对值</span>
 
 ### autoRender
 
@@ -136,11 +146,19 @@ Config（详细配置）
   {object} 数据提示层配置
 
    - `template` { string } 文本或者是模板 详见KISSY.Template
+   - `css` { object } css样式  注:"{COLOR}" 默认选择柱体的颜色，如{"border-color":"{COLOR}"}
    - `anim` { object } 动画配置 "easing" 和 "duration" 如 {easing:"easeOut",duration:0.3} 
    - `offset` { object } tip的偏移量 "x" 和 "y" 如 {x:100,y:40}
    - `boundryDetect` { boolean } 是否进行边缘检测
    - `alignX` { string } 水平对齐方式 有"left" "center" "right"三种 默认 "left"
    - `alignY` { string } 水平对齐方式 有"top" "middle" "bottom"三种 默认 "top"
+
+### anim
+  
+  {object} 渲染动画配置 配置该项则具有动画效果
+  
+   - `duration` { number } 动画周期
+   - `easing` { object } 动画效果 默认"easeOut"
 
 
 ---
@@ -151,13 +169,17 @@ Method（方法）
 
 渲染图表
 
-### clear()
+### getPaper()
 
-清除画布上的所有内容
+获取html画布
 
 ### data2GrapicData
 
 根据实际数据 获取相应轴上的偏移像素
+
+### clear()
+
+清除画布上的所有内容
 
 
 ---

@@ -20,6 +20,8 @@
 <script>
 (function(S){
 
+	S.Config.debug = true;
+
 	S.config({
 	  packages:[
 	    {
@@ -63,7 +65,8 @@
 				y:"y"
 			},
 			tip:{
-				template:"总支出：<span>{{y}}</span> 元<br/>"
+				template:"总支出：<span>{{y}}</span> 元<br/>",
+				css:{"border-color":"{COLOR}"}
 			}
 		});
 
