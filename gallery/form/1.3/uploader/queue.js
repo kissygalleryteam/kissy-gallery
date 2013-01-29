@@ -138,11 +138,19 @@ KISSY.add('gallery/form/1.3/uploader/queue', function (S, Node, Base) {
          */
         add:function (files, callback) {
             var self = this,fileData={};
+            var uploader = self.get('uploader');
+            var len = self.get('files').length || 0;
+            var max = uploader.get('max') || 1000;
+
             //如果存在多个文件，需要批量添加文件
             if (files.length > 0) {
                 fileData=[];
-                S.each(files,function(file){
-                    fileData.push(self._addFile(file));
+                S.each(files,function(file, index){
+                    //增加是否超过判断
+                    //#128 https://github.com/kissyteam/kissy-gallery/issues/128
+                    if (max >= len + index + 1) {
+                        fileData.push(self._addFile(file));
+                    }
                 });
             } else {
                 fileData = self._addFile(files);

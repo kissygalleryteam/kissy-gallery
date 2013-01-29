@@ -380,15 +380,17 @@ KISSY.add('gallery/form/1.3/uploader/auth/base', function (S, Node,Base) {
             var self = this,
                 uploader = self.get('uploader'),
                 queue = uploader.get('queue');
-                var curFileIndex = uploader.get('curUploadIndex');
-                if(curFileIndex == EMPTY) return false;
-                var files = queue.get('files');
-                uploader.stop();
-                S.each(files,function(file,index){
-                    if(index >= curFileIndex){
-                        queue.remove(index);
-                    }
-                })
+
+            var curFileIndex = uploader.get('curUploadIndex');
+            if(curFileIndex == EMPTY) return false;
+            var files = queue.get('files');
+            uploader.stop();
+
+            var len = files.length - 1;
+            // #128 https://github.com/kissyteam/kissy-gallery/issues/128
+            for (var i = len; i >= curFileIndex ; i--) {
+                queue.remove(i);
+            }
         }
     }, {ATTRS:/** @lends Auth.prototype*/{
         /**
