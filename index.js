@@ -1,6 +1,10 @@
 ﻿{
    "gs":[
    {
+        "name":"moment",
+        "desc":"日期时间库"
+   },
+   {
         "name":"kcharts",
         "desc":"全面的图表组件"
    },

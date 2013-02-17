@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>KISSY.gallery.kscroll</title>
+<link rel="shortcut icon" href="../../../../kissy-dpl/base/assets/favicon.ico"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/reset.css"/>
+<link rel="stylesheet" href="../../../../kissy-dpl/base/assets/kissy-docs.css"/>
+<style>
+    h1, h4 {
+        font-family: 'MicroSoft YaHei';
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    h1 {
+        font-size: 36px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    h4 {
+        font-size: 24px;
+        padding: 0 10px;
+        margin: 0 0 10px;
+    }
+
+    h5 {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    button {
+        padding: 5px 10px;
+        margin-top: 10px;
+    }
+
+    select {
+        padding: 2px;
+    }
+
+    .section {
+        border: 1px solid #efefef;
+        padding: 10px;
+        margin: 30px 0;
+        border-radius: 5px;
+    }
+
+    h4 {
+        padding-bottom: 5px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    #gj p, #guard {
+        padding: 10px 0;
+        font-size: 24px;
+        font-weight: bold;
+        font-family: '楷体';
+        color: #c00;
+    }
+
+    .g {
+        display: none;
+    }
+
+</style>
+<script src="../../../../kissy/build/seed.js"></script>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111224",
+                path:"../../../", // cdn上适当修改对应路径
+                charset:"gbk"
+            }
+        ]
+    });
+</script>
+
+
+</head>
+<body>
+<div id="header">
+    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../../../../kissy-dpl/base/assets/logo.png"/></a></h1>
+    <div class="sub-title">Gallery</div>
+    <ul class="navigation">
+        <li><a href="http://docs.kissyui.com/">首页</a></li>
+        <li><a href="http://github.com/kissyteam">源码</a></li>
+    </ul>
+
+</div>
+<div id="content">
+<div class="s-crumbs">
+    <span>当前位置：</span>
+    <a href="http://kissyui.com/">KISSY</a>
+    <a href="../../../index.html">Gallery</a>
+    <span>moment</span>
+</div>
+			<pre class="s-section">来自： 	<a href='http://momentjs.com/'>http://momentjs.com/</a>
+			</pre>
+
+
+
+
+<div class="s-section">
+	<div class="s-demo">
+	
+		<div class="box">
+
+当前时间： <span id='now'></span>
+	
+	
+				
+				<script>
+				KISSY.use("gallery/moment/2.0.0/", function(S,moment){
+					document.getElementById('now').innerHTML=moment().format('MMMM Do YYYY, h:mm:ss a');
+				});
+				</script>	
+
+		
+		</div>
+
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<div id="footer">
+    &copy; Copyright 2010~2011, KISSY Team.
+</div>
+</body>
+</html>
