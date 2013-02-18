@@ -341,7 +341,7 @@ KISSY.add('gallery/pagination/1.0/pagination', function(S, Template, undefined) 
 
     return Pagination;
 }, {
-    requires: ["template"]
+    requires: ["gallery/template/1.0/index"]
 });
 /**
  * - 抽离分页HTML模板, 更加定制 --- 20111108 Done;

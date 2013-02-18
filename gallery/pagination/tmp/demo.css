@@ -1,8 +1,8 @@
-/* “˛≤ÿ */
+/* ÈöêËóè */
 .ks-hidden { display: none; }
 .ks-invisible { visibility: hidden; }
 
-/* «Â≥˝∏°∂Ø */
+/* Ê∏ÖÈô§ÊµÆÂä® */
 .ks-clear:after { content: '\20'; display: block; height: 0; clear: both; }
 .ks-clear { *zoom: 1; }
 
@@ -22,36 +22,36 @@
     margin-right: 8px;
 }
 .tl-follow-items {
-	color: #666;
+    color: #666;
 }
 .tl-follow-items .pic {
     float: left;
-	height: 60px;
-	margin: 0;
-	width: 60px;
+    height: 60px;
+    margin: 0;
+    width: 60px;
 }
 
 .tl-follow-items .name, .tl-follow-items .num,
 .tl-follow-items .txt,
 .tl-follow-items .last-feeds, .tl-follow-items .tags,
 .tl-follow-items .say {
-	margin-left: 70px;
-	margin-bottom: 4px;
+    margin-left: 70px;
+    margin-bottom: 4px;
 }
 .tl-follow-items .say {
     margin-top: 4px;
 }
 .tl-follow-items  .name {
-	color: #3D3D3D;
-	font-weight: 700;
+    color: #3D3D3D;
+    font-weight: 700;
     margin-top: -2px;
 }
 .tl-follow-items .name a {
-	color:#07B;
+    color:#07B;
 }
 .tl-follow-items .num {
-	padding-left: 25px;
-	text-align: left;
+    padding-left: 25px;
+    text-align: left;
 }
 .tl-follow-items .txt,
 .tl-follow-items .name,
@@ -66,7 +66,7 @@
 }
 .tl-follow-items .last-feeds a, .tl-follow-items .last-feeds a:link,
 .tl-follow-items .last-feeds a:visited, .tl-follow-items .txt, .tl-follow-items .tags  {
-	color: #999;
+    color: #999;
 }
 .tl-follow-items .last-feeds a:hover {
     text-decoration: none;
@@ -99,4 +99,8 @@
 .friends-list .friends-items .add-friend .tl-gray-bt {
     padding-top: 2px;
     padding-bottom: 2px;
+}
+
+.c2c-select {
+    text-align: left;
 }
