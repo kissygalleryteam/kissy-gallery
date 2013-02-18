@@ -212,4 +212,4 @@ KISSY.add('gallery/form/1.3/list/index',function(S, DOM, Base, Event, Template) 
             }
         });
     return List;
-}, {requires:['dom','base','event','template']});
+}, {requires:['dom','base','event','gallery/template/1.0/index']});

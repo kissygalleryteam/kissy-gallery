@@ -617,7 +617,7 @@ KISSY.add('gallery/image-dd/1.0/index', function(S, Base, Template, Anim){
 },{
   requires: [
     './asdbase'
-    ,'template'
+    ,'gallery/template/1.0/index'
     ,'anim'
     ,'./assets/image-dd.css'
   ]

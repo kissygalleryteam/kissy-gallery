@@ -89,7 +89,7 @@ KISSY.add('gallery/timeline/1.0/background', function(S, Base, TT){
 
 },{
   attach: false,
-  requires: ['./base', 'template']
+  requires: ['./base', 'gallery/template/1.0/index']
 });/**
  * User: g.gaokai@gmail.com
  * Date: 12-09-16
@@ -1125,7 +1125,7 @@ KISSY.add('gallery/timeline/1.0/main-content', function(S, Base, TT, Anim){
 
 },{
   attach: false
-  ,requires: ['./base', 'template', 'anim']
+  ,requires: ['./base', 'gallery/template/1.0/index', 'anim']
 });/**
  * User: g.gaokai@gmail.com
  * Date: 12-09-16

@@ -89,5 +89,5 @@ KISSY.add('gallery/timeline/1.0/background', function(S, Base, TT){
 
 },{
   attach: false,
-  requires: ['./base', 'template']
+  requires: ['./base', 'gallery/template/1.0/index']
 });

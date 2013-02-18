@@ -2658,7 +2658,7 @@ KISSY.add('gallery/form/1.3/uploader/plugins/ajbridge/uploader', function(S,flas
 },{ requires:["flash","./ajbridge"] });
 /**
  * @fileoverview �Ӷ���ͼƬ��ѡ��һ����Ϊ����ͼƬ������ͼ��
- * @author ��Ӣ�����ӣ�<daxingplay@gmail.com>�����<jianping.xwh@taobao.com>
+ * @author ��Ӣ�����ӣ�<daxingplay@gmail.com>������<jianping.xwh@taobao.com>
 
  */
 KISSY.add('gallery/form/1.3/uploader/plugins/coverPic/coverPic', function(S, Node,Base){
@@ -3003,7 +3003,7 @@ KISSY.add("'gallery/form/1.3/uploader/plugins/imagePreview/imagePreview'",functi
 				reader.readAsDataURL(fileData);
 			}
 			
-			//û��ʹ��Ԥ�ء��߿?���С��������CSS
+			//û��ʹ��Ԥ�ء��߿?���С���������CSS
 			onshow(img,this.type);
 		}
 	});

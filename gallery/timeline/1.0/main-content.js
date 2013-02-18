@@ -513,5 +513,5 @@ KISSY.add('gallery/timeline/1.0/main-content', function(S, Base, TT, Anim){
 
 },{
   attach: false
-  ,requires: ['./base', 'template', 'anim']
+  ,requires: ['./base', 'gallery/template/1.0/index', 'anim']
 });
