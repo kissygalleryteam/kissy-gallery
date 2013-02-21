@@ -1,8 +1,4 @@
-KISSY.add("gallery/pagination/1.0/index",function(S, PG){
-    return PG;
-}, {
-    requires:["./pagination"]
-});/**
+/**
  * @fileoverview Pagination
  * @desc 分页组件
  * @author 乔花<shengyan1985@gmail.com>
@@ -345,7 +341,7 @@ KISSY.add('gallery/pagination/1.0/pagination', function(S, Template, undefined) 
 
     return Pagination;
 }, {
-    requires: ["template"]
+    requires: ["gallery/template/1.0/index"]
 });
 /**
  * - 抽离分页HTML模板, 更加定制 --- 20111108 Done;

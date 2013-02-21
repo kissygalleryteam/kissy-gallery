@@ -1,0 +1,82 @@
+/** 分页样式 Start **/
+.pagination a.pg-item, .pagination a.pg-item:link, .pagination a.pg-item:visited,
+.pagination a.pg-prev, .pagination a.pg-prev:link, .pagination a.pg-prev:visited,
+.pagination a.pg-next, .pagination a.pg-next:link, .pagination a.pg-next:visited {
+    color: #2c75ae;
+}
+.pagination a.pg-item:hover, .pagination a.pg-item:active,
+.pagination a.pg-prev:hover, .pagination a.pg-prev:active,
+.pagination a.pg-next:hover, .pagination a.pg-next:active {
+    color: #fff;
+}
+.pagination a.pg-disabled, .pagination .pg-skip,
+.pagination a.pg-disabled:link, .pagination a.pg-disabled:hover,
+.pagination a.pg-disabled:visited, .pagination a.pg-disabled:active {
+    color: #999;
+}
+.pagination {
+    text-align: right;
+    margin: 10px 0;
+}
+.pagination .pg-item,
+.pagination .pg-prev, .pagination .pg-next, .pagination .pg-item {
+    margin-left: 4px;
+    vertical-align: middle;
+
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.pagination a:hover {
+    text-decoration: none;
+}
+
+.pagination .pg-prev, .pagination .pg-next, .pagination .pg-item {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    border: 1px solid #c7e5ff;
+    background-color: #eff6ff;
+    padding: 3px 8px;
+}
+.pagination a.pg-prev, .pagination a.pg-next, .pagination a.pg-item {
+    cursor: pointer;
+}
+
+.pagination .pg-prev:hover, .pagination .pg-next:hover {
+    border-color: #c7e5ff;
+}
+
+.pagination .pg-prev:active, .pagination .pg-next:active {
+    border-color: #2f96ff;
+}
+
+.pagination .pg-current {
+    background-color: #b5d9f9;
+    font-weight: bold;
+    color: white;
+    border-color: #6a8eb9;
+}
+.pagination .pg-item:hover, .pagination .pg-item:active,
+.pagination .pg-prev:hover, .pagination .pg-prev:active,
+.pagination .pg-next:hover, .pagination .pg-next:active {
+    border-color: #76a5cb;
+    background-color: #8dbde6;
+}
+
+.pagination .pg-disabled,
+.pagination .pg-disabled:link, .pagination .pg-disabled:hover,
+.pagination .pg-disabled:visited, .pagination .pg-disabled:active {
+    background-color: #f4f4f4;
+    border-color: #ddd;
+    cursor: text;
+}
+
+.pagination .pg-skip .pg-jump {
+    margin-right: 4px;
+    padding: 3px 8px;
+    border: 1px solid #ddd;
+
+}
+/** 分页样式 End **/
