@@ -1,4 +1,4 @@
-KISSY.add("gallery/pagination/1.0/index",function(S, PG){
+KISSY.add("gallery/pagination/1.1/index",function(S, PG){
     return PG;
 }, {
     requires:["./pagination"]
@@ -10,7 +10,7 @@ KISSY.add("gallery/pagination/1.0/index",function(S, PG){
  * @version 1.0
  * @depends kissy, template
  */
-KISSY.add('gallery/pagination/1.0/pagination', function(S, Template, undefined) {
+KISSY.add('gallery/pagination/1.1/pagination', function(S, Template, undefined) {
     var EVENT_PAGE_BEFORE = 'beforePageChange',
         EVENT_PAGE_AFTER = 'afterPageChange',  // 其实是和 afterCurrentPageChange 等价的
         ENTER = 13,
