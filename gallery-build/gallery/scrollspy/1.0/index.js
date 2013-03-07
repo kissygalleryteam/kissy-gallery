@@ -1,12 +1,8 @@
-KISSY.add("gallery/pagination/1.0/index",function(S, ScrollSpy){
-    return ScrollSpy;
-}, {
-    requires:["./scrollspy"]
-});/**
+/**
  * @fileoverview KISSY版的Scroll Spy，根据当前窗口滚动的位置，高亮相应的导航
  * @author: 七念<qinian.wmq@taobao.com>
  **/
-KISSY.add('gallery/scrollspy/1.0/scrollspy',function(S){
+KISSY.add('gallery/scrollspy/1.0/index',function(S){
     var $ = S.all, $1 = S.one;
     
     function ScrollSpy (config) {
