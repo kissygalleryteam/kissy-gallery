@@ -44,10 +44,6 @@
 
         "desc":"原 KISSY 1.3 flash"
     },
-    {
-        "name":"graph",
-        "desc":"图表"
-   },
    {
         "name":"velocity",
 
@@ -67,11 +63,6 @@
         "name":"grid",
 
         "desc":"表格 grid"
-    },
-    {
-        "name":"chart",
-
-        "desc":"Kissy 图表引擎，提供条形图，折线图基于HTML5 Canvas， 支持IE"
     },
     {
         "name":"countdown",
@@ -183,19 +174,11 @@
 
         "desc":"分页"
     },
-    
-    {
-        "name":"checkcode",
-
-        "desc":"验证码"
-    },
-    
     {
         "name":"wwgroup",
 
         "desc":"ww 点灯"
     },
-    
     {
         "name":"browsercache",
 
@@ -206,7 +189,6 @@
 
         "desc":"mustache 模板引擎"
     },
-    
     {
         "name":"urlparser",
 
@@ -221,16 +203,6 @@
         "name":"easycountdown",
 
         "desc":"倒计时组件，不同于传统倒计时组件的实现方式，容易扩展"
-    },
-    {
-        "name":"digital-clock",
-
-        "desc":"数字时钟"
-    },
-    {
-        "name":"selectable",
-
-        "desc":"选择/下拉框"
     }
    ]
 }
