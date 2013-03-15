@@ -1,0 +1,99 @@
+#example {
+    margin-bottom: 5px
+}
+
+#example button {
+    cursor: pointer;
+    font-size: 12px;
+    margin: 0 5px 10px 0
+}
+
+#search {
+    font-size: 12px;
+    width: 300px;
+    border: 1px solid #c4e6f1
+}
+
+#search input {
+    background: #FFF url(http://img02.taobaocdn.com/tps/i2/T122NIXoBAXXXXXXXX-200-200.png) 0 0 no-repeat
+}
+
+#search form {
+    color: #666;
+    border: 2px solid #78b1c8
+}
+
+#search ul {
+    padding: 10px 20px;
+    vertical-align: top
+}
+
+#search li {
+    padding: 5px 0;
+    list-style: none;
+    line-height: 25px;
+    zoom: 1
+}
+
+#search li:after {
+    content: ".";
+    clear: both;
+    display: block;
+    height: 0;
+    visibility: hidden
+}
+
+#search label,#search input,#search span {
+    float: left
+}
+
+#search .tit {
+    width: 60px;
+    min-height: 25px;
+    height: auto!important;
+    height: 25px
+}
+
+#search li strong {
+    font-size: 14px;
+    display: block;
+    line-height: 24px;
+    border-bottom: 1px dotted #afafaf
+}
+
+#search .checkbox {
+    margin-right: 10px
+}
+
+#search .checkbox input {
+    margin: 6px 5px 0 0;
+    *margin: 2px 0 0 -3px;
+    background: 0
+}
+
+#search .f-text {
+    padding: 3px;
+    width: 179px;
+    height: 18px;
+    color: #666;
+    line-height: 18px;
+    font-family: inherit;
+    border-color: #afafaf #dcdcdc #dcdcdc #afafaf;
+    border-width: 0 1px 1px 0;
+    background-position: 0 -100px
+}
+
+#search .f-btn {
+    border: 0;
+    width: 85px;
+    height: 31px;
+    cursor: pointer
+}
+
+#search .f-btn:hover {
+    background-position: -86px 0
+}
+
+.gray {
+    color: #888
+}
