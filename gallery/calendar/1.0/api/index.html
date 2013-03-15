@@ -1,0 +1,758 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="angtian" />
+    <meta name="description" content="淘宝旅行日历组件API文档" />
+    <title>淘宝旅行日历组件API文档</title>
+</head>
+<style>
+body{color:#666;background-color:#DBDFE3;font:14px/1.8 \5fae\8f6f\96c5\9ed1;}
+a{color:#039;}
+a:hover{color:#06C;}
+#header,#main,#footer{width:640px;margin:0 auto;}
+h1.title{color:#30475E;text-align:center;}
+.summary{color:#FFF;border-radius:8px;background-color:#30475E;padding:20px;}
+.summary a{color:#FFF;}
+.summary ul,.summary li{margin: 0;padding: 0;list-style: none;}
+.section{margin-top:30px;border-radius:8px;background-color:#FFF;border:1px solid #D1D1D1;padding:20px;}
+.section h2{color:#333;text-align:center;}
+.section pre{font-size:12px;border-radius:5px;font-family:Courier New;border:1px solid #EFEFEF;background-color:#F9F9F9;padding:5px;}
+.section dl{padding-left:1em;border-left:1px dashed #DDD;}
+.section dl dt{font-weight:700;padding:8px 0;}
+.section dl dd{margin-left:0;}
+#footer{color:#999;text-align:center;}
+#footer a{color:#999;}
+</style>
+<body>
+<div id="header">
+    <h1 class="title">淘宝旅行日历组件</h1>
+    <div class="summary">
+        <ul>
+            <li><strong>author：</strong><a href="http://fgm.cc">Angtian</a> <a href="http://weibo.com/fugm">@淘宝昂天</a></li>
+            <li><strong>github：</strong><a href="https://github.com/kissyteam/kissy-gallery/tree/master/gallery/calendar">https://github.com/kissyteam/kissy-gallery/tree/master/gallery/calendar</a></li>
+        </ul>
+    </div>
+</div>
+<div id="main">
+    <div class="section">
+        <h2>文档索引</h2>
+        <ul>
+            <li>
+                <h3><a href="#use">快速上手</a></h3>
+            </li>
+            <li>
+                <h3><a href="#options">配置参数</a></h3>
+                <ul>
+                    <li><a href="#options-date">date</a></li>
+                    <li><a href="#options-count">count</a></li>
+                    <li><a href="#options-selectedDate">selectedDate</a></li>
+                    <li><a href="#options-minDate">minDate</a></li>
+                    <li><a href="#options-maxDate">maxDate</a></li>
+                    <li><a href="#options-startDate">startDate</a></li>
+                    <li><a href="#options-endDate">endDate</a></li>
+                    <li><a href="#options-afterDays">afterDays</a></li>
+                    <li><a href="#options-message">message</a></li>
+                    <li><a href="#options-triggerNode">triggerNode</a></li>
+                    <li><a href="#options-finalTriggerNode">finalTriggerNode</a></li>
+                    <li><a href="#options-container">container</a></li>
+                    <li><a href="#options-isSelect">isSelect</a></li>
+                    <li><a href="#options-isDateInfo">isDateInfo</a></li>
+                    <li><a href="#options-isDateIcon">isDateIcon</a></li>
+                    <li><a href="#options-isHoliday">isHoliday</a></li>
+                </ul>
+            </li>
+            <li>
+                <h3><a href="#api">接口</a></h3>
+                <ul>
+                    <li><a href="#api-render">render()</a></li>
+                    <li><a href="#api-prevMonth">prevMonth()</a></li>
+                    <li><a href="#api-nextMonth">nextMonth()</a></li>
+                    <li><a href="#api-show">show()</a></li>
+                    <li><a href="#api-hide">hide()</a></li>
+                    <li><a href="#api-showMessage">showMessage()</a></li>
+                    <li><a href="#api-hideMessage">hideMessage()</a></li>
+                    <li><a href="#api-getSelectedDate">getSelectedDate()</a></li>
+                    <li><a href="#api-getCurrentNode">getCurrentNode()</a></li>
+                    <li><a href="#api-getDateInfo">getDateInfo()</a></li>
+                    <li><a href="#api-syncUI">syncUI()</a></li>
+                </ul>
+            </li>
+            <li>
+                <h3><a href="#event">自定义事件</a></h3>
+                <ul>
+                    <li><a href="#event-render">render</a></li>
+                    <li><a href="#event-show">show</a></li>
+                    <li><a href="#event-hide">hide</a></li>
+                    <li><a href="#event-prevmonth">prevmonth</a></li>
+                    <li><a href="#event-nextmonth">nextmonth</a></li>
+                    <li><a href="#event-dateclick">dateclick</a></li>
+                    <li><a href="#event-showmessage">showmessage</a></li>
+                    <li><a href="#event-hidemessage">hidemessage</a></li>
+                </ul>
+            </li>
+            <li>
+                <h3><a href="#optionsChange">配置参数改变事件</a></h3>
+                <ul>
+                    <li><a href="#optionsChange-dateChange">dateChange</a></li>
+                    <li><a href="#optionsChange-countChange">countChange</a></li>
+                    <li><a href="#optionsChange-selectedDateChange">selectedDateChange</a></li>
+                    <li><a href="#optionsChange-minDateChange">minDateChange</a></li>
+                    <li><a href="#optionsChange-maxDateChange">maxDateChange</a></li>
+                    <li><a href="#optionsChange-startDateChange">startDateChange</a></li>
+                    <li><a href="#optionsChange-endDateChange">endDateChange</a></li>
+                    <li><a href="#optionsChange-afterDaysChange">afterDaysChange</a></li>
+                    <li><a href="#optionsChange-messageChange">messageChange</a></li>
+                    <li><a href="#optionsChange-isSelectChange">isSelectChange</a></li>
+                    <li><a href="#optionsChange-isDateInfoChange">isDateInfoChange</a></li>
+                    <li><a href="#optionsChange-isHolidayChange">isHolidayChange</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div id="use" class="section">
+        <h2>快速上手</h2>
+        <h3>引入文件</h3>
+        <p>在页面head引入KISSY种子</p>
+        <pre>&lt;script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed-min.js"&gt;&lt;/script&gt;</pre>
+        <h3>配置</h3>
+<pre>
+KISSY.config({
+    packages:[
+        {
+            name   : 'gallery',
+            tag    : '20130315',
+            path   : '../../../',  // cdn上适当修改对应路径
+            charset: 'utf-8'
+        }
+    ]
+});
+</pre>
+        <h3>使用</h3>
+<pre>
+KISSY.use('gallery/calendar/1.0/index', function(S, Calendar) {
+    var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    // do something
+});
+</pre>        
+    </div>
+    <div id="options" class="section">
+        <h2>配置参数</h2>
+        <ul>
+            <li>
+                <h3 id="options-date">date</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>(默认值：当前日期) 日历初始日期</dd>
+                    <dt>类型</dt>
+                    <dd>Date (日期对象) 或 String (日期字符串)</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="options-count">count</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>(默认值：2) 日历个数</dd>
+                    <dt>类型</dt>
+                    <dd>Number</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="options-selectedDate">selectedDate</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>(默认值：空) 选择的日期</dd>
+                    <dt>类型</dt>
+                    <dd>String</dd>
+                </dl>
+            </li>            
+            <li>
+                <h3 id="options-minDate">minDate</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>(默认值：null) 允许操作的最小日期</dd>
+                    <dt>类型</dt>
+                    <dd>Date (日期对象) 或 String (日期字符串)</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="options-maxDate">maxDate</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>(默认值：null) 允许操作的最大日期</dd>
+                    <dt>类型</dt>
+                    <dd>Date (日期对象) 或 String (日期字符串)</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="options-startDate">startDate</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>(默认值：空) 开始时间</dd>
+                    <dt>类型</dt>
+                    <dd>String (日期字符串)</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="options-endDate">endDate</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>(默认值：空) 结束时间</dd>
+                    <dt>类型</dt>
+                    <dd>String (日期字符串)</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="options-afterDays">afterDays</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>(默认值：0) 等价于设置minDate和maxDate，minDate未设置时取当前日期</dd>
+                    <dt>类型</dt>
+                    <dd>Number</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="options-message">message</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>(默认值：空) 提示信息</dd>
+                    <dt>类型</dt>
+                    <dd>String</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="options-triggerNode">triggerNode</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>(默认值：空) 触发节点，支持批量设置，用半角逗号分隔。弹出式日历必选配置。例('#ID, .className, ...')</dd>
+                    <dt>类型</dt>
+                    <dd>String</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="options-finalTriggerNode">finalTriggerNode</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>(默认值：空) 最后触发节点，用于选择起始时间和结束时间互动，支持批量设置，用半角逗号分隔。例('#ID, .className, ...')</dd>
+                    <dt>类型</dt>
+                    <dd>String</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="options-container">container</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>(默认值：空) 放置日历的容器。非弹出式日历必选配置</dd>
+                    <dt>类型</dt>
+                    <dd>String</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="options-isSelect">isSelect</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>(默认值：false) 是否开启下拉列表选择日期，如果开启，日历个数限制为1</dd>
+                    <dt>类型</dt>
+                    <dd>Boole</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="options-isDateInfo">isDateInfo</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>(默认值：true) 是否显示日期信息</dd>
+                    <dt>类型</dt>
+                    <dd>Boole</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="options-isDateIcon">isDateIcon</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>(默认值：true) 是否显示日期图标</dd>
+                    <dt>类型</dt>
+                    <dd>Boole</dd>
+                </dl>
+            </li>            
+            <li>
+                <h3 id="options-isHoliday">isHoliday</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>(默认值：true) 是否显示节假日信息</dd>
+                    <dt>类型</dt>
+                    <dd>Boole</dd>
+                </dl>
+            </li>           
+        </ul>
+    </div>
+    <div id="api" class="section">
+        <h2>接口</h2>
+        <ul>
+            <li>
+                <h3 id="api-render">render()</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>用于设置参数后渲染日历UI</dd>
+                    <dt>返回值</dt>
+                    <dd>日历对象，可做链式操作</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="api-prevMonth">prevMonth()</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>渲染上月日历UI</dd>
+                    <dt>返回值</dt>
+                    <dd>日历对象，可做链式操作</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="api-nextMonth">nextMonth()</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>渲染下月日历UI</dd>
+                    <dt>返回值</dt>
+                    <dd>日历对象，可做链式操作</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="api-show">show()</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>显示日历</dd>
+                    <dt>返回值</dt>
+                    <dd>日历对象，可做链式操作</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="api-hide">hide()</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>隐藏日历</dd>
+                    <dt>返回值</dt>
+                    <dd>日历对象，可做链式操作</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="api-showMessage">showMessage()</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>显示提示信息</dd>
+                    <dt>返回值</dt>
+                    <dd>日历对象，可做链式操作</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="api-hideMessage">hideMessage()</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>隐藏提示信息</dd>
+                    <dt>返回值</dt>
+                    <dd>日历对象，可做链式操作</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="api-getSelectedDate">getSelectedDate()</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>获取选择的日期</dd>
+                    <dt>返回值</dt>
+                    <dd>String 日期字符串</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="api-getCurrentNode">getCurrentNode()</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>获取当前触发元素节点</dd>
+                    <dt>返回值</dt>
+                    <dd>Element 节点对象</dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="api-getDateInfo">getDateInfo()</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>获取指定日期相关信息</dd>
+                    <dt>参数</dt>
+                    <dd>日期字符串 (YYYY-MM-DD)</dd>
+                    <dt>返回值</dt>
+                    <dd>String 日期信息</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.getDateInfo('2012-05-01'); //劳动节
+</pre>
+                    </dd>                    
+                </dl>
+            </li>
+            <li>
+                <h3 id="api-syncUI">syncUI()</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>同步UI，主要用于动态创建触发元素后使用</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar({
+    triggerNode: '.J_Item' //触发元素
+});
+    
+//动态创建一个触发元素
+Y.one('body').append('&lt;input type="text" class=".J_Item" /&gt;');
+
+//让新创建的触发元素可以触发日历
+oCalendar.syncUI();
+</pre>
+                    </dd>                    
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <div id="event" class="section">
+        <h2>自定义事件</h2>
+        <ul>
+            <li>
+                <h3 id="event-render">render</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>渲染日历UI事件</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('render', function(e) {
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="event-show">show</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>显示日历事件</dd>
+                    <dt>参数</dt>
+                    <dd>{Object} 包含属性node(触发显示日历的节点)</dd>                    
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('show', function(e) {
+        Y.log(e.node);//触发显示日历的节点
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li> 
+            <li>
+                <h3 id="event-hide">hide</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>隐藏日历事件</dd>
+                    <dt>参数</dt>
+                    <dd>{Object} 包含属性node(触发隐藏日历的节点)</dd>                    
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('hide', function(e) {
+        Y.log(e.node);//触发隐藏日历的节点
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>            
+            <li>
+                <h3 id="event-prevmonth">prevmonth</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>点击上月按钮事件</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('prevmonth', function(e) {
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="event-nextmonth">nextmonth</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>点击下月按钮事件</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('nextmonth', function(e) {
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="event-dateclick">dateclick</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>日期点击事件</dd>
+                    <dt>参数</dt>
+                    <dd>{Object} 包含属性date(当前选择日期)，dateInfo(当前选择日期的日期信息)</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('dateclick', function(e) {
+        console.log(e.date);//当前选择日期
+        console.log(e.dateInfo);//当前选择日期的日期信息
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="event-showmessage">showmessage</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>显示提示信息事件</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('showmessage', function(e) {
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="event-hidemessage">hidemessage</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>隐藏提示信息事件</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('hidemessage', function(e) {
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <div id="optionsChange" class="section">
+        <h2>配置参数改变事件</h2>
+        <ul>
+            <li>
+                <h3 id="optionsChange-dateChange">dateChange</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>设置date参数触发事件</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('dateChange', function(e) {
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="optionsChange-countChange">countChange</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>设置count参数触发事件</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('countChange', function(e) {
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="optionsChange-selectedDateChange">selectedDateChange</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>设置选择日期参数触发事件</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('selectedDateChange', function(e) {
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>            
+            <li>
+                <h3 id="optionsChange-minDateChange">minDateChange</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>设置minDate参数触发事件</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('minDateChange', function(e) {
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="optionsChange-maxDateChange">maxDateChange</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>设置maxDate参数触发事件</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('maxDateChange', function(e) {
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="optionsChange-startDateChange">startDateChange</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>设置startDate参数触发事件</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('startDateChange', function(e) {
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="optionsChange-endDateChange">endDateChange</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>设置endDate参数触发事件</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('endDateChange', function(e) {
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>            
+            <li>
+                <h3 id="optionsChange-afterDaysChange">afterDaysChange</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>设置afterDays参数触发事件</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('afterDaysChange', function(e) {
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="optionsChange-messageChange">messageChange</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>设置message参数触发事件</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('messageChange', function(e) {
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="optionsChange-isSelectChange">isSelectChange</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>设置isSelect参数触发事件</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('isSelectChange', function(e) {
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="optionsChange-isDateInfoChange">isDateInfoChange</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>设置isDateInfo参数触发事件</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('isDateInfoChange', function(e) {
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>
+            <li>
+                <h3 id="optionsChange-isHolidayChange">isHolidayChange</h3>
+                <dl>
+                    <dt>概述</dt>
+                    <dd>设置isHoliday参数触发事件</dd>
+                    <dt>示例</dt>
+                    <dd>
+<pre>
+var oCalendar = new Calendar(cfg); // {Object} cfg 日历参数配置
+    oCalendar.on('isHolidayChange', function(e) {
+        //do something
+    });
+</pre>
+                    </dd>
+                </dl>
+            </li>            
+        </ul>
+    </div>    
+</div>
+<div id="footer">
+    <p>&copy; Copyright 2010~2013, KISSY Team.</p>
+</div>
+</body>
+</html>

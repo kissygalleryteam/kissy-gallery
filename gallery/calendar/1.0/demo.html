@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>KISSY gallery - Calendar</title>
+    <link rel="shortcut icon" href="http://docs.kissyui.com/kissy-dpl/base/assets/favicon.ico" />
+    <link rel="stylesheet" href="http://docs.kissyui.com/kissy-dpl/base/assets/reset.css" />
+    <link rel="stylesheet" href="http://docs.kissyui.com/kissy-dpl/base/assets/kissy-docs.css" />
+    <link rel="stylesheet" href="../tmp/style.css" />
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy-min.js"></script>
+    <script src="http://docs.kissyui.com/kissy-dpl/base/assets/kissy-docs.js"></script>
+    <script>
+    KISSY.config({
+        packages:[
+            {
+                name   : 'gallery',
+                tag    : '20130315',
+                path   : '../../../',  // cdn上适当修改对应路径
+                charset: 'utf-8'
+            }
+        ],
+        debug: true
+    });
+    </script>
+</head>
+<body>
+    <div id="header">
+        <h1 class="logo">
+            <a alt="KISSY" href="http://kissyui.com/">
+                <img src="http://docs.kissyui.com/kissy-dpl/base/assets/logo.png"/>
+            </a>
+        </h1>
+        <div class="sub-title">Gallery</div>
+        <ul class="navigation">
+            <li>
+                <a href="http://docs.kissyui.com/">首页</a>
+            </li>
+            <li>
+                <a href="http://github.com/kissyteam">源码</a>
+            </li>
+        </ul>
+    </div>
+    <div id="content">
+        <div class="s-crumbs">
+            <span>当前位置：</span>
+            <a href="http://kissyui.com/">KISSY</a>
+            <a href="http://docs.kissyui.com/kissy-gallery/index.html">Gallery</a>
+            <span>Calendar</span>
+        </div>
+<pre class="s-section">             
+作者：angtian.fgm@taobao.com(昂天)
+功能：旅行日历组件
+源码：<a href="calendar.js">calendar.js</a>
+<a href="api">API文档</a>
+</pre>
+        <h3 class="s-title">Demo1 - 静态日历，基本参数配置使用演示</h3>
+        <div class="s-section s-demo">
+            <ul id="example">
+                <li>
+                    <button class="J_Count" data-count="1">单日历</button>
+                    <button class="J_Count" data-count="2">双日历</button>
+                    <button class="J_Count" data-count="3">三日历</button>
+                    <button class="J_Count" data-count="4">四日历</button>
+                </li>
+                <li>
+                    <button class="J_Holiday" data-holiday="1">显示节假日</button>
+                    <button class="J_Holiday" data-holiday="0">隐藏节假日</button>
+                </li>
+                <li>
+                    <button class="J_Limit" data-value="90">限制时间范围(今天-》90天)</button>
+                    <button class="J_Limit">取消限制</button>
+                </li>
+                <li>
+                    <button class="J_Select" data-select="1">下拉表单选择时间</button>
+                    <button class="J_Select" data-select="0">取消下拉表单选择</button>
+                    <span class="gray">(为下拉表单选择时，只允许显示单日历)</span>
+                </li>
+            </ul>
+            <script>
+            KISSY.use('gallery/calendar/1.0/index', function(S, Calendar) {
+                var $ = S.all;
+
+                /**
+                 * 静态日历演示
+                 *
+                 * 基本参数配置使用实例
+                 */
+                var example1 = new Calendar({
+                    'container': '#J_Example'
+                });
+
+                // 设置日历个数
+                $('.J_Count').on('click', function(e) {
+                    example1.set('count', $(this).attr('data-count'));
+                    example1.render();
+                });
+
+                // 设置节假日显示/隐藏
+                $('.J_Holiday').on('click', function(e) {
+                    example1.set('isHoliday', $(this).attr('data-holiday') * 1);
+                    example1.render();
+                });
+
+                // 时间范围限制
+                $('.J_Limit').on('click', function(e) {
+                    var node    = $(this);
+                    var isLimit = node.hasAttr('data-value');
+                    var today   = Calendar.DATE.stringify(new Date);
+
+                    example1.set('date', today);
+                    example1.set('minDate', isLimit ? today : '');
+                    example1.set('maxDate', isLimit ? Calendar.DATE.siblings(today, node.attr('data-value')) : '');
+                    example1.render();
+                });
+
+                // 下拉表单选择时间
+                $('.J_Select').on('click', function(e) {
+                    example1.set('isSelect', $(this).attr('data-select') * 1);
+                    example1.render();
+                });
+
+                // 显示选择的日期及日期信息
+                example1.on('dateclick', function(e) {
+                    alert(e.date + '【'+ e.dateInfo +'】');
+                });
+            });
+            </script>
+        </div>
+        <div id="J_Example"></div>
+        <a class="s-view-code" href="javascript:;">显示源码</a>
+        <h3 class="s-title">Demo2 - 酒店/机票应用演示</h3>
+        <div class="s-section s-demo">
+            <div id="search">
+                <form id="J_Search">
+                    <ul>
+                        <li>
+                            <strong>酒店入住/离店日期选择</strong>
+                        </li>
+                        <li>
+                            <label class="tit" for="J_CheckIn">入住时间：</label>
+                            <input id="J_CheckIn" type="text" class="J_S1 f-text" value="" />
+                        </li>
+                        <li>
+                            <label class="tit" for="J_CheckOut">离店时间：</label>
+                            <input id="J_CheckOut" type="text" class="J_S2 f-text" value="" />
+                        </li>
+                        <li>
+                            <strong>机票出发/返程日期选择</strong>
+                        </li>
+                        <li>
+                            <label class="tit" for="J_DepDate">出发时间：</label>
+                            <input id="J_DepDate" type="text" class="J_S1 f-text" value="" />
+                        </li>
+                        <li>
+                            <label class="tit" for="J_RetDate">返程时间：</label>
+                            <input id="J_RetDate" type="text" class="J_S2 f-text" value="" />
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <script>
+            KISSY.use('gallery/calendar/1.0/index', function(S, Calendar) {
+                var $ = S.all;
+
+                /**
+                 * 酒店日历实例
+                 *
+                 * 入住可选时段：今天起90天
+                 * 离店可选时段：入住时间+28天
+                 */
+                var maxCheckOut = 90;
+                var maxInterval = 28;
+
+                var example2 = new Calendar({
+                    afterDays       : maxCheckOut,
+                    triggerNode     : '#J_CheckIn',
+                    finalTriggerNode: '#J_CheckOut'
+                });
+
+                var maxCheckoutDate = example2.get('maxDate');
+                var limit;
+
+                example2.on('show', function(e) {
+                    switch(e.node.attr('id')) {
+                        case 'J_CheckIn':
+                            this.set('minDate', new Date);
+                            this.set('afterDays', maxCheckOut);
+                            this.render();
+                            break;
+                        case 'J_CheckOut':
+                            this.set('minDate', this.get('startDate') || new Date);
+                            this.set('afterDays', Math.min(maxInterval, Calendar.DATE.differ(this.get('minDate'), maxCheckoutDate) + 1));
+                            this.render();
+                            break;
+                    }
+                });
+
+                /* ------------------------------------------------------------- */
+
+                /**
+                 * 机票日历实例
+                 *
+                 * 可选时间段：今天起
+                 */
+                var example3 = new Calendar({
+                    minDate         : new Date,
+                    triggerNode     : '#J_DepDate',
+                    finalTriggerNode: '#J_RetDate'
+                });
+
+            });
+            </script>
+        </div>
+        <a class="s-view-code" href="javascript:;">显示源码</a>
+    </div>
+
+    <div id="footer">&copy; Copyright 2010~2013, KISSY Team.</div>
+</body>
+</html>
