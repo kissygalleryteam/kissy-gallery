@@ -1,5 +1,9 @@
 ﻿{
    "gs":[
+    {
+        "name":"calendar",
+        "desc":"旅行日历"
+    },
    {
         "name":"moment",
         "desc":"日期时间库"
