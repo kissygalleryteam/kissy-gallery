@@ -1,0 +1,103 @@
+/*****************************************************************************
+ * 页头尾
+ *****************************************************************************/
+body{
+    font-size: 14px;
+}
+ul,li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+#header, #footer, #content {width: 950px;margin:0 auto;}
+
+#header {overflow:hidden;background:url(toy.jpg) no-repeat 82% 0;border-bottom: 1px solid #ace;}
+#header .logo{float:left;margin:20px 0 0 0;padding:0;border:none;}
+#header .sub-title{float:left;margin:45px 5px 0 5px;font:25px "Microsoft YaHei";color:#aaa;}
+#header .desc{float:left;margin-top:55px;margin-left:5px;font-size:15px;color:#80c269;font-weight:bold;font-family: "Microsoft YaHei";}
+#header  .navigation {float:right;margin:55px 0 0 0;list-style:none;}
+#header  .navigation li {float:left;margin-left:-1px;padding: 0 10px 0 25px;line-height:1em;border-left:1px solid #ddd;background:url(bullet.gif) no-repeat 12px 50%;}
+
+#content{margin-bottom:10px;}
+
+#footer {clear:both;padding:30px 0;text-align:center;color:#888;border-top:1px dotted #ddd;}
+#footer a {color: #888}
+
+
+/*****************************************************************************
+ * 布局
+ *****************************************************************************/
+/** 布局基础样式 **/
+.col-main {
+    float: left;
+    width: 100%;
+    /* bug fix: 主栏没有内容时，在 Firefox 和 Chrome 等浏览器下，布局不对 */
+    min-height: 1px;
+}
+.col-sub, .col-extra {
+    float: left;
+    /*position: relative;  按需设置，仅在需要时添加 */
+}
+
+/** 清除浮动 **/
+.layout:after, .main-wrap:after, .col-sub:after, .col-extra:after {
+    content: '\20';
+    display: block;
+    height: 0;
+    clear: both;
+}
+.layout, .main-wrap, .col-sub, .col-extra {
+    *zoom: 1;
+}
+.grid-s6m0 .main-wrap {
+    margin-left: 240px;
+    padding-left:10px;
+}
+
+.grid-s6m0 .col-sub {
+    width: 230px;
+    margin-left: -100%;
+}
+
+.sub-wrap{padding:0 10px;}
+.col-sub{border: 1px solid #ace;border-top:none;background:#f2f8fa;}
+
+/*****************************************************************************
+* 公共模块
+*****************************************************************************/
+
+a{color:#04c;}
+
+/*盒子*/
+.s-title{padding:8px 0;font:bold 16px "Microsoft YaHei";border-bottom:1px dotted #ccc;}
+.s-section{padding:8px 0;overflow:hidden;}
+
+/*列表*/
+.s-list .s-list{margin-left:20px}
+.s-list li{margin:0;padding-left:14px;list-style:inside none;background:url(bullet.gif) no-repeat 0px 8px;}
+.s-list li li{background-image:url(sub-bullet.gif);}
+.s-list .s-desc{color:#888;}
+
+/*代码显示*/
+.s-view-code{display:block;margin:10px 0;}
+.s-code{width:99%;margin-bottom:10px;border:1px solid #ddd;}
+
+a.s-current{color:#f60;text-decoration:underline;}
+
+/*面包屑*/
+.s-crumbs{padding:5px 10px;overflow:hidden;line-height:18px;border-bottom: 1px solid #ace;background:#f2f2f2 url(bg-repeatx.png) repeat-x 0 -10px;*zoom:1;}
+.s-crumbs span,
+.s-crumbs a{float:left;margin-left:2px;}
+.s-crumbs a{
+    margin-right:4px;
+    padding:0 12px 0 0;
+    background:url(crumbs.png) no-repeat 100% 50%;
+}
+
+/*手工api简单样式*/
+.s-api-title{font-weight:bold;}
+.s-api-method{margin:0 0 10px 20px;color:#f60;}
+.s-api-params{margin:0 0 10px 20px;margin-bottom:5px;}
+.s-api-params em{color:#04c;}
+.s-api-return{margin:0 0 10px 20px;}
