@@ -72,6 +72,7 @@
             	css:{
             	}
             },
+            lineType:"arc",
             anim:{},
             subTitle:{
             	content:"week fee record",
@@ -139,38 +140,16 @@
 					y:-10
 				},
 				boundryDetect:true
+			},
+			legend:{
+				isShow:true,
+				css:{
+					background:"red"
+				}
 			}
 		});
 
-
-		var legend = new Legend({
-	      container:"#legend1",
-	      chart:lineChart
-	    });
-
-	    lineChart.on("afterRender",function(){
-
-        Evt.on($("li",$("#legend1")),"click",function(e){
-
-          var $li = $(e.currentTarget).toggleClass("disable");
-
-          var index = S.indexOf(e.currentTarget,$("li",$("#legend1")));
-
-          if(!$li.hasClass("disable")){
-
-            lineChart.showLine(index);
-
-          }else{
-
-            lineChart.hideLine(index);
-
-          }
-      });
-
-      });
-
 	});
-		
 
 })(KISSY);
 </script>
