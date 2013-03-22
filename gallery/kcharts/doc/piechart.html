@@ -16,59 +16,85 @@ KISSY.use('gallery/kcharts/1.0/piechart/index',function(S,PieChart){
   function helperRand(a,b){
     return Math.floor(Math.random()*(b-a+1)+a);
   }
-  var data = [];
-  var labels = [];
-  for(var i=15;i>0;i--){
-    data.push(i);
-    var j = helperRand(1,10)
-      ,s = ''
-    for(;j>0;j--){
-      s+='标';
+  var data = [{data:30,label:'30%','tip':'per'},{data:30,label:'30%','tip':'per'},{data:40,label:'40%','tip':'percent'}]
+    ,labels = ['30%','40%','30%']
+    ,colors = [{DEFAULT:'red'}]
+
+  var piechart = new PieChart({
+    renderTo:'#canvas',
+    cx:150,
+    cy:150,
+    r:100,
+    data:data,
+    colors:colors,
+    labelIndside:false, //label不标注在扇形内
+    anim:{
+      type:'sector',
+      easing:'bounceOut',
+      duration:1000
+    },
+    tip:{
+      boundryDetect:true,
+      tpl:"{{tip}} {{percent*100+'%'}}"
+    },
+    labelline:{
+      attr:{
+        stroke:"red"
+      }
     }
-    labels.push(s);
-  }
-  var piechar = new PieChart('#canvas',{cx:150,cy:150,r:100,data:data,labels:labels,anim:{type:'r',easing:'bounceOut',duration:1000}});
+  });
 });
+
 ```
 
 ---
 API
 ---
-### 配置 PieChart(cotainer,cfg)
-
-`cotainer` piechart容器
+### 配置 PieChart(cfg)
 
 `cfg` 为一个`object`包含字段：
-
+- `renderTo` piechart容器
 - `cx` 饼图中心点x坐标
 - `cy` 饼图中心点y坐标
-- `r` 半径
-- `emptyRadius` 空心半径，必须小于r
-- `data` 数据
-- `labels` 与数据`data`对应的说明
+- `R` 半径
+- `r` 空心半径，必须小于R
+- `data` 数据，每个数据段可以包含一些额外的数据，共tip在渲染模板时调用
+- `colors` 扇形的颜色，长年和data对应
+- `labelIndside` label标注在扇形区域内
 - `anim` 动画配置 `type:r` 半径动画，`type:sector`扇形展开动画，`easing` Kissy动画效果，`duration`动画运行时间
+- `tip` 提示，同linechart的tip
+- `labelline` 饼图标注线条的配置
+>- `attr` 线条的属性`object`
 
 ### 事件 Event
 
-- `mouseenter` 事件对象`e.target`为触发事件的`sector`
+- `mouseenter` `function(e){}`，事件对象`e` 包含：
 
-- `mouseleave` 
+>- `e.sector` 扇形
+>- `e.data` 对应的数据data
+>- `e.index` 数据索引
 
-- `click`
+- `mouseleave` 同mouseenter
 
-- `afterRender`
+- `click` 同mouseenter
+
+- `afterRender` 
+
 ----
 demo
 ----
-  [扇形逐渐展开动画](../tests/piechart.html)
+  [扇形逐渐展开动画](../demo/piechart/piechart-animate-sectors.html)
 
-  [空心扇形](../tests/piechart-empty.html)
+  [半径逐渐展开动画](../demo/piechart/piechart-animate-radius.html)
 
-  [半径逐渐增大动画](../tests/piechart-r.html)
+  [空心饼图](../demo/piechart/piechart-animate-empty.html)
 
-----
-其它label算法
-----
+  [自定义颜色](../demo/piechart/piechart-custom-color.html)
+
+  [标注在扇形内部](../demo/piechart/piechart-label-inside.html)
+
+  [点击偏移](../demo/piechart/piechart-transform.html)
+
   </xmp>
 
 <script src="strapdown.js"></script>

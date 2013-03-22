@@ -1,4 +1,8 @@
-KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPaper,Tip,undefined){
+/**
+ * @fileOverview KChart 1.0  barchart
+ * @author huxiaoqi567@gmail.com
+ */
+KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,Template,BaseChart,Color,HtmlPaper,Legend,Theme,undefined,Tip){
 
 	var $ = S.all,
 		Evt = S.Event,
@@ -13,23 +17,27 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 		color;
 
 	var BarChart = function(cfg){
-
 		this.init(cfg);
-
 	};
 
 	S.extend(BarChart,BaseChart,{
-
 		init:function(cfg){
 
 			var self = this;
 
 			BaseChart.prototype.init.call(self,cfg);
 
+			self.chartType = "barchart";
+
+			if(!self._$ctnNode[0]) return;
+
 			var _defaultConfig = {
 					themeCls:themeCls,
 					autoRender:true,
 					colors:[],
+					barsRatio:0.6,
+					barRatio:0.5,
+					stackable:false,
 					 title:{
 		            	content:"",
 		            	css:{
@@ -62,19 +70,23 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 					xAxis:{
 						isShow:true,
 						css:{
-							color:"#eee"
+							color:"#eee",
+							zIndex:10
 						}
 					},
 					//纵轴
 					yAxis:{
 						isShow:true,
-						css:{},
+						css:{
+							zIndex:10
+						},
 						num:5
 					},
 					//x轴上纵向网格
 					xGrids:{
 						isShow:true,
 					 	css:{
+
 					 	}
 					 },
 					 //y轴上横向网格
@@ -92,8 +104,12 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 					 bars:{
 					 	isShow:true,
 					 	css:{
-
+					 		background:COLOR_TPL
 					 	}
+					 },
+					 // zoomType:"x"
+					 legend:{
+					 	isShow:false
 					 },
 					 tip:{
 					 	isShow:true,
@@ -120,11 +136,12 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 			//统计渲染完成的数组
 			self._finished = [];
 
-			self._cfg = S.mix(_defaultConfig,self._cfg,undefined,undefined,true);
 			//主题
-			themeCls = self._cfg.themeCls;
+			themeCls = self._cfg.themeCls || _defaultConfig.themeCls;
 
-			self.color = color = new Color();
+			self._cfg = S.mix(S.mix(_defaultConfig,Theme[themeCls],undefined,undefined,true),self._cfg,undefined,undefined,true);
+			
+			self.color = color = new Color({themeCls:themeCls});
 
 			if(self._cfg.colors.length > 0){
 
@@ -137,13 +154,10 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 				color.setColor(self._cfg.colors[i]);
 
 			}
-
 			self._cfg.autoRender && self.render(true);
-
 		},
 		//主标题
 		drawTitle:function(){
-
 			var self = this,
 				paper = self.paper,
 				cls = themeCls + "-title",
@@ -163,11 +177,9 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 				self._title.html(_cfg.title.content);
 
 			} 
-
 		},
 		//副标题
 		drawSubTitle:function(){
-
 			var self = this,
 				paper = self.paper,
 				cls = themeCls + "-subtitle",
@@ -177,126 +189,140 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 				h = ctn.y * 0.4;
 
 			if(!self._subTitle && _cfg.subTitle.isShow && _cfg.subTitle.content != ""){
-
 				self._subTitle = paper.rect(0,ctn.y * 0.6,self._$ctnNode.width(),h).addClass(cls).css(S.mix({"line-height":h+"px"},_cfg.subTitle.css));
-
 			}
 
 			if(self._subTitle && _cfg.subTitle.content != ""){
-
 				self._subTitle.html(_cfg.subTitle.content);
-
 			} 
-
 		},
 		//画柱
-		drawBar:function(x,y,w,h,css,callback){
-
+		drawBar:function(x,y,w,h,color,callback){
 				var self = this,
+					_cfg = self._cfg,
 					paper = self.paper,
 					cls = canvasCls + "-bars",
 					ctn = self._innerContainer,
-					_cfg = self._cfg,
-					rect,
+					_css = self.processAttr(_cfg.bars.css,color),
+					isY = _cfg.zoomType == "x" ? false : true,
 					x = Math.round(x),
 					y = Math.round(y),
 					w = Math.round(w),
-					h = Math.round(h);
-
+					h = Math.round(h),
+					rect;
+					
 			//允许动画
 			if(_cfg.anim){
-
 				var duration = _cfg.anim.duration ? (S.isNumber(_cfg.anim.duration) ? _cfg.anim.duration : 0.5) : 0.5,
 					easing = _cfg.anim.easing ? _cfg.anim.easing : "easeOut";
-
-				rect = paper.rect(x,ctn.bl.y,w,0).attr({"posx":x,"posy":y}).addClass(cls).css(S.mix(self._cfg.bars.css,css)).animate({"height":h,"marginTop":y - ctn.y},duration,easing,function(){
-					callback && callback();
-				});
-
+				if(isY){
+					rect = paper.rect(x,y,0,h).attr({"posx":x,"posy":y}).addClass(cls).css(_css).animate({"width":w,"marginLeft":x - ctn.x},duration,easing,function(){
+						callback && callback();
+					});
+				}else{
+					rect = paper.rect(x,ctn.bl.y,w,0).attr({"posx":x,"posy":y}).addClass(cls).css(_css).animate({"height":h,"marginTop":y - ctn.y},duration,easing,function(){
+						callback && callback();
+					});
+				}
 			}else{
-
-				rect = paper.rect(x,y,w,h).attr({"posx":x,"posy":y}).addClass(cls).css(S.mix(self._cfg.bars.css,css));
-
+				rect = paper.rect(x,y,w,h).attr({"posx":x,"posy":y}).addClass(cls).css(_css);
+				callback && callback();
 			}
-
 			return  rect;
-
 		},
-		/*计算柱形位置信息
-				bar的数量和间隔数量是 n 和 n-1的关系
-					len * barwidth + (len - 1) * barwidth / barRatio  = offsetWidth  
-
-					=> barWidth = offsetWidth/(len + (len - 1) / barRatio)
-
+		/*	
+			TODO 计算柱形位置信息
+			bar的数量和间隔数量是 n 和 n-1的关系
+			len * barwidth + (len - 1) * barwidth / barRatio  = offsetWidth => barWidth = offsetWidth/(len + (len - 1) / barRatio)
 		*/
 		getBarsPos:function(){
-
 			var self = this,
-				len = BaseChart.prototype.obj2Array(self._barPoints).length,
-				barsRatio = 0.6, //一组柱的占空比
-				barRatio = 0.5,  //单根柱子的占空比
-				areaWidth =  (self._pointsX[1].x - self._pointsX[0].x),
-				offsetWidth = areaWidth * barsRatio,
-				barWidth = offsetWidth/(len + (len - 1) / ((1 - barRatio) / barRatio)),
-				spaceWidth = barWidth * (1 - barRatio) / barRatio,
-				barAndSpaceWidth = barWidth + spaceWidth,
+				zoomType = self._cfg.zoomType,
+				stackable = self._cfg.stackable,
+				ctn = self._innerContainer,
+				isY = zoomType == "y",
+				len = stackable ? 1 : BaseChart.prototype.obj2Array(self._barPoints).length, //若是堆叠图 则为1
+				barsRatio = self._cfg.barsRatio, //一组柱的占空比
+				barRatio = self._cfg.barRatio,  //单根柱子的占空比
+				areaWidth =  isY ? (self._pointsY.length > 1 ? (self._pointsY[1].y - self._pointsY[0].y) : ctn.height): (self._pointsX.length > 1?(self._pointsX[1].x - self._pointsX[0].x):ctn.width)  , //area总宽度
+				offsetWidth = areaWidth * barsRatio, //空白部分的宽度
+				barWidth = offsetWidth/(len + (len - 1) / ((1 - barRatio) / barRatio)), //柱子宽度
+				spaceWidth = barWidth * (1 - barRatio) / barRatio, //柱子间隔宽度
+				barAndSpaceWidth = stackable ? 0 : barWidth + spaceWidth,
 				ctnY = self._innerContainer.bl.y,
-				offset = (areaWidth * (1-barsRatio)-areaWidth)/2;
+				ctnX = self._innerContainer.bl.x,
+				offset = (areaWidth * (1-barsRatio)-areaWidth)/2,
+				stackArray = []; //用来标记当前堆叠的坐标
 
 			self._barsPos = {};
 
 			for(var i in self._points){
-
 				var tmpArray = [];
+				//水平柱形图
+				if(isY){
+					for(var j in self._points[i]){
+						var barPosInfo = {},
+							w = Math.abs(self._points[i][j].x - ctnX);
 
-				for(var j in self._points[i]){
+						barPosInfo.y = offset + self._points[i][j].y;
+						//是否是堆叠图
+						if(stackable){
+							barPosInfo.x =  ctnX + (stackArray[j] || 0);
+							stackArray[j] = stackArray[j] ? stackArray[j] + w : w;
+						}else{
+							barPosInfo.x =  ctnX;
+						}
+						barPosInfo.width = w;
+						barPosInfo.height = barWidth;
+						tmpArray.push(barPosInfo);
+					}
+				}else{
+					for(var j in self._points[i]){
+						var barPosInfo = {},
+							h = Math.abs(ctnY - self._points[i][j].y);
 
-					var barPosInfo = {},
-						h = Math.abs(ctnY - self._points[i][j].y);
-
-					barPosInfo.x = offset + self._points[i][j].x;
-
-					barPosInfo.y =  self._points[i][j].y;
-
-					barPosInfo.width = barWidth;
-
-					barPosInfo.height = h;
-
-					tmpArray.push(barPosInfo);
-
+						barPosInfo.x = offset + self._points[i][j].x;
+						//是否是堆叠图
+						if(stackable){
+							barPosInfo.y =  self._points[i][j].y - (stackArray[j] || 0);
+							stackArray[j] = stackArray[j] ? stackArray[j] + h : h;
+						}else{
+							barPosInfo.y =  self._points[i][j].y;
+						}
+						barPosInfo.width = barWidth;
+						barPosInfo.height = h;
+						tmpArray.push(barPosInfo);
+					}
 				}
-
 				offset += barAndSpaceWidth;
-
 				self._barsPos[i] = tmpArray;
-
 			}
-
 		},
 		/*
 			画所有柱 
 		*/
 		drawBars:function(callback){
-
-			var self = this;
+			var self = this,
+				_cfg = self._cfg;
 
 			for(var i in self._barsPos){
-
-				var bars = [],posInfos = [];
-
+				var bars = [],
+					posInfos = [];
+					
 				for(var j in self._barsPos[i]){
-
 					var barPos = self._barsPos[i][j];
-
 					posInfos[j] = barPos;
-
-					bars[j] = self.drawBar(barPos.x,barPos.y,barPos.width,barPos.height,{"background":color.getColor(i).DEFAULT},function(){
+					bars[j] = self.drawBar(barPos.x,barPos.y,barPos.width,barPos.height,color.getColor(i).DEFAULT,function(){
 									self._finished.push(true);
 									if(callback && self._finished.length == self._cfg.series.length){
-											callback();
+										callback();
 									}
-								})
-								.attr({"barGroup":i,"barIndex":j,"defaultColor":color.getColor(i).DEFAULT,"hoverColor":color.getColor(i).HOVER});
+								}).attr({
+									"barGroup":i,
+									"barIndex":j,
+									"defaultColor":color.getColor(i).DEFAULT,
+									"hoverColor":color.getColor(i).HOVER
+								});
 
 				}
 
@@ -305,29 +331,41 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 					posInfos:posInfos,
 					color:color.getColor(i)
 				};
-
 				self._bars[i] = barObj;
-
 			}
-
 			return self._bars;
 		},
 		//x轴上 平行于y轴的网格线
 		drawGridsX:function(){
-
 			var self = this,
-				points = self._centerPoints;
+				points = self._points[0],
+				gridPointsX;
 
-			for(var i = 0,len = points.length;i<len;i++){
+			self._gridsX = [];
 
-				var grid = self.drawGridX(points[i]);
+			if(self._cfg.zoomType == "x"){
+				gridPointsX = function(){
+					var len = points.length,
+						tmp = [];
+					if(len > 1){
+						var d = (points[1]['x'] - points[0]['x'])/2;
+						tmp.push({x:points[0]['x'] - d})
+						for(var i in points){
+							tmp.push({x:points[i]['x'] - (-d)});
+						}
+					}
+					return tmp;
+				}();
 
-				self._gridsX.push(grid);
-
+				for(var i = 0,len = gridPointsX.length;i<len;i++){
+					self._gridsX.push(self.drawGridX(gridPointsX[i]));
+				}	
+			}else{
+				for(var i in self._pointsX){
+					self._gridsX.push(self.drawGridX(self._pointsX[i]));
+				}
 			}
-
 			return self._gridsX;
-
 		},
 		drawGridX:function(point,css){
 			var self = this,
@@ -338,7 +376,6 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 				cls = self._cfg.themeCls + "-gridsx";
 
 			return paper.lineY(point.x,y,h).addClass(cls).css(self._cfg.xGrids.css);
-
 		},
 		//y轴上 平行于x轴的网格线
 		drawGridY:function(point,css){
@@ -353,46 +390,21 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 		},
 		//y轴上 平行于x轴的网格线
 		drawGridsY:function(){
-
 			var self = this,
 				x = self._innerContainer.tl.x,
-				points = self._pointsY;
+				isY = self._cfg.zoomType == "x" ? false : true;
 
-			for(var i = 0,len = points.length;i<len;i++){
+			self._gridsY = [];
 
+			for(var i = 0,len = self._pointsY.length;i<len;i++){
 				self._gridsY[i] = {
-					0:self.drawGridY({x:x,y:points[i].y}),
-					num:self.coordNum[i]
+					0:self.drawGridY({x:x,y:self._pointsY[i].y}),
+					num:isY ? self.coordNumX[i] : self.coordNum[i]
 				};
-
 			}
-
-		},
-		//轴间的矩形区域
-		drawAreas:function(){
-
-			var self = this,
-				x,
-				y = self._innerContainer.tl.y,
-				points = self._points[0],
-				w = points[1].x - points[0].x,
-				h = self._innerContainer.height,
-				paper = self.htmlPaper,
-				cls = self._cfg.themeCls + "-areas",
-				css = self._cfg.areas.css;
-
-			for(var i = 0,len = points.length;i<len;i++){
-
-				var area = paper.rect(points[i].x - w/2,y,w,h).addClass(cls).css(css);
-
-				self._areas.push(area);
-
-			}
-
 		},
 		//x轴
 		drawAxisX:function(){
-
 			var self = this,
 				_innerContainer = self._innerContainer,
 				bl = _innerContainer.bl,
@@ -401,13 +413,10 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 				cls = self._cfg.themeCls + "-axisx";
 
 			self._axisX =  paper.lineX(bl.x,bl.y,w).addClass(cls).css(self._cfg.xAxis.css || {});
-
 			return self._axisX;
-
 		},
 		//y轴
 		drawAxisY:function(){
-
 			var self = this,
 				_innerContainer = self._innerContainer,
 				tl = _innerContainer.tl,
@@ -418,64 +427,86 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 				self._axisY = paper.lineY(tl.x,tl.y,h).addClass(cls).css(self._cfg.yAxis.css || {});
 
 			return self._axisY;
-
 		},
 		drawLabelsX:function(){
-
 			var self = this,
-				text = self._cfg.xAxis.text;
-			//画x轴刻度线
-				for(var i in text){
-						self.drawLabelX(i,text[i]);
-				}
+				_cfg = self._cfg,
+				isY = _cfg.zoomType == "y" ? true : false;
 
+			if(isY){
+				for(var i in self._pointsX){
+					self._labelX[i] = {0:self.drawLabelX(i,self._pointsX[i]['number'])};
+				}
+			}else{
+				//画x轴刻度线
+				for(var i in self._cfg.xAxis.text){
+					self._labelX[i] = {0:self.drawLabelX(i,self._cfg.xAxis.text[i])};
+				}
+			}
 		},
 		drawLabelsY:function(){
+			var self = this,
+				_cfg = self._cfg,
+				isY = _cfg.zoomType == "x" ? false : true;
 
-			var self = this;
-			//画y轴刻度线
-			for(var i in self._pointsY){
+			if(isY){
+				//画x轴刻度线
+				for(var i in self._cfg.yAxis.text){
 					self._labelY[i] = {
-						0:self.drawLabelY(i,self._pointsY[i].number),
-						'num':self._pointsY[i].number
-					}
+							0:self.drawLabelY(i,self._cfg.yAxis.text[i])
+						}
+				}
+			}else{
+				//画y轴刻度线
+				for(var i in self._pointsY){
+						self._labelY[i] = {
+							0:self.drawLabelY(i,self._pointsY[i].number),
+							'num':self._pointsY[i].number
+						}
+				}
 			}
-
 		},
 		//横轴标注
 		drawLabelX:function(index,text){
-
 			var self = this,
 				paper = self.htmlPaper,
 				labels = self._pointsX,
 				len = labels.length || 0,
 				label,
-				cls = self._cfg.themeCls + "-xlabels";
-
-			if(index < len){
-
-				label = labels[index];
-
-				label[0] = paper.text(label.x,label.y,'<span class='+cls+'>'+text+'</span>',"center").css(self._cfg.xLabels.css);
-
-				return label[0];
-			}
-
+				cls = self._cfg.themeCls + "-xlabels",
+				tpl = "{{data}}",
+				content = "";
+				if(index < len){
+					tpl = self._cfg.xLabels.template || tpl;
+					if(S.isFunction(tpl)){
+						content = tpl(index,text);
+					}else{
+						content = Template(tpl).render({data:text});
+					}
+					label = labels[index];
+					label[0] = paper.text(label.x,label.y,'<span class='+cls+'>'+content+'</span>',"center").children().css(self._cfg.xLabels.css);
+					return label[0];
+				}
 		},
 		//纵轴标注
-		drawLabelY:function(i,text){
-
+		drawLabelY:function(index,text){
 			var self = this,
 				paper = self.htmlPaper,
-				cls = self._cfg.themeCls + "-ylabels";
+				cls = self._cfg.themeCls + "-ylabels",
+				tpl = "{{data}}",
+				content = "";
 
-			return paper.text(self._pointsY[i].x,self._pointsY[i].y,'<span class='+cls+'>'+text+'</span>',"right","middle").css(self._cfg.yLabels.css);
+				tpl = self._cfg.yLabels.template || tpl;
+				if(S.isFunction(tpl)){
+					content = tpl(index,text);
+				}else{
+					content = Template(tpl).render({data:text});
+				}
 
-
+			return content && paper.text(self._pointsY[index].x,self._pointsY[index].y,'<span class='+cls+'>'+content+'</span>',"right","middle").children().css(self._cfg.yLabels.css);
 		},
 		//渲染tip
 		renderTip:function(){
-
 			var self = this,
 				_cfg = self._cfg,
 				ctn = self._innerContainer,
@@ -483,82 +514,73 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 				tipCfg = S.mix(_cfg.tip,{rootNode:self._$ctnNode,clsName:_cfg.themeCls,boundry:boundryCfg});
 			
 			self.tip = new Tip(tipCfg);
-
 			return self.tip;
-
 		},
 		//渲染事件层
 		renderEvtLayout:function(){
-
 			var self = this,
-				x,
 				ctn = self._innerContainer,
 				y = ctn.tl.y,
 				points = self._points[0],
-				w = self._points[0] && self._points[0][1] ? points[1].x - points[0].x : self._areas[0].width(),
 				h = ctn.height,
 				multiple = self._multiple,
-				evtAreas = self._evtEls._areas = [],
 				evtBars = self._evtEls._bars = [],
+				paper,
+				x;
 
-				paper = self._evtEls.paper = new HtmlPaper(self._$ctnNode,{
+				if(!self._evtEls.paper){
+					paper = self._evtEls.paper = new HtmlPaper(self._$ctnNode,{
 						clsName:evtLayoutCls,
 						prependTo:false,	//appendTo
 						width:ctn.width,
 						height:h,
 						left:ctn.tl.x,
-						top:ctn.tl.y
-				});
-
-			for(var i = 0,len = points && points.length ;i<len;i++){
-
-				evtAreas[i] = paper.rect(points[i].x - w/2,ctn.tl.y,w,h).addClass(evtLayoutAreasCls);
-
-			}
+						top:ctn.tl.y,
+						css:{
+							"z-index": 20,
+							background: "#fff",
+							filter:"alpha(opacity =1)",
+							"-moz-opacity":0.01,
+							"-khtml-opacity": 0.01,
+							opacity: 0.01
+						}
+					});
+				}else{
+					paper = self._evtEls.paper;
+				}
 
 			for(var i in self._barsPos){
-
 				var bars = [];
-
 				for(var j in self._barsPos[i]){
-
 					var barPos = self._barsPos[i][j];
-
 					bars[j] = paper.rect(barPos.x,barPos.y,barPos.width,barPos.height).addClass(evtLayoutBarsCls).attr({"barGroup":i,"barIndex":j});
-
 				}
-
 				self._evtEls._bars.push(bars);
-
 			}
-
 			return paper;
-
 		},
 		clearEvtLayout:function(){
-
 			var self = this;
-
-			if(self._evtEls._areas){
-
-				for(var i in self._evtEls._areas){
-
-					self._evtEls._areas[i].remove();
-
-				}
-			}
 			
 			if(self._evtEls._bars){
-
 				 for(var i in self._evtEls._bars){
-
 						for(var j in self._evtEls._bars[i]){
 							self._evtEls._bars[i][j].remove();
 						}
-
 				}
 			}
-
+		},
+		renderLegend:function(){
+			var self = this,
+				legendCfg = self._cfg.legend,
+				container = (legendCfg.container && $(legendCfg.container)[0]) ? $(legendCfg.container) : self._$ctnNode;
+				self.legend = new Legend({
+					container:container,
+					chart:self,
+					evtBind:true,
+					css:legendCfg.css || {}
+				});
+			return self.legend;
 		},
 		render:function(clear){
 
@@ -579,12 +601,10 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 					left:ctn.tl.x,
 					top:ctn.tl.y
 				});
-
 				//clone
 				self._barPoints = self._points;
 
 				self.getBarsPos();
-
 				//渲染html画布
 				self.htmlPaper = new HtmlPaper(self._$ctnNode,{
 					clsName:themeCls
@@ -597,8 +617,6 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 				self.renderEvtLayout();
 				//渲染tip
 				_cfg.tip.isShow && self.renderTip();
-				//画背景块状区域
-				_cfg.areas.isShow && self.drawAreas();
 				//画x轴上的平行线
 				_cfg.xGrids.isShow && self.drawGridsX();
 
@@ -611,6 +629,8 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 				_cfg.xLabels.isShow && self.drawLabelsX();
 
 				_cfg.yLabels.isShow && self.drawLabelsY();
+
+				_cfg.legend.isShow && self.renderLegend();
 				//画柱
 				self.drawBars(function(){
 					S.log("finished");
@@ -618,7 +638,7 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 				});
 				
 				self.bindEvt();
-
+				
 				S.log(self);
 
 		},
@@ -678,35 +698,44 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 			var self = this,
 				_cfg = self._cfg,
 				tip = self.tip,
-				$tip = tip.getInstance();
-				dataInfo = self._points[barGroup][barIndex]["dataInfo"] || {},
+				isY = _cfg.zoomType == "y" ? true : false,
+				$tip = tip.getInstance(),
 				$bar = self._bars[barGroup]['bars'][barIndex],
-				defaultColor = $bar.attr("defaultColor");
+				defaultColor = $bar.attr("defaultColor"),
+				tpl = self._cfg.tip.template,
+				posx = isY ? $bar.attr("posx") - (-$bar.width()) - (-self._innerContainer.x) : $bar.attr("posx"),
+				posy = $bar.attr("posy"),
+				tipData= S.merge(self._points[barGroup][barIndex].dataInfo,_cfg.series[barGroup]);
+				//删除data 避免不必要的数据
+				delete tipData.data;self._points[barGroup][barIndex]["dataInfo"],
+
 				$bar.css({"background":$bar.attr("hoverColor")});
-				tip.renderTemplate(self._cfg.tip.template,dataInfo);
 
-				$tip.css(self.processAttr(_cfg.tip.css,defaultColor));
+				if(!tpl) return;
 
-				if(tip.isVisable()){
-				 	tip.animateTo($bar.attr("posx"),$bar.attr("posy"));
-				 }else{
-					tip.moveTo($bar.attr("posx"),$bar.attr("posy"));
-				 }
+				tip.fire("setcontent",{data:tipData})
+
+				tip.fire("move",{x:posx,y:posy,style:self.processAttr(_cfg.tip.css,defaultColor)});
 		},
 		//处理网格和标注
 		animateGridsAndLabels:function(){
-
-			var self = this;
-
-			for(var i in self._labelY){
-				self._labelY[i][0].remove();
-				self._gridsY[i][0].remove();
+			var self = this,
+				zoomType = self._cfg.zoomType;
+			if(zoomType == "y"){
+				for(var i in self._labelX){
+					self._labelX[i] && self._labelX[i][0] && $(self._labelX[i][0]).remove();
+					self._gridsX[i] && self._gridsX[i][0] && $(self._gridsX[i][0]).remove();
+				}
+				self.drawGridsX();
+				self.drawLabelsX();
+			}else if(zoomType == "x"){
+				for(var i in self._labelY){
+					self._labelY[i] && self._labelY[i][0] && self._labelY[i][0].remove();
+					self._gridsY[i] && self._gridsY[i][0] && self._gridsY[i][0].remove();
+				}	
+				self.drawGridsY();
+				self.drawLabelsY();
 			}
-
-			self.drawGridsY();
-
-			self.drawLabelsY();
-
 		},
 		processAttr:function(attrs,color){
 
@@ -732,8 +761,6 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 				self.animateGridsAndLabels();
 
 				self.getBarsPos();
-
-				S.log(self._barsPos)
 			//柱子动画
 				for(var i in self._bars)if(i != barIndex){
 
@@ -743,7 +770,7 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 
 							var barPos = self._barsPos[i][j];
 
-							barPos && self._bars[i]['bars'][j].animate({"height":barPos.height,"width":barPos.width,"marginTop":barPos.y - ctn.y,marginLeft:barPos.x - ctn.x},0.4,self._cfg.anim.easing,function(){
+							barPos && self._bars[i]['bars'][j].stop().animate({"height":barPos.height,"width":barPos.width,"marginTop":barPos.y - ctn.y,marginLeft:barPos.x - ctn.x},0.4,"easeOut",function(){
 							});
 
 							self._bars[i]['bars'][j].attr({"posx":barPos.x,"posy":barPos.y});
@@ -760,8 +787,7 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 					var barPos = self._barsPos[barIndex][j];
 
 					posInfos[j] = barPos;
-
-					bars[j] = self.drawBar(barPos.x,barPos.y,barPos.width,barPos.height,{"background":color.getColor(barIndex).DEFAULT}).attr({"barGroup":barIndex,"barIndex":j,"defaultColor":color.getColor(barIndex).DEFAULT,"hoverColor":color.getColor(barIndex).HOVER});
+					bars[j] = self.drawBar(barPos.x,barPos.y,barPos.width,barPos.height,color.getColor(barIndex).DEFAULT).attr({"barGroup":barIndex,"barIndex":j,"defaultColor":color.getColor(barIndex).DEFAULT,"hoverColor":color.getColor(barIndex).HOVER});
 
 				}
 
@@ -780,7 +806,6 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 				S.log(self);
 		},
 		hideBar:function(barIndex){
-
 			var self = this,
 				ctn = self._innerContainer;
 
@@ -803,7 +828,7 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 
 						var barPos = self._barsPos[i] ? self._barsPos[i][j] : "";
 
-						barPos && self._bars[i]['bars'][j].animate({"height":barPos.height,"width":barPos.width,"marginTop":barPos.y - ctn.y,marginLeft:barPos.x - ctn.x},0.4,self._cfg.anim.easing,function(){
+						barPos && self._bars[i]['bars'][j].stop().animate({"height":barPos.height,"width":barPos.width,"marginTop":barPos.y - ctn.y,marginLeft:barPos.x - ctn.x},0.4,"easeOut",function(){
 							
 						});
 
@@ -824,7 +849,6 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 		afterRender:function(){
 
 			var self = this;
-
 			self.fire("afterRender",self);
 
 		},
@@ -842,4 +866,13 @@ KISSY.add('gallery/kcharts/1.0/barchart/index',function(S,BaseChart,Color,HtmlPa
 
 	return BarChart;
 
-},{requires:['../basechart/index','../tools/color/index','../tools/htmlpaper/index','../tip/index','./assets/kcharts-ui-core.css']});
+},{requires:[
+	'template',
+	'../basechart/index',
+	'../tools/color/index',
+	'../tools/htmlpaper/index',
+	'../legend/index',
+	'./theme',
+	'../tools/touch/index',
+	'../tip/index'
+]});

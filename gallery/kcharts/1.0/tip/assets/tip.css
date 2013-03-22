@@ -36,13 +36,19 @@
 	font-size: 12px;
 }
 
-.ks-chart-darkgreen-tip{
-	background: #000;
+.ks-chart-rainbow-tip{
 	color:#fff;
-	-moz-border-radius:  4px 4px   4px 4px;
-    -webkit-border-radius: 4px 4px   4px 4px;
-    border-radius:4px 4px  4px 4px ;
-    padding:2px 4px;
-    font-family: Microsoft Yahei;
+	padding:2px 40px 2px 10px;
+	-moz-box-shadow:2px 2px 2px #bbb; 
+	-webkit-box-shadow:2px 2px 2px #bbb; 
+	box-shadow:2px 2px 2px #bbb; 
+	font-family: Microsoft Yahei;
+}
+.ks-chart-rainbow-tip h3{
+	font-size: 16px;
+	font-family: Microsoft Yahei;
+	color:#666;
+}
+.ks-chart-rainbow-tip span{
 	font-size: 12px;
 }
