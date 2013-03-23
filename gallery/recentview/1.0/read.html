@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>展示数据</title>
+    <link rel="stylesheet" href="http://a.tbcdn.cn/p/global/1.0/global-min.css">
+</head>
+<body>
+<button id="del">清空本地数据</button>
+<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy-min.js"></script>
+<script>
+    KISSY.Config.debug = true;
+    KISSY.config({
+                     packages:[
+                         {
+                             name:"gallery",
+                             tag:"20130323",
+                             path:"../../..", // cdn上适当修改对应路径
+                             charset:"utf-8"
+                         }
+                     ]
+                 });
+</script>
+<script type="text/javascript">
+    KISSY.ready(function (S) {
+        var $ = S.all;
+
+        KISSY.use('gallery/recentview/1.0/', function (S, rw) {
+            window['recentView'] = new rw({
+                                              key:'yourkey', //读写数据的key必须一致
+                                              callback:function (d) {
+                                                  if (!d) alert('木有数据哦');
+                                                  render(d);
+                                              },
+                                              type:'r'// 读数据
+                                          });
+        });
+
+        $('#del').on('click', function (e) {
+            recentView && recentView.clear();//清空数据
+            window.location.reload();
+        });
+
+        function render(items) {
+            var tpl = '<div class="div1"><a href="{url}"><img src="{pic}_120x120.jpg" alt=""></a><p><a href="{url}" target="_blank">{title}</a></p><span class="now-price"><b class="yen">¥</b><b>{price}</b></span></div>';
+
+            S.each(items, function (item) {
+                item = S.substitute(tpl, item);
+                S.all(item).appendTo('body');
+            });
+        }
+    });
+</script>
+</body>
+</html>

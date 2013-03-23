@@ -1,0 +1,129 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>KISSY.gallery.recentview 最近浏览过宝贝组件</title>
+
+    <link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.3.0/css/dpl/base-min.css"/>
+    <link rel="stylesheet" href="../../../tools/skin/default.css"/>
+    <style>
+        h1, h4 {
+            font-family: 'MicroSoft YaHei';
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        h1 {
+            font-size: 36px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        h4 {
+            font-size: 24px;
+        }
+
+        button {
+            padding: 5px 10px;
+            margin-top: 10px;
+        }
+
+        select {
+            padding: 2px;
+        }
+
+        .section {
+            background: #efefef;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        h4 {
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ccc;
+        }
+
+    </style>
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="../../../tools/skin/show-code.js"/>
+    <script>
+        KISSY.config({
+                         packages:[
+                             {
+                                 name:"gallery",
+                                 tag:"20130323",
+                                 path:"../../../", // cdn上适当修改对应路径
+                                 charset:"utf-8"
+                             }
+                         ]
+                     });
+    </script>
+
+
+</head>
+<body>
+<div id="header">
+    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="http://a.tbcdn.cn/s/kissy/logo.png"/></a></h1>
+
+    <div class="sub-title">Gallery</div>
+    <ul class="navigation">
+        <li><a href="http://docs.kissyui.com/">首页</a></li>
+        <li><a href="http://github.com/kissyteam">源码</a></li>
+    </ul>
+
+</div>
+<div id="content">
+    <div class="s-crumbs">
+        <span>当前位置：</span>
+        <a href="http://kissyui.com/">KISSY</a>
+        <a href="../../../index.html">Gallery</a>
+        <span>recentview</span>
+    </div>
+			<pre class="s-section">				
+作者：yuxia0025@gmail.com(兰七)
+功能：最近浏览过的宝贝
+描述：主要场景是在宝贝详情页写入最近浏览过的宝贝信息，在其他产品（收藏夹，购物车等）展示宝贝
+源码：<a href="recentview.js">recentview.js</a></pre>
+
+    <h3 class="s-title">Demo</h3>
+
+    <div class="s-section">
+        <div class="s-demo">
+            <p><a href="write.html">写数据</a></p>
+            <p><a href="read.html">读数据</a></p>
+        </div>
+        <a class="s-view-code" href="demo.html#">显示源码</a>
+    </div>
+
+    <h3 class="s-title">API</h3>
+
+    <div class="s-section">
+        <h4 class="s-api-title">主要方法</h4>
+
+        <div class="s-api-params">
+            <ul class="s-list">
+                <li>init</li>
+                <li>initSwf</li>
+                <li>readData</li>
+                <li>format</li>
+                <li>saveData</li>
+                <li>clear</li>
+            </ul>
+        </div>
+    </div>
+    <h3 class="s-title">Note</h3>
+
+    <div class="s-section">
+        <ul class="s-list">
+            <li>使用Flash的SharedObject来实现本地存储</li>
+            <li>可以跨域、跨浏览器（chrome有自带的fp，需要用户手动设置）</li>
+            <li>目前支持Kissy1.2和1.3</li>
+        </ul>
+    </div>
+</div>
+<div id="footer">
+    &copy; Copyright 2010~2013, KISSY Team.
+</div>
+</body>
+</html>
