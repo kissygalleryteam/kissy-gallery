@@ -108,7 +108,6 @@ KISSY.add('gallery/recentview/1.0/index', function (S, FLASH) {
                           key = cfg.key;
 
                       //获取已存储的宝贝列表
-                      debugger;
                       if (self.getCurrentItem()) {
                           items = self.fl && self.fl.read(key);
                       }
