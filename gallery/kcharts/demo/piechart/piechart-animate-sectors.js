@@ -1,5 +1,5 @@
 // -*- coding: utf-8; -*-
-KISSY.use('gallery/kcharts/1.0/piechart/index',function(S,PieChart){
+KISSY.use('gallery/kcharts/1.1/piechart/index',function(S,PieChart){
   function helperRand(a,b){
     return Math.floor(Math.random()*(b-a+1)+a);
   }

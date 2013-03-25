@@ -15,7 +15,7 @@
 	  ]
 	});
 
-	S.use("gallery/kcharts/1.0/barchart/index",function(S,BarChart){
+	S.use("gallery/kcharts/1.1/barchart/index",function(S,BarChart){
 		//产生配置
 		function genConfig(){
 

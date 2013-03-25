@@ -1,5 +1,5 @@
 
-KISSY.use('gallery/kcharts/1.0/ratiochart/index', function(S, Ratio){
+KISSY.use('gallery/kcharts/1.1/ratiochart/index', function(S, Ratio){
 	new Ratio({
 		container: '#J_column1',
 		type: 1,
@@ -105,7 +105,7 @@ KISSY.use('gallery/kcharts/1.0/ratiochart/index', function(S, Ratio){
 
 
 
-KISSY.use('gallery/kcharts/1.0/ratiochart/index', function(S, Ratio){
+KISSY.use('gallery/kcharts/1.1/ratiochart/index', function(S, Ratio){
 	new Ratio({
 		container: '#J_column2',
 		type: 2,

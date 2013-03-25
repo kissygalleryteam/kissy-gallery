@@ -1,4 +1,4 @@
-KISSY.use('gallery/kcharts/1.0/sumdetailchart/index', function(S, SumDetail){
+KISSY.use('gallery/kcharts/1.1/sumdetailchart/index', function(S, SumDetail){
     new SumDetail({
         container: '#J_cicrle1', //容器
         r: 200, //中心圆的圆点到子圆的圆点的距离
@@ -78,7 +78,7 @@ KISSY.use('gallery/kcharts/1.0/sumdetailchart/index', function(S, SumDetail){
 
 
 
-KISSY.use('gallery/kcharts/1.0/sumdetailchart/index', function(S, SumDetail){
+KISSY.use('gallery/kcharts/1.1/sumdetailchart/index', function(S, SumDetail){
     new SumDetail({
         container: '#J_cicrle2',
         r: 200,
@@ -201,7 +201,7 @@ KISSY.use('gallery/kcharts/1.0/sumdetailchart/index', function(S, SumDetail){
 });
 
 
-KISSY.use('gallery/kcharts/1.0/sumdetailchart/index', function(S, SumDetail){
+KISSY.use('gallery/kcharts/1.1/sumdetailchart/index', function(S, SumDetail){
     new SumDetail({
         container: '#J_cicrle3',
         r: 118,

@@ -44,11 +44,11 @@
     };
 
  S.use(
-  'gallery/kcharts/1.0/linechart/index'+
-  ',gallery/kcharts/1.0/barchart/index'+
-  ',gallery/kcharts/1.0/scatterchart/index'+
-  ',gallery/kcharts/1.0/piechart/index'+
-  ',gallery/kcharts/1.0/sumdetailchart/index'
+  'gallery/kcharts/1.1/linechart/index'+
+  ',gallery/kcharts/1.1/barchart/index'+
+  ',gallery/kcharts/1.1/scatterchart/index'+
+  ',gallery/kcharts/1.1/piechart/index'+
+  ',gallery/kcharts/1.1/sumdetailchart/index'
   ,function(S,LineChart,BarChart,ScatterChart,PieChart,SumDetail){
   var __initCharts = S.buffer(
     initCharts

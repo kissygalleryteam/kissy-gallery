@@ -15,7 +15,7 @@
 	  ]
 	});
 
-	S.use("gallery/kcharts/1.0/linechart/index",function(S,LineChart){
+	S.use("gallery/kcharts/1.1/linechart/index",function(S,LineChart){
 		//产生配置
 		function genConfig(){
 

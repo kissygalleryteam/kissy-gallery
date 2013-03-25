@@ -1,5 +1,5 @@
 // -*- coding: utf-8; -*-
-KISSY.use('gallery/kcharts/1.0/dashboard/index',function(S,DashBoard){
+KISSY.use('gallery/kcharts/1.1/dashboard/index',function(S,DashBoard){
   var dashboard = new DashBoard({
     renderTo:'#container'
   , width : 358
