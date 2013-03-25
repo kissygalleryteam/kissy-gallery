@@ -31,7 +31,8 @@ KISSY.add('gallery/kcharts/1.0/tools/htmlpaper/index',function(S){
 				width:undefined,
 				height:undefined,
 				left:0,
-				top:0
+				top:0,
+				css:{}
 			},cfg);
 
 			self.$paper = self._createPaper();
@@ -52,7 +53,7 @@ KISSY.add('gallery/kcharts/1.0/tools/htmlpaper/index',function(S){
 					position:"absolute",
 					marginTop:_cfg.top || 0,
 					marginLeft:_cfg.left || 0
-				});
+				}).css(_cfg.css);
 
 			_cfg.prependTo ? $paper.prependTo($tgt) : $paper.appendTo($tgt);
 
@@ -74,7 +75,7 @@ KISSY.add('gallery/kcharts/1.0/tools/htmlpaper/index',function(S){
 				x = x - self._cfg.left,
 				y = y - self._cfg.top;
 
-			var $text = $("<div>"+str+"</div>").css({
+			var $text = $("<div></div>").html(str).css({
 				display:"block",
 				position:"absolute"
 			});

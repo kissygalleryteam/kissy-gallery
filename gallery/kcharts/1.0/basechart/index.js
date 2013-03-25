@@ -1,21 +1,17 @@
 /*
 TODO 坐标运算  画布大小计算
-	
 */
 KISSY.add('gallery/kcharts/1.0/basechart/index',function(S,Base){
 
 	var $ = S.all;
 
-	var BaseChart = function(){
-
-	};
+	var BaseChart = function(){};
 
 	S.extend(BaseChart,Base,{
-
 		init:function(cfg){
 
 			var self = this,
-				_cfg;
+				_cfg,series;
 				
 			if(cfg && cfg.renderTo){
 
@@ -25,12 +21,18 @@ KISSY.add('gallery/kcharts/1.0/basechart/index',function(S,Base){
 
               		},
 					canvasAttr:{x:60,y:60},
-					defineDataKey:{
+					defineKey:{
 
-					}
+					},
+					zoomType:"x"
 				},cfg);
 
 				self._$ctnNode = $(cfg.renderTo);
+
+				self._$ctnNode.css({
+					"-webkit-text-size-adjust":"none",			//chrome最小字体限制
+					"-webkit-tap-highlight-color": "rgba(0,0,0,0)"			//去除touch时的闪烁背景
+				})
 
 				self.getInnerContainer();
 
@@ -52,49 +54,41 @@ KISSY.add('gallery/kcharts/1.0/basechart/index',function(S,Base){
 					_labelX:[],
 					_labelY:[],
 					_evtEls:[],
-					_multiple :false
+					_gridPoints:[],	//存放网格线
+					_multiple :false,
+					stackable:false
 				});
 
+				series = _cfg.series || null;
 
-				if(!_cfg.series || _cfg.series.length <= 0 || !_cfg.series[0].data) return;
+				if(!series || series.length <= 0 || !series[0].data) return;
 
-				_cfg.series.length > 1 ? self._multiple = true : undefined;
+				series.length > 1 ? self._multiple = true : undefined;
 
-				for(var i in _cfg.series){
+				for(var i in series){
 
-					self._datas['total'][i] = {index:i,data:_cfg.series[i].data};
+					self._datas['total'][i] = {index:i,data:series[i].data};
 
-					self._datas['cur'][i] = {index:i,data:_cfg.series[i].data};
+					self._datas['cur'][i] = {index:i,data:series[i].data};
 
 				}
-
 				self.dataFormat();
-
 			}
-
 		},
 		//减少当前的数据
 		removeData:function(index){
-
 			var self = this;
-
 			delete self._datas['cur'][index];
-
 			self.dataFormat();
-
 		},
 		//恢复数据
 		recoveryData:function(index){
-
 			var self = this;
-
 			self._datas['cur'][index] = self._datas['total'][index];
-
 			self.dataFormat();
-
 		},
+		//获取内部容器信息
 		getInnerContainer:function(){
-
 			var self = this,
 				_$ctnNode = self._$ctnNode,
 				canvasAttr = S.mix(self._cfg.canvasAttr),
@@ -119,107 +113,291 @@ KISSY.add('gallery/kcharts/1.0/basechart/index',function(S,Base){
 					bl:bl,
 					br:br
 				};
-
 				return self._innerContainer;
-
 		},
-		//计算坐标刻度
-		dataFormat:function(){
-
+		getAllDatas:function(){
+			var self = this,
+				_cfg = self._cfg,
+				allDatas = [],
+				zoomType = _cfg.zoomType,
+				numbers,
+				arg = arguments[0];
+				if(_cfg.stackable){
+					//堆叠图 需要叠加多组数据 进行计算
+					for(var i in self._datas['cur']){
+						if(self._datas['cur'][i]['data'][0]){
+							if(S.isPlainObject(self._datas['cur'][i]['data'][0]) && _cfg.defineKey.y && _cfg.defineKey.x){
+								numbers = self.getArrayByKey(self._datas['cur'][i]['data'],_cfg.defineKey.y);
+							}
+							else if(S.isArray(self._datas['cur'][i]['data'])){
+								if(zoomType == "xy"){
+									numbers = self.getArrayByKey(self._datas['cur'][i]['data'],arg)
+								}else{
+									numbers = self._datas['cur'][i]['data'];
+								}
+							}
+						}
+						for(var j in numbers){
+							allDatas[j] = allDatas[j] ? numbers[j] + allDatas[j] : numbers[j];
+						}
+					}
+				}else{
+					for(var i in self._datas['cur']){
+						if(self._datas['cur'][i]['data'][0]){
+							if(S.isPlainObject(self._datas['cur'][i]['data'][0]) && _cfg.defineKey.y && _cfg.defineKey.x){
+								numbers = self.getArrayByKey(self._datas['cur'][i]['data'],_cfg.defineKey.y);
+							}
+							else if(S.isArray(self._datas['cur'][i]['data'])){
+								if(zoomType == "xy"){
+									numbers = self.getArrayByKey(self._datas['cur'][i]['data'],arg)
+								}else{
+									numbers = self._datas['cur'][i]['data'];
+								}
+							}
+						}
+						allDatas.push(numbers.join(","));
+					}
+				}
+				return allDatas.length ? allDatas.join(",").split(",") : [];
+		},
+		//获取刻度
+		_getScales:function(allDatas,axis){
 			var self = this,
 				_cfg = self._cfg;
 
-			var _allDatas = [];
-
-				for(var i in self._datas['cur']){
-
-					var numbers = self.getArrayByKey(self._datas['cur'][i]['data'],_cfg.defineKey.y);
-
-						_allDatas.push(numbers.join(","));
-
-				}
-
-				_allDatas = _allDatas.join(",").split(",");
-			
-			var	ictn = self._innerContainer,
-				x = ictn.x,
-				y = ictn.y,
+			//若直接配置了text 则按照text返回
+			if(axis.text && S.isArray(axis.text)){
+				return axis.text;
+			}else{
+				var cmax = axis.max - 0,
+					cmin = axis.min - 0,
+					num =  axis.num || 5,
+					_max = Math.max.apply(null,allDatas),
+					_min = Math.min.apply(null,allDatas),
+					//纵轴上下各有10%的延展
+					offset = (_max - _min) * 0.1 || min * 1 || 10,
+					//修复最大值最小值的问题
+					max = cmax || cmax == 0 ? (cmax > _max ? cmax : _max + offset) : _max + offset,
+					min = cmin || cmin == 0 ? (cmin < _min ? cmin : _min - offset) : _min - offset;
+				return self.getScales(max,min,num);
+			}
+		},
+		//计算坐标刻度
+		dataFormat:function(){
+			var self = this,
+				_cfg = self._cfg,
+				zoomType = _cfg.zoomType,
+				isY = zoomType == "x" ? false :true,
+				ictn = self._innerContainer,
 				width = ictn.width,
 				height = ictn.height,
-				num = _cfg.yAxis.num || 5,
-				_max = Math.max.apply(null,_allDatas),
-				_min = Math.min.apply(null,_allDatas),
-				offset = (_max - _min) * 0.1,
-				max = _cfg.yAxis.max || _cfg.yAxis.max == 0 ? _cfg.yAxis.max : _max + offset,
-				min = _cfg.yAxis.min || _cfg.yAxis.min == 0 ? _cfg.yAxis.min : _min - offset,
-				//获取刻度 从定义刻度中获取 
-				coordNum = self.coordNum = self.getScales(max,min,num),
-				//刻度值转换成图上的点
-				coordPos = self.data2GrapicData(coordNum);
+				x = ictn.x,
+				y = ictn.y,
+				allDatas,
+				allDatasX,
+				coordNum,
+				coordNumX,
+				coordPos,
+				coordPosX,
+				curCoordNum;
 
 			self._pointsY = [];
+			self._pointsX = [];
 
-			self._centerPoints = [];
-
-			self.data2GrapicData(coordPos);
-
-			for(var i in coordPos){
-
-				self._pointsY[i] = {number:coordNum[i] + "",y:coordPos[i],x:x};
-
+			if(zoomType == "x"){
+				//获取所有刻度值
+				allDatas = self.getAllDatas();
+				//获取刻度 从定义刻度中获取 
+				curCoordNum = coordNum = self.coordNum = self._getScales(allDatas,_cfg.yAxis);
+				//刻度值转换成图上的点
+				coordPos = self.data2GrapicData(coordNum,false,true);
+			}else if(zoomType == "y"){
+				allDatasX = self.getAllDatas();
+				curCoordNum = coordNumX = self.coordNumX = self._getScales(allDatasX,_cfg.xAxis);
+				coordPosX = self.data2GrapicData(coordNumX,true,false);
+			}else if(zoomType == "xy"){
+				allDatas = self.getAllDatas(0);
+				allDatasX = self.getAllDatas(1);
+				curCoordNum = coordNum = self.coordNum = self._getScales(allDatas,_cfg.xAxis);
+				coordNumX = self.coordNumX = self._getScales(allDatasX,_cfg.yAxis);
+				coordPos = self.data2GrapicData(coordNum,false,false);
+				coordPosX = self.data2GrapicData(coordNumX,true,true);
 			}
+				
+			var	getDataPoints = function(data,index,coordNum){
+									var series = _cfg.series[index],
+										//坐标刻度的最大值
+										max = Math.max.apply(null,coordNum),
+										min = Math.min.apply(null,coordNum),
+										defineKey = _cfg.defineKey,
+										defineKeyX = defineKey.x,
+										defineKeyY = defineKey.y,
+										points = [],
+										j = 0;
 
-			for(var i in self._datas['cur']){
+									if(zoomType == "x"){
+										//复杂数据 data 的 元素为 object 
+										if(defineKeyX && defineKeyY && S.isPlainObject(self._datas['total'][0]['data'][0])){
+											for(var i in self._pointsX){
+												if(data[j] && _cfg.xAxis.text[i] == data[j][defineKeyX]){
+													points[i] = {
+														x:self._pointsX[i].x,	//横坐标
+														y:self.data2Grapic(data[j][defineKeyY],max,min,height,y,true),	//纵坐标
+														dataInfo:data[j],	//数据信息 暂时将series.data的数据 和 series下的数据 耦合
+														index:Math.round(i)		//索引
+													};
+													j++;
+												}else{
+													points[i] = {
+														x:self._pointsX[i].x,	//横坐标
+														index:Math.round(i)		//索引
+													};
+												}
+											}
+										//简单数据 data 的元素为 number 类型
+										}else{
+											for(var i in self._pointsX){
+												points[i] = {
+														x:self._pointsX[i].x,	//横坐标
+														y:self.data2Grapic(data[i],max,min,height,y,true),	//纵坐标
+														dataInfo:{y:data[i]},	//数据信息
+														index:Math.round(i)		//索引
+													};
+											}
+										}
+									}else if(zoomType == "y"){
+										//复杂数据 data 的 元素为 object 
+										if(defineKeyX && defineKeyY && S.isPlainObject(self._datas['total'][0]['data'][0])){
+											for(var i in self._pointsY){
+												if(data[j] && _cfg.yAxis.text[i] == data[j][defineKeyX]){
+													points[i] = {
+														x:self.data2Grapic(data[j][defineKeyY],max,min,width,x),	//横坐标
+														y:self._pointsY[i].y,	//纵坐标
+														dataInfo:{y:data[j]},	//数据信息 暂时将series.data的数据 和 series下的数据 耦合
+														index:Math.round(i)		//索引
+													};
+													j++;
+												}else{
+													points[i] = {
+														y:self._pointsY[i].y,	//纵坐标
+														index:Math.round(i)		//索引
+													};
+												}
+											}
+										//简单数据 data 的元素为 number 类型
+										}else{
+											for(var i in self._pointsY){
+												points[i] = {
+														x:self.data2Grapic(data[i],max,min,width,x),	//横坐标
+														y:self._pointsY[i].y,	//纵坐标
+														dataInfo:{y:data[i]},	//数据信息
+														index:Math.round(i)		//索引
+													};
+											}
+										}
 
-				self._points[i] = self.getDataPoints(self._datas['cur'][i]['data']);
+									}else if(zoomType == "xy"){
+										var xs = self.data2GrapicData(self.getArrayByKey(series.data,0)),
+											ys = self.data2GrapicData(self.getArrayByKey(series.data,1),true,true);
+										for(var i in series.data){
+											points[i] = {
+														x:xs[i],	//横坐标
+														y:ys[i],	//纵坐标
+														dataInfo:{y:data[i]},	//数据信息
+														index:Math.round(i)		//索引
+													};
+										}
+									}
+									return points;
+								};
 
-			}
+				// S.log(allDatas);
+				// S.log(allDatasX);
+				// S.log(coordNum);
+				// S.log(coordNumX);
+				// S.log(coordPos);
+				// S.log(coordPosX);
 
-			if(self._points[0] && self._points[0].length > 1){
-
-				var	_offset = _offset ? _offset : self._points[0][1].x - self._points[0][0].x;
-
-				for(var i in self._points[0]){
-
-					self._centerPoints[i] = {x:self._points[0][i].x - _offset/2,y:0};
-
+				if(zoomType == "x"){
+					for(var i in coordPos){
+						self._pointsY[i] = {number:coordNum[i] + "",y:coordPos[i],x:x};
+					}
+					try{
+						self._gridPoints = self.getSplitPoints(x,y + height,x + width,y + height,_cfg.xAxis.text.length,true);
+						self._pointsX = self.getCenterPoints(self._gridPoints);
+					}catch(e){
+						throw new Error("未配置正确的xAxis.text数组");
+					}
+				}else if(zoomType == "y"){
+					for(var i in coordPosX){
+						self._pointsX[i] = {number:coordNumX[i] + "",y:y+height,x:coordPosX[i]};
+					}
+					try{
+						self._pointsY = self.getSplitPoints(x,y,x,y + height,_cfg.yAxis.text.length+1);
+					}catch(e){
+						throw new Error("未配置正确的yAxis.text数组");
+					}
+				}else if(zoomType == "xy"){
+					for(var i in coordPosX){
+						self._pointsY[i] = {number:coordNumX[i] + "",y:coordPosX[i],x:x};
+					}
+					for(var i in coordPos){
+						self._pointsX[i] = {number:coordNum[i] + "",y:y + height,x:coordPos[i]};
+					}
 				}
-
-				self._centerPoints.push({x:self._points[0][_cfg.xAxis.text.length - 1].x - (-_offset/2),y:0});
-
-			}
-
+				for(var i in self._datas['cur']){
+					self._points[i] = getDataPoints(self._datas['cur'][i]['data'],i,curCoordNum);
+				}
 		},
 		//将数据转化为图上坐标
-		data2GrapicData:function(data){
-
+		data2GrapicData:function(data,isY,nagitive){
 			if(!data) return;
-
 			var self = this,
 				ictn = self._innerContainer,
-				y = ictn.y,
+				margin = isY ? ictn.x : ictn.y,
 				height = ictn.height,
+				width = ictn.width,
+				zoomType = self._cfg.zoomType,
+				dist,
 				//坐标刻度的最大值
-				max = Math.max.apply(null,self.coordNum),
-				min = Math.min.apply(null,self.coordNum),
+				max = isY ? Math.max.apply(null,self.coordNumX) : Math.max.apply(null,self.coordNum),
+				min = isY ? Math.min.apply(null,self.coordNumX) : Math.min.apply(null,self.coordNum),
 				tmp = [];
-				//如果是数组
-				if(data.length){
 
-					for(var i in data){
-
-						tmp.push(height * (1 - (data[i] - min)/(max - min)) + y);
-
-					}
-
-					return tmp;
-
-				}else{
-
-					return height * (1 - (data - min)/(max - min)) + y;
-
+				if(zoomType == "xy"){
+					dist = isY ? height : width;
+				}else if(zoomType == "x"){
+					dist = height;
+				}else if(zoomType == "y"){
+					dist = width;
 				}
 
+				//如果是数组
+				if(S.isArray(data)){
+					for(var i in data){
+						tmp.push(self.data2Grapic(data[i],max,min,dist,margin,nagitive));
+					}
+					return tmp;
+				}else{
+					return self.data2Grapic(data,max,min,dist,margin,nagitive);
+				}
+		},
+		/*
+			TODO 数据翻转偏移 至画布
+			@param data {Integer|Float}数据
+			@param max {Integer|Float}坐标最大值
+			@param min {Integer|Float}坐标最小值
+			@param dist {Integer|Float}画布上的总长度
+			@param offset {Integer|Float}偏移量
+			@param nagitive {Boolean}是否反向
+		*/
+		data2Grapic:function(data,max,min,dist,offset,nagitive){
+			//反向
+			if(nagitive){
+				return dist * (1 - (data - min)/(max - min)) + offset;
+			}else{
+				return dist * (data - min)/(max - min) + offset;
+			}
 		},
 		/*
 			TODO 获取一条线上的等分点坐标
@@ -245,19 +423,33 @@ KISSY.add('gallery/kcharts/1.0/basechart/index',function(S,Base){
 
 			}
 
-			e && array.push({x:sx,y:sy});
-
+			e && array.push({x:ex,y:ey});
 			return array;
 
+		},
+		/**
+			TODO 获取中心点
+			@return {Array}
+		**/
+		getCenterPoints:function(p){
+			var self = this, 
+				ary = [],
+				len = p.length;
+			if(len > 1){
+				for(var i = 0;i < len - 1;i++){
+					ary[i] = {
+						x:(p[i]['x'] + p[i+1]['x'])/2,
+						y:(p[i]['y'] + p[i+1]['y'])/2
+					};
+				}
+			}
+			return ary;
 		},
 		/**
 			TODO 坐标刻度计算
 			@return {Array}
 		*/
-		getScales:function(cormax,cormin,cornum){
-
-			// S.log("max="+cormax+",min="+cormin+",num="+cornum);
-
+		getScales:function(cormax,cormin,cornum,formatter){
 			var corstep,
 				tmpstep,
 				tmpnum,
@@ -269,7 +461,10 @@ KISSY.add('gallery/kcharts/1.0/basechart/index',function(S,Base){
 				middle,
 				log = Math.log,
 				pow = Math.pow,
-				ary = [];
+				ary = [],
+				formatter = (formatter && S.isFunction(formatter)) || function(data){
+					return data.toFixed(2);
+				};
 
 			if(cormax <= cormin) return;
 			//获取间隔宽度
@@ -320,12 +515,10 @@ KISSY.add('gallery/kcharts/1.0/basechart/index',function(S,Base){
 
 			for(var i = min; i <= max; i+=step){
 
+				// ary.push(formatter(i));
 				ary.push(i);
-
 			}
-			
 			return ary;
-
 		},
 		/**
 			冒泡排序 支持对象数组 
@@ -350,7 +543,8 @@ KISSY.add('gallery/kcharts/1.0/basechart/index',function(S,Base){
 　　	},
 		/*
 			TODO 获取键值为key的数据 拼成数组
-			@example [{key:"1"},{key:"2"}] => ["1","2"]
+			@example getArrayByKey([{key:"1"},{key:"2"}],"key") => ["1","2"]
+			@example getArrayByKey([[1,2],[3,4]],0)  [[1,2],[3,4]] => [1,3]
 			@return array
 		*/
 		getArrayByKey:function(array,key){
@@ -381,64 +575,9 @@ KISSY.add('gallery/kcharts/1.0/basechart/index',function(S,Base){
 				a.push(b);
 			}
 			return a;
-		},
-
-		getDataPoints:function(data){
-
-			var self = this,
-				_cfg = self._cfg,
-				ictn = self._innerContainer,
-				areaWith = ictn.width/len+1,
-				x = ictn.x,
-				y = ictn.y,
-				sx = x - areaWith/2,
-				ex = x + areaWith/2,
-				ey = y + height,
-				ex = x + width,
-				width = ictn.width,
-				height = ictn.height,
-				//坐标刻度的最大值
-				max = Math.max.apply(null,self.coordNum),
-				min = Math.min.apply(null,self.coordNum),
-				defineKey = _cfg.defineKey,
-				defineKeyX = defineKey.x || "",
-				defineKeyY = defineKey.y || "",
-				len = _cfg.xAxis.text.length || 0,
-				points = [],
-				j = 0;
-
-			//根据x轴的配置信息进行坐标渲染
-			self._pointsX = self.getSplitPoints(x,y + height,x + width,y + height,len+1);
-
-		// S.log(self.getSplitPoints(x,y + height,x + width,y + height,len,true));
-
-			// S.log(self._pointsX)
-			for(var i in self._pointsX){
-
-				if(_cfg.xAxis.text[i] == data[j][defineKeyX]){
-					points[i] = {
-						x:self._pointsX[i].x,	//横坐标
-						y:height * (1 - (data[j][defineKeyY] - min)/(max - min)) + y,	//纵坐标
-						dataInfo:data[j],	//数据信息
-						index:Math.round(i)		//索引
-					};
-					j++;
-				}
-				else{
-					points[i] = {
-						x:self._pointsX[i].x,	//横坐标
-						index:Math.round(i)		//索引
-					};
-				}
-			}
-
-			return points;
-
 		}
-
+		
 	});
-
 	return BaseChart;
-
 },{requires:['base']});
 
