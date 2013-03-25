@@ -4,6 +4,10 @@
         "name":"calendar",
         "desc":"旅行日历"
     },
+    {
+        "name":"anti-ie6",
+        "desc":"ie6 提示层"
+    },
    {
         "name":"moment",
         "desc":"日期时间库"

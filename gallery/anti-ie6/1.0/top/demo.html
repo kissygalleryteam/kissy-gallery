@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Fuck ie6！</title>
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy.js" charset="utf-8"></script>
+
+    <script>
+        KISSY.config({
+            packages: [
+                {
+                    name: "gallery",
+                    tag: "20111220",
+                    path: "../../../../",  // cdn上适当修改对应路径
+                    charset: "utf-8"
+                }
+            ]
+        });
+    </script>
+<body>
+
+<script>
+    KISSY.Cookie.remove('anti_ie6','','/');
+    if (KISSY.UA.ie === 6 || true) {
+        KISSY.use('gallery/anti-ie6/1.0/top/');
+    }
+</script>
+
+
+<h2>IE6升级提示</h2>
+
+<p>（本页面弹出吊顶版本）</p>
+
+<p style="color:#999; font-size: 14px;">【ps: ie6下可以看到弹出的升级提示框（吊顶版本）】</p>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<project name="anti-ie6/1.0/draw.build" default="build" basedir="">
+    <description>Component Build File</description>
+
+    <property name="src.dir" value="."/>
+    <property name="component.name" value="anti-ie6/1.0/draw"/>
+    <property name="component.version" value=""/>
+
+    <import file="../../../common.xml"/>
+
+    <target name="build" depends="common.build">
+    </target>
+</project>
