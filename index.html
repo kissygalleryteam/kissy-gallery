@@ -1,17 +1,16 @@
 ﻿<!doctype html>
 <html>
 <head>
-<meta charset="utf-8"/>
-<title>KISSY Gallery</title>
-<link rel="shortcut icon" href="../kissy-dpl/base/assets/favicon.ico"/>
-<link rel="stylesheet" href="../kissy-dpl/base/assets/reset.css"/>
-<link rel="stylesheet" href="../kissy-dpl/base/assets/kissy-docs.css"/>
-<script src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy.js"></script>
-<script src="../kissy-dpl/base/assets/kissy-docs.js"></script>
+    <meta charset="utf-8"/>
+    <title>KISSY Gallery</title>
+    <link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.3.0/css/dpl/base-min.css"/>
+    <link rel="stylesheet" href="tools/skin/default.css"/>
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy.js"></script>
 </head>
 <body>
 <div id="header">
-    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="../kissy-dpl/base/assets/logo.png"/></a></h1>
+    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="http://a.tbcdn.cn/s/kissy/logo.png"/></a></h1>
+
     <p class="sub-title">Gallery</p>
     <ul class="navigation">
         <li><a href="https://groups.google.com/group/kissy-ui">讨论组</a></li>
@@ -31,8 +30,8 @@
         <div class="col-main">
             <div class="s-section">
                 <ul class="s-list" id='list'>
-                  
-					
+
+
                 </ul>
             </div>
         </div>
@@ -42,20 +41,20 @@
     &copy; Copyright 2010~2011, KISSY Team.
 </div>
 <script>
-KISSY.use('xtemplate',function(S,XTemplate){
+    KISSY.use('xtemplate', function (S, XTemplate) {
 
-    var tpl='{{#each gs}}<li><a href="gallery/{{name}}/" target="_blank">{{name}}</a> <span class="s-desc">- {{desc}}</span></li>{{/each}}';
-    
-    S.io({
-        url: './index.js',
-        cache:false,
-        dataType: 'json',
-        success: function(data) {
-            S.all('#list').html(new XTemplate(tpl).render(data));    
-        }
-    })
+        var tpl = '{{#each gs}}<li><a href="gallery/{{name}}/" target="_blank">{{name}}</a> <span class="s-desc">- {{desc}}</span></li>{{/each}}';
 
-});
+        S.io({
+            url: './index.js',
+            cache: false,
+            dataType: 'json',
+            success: function (data) {
+                S.all('#list').html(new XTemplate(tpl).render(data));
+            }
+        })
+
+    });
 </script>
 </body>
 </html>
