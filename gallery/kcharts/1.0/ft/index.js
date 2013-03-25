@@ -17,8 +17,9 @@
       that.begin || (that.begin = now);
       relative2one = ((now - that.begin)/cfg.duration);
       if(now - that.begin>cfg.duration){
-		    cfg.onstep(1,1);
+		cfg.onstep(1,1);
         that.fire('step',{target:that,s:1,t:1});
+
         that.fire('end');
         that.onend();
         cfg.onend();
@@ -49,7 +50,3 @@
 },{
   requires:['anim']
 });
-/**
- * cookieu@gmail.com
- * TODO 使用类似defered queue 来管理动画
- */

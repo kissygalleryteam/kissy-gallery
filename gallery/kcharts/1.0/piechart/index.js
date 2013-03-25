@@ -1,19 +1,17 @@
-// -*- coding: utf-8-unix; -*-
-KISSY.add('gallery/kcharts/1.0/piechart/index',function(S,Paper,Ft,Label,Tip,Color){
+KISSY.add('gallery/kcharts/1.0/piechart/index',function(S,Paper,Ft,Label){
   var D = S.DOM
-	,ColorMap;
- //   = [
-	//   {DEFAULT:"#4573a7",HOVER:"#5E8BC0"},
-	//   {DEFAULT:"#aa4644",HOVER:"#C35F5C"},
-	//   {DEFAULT:"#89a54e",HOVER:"#A2BE67"},
-	//   {DEFAULT:"#806a9b",HOVER:"#9982B4"},
-	//   {DEFAULT:"#3e96ae",HOVER:"#56AFC7"},
-	//   {DEFAULT:"#d9853f",HOVER:"#F49D56"},
-	//   {DEFAULT:"#808080",HOVER:"#A2A2A2"},
-	//   {DEFAULT:"#188AD7",HOVER:"#299BE8"},
-	//   {DEFAULT:"#90902C",HOVER:"#B7B738"},
-	//   {DEFAULT:"#AFE65D",HOVER:"#C5ED89"}
-	// ]
+	,ColorMap = [
+	  {DEFAULT:"#FF8F44",HOVER:"#FF8F44"},
+	  {DEFAULT:"#4573a7",HOVER:"#5E8BC0"},
+	  {DEFAULT:"#aa4644",HOVER:"#C35F5C"},
+	  {DEFAULT:"#89a54e",HOVER:"#A2BE67"},
+	  {DEFAULT:"#806a9b",HOVER:"#9982B4"},
+	  {DEFAULT:"#3e96ae",HOVER:"#56AFC7"},
+	  {DEFAULT:"#d9853f",HOVER:"#F49D56"},
+	  {DEFAULT:"#808080",HOVER:"#A2A2A2"},
+	  {DEFAULT:"#188AD7",HOVER:"#299BE8"},
+	  {DEFAULT:"#90902C",HOVER:"#B7B738"}
+	]
 
   function helperRand(a,b){
     return Math.floor(Math.random()*(b-a+1)+a);
@@ -36,56 +34,30 @@ KISSY.add('gallery/kcharts/1.0/piechart/index',function(S,Paper,Ft,Label,Tip,Col
     return parseFloat(n.toFixed(4));
   }
 
-  //see http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color
-  function shadeColor(color, porcent) {
-    var R = parseInt(color.substring(1,3),16)
-    var G = parseInt(color.substring(3,5),16)
-    var B = parseInt(color.substring(5,7),16);
-
-    R = parseInt(R * (100 + porcent) / 100);
-    G = parseInt(G * (100 + porcent) / 100);
-    B = parseInt(B * (100 + porcent) / 100);
-
-    R = (R<255)?R:255;
-    G = (G<255)?G:255;
-    B = (B<255)?B:255;
-
-    var RR = ((R.toString(16).length==1)?"0"+R.toString(16):R.toString(16));
-    var GG = ((G.toString(16).length==1)?"0"+G.toString(16):G.toString(16));
-    var BB = ((B.toString(16).length==1)?"0"+B.toString(16):B.toString(16));
-
-    return "#"+RR+GG+BB;
-  }
   var dftCfg = {
       labelPadding:20
   };
   /*
    * cfg = {cx:cx,cy:cy,r:r,values,opts}
    * */
-  function PieChart(cfg){
-     ColorMap = new Color({themeCls:cfg.themeCls})._colors;
+  function PieChart(id,cfg){
     this.colorseed = 0;
-    this.container = S.get(cfg.renderTo);
-    this.paper = Paper(S.get(this.container));
-    this.labelLayer = this.paper;
-    this.textlabel = new Label();
+    this.container = S.get(id);
+    this.paper = Paper(S.get(id));
+    this.labelLayer = this.paper.group();
     this.cfg = S.mix(dftCfg,cfg);
     this.sectors = null;
     this.percentData = null;
     this.drawSector();
-    this.renderTip();
   }
   var methods = {
     bindEvent:function(){
       var sectors = this.sectors
-        , that = this
-        , cfg = this.cfg
-        , data = cfg.data
-        , cx = cfg.cx
-        , cy = cfg.cy
-        , events = cfg.events || {}
-        , inpiechart = false
-        , tiptimer = null
+        ,that = this
+        ,cfg = this.cfg
+        ,cx = cfg.cx
+        ,cy = cfg.cy
+        ,events = cfg.events || {}
 
       if(events.enterleave){
 
@@ -94,33 +66,23 @@ KISSY.add('gallery/kcharts/1.0/piechart/index',function(S,Paper,Ft,Label,Tip,Col
       }
       for(var i=0;i<sectors.length;i++){
         (function(i){
-          sectors[i].mouseover(function(e){
-            inpiechart = true
-            tiptimer && clearTimeout(tiptimer)
-            that.fire('mouseenter',{target:sectors[i],data:data[i],index:i});
-          })
-          .mouseout(function(e){
-            inpiechart = false
-            that.fire('mouseleave',{target:sectors[i],data:data[i],index:i});
-            tiptimer = setTimeout(function(){
-                         if(!inpiechart){
-                           that.tip && that.tip.hide()
-                         }
-                       },500)
-          })
-          .click(function(e){
-            that.fire('click',{target:sectors[i],data:data[i],index:i});
-          });
+          sectors[i].on('mouseenter',function(e){
+            that.fire('mouseenter',{target:this});
+            //that.scaleSector(this,1.1,1.1,cx,cy);
+          },sectors[i])
+          .on('mouseleave',function(e){
+            that.fire('mouseleave',{target:this});
+            //that.scaleSector(this,1,1,cx,cy);
+          },sectors[i])
+          .on('click',function(e){
+            that.fire('click',{target:this});
+            //that.transformSector(this);
+          },sectors[i]);
         })(i);
       }
     },
     onend:function(){
-      var cfg = this.cfg
-      if(cfg.labelIndside){
-        this.drawInsideLabel();
-      }else{
-        this.drawLabel();
-      }
+      this.drawLabel();
       this.bindEvent();
       this.fire('afterRender');
     },
@@ -147,7 +109,7 @@ KISSY.add('gallery/kcharts/1.0/piechart/index',function(S,Paper,Ft,Label,Tip,Col
       this.paper.circle(x3,y3,2).attr('fill','blue');
       */
       var from
-        , to;
+        ,to;
       if(startAngle>endAngle){
         from = startAngle;
         to = endAngle;
@@ -181,7 +143,7 @@ KISSY.add('gallery/kcharts/1.0/piechart/index',function(S,Paper,Ft,Label,Tip,Col
             "A",_r,_r, 0, +(Math.abs(endAngle - startAngle) > 180), 0, fixNumber(_x1), fixNumber(_y1)
           ];
       var from
-        , to;
+        ,to;
       if(startAngle>endAngle){
         from = startAngle;
         to = endAngle;
@@ -189,44 +151,42 @@ KISSY.add('gallery/kcharts/1.0/piechart/index',function(S,Paper,Ft,Label,Tip,Col
         from = endAngle;
         to = startAngle;
       }
-      res.middle = {from:from,to:to,angel:angel,x:x,y:y};//
+      res.middle = {from:from,to:to,angel:angel,x:x,y:y};//天使
       return res;
     },
     drawSector:function(){
       var paper = this.paper
-        , that = this
-        , cfg = this.cfg
-        , data = cfg.data
-        , sum = 0
-        , percentData = []//转化后的百分比
-        , fromAngel//开始的角度
-        , toAngel
-        , rad
-        , cx = cfg.cx
-        , cy = cfg.cy
-        , r = cfg.R
-        , path
-        , pathString
-        , colors = cfg.colors
-
+        ,that = this
+        ,cfg = this.cfg
+        ,data = cfg.data
+        ,sum = 0
+        ,percentData = []//转化后的百分比
+        ,fromAngel//开始的角度
+        ,toAngel
+        ,rad
+        ,cx = cfg.cx
+        ,cy = cfg.cy
+        ,r = cfg.r
+        ,path
+        ,pathString
       this.percentData = percentData;
 
       for(var i=0;i<data.length;i++){
-        sum+=data[i].data;
+        sum+=data[i];
       }
       for(var i=0;i<data.length;i++){
-        percentData.push(data[i].data/sum);
+        percentData.push(data[i]/sum);
       }
       var sectors = that.sectors = []
-        , len = percentData.length
-        , emptyRadius = cfg.r
+        ,len = percentData.length
+        ,emptyRadius = cfg.emptyRadius
 
       //扇形展开动画
       function _draw1(e){
         var s = e.s,t = e.t;
         var _r = cfg.animater ? s*r:r
-          , _from
-          , _to
+          ,_from
+          ,_to
 
         for(var j=0;j<len;j++){
           if(j){
@@ -249,12 +209,11 @@ KISSY.add('gallery/kcharts/1.0/piechart/index',function(S,Paper,Ft,Label,Tip,Col
           if(sectors[j]){
             sectors[j].attr('path',pathString);
           }else{
-            var sector = paper.path(pathString)
-              , color
+            var sector = paper.path(pathString);
             sectors[j] = sector
-            color = that.getcolor(j)
+            var colorindex = (that.colorseed++)%10;
+            var color = ColorMap[colorindex].DEFAULT;
             sectors[j].attr({'fill':color,stroke:'#fff'});
-            sectors[j].percent = percentData[j]
           }
           if(s === 1){
             //扇形的平分线与圆的交点
@@ -266,8 +225,8 @@ KISSY.add('gallery/kcharts/1.0/piechart/index',function(S,Paper,Ft,Label,Tip,Col
       function _draw2(e,s,t){
         s = e.s,t = e.t;
         var _r = s*r
-          , _from
-          , _to
+          ,_from
+          ,_to
         for(var j=0;j<len;j++){
           if(j){
             _from = _to;
@@ -283,12 +242,11 @@ KISSY.add('gallery/kcharts/1.0/piechart/index',function(S,Paper,Ft,Label,Tip,Col
           if(sectors[j]){
             sectors[j].attr('path',pathString);
           }else{
-            var sector = paper.path(pathString)
-              ,color
+            var sector = paper.path(pathString);
             sectors[j] = sector
-            color = this.getcolor(j)
+            var colorindex = (that.colorseed++)%10;
+            var color = ColorMap[colorindex].DEFAULT;
             sectors[j].attr({'fill':color,stroke:'#fff'});
-            sectors[j].percent = percentData[j]
           }
           if(s === 1){
             //扇形的平分线与圆的交点
@@ -301,11 +259,9 @@ KISSY.add('gallery/kcharts/1.0/piechart/index',function(S,Paper,Ft,Label,Tip,Col
           'r':_draw2
       };
       var _draw
-        , anim_cfg = S.mix({type:'sector'},cfg.anim)
-        //ie大于8，开启动画；非ie，开启动画
-        , bool_anim = (S.UA.ie && S.UA.ie>9 && cfg.anim) || (!S.UA.ie && cfg.anim)
-      _draw = types[anim_cfg.type] || _draw1;
-      if(bool_anim){
+        ,anim_cfg = S.mix({type:'sector'},cfg.anim)
+      _draw = types[anim_cfg.type];
+      if(cfg.anim){
         var ft = new Ft(anim_cfg);
         ft.on('step',_draw,this);
         ft.on('end',this.onend,this);
@@ -313,6 +269,55 @@ KISSY.add('gallery/kcharts/1.0/piechart/index',function(S,Paper,Ft,Label,Tip,Col
       }else{
         _draw({s:1,t:1});
         this.onend();
+      }
+    },
+    drawOneSector:function(e,s,t){
+      s = e.s,t = e.t;
+      var paper = this.paper
+        ,cfg = this.cfg
+        ,that = this
+        ,r = cfg.r
+        ,percentData = this.percentData
+        , _r = cfg.animater ? s*r:r
+        ,fromAngel//开始的角度
+        ,toAngel
+        ,_from
+        ,_to
+        ,cx = cfg.cx
+        ,cy = cfg.cy
+        ,path
+        ,pathString
+        ,len = percentData.length
+        ,sectors = []
+      that.sectors = sectors;
+      for(var j=0;j<len;j++){
+        if(j){
+          _from = _to;
+          _to = _from - s*percentData[j]*360;
+        }else{
+          fromAngel = 90 + percentData[0]/2 * 360;
+          toAngel = 90 - percentData[0]/2 * 360;
+          _from = fromAngel+s*(90-fromAngel);
+          _to = _from+s*(toAngel-fromAngel);
+        }
+
+
+        path = that.sector(cx,cy,_r,60,_from,_to);
+        pathString = path.join(' ');
+
+        if(sectors[j]){
+          sectors[j].attr('path',pathString);
+        }else{
+          var sector = paper.path(pathString);
+          sectors[j] = sector
+          var colorindex = (that.colorseed++)%10;
+          var color = ColorMap[colorindex].DEFAULT;
+          sectors[j].attr({'fill':color,stroke:'#fff'});
+        }
+        if(s === 1){
+          //扇形的平分线与圆的交点
+          sectors[j].middle = path.middle;
+        }
       }
     },
     scaleSector:function(sector,scalex,scaley,cx,cy){
@@ -329,21 +334,19 @@ KISSY.add('gallery/kcharts/1.0/piechart/index',function(S,Paper,Ft,Label,Tip,Col
         x = unit*Math.cos(angel);
         y = -unit*Math.sin(angel);
         this.currentTransformedSector.translate(-x,-y);
-        //this.currentTransformedSector.animate({transform:'t'+(-x)+','+(-y)},200);
       }
 
       angel = sector.middle.angel*Math.PI/180;
       x = unit*Math.cos(angel);
       y = -unit*Math.sin(angel);
-      //sector.translate(x,y);
-      sector.animate({transform:'t'+x+','+y},400)
+      sector.translate(x,y);
       this.currentTransformedSector = sector;
     },
     getLabelXY:function(x,y,content,left){
-      var util = this.textlabel
-        , size
-        , x1
-        , y1
+      var util = this.textlabel || (this.textlabel = new Label())
+        ,size
+        ,x1
+        ,y1
       size = util.getTextSize(content)
       if(left){
         x1 = x- size.width;
@@ -360,34 +363,34 @@ KISSY.add('gallery/kcharts/1.0/piechart/index',function(S,Paper,Ft,Label,Tip,Col
     //label算法二：最靠近扇形的角平分线
     drawLabel:function(){
       var paper = this.labelLayer
-        , cfg = this.cfg
-        , cx = cfg.cx
-        , cy = cfg.cy
-        , sectors = this.sectors
-        , sector
-        , middle
-        , len = sectors.length
-        , data = cfg.data
-        , olabels = []//生成的label
-        , label
-        , RAD = Math.PI/180
-        , cos = Math.cos
-        , sin = Math.sin
-        , asin = Math.asin
-        , abs = Math.abs
-        , round = Math.round
-        , rad
-        , x, y
-        , x1, y1
-        , x2, y2
-        , r = cfg.R
-        , R = cfg.R+cfg.labelPadding
-        , Rm = cfg.R+2*cfg.labelPadding/3
-        , labelO
-        , labelRight = []
-        , labelLeft = []
-        , labelRightLen
-        , labelLeftLen
+        ,cfg = this.cfg
+        ,cx = cfg.cx
+        ,cy = cfg.cy
+        ,sectors = this.sectors
+        ,sector
+        ,middle
+        ,len = sectors.length
+        ,labels = cfg.labels
+        ,olabels = []//生成的label
+        ,label
+        ,RAD = Math.PI/180
+        ,cos = Math.cos
+        ,sin = Math.sin
+        ,asin = Math.asin
+        ,abs = Math.abs
+        ,round = Math.round
+        ,rad
+        ,x,y
+        ,x1,y1
+        ,x2,y2
+        ,r = cfg.r
+        ,R = cfg.r+cfg.labelPadding
+        ,Rm = cfg.r+2*cfg.labelPadding/3
+        ,labelO
+        ,labelRight = []
+        ,labelLeft = []
+        ,labelRightLen
+        ,labelLeftLen
 
       for(var i=0;i<len;i++){
         sector = sectors[i];
@@ -416,13 +419,13 @@ KISSY.add('gallery/kcharts/1.0/piechart/index',function(S,Paper,Ft,Label,Tip,Col
       }
       labelLeftLen = labelLeft.length
       var ileft=0
-        , ileftInterval = Math.round(2*cfg.R/labelLeftLen)
-        , x3
-        , y3
-        , prevLabelO
-        , p
-        , prevy3
-        , rate//不超过1
+        ,ileftInterval = Math.round(2*cfg.r/labelLeftLen)
+        ,x3
+        ,y3
+        ,prevLabelO
+        ,p
+        ,prevy3
+        ,rate//不超过1
 
       var offset = D.offset(this.container);
       while(labelLeftLen>ileft){
@@ -448,7 +451,7 @@ KISSY.add('gallery/kcharts/1.0/piechart/index',function(S,Paper,Ft,Label,Tip,Col
         p = ["M",labelO.x,labelO.y,"Q",labelO.x2,labelO.y2,' ',x3,y3];
 
         //标注
-        label = data[labelO.i].label;
+        label = labels[labelO.i];
         labelO.text = label;
         var posxy = this.getLabelXY(x3,y3,label,true);
         var textspan = D.create('<span class="ks-charts-label"/>');
@@ -462,16 +465,12 @@ KISSY.add('gallery/kcharts/1.0/piechart/index',function(S,Paper,Ft,Label,Tip,Col
         D.css(textspan,{position:'absolute',left:(posxy.x)+'px',top:(posxy.y)+'px'});
         D.append(textspan,this.container);
 
-        var pathElement = paper.path(p.join(','));
-        pathElement.toBack();
-        if(cfg.labelline && cfg.labelline.attr){
-          pathElement.attr(cfg.labelline.attr);
-        }
+        paper.path(p.join(','));
         ileft++;
       }
       labelRightLen = labelRight.length
       var iright=0
-        , irightInterval = Math.round(2*cfg.R/labelRightLen)
+        ,irightInterval = Math.round(2*cfg.r/labelRightLen)
 
       var labelRightCopy = labelRight.slice(0);
       while(labelRightLen>iright){
@@ -495,118 +494,27 @@ KISSY.add('gallery/kcharts/1.0/piechart/index',function(S,Paper,Ft,Label,Tip,Col
         labelO.x3 = x3;
         labelO.y3 = y3;
         p = ["M",labelO.x,labelO.y,"Q",labelO.x2,labelO.y2," ",x3,y3,"L"];
-        label = data[labelO.i].label;
+        label = labels[labelO.i];
         labelO.text = label;
         var posxy = this.getLabelXY(x3,y3,label);
         var textspan = D.create('<span class="ks-charts-label"/>');
-        D.html(textspan,label)
-        /*
         D.css(textspan,{position:'absolute',left:(offset.left+posxy.x)+'px',top:(offset.top+posxy.y)+'px'});
+        D.html(textspan,label)
         D.append(textspan,document.body);
-         */
-        D.css(this.container,'position','relative');
-        D.css(textspan,{position:'absolute',left:(posxy.x)+'px',top:(posxy.y)+'px'});
-        D.append(textspan,this.container);
 
-        var pathElement = paper.path(p.join(','));
-        pathElement.toBack();
-        if(cfg.labelline && cfg.labelline.attr){
-          pathElement.attr(cfg.labelline.attr);
-        }
+        paper.path(p.join(','));
         iright++;
       }
     },
     //label算法三：label标注在扇形区域内
     drawInsideLabel:function(){
-      var cfg = this.cfg
-        , data = cfg.data
-        , sectors = this.sectors
-        , cx = cfg.cx, cy = cfg.cy
-        , r = cfg.R
 
-      for(var i=0, l=sectors.length;i<l;i++){
-        var label = data[i].label
-          , sector = sectors[i]
-          , middle = sector.middle
-          , angel = middle.angel
-          , rad = Math.PI / 180
-          , x = cx + .5 * r * Math.cos(-angel * rad)
-          , y = cy + .5 * r * Math.sin(-angel * rad)
-          , size = this.textlabel.getTextSize(label)
-          , textspan = D.create('<span class="ks-charts-label"/>')
-        D.text(textspan,label)
-
-        x-=.5*size.width
-        y-=.5*size.height
-        D.css(this.container,'position','relative');
-        D.css(textspan,{position:'absolute',left:(x)+'px',top:(y)+'px'});
-        D.append(textspan,this.container);
-      }
-    },
-    renderTip:function(){
-      var cfg = this.cfg
-        , tipcfg = cfg.tip
-        , ctn = this.container
-        , boundryCfg
-        , color
-        , offset
-        , outerWidth
-        , outerHeight
-        , tip_el
-      if(tipcfg && tipcfg.tpl){
-        offset = D.offset(ctn)
-        outerWidth = D.outerWidth(ctn)
-        outerHeight = D.outerHeight(ctn)
-        boundryCfg = tipcfg.boundryDetect ? {x:offset.left,y:offset.top,width:outerWidth,height:outerHeight} : {}
-        S.mix(tipcfg,{rootNode:S.Node(ctn),boundry:boundryCfg});
-        this.tip = new Tip(tipcfg);
-        tip_el = this.tip.getInstance()
-
-        this.on('mouseenter',function(e){
-          var sector = e.target
-            , middle = sector.middle
-            , x = middle.x
-            , y = middle.y
-            , fillcolor = Paper.getRGB(sector.attr('fill'))
-            , tipdata = {}
-          S.mix(tipdata,e.data);
-          tipdata.percent = sector.percent;
-
-          fillcolor = shadeColor(fillcolor.hex,-20)
-          this.tip.renderTemplate(tipcfg.tpl,tipdata);
-          D.css(tip_el,{'borderColor':fillcolor});
-          //tip的位置在扇形的中线处
-          this.tip.animateTo(x,y);
-        },this);
-      }
-    },
-    getcolor:function(i,color){
-      var cfg = this.cfg
-        , c_map_len = ColorMap.length - 1
-      i = i%c_map_len
-      if(cfg.colors && cfg.colors[i]){
-        color = cfg.colors[i].DEFAULT
-      }else{
-        color = ColorMap[i].DEFAULT
-      }
-      return color;
     }
   }
   S.extend(PieChart,S.Base,methods);
 
   return PieChart;
 },{
-  requires:['gallery/kcharts/1.0/raphael/index','gallery/kcharts/1.0/ft/index','gallery/kcharts/1.0/label/index','gallery/kcharts/1.0/tip/index','../tools/color/index']
+  requires:['../core','../common/ft','../label/piechart-label']
 });
 
-/*
- * note:
- * cookieu@gmail.com 04/02/2013 - 10:48 颜色可配置
-   cookieu@gmail.com 07/02/2013 - 16:34 piechart imrovment
-   1 线条颜色等属性
-   2 完善doc
-   3 TODO label线条长短控制
-   4 transform动画
-   5 线条和扇形的层次问题
-   6 tip跑到body中去了
- * */

@@ -1,278 +1,235 @@
-/**
- * @fileOverview KChart 1.0  tip
- * @author huxiaoqi567@gmail.com
- */
-KISSY.add('gallery/kcharts/1.0/tip/index', function (S, Template) {
-
-    var $ = S.all,
-        Event = S.Event;
-
-    function Tip(cfg) {
-
-        var self = this,
-
-            defaultCfg = {
-                clsName:"ks-chart-default",
-                autoRender:true,
-                isVisable:false,
-                boundry:{        //tip的移动区域
-                    x:0,
-                    y:0,
-                    width:0,
-                    height:0
-                },
-                rootNode:$("body"),
-                tpl:"",
-                corner:{
-                    isShow:false,
-                    tpl:"corner",
-                    css:{
-                        position:"absolute",
-                        marginLeft:0,
-                        marginTop:0
-                    }
-                },
-                anim:{
-                    easing:"easeOut",
-                    duration:0.3
-                },
-                offset:{
-                    x:0,
-                    y:0
-                },
-                alignX:"left", //left center right
-                alignY:"top"    //top middle bottom
-            };
-
-        self._events = {
-            MOVE:"move",
-            SETCONT:"setcontent",
-            HIDE:"hide"
-        }
-        self._cfg = S.mix(defaultCfg, cfg, undefined, undefined, true);
-
-        self.init();
-    }
-
-    S.augment(Tip, Event.Target, {
-        init:function () {
-            var self = this,
-                _cfg = self._cfg;
-
-            self._data = {};
-
-            self._tpl = _cfg.tpl;
-
-            self.$tip;
-
-            self.bindEvent();
-
-            if (_cfg.autoRender) {
-
-                self.render();
-
-            }
-
-        },
-        bindEvent:function () {
-            var self = this,
-                tpl = self._cfg.template,
-                _events = self._events;
-
-            self.on(_events.MOVE, function (ev) {
-                        var x = ev.x,
-                            y = ev.y,
-                            style = ev.style;
-
-                        self.isVisable() ? self.animateTo(x, y) : self.moveTo(x, y);
-                        style && self.$tip.css(style);
-                    }
-            );
-
-            self.on(_events.SETCONT, function (ev) {
-                if (S.isFunction(tpl)) {
-                    self.setContent(tpl(ev.data));
-                } else {
-                    self.renderTemplate(tpl, ev.data);
-                }
-            });
-
-            self.on(_events.HIDE, function (ev) {
-                self.hide();
-            })
-        },
-        getInstance:function () {
-
-            return this.$tip;
-
-        },
-        isVisable:function () {
-
-            return this.$tip.css("display") == "none" ? false : true;
-
-        },
-        show:function () {
-
-            var self = this;
-
-            self.$tip && self.$tip.show();
-
-            return self;
-
-        },
-
-        hide:function () {
-
-            var self = this;
-
-            self.$tip && self.$tip.stop() && self.$tip.hide();
-
-            return self;
-
-        },
-        moveTo:function (x, y) {
-            var self = this;
-
-            self.show();
-
-            var $tip = self.getInstance(),
-                _cfg = self._cfg,
-                anim = self._cfg.anim,
-                pos = self.getPos(x, y),
-                marginTop = _cfg.corner.css["margin-top"] || _cfg.corner.css["marginTop"] || 0,
-                marginLeft = _cfg.corner.css["margin-left"] || _cfg.corner.css["marginLeft"] || 0,
-                $corner = self.$corner;
+KISSY.add('gallery/kcharts/1.0/tip/index',function(S,Template){
 
-            $corner && $corner.css({
-                                       "margin-left":marginLeft + x - pos.x
-                                   });
+	var $ = S.all,
+		idPrefix = "J_tip_";
 
-            $tip.css({
-                         "margin-top":pos.y,
-                         "margin-left":pos.x
-                     });
-
-        },
-        animateTo:function (x, y, callback) {
-            var self = this;
+	var Tip = function(cfg){
 
-            self.show();
+		var self = this,
 
-            var $tip = self.getInstance(),
-                _cfg = self._cfg,
-                anim = _cfg.anim,
-                pos = self.getPos(x, y),
-                marginTop = _cfg.corner.css["margin-top"] || _cfg.corner.css["marginTop"] || 0,
-                marginLeft = _cfg.corner.css["margin-left"] || _cfg.corner.css["marginLeft"] || 0,
-                $corner = self.$corner;
+			defaultCfg = {
+				clsName:"ks-chart-default",
+				autoRender:true,
+				isVisable:false,
+				boundry:{		//tip的移动区域
+					x:0,
+					y:0,
+					width:0,
+					height:0
+				},
+				rootNode:$("body"),
+				tpl:"",
+				anim:{
+					easing:"easeOut",
+					duration:0.3
+				},
+				offset:{
+					x:0,
+					y:0
+				},
+				alignX:"left",	//left center right
+				alignY:"top"	//top middle bottom
+			};
 
-            $corner && $corner.css({
-                                       "margin-left":marginLeft + x - pos.x
-                                   });
+		self._cfg = S.mix(defaultCfg,cfg);
 
-            $tip.stop().animate({
-                                    "margin-top":pos.y,
-                                    "margin-left":pos.x
-                                }
-                , anim.duration
-                , anim.easing
-                , function () {
-                    callback && callback();
-                });
-        },
-        renderTemplate:function (tpl, data) {
-            return this.setContent(Template(tpl).render(data));
-        },
-        setContent:function (content) {
-            return $("." + this._cfg.clsName + "-tip-content", this.$tip).html(content);
-        },
-        getPos:function (x, y) {
+		self.init();
 
-            var self = this,
-                _cfg = self._cfg,
-                offset = _cfg.offset,
-                marginTop = y + offset.y,
-                marginLeft = x + offset.x,
-                alignX = _cfg.alignX,
-                alignY = _cfg.alignY,
-                $tip = self.getInstance(),
-                width = $tip.outerWidth(),
-                height = $tip.outerHeight(),
-                boundry = _cfg.boundry;
+	};
 
-            switch (alignX) {
-                case "center":
-                    marginLeft = Math.round(x) + offset.x - width / 2;
-                    break;
-                case "right" :
-                    marginLeft = Math.round(x) + offset.x - width;
-                    break;
-            }
-            switch (alignY) {
-                case "middle":
-                    marginTop = Math.round(y) + offset.y - height / 2;
-                    break;
+	S.augment(Tip,{
 
-                case "bottom" :
-                    marginTop = Math.round(y) + offset.y - height;
-                    break;
-            }
+		init:function(){
 
-            if (boundry.width && boundry.height) {
+			var self = this,
+				_cfg = self._cfg;
 
-                var x = boundry.x || 0,
-                    y = boundry.y || 0,
-                    w = boundry.width,
-                    h = boundry.height;
+			self._data = {};
 
-                marginTop = marginTop < y ? y : marginTop;
+			self._tpl = _cfg.tpl;
 
-                marginTop = marginTop > y + h ? y + h : marginTop;
+			self.$tip; 
 
-                marginLeft = marginLeft < x ? x : marginLeft;
+			self._guId = Math.round(Math.random() * 100000000);
 
-                marginLeft = marginLeft + width > x + w ? x + w - width : marginLeft;
+			if(_cfg.autoRender){
 
-            }
+				self.render();
 
-            return {x:marginLeft, y:marginTop};
+			}
 
-        },
+		},
 
-        _isExist:function () {
+		getInstance:function(){
 
-            return this.$tip && this.$tip[0];
+			return this.$tip;
 
-        },
+		},
 
-        render:function () {
-            var self = this,
-                _cfg = self._cfg,
-                _tpl = self._tpl,
-                _data = self._data,
-                display = _cfg.isVisable ? "inline-block" : "none",
-                rootNodeOffset = _cfg.rootNode.offset();
+		isVisable:function(){
 
-            if (!_cfg.rootNode.offset()) return;
+			return this.$tip.css("display") == "none" ? false : true;
 
-            self.$tip = !self._isExist() && $('<span class="' + _cfg.clsName + '-tip" style="*zoom:1;"><span class="' + _cfg.clsName + '-tip-content"></span></span>')
-                .css({"display":display})
-                .appendTo(_cfg.rootNode);
+		},
 
-            self.$corner = (_cfg.corner.isShow && _cfg.corner.tpl) ? $("<div class='" + _cfg.clsName + "-corner'>" + _cfg.corner.tpl + "</div>").css(_cfg.corner.css).appendTo(self.$tip) : undefined;
+		show:function(){
 
-            self.$tip.css({
-                              "margin-top":rootNodeOffset.top + _cfg.offset.y,
-                              "margin-left":rootNodeOffset.left + _cfg.offset.x,
-                              "position":"absolute"
-                          });
+			var self = this;
 
-            self.renderTemplate(_tpl, _data);
+			self.$tip && self.$tip.show();
 
-            return self.$tip;
-        }
-    });
+			return self;
 
-    return Tip;
+		},
 
-}, {requires:['gallery/template/1.0/index', './assets/tip.css']})
+		hide:function(){
+
+			var self = this;
+
+			self.$tip && self.$tip.stop() && self.$tip.hide();
+
+			return self;
+
+		},
+		moveTo:function(x,y){
+
+			var self = this;
+
+			self.show();
+
+			var	$tip = self.getInstance(),
+				anim = self._cfg.anim,
+				pos = self.getPos(x,y);
+
+			$tip.css({
+					"margin-top":pos.y,
+					"margin-left":pos.x
+			});
+
+		},
+		animateTo:function(x,y,callback){
+
+			var self = this;
+
+			self.show();
+
+			var	$tip = self.getInstance(),
+				anim = self._cfg.anim,
+				pos = self.getPos(x,y);
+
+				$tip.stop().animate({
+					"margin-top":pos.y,
+					"margin-left":pos.x
+				}
+				,anim.duration
+				,anim.easing
+				,function(){
+					callback && callback();
+				});
+
+		},
+
+		renderTemplate:function(tpl,data){
+
+			var self = this,
+				tipId = idPrefix+self._guId;
+
+			$("#"+tipId).html(Template(tpl).render(data));
+
+		},
+		getPos:function(x,y){
+
+			var	self = this,
+				_cfg = self._cfg,
+				offset = _cfg.offset,
+				marginTop = y + offset.y,
+				marginLeft = x + offset.x,
+				alignX = _cfg.alignX,
+				alignY = _cfg.alignY,
+				$tip = self.getInstance(),
+				width = $tip.outerWidth(),
+				height = $tip.outerHeight(),
+				boundry = _cfg.boundry;
+
+			switch(alignX){
+				case "center":
+					marginLeft = Math.round(x) + offset.x - width/2;
+					break;
+				case "right" :
+					marginLeft =  Math.round(x) + offset.x - width;
+					break;
+			}
+			switch(alignY){
+				case "middle":
+					marginTop = Math.round(y) + offset.y - height/2;
+					break;
+					
+				case "bottom" :
+					marginTop =  Math.round(y) + offset.y - height;
+					break;
+			}
+
+			if(boundry.width && boundry.height){
+
+				var x = boundry.x || 0,
+					y = boundry.y || 0,
+					w = boundry.width,
+					h = boundry.height;
+
+				marginTop = marginTop < y ? y : marginTop;
+
+				marginTop = marginTop > y + h ? y + h : marginTop; 
+
+				marginLeft = marginLeft < x ? x : marginLeft;
+
+				marginLeft = marginLeft > x + w ? x + w : marginLeft;
+
+
+			}
+			
+			return {x:marginLeft,y:marginTop};
+
+		},
+
+		_isExist:function(){
+
+			return $("#"+idPrefix + this._guId)[0];
+
+		},
+
+		render:function(){
+
+			var self = this,
+				_cfg = self._cfg,
+				_tpl = self._tpl,
+				_data = self._data,
+				display = _cfg.isVisable ? "inline-block" : "none",
+				tipId = idPrefix+self._guId,
+				rootNodeOffset = _cfg.rootNode.offset();
+
+			!self._isExist() && $('<span class="'+_cfg.clsName+'-tip" id='+tipId+' style="*zoom:1;"></span>')
+			.css({"display":display})
+			.appendTo(_cfg.rootNode);
+
+			$("#"+tipId)
+			.css({
+				"margin-top":rootNodeOffset.top + _cfg.offset.y,
+				"margin-left":rootNodeOffset.left + _cfg.offset.x,
+				"position":"absolute"
+			})
+			.html(Template(_tpl).render(_data));
+
+			self.$tip = $("#"+tipId);
+
+			return self.$tip;
+
+		}
+
+
+	});
+
+
+
+	return Tip;
+
+},{requires:['gallery/template/1.0/index','./assets/tip.css']})
