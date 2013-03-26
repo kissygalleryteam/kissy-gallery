@@ -5,7 +5,7 @@
 
 KISSY.add('gallery/tooltip/1.0/index',function( S ){
 
-    var ARROW_HOOK = '.J_ToolTipArrow';
+    var ARROW_HOOK = '.J_TooltipArrow';
     var REFER_POS = 'center';
     var TOOLTIP_ALIGN = 'center';
     var GAP = 0;
