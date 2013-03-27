@@ -1,5 +1,9 @@
 ﻿{
    "gs":[
+   {
+        "name":"city-selector",
+        "desc":"城市选择"
+    },
     {
         "name":"calendar",
         "desc":"旅行日历"

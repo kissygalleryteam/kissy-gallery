@@ -1,39 +1,39 @@
 /**
 * 城市选择器，支持国内和国际城市，也可以自定义城市数据
 *
-* @module cityselector
+* @module city-selector
 * @author freyaoo@gmail.com
 * @version 1.0
 */
-KISSY.add('gallery/cityselector/1.0/index',function(S,Node,Event,Overlay,Juicer,Richbase){
+KISSY.add('gallery/city-selector/1.0/index',function(S,Node,Event,Overlay,Juicer,Richbase){
 	'use strict';
 
-    var CURCLS = 'ks-cityselector-cur',
-        ALLCLS = 'ks-cityselector-all',
+    var CURCLS = 'ks-city-selector-cur',
+        ALLCLS = 'ks-city-selector-all',
         WIDTH = 'width',
         HEIGHT = 'height',
         CHECKED = 'checked',
         PROVINCE = 'province',
         CITY = 'city',
-        DISABLEDCLS = 'ks-cityselector-disabled',
+        DISABLEDCLS = 'ks-city-selector-disabled',
         LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-        TMPL = Juicer('<div class="${prefix}cityselector {@if provinceselect}ks-cityselector-province-select{@/if}" id="${prefix}cityselector${id}" style="width:${width}px;height:${height}px;">'+'<div class="ks-cityselector-content">'+
-            '<div class="ks-cityselector-nav" id="ks-cityselector${id}-nav">'+
-                '<span class="ks-cityselector-all ks-cityselector-cur ks-cityselector-letter-filter" id="ks-cityselector${id}-letter-all" data-value="all">全部</span>'+
-                '{@each letters as item}<span id="ks-cityselector${id}-letter-${item.name}" data-value="${item.name}" class="ks-cityselector-letter-filter{@if item.disabled} ks-cityselector-disabled{@/if}">${item.name}</span>{@/each}'+
+        TMPL = Juicer('<div class="${prefix}city-selector {@if provinceselect}ks-city-selector-province-select{@/if}" id="${prefix}city-selector${id}" style="width:${width}px;height:${height}px;">'+'<div class="ks-city-selector-content">'+
+            '<div class="ks-city-selector-nav" id="ks-city-selector${id}-nav">'+
+                '<span class="ks-city-selector-all ks-city-selector-cur ks-city-selector-letter-filter" id="ks-city-selector${id}-letter-all" data-value="all">全部</span>'+
+                '{@each letters as item}<span id="ks-city-selector${id}-letter-${item.name}" data-value="${item.name}" class="ks-city-selector-letter-filter{@if item.disabled} ks-city-selector-disabled{@/if}">${item.name}</span>{@/each}'+
             '</div>' +
-            '<div class="ks-cityselector-citylist" id="ks-cityselector${id}-citylist" style="height:${listheight}px;"><ul>' +
-                '{@each data as item}<li class="ks-cityselector-province-${item.firstLetter}{@if !item.city} ks-cityselector-nocity{@/if}">'+
-                    '<div class="ks-cityselector-province">'+
-                        '<label for="ks-cityselector${id}-province-${item.id}">'+
-                            '<span class="ks-cityselector-letter">${item.firstLetter}</span>'+
-                            '<span class="ks-cityselector-province-name">{@if provinceselect}<input type="checkbox" class="ks-cityselector-select-province" id="ks-cityselector${id}-province-${item.id}" data-id="${item.id}" name="ks-cityselector-province" value="${item.name}">{@/if}${item.name}</span>'+
+            '<div class="ks-city-selector-citylist" id="ks-city-selector${id}-citylist" style="height:${listheight}px;"><ul>' +
+                '{@each data as item}<li class="ks-city-selector-province-${item.firstLetter}{@if !item.city} ks-city-selector-nocity{@/if}">'+
+                    '<div class="ks-city-selector-province">'+
+                        '<label for="ks-city-selector${id}-province-${item.id}">'+
+                            '<span class="ks-city-selector-letter">${item.firstLetter}</span>'+
+                            '<span class="ks-city-selector-province-name">{@if provinceselect}<input type="checkbox" class="ks-city-selector-select-province" id="ks-city-selector${id}-province-${item.id}" data-id="${item.id}" name="ks-city-selector-province" value="${item.name}">{@/if}${item.name}</span>'+
                         '</label>'+                     
                     '</div>'+
-                    '{@if item.city}<div class="ks-cityselector-city">'+
+                    '{@if item.city}<div class="ks-city-selector-city">'+
                     '{@each item.city as subcity}<span>'+
-                        '<input type="checkbox" id="ks-cityselector${id}-city-${subcity.id}" value="${subcity.name}" data-id="${subcity.id}" name="ks-cityselector-city" class="ks-cityselector-select-city">'+
-                        '<label for="ks-cityselector${id}-city-${subcity.id}">${subcity.name}</label>'+
+                        '<input type="checkbox" id="ks-city-selector${id}-city-${subcity.id}" value="${subcity.name}" data-id="${subcity.id}" name="ks-city-selector-city" class="ks-city-selector-select-city">'+
+                        '<label for="ks-city-selector${id}-city-${subcity.id}">${subcity.name}</label>'+
                     '</span>{@/each}'+
                     '</div>{@/if}'+
                 '</li>{@/each}' +
@@ -43,8 +43,8 @@ KISSY.add('gallery/cityselector/1.0/index',function(S,Node,Event,Overlay,Juicer,
     * 城市选择器constructor
 
         <input id="#foo" type="text">    
-        KISSY.use('gallery/cityselector/1.0/domestic,gallery/cityselector/1.0/index',function(S,DomesticData,CitySelector){
-        var cityselector = new CitySelector({
+        KISSY.use('gallery/city-selector/1.0/domestic,gallery/city-selector/1.0/index',function(S,DomesticData,CitySelector){
+        var city-selector = new CitySelector({
             data : DomesticData,
             node : '#foo'
         });
@@ -55,12 +55,12 @@ KISSY.add('gallery/cityselector/1.0/index',function(S,Node,Event,Overlay,Juicer,
     * @constructor   
     */
 
-	var cityselector = Richbase.extend({
+	var CitySelector = Richbase.extend({
     	initializer : function(){
             this._node = S.one(this.get('node'));
             this._renderNode = S.one(this.get('render'));
             if(!this._node && !this._renderNode){
-                S.log('cityselector::node and render are not find,cityselector init failured!');
+                S.log('city-selector::node and render are not find,city-selector init failured!');
                 return;
             }
             this._id = S.guid();
@@ -88,10 +88,10 @@ KISSY.add('gallery/cityselector/1.0/index',function(S,Node,Event,Overlay,Juicer,
         */
         _bind : function(){
             var _ = this;
-            this._navEl.delegate('click','.ks-cityselector-letter-filter',this._letterFilter,this);
-            this._listEl.delegate('click','.ks-cityselector-province',this._toggleOrExpand,this);
-            this._listEl.delegate('click','.ks-cityselector-select-city',this._selectCity,this);
-            this._listEl.delegate('click','.ks-cityselector-select-province',this._selectProvince,this);
+            this._navEl.delegate('click','.ks-city-selector-letter-filter',this._letterFilter,this);
+            this._listEl.delegate('click','.ks-city-selector-province',this._toggleOrExpand,this);
+            this._listEl.delegate('click','.ks-city-selector-select-city',this._selectCity,this);
+            this._listEl.delegate('click','.ks-city-selector-select-province',this._selectProvince,this);
             if(this._overlay){
                 Event.on('body','click',function(){
                     _._overlay.hide();
@@ -175,13 +175,13 @@ KISSY.add('gallery/cityselector/1.0/index',function(S,Node,Event,Overlay,Juicer,
             };
 
             this._contentEl = S.one(TMPL.render(obj));
-            this._navEl = this._contentEl.one('#ks-cityselector'+this._id+'-nav');
-            this._listEl = this._contentEl.one('#ks-cityselector'+this._id+'-citylist');
+            this._navEl = this._contentEl.one('#ks-city-selector'+this._id+'-nav');
+            this._listEl = this._contentEl.one('#ks-city-selector'+this._id+'-citylist');
             if(this._renderNode){
                 this._renderNode.append(this._contentEl);
             }else{
                 this._overlay = new Overlay.Popup({
-                    prefixCls : 'ks-cityselector-',
+                    prefixCls : 'ks-city-selector-',
                     width : w,
                     trigger : this._node,
                     visible : false,
@@ -192,7 +192,7 @@ KISSY.add('gallery/cityselector/1.0/index',function(S,Node,Event,Overlay,Juicer,
                     },
                     content : this._contentEl
                 });
-                this._overlay.render();
+              
                 this._overlay.on('show',function(){
                     _._checkCity();
                 });
@@ -223,7 +223,7 @@ KISSY.add('gallery/cityselector/1.0/index',function(S,Node,Event,Overlay,Juicer,
         */
         _setLetter : function(letter){
             var curLetter = this._navEl.one('span.'+CURCLS),
-                tar = S.one('#ks-cityselector'+this._id+'-letter-'+letter),
+                tar = S.one('#ks-city-selector'+this._id+'-letter-'+letter),
                 list = this._listEl,
                 provinces = list.all('li');
             if(tar.hasClass(DISABLEDCLS)){
@@ -248,7 +248,7 @@ KISSY.add('gallery/cityselector/1.0/index',function(S,Node,Event,Overlay,Juicer,
             }                   
             
             provinces.hide();
-            this._listEl.all('li.ks-cityselector-province-'+letter).show();
+            this._listEl.all('li.ks-city-selector-province-'+letter).show();
         },
         /**
         * 收起或展开省下面的城市
@@ -260,7 +260,7 @@ KISSY.add('gallery/cityselector/1.0/index',function(S,Node,Event,Overlay,Juicer,
         _toggleOrExpand : function(e){
             var tar = S.one(e.target),
                 li = tar.parent('li');
-            li.toggleClass('ks-cityselector-expand');
+            li.toggleClass('ks-city-selector-expand');
         },
         /**
         * 根据输入框里已存在的城市选中城市选择器中的城市
@@ -380,8 +380,8 @@ KISSY.add('gallery/cityselector/1.0/index',function(S,Node,Event,Overlay,Juicer,
         * @return {CitySelector} this，当前实例
         * @example 
 
-        cityselector.setLetter('x'); //选中所有以'X'为拼音首字母的省
-        cityselector.setLetter('all'); //选中全部
+        city-selector.setLetter('x'); //选中所有以'X'为拼音首字母的省
+        city-selector.setLetter('all'); //选中全部
 
         * @chainable
         */
@@ -425,9 +425,9 @@ KISSY.add('gallery/cityselector/1.0/index',function(S,Node,Event,Overlay,Juicer,
         * @return {CitySelector} this，当前实例
         * @example
 
-        var cityselector = new CitySelector(config);
-        cityselector.select('北京'); //会选中北京
-        cityselector.select(['北京','杭州']); //会选中北京和杭州
+        var city-selector = new CitySelector(config);
+        city-selector.select('北京'); //会选中北京
+        city-selector.select(['北京','杭州']); //会选中北京和杭州
 
         * @chainable
         */
@@ -441,8 +441,8 @@ KISSY.add('gallery/cityselector/1.0/index',function(S,Node,Event,Overlay,Juicer,
                 var node,
                     type,
                     id,
-                    city = S.one('#ks-cityselector'+this._id+'-city-'+this._citys[string]),
-                    province = S.one('#ks-cityselector'+this._id+'-province-'+this._provinces[string]);
+                    city = S.one('#ks-city-selector'+this._id+'-city-'+this._citys[string]),
+                    province = S.one('#ks-city-selector'+this._id+'-province-'+this._provinces[string]);
                 if(city){
                     node = city;
                     type = CITY;
@@ -477,6 +477,7 @@ KISSY.add('gallery/cityselector/1.0/index',function(S,Node,Event,Overlay,Juicer,
                     }else{
                         this._selected[0] && this._selected[0].prop(CHECKED,false);
                         this._selected[0] = node;
+                        node.prop(CHECKED,true);
                         this._selectedValues[0] = string;
                     }
                     this._fillInput(node,type);
@@ -502,8 +503,8 @@ KISSY.add('gallery/cityselector/1.0/index',function(S,Node,Event,Overlay,Juicer,
                 var node,
                     type,
                     id,
-                    city = S.one('#ks-cityselector'+this._id+'-city-'+this._citys[string]),
-                    province = S.one('#ks-cityselector'+this._id+'-province-'+this._provinces[string]);
+                    city = S.one('#ks-city-selector'+this._id+'-city-'+this._citys[string]),
+                    province = S.one('#ks-city-selector'+this._id+'-province-'+this._provinces[string]);
                 if(city){
                     node = city;
                     type = CITY;
@@ -670,6 +671,6 @@ KISSY.add('gallery/cityselector/1.0/index',function(S,Node,Event,Overlay,Juicer,
     	}
     },'CitySelector');
 
-    return cityselector;
+    return CitySelector;
 
 },{requires:['node','event','overlay','gallery/juicer/1.2/index','rich-base','./assets/index.css']});
