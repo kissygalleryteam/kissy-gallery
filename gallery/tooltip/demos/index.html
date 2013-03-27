@@ -251,7 +251,7 @@
                 <h4>How to use</h4>
                 <div class="block">
                     <h5>HTML</h5>
-                    <p>可以自定义<code>Tooltip</code>样式，也可以通过use<code>gallery/tooltip/1.0/bubble.css</code>并配合下面的bubble结构来呈现气泡类型的Tooltip样式效果</p>
+                    <p>可以自定义<code>Tooltip</code>样式，也可以通过use<code>gallery/tooltip/1.0/assets/bubble.css</code>并配合下面的bubble结构来呈现气泡类型的Tooltip样式效果</p>
                     <pre>
                         <code>
 &lt;!-- 下面为tooltip的触发节点，trigger为触发节点，refer为tooltip计算的参考点，两者可以为一个节点 --&gt;
@@ -290,7 +290,7 @@ KISSY.config({
 });
 
 // 引入Tooltip，注意bubble.css为可选
-KISSY.use('gallery/tooltip/1.0/index, gallery/tooltip/1.0/bubble.css', function(S, Tooltip) {
+KISSY.use('gallery/tooltip/1.0/index, gallery/tooltip/1.0/assets/bubble.css', function(S, Tooltip) {
 
     Tooltip.attach({
         trigger: '.J_Trigger',      // 用于触发Tooltip出现的节点
@@ -325,7 +325,7 @@ Tooltip.freeze( config ); // Config同attach方法参数，但是没有onHide与
 </div>
 
     <script>
-        KISSY.use('gallery/tooltip/1.0/index, gallery/tooltip/1.0/bubble.css', function(S, Tooltip) {
+        KISSY.use('gallery/tooltip/1.0/index, gallery/tooltip/1.0/assets/bubble.css', function(S, Tooltip) {
             var tooltip = S.one( '.J_Tooltip' );
             var referHook = '.J_Refer';
 

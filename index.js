@@ -8,6 +8,10 @@
         "name":"anti-ie6",
         "desc":"ie6 提示层"
     },
+    {
+        "name":"tooltip",
+        "desc":"小提示层"
+    },
    {
         "name":"moment",
         "desc":"日期时间库"
@@ -32,26 +36,6 @@
         "name":"ua-extra",
         "desc":"国产浏览器探测"
    },
-   {
-        "name":"suggest",
-
-        "desc":"原 KISSY 1.3 Suggest"
-    },
-    {
-        "name":"template",
-
-        "desc":"原 KISSY 1.3 Template"
-    },
-    {
-        "name":"validation",
-
-        "desc":"原 KISSY 1.3 Validation"
-    },
-    {
-        "name":"flash",
-
-        "desc":"原 KISSY 1.3 flash"
-    },
    {
         "name":"velocity",
 
@@ -93,6 +77,26 @@
 
         "desc":"滚动条组件"
     },
+   {
+        "name":"suggest",
+
+        "desc":"原 KISSY 1.3 Suggest"
+    },
+    {
+        "name":"template",
+
+        "desc":"原 KISSY 1.3 Template"
+    },
+    {
+        "name":"validation",
+
+        "desc":"原 KISSY 1.3 Validation"
+    },
+    {
+        "name":"flash",
+
+        "desc":"原 KISSY 1.3 flash"
+    },   
     {
         "name":"starrating",
 
