@@ -34,9 +34,9 @@ KISSY.add('gallery/tooltip/1.0/index',function( S ){
                 // 参考点只能有一个
                 var refer = S.one( trigger.all( cfg.refer ) ) || trigger;
 
-                cfg.onShow = function(){
+                cfg.onShow = function( t, tl ){
                     self.locate( refer, tooltip, cfg );
-                    onShow && onShow();
+                    onShow && onShow( t, tl );
                 };
 
                 self.connect( trigger, tooltip, cfg );
@@ -66,14 +66,14 @@ KISSY.add('gallery/tooltip/1.0/index',function( S ){
             var showCb = option.onShow;
 
             trigger.on( 'mouseenter', function(){
-                showCb && showCb();
+                showCb && showCb( trigger, tooltip );
                 clearTimeout( tooltip.attr( TOOLTIP_DISAPPEAR_TIMER_ATTR ) );
                 tooltip.show();
             });
 
             trigger.on( 'mouseleave', function(){
                 tooltip.attr( TOOLTIP_DISAPPEAR_TIMER_ATTR, setTimeout(function(){
-                    hideCb && hideCb();
+                    hideCb && hideCb( trigger, tooltip );
                     tooltip.hide();
                 }, TOOLTIP_DISAPPEAR_DELAY));
             });
@@ -84,7 +84,7 @@ KISSY.add('gallery/tooltip/1.0/index',function( S ){
             });
 
             tooltip.on( 'mouseleave', function(){
-                hideCb && hideCb();
+                hideCb && hideCb( trigger, tooltip );
                 tooltip.hide();
             });
         },
@@ -153,8 +153,9 @@ KISSY.add('gallery/tooltip/1.0/index',function( S ){
             var arrowWidth = tooltipArrow.outerWidth();
             var arrowHeight = tooltipArrow.outerHeight() / 2;
 
-            console.log( referCoord, referWidth, referHeight );
-            console.log( tooltipWidth, tooltipHeight, arrowWidth, arrowHeight );
+            // 用于调试，打印相关计算数据
+//            console.log( referCoord, referWidth, referHeight );
+//            console.log( tooltipWidth, tooltipHeight, arrowWidth, arrowHeight );
 
             tooltip.hide();
             tooltip.css( 'visibility', 'visible' );
@@ -405,7 +406,7 @@ KISSY.add('gallery/tooltip/1.0/index',function( S ){
          * @param left
          * @param width
          * @param height
-         * @returns {{area: number, in: boolean}}
+         * @returns {{area: number, ifIn: boolean}}
          */
         _calculateArea: function( conTop, conLeft, conWidth, conHeight, top, left, width, height ){
 
@@ -420,7 +421,7 @@ KISSY.add('gallery/tooltip/1.0/index',function( S ){
 
             return {
                 area: ( RIGHT - LEFT ) * ( BOTTOM - TOP ),
-                in: ( TOP_IN && LEFT_IN && BOTTOM_IN && RIGHT_IN )
+                ifIn: ( TOP_IN && LEFT_IN && BOTTOM_IN && RIGHT_IN )
             };
         }
     };

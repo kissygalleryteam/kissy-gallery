@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>KISSY.gallery.ua-extra</title>
+    <title>KISSY.gallery.tooltip</title>
 
     <link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.3.0/css/dpl/base-min.css"/>
     <link rel="stylesheet" href="../../../tools/skin/default.css"/>
@@ -74,6 +74,44 @@
         }
 
     </style>
+
+    <style type="text/css">
+        .tooltip-trigger {
+            height: 20px;
+            width: 100px;
+            background: #ccc;
+            float: left;
+            margin-right: 50px;
+            margin-bottom: 50px;
+            cursor: pointer;
+        }
+
+        .tooltip-trigger-freeze {
+            float: none;
+        }
+
+        .tooltip-refer {
+            width: 50px;
+            background: green;
+            height: 100%;
+        }
+
+        .tooltip-bubble {
+            display: none;
+            width: 200px;
+        }
+
+        .tooltip-content {
+            padding: 10px;
+        }
+
+        .freeze-container {
+            padding: 50px;
+            background: #eee;
+            margin-bottom: 20px;
+        }
+    </style>
+
     <script src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy.js" charset="utf-8"></script>
     <script>
         KISSY.config({
@@ -104,7 +142,7 @@
         <span>当前位置：</span>
         <a href="http://kissyui.com/">KISSY</a>
         <a href="../../../index.html">Gallery</a>
-        <span>ua-extra</span>
+        <span>tooltip</span>
     </div>
 			<pre class="s-section">
 作者：yinruo.nyj@taobao.com
@@ -118,60 +156,81 @@
             <div class="box">
 
                 <h4>DEMO</h4>
+                <div>
+                    <p>特点:</p>
+                    <ul>
+                        <li>快速建立trigger和tooltip的hover显示事件关系，添加延迟消失机制</li>
+                        <li>自动根据用户的视域情况调整显示位置（设置窗口大小自行尝试效果）</li>
+                        <li>箭头位置/tooltip位置等均可配置</li>
+                        <li>可选的Bubble样式</li>
+                        <li>具体使用方式见下方的`how to use`</li>
+                    </ul>
+
+                </div>
+
+                <!-- 固定Tooltip位置 -->
                 <div class="freeze-container J_FreezeContainer">
                     <div class="J_TriggerFreeze tooltip-trigger tooltip-trigger-freeze">
                         <div class="J_Refer tooltip-refer"></div>
                     </div>
                 </div>
 
+                <!-- 默认效果 -->
                 <div class="J_Trigger tooltip-trigger">
                     <div class="J_Refer tooltip-refer"></div>
                 </div>
 
+                <!-- 箭头左对齐 -->
                 <div class="J_TriggerArrowLeft tooltip-trigger">
                     <div class="J_Refer tooltip-refer"></div>
                 </div>
 
+                <!-- 箭头右对齐 -->
                 <div class="J_TriggerArrowRight tooltip-trigger">
                     <div class="J_Refer tooltip-refer"></div>
                 </div>
 
+                <!-- Tooltip左对齐 -->
                 <div class="J_TriggerToolLeft tooltip-trigger">
                     <div class="J_Refer tooltip-refer"></div>
                 </div>
 
+                <!-- Tooltip右对齐 -->
                 <div class="J_TriggerToolRight tooltip-trigger">
                     <div class="J_Refer tooltip-refer"></div>
                 </div>
 
+                <!-- 强制tooltip的显示在上方 -->
                 <div class="J_TriggerCustomTop tooltip-trigger">
                     <div class="J_Refer tooltip-refer"></div>
                 </div>
 
+                <!-- 强制tooltip的显示在左边 -->
                 <div class="J_TriggerCustomLeft tooltip-trigger">
                     <div class="J_Refer tooltip-refer"></div>
                 </div>
 
+                <!-- 强制tooltip的显示在右边 -->
                 <div class="J_TriggerCustomRight tooltip-trigger">
                     <div class="J_Refer tooltip-refer"></div>
                 </div>
 
+                <!-- 强制tooltip的显示在底部 -->
                 <div class="J_TriggerCustomBottom tooltip-trigger">
                     <div class="J_Refer tooltip-refer"></div>
                 </div>
 
+                <!-- 设置tooltip和参考点的距离 -->
                 <div class="J_TriggerGapFar tooltip-trigger">
                     <div class="J_Refer tooltip-refer"></div>
                 </div>
-
-
 
 
                 <div class="bubble tooltip-bubble J_Tooltip">
                     <!-- 箭头，通过arrow-top, arrow-left, arrow-right, arrow-bottom来设置箭头方向 -->
                     <span class="J_TooltipArrow arrow-top"><i></i></span>
                     <div class="tooltip-content">
-                        这是Tooltip
+                        这是Tooltip <a href="#">你可以点击我</a>
                     </div>
                 </div>
 
@@ -182,49 +241,7 @@
                         I'm freezed
                     </div>
                 </div>
-
-
-                <style type="text/css">
-                    .tooltip-trigger {
-                        height: 20px;
-                        width: 100px;
-                        background: #ccc;
-                        float: left;
-                        margin-right: 50px;
-                        margin-bottom: 50px;
-                        cursor: pointer;
-                    }
-
-                    .tooltip-trigger-freeze {
-                        float: none;
-                    }
-
-                    .tooltip-refer {
-                        width: 50px;
-                        background: green;
-                        height: 100%;
-                    }
-
-                    .tooltip-bubble {
-                        display: none;
-                        width: 200px;
-                    }
-
-                    .tooltip-content {
-                        padding: 10px;
-                    }
-
-                    .freeze-container {
-                        padding: 50px;
-                        background: #eee;
-                        margin-bottom: 20px;
-                    }
-                </style>
-
-
-
             </div>
-
         </div>
     </div>
 
@@ -237,11 +254,13 @@
                     <p>可以自定义<code>Tooltip</code>样式，也可以通过use<code>gallery/tooltip/1.0/bubble.css</code>并配合下面的bubble结构来呈现气泡类型的Tooltip样式效果</p>
                     <pre>
                         <code>
+&lt;!-- 下面为tooltip的触发节点，trigger为触发节点，refer为tooltip计算的参考点，两者可以为一个节点 --&gt;
 &lt;div class="J_Trigger tooltip-trigger"&gt;
     &lt;div class="J_Refer tooltip-refer"&gt;&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div class="bubble tooltip-bubble J_Tooltip"&gt;
+&lt;!--下面使用组件自带的bubble样式，只要遵循下面的结构，并添加'bubble'和'arrow-*'样式就可以 --&gt;
+&lt;div class="bubble J_Tooltip"&gt;
     &lt;!-- 箭头，通过arrow-top, arrow-left, arrow-right, arrow-bottom来设置箭头方向 --&gt;
     &lt;span class="J_TooltipArrow arrow-top"&gt;&lt;i&gt;&lt;/i&gt;&lt;/span&gt;
     &lt;div class="tooltip-content"&gt;
@@ -255,20 +274,24 @@
 
                 <div class="block">
                     <h5>Javascript</h5>
+                    <p>使用<code>#attach()</code>方法对<code>trigger</code>和<code>tooltip</code>之间建立关系</p>
                     <pre>
                         <code>
+// 配置kissy包
 KISSY.config({
     packages:[
         {
             name:"gallery",
             tag:"20130326",
-            path:"../../../", // cdn上适当修改对应路径
+            path:"http://a.tbcdn.cn/s/kissy/", // cdn上适当修改对应路径
             charset:"utf-8"
         }
     ]
 });
 
+// 引入Tooltip，注意bubble.css为可选
 KISSY.use('gallery/tooltip/1.0/index, gallery/tooltip/1.0/bubble.css', function(S, Tooltip) {
+
     Tooltip.attach({
         trigger: '.J_Trigger',      // 用于触发Tooltip出现的节点
         refer: '.J_Refer',          // 用于Tooltip进行位置计算的节点
@@ -279,8 +302,8 @@ KISSY.use('gallery/tooltip/1.0/index, gallery/tooltip/1.0/bubble.css', function(
         align: 'center',            // 可选：Tooltip主体和refer的位置关系
         container: '.container',    // 可选：默认Tooltip将插入到body中，可以通过该字段限定容器
         arrowHook '.J_TooltipArrow', // 可选：箭头的钩子，默认为.J_TooltipArrow
-        onHide: function(){ /* do sth */ },
-        onShow: function(){ /* do sth */ }
+        onHide: function( trigger, tooltip ){ /* do sth */ },
+        onShow: function( trigger, tooltip ){ /* do sth */ }
     });
 });
 
