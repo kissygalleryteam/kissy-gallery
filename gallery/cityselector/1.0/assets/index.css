@@ -1,0 +1,22 @@
+/*目的地下拉城市选择*/
+.ks-cityselector-content{background:#fff;border:1px solid #ccc;padding:8px 10px;box-shadow:1px 1px 5px rgba(0,0,0,0.2);font-size:12px;}
+.ks-cityselector-nav{font-size:0;line-height:1.5;padding-bottom:8px;border-bottom:1px solid #f1f1f1;}
+.ks-cityselector-nav span{color:#36c;display:inline-block;font-size:12px;font-family:"Verdana";padding:0 2px;margin:0 2px;cursor:pointer;}
+.ks-cityselector-nav span.ks-cityselector-disabled{color:#ccc;cursor:default;}
+.ks-cityselector-nav span.ks-cityselector-cur{background:#f80;color:#fff;padding:0 6px;border-radius:3px;}
+.ks-cityselector-nav span.ks-cityselector-all{margin-left:0;}
+.ks-cityselector-citylist{margin-top:8px;overflow:auto;}
+.ks-cityselector-citylist ul{list-style:none;padding:0;margin:0;}
+.ks-cityselector-content input{vertical-align:middle;margin-right:3px;}
+.ks-cityselector-nocity .ks-cityselector-province{background-image:none;}
+.ks-cityselector-province{height:22px;line-height:22px;padding-left:12px;background:url(http://img04.taobaocdn.com/tps/i4/T1.qxEXxtgXXbf0gvb-9-50.gif) no-repeat 0 7px;cursor:pointer;}
+.ks-cityselector-citylist .ks-cityselector-city{display:none;}
+.ks-cityselector-citylist .ks-cityselector-expand .ks-cityselector-city{display:block;}
+.ks-cityselector-expand{background:#f0f0f0;}
+.ks-cityselector-expand .ks-cityselector-province{background-position:0 -34px;}
+.ks-cityselector-letter{font-family:"Verdana";color:#f80;font-weight:800;display:inline-block;width:12px;}
+.ks-cityselector-province-name{color:#356ad4;}
+.ks-cityselector-expand .ks-cityselector-province-name{color:#404040;font-weight:800;}
+.ks-cityselector-city{font-size:0;padding:0 0 10px 20px;line-height:1.67;}
+.ks-cityselector-city span{display:inline-block;font-size:12px;margin-right:10px;}
+.ks-cityselector-province-select .ks-cityselector-city{padding-left:24px;}
