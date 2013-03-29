@@ -164,7 +164,7 @@
         ]
     });
 
-    KISSY.use('gallery/spotlight/1.0/,overlay', function (S, Spotlight, overlay) {
+    KISSY.use('gallery/spotlight/1.1/,overlay', function (S, Spotlight, overlay) {
         S.ready(function () {
             var nodes = S.DOM.query('.focus-target')
                     , arrNode = []
@@ -201,9 +201,14 @@
 
 
             var spot = new Spotlight({
-                quene: arrNode, anim: {
+                quene: arrNode,
+                anim: {
                     easing: 'bounceOut', duration: .1
-                }, opacity: .3, zIndex: 9000, toggleOnAnim: false, clickOnHide: false
+                },
+                opacity: .3,
+                zIndex: 9000,
+                toggleOnAnim: false,
+                clickOnHide: false
                 // ,focusBorder:{
                 // 	focusOnBlink:true
                 // 	,borderStyle:'1px solid red'//{width:'1px',color:'red',style:'solid'}
@@ -215,12 +220,13 @@
                         nextBtns.attr('disabled', true);
                         prevBtns.attr('disabled', true);
                         popup.hide();
-                    }, focusTo: function (e) {
+                    },
+                    focusTo: function (e) {
                         popup.hide();
                         S.one('#pp-content').html(listText[e.index])
                         setTimeout(function () {
                             popup.align(
-                                    S.one(e.target)
+                                    S.one(e.nodeTarget)
                                     , ['tc', 'bc']
                                     , [0, 20]
                             );

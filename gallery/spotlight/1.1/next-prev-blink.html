@@ -134,7 +134,7 @@
             ]
         });
 
-        KISSY.use('gallery/spotlight/1.0/,overlay', function (S, Spotlight, overlay) {
+        KISSY.use('gallery/spotlight/1.1/,overlay', function (S, Spotlight, overlay) {
             S.ready(function () {
                 var nodes = S.DOM.query('.mask-target')
                         , arrNode = []
@@ -179,7 +179,7 @@
                             S.one('#pp-content').html(listText[e.index])
                             setTimeout(function () {
                                 popup.align(
-                                        S.one(e.target)
+                                        S.one(e.nodeTarget)
                                         , ['tc', 'bc']
                                         , [0, 20]
                                 );
