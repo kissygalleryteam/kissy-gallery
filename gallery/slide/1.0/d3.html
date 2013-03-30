@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Demo</title>
+<script type="text/javascript" src="http://a.tbcdn.cn/??s/kissy/1.3.0/seed-min.js" data-config="{combine:true}"></script>
+<link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.3.0/css/dpl/base.css" />
+<link rel="stylesheet" href="http://jayli.github.com/gallery/yuislide/assets/global.css" />
+<style>
+body {
+	background:white;
+}
+
+#example {
+	margin-left:auto;
+	margin-right:auto;
+	width:600px;
+}
+.tab-content {
+	height:270px;
+}
+.tab-pannel {
+	height:270px;
+}
+</style>
+
+
+</head>
+<body>
+<div id="example">
+	<div id="slides"><!--Slide控件开始-->
+		<div class="slides_container tab-content">
+			<div class="tab-pannel">
+				<img src="http://jayli.github.com/gallery/yuislide/assets/slide-1.jpg">
+			</div>
+			<div class="tab-pannel">
+				<img src="http://jayli.github.com/gallery/yuislide/assets/slide-2.jpg">
+			</div>
+			<div class="tab-pannel">
+				<img src="http://jayli.github.com/gallery/yuislide/assets/slide-3.jpg">
+			</div>
+			<div class="tab-pannel">
+				<img src="http://jayli.github.com/gallery/yuislide/assets/slide-4.jpg">
+			</div>
+			<div class="tab-pannel">
+				<img src="http://jayli.github.com/gallery/yuislide/assets/slide-5.jpg">
+			</div>
+			<div class="tab-pannel">
+				<img src="http://jayli.github.com/gallery/yuislide/assets/slide-6.jpg">
+			</div>
+		</div>
+		<a href="javascript:void(0);" class="prev" id="J_pre"><img src="http://jayli.github.com/gallery/yuislide/assets/arrow-prev.png" width="24" height="43" alt="Arrow Prev"></a>
+		<a href="javascript:void(0);" class="next" id="J_next"><img src="http://jayli.github.com/gallery/yuislide/assets/arrow-next.png" width="24" height="43" alt="Arrow Next"></a>
+		<ul class="tab-nav pagination">
+			<li>
+				<a href="javascript:void(0);">1</a>
+			</li>
+			<li>
+				<a href="javascript:void(0);">2</a>
+			</li>
+			<li>
+				<a href="javascript:void(0);">3</a>
+			</li>
+			<li>
+				<a href="javascript:void(0);">4</a>
+			</li>
+			<li>
+				<a href="javascript:void(0);">5</a>
+			</li>
+			<li>
+				<a href="javascript:void(0);">6</a>
+			</li>
+		</ul>
+	</div><!--Slide控件结束-->
+	<img src="http://jayli.github.com/gallery/yuislide/assets/example-frame.png" width="739" height="341" alt="Example Frame" id="frame">
+</div>
+
+<script>KISSY.use('gallery/slide/1.0/',function(S,Slide){
+	var C = new Slide('slides',{
+		autoSlide:true,
+		effect:'vSlide',
+		timeout:3000,
+		speed:700,
+		selectedClass:'current',
+	//	carousel:true,
+		touchmove:true
+	});
+	S.one('#J_pre').on('click',function(e){
+		e.halt();
+		C.previous().stop().play();
+	});
+	S.one('#J_next').on('click',function(e){
+		e.halt();
+		C.next();
+	});
+
+});</script>
+
+</body>
+</html>

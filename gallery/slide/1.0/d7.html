@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Demo</title>
+<script type="text/javascript" src="http://a.tbcdn.cn/??s/kissy/1.3.0/seed-min.js" data-config="{combine:true}"></script>
+<link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.3.0/css/dpl/base.css" />
+<link rel="stylesheet" href="http://a.tbcdn.cn/apps/ks/zoo/slide/demo/img/d1.css" />
+<style>
+
+	.scrollable-panel div {
+		position:relative;
+	}
+	#JSlide ,#JSlide-ctrl {
+		width:437px;
+		margin:0 auto;
+	}
+
+</style>
+
+</head>
+<body>
+<div id="JSlide">
+	<div class="trigger-bar">
+		<a href="javascript:void(0);" title="下翻" id="next1" class="next"></a>
+		<a href="javascript:void(0);" title="上翻" id="prev1" class="prev"></a>
+		<div class="scrollable-trigger">
+			<a class="" href="javascript:void(0);" target="_self">1</a>	
+			<a class="" href="javascript:void(0);" target="_self">2</a>	
+			<a class="" href="javascript:void(0);" target="_self">3</a>	
+		</div>
+	</div>
+	<div id="panel1" class="scrollable-panel">
+		<div class="scrollable-content">
+			<!-- 1~3 -->
+			<img src="http://img04.taobaocdn.com/tps/i4/T1uRBrXe0XXXXXXXXX-120-60.gif" />
+			<img src="http://img02.taobaocdn.com/tps/i2/T1bQVrXaVpXXXXXXXX-120-60.gif" />
+			<img src="http://img01.taobaocdn.com/tps/i1/T1l7FrXgNvXXXXXXXX-120-60.gif" />
+		</div>
+		<div class="scrollable-content">
+			<!-- 4~6 -->
+			<img src="http://img04.taobaocdn.com/tps/i4/T1ikRrXglqXXXXXXXX-120-60.gif" />
+			<img src="http://img01.taobaocdn.com/tps/i1/T1XYRsXipXXXXXXXXX-120-60.gif" />
+			<img src="http://img06.taobaocdn.com/tps/i6/T1MQ8rXe8kXXXXXXXX-120-60.gif" />
+		</div>
+		<div class="scrollable-content">
+			<!-- 7~9 -->
+			<img src="http://img05.taobaocdn.com/tps/i5/T1mOJsXXdEXXXXXXXX-120-60.gif" />
+			<img src="http://img06.taobaocdn.com/tps/i6/T1bkNrXb8sXXXXXXXX-120-60.gif" />
+			<img src="http://img07.taobaocdn.com/tps/i7/T1Ck8rXiXkXXXXXXXX-120-60.gif" />
+		</div>
+	</div>
+</div>
+
+<div class="ctrl"  id="JSlide-ctrl" style="width:437px;">
+	<button class="play" title="Play"></button>
+	<button class="pause" title="Pause"></button>
+	<button class="stop" title="Stop"></button>
+</div>
+
+<script>KISSY.use('gallery/slide/1.0/',function(S,Slide){
+	var s = new Slide('JSlide',{
+		eventType:'click',
+		navClass:'scrollable-trigger',
+		contentClass:'scrollable-panel',
+		pannelClass:'scrollable-content',
+		selectedClass:'current',
+		triggerSelector:'a',
+		effect:'hSlide'
+		// carousel:true
+	});
+	var ctl = S.one('#JSlide-ctrl');
+	ctl.one('.play').on('click',function(){
+		s.play();	
+	});
+	ctl.one('.pause').on('click',function(){
+		s.stop();	
+	});
+	ctl.one('.stop').on('click',function(){
+		s.stop();	
+	});
+	S.one('#next1').on('click',function(){
+		s.next();
+	});
+	S.one('#prev1').on('click',function(){
+		s.previous();
+	});
+});</script>
+
+</body>
+</html>

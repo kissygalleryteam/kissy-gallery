@@ -1,0 +1,439 @@
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Demo</title>
+<link rel="stylesheet" href="http://pxgrid.github.com/js-flipsnap/css/style.css">
+<script type="text/javascript" src="http://a.tbcdn.cn/??s/kissy/1.3.0/seed-min.js" data-config="{combine:true}"></script>
+<link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.3.0/css/dpl/base.css" />
+</head>
+<body>
+<div class="all">
+
+<header class="mod-header">
+触屏测试
+</header>
+
+<div class="main">
+
+<section>
+	<h2>Demo</h2>
+	<h3>simple</h3>
+	<section class="demo" id="demo-simple">
+	<style>
+	#demo1 .item {
+		float:left;
+		width:310px !important;
+	}
+	#demo1 .flipsnap {
+		overflow:hidden;
+		width:320px !important;
+		position:relative;
+		height:186px !important;
+	}
+
+	</style>
+		<div id="demo1" class="viewport">
+			<div class="flipsnap">
+				<div class="item">1</div>
+				<div class="item">2</div>
+				<div class="item">3</div>
+			</div>
+		</div>
+		<script>
+		KISSY.use('gallery/slide/1.0/',function(S,Slide){
+			window.s = new Slide('#demo1',{
+				contentClass:'flipsnap',
+				pannelClass:'item',
+				effect:'hSlide',
+				touchmove:true
+			});
+		});
+
+		</script>
+	</section>
+
+	<section class="demo" id="demo-img">
+		<h3>img</h3>
+		<style>
+		#demo2 .item {
+			float:left;
+		}
+		#demo2 .flipsnap {
+			overflow:hidden;
+			width:320px !important;
+			position:relative;
+			height:186px !important;
+		}
+
+		</style>
+		<div id="demo2" class="viewport">
+			<div class="flipsnap">
+				<div class="item"><img src="http://pxgrid.github.com/js-flipsnap/img/sample.png" alt="img"></div>
+				<div class="item"><img src="http://pxgrid.github.com/js-flipsnap/img/sample.png" alt="img"></div>
+				<div class="item"><img src="http://pxgrid.github.com/js-flipsnap/img/sample.png" alt="img"></div>
+			</div>
+		</div>
+		<script>
+		KISSY.use('gallery/slide/1.0/',function(S,Slide){
+			window.s = new Slide('#demo2',{
+				contentClass:'flipsnap',
+				pannelClass:'item',
+				effect:'hSlide',
+				//autoSlide:true,
+				touchmove:true
+			}).next();
+		});
+
+		</script>
+	</section>
+
+	<section class="demo" id="demo-distance">
+		<h3>distance</h3>
+		<style>
+		#demo3 {
+			width:300px;
+		}
+		#demo3 .item {
+			float:left;
+			width:120px;
+			height:150px;
+			margin:0px;
+			padding:0px;
+			border:0px;
+		}
+		#demo3 .flipsnap {
+			width:300px !important;
+			position:relative;
+			padding:0px;
+			height:150px !important;
+		}
+		.jay {
+			width:90px;height:90px;
+			border: 5px solid #999;
+			margin:10px auto;
+		}
+
+		</style>
+		<div id="demo3" class="viewport">
+			<div class="flipsnap">
+				<div class="item">
+					<div class="jay">1</div>
+				</div>
+				<div class="item">
+					<div class="jay">2</div>
+				</div>
+				<div class="item">
+					<div class="jay">3</div>
+				</div>
+				<div class="item">
+					<div class="jay">4</div>
+				</div>
+				<div class="item">
+					<div class="jay">5</div>
+				</div>
+				<div class="item">
+					<div class="jay">6</div>
+				</div>
+				<div class="item">
+					<div class="jay">7</div>
+				</div>
+				<div class="item">
+					<div class="jay">8</div>
+				</div>
+				<div class="item">
+					<div class="jay">9</div>
+				</div>
+			</div>
+		</div>
+		<script>
+		KISSY.use('gallery/slide/1.0/',function(S,Slide){
+			window.s = new Slide('#demo3',{
+				contentClass:'flipsnap',
+				pannelClass:'item',
+				effect:'hSlide',
+				//autoSlide:true,
+				touchmove:true,
+				colspan:3
+			}).next();
+		});
+
+		</script>
+	</section>
+
+	<section class="demo" id="demo-maxPoint">
+		<h3>maxPoint</h3>
+		<div class="viewport">
+			<div class="flipsnap">
+				<div class="item">1</div>
+				<div class="item">2</div>
+				<div class="item">3</div>
+				<div class="item">4</div>
+				<div class="item">5</div>
+				<div class="item">6</div>
+				<div class="item">7</div>
+				<div class="item">8</div>
+				<div class="item">9</div>
+				<div class="item">10</div>
+			</div>
+		</div>
+		<div class="sample">
+			<p class="toggle"><a href="#">show code</a></p>
+<pre class="language-javascript"><code>Flipsnap('.flipsnap', {
+    distance: 160, // 80px * 2
+    maxPoint: 3    // move able 3 times
+});</code></pre>
+		</div>
+	</section>
+
+	<section class="demo" id="demo-transitionDuration">
+		<h3>transitionDuration</h3>
+		<div class="viewport">
+			<div class="flipsnap">
+				<div class="item">1</div>
+				<div class="item">2</div>
+				<div class="item">3</div>
+				<div class="item">4</div>
+				<div class="item">5</div>
+			</div>
+		</div>
+		<div class="sample">
+			<p class="toggle"><a href="#">show code</a></p>
+<pre class="language-javascript"><code>Flipsnap('.flipsnap', {
+    distance: 230,
+    transitionDuration: 1000
+});</code></pre>
+		</div>
+	</section>
+
+	<section class="demo" id="demo-moveend">
+		<h3>moveend</h3>
+		<div class="viewport">
+			<div class="flipsnap">
+				<div class="item">1</div>
+				<div class="item">2</div>
+				<div class="item">3</div>
+				<div class="item">4</div>
+				<div class="item">5</div>
+			</div>
+		</div>
+		<div class="pointer">
+			<span class="current"></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+		<div class="sample">
+			<p class="toggle"><a href="#">show code</a></p>
+<pre><code>var $pointer = $('.pointer span');
+var flipsnap = Flipsnap('.flipsnap', {
+    distance: 230
+});
+flipsnap.element.addEventListener('fsmoveend', function() {
+    $pointer.filter('.current').removeClass('current');
+    $pointer.eq(flipsnap.currentPoint).addClass('current');
+}, false);</code></pre>
+		</div>
+	</section>
+
+	<section class="demo" id="demo-refresh">
+		<h3>refresh</h3>
+		<div class="viewport">
+			<div class="flipsnap">
+				<div class="item">1</div>
+			</div>
+		</div>
+		<p class="controls">
+			<button class="add">add</button>
+			<button class="remove">remove</button>
+		</p>
+		<div class="sample">
+			<p class="toggle"><a href="#">show code</a></p>
+<pre><code>var $flipsnap = $('.flipsnap');
+var distance = 230;
+var padding = 30;
+var flipsnap = Flipsnap(".flipsnap", {
+    distance: distance
+});
+var width = distance + padding;
+
+// append new item
+$(".add").click(function() {
+    var newNumber = $flipsnap.find(".item").size() + 1;
+    var $item = $("&lt;div&gt;").addClass("item").text(newNumber);
+    width += distance;
+    $flipsnap.append($item).width(width);
+    flipsnap.refresh();
+});
+
+// remove last item
+$(".remove").click(function() {
+    var $items = $flipsnap.find(".item");
+    if ($items.size() &lt;= 1) return;
+    width -= distance;
+    $items.last().remove().width(width);
+    flipsnap.refresh();
+});</code></pre>
+		</div>
+	</section>
+
+	<section class="demo" id="demo-link">
+		<h3>link</h3>
+		<div class="viewport">
+			<div class="flipsnap">
+				<div class="item"><a href="./">link to index</a></div>
+				<div class="item"><a href="./">click event</a></div>
+				<div class="item"><a href="./">click event<br>and link</a></div>
+			</div>
+		</div>
+		<div class="sample">
+			<p class="toggle"><a href="#">show code</a></p>
+<pre><code>Flipsnap('.flipsnap', {
+    distance: 230
+});
+
+var $a = $('.item a');
+// click event
+$a.eq(1).click(function(e) {
+    e.preventDefault();
+    alert("clicked");
+});
+
+// click event and link
+$a.eq(2).click(function(e) {
+    alert("clicked and link to index");
+});</code></pre>
+		</div>
+	</section>
+
+	<section class="demo" id="demo-nextprev">
+		<h3>next, prev</h3>
+		<div class="viewport">
+			<div class="flipsnap">
+				<div class="item">1</div>
+				<div class="item">2</div>
+				<div class="item">3</div>
+			</div>
+		</div>
+		<p class="controls">
+			<button class="prev" disabled>prev</button>
+			<button class="next">next</button>
+		</p>
+		<div class="sample">
+			<p class="toggle"><a href="#">show code</a></p>
+<pre><code>var flipsnap = Flipsnap('.flipsnap', {
+    distance: 230
+});
+var $next = $('.next').click(function() {
+    flipsnap.toNext();
+});
+var $prev = $('.prev').click(function() {
+    flipsnap.toPrev();
+});
+flipsnap.element.addEventListener('fsmoveend', function() {
+    $next.attr('disabled', !flipsnap.hasNext());
+    $prev.attr('disabled', !flipsnap.hasPrev());
+}, false);</code></pre>
+		</div>
+	</section>
+
+	<section class="demo" id="demo-moveToPoint">
+		<h3>moveToPoint</h3>
+		<div class="viewport">
+			<div class="flipsnap">
+				<div class="item">1</div>
+				<div class="item">2</div>
+				<div class="item">3</div>
+				<div class="item">4</div>
+				<div class="item">5</div>
+				<div class="item">6</div>
+				<div class="item">7</div>
+				<div class="item">8</div>
+				<div class="item">9</div>
+				<div class="item">10</div>
+			</div>
+		</div>
+		<p class="controls">
+			<input type="number" size="3" class="num">
+			<button class="go">Go</button>
+		</p>
+		<div class="sample">
+			<p class="toggle"><a href="#">show code</a></p>
+<pre><code>var flipsnap = Flipsnap('.flipsnap', {
+    distance: 230
+});
+var $num = $('input.num');
+$('button.go').click(function() {
+    flipsnap.moveToPoint($num.val() - 1);
+});</code></pre>
+		</div>
+	</section>
+
+	<section class="demo" id="demo-disableTouch">
+		<h3>disableTouch</h3>
+		<div class="viewport">
+			<div class="flipsnap">
+				<div class="item">1</div>
+				<div class="item">2</div>
+				<div class="item">3</div>
+				<div class="item">4</div>
+				<div class="item">5</div>
+			</div>
+		</div>
+		<p class="controls">
+			<label>disableTouch<input type="checkbox" class="isDisable" checked></label>
+		</p>
+		<p class="controls">
+			<button class="prev" disabled>prev</button>
+			<button class="next">next</button>
+		</p>
+		<p class="controls">
+			<input type="number" size="3" class="num">
+			<button class="go">Go</button>
+		</p>
+		<div class="sample">
+			<p class="toggle"><a href="#">show code</a></p>
+<pre><code>var flipsnap = Flipsnap('.flipsnap', {
+    distance: 230,
+    disableTouch: true
+});
+
+// disable check
+$('.isDisable').change(function() {
+    flipsnap.disableTouch = $(this).is(':checked');
+});
+
+// Go btn
+var $num = $('input.num');
+$('button.go').click(function() {
+    flipsnap.moveToPoint($num.val() - 1);
+});
+
+// next, prev btn
+var $next = $('.next').click(function() {
+    flipsnap.toNext();
+});
+var $prev = $('.prev').click(function() {
+    flipsnap.toPrev();
+});
+flipsnap.element.addEventListener('fsmoveend', function() {
+    $next.attr('disabled', !flipsnap.hasNext());
+    $prev.attr('disabled', !flipsnap.hasPrev());
+}, false);</code></pre>
+		</div>
+	</section>
+</section>
+
+
+<!-- /div.main --></div>
+
+<!-- /div.all --></div>
+
+<a href="http://github.com/pxgrid/js-flipsnap/" target="_blank" class="github-ribbon"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+
+<script src="http://jsconsole.com/remote.js?4C611704-B30F-4B29-8E57-8E89D9373A36"></script>
+
+</body>
+</html>

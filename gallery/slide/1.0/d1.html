@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Demo</title>
+<script type="text/javascript" src="http://a.tbcdn.cn/??s/kissy/1.3.0/seed-min.js" data-config="{combine:true}"></script>
+<link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.3.0/css/dpl/base.css" />
+<link rel="stylesheet" href="http://a.tbcdn.cn/apps/ks/zoo/slide/demo/img/d1.css" />
+</head>
+<body>
+<div id="Jtab">
+	  <ul class="tab-nav">
+		<li class="tab1"><a href="#">Tab One</a></li>
+		<li class="tab2"><a href="#">Tab Two</a></li>
+		<li class="tab3"><a href="#">Tab Three</a></li>
+	</ul>
+  <div class="tab-content">
+	<div class="tab-pannel"><p>Tab One ContentTab One ContentTab One ContentTab One Content</p></div>
+    <div class="tab-pannel"><p>Tab Two ContentTab Two ContentTab Two ContentTab Two ContentTab Two Content</p></div>
+	<div class="tab-pannel"><p>
+		<textarea class="data-lazyload">
+			第三帧的内容，只被渲染一次
+			<script>
+				alert('延迟执行的脚本，只执行一次');
+			</script>
+		</textarea>
+	</p></div>
+  </div>
+</div>
+<script>KISSY.use('gallery/slide/1.0/',function(S,Slide){
+	new Slide('Jtab',{
+		eventType:'mouseenter'
+	});
+});</script>
+
+</body>
+</html>
