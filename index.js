@@ -1,6 +1,10 @@
 ﻿{
    "gs":[
    {
+        "name":"slide",
+        "desc":"Tab切换，分层动画，幻灯，支持触屏"
+    },
+   {
         "name":"city-selector",
         "desc":"城市选择"
     },
