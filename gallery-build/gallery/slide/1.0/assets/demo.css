@@ -1,0 +1,289 @@
+@charset "utf-8";
+
+/* Tabs */
+.tabs-trigger {
+	width:350px;
+	height:27px;
+	background:url(../image/tabs-bg.gif) no-repeat;
+}
+.tabs-trigger a {
+	display:inline-block;
+	float:left;
+	width:85px;
+	height:23px;
+	line-height:23px;
+	font-size:14px;
+	color:#1f376d;
+	text-align:center;
+	background:url(../image/tabs-bg.gif) 0 -34px no-repeat;
+	outline:none;
+	overflow:hidden;
+}
+.tabs-trigger a:hover { color:#F8A319; }
+.tabs-trigger a.current {
+	font-weight:bold;
+	background:url(../image/tabs-bg.gif) 0 -64px no-repeat;
+}
+		
+.tabs-panel {
+	width:348px;
+	padding-bottom:10px;
+	border:1px solid #aacbee;
+	border-top:0;
+}
+.tabs-panel p { line-height:4; }
+
+.w1 { width:280px; margin:0 auto; }
+.w2 { width:278px; margin:0 auto; }
+
+/* Slide */
+.slide-container {
+	width:470px;
+	height:150px;
+	overflow:hidden;
+}
+
+.slide-trigger {
+	position:relative;
+	top:-25px;
+	width:465px;
+	text-align:right;
+	padding-right:5px;
+}
+.slide-trigger a {
+	display:inline-block;
+	margin-right:3px;
+	width:16px;
+	height:16px;
+	line-height:16px;
+	text-align:center;
+	color:#d94b01;
+	background-color:#fff5e1;
+	border:1px solid #f47500;
+	outline:none;
+	overflow:hidden;
+}
+.slide-trigger a:hover { text-decoration:none; }
+.slide-trigger a.current {
+	width:18px;
+	height:18px;
+	line-height:18px;
+	font-weight:bold;
+	color:#FFF;
+	background:url(../image/t-bg.png) repeat-x;
+}
+	
+.slide-panel,
+.slide-panel img {
+	width:470px;
+	height:150px;
+}
+.slide-panel img { display:block; }
+
+/* Scrollable */
+.trigger-bar { width:423px; height:18px; }
+.trigger-bar .prev,
+.trigger-bar .next {
+	float:right;
+	width:18px;
+	height:18px;
+	display:block;
+	outline:none;
+	background-image:url(http://img01.taobaocdn.com/tps/i1/T1sE2QXdlrXXbRAhzq-86-18.png);
+	background-repeat:no-repeat;
+}
+.trigger-bar .prev {
+	margin-right:-1px;
+	background-position:-40px 0;
+}
+.trigger-bar .next { background-position:-17px 0; }
+.trigger-bar .prev:hover {
+	text-decoration:none;
+	background-position:0 0;
+}
+.trigger-bar .next:hover {
+	text-decoration:none;
+	background-position:-57px 0;
+}
+	
+.scrollable-trigger { float:right; }
+.scrollable-trigger a {
+	display:inline-block;
+	width:6px;
+	height:6px;
+	margin:6px 5px 0 0;
+	font-size:0px;
+	color:#70B2D5;
+	background:url(http://img01.taobaocdn.com/tps/i1/T1sE2QXdlrXXbRAhzq-86-18.png) -80px -10px no-repeat;
+	outline:none;
+	overflow:hidden;
+}
+.scrollable-trigger a.current,
+.scrollable-trigger a:hover{
+	color:#CACACA;
+	background:url(http://img01.taobaocdn.com/tps/i1/T1sE2QXdlrXXbRAhzq-86-18.png) -80px 0 no-repeat;
+}
+
+.scrollable-panel {
+	/* 下面四项必须设置 */
+	position:relative;
+	width:437px;
+	height:76px;
+	overflow:hidden;
+}
+.scrollable-panel div {
+	position:absolute;
+	width:2010em; /* 设置足够的宽度 */
+}
+.scrollable-panel img {
+	float:left;
+	display:inline; /* 修复IE6双边距BUG */
+	margin:10px 0 0 15px;
+	padding:2px;
+	border:1px solid #ccc;
+	width:120px;
+	height:60px;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+}
+
+.scrollable-content {
+	width:437px;
+	height:76px;
+	overflow:hidden;
+}
+
+.widget {
+	width:437px;
+	height:66px;
+	text-align:center;
+}
+.widget img {
+	width:120px;
+	height:60px;
+	padding:2px;
+	border:1px solid #ccc;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+}
+
+/* Accordion */
+.accordion {
+	width:300px;
+	border:1px solid #C8C8C8;
+	border-top:none;
+}
+.accordion h3 {
+	margin:0;
+	height:29px;
+	line-height:29px;
+	padding-left:15px;
+	background:url(../image/title.png) repeat-x;
+	cursor:pointer;
+}
+.accordion .panel { display:none; }
+
+/* Horizontal Accordion */
+.h-accordion {
+	width:380px;
+	height:82px;
+	padding:10px 0 10px 10px;
+	border:1px solid #ddd;
+	background:url(../image/h150.png) repeat-x;
+	overflow:hidden;
+}
+.h-accordion img {
+	float:left;
+	display:inline;
+	margin-right:10px;
+	cursor:pointer;
+	opacity:0.5;
+	filter:alpha(opacity=50);
+}
+.h-accordion img.current {
+	cursor:default;
+	opacity:1;
+	filter:alpha(opacity=100);
+}
+.h-accordion div {
+	float:left;
+	display:none;
+}
+.h-accordion div b,
+.h-accordion div i {
+	display:block;
+	width:100px;
+}
+
+.ctrl { width:348px; text-align:center; padding:5px 0; }
+.play, .pause, .stop {
+	width:20px;
+	height:20px;
+	border:none;
+	cursor:pointer;
+}
+.play { background:url(http://img04.taobaocdn.com/tps/i4/T1s7H2XapXXXXyep_a-20-60.png) 0 0 no-repeat; }
+.pause { background:url(http://img04.taobaocdn.com/tps/i4/T1s7H2XapXXXXyep_a-20-60.png) 0 -20px no-repeat; }
+.stop { background:url(http://img04.taobaocdn.com/tps/i4/T1s7H2XapXXXXyep_a-20-60.png) 0 -40px no-repeat; }
+
+ul.tab-nav { /* general settings */
+	text-align: left; /* set to left, right or center */
+	margin: 1em 0 0em 0; /* set margins as desired */
+	font: bold 11px verdana, arial, sans-serif; /* set font as desired */
+	border-bottom: 1px solid #6c6; /* set border COLOR as desired */
+	list-style-type: none;
+	padding: 3px 10px 3px 10px; /* THIRD number must change with respect to padding-top (X) below */
+}
+
+ul.tab-nav li { /* do not change */
+	display: inline;
+}
+
+li.selected a{ /* settings for selected tab */
+	border-bottom: 1px solid #fff !important; /* set border color to page background color */
+	background-color: #fff !important; /* set background color to match above border color */
+}
+
+body#tab1 li.tab1 a, body#tab2 li.tab2 a, body#tab3 li.tab3 a, body#tab4 li.tab4 a { /* settings for selected tab link */
+background-color: #fff; /* set selected tab background color as desired */
+color: #000; /* set selected tab link color as desired */
+position: relative;
+top: 1px;
+padding-top: 4px; /* must change with respect to padding (X) above and below */
+}
+
+ul.tab-nav li a { /* settings for all tab links */
+	padding: 3px 4px; /* set padding (tab size) as desired; FIRST number must change with respect to padding-top (X) above */
+	border: 1px solid #6c6; /* set border COLOR as desired; usually matches border color specified in .tab-nav */
+	background-color: #cfc; /* set unselected tab background color as desired */
+	color: #666; /* set unselected tab link color as desired */
+	margin-right: 0px; /* set additional spacing between tabs as desired */
+	text-decoration: none;
+	border-bottom: none;
+}
+
+ul.tab-nav a:hover { /* settings for hover effect */
+	background: #fff; /* set desired hover color */
+}
+
+/* end css tabs */
+
+#Jtab {
+	width:600px;
+	display:block;
+}
+.tab-content {
+	width:599px;overflow:hidden;
+	border:1px solid #66cc66;
+	border-top:0px;
+}
+.tab-pannel {
+	width:599px;
+	padding:10px;
+
+}
+body {
+	padding:10px;
+}
+
+
