@@ -1,4 +1,14 @@
-> 这是一个选项卡切换控件，基于KISSY 1.3.0，并针对移动终端（ios/Android）有简单的性能优化，动画流畅，支持基础的触屏事件。Slide控件具有良好的可定制性，目前已经运行于淘宝网的很多角落。
+- <a href="d1.html">Demo1</a>
+- <a href="d2.html">Demo2</a>
+- <a href="d3.html">Demo3</a>
+- <a href="d4.html">Demo4</a>
+- <a href="d5.html">Demo5</a>
+- <a href="d6.html">Demo6</a>
+- <a href="d7.html">Demo7</a>
+- <a href="d8.html">Demo8</a>
+- <a href="touch.html">Touch</a>
+
+> 这是一个选项卡切换控件，基于KISSY 1.3.0，并针对移动终端（ios/Android）有简单的性能优化，动画流畅，支持基础的触屏事件。
 
 ## 开始使用
 
@@ -324,3 +334,173 @@ subLayer的className，默认值为tab-animlayer，未实现，默认用alt="sub
 
 初始化SubLayer，无参数，（目前触屏模式下默认关闭）
 
+<hr class="smooth" />
+
+# Examples 
+
+## 基本的tab切换
+
+JS代码：
+
+	KISSY.use('gallery/slide/1.0/',function(S,Slide){
+		new Slide('Jtab',{
+			eventType:'mouseenter' // 鼠标触碰切换
+		});
+	});
+
+延迟加载的内容放置于textarea中，className为data-lazyload，其中可以执行JavaScirpt代码：
+
+	<textarea class="data-lazyload">
+		第三帧的内容，只被渲染一次
+		<script>
+			alert('延迟执行的脚本，只执行一次');
+		</script>
+	</textarea>
+
+## 基本的帧切换
+
+JS代码：
+
+	KISSY.use('gallery/slide/1.0/',function(S,Slide){
+
+		var s = new Slide('JSlide',{
+			eventType:'click',//点击触碰点切换
+			navClass:'scrollable-trigger',//导航样式
+			contentClass:'scrollable-panel',//面板父容器样式
+			pannelClass:'scrollable-content',//面板样式
+			selectedClass:'current',//触碰点选中时的ClassName
+			triggerSelector:'a',//触碰节点为a
+			effect:'fade',//渐变切换
+			autoPlay:true //开启自动播放
+		});
+
+		// 跳到下一帧
+		S.one('#next').on('click',function(){
+			s.next();
+		});
+
+		// 跳到上一帧
+		S.one('#prev').on('click',function(){
+			s.previous();
+		});
+	});
+
+## 常规的单幅图片切换
+
+配置effect为hSlide为水平切换，vSlide水垂直切换
+
+JS代码：
+
+	KISSY.use('gallery/slide/1.0/',function(S,Slide){
+		var C = new Slide('slides',{
+			autoSlide:true,
+			effect:'vSlide', //垂直切换
+			timeout:3000,
+			speed:700,
+			selectedClass:'current'
+		});
+	});
+
+## 多福图片的逐帧切换
+
+需要定义colspan，即窗口显示的帧的个数
+
+JS代码：
+
+	KISSY.use('gallery/slide/1.0/',function(S,Slide){
+		new Slide('JSlide',{
+			effect:'hSlide', //水平切换
+			carousel:true, //可以配置为跑马灯,也可以为false
+			colspan:3 // 定义跨度为3
+		});
+	});
+
+如果切换到下一帧的动作是向右滑动，则配置reverse为true，即颠倒切换上一帧和下一帧的动作
+
+## 单帧切换时的跑马灯效果
+
+代码同上，去掉colspan配置即可
+
+> 垂直切换时的多副图片逐帧切换的跑马灯效果未实现
+
+## LayerSlide 动画
+
+LayerSlide是一种分层动画，SubLayer通过Pannel中这样指定
+
+	<span alt="sublayer" 
+		rel="alpha: true,slideindirection: left, durationin: 1000"
+		class="自定义">SubLayer</span>
+
+即只需指定alt="sublayer"，其中rel为当前层动画的配置参数，采用key:value的形式定义，多属性之间用逗号分隔，注意结束位置不要写逗号
+
+HTML代码：
+
+	<div id="J_slide">
+		<!--Slide Content 容器-->
+		<div class="slides_container tab-content">
+			<div class="tab-pannel pn1">
+				<!--背景动画-->
+				<img class="tbg" src="img/l12.jpg">
+				<!--SubLayer动画-->
+				<img src="img/l13.png" alt="sublayer" 
+						rel="alpha: false,
+								slideindirection: top, 
+								offsetin:160,
+								durationin: 1000,
+								easingin:easeBoth">
+				<!--SubLayer动画-->
+				<img src="img/l17.png" alt="sublayer" 
+						rel="alpha: false,
+								slideindirection: top, 
+								offsetin:180,
+								durationin: 2100,
+								easingin:easeBoth">
+			</div>
+			<div class="tab-pannel pn2"></div>
+			...
+		</div>
+		<!--Slide Nav 容器-->
+		<div class="tab-nav"></div>
+	</div>
+
+JS 代码：
+
+	<script>
+	KISSY.use('gallery/slide/1.0/',function(S,Slide){
+		new Slide('slides',{
+			autoSlide:false,
+			effect:'hSlide',
+			timeout:6000,
+			speed:700,
+			selectedClass:'current',
+			carousel:true,
+			layerSlide:true//开启LayerSlide
+		});
+	});
+	</script>
+
+### subLayer配置项：
+
+- durationin		进入动画的缓动速度，默认为1000（毫秒）
+- easingin		进入动画的缓动效果，默认为easeIn，具体参照KISSY.Anim
+- durationout		移出动画的缓动速度，默认为1000（毫秒）
+- easingout		移出动画的缓动效果，默认为easeOut
+- delayin			进入动画的延时，默认为300（毫秒）
+- delayout		移出动画的延时，默认为300
+- slideindirection进入动画的起始方向，默认为'right'，top/right/left/bottom
+- slideoutdirection移出动画的起始方向，默认为'left'
+- alpha			是否带有透明度变幻，默认为true
+- offsetin		进入动画的相对距离，默认为50
+- offsetout		移出动画的相对距离，默认为50
+
+### Demos
+
+- <a href="d1.html">Demo1</a>
+- <a href="d2.html">Demo2</a>
+- <a href="d3.html">Demo3</a>
+- <a href="d4.html">Demo4</a>
+- <a href="d5.html">Demo5</a>
+- <a href="d6.html">Demo6</a>
+- <a href="d7.html">Demo7</a>
+- <a href="d8.html">Demo8</a>
+- <a href="touch.html">Touch</a>
