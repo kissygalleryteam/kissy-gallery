@@ -1,5 +1,5 @@
 /**
- * @fileOverview KChart 1.0  scatterchart
+ * @fileOverview KChart 1.1  scatterchart
  * @author huxiaoqi567@gmail.com
  */
 KISSY.add("gallery/kcharts/1.1/scatterchart/index",function(S,Base,Template,BaseChart,Raphael,ColorLib,HtmlPaper,Legend,Theme,touch,Tip,undefined){
@@ -71,13 +71,18 @@ KISSY.add("gallery/kcharts/1.1/scatterchart/index",function(S,Base,Template,Base
 					xLabels:{
 						isShow:true,
 						css:{
-
+							"color":"#666",
+							"font-size": "12px",
+							"white-space":"nowrap",
+							"position":"absolute" 	//修复ie7被遮住的Bug
 						}
 					},
 					yLabels:{
 						isShow:true,
 						css:{
-
+							"color":"#666",
+							"font-size": "12px",
+							"position":"absolute" 	//修复ie7被遮住的Bug
 						}
 					},
 					//横轴
@@ -213,6 +218,9 @@ KISSY.add("gallery/kcharts/1.1/scatterchart/index",function(S,Base,Template,Base
 		//画圆点
 		drawStocks:function(){
 			var self = this;
+
+			self._stocks = {};
+			
 				for(var i in self._points){
 					var stocks = [];
 					for(var j in self._points[i]){

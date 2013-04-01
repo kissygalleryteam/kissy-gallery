@@ -275,4 +275,4 @@ KISSY.add('gallery/kcharts/1.1/tip/index', function (S, Template) {
 
     return Tip;
 
-}, {requires:['gallery/template/1.0/index', './assets/tip.css']})
+}, {requires:['gallery/template/1.0/index', './assets/tip.css']});
