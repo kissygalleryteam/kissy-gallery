@@ -187,7 +187,7 @@ KISSY.add('gallery/anti-ie6/1.0/draw/index', function (S) {
                     d.setTime(d.getTime() + 7*60*60*24*1000); //十天后过期
 
                     doc.cookie = 'anti_ie6=1; path=/; expires=' + d.toGMTString();
-                    _this.div.parentNode.removeChild(_this.div);
+                    _this.wrapDiv.parentNode.removeChild(_this.wrapDiv);
                 };
 
             },
