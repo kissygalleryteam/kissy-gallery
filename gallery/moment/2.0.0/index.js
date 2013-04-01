@@ -1,4 +1,4 @@
-// moment.js
+ï»¿// moment.js
 // version : 2.0.0
 // author : Tim Wood
 // license : MIT
@@ -1375,57 +1375,57 @@ KISSY.add('gallery/moment/2.0.0/index',function (S,undefined) {
     });
     
     moment.lang('zh-cn', {
-	    months : "Ò»ÔÂ_¶şÔÂ_ÈıÔÂ_ËÄÔÂ_ÎåÔÂ_ÁùÔÂ_ÆßÔÂ_°ËÔÂ_¾ÅÔÂ_Ê®ÔÂ_Ê®Ò»ÔÂ_Ê®¶şÔÂ".split("_"),
-	    monthsShort : "1ÔÂ_2ÔÂ_3ÔÂ_4ÔÂ_5ÔÂ_6ÔÂ_7ÔÂ_8ÔÂ_9ÔÂ_10ÔÂ_11ÔÂ_12ÔÂ".split("_"),
-	    weekdays : "ĞÇÆÚÈÕ_ĞÇÆÚÒ»_ĞÇÆÚ¶ş_ĞÇÆÚÈı_ĞÇÆÚËÄ_ĞÇÆÚÎå_ĞÇÆÚÁù".split("_"),
-	    weekdaysShort : "ÖÜÈÕ_ÖÜÒ»_ÖÜ¶ş_ÖÜÈı_ÖÜËÄ_ÖÜÎå_ÖÜÁù".split("_"),
-	    weekdaysMin : "ÈÕ_Ò»_¶ş_Èı_ËÄ_Îå_Áù".split("_"),
+	    months : "ä¸€æœˆ_äºŒæœˆ_ä¸‰æœˆ_å››æœˆ_äº”æœˆ_å…­æœˆ_ä¸ƒæœˆ_å…«æœˆ_ä¹æœˆ_åæœˆ_åä¸€æœˆ_åäºŒæœˆ".split("_"),
+	    monthsShort : "1æœˆ_2æœˆ_3æœˆ_4æœˆ_5æœˆ_6æœˆ_7æœˆ_8æœˆ_9æœˆ_10æœˆ_11æœˆ_12æœˆ".split("_"),
+	    weekdays : "æ˜ŸæœŸæ—¥_æ˜ŸæœŸä¸€_æ˜ŸæœŸäºŒ_æ˜ŸæœŸä¸‰_æ˜ŸæœŸå››_æ˜ŸæœŸäº”_æ˜ŸæœŸå…­".split("_"),
+	    weekdaysShort : "å‘¨æ—¥_å‘¨ä¸€_å‘¨äºŒ_å‘¨ä¸‰_å‘¨å››_å‘¨äº”_å‘¨å…­".split("_"),
+	    weekdaysMin : "æ—¥_ä¸€_äºŒ_ä¸‰_å››_äº”_å…­".split("_"),
 	    longDateFormat : {
-	        LT : "Ahµãmm",
-	        L : "YYYYÄêMMMDÈÕ",
-	        LL : "YYYYÄêMMMDÈÕ",
-	        LLL : "YYYYÄêMMMDÈÕLT",
-	        LLLL : "YYYYÄêMMMDÈÕddddLT",
-	        l : "YYYYÄêMMMDÈÕ",
-	        ll : "YYYYÄêMMMDÈÕ",
-	        lll : "YYYYÄêMMMDÈÕLT",
-	        llll : "YYYYÄêMMMDÈÕddddLT"
+	        LT : "Ahç‚¹mm",
+	        L : "YYYYå¹´MMMDæ—¥",
+	        LL : "YYYYå¹´MMMDæ—¥",
+	        LLL : "YYYYå¹´MMMDæ—¥LT",
+	        LLLL : "YYYYå¹´MMMDæ—¥ddddLT",
+	        l : "YYYYå¹´MMMDæ—¥",
+	        ll : "YYYYå¹´MMMDæ—¥",
+	        lll : "YYYYå¹´MMMDæ—¥LT",
+	        llll : "YYYYå¹´MMMDæ—¥ddddLT"
 	    },
 	    meridiem : function (hour, minute, isLower) {
 	        if (hour < 9) {
-	            return "ÔçÉÏ";
+	            return "æ—©ä¸Š";
 	        } else if (hour < 11 && minute < 30) {
-	            return "ÉÏÎç";
+	            return "ä¸Šåˆ";
 	        } else if (hour < 13 && minute < 30) {
-	            return "ÖĞÎç";
+	            return "ä¸­åˆ";
 	        } else if (hour < 18) {
-	            return "ÏÂÎç";
+	            return "ä¸‹åˆ";
 	        } else {
-	            return "ÍíÉÏ";
+	            return "æ™šä¸Š";
 	        }
 	    },
 	    calendar : {
-	        sameDay : '[½ñÌì]LT',
-	        nextDay : '[Ã÷Ìì]LT',
-	        nextWeek : '[ÏÂ]ddddLT',
-	        lastDay : '[×òÌì]LT',
-	        lastWeek : '[ÉÏ]ddddLT',
+	        sameDay : '[ä»Šå¤©]LT',
+	        nextDay : '[æ˜å¤©]LT',
+	        nextWeek : '[ä¸‹]ddddLT',
+	        lastDay : '[æ˜¨å¤©]LT',
+	        lastWeek : '[ä¸Š]ddddLT',
 	        sameElse : 'L'
 	    },
 	    relativeTime : {
-	        future : "%sÄÚ",
-	        past : "%sÇ°",
-	        s : "¼¸Ãë",
-	        m : "1·ÖÖÓ",
-	        mm : "%d·ÖÖÓ",
-	        h : "1Ğ¡Ê±",
-	        hh : "%dĞ¡Ê±",
-	        d : "1Ìì",
-	        dd : "%dÌì",
-	        M : "1¸öÔÂ",
-	        MM : "%d¸öÔÂ",
-	        y : "1Äê",
-	        yy : "%dÄê"
+	        future : "%så†…",
+	        past : "%så‰",
+	        s : "å‡ ç§’",
+	        m : "1åˆ†é’Ÿ",
+	        mm : "%dåˆ†é’Ÿ",
+	        h : "1å°æ—¶",
+	        hh : "%då°æ—¶",
+	        d : "1å¤©",
+	        dd : "%då¤©",
+	        M : "1ä¸ªæœˆ",
+	        MM : "%dä¸ªæœˆ",
+	        y : "1å¹´",
+	        yy : "%då¹´"
 	    }
 	});
     
