@@ -109,12 +109,12 @@
     <target name="native2ascii" depends="compress">
         <mkdir dir="${component.build.dir.tmp}"/>
         <move todir="${component.build.dir.tmp}">
-            <fileset dir="${component.build.dir}" includes="${component.build.min.js}"/>
+            <fileset dir="${component.build.dir}" includes="${component.build.js.min}"/>
         </move>
         <native2ascii encoding="${charset}"
                       src="${component.build.dir.tmp}"
                       dest="${component.build.dir}"
-                      includes="${component.build.min.js}"/>
+                      includes="${component.build.js.min}"/>
         <delete dir="${component.build.dir.tmp}"/>
     </target>
 

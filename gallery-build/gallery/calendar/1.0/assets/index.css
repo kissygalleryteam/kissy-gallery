@@ -11,7 +11,7 @@
     z-index: 10000;
 }
 
-.calendar-bounding-box .container {
+.calendar-bounding-box .calendar-container {
     background-color: #FFF;
     zoom: 1
 }

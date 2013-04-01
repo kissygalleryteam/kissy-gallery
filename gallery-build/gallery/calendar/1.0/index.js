@@ -1075,7 +1075,7 @@ KISSY.add('gallery/calendar/1.0/index', function (S, Node, Base) {
              * @static
              */
             CALENDAR_TEMPLATE: '<div id="{bounding_box_id}" class="calendar-bounding-box">' +
-                '<div class="container">' +
+                '<div class="calendar-container">' +
                 '<div class="message-box">' +
                 '{message_template}' +
                 '</div>' +
