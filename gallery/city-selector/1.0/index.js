@@ -63,11 +63,15 @@ KISSY.add('gallery/city-selector/1.0/index',function(S,Node,Event,Overlay,Juicer
                 S.log('city-selector::node and render are not find,city-selector init failured!');
                 return;
             }
+            if(!this.get('data')){
+            	S.log('city-selector::city-selector\'s data is undefined,city-selector init failured!');
+            	return;
+            }
             this._id = S.guid();
             this._selected = []; 
             this._selectedValues = [];   		
             this.render();
-            this._checkCity();
+            this._node && this._checkCity();
             this._bind();
     	},
         destructor : function(){
@@ -151,7 +155,7 @@ KISSY.add('gallery/city-selector/1.0/index',function(S,Node,Event,Overlay,Juicer
                 cityData = this.get('data'),
                 ret = {},
                 letters = _._prepareData(),
-                w = this.get('autoWidth') ? this._node.width() : this.get(WIDTH),
+                w = this.get('autoWidth') ? this._node && this._node.width() : this.get(WIDTH),
                 len = LETTERS.length,
                 tmp = [];
             
@@ -314,6 +318,9 @@ KISSY.add('gallery/city-selector/1.0/index',function(S,Node,Event,Overlay,Juicer
         * @private
         */
         _fillInput : function(tar,type){
+        	if(!this._node){
+        		return;
+        	}
             var val = S.trim(this._node.val()),
                 newVal = tar.val();
             if(val.indexOf(newVal) <= -1){
@@ -346,7 +353,7 @@ KISSY.add('gallery/city-selector/1.0/index',function(S,Node,Event,Overlay,Juicer
         * @private
         */
         _onSetAutoWidth : function(){
-            if(this.get('autoWidth')){
+            if(this.get('autoWidth') && this._node){
                 this._contentEl.css(WIDTH,this._node.width());
             }else{
                 this._onSetWidth();
@@ -551,7 +558,7 @@ KISSY.add('gallery/city-selector/1.0/index',function(S,Node,Event,Overlay,Juicer
                         this._selected = [];
                         this._selectedValues = []; 
                     }
-                    this._delCity(node,type);
+                    this._node && this._delCity(node,type);
                 }
             }
             return this;
