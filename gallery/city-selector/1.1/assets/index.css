@@ -1,0 +1,36 @@
+/*目的地下拉城市选择*/
+.ks-city-selector-popup {
+	position:absolute;
+	left:-9999px;
+	top:-9999px;
+}
+
+.ks-city-selector-overlay-shown {
+	visibility:visible;
+}
+
+.ks-city-selector-overlay-hidden {
+	visibility:hidden;
+}
+
+.ks-city-selector-content{background:#fff;border:1px solid #ccc;padding:8px 10px;box-shadow:1px 1px 5px rgba(0,0,0,0.2);font-size:12px;}
+.ks-city-selector-nav{font-size:0;line-height:1.5;padding-bottom:8px;border-bottom:1px solid #f1f1f1;}
+.ks-city-selector-nav span{color:#36c;display:inline-block;font-size:12px;font-family:"Verdana";padding:0 2px;margin:0 2px;cursor:pointer;}
+.ks-city-selector-nav span.ks-city-selector-disabled{color:#ccc;cursor:default;}
+.ks-city-selector-nav span.ks-city-selector-cur{background:#f80;color:#fff;padding:0 6px;border-radius:3px;}
+.ks-city-selector-nav span.ks-city-selector-all{margin-left:0;}
+.ks-city-selector-citylist{margin-top:8px;overflow:auto;}
+.ks-city-selector-citylist ul{list-style:none;padding:0;margin:0;}
+.ks-city-selector-content input{vertical-align:middle;margin-right:3px;}
+.ks-city-selector-nocity .ks-city-selector-province{background-image:none;}
+.ks-city-selector-province{height:22px;line-height:22px;padding-left:12px;background:url(http://img04.taobaocdn.com/tps/i4/T1.qxEXxtgXXbf0gvb-9-50.gif) no-repeat 0 7px;cursor:pointer;}
+.ks-city-selector-citylist .ks-city-selector-city{display:none;}
+.ks-city-selector-citylist .ks-city-selector-expand .ks-city-selector-city{display:block;}
+.ks-city-selector-expand{background:#f0f0f0;}
+.ks-city-selector-expand .ks-city-selector-province{background-position:0 -34px;}
+.ks-city-selector-letter{font-family:"Verdana";color:#f80;font-weight:800;display:inline-block;width:12px;}
+.ks-city-selector-province-name{color:#356ad4;}
+.ks-city-selector-expand .ks-city-selector-province-name{color:#404040;font-weight:800;}
+.ks-city-selector-city{font-size:0;padding:0 0 10px 20px;line-height:1.67;}
+.ks-city-selector-city span{display:inline-block;font-size:12px;margin-right:10px;}
+.ks-city-selector-province-select .ks-city-selector-city{padding-left:24px;}
