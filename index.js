@@ -20,6 +20,10 @@
         "name":"tooltip",
         "desc":"小提示层"
     },
+    {
+        "name":"sizzle",
+        "desc":"选择器引擎"
+    },
    {
         "name":"moment",
         "desc":"日期时间库"

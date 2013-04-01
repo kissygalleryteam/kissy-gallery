@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8"/>
-<title>KISSY.gallery.moment</title>
+<title>KISSY.gallery.sizzle</title>
 
 <link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.3.0/css/dpl/base-min.css"/>
 <link rel="stylesheet" href="../../../tools/skin/default.css"/>
@@ -95,9 +95,9 @@
     <span>当前位置：</span>
     <a href="http://kissyui.com/">KISSY</a>
     <a href="../../../index.html">Gallery</a>
-    <span>moment</span>
+    <span>sizzle</span>
 </div>
-			<pre class="s-section">来自： 	<a href='http://momentjs.com/'>http://momentjs.com/</a>
+			<pre class="s-section">来自： 	<a href='http://sizzlejs.com/'>http://sizzlejs.com/</a>
 			</pre>
 
 
@@ -108,13 +108,13 @@
 	
 		<div class="box">
 
-当前时间： <span id='now'></span>
+body div children length： <span id='now'></span>
 	
 	
 				
 				<script>
-				KISSY.use("gallery/moment/2.0.0/", function(S,moment){
-					document.getElementById('now').innerHTML=moment().format('MMMM Do YYYY, h:mm:ss a');
+				KISSY.use("gallery/sizzle/1.9.1/", function(S,Sizzle){
+					document.getElementById('now').innerHTML=Sizzle('body > div').length;
 				});
 				</script>	
 
