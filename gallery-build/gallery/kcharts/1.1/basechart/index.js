@@ -47,7 +47,6 @@ KISSY.add('gallery/kcharts/1.1/basechart/index',function(S,Base){
 					_pointsY:[],
 					_gridsX:[],
 					_gridsY:[],
-					_stocks:[],
 					_areas:[],
 					_axisX:null,
 					_axisY:null,
@@ -177,8 +176,10 @@ KISSY.add('gallery/kcharts/1.1/basechart/index',function(S,Base){
 					//纵轴上下各有10%的延展
 					offset = (_max - _min) * 0.1 || min * 1 || 10,
 					//修复最大值最小值的问题
-					max = cmax || cmax == 0 ? (cmax > _max ? cmax : _max + offset) : _max + offset,
-					min = cmin || cmin == 0 ? (cmin < _min ? cmin : _min - offset) : _min - offset;
+					max = cmax || cmax == 0 ? (cmax >= _max ? cmax : _max + offset) : _max + offset,
+					min = (cmin || cmin == 0) ? (cmin <= _min ? cmin : _min - offset) : _min - offset;
+					S.log(cmin || cmin == 0)
+
 				return self.getScales(max,min,num);
 			}
 		},

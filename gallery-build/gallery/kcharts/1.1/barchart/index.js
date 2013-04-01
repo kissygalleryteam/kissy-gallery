@@ -1,5 +1,5 @@
 /**
- * @fileOverview KChart 1.0  barchart
+ * @fileOverview KChart 1.1  barchart
  * @author huxiaoqi567@gmail.com
  */
 KISSY.add('gallery/kcharts/1.1/barchart/index',function(S,Template,BaseChart,Color,HtmlPaper,Legend,Theme,undefined,Tip){
@@ -57,13 +57,18 @@ KISSY.add('gallery/kcharts/1.1/barchart/index',function(S,Template,BaseChart,Col
 					xLabels:{
 						isShow:true,
 						css:{
-
+							"color":"#666",
+							"font-size": "12px",
+							"white-space":"nowrap",
+							"position":"absolute" 	//修复ie7被遮住的Bug
 						}
 					},
 					yLabels:{
 						isShow:true,
 						css:{
-
+							"color":"#666",
+							"font-size": "12px",
+							"position":"absolute" 	//修复ie7被遮住的Bug
 						}
 					},
 					//横轴

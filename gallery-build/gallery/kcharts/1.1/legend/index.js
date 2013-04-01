@@ -1,42 +1,31 @@
-KISSY.add('gallery/kcharts/1.1/legend/index',function(S,HtmlPaper,Raphael,Template){
-
+/**
+ * @fileOverview KChart 1.1  legend
+ * @author huxiaoqi567@gmail.com
+ */
+;KISSY.add('gallery/kcharts/1.1/legend/index',function(S,HtmlPaper,Raphael,Template,graphTool,undefined){
 	var $ = S.all,
 		Evt = S.Event;
 
 	function Legend(cfg){
 		var self = this;
-
-		self._cfg = S.mix({
-			themeCls:"ks-charts-legend",
-			css:{},
-			iconType:"rect",
-			evtBind:false  //为了向前兼容
-		},cfg);
-
-		self.init();
+			self._cfg = S.mix({
+				themeCls:"ks-charts-legend",
+				css:{},
+				evtBind:false  //为了向前兼容
+			},cfg);
+			self.init();
 	}
 
 	S.augment(Legend,{
 		init:function(){
 			var self = this,
-				_cfg = self._cfg,
-				chart = _cfg.chart,
-				len = 0;
+				_cfg = self._cfg;
 
 			if(_cfg.container){
 				self.$ctn = $(_cfg.container);
-
 				if(!self.$ctn[0]) return;
 			}
-			self._infos = {};
-			for(var i in chart._datas['total']){
-				len +=1;
-			}
-			S.log(chart.color.getColors(0,len))
-			S.mix(self._infos,{
-				colors:chart.color.getColors(0,len),
-				series:chart._cfg.series
-			});
+
 			self.render();
 		},
 		render:function(){
@@ -44,83 +33,113 @@ KISSY.add('gallery/kcharts/1.1/legend/index',function(S,HtmlPaper,Raphael,Templa
 				_cfg = self._cfg,
 				chart = _cfg.chart,
 				ictn = chart._innerContainer;
-
-			self._html = "<div class="+_cfg.themeCls+"><ul>";
-			
-			self.createIcon(_cfg.iconType);
-
-			self._html += "</ul></div>";
-
-			$(self._html).appendTo(self.$ctn);
+			//渲染容器
+			self.renderIconContainer();
 
 			self.$legend = $("."+_cfg.themeCls,self.$ctn);
-
+			//渲染图标
 			self.renderIcon();
 
 			self.$legend.css({
 				marginLeft:ictn.width,
 				marginTop:0
 			}).css(_cfg.css);
+
 			_cfg.evtBind && chart.on("afterRender",function(){
 				self.bindEvt();
 			});
+
 			S.log(self)
 		},
 		renderIcon:function(){
-			var self = this;
+			var self = this,
+				_cfg = self._cfg,
+				chart = _cfg.chart,
+				chartType = chart.chartType,
+				color,
+				paper,
+				iconType,
+				cx = 8,
+				cy = 5;
 
-			if(self._cfg.iconType != "rect"){
+
+			if(chartType == "linechart"){
 				$(".legend-icon",self.$legend).each(function(obj,index){
-					var color = self._infos.colors[index]['DEFAULT'];
-					var paper = Raphael(this[0]);
-					paper.circle(5,5,3).attr({
-						fill:color,
-						"stroke":color
+				var	stocks = chart._stocks[index];
+					//获取颜色对象
+					color = stocks['color'];
+					//获取画布
+					paper = Raphael(this[0]);
+					//icon类型
+					iconType = stocks['type'];
+					//画底线
+					paper.path("M0,5L16,5").attr({
+							"stroke":color['DEFAULT'],
+							"stroke-width":2
 					});
-					paper.path("M0,5L10,5").attr({
-						"stroke":color,
-						"stroke-width":2
+
+					switch(iconType){
+						case "triangle":
+							$stock = graphTool.triangle(paper,cx,cy+1,5);
+							break;
+						case "rhomb":
+							$stock = graphTool.rhomb(paper,cx,cy,8,8);
+							break;
+						case "square":
+							//菱形旋转45度
+							$stock = graphTool.rhomb(paper,cx,cy,8,8,45);
+							break;
+						default:
+							$stock = paper.circle(cx,cy,3);
+							break;
+					}
+
+					$stock.attr({
+							fill:color['DEFAULT'],
+							"stroke":color['DEFAULT']
 					});
-			});	
+				});
+
+			}else if(chartType == "barchart"){
+
+				$(".legend-icon",self.$legend).each(function(obj,index){
+					//获取颜色对象
+					color = chart.color.getColor(index)
+					//获取画布
+					paper = Raphael(this[0]);
+					//画底线
+					paper.rect(0,0,10,8,2).attr({
+							"fill":color['DEFAULT'],
+							"stroke-width":"0px"
+					});
+				});
 			}
+				
 		},
-		createIcon:function(iconType){
-			var self = this;
-			if(iconType == "rect"){
-				self.createHtmlIcon();
-			}else{
-				self.createCanvasIcon();
-			}
-		},
-		//矢量图标
-		createCanvasIcon:function(){
+		renderIconContainer:function(){
 			var self = this,
 				_cfg = self._cfg,
-				chart = _cfg.chart,
-				_infos = self._infos;
+				chart = _cfg.chart;
+
+			self._html = "<div class="+_cfg.themeCls+"><ul>";
+
 			for(var i in chart._datas['total']){
-				var defaultColor = _infos['colors'][i]['DEFAULT'],
-					hoverColor = _infos['colors'][i]['HOVER'];
 
-				var	cls = _infos['series'][i]['isShow'] == false ? "clearfix disable" : "clearfix";
+				var	cls = chart._cfg['series'][i]['isShow'] == false ? "clearfix disable" : "clearfix";
 
-				self._html += Template("<li class="+cls+"><div class='legend-icon'></div><div class='legend-text'>{{text}}</div></li>").render(_infos['series'][i]);
+				self._html += Template(
+					"<li class="+cls+">"
+						+"<div class='legend-icon'></div><div class='legend-text'>{{text}}</div>"
+					+"</li>"
+				)
+				.render(chart._cfg['series'][i]);
 			}
-		},
-		//html图标
-		createHtmlIcon:function(){
-			var self = this,
-				_cfg = self._cfg,
-				chart = _cfg.chart,
-				_infos = self._infos;
-			for(var i in chart._datas['total']){
-				var defaultColor = _infos['colors'][i]['DEFAULT'],
-					hoverColor = _infos['colors'][i]['HOVER'];
 
-				var	cls = _infos['series'][i]['isShow'] == false ? "clearfix disable" : "clearfix";
+			self._html += "</ul></div>";
 
-				self._html += Template("<li class="+cls+"><div class='legend-icon' style='background-color:"+defaultColor+"''></div><div class='legend-text'>{{text}}</div></li>").render(_infos['series'][i]);
-			}
+			$(self._html).appendTo(self.$ctn);
+
+			return self._html;
 		},
 		destroy:function(){
 			var self = this;
@@ -148,9 +167,24 @@ KISSY.add('gallery/kcharts/1.1/legend/index',function(S,HtmlPaper,Raphael,Templa
 	            "barchart" === chartType && chart.hideBar(index);
 	          }
 	      });
+
+	      Evt.on($("li",$ctn),"mouseenter",function(e){
+	          var $li = $(e.currentTarget),
+	          	  index = S.indexOf(e.currentTarget,$("li",$ctn));
+
+	          if(!$li.hasClass("disable")){
+	            "linechart" === chartType && chart.lineChangeTo(index);
+	          }
+	      });
 		}
 	});
 
 	return Legend;
 
-},{requires:['gallery/kcharts/1.1/tools/htmlpaper/index','gallery/kcharts/1.1/raphael/index','gallery/template/1.0/index','./assets/legend.css']});
+},{requires:[
+	'gallery/kcharts/1.1/tools/htmlpaper/index'
+	,'gallery/kcharts/1.1/raphael/index'
+	,'gallery/template/1.0/index'
+	,'gallery/kcharts/1.1/tools/graphtool/index'
+	,'./assets/legend.css'
+]});
