@@ -103,12 +103,14 @@ KISSY.add("gallery/kcharts/1.1/linechart/theme",function(S){
 		    },
 			points:{
 				attr:{
+				  type:"circle",
 	              stroke:"{COLOR}",
 	              fill:"#fff",
 	              "r":4,
 	              "stroke-width":2
 	            },
 	            hoverAttr:{
+	              type:"circle",
 	              stroke:"{COLOR}",
 	              fill:"#fff",
 	              "r":5,
@@ -180,12 +182,14 @@ KISSY.add("gallery/kcharts/1.1/linechart/theme",function(S){
 		    },
 			points:{
 				attr:{
+					type:"circle",
 					stroke:"#fff",
 					"r":4,
 					"stroke-width":1.5,
 					"fill":COLOR_TPL
 				},
 				hoverAttr:{
+					type:"circle",
 					stroke:"#fff",
 					"r":5,
 					"fill":COLOR_TPL,
