@@ -1,0 +1,361 @@
+<ul>
+<li><a href="d1.html">Demo1</a></li>
+<li><a href="d2.html">Demo2</a></li>
+<li><a href="d3.html">Demo3</a></li>
+<li><a href="d4.html">Demo4</a></li>
+<li><a href="d5.html">Demo5</a></li>
+<li><a href="d6.html">Demo6</a></li>
+<li><a href="d7.html">Demo7</a></li>
+<li><a href="d8.html">Demo8</a></li>
+<li><a href="touch.html">Touch</a></li>
+</ul>
+<blockquote>
+<p>这是一个选项卡切换控件，基于KISSY 1.3.0，并针对移动终端（ios/Android）有简单的性能优化，动画流畅，支持基础的触屏事件。</p>
+</blockquote>
+<h2>开始使用</h2>
+<pre><code>&lt;script&gt;
+    // 回调传入了S（KISSY对象）和Slide构造器
+    KISSY.use(&#39;gallery/slide/1.0/&#39;,function(S,Slide){
+        // 这里可以调用Slide
+    });
+&lt;/script&gt;</code></pre>
+<p>Slide依赖典型的HTML结构</p>
+<pre><code>&lt;div id=&quot;J_tab&quot; class=&quot;slide-style&quot;&gt;
+    &lt;ul class=&quot;tab-nav clearfix&quot;&gt;&lt;!--选项卡导航，内容可以是空--&gt;
+        &lt;!--若内容为空，则Slide会创建&lt;li&gt;&lt;/li&gt;--&gt;
+        &lt;li class=&quot;selected&quot;&gt;&lt;a href=&quot;#&quot;&gt;1&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;&quot;&gt;2&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;&quot;&gt;3&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;&quot;&gt;4&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div class=&quot;tab-content&quot;&gt;&lt;!--选项卡内容的父容器--&gt;
+        &lt;div class=&quot;tab-pannel&quot;&gt;&lt;!--选项卡的每项的容器--&gt;
+            &lt;!--第1个选项卡中的内容--&gt;
+        &lt;/div&gt;
+        &lt;!--一般情况下，需要指定默认情况非首帧是否显示--&gt;
+        &lt;div class=&quot;tab-pannel hidden&quot;&gt;
+            &lt;!--第2个选项卡中的内容--&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;tab-pannel hidden&quot;&gt;
+            &lt;!--第3个选项卡中的内容--&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;tab-pannel hidden&quot;&gt;
+            &lt;!--第4个选项卡中的内容--&gt;
+            &lt;textarea class=&quot;data-lazyload&quot;&gt;
+                延时加载的内容
+            &lt;/textarea&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<ul>
+<li><code>#J_tab</code>，Slide的ID，名称自取，必须指定，用作hook</li>
+<li><code>ul.tab-nav</code>,控制导航,必须指定,容器内容可以为空，默认指定自然数为下标，名称可定制</li>
+<li><code>ul.tab-nav li.selected</code>,控制tab页签,若有li，则必须指定，名称可定制</li>
+<li><code>div.tab-content</code>，内容容器，必须指定，名称可定制</li>
+<li><code>div.tab-content div.tab-pannel</code>，内容面板，必须指定，名称可定制</li>
+</ul>
+<p>这样来调用：</p>
+<pre><code>KISSY.use(&#39;gallery/slide/1.0/&#39;,function(S,Slide){
+    var s = new Slide(&#39;JSlide&#39;);
+});</code></pre>
+<h2>Slide的样式</h2>
+<p>如果是图片轮播，<code>div.tab-content</code>需要指定宽高，超出部分隐藏掉，<code>div.tab-pannel</code>的宽高都为100%即可，这里需要指定<code>div.tab-content</code>的<code>position:relative</code>。</p>
+<p>普通tab点击切换（无特效），内容部分高度不定，若带滚动切换效果，<code>div.tab-content</code>尺寸可以随意，Slide会根据pannel的尺寸来初始化当前父容器的尺寸</p>
+<p>基本结构包含导航和内容两部分，“向前”、“向后”的按钮切换由开发者添加,只需保证基本原型html的完整即可</p>
+<p>控制样式的className可以配置，需要在js中启动的时候做相应配置，在不配置的情况下，Slide以典型html结构做为默认配置进行渲染 </p>
+<h2>初始化</h2>
+<p>通过构造函数的形式来渲染一个幻灯（Tab），第二个对象是配置参数，比如下面这两段代码，这段代码用来初始化一个简单的Tab </p>
+<pre><code>new Slide(&#39;J_tab&#39;,{ // 直接指定id，而不是选择器
+    eventype:&#39;click&#39; //通过点击页签来切换Tab
+});</code></pre>
+<p>通过配置参数来定制渲染的示例代码：</p>
+<pre><code>new Slide(&#39;J_tab&#39;,{
+    eventype:&#39;click&#39;,//tab上的触发事件
+    effect:&#39;vSlide&#39;,//切换效果为纵向滚动
+    autoSlide:true,//自动播放
+    timeout:2000,//切换时间间隔
+    speed:500,//切换速度，越小越快，单位为毫秒
+    hoverStop:true//鼠标经过内容是否停止播放
+});</code></pre>
+<h2>跑马灯原理</h2>
+<p>该Slide支持跑马灯效果，跑马灯是可以连续相同方向滚动的幻灯，帧首尾相连接。有两种实现方式，一种是滚动时将首（尾）的节点拷贝至尾（首），另一种是初始化时处理首尾的节点，滚动时只改变位置，出于性能的考虑，这里选用第二种方式。</p>
+<p>由于窗口滑块所容纳的帧数可变，因此，需要同时复制多个帧至首位，数量根据Slide组件的colspan参数指定，比如，colspan参数默认为1，即滑块只容纳一个帧，首尾各复制一份。如果colspan为2，则滑块的跨度为2，复制两分，如图：</p>
+<p><img src="http://img02.taobaocdn.com/tps/i2/T1xl62Xb0fXXXcUVob-597-199.png" alt=""></p>
+<p>切换幻灯的动作实际上是滑块移动的操作，滑块定位在初始位置由参数defaultTab指定，默认为0，如果colspan指定了跨度为2，则滑块初始位置为：</p>
+<p><img src="http://img01.taobaocdn.com/tps/i1/T1Cj61XcJkXXXuXRQf-599-148.png" alt=""></p>
+<p>如果Slide不是跑马灯效果，则和基本的Tab切换原理一样，无须复制节点</p>
+<hr class="smooth large" />
+
+<h2>API</h2>
+<p>Slide构造器第二个参数用以传入配置项，这些配置项为基础参数，Slide支持LayerSlide（多层动画），如果指定LayerSlide为true，需要了解SubLayer（帧里的子层）的配置参数</p>
+<hr class="smooth" />
+
+<h3>基本参数</h3>
+<p><em>autoSlide</em> (Boolean)</p>
+<p>是否自动播放，默认为false</p>
+<p><em>speed</em> (Float)</p>
+<p>帧切换的速度，默认为500(ms)</p>
+<p><em>timeout</em> (Number)</p>
+<p>帧切换的时间间隔，默认为1000(ms)</p>
+<p><em>effect</em> (String)</p>
+<p>帧切换类型，默认为&#39;none&#39;,取值：</p>
+<ul>
+<li>none:无特效</li>
+<li>fade:渐隐</li>
+<li>hSlide:水平切换</li>
+<li>vSlide:垂直切换</li>
+</ul>
+<p><em>eventType</em> (String)</p>
+<p>触发tab切换的nav上的事件类型，默认为&#39;click&#39;，推荐使用：</p>
+<ul>
+<li>click:点击</li>
+<li>mouseover:鼠标经过(这个可能会多次触发切换事件,不推荐)</li>
+<li>mouseenter:鼠标进入</li>
+</ul>
+<p><em>easing</em> (String)</p>
+<p>帧切换的缓动值，默认为&#39;easeBoth&#39;，取值请参照<a href="http://docs.kissyui.com/docs/html/api/core/anim/index.html">KISSY.Anim</a></p>
+<p><em>hoverStop</em> (Boolean)</p>
+<p>鼠标悬停在面板上是否停止自动播放，默认为true</p>
+<p><em>selectedClass</em> (String)</p>
+<p>导航选中时的className，默认为&#39;selected&#39;</p>
+<p><em>conClass</em> (String)</p>
+<p>整个Tab容器的className，可不传</p>
+<p><em>navClass</em> (String)</p>
+<p>导航容器的className，默认为tab-nav</p>
+<p><em>triggerSelector</em> (String)</p>
+<p>导航中的选项所在的选择器，即触碰元素的选择器，默认为li，如果为<code>&lt;li&gt;&lt;a&gt;&lt;/a&gt;&lt;/li&gt;</code>，可以写为<code>li a</code></p>
+<p><em>contentClass</em> (String)</p>
+<p>Pannel父容器的ClassName，即Tab内容容器的className,默认为tab-content</p>
+<p><em>pannelClass</em> (String)</p>
+<p>tab面板的className，默认为tab-pannel</p>
+<p><em>id</em> (String)</p>
+<p>整个Tab组件所在的容器id，通常是通过Slide构造器的第一个参数指定，这里可不传，应当直接写id，比如&quot;id&quot;（正确），&quot;#id&quot; （不正确）</p>
+<p><em>carousel</em> (Boolean)</p>
+<p>是否以跑马灯形式播放，默认为false</p>
+<p><em>touchmove</em> (Boolean)    </p>
+<p>是否支持手指滑动切换，默认为false，Slide控件会自动检测移动设备，如果是，则默认增加触碰事件支持，因此滑动切换功能就没必要了，因此默认为false</p>
+<p><em>adaptive<code>_</code>fixed<code>_</code>width</em> (Boolean)</p>
+<p>屏幕是否根据控件的宽度改变重新渲染尺寸，默认为false，主要在组件定宽高的场景中，保证resize时tab-pannel尺寸正确</p>
+<p><em>adaptive<code>_</code>fixed<code>_</code>height</em> (boolean) </p>
+<p>屏幕是否根据控件的高度改变重新渲染尺寸，默认为false,主要在组件定宽高的场景中，保证resize时tab-pannel尺寸正确</p>
+<p><em>adaptive<code>_</code>fixed<code>_</code>size</em> (boolean) </p>
+<p>屏幕是否根据控件的宽度和高度改变重新渲染尺寸，默认为false,主要在组件定宽高的场景中，保证resize时tab-pannel尺寸正确</p>
+<p><em>defaultTab</em> (Number)    </p>
+<p>默认定位在某个帧，默认为0，即第一帧</p>
+<p><em>layerSlide</em> (Boolean)    </p>
+<p>是否开启分层动画，默认为false（在IE6/7/8里始终关闭layerSlide）</p>
+<p><em>layerClass</em> (String)    </p>
+<p>subLayer的className，默认值为tab-animlayer，未实现，默认用alt=&quot;sublayer&quot;来标识</p>
+<p><em>reverse</em> (boolean)     </p>
+<p>&quot;播放下一个&quot;和&quot;播放上一个&quot;对调，默认为false</p>
+<p><em>adaptive<code>_</code>height</em> (function)</p>
+<p>同下</p>
+<p><em>adaptive<code>_</code>width</em> (function)</p>
+<p>如果是百分比设置容器的宽度的话，需要指定这个函数，返回一个宽度值，动态的得到可变化的宽度,默认为false，代码示例:</p>
+<pre><code>var slide = new Slide(&#39;J_tab&#39;,{
+    adaptive_width:function(){
+        return document.body.offsetWidth;
+    }
+});</code></pre>
+<p><em>colspan</em> (Number)</p>
+<p>滑块窗口的跨度，比如滑块中包含2帧，则指定为2</p>
+<p><em>webkitOptimize</em> (Boolean)</p>
+<p>是否在webkit浏览器中开启硬件加速，默认为true，因为webkit在各平台中可能有bug，常需要临时性关闭移动设备中的硬件加速，则可以通过设置此属性为false来实现。</p>
+<hr class="smooth" />
+
+<h3>事件</h3>
+<p><em>ready</em></p>
+<p>初始化完成后的事件回调，带入上下文this，带入参数为</p>
+<pre><code>{
+    index:index,        // 当前帧的索引
+    navnode:navnode,    // 当前导航的节点
+    pannelnode:pannelnode//当前面板的节点
+}</code></pre>
+<p><em>switch</em></p>
+<p>切换发生时的事件，特指切换动作必然发生时的时刻，回调上下文和参数同上</p>
+<p><em>beforeSwitch</em></p>
+<p>“切换至”的事件，回调返回false可以阻止切换事件的发生</p>
+<p><em>beforeTailSwitch</em></p>
+<p>从某一帧的角度看，这一帧切换到下一帧之前发生的事件,参数同上</p>
+<p><em>afterSwitch</em></p>
+<p>切换完成的动作</p>
+<blockquote>
+<p>如果当Slide为跑马灯，且colspan大于1，则回调函数中的index值的取值可能会有偏差，原则上不推荐这种模式下获取当前帧的index</p>
+</blockquote>
+<hr class="smooth" />
+
+<h3>方法</h3>
+<p><em>init</em>    </p>
+<p>初始化，参数为一个对象，带入配置项</p>
+<p><em>previous(callback)</em></p>
+<p>切换到上一个，可以传入callback，执行切换完毕后的回调</p>
+<p><em>next(callback)</em></p>
+<p>切换到下一个，可以传入callback，执行切换完毕后的回调</p>
+<p><em>go(index,callback)</em></p>
+<p>跳转到指定索引的帧，参数为index:0,1,2,3...，callback为切换完毕后的回调</p>
+<p><em>add(node,index)</em></p>
+<p>添加一个帧，node为待添加的节点，可以是node，也可以是字符串。index为加入的节点的位置，默认为最后一个</p>
+<p><em>remove(index)</em></p>
+<p>删除一个帧，传入要删除的帧的index</p>
+<p><em>removeLast</em></p>
+<p>删除最后一个帧，无参数，当只有一帧时无法删除这一帧</p>
+<p><em>play</em></p>
+<p>开始自动播放</p>
+<p><em>stop</em></p>
+<p>停止自动播放</p>
+<p><em>hightlightNav</em></p>
+<p>高亮某个特定的导航项，参数为索引值index:0,1,2,3...</p>
+<p><em>is<code>_</code>first</em></p>
+<p>是否当前停止在第一帧</p>
+<p><em>is<code>_</code>last</em></p>
+<p>是否当前停止在最后一真</p>
+<p><em>resetSlideSize</em></p>
+<p>可以传入一个索引值为参数，重置第index个Slide的宽度和高度,幻灯尺寸发生动态变化时，需要调用这个方法来重设宽高，内部方法</p>
+<p><em>relocateCurrentTab</em></p>
+<p>无参数，重新修正当前帧的位置，内部方法</p>
+<p><em>initLayer</em></p>
+<p>初始化SubLayer，无参数，（目前触屏模式下默认关闭）</p>
+<hr class="smooth" />
+
+<h1>Examples</h1>
+<h2>基本的tab切换</h2>
+<p>JS代码：</p>
+<pre><code>KISSY.use(&#39;gallery/slide/1.0/&#39;,function(S,Slide){
+    new Slide(&#39;Jtab&#39;,{
+        eventType:&#39;mouseenter&#39; // 鼠标触碰切换
+    });
+});</code></pre>
+<p>延迟加载的内容放置于textarea中，className为data-lazyload，其中可以执行JavaScirpt代码：</p>
+<pre><code>&lt;textarea class=&quot;data-lazyload&quot;&gt;
+    第三帧的内容，只被渲染一次
+    &lt;script&gt;
+        alert(&#39;延迟执行的脚本，只执行一次&#39;);
+    &lt;/script&gt;
+&lt;/textarea&gt;</code></pre>
+<h2>基本的帧切换</h2>
+<p>JS代码：</p>
+<pre><code>KISSY.use(&#39;gallery/slide/1.0/&#39;,function(S,Slide){
+
+    var s = new Slide(&#39;JSlide&#39;,{
+        eventType:&#39;click&#39;,//点击触碰点切换
+        navClass:&#39;scrollable-trigger&#39;,//导航样式
+        contentClass:&#39;scrollable-panel&#39;,//面板父容器样式
+        pannelClass:&#39;scrollable-content&#39;,//面板样式
+        selectedClass:&#39;current&#39;,//触碰点选中时的ClassName
+        triggerSelector:&#39;a&#39;,//触碰节点为a
+        effect:&#39;fade&#39;,//渐变切换
+        autoPlay:true //开启自动播放
+    });
+
+    // 跳到下一帧
+    S.one(&#39;#next&#39;).on(&#39;click&#39;,function(){
+        s.next();
+    });
+
+    // 跳到上一帧
+    S.one(&#39;#prev&#39;).on(&#39;click&#39;,function(){
+        s.previous();
+    });
+});</code></pre>
+<h2>常规的单幅图片切换</h2>
+<p>配置effect为hSlide为水平切换，vSlide水垂直切换</p>
+<p>JS代码：</p>
+<pre><code>KISSY.use(&#39;gallery/slide/1.0/&#39;,function(S,Slide){
+    var C = new Slide(&#39;slides&#39;,{
+        autoSlide:true,
+        effect:&#39;vSlide&#39;, //垂直切换
+        timeout:3000,
+        speed:700,
+        selectedClass:&#39;current&#39;
+    });
+});</code></pre>
+<h2>多福图片的逐帧切换</h2>
+<p>需要定义colspan，即窗口显示的帧的个数</p>
+<p>JS代码：</p>
+<pre><code>KISSY.use(&#39;gallery/slide/1.0/&#39;,function(S,Slide){
+    new Slide(&#39;JSlide&#39;,{
+        effect:&#39;hSlide&#39;, //水平切换
+        carousel:true, //可以配置为跑马灯,也可以为false
+        colspan:3 // 定义跨度为3
+    });
+});</code></pre>
+<p>如果切换到下一帧的动作是向右滑动，则配置reverse为true，即颠倒切换上一帧和下一帧的动作</p>
+<h2>单帧切换时的跑马灯效果</h2>
+<p>代码同上，去掉colspan配置即可</p>
+<blockquote>
+<p>垂直切换时的多副图片逐帧切换的跑马灯效果未实现</p>
+</blockquote>
+<h2>LayerSlide 动画</h2>
+<p>LayerSlide是一种分层动画，SubLayer通过Pannel中这样指定</p>
+<pre><code>&lt;span alt=&quot;sublayer&quot; 
+    rel=&quot;alpha: true,slideindirection: left, durationin: 1000&quot;
+    class=&quot;自定义&quot;&gt;SubLayer&lt;/span&gt;</code></pre>
+<p>即只需指定alt=&quot;sublayer&quot;，其中rel为当前层动画的配置参数，采用key:value的形式定义，多属性之间用逗号分隔，注意结束位置不要写逗号</p>
+<p>HTML代码：</p>
+<pre><code>&lt;div id=&quot;J_slide&quot;&gt;
+    &lt;!--Slide Content 容器--&gt;
+    &lt;div class=&quot;slides_container tab-content&quot;&gt;
+        &lt;div class=&quot;tab-pannel pn1&quot;&gt;
+            &lt;!--背景动画--&gt;
+            &lt;img class=&quot;tbg&quot; src=&quot;img/l12.jpg&quot;&gt;
+            &lt;!--SubLayer动画--&gt;
+            &lt;img src=&quot;img/l13.png&quot; alt=&quot;sublayer&quot; 
+                    rel=&quot;alpha: false,
+                            slideindirection: top, 
+                            offsetin:160,
+                            durationin: 1000,
+                            easingin:easeBoth&quot;&gt;
+            &lt;!--SubLayer动画--&gt;
+            &lt;img src=&quot;img/l17.png&quot; alt=&quot;sublayer&quot; 
+                    rel=&quot;alpha: false,
+                            slideindirection: top, 
+                            offsetin:180,
+                            durationin: 2100,
+                            easingin:easeBoth&quot;&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;tab-pannel pn2&quot;&gt;&lt;/div&gt;
+        ...
+    &lt;/div&gt;
+    &lt;!--Slide Nav 容器--&gt;
+    &lt;div class=&quot;tab-nav&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>JS 代码：</p>
+<pre><code>&lt;script&gt;
+KISSY.use(&#39;gallery/slide/1.0/&#39;,function(S,Slide){
+    new Slide(&#39;slides&#39;,{
+        autoSlide:false,
+        effect:&#39;hSlide&#39;,
+        timeout:6000,
+        speed:700,
+        selectedClass:&#39;current&#39;,
+        carousel:true,
+        layerSlide:true//开启LayerSlide
+    });
+});
+&lt;/script&gt;</code></pre>
+<h3>subLayer配置项：</h3>
+<ul>
+<li>durationin        进入动画的缓动速度，默认为1000（毫秒）</li>
+<li>easingin        进入动画的缓动效果，默认为easeIn，具体参照KISSY.Anim</li>
+<li>durationout        移出动画的缓动速度，默认为1000（毫秒）</li>
+<li>easingout        移出动画的缓动效果，默认为easeOut</li>
+<li>delayin            进入动画的延时，默认为300（毫秒）</li>
+<li>delayout        移出动画的延时，默认为300</li>
+<li>slideindirection进入动画的起始方向，默认为&#39;right&#39;，top/right/left/bottom</li>
+<li>slideoutdirection移出动画的起始方向，默认为&#39;left&#39;</li>
+<li>alpha            是否带有透明度变幻，默认为true</li>
+<li>offsetin        进入动画的相对距离，默认为50</li>
+<li>offsetout        移出动画的相对距离，默认为50</li>
+</ul>
+<h3>Demos</h3>
+<ul>
+<li><a href="d1.html">Demo1</a></li>
+<li><a href="d2.html">Demo2</a></li>
+<li><a href="d3.html">Demo3</a></li>
+<li><a href="d4.html">Demo4</a></li>
+<li><a href="d5.html">Demo5</a></li>
+<li><a href="d6.html">Demo6</a></li>
+<li><a href="d7.html">Demo7</a></li>
+<li><a href="d8.html">Demo8</a></li>
+<li><a href="touch.html">Touch</a></li>
+</ul>

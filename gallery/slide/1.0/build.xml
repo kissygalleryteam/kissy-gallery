@@ -16,7 +16,7 @@
 			<fileset dir="." includes="**/*.markdown"/>
 			<arg value="-o" />
 			<targetfile /> 
-			<mapper type="glob" from="*.markdown" to="*.markdown.json" />
+			<mapper type="glob" from="*.markdown" to="*.markdown.api" />
 		</apply>
     </target>
 
