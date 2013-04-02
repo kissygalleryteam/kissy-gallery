@@ -12,6 +12,8 @@
 
 	<!--生成md文档-->
     <target name="doc">
+		<echo>若报错,请安装marked：</echo>
+		<echo>npm install -g marked</echo>
 		<apply executable="marked">
 			<fileset dir="." includes="**/*.markdown"/>
 			<arg value="-o" />
