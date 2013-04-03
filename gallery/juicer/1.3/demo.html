@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>KISSY gallery - Juicer</title> 
+
+	<link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.3.0/css/dpl/base-min.css"/>
+	<link rel="stylesheet" href="../../../tools/skin/default.css"/>
+	<style>
+		h4 {
+			font-size: 14px;
+			font-weight: bold;
+			margin-bottom: 10px;
+		}
+		textarea {
+			border: 1px solid #BBBBBB;
+			font-family: Inconsolata,monaco,courier;
+			font-size: 12px;
+			height: 280px;
+			margin-bottom: 20px;
+			padding: 5px;
+			width: 800px;
+		}
+	</style>
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy.js" charset="utf-8"></script>
+    <script>
+        KISSY.config({
+            packages:[
+                {
+                    name:"gallery",
+                    tag:"20130403",
+                    path:"../../../",  // cdn上适当修改对应路径
+                    charset:"utf-8"
+                }
+            ]
+        });
+    </script>
+        <link rel="stylesheet" href="../../../tools/skin/show-code.js"/>
+
+</head>
+<body>
+    <div id="header"> 
+		<h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="http://a.tbcdn.cn/s/kissy/logo.png"/></a></h1>
+		<div class="sub-title">Gallery</div>
+		<ul class="navigation"> 
+			<li><a href="http://blog.kissyui.com/">博客</a></li> 
+			<li><a href="http://github.com/kissyteam">源码</a></li> 		
+		</ul>
+		
+	</div> 
+    <div id="content">
+		<div class="s-crumbs">
+			<span>当前位置：</span>
+			<a href="http://kissyui.com/">KISSY</a>
+			<a href="../../../index.html">Gallery</a>
+			<span>Juicer</span>
+		</div>
+			<pre class="s-section">				
+Author: liuhuo.gk@taobao.com (流火)
+Description：juicer is a lightweight javascript template engine, it’s fast and easy to use. it’s syntax like smarty, it can running either at browser or node.js
+Docs : <a href="http://juicer.name/docs/docs.html">doc</a>
+Source code: <a href="juicer.js">juicer.js</a></pre>
+			
+			<h3 class="s-title">Demo - 使用 Juicer 渲染模版</h3>			
+			<div class="s-section">
+				<div class="s-demo">
+					<div>
+
+<h4>Juicer 模版：</h4>
+
+<textarea id="template">
+<h1>${header}</h1>
+{@if bug}
+{@/if}
+{@each items as it}
+	{@if it.first}
+		<li><strong>${it.name}</strong></li>
+	{@/if}
+	{@if it.link}
+		<li><a href="${it.url}">${it.name}</a></li>
+	{@/if}
+{@/each}
+{@if empty}
+	<p>The list is empty.</p>
+{@/if}
+</textarea>
+
+<h4>JSON 数据：</h4>
+
+<textarea id="data">
+{
+  "header": "Colors",
+  "items": [
+      {"name": "red", "first": true, "url": "#Red"},
+      {"name": "green", "link": true, "url": "#Green"},
+      {"name": "blue", "link": true, "url": "#Blue"}
+  ],
+  "empty": false
+}
+</textarea>
+
+<h4>渲染结果：</h4>
+<pre id="juicer"></pre>
+
+					</div>
+
+					<script>
+						KISSY.use('gallery/juicer/1.3/',function(S, juicer){
+							var template = S.one('#template').html(),
+								data = S.JSON.parse(S.one('#data').html()),
+								html = juicer(template, data);
+
+							S.one('#juicer').html(html.replace(/^\s*/mg, ''));
+						});
+					</script>
+				</div>
+				<a class="s-view-code" href="demo.html#">显示源码</a><!--点击该链接自动帮你显示s=demo里的内容，如不需要，去除链接即可-->
+			</div>
+			
+			<h3 class="s-title">API</h3>			
+			<div class="s-section">
+				<h4 class="s-api-title">方法</h4>
+				<div class="s-api-method"> juicer(template,data)</div>
+				<h4 class="s-api-title">参数</h4>
+				<div class="s-api-params">
+					<ul class="s-list">
+						<li>{String} [ <em>template</em> ] 模版字符串</li>
+						<li>{JSON} [ <em>data</em> ] 模版数据</li>
+					</ul>
+				</div>
+				<h4 class="s-api-title">返回</h4>
+				<div class="s-api-return">{String} 渲染后的字符串</div>
+			</div>
+			
+			<h3 class="s-title">Note</h3>			
+			<div class="s-section">
+				<ul class="s-list">
+					<li>http://juicer.name/</li>
+				</ul>
+			</div>
+    </div>
+    <div id="footer">
+        &copy; Copyright 2010~2012, KISSY Team.
+    </div>
+</body>
+</html>
