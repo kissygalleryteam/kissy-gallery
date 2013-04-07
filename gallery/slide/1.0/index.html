@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>KISSY gallery - yourGallery</title>
+<link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.3.0/css/dpl/base-min.css"/>
+<link rel="stylesheet" href="http://a.tbcdn.cn/apps/ks/i/test/ks-gallery-doc-style.css" />
+<link rel="stylesheet" href="../../../tools/skin/default.css"/>
+<script src="http://a.tbcdn.cn/??s/kissy/1.3.0/seed.js,apps/ks/zoo.js" charset="utf-8"></script>
+<style>
+	#show_doc{
+		background:white;padding:30px;
+	}
+	#header {
+		height:94px !important;
+	}
+	em {font-weight:bold;color:blue;}
+	blockquote {margin-top:20px;}
+</style>
+<script>
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+</head>
+<body>
+<div id="header">
+    <h1 class="logo"><a alt="KISSY" href="http://kissyui.com/"><img src="http://a.tbcdn.cn/s/kissy/logo.png"/></a></h1>
+    <div class="sub-title">Gallery</div>
+    <ul class="navigation">
+        <li><a href="http://docs.kissyui.com/">首页</a></li>
+        <li><a href="http://github.com/kissyteam">源码</a></li>
+    </ul>
+</div>
+<!--主内容区-->
+<div id="content" class="container">
+	<div class="s-crumbs">
+		<span>当前位置：</span>
+		<a href="http://kissyui.com/">KISSY</a>
+		<a href="../../../index.html">Gallery</a>
+		<span>Slide</span>
+	</div>
+	<!--文档正文开始-->
+	<div id="show_doc">Loading...</div>
+	<!--/文档正文结束-->
+	<script>
+		KISSY.use('ajax,node,zoo/base/', function(S, IO,Node) {
+			var url = S.getHash()['api'];
+			S.IO.get(url+'?t='+S.now(),function(d){
+				S.one('#show_doc').html(d);
+			});
+		});
+	</script>
+</div>
+<!--/主内容区-->
+</body>
+</html>
