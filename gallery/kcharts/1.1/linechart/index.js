@@ -878,6 +878,8 @@ KISSY.add("gallery/kcharts/1.1/linechart/index",function(S,Base,Template,Raphael
 		lineChangeTo:function(curIndex){
 			var self = this,
 				_cfg = self._cfg;
+			//若正在动画 则return
+			if(self._isAnimating) return;
 
 			for(var i in self._stocks){
 				self._stocks[i]['points'] = self._points[i];
@@ -908,8 +910,9 @@ KISSY.add("gallery/kcharts/1.1/linechart/index",function(S,Base,Template,Raphael
 		**/
 		hideLine:function(lineIndex){
 			var self = this,
+				duration = 500,
 				stock;
-
+			//删除某条线的数据
 			BaseChart.prototype.removeData.call(self,lineIndex);
 			self.animateGridsAndLabels();
 			self._lines[lineIndex]['line'].remove();
@@ -929,7 +932,11 @@ KISSY.add("gallery/kcharts/1.1/linechart/index",function(S,Base,Template,Raphael
 					oldPath = self._lines[i]['path'];
 				//防止不必要的动画	
 				if(oldPath != newPath && newPath != ""){
-					self._lines[i]['line'] && self._lines[i]['line'].stop() && self._lines[i]['line'].animate({path:newPath},500);
+					//动画状态
+					self._isAnimating = true;
+					self._lines[i]['line'] && self._lines[i]['line'].stop() && self._lines[i]['line'].animate({path:newPath},duration,function(){
+						self._isAnimating = false;
+					});
 					self._lines[i]['path'] = newPath;
 					//点动画
 					for(var j in self._stocks[i]['stocks']){
@@ -938,7 +945,7 @@ KISSY.add("gallery/kcharts/1.1/linechart/index",function(S,Base,Template,Raphael
 							stock.stop().animate({
 								transform:"T"+(self._stocks[i]['points'][j]['x']-self._stocks[i]['stocks'][j].attr("cx"))+","+(self._stocks[i]['points'][j]['y']-self._stocks[i]['stocks'][j].attr("cy"))
 								// transform:"T 0,0"
-							},500)
+							},duration)
 						}
 					}
 				}
@@ -953,10 +960,11 @@ KISSY.add("gallery/kcharts/1.1/linechart/index",function(S,Base,Template,Raphael
 		**/
 		showLine:function(lineIndex){
 			var self = this,
+				duration = 500,
 				stock;
 
 			self._cfg.series[lineIndex]['isShow'] = true;
-
+			//还原某条线数据
 			BaseChart.prototype.recoveryData.call(self,lineIndex);
 
 			self.animateGridsAndLabels();
@@ -972,7 +980,11 @@ KISSY.add("gallery/kcharts/1.1/linechart/index",function(S,Base,Template,Raphael
 					oldPath = self._lines[i]['path'];
 
 				if(oldPath != newPath && self._lines[i]['line']){
-					self._lines[i]['line'] && self._lines[i]['line'].stop().animate({path:newPath},500);
+					//动画状态
+					self._isAnimating = true;
+					self._lines[i]['line'] && self._lines[i]['line'].stop().animate({path:newPath},duration,function(){
+						self._isAnimating = false;
+					});
 					self._lines[i]['path'] = newPath;
 					for(var j in self._stocks[i]['stocks']){
 						if(self._stocks[i]['stocks'][j]){
@@ -980,7 +992,7 @@ KISSY.add("gallery/kcharts/1.1/linechart/index",function(S,Base,Template,Raphael
 							stock.stop();
 							stock.animate({
 								transform:"T"+(self._stocks[i]['points'][j]['x']-self._stocks[i]['stocks'][j].attr("cx"))+","+(self._stocks[i]['points'][j]['y']-self._stocks[i]['stocks'][j].attr("cy"))
-							},500)
+							},duration)
 						}
 					}
 				}

@@ -1,19 +1,7 @@
 // -*- coding: utf-8-unix; -*-
 KISSY.add('gallery/kcharts/1.1/piechart/index',function(S,Paper,Ft,Label,Tip,Color){
   var D = S.DOM
-	,ColorMap;
- //   = [
-	//   {DEFAULT:"#4573a7",HOVER:"#5E8BC0"},
-	//   {DEFAULT:"#aa4644",HOVER:"#C35F5C"},
-	//   {DEFAULT:"#89a54e",HOVER:"#A2BE67"},
-	//   {DEFAULT:"#806a9b",HOVER:"#9982B4"},
-	//   {DEFAULT:"#3e96ae",HOVER:"#56AFC7"},
-	//   {DEFAULT:"#d9853f",HOVER:"#F49D56"},
-	//   {DEFAULT:"#808080",HOVER:"#A2A2A2"},
-	//   {DEFAULT:"#188AD7",HOVER:"#299BE8"},
-	//   {DEFAULT:"#90902C",HOVER:"#B7B738"},
-	//   {DEFAULT:"#AFE65D",HOVER:"#C5ED89"}
-	// ]
+	  , ColorMap;
 
   function helperRand(a,b){
     return Math.floor(Math.random()*(b-a+1)+a);
@@ -97,7 +85,7 @@ KISSY.add('gallery/kcharts/1.1/piechart/index',function(S,Paper,Ft,Label,Tip,Col
           sectors[i].mouseover(function(e){
             inpiechart = true
             tiptimer && clearTimeout(tiptimer)
-            that.fire('mouseenter',{target:sectors[i],data:data[i],index:i});
+            that.fire('mouseenter',{sector:sectors[i],data:data[i],index:i});
           })
           .mouseout(function(e){
             inpiechart = false
@@ -116,13 +104,18 @@ KISSY.add('gallery/kcharts/1.1/piechart/index',function(S,Paper,Ft,Label,Tip,Col
     },
     onend:function(){
       var cfg = this.cfg
+        , that = this
       if(cfg.labelIndside){
         this.drawInsideLabel();
       }else{
-        this.drawLabel();
+        if(cfg.label != false){
+          this.drawLabel();
+        }
       }
       this.bindEvent();
-      this.fire('afterRender');
+      setTimeout(function(){
+        that.fire('afterRender')
+      },0)
     },
     sectorFull:function (cx, cy, r, startAngle, endAngle, fill) {
       var rad = Math.PI / 180,
@@ -212,7 +205,8 @@ KISSY.add('gallery/kcharts/1.1/piechart/index',function(S,Paper,Ft,Label,Tip,Col
       this.percentData = percentData;
 
       for(var i=0;i<data.length;i++){
-        sum+=data[i].data;
+        var iii = S.isNumber(data[i].data) ? data[i].data : parseFloat(data[i].data)
+        sum+=iii
       }
       for(var i=0;i<data.length;i++){
         percentData.push(data[i].data/sum);
@@ -244,6 +238,15 @@ KISSY.add('gallery/kcharts/1.1/piechart/index',function(S,Paper,Ft,Label,Tip,Col
           }else{
             path = that.sectorFull(cx,cy,_r,_from,_to);
           }
+
+          if(percentData.length == 1){
+            if(emptyRadius){
+              path[12] = parseFloat(path[12]) - 0.1
+              path[path.length-2] = parseFloat(path[path.length-2]) + 0.1
+            }else{
+              path[path.length-3] = parseFloat(path[path.length-3]) - 0.1
+            }
+          }
           pathString = path.join(' ');
 
           if(sectors[j]){
@@ -252,7 +255,7 @@ KISSY.add('gallery/kcharts/1.1/piechart/index',function(S,Paper,Ft,Label,Tip,Col
             var sector = paper.path(pathString)
               , color
             sectors[j] = sector
-            color = that.getcolor(j)
+            color = that.getcolor(j,colors)
             sectors[j].attr({'fill':color,stroke:'#fff'});
             sectors[j].percent = percentData[j]
           }
@@ -284,7 +287,7 @@ KISSY.add('gallery/kcharts/1.1/piechart/index',function(S,Paper,Ft,Label,Tip,Col
             sectors[j].attr('path',pathString);
           }else{
             var sector = paper.path(pathString)
-              ,color
+              , color
             sectors[j] = sector
             color = this.getcolor(j)
             sectors[j].attr({'fill':color,stroke:'#fff'});
@@ -303,7 +306,7 @@ KISSY.add('gallery/kcharts/1.1/piechart/index',function(S,Paper,Ft,Label,Tip,Col
       var _draw
         , anim_cfg = S.mix({type:'sector'},cfg.anim)
         //ie大于8，开启动画；非ie，开启动画
-        , bool_anim = (S.UA.ie && S.UA.ie>9 && cfg.anim) || (!S.UA.ie && cfg.anim)
+        , bool_anim = (S.UA.ie && S.UA.ie>8 && cfg.anim) || (!S.UA.ie && cfg.anim)
       _draw = types[anim_cfg.type] || _draw1;
       if(bool_anim){
         var ft = new Ft(anim_cfg);
@@ -558,12 +561,13 @@ KISSY.add('gallery/kcharts/1.1/piechart/index',function(S,Paper,Ft,Label,Tip,Col
         outerWidth = D.outerWidth(ctn)
         outerHeight = D.outerHeight(ctn)
         boundryCfg = tipcfg.boundryDetect ? {x:offset.left,y:offset.top,width:outerWidth,height:outerHeight} : {}
-        S.mix(tipcfg,{rootNode:S.Node(ctn),boundry:boundryCfg});
+
+        S.mix(tipcfg,{rootNode:S.all(ctn),boundry:boundryCfg,autoRender:1});
         this.tip = new Tip(tipcfg);
         tip_el = this.tip.getInstance()
 
         this.on('mouseenter',function(e){
-          var sector = e.target
+          var sector = e.sector
             , middle = sector.middle
             , x = middle.x
             , y = middle.y
@@ -580,12 +584,16 @@ KISSY.add('gallery/kcharts/1.1/piechart/index',function(S,Paper,Ft,Label,Tip,Col
         },this);
       }
     },
-    getcolor:function(i,color){
+    getcolor:function(i,colors){
       var cfg = this.cfg
-        , c_map_len = ColorMap.length - 1
+        , map = colors || ColorMap
+        , c_map_len = map.length
+        , color
+
       i = i%c_map_len
-      if(cfg.colors && cfg.colors[i]){
-        color = cfg.colors[i].DEFAULT
+
+      if(colors && colors[i]){
+        color = map[i].DEFAULT
       }else{
         color = ColorMap[i].DEFAULT
       }
@@ -601,6 +609,23 @@ KISSY.add('gallery/kcharts/1.1/piechart/index',function(S,Paper,Ft,Label,Tip,Col
 
 /*
  * note:
+ * bug fix [2013-04-09 Tue 16:10]
+ * 当只有一组数据的时候，本应该显示一个圆，但是现在不能展示
+ * 
+ * improvement [2013-04-02 周二 11:51]
+ * 允许使用字符串数据
+ * [
+    {"data":"43.09", "label":"chrome"},
+    {"data":18.05, "label":"ie8.0"},
+    {"data":13.22, "label":"ie9.0"},
+    {"data":5.14, "label":"ie7.0"},
+    {"data":3.45, "label":"taobrowser"},
+    {"data":17.05, "label":"others"}
+   ]
+ * bug fix [2013-03-29 周五 13:28]
+		- label:false 可以不要label
+		- afterRender event Bug
+		- getColor bug
  * cookieu@gmail.com 04/02/2013 - 10:48 颜色可配置
    cookieu@gmail.com 07/02/2013 - 16:34 piechart imrovment
    1 线条颜色等属性

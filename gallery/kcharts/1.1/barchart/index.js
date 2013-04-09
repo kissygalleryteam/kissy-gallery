@@ -35,8 +35,6 @@ KISSY.add('gallery/kcharts/1.1/barchart/index',function(S,Template,BaseChart,Col
 					themeCls:themeCls,
 					autoRender:true,
 					colors:[],
-					barsRatio:0.6,
-					barRatio:0.5,
 					stackable:false,
 					 title:{
 		            	content:"",
@@ -109,8 +107,11 @@ KISSY.add('gallery/kcharts/1.1/barchart/index',function(S,Template,BaseChart,Col
 					 bars:{
 					 	isShow:true,
 					 	css:{
-					 		background:COLOR_TPL
-					 	}
+					 		background:COLOR_TPL,
+					 		"border":"1px solid #fff"
+					 	},
+					 	barsRatio:0.6,
+						barRatio:0.5
 					 },
 					 // zoomType:"x"
 					 legend:{
@@ -210,12 +211,11 @@ KISSY.add('gallery/kcharts/1.1/barchart/index',function(S,Template,BaseChart,Col
 					ctn = self._innerContainer,
 					_css = self.processAttr(_cfg.bars.css,color),
 					isY = _cfg.zoomType == "x" ? false : true,
-					x = Math.round(x),
-					y = Math.round(y),
-					w = Math.round(w),
-					h = Math.round(h),
+					x = (x - 0).toFixed(2),
+					y = (y - 0).toFixed(2),
+					w = (w - 0).toFixed(2),
+					h = (h - 0).toFixed(2),
 					rect;
-					
 			//允许动画
 			if(_cfg.anim){
 				var duration = _cfg.anim.duration ? (S.isNumber(_cfg.anim.duration) ? _cfg.anim.duration : 0.5) : 0.5,
@@ -247,18 +247,19 @@ KISSY.add('gallery/kcharts/1.1/barchart/index',function(S,Template,BaseChart,Col
 				ctn = self._innerContainer,
 				isY = zoomType == "y",
 				len = stackable ? 1 : BaseChart.prototype.obj2Array(self._barPoints).length, //若是堆叠图 则为1
-				barsRatio = self._cfg.barsRatio, //一组柱的占空比
-				barRatio = self._cfg.barRatio,  //单根柱子的占空比
+				barsRatio = self._cfg.bars.barsRatio, //一组柱的占空比
+				barRatio = self._cfg.bars.barRatio,  //单根柱子的占空比
 				areaWidth =  isY ? (self._pointsY.length > 1 ? (self._pointsY[1].y - self._pointsY[0].y) : ctn.height): (self._pointsX.length > 1?(self._pointsX[1].x - self._pointsX[0].x):ctn.width)  , //area总宽度
-				offsetWidth = areaWidth * barsRatio, //空白部分的宽度
-				barWidth = offsetWidth/(len + (len - 1) / ((1 - barRatio) / barRatio)), //柱子宽度
+				offsetWidth = areaWidth * barsRatio, //柱子部分的宽度
+				rate = barRatio >= 1 ? 0 : (1 - barRatio)/barRatio,
+				barWidth = offsetWidth/(len + (len - 1) * rate), //柱子宽度
 				spaceWidth = barWidth * (1 - barRatio) / barRatio, //柱子间隔宽度
 				barAndSpaceWidth = stackable ? 0 : barWidth + spaceWidth,
 				ctnY = self._innerContainer.bl.y,
 				ctnX = self._innerContainer.bl.x,
 				offset = (areaWidth * (1-barsRatio)-areaWidth)/2,
 				stackArray = []; //用来标记当前堆叠的坐标
-
+				
 			self._barsPos = {};
 
 			for(var i in self._points){
