@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8"/>
- <title>KCharts doc 1.0</title>
-  <link rel="stylesheet" href="../custom/index.css" type="text/css" media="screen" />
+ <title>KCharts doc 1.1</title>
+  <link rel="stylesheet" href="./custom/index.css" type="text/css" media="screen" />
 </head>
 <body>
   <xmp theme="spacelab" style="display:none;">
@@ -22,7 +22,7 @@ KISSY.config({
     ]
 });
 //载入linechart
-KISSY.use('gallery/kcharts/1.0/linechart/index',function(S,LineChart){
+KISSY.use('gallery/kcharts/1.1/linechart/index',function(S,LineChart){
 
   var lineChart = new LineChart({
         renderTo:"#demo1",
@@ -183,6 +183,7 @@ Config（详细配置）
   {object} 渲染动画配置 配置该项则具有动画效果
   
    - `duration` { number } 动画周期
+   - `easing` { object } 动画效果 默认"easeIn"
    
 ---
 Method（方法）
@@ -227,16 +228,8 @@ Event（事件）
 ### stockChange
 
 点之间的切换 (可以用来触发tip的移动和数据渲染)
-
-
-----
-demo
-----
-  [line-chart](../../demo/1.0/linechart/line-chart.html) 直线<br/>
-  [line-chart-compare](../../demo/1.0/linechart/line-chart-compare.html) 多线比较<br/>
-
   </xmp>
 
-<script src="../strapdown.js"></script>
+<script src="./strapdown.js"></script>
 </body>
 </html>

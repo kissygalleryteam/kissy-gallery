@@ -2,12 +2,12 @@
 <html>
 <head>
   <meta charset="utf-8"/>
-   <title>KCharts doc 1.1</title>
-  <link rel="stylesheet" href="../custom/index.css" type="text/css" media="screen" />
+ <title>KCharts doc 1.0</title>
+  <link rel="stylesheet" href="./custom/index.css" type="text/css" media="screen" />
 </head>
 <body>
   <xmp theme="spacelab" style="display:none;">
-# BarChart
+# LineChart
 ---
 代码示例
 ---
@@ -21,10 +21,10 @@ KISSY.config({
       }
     ]
 });
-//载入barchart
-KISSY.use('gallery/kcharts/1.1/barchart/index',function(S,BarChart){
+//载入linechart
+KISSY.use('gallery/kcharts/1.0/linechart/index',function(S,LineChart){
 
-  var barChart = new BarChart({
+  var lineChart = new LineChart({
         renderTo:"#demo1",
          xAxis: {
             text:['星期一','星期二','星期三','星期四','星期五','星期六','星期日'],
@@ -67,7 +67,7 @@ KISSY.use('gallery/kcharts/1.1/barchart/index',function(S,BarChart){
 ---
 Config（详细配置）
 ---
-### renderTo 
+### renderTo  
 
 { id|HTMLElement } 容器 <span style='color:#f60'>注:容器必须要有width和height的绝对值</span>
 
@@ -84,6 +84,10 @@ Config（详细配置）
   - `width` { number } 宽度
   - `height` { number } 高度 
 
+### lineType 
+
+{ string } 线图类型 默认 "straight"  如：弧线 "arc"
+
 ### themeCls 
 
 { string } 主题className 默认："ks-chart-default"
@@ -91,31 +95,37 @@ Config（详细配置）
 ### colors 
 
 { array } 手动配置线的颜色 （可选） 如 [{"DEFAULT":"#fff","HOVER":"#ccc"},{"DEFAULT":"#fff","HOVER":"#ccc"}]
-    - `DEFAULT` { string } 默认颜色
-    - `HOVER` { string } hover颜色
-
-### stackable  
-{boolean} 是否堆叠展示  <em class="high-light">new!</em>
- 
-### zoomType  
-{string} 横向/纵向柱形图  （可选） 默认 "x" 或 "y" <em class="high-light">new!</em> 
+  
+  - `DEFAULT` { string } 默认颜色
+  - `HOVER` { string } hover颜色
 
 ### title
 
 {object} 主标题
 
-
-   - `isShow` { boolean } 是否渲染显示
-   - `css` { object } css样式
-   - `content` { string } 内容 可以是html或者text文本
+- `isShow` { boolean } 是否渲染显示
+- `css` { object } css样式
+- `content` { string } 内容 可以是html或者text文本
 
 ### subTitle
 
 {object} 副标题 同 title
 
+### points
+
+{object} 点的配置
+
+   - `attr` { object } 默认样式
+      >- `stroke` { string } 笔触颜色  如:"#ccc"
+      >- `r` { number } 圆点半径
+      >- `fill` { string } 填充色
+      >- `stroke-width` { number } 笔触宽度
+   - `hoverAttr` { object } hover样式 同attr
+
 ### xAxis 
 
 {object} x 轴配置
+
    - `isShow` { boolean } 是否渲染显示
    - `css` { object } css样式
 
@@ -127,6 +137,7 @@ Config（详细配置）
    - `max` { number } 纵坐标最大值
    - `num` { number } 纵轴刻度的份数
 
+
 ### xGrids
 
 {object} 横向网格配置 同 xAxis
@@ -135,14 +146,13 @@ Config（详细配置）
 
  {object} 纵向网格配置 同 xAxis
 
-### bars
-  
-柱形属性配置 
+###  xLabels
 
-   - `isShow` { boolean } 是否渲染显示
-   - `css` { object } css样式
-   - `barsRatio` { float } 一组柱形的占宽 0 ~ 1之间的数  <em class="high-light">new!</em>
-   - `barRatio` { float } 单根柱形的占宽 0 ~ 1之间的数   <em class="high-light">new!</em>
+ {object} x轴刻度文本 同 xAxis
+
+###  yLabels
+
+ {object} y轴刻度文本 同 xAxis
 
 ### series
    
@@ -157,21 +167,23 @@ Config（详细配置）
   {object} 数据提示层配置
 
    - `template` { string } 文本或者是模板 详见KISSY.Template
-   - `css` { object } css样式  注:"{COLOR}" 默认选择柱体的颜色，如{"border-color":"{COLOR}"}
+   - `css` { object } css样式  注:"{COLOR}" 默认选择线的颜色，如{"border-color":"{COLOR}"}
    - `anim` { object } 动画配置 "easing" 和 "duration" 如 {easing:"easeOut",duration:0.3} 
    - `offset` { object } tip的偏移量 "x" 和 "y" 如 {x:100,y:40}
    - `boundryDetect` { boolean } 是否进行边缘检测
    - `alignX` { string } 水平对齐方式 有"left" "center" "right"三种 默认 "left"
    - `alignY` { string } 水平对齐方式 有"top" "middle" "bottom"三种 默认 "top"
 
+### comparable
+
+  {boolean} 是否为多线比较，公用tip数据 默认false
+
 ### anim
   
   {object} 渲染动画配置 配置该项则具有动画效果
   
    - `duration` { number } 动画周期
-   - `easing` { object } 动画效果 默认"easeOut"
-
-
+   
 ---
 Method（方法）
 ---
@@ -188,10 +200,17 @@ Method（方法）
 
 根据实际数据 获取相应轴上的偏移像素
 
+### showLine(lineIndex)
+
+展示直线
+
+### hideLine(lineIndex)
+
+隐藏直线
+
 ### clear()
 
 清除画布上的所有内容
-
 
 ---
 Event（事件）
@@ -205,11 +224,19 @@ Event（事件）
 
 离开画布 (可以用来触发隐藏tip等动作)
 
-### barChange
+### stockChange
 
-柱之间的切换 (可以用来触发tip的移动和数据渲染)
+点之间的切换 (可以用来触发tip的移动和数据渲染)
+
+
+----
+demo
+----
+  [line-chart](../demo/linechart/line-chart.html) 直线<br/>
+  [line-chart-compare](../demo/linechart/line-chart-compare.html) 多线比较<br/>
+
   </xmp>
 
-<script src="../strapdown.js"></script>
+<script src="./strapdown.js"></script>
 </body>
 </html>
