@@ -561,6 +561,24 @@ KISSY.add('gallery/kcharts/1.1/basechart/index',function(S,Base){
 			return tmp;
 
 		},
+		/*
+			TODO 刻度格式化
+			@param arg {Number|Array}
+		*/
+		coordFormat:function(arg){
+			var _coordFormat = function(num){
+
+				// if()
+
+			};
+
+			if(S.isArray(arg)){
+				return _coordFormat.apply(arg)
+			}else{
+				return _coordFormat(arg);
+			}
+
+		},
 
 		obj2Array:function(obj,defineKey){
 			var a = [];

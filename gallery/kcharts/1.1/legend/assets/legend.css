@@ -15,7 +15,7 @@
 .ks-charts-legend ul li .legend-text{
 	float: left;
 }
-.ks-charts-legend ul li .disable{
+.ks-charts-legend ul li.disable{
 	color:#ccc;
 }
 .clearfix:after {
