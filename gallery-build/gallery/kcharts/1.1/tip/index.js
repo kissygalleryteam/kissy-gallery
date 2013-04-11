@@ -1,17 +1,18 @@
 /**
- * @fileOverview KChart 1.0  tip
+ * @fileOverview KChart 1.1  tip
  * @author huxiaoqi567@gmail.com
  */
-KISSY.add('gallery/kcharts/1.1/tip/index', function (S, Template) {
+KISSY.add('gallery/kcharts/1.1/tip/index', function (S,Base,Template,undefined) {
 
     var $ = S.all,
         Event = S.Event;
 
     function Tip(cfg) {
 
-        var self = this,
+        if(!cfg) return;
 
-            defaultCfg = {
+        var self = this,
+                defaultCfg = {
                 clsName:"ks-chart-default",
                 autoRender:true,
                 isVisable:false,
@@ -34,7 +35,7 @@ KISSY.add('gallery/kcharts/1.1/tip/index', function (S, Template) {
                 },
                 anim:{
                     easing:"easeOut",
-                    duration:0.3
+                    duration:0.25
                 },
                 offset:{
                     x:0,
@@ -49,12 +50,15 @@ KISSY.add('gallery/kcharts/1.1/tip/index', function (S, Template) {
             SETCONT:"setcontent",
             HIDE:"hide"
         }
+
         self._cfg = S.mix(defaultCfg, cfg, undefined, undefined, true);
+
+        self._cfg.rootNode = $(self._cfg.rootNode);
 
         self.init();
     }
 
-    S.augment(Tip, Event.Target, {
+    S.augment(Tip, Base, {
         init:function () {
             var self = this,
                 _cfg = self._cfg;
@@ -132,9 +136,7 @@ KISSY.add('gallery/kcharts/1.1/tip/index', function (S, Template) {
         },
         moveTo:function (x, y) {
             var self = this;
-
             self.show();
-
             var $tip = self.getInstance(),
                 _cfg = self._cfg,
                 anim = self._cfg.anim,
@@ -200,6 +202,10 @@ KISSY.add('gallery/kcharts/1.1/tip/index', function (S, Template) {
                 height = $tip.outerHeight(),
                 boundry = _cfg.boundry;
 
+            self.set("x",x || 0);
+
+            self.set("y",y || 0);
+
             switch (alignX) {
                 case "center":
                     marginLeft = Math.round(x) + offset.x - width / 2;
@@ -220,23 +226,41 @@ KISSY.add('gallery/kcharts/1.1/tip/index', function (S, Template) {
 
             if (boundry.width && boundry.height) {
 
-                var x = boundry.x || 0,
-                    y = boundry.y || 0,
+                var bx = boundry.x || 0,
+                    by = boundry.y || 0,
                     w = boundry.width,
                     h = boundry.height;
+                     
+                // if(marginTop < y){
+                //     marginTop = y;
+                //     // S.log("out of boundry at top!");
+                // }else if(marginTop > y + h - height){
+                //     marginTop = y + h - height;
+                //     // S.log("out of boundry at bottom!");
+                // }
 
-                marginTop = marginTop < y ? y : marginTop;
+                // if(marginLeft < x){
+                //     marginLeft = x;
+                //     // S.log("out of boundry at left!");
+                // }else if(marginLeft > x + w - width){
+                //     marginLeft = x + w - width;
+                //     // S.log("out of boundry at right!");
+                // }
 
-                marginTop = marginTop > y + h ? y + h : marginTop;
+                //躲闪
+                if(marginTop < by){
+                    marginTop = y + Math.abs(offset.y);
+                }else if(marginTop > by + h - height){
+                    marginTop = y - height - Math.abs(offset.y); 
+                }
 
-                marginLeft = marginLeft < x ? x : marginLeft;
-
-                marginLeft = marginLeft + width > x + w ? x + w - width : marginLeft;
-
+                if(marginLeft < bx){
+                    marginLeft = x + Math.abs(offset.x);
+                }else if(marginLeft > bx + w - width){
+                     marginLeft = x - width - Math.abs(offset.x);
+                }
             }
-
             return {x:marginLeft, y:marginTop};
-
         },
 
         _isExist:function () {
@@ -275,4 +299,4 @@ KISSY.add('gallery/kcharts/1.1/tip/index', function (S, Template) {
 
     return Tip;
 
-}, {requires:['gallery/template/1.0/index', './assets/tip.css']});
+}, {requires:['base','gallery/template/1.0/index', './assets/tip.css']});
