@@ -223,10 +223,15 @@
 
         "desc":"适用 KISSY 1.2 的自动 combo patch"
     },
-     {
+    {
         "name":"easycountdown",
 
         "desc":"倒计时组件，不同于传统倒计时组件的实现方式，容易扩展"
+    },
+    {
+        "name":"checkcode",
+
+        "desc":"语音验证码"
     }
    ]
 }
