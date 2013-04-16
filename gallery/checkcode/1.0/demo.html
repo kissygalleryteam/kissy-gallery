@@ -72,7 +72,8 @@
                             prefixCls:'sex-',
                             apiserver:apiserver,
                             identity:'member1.taobao.com',
-                            sessionid:'abcde12345'
+                            sessionid:'abcde12345',
+                            type: "number"
                         }).init();
 
                     if(checkcode){
@@ -133,6 +134,7 @@
                 <li>{String} [ <em>identity</em> = "member1.taobao.com" ] 验证码接入应用id，需要阿里云添加后才能正常请求接口</li>
                 <li>{String} [ <em>sessionid</em> = "abcdefg123" ] sessionid</li>
                 <li>{String} [ <em>apiserver</em> = "http://pin.aliyun.com" ] 接口服务器，默认"http://pin.aliyun.com"</li>
+                <li>{String} [ <em>type</em> = "default" ] 验证码类型：默认为字母，可选："default", "number"
             </ul>
             }
         </div>
