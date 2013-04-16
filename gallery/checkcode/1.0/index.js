@@ -41,7 +41,7 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
                     +'<a href="#nogo" role="button" onmousedown="return false;" title="重新获取验证码" aria-label="重新获取验证码" id="J_AudioRefresher{uid}" class="{prefixCls}checkcode-refresher">重新获取验证码</a>'
                     +'<a href="#nogo" role="button" onmousedown="return false;" title="获取图片验证码" aria-label="获取图片验证码" id="J_ImgSwitcher{uid}" class="{prefixCls}checkcode-switcher {prefixCls}img-switcher">获取图片验证码</a>'
                     +'</div>',
-            getImgURL:'{apiserver}/get_img?identity={identity}&sessionid={sessionid}&kjtype=default',
+            getImgURL:'{apiserver}/get_img?identity={identity}&sessionid={sessionid}&kjtype={type}',
             checkImgURL:'{apiserver}/check_img?identity={identity}&sessionid={sessionid}&delflag=0',
             getAudioURL:'{apiserver}/get_audio?identity={identity}&sessionid={sessionid}',
             checkAudioURL:'{apiserver}/check_audio?identity={identity}&sessionid={sessionid}&delflag=0'
@@ -59,6 +59,8 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
         if (!(this instanceof CheckCode)) {
             return new CheckCode(cfg);
         }
+
+        cfg = S.isObject(cfg) ? cfg : {};
         
         this.input = cfg.input && S.one(cfg.input);
         this.container = cfg.container && S.one(cfg.container);
@@ -66,6 +68,8 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
         this.identity = S.isString(cfg.identity) ? cfg.identity : '';
         this.sessionid = S.isString(cfg.sessionid) ? cfg.sessionid : '';
         this.apiserver = S.isString(cfg.apiserver) && cfg.apiserver ? cfg.apiserver : 'http://pin.aliyun.com';
+
+        this.type = cfg.type || "default";
 
         this.checkedCode = '';
 
@@ -117,9 +121,10 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
             this.audioProgress = S.one('#J_AudioStateProgress'+uid);
 
             var urlParams = {
-                apiserver:this.apiserver,
-                identity:this.identity,
-                sessionid:this.sessionid
+                apiserver: this.apiserver,
+                identity: this.identity,
+                sessionid: this.sessionid,
+                type: this.type
             };
             this.getImgURL = S.substitute(CONSTANTS.getImgURL,urlParams);
             this.checkImgURL = S.substitute(CONSTANTS.checkImgURL,urlParams);
