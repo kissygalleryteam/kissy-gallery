@@ -48,11 +48,12 @@ KISSY.add('gallery/calendar/1.0/index', function (S, Node, Base) {
              * @method initializer
              */
             initializer: function () {
+                this._hide = !0; // 针对于火狐浏览器对select操作的差异设立私有变量，用作标识是否隐藏日历
                 this._setUniqueTag().renderUI();
                 this._minDateCache = this.get('minDate');
                 this._clickoutside = function (e) {
                     var target = S.one(e.target);
-                    target.hasClass(this._triggerNodeClassName) || target.hasClass(this._triggerNodeIcon) || target.parent('#' + this._calendarId) || this.hide();
+                    target.hasClass(this._triggerNodeClassName) || target.hasClass(this._triggerNodeIcon) || target.parent('#' + this._calendarId) || !this._hide || this.hide();
                 };
                 this.get('container') || this.hide();
             },
@@ -176,6 +177,7 @@ KISSY.add('gallery/calendar/1.0/index', function (S, Node, Base) {
                 this.hideMessage();
                 this.currentNode && (this.currentNode.getDOMNode()._selected = null);
                 this._cacheNode = null;
+                this._hide      = !0;
                 this.fire('hide', {'node': this.currentNode});
                 return this;
             },
@@ -666,6 +668,14 @@ KISSY.add('gallery/calendar/1.0/index', function (S, Node, Base) {
                     var selectList = this.boundingBox.all('.' + this._delegateChangeClassName);
                     this.set('date', selectList.item(0).val() + '-' + selectList.item(1).val() + '-01');
                     this.render();
+
+                    // fix火狐浏览器对select操作时，触发clickoutside的bug
+                    (function(that) {
+                        that._hide = !1;
+
+                        // 利用timeout实现并行处理
+                        setTimeout(function() { that._hide = !0 }, 0);
+                    })(this);
                 },
 
                 // 鼠标移入/移出事件处理函数
