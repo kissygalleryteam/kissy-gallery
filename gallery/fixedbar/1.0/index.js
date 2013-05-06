@@ -8,6 +8,10 @@
 
 /**
  * 固定组件,不支持IE6
+ *
+ * iOS 下无实时scroll事件，需要模拟
+ * http://stackoverflow.com/questions/8107722/detecting-real-time-scrolling-on-ios-safari
+ * https://developer.apple.com/library/ios/#DOCUMENTATION/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html#//apple_ref/doc/uid/TP40006511-SW1
  */
 
 KISSY.add('gallery/fixedbar/1.0/index', function(S) {
@@ -66,7 +70,7 @@ KISSY.add('gallery/fixedbar/1.0/index', function(S) {
 			var otop = Number(that.con.css('top').replace('px',''));
 			var body = S.one('body');
 
-			S.Event.on(window, "scroll", function() {
+			function handleScroll(){
 				var sTop = S.DOM.scrollTop();
 				var sBottom = body.height() - sTop - S.DOM.viewportHeight();
 
@@ -76,7 +80,7 @@ KISSY.add('gallery/fixedbar/1.0/index', function(S) {
 					}
 					that.con.css({
 						position:'absolute',
-						top:that.con.offset().top
+						top:that.con.offset().top > bottom ? bottom:that.con.offset().top
 					});
 				} else if((sTop + top) > ntop){
 					if(that.con.css('position') == 'fixed'){
@@ -95,7 +99,13 @@ KISSY.add('gallery/fixedbar/1.0/index', function(S) {
 						top:otop
 					});
 				}
-			});
+			}
+
+			if(S.UA.mobile){
+				this.timmer = setInterval(handleScroll,200);
+			} else {
+				S.Event.on(window, "scroll", handleScroll);
+			}
 		},
 
 		destory: function(){

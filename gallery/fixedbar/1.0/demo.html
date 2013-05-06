@@ -8,7 +8,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title></title>
-	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" /> 
 	<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy.js"></script>
 	<meta name="format-detection" content="telephone=no" />
 </head>
@@ -111,8 +111,18 @@
 <p>增加行数</p>
 
 <script>
-
-
+    KISSY.config({
+        packages:[
+            {
+                name:"gallery",
+                tag:"20111220",
+                path:"../../../",  // cdn上适当修改对应路径
+                charset:"utf-8"
+            }
+        ]
+    });
+</script>
+<script>
 
 	KISSY.use('gallery/fixedbar/1.0/',function(S,FixedBar){
 		new FixedBar('#test',{
@@ -120,6 +130,11 @@
 			floor:500
 		});
 	});
+
+	var t = KISSY.one('#test');
+	setInterval(function(){
+		t.html(t.css('position')+ ' '+t.css('top')+ ' '+KISSY.now());
+	},200);
 
 
 </script>
