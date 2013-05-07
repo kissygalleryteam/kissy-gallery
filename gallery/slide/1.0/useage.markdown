@@ -75,7 +75,7 @@ Slide依赖典型的HTML结构
 
 通过构造函数的形式来渲染一个幻灯（Tab），第二个对象是配置参数，比如下面这两段代码，这段代码用来初始化一个简单的Tab 
 
-	new Slide('J_tab',{ // 直接指定id，而不是选择器
+	new Slide('J_tab',{ // 直接指定id，也可以指定选择器，比如："#id .className"
 		eventype:'click' //通过点击页签来切换Tab
 	});
 

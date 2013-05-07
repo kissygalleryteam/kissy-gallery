@@ -1,0 +1,38 @@
+<ul>
+<li>by bachi@taobao.com</li>
+<li><a href="demo.html">Demo</a></li>
+</ul>
+<blockquote>
+<p>FixedBar 控件，当页面下拉到一定程度时，让页面中某个元素固定在视口范围内，不支持ie6</p>
+</blockquote>
+<h2>JS代码</h2>
+<pre><code>&lt;script&gt;
+    KISSY.use(&#39;gallery/fixedbar/1.0/&#39;,function(S,FixedBar){
+        new FixedBar(&#39;#test&#39;,{
+            top:20,
+            floor:500
+        });
+    });
+&lt;/script&gt;</code></pre>
+<h2>HTML结构(示例)</h2>
+<pre><code>&lt;style&gt;
+    #test {
+        background:yellow;
+        width:100%;
+    }
+    #fixed-wrapper{
+        height:20px;
+    }
+&lt;/style&gt;
+&lt;div id=&quot;fixed-wrapper&quot;&gt;&lt;!--一般用来占位用--&gt;
+    &lt;div id=&quot;test&quot;&gt;
+        fixedbar
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<hr class="smooth large" />
+
+<h2>参数说明</h2>
+<ul>
+<li><em>top</em> 距离视口顶部的高度</li>
+<li><em>floor</em> 节点地盘不能越过这个高度</li>
+</ul>

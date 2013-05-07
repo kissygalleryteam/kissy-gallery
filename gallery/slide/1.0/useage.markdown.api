@@ -65,7 +65,7 @@
 <p>控制样式的className可以配置，需要在js中启动的时候做相应配置，在不配置的情况下，Slide以典型html结构做为默认配置进行渲染 </p>
 <h2>初始化</h2>
 <p>通过构造函数的形式来渲染一个幻灯（Tab），第二个对象是配置参数，比如下面这两段代码，这段代码用来初始化一个简单的Tab </p>
-<pre><code>new Slide(&#39;J_tab&#39;,{ // 直接指定id，而不是选择器
+<pre><code>new Slide(&#39;J_tab&#39;,{ // 直接指定id，也可以指定选择器，比如：&quot;#id .className&quot;
     eventype:&#39;click&#39; //通过点击页签来切换Tab
 });</code></pre>
 <p>通过配置参数来定制渲染的示例代码：</p>
