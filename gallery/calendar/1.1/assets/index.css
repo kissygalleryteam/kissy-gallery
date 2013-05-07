@@ -1,0 +1,538 @@
+/**
+ * 淘宝旅行通用日历组件
+ * 
+ * Author: Angtian
+ * E-mail: Angtian.fgm@taobao.com
+ */
+.calendar-bounding-box {
+    position: relative;
+    color: #404040;
+    font: 12px/1.5 Arial;
+    z-index: 10000;
+}
+
+.calendar-bounding-box .calendar-container {
+    background-color: #FFF;
+    zoom: 1
+}
+
+.calendar-bounding-box iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    border-width: 0;
+}
+
+.calendar-bounding-box .message-box {
+    position: relative;
+    z-index: 1;
+    margin-bottom: -1px;
+    padding: 5px 10px;
+    line-height: 19px;
+    border: 1px solid #FF8080;
+    background-color: #FFF2F2;
+    display: none;
+    zoom: 0;
+    text-align: left;
+}
+
+.calendar-bounding-box .content-box {
+    position: relative;
+    zoom: 1;
+    padding: 5px 30px 15px 30px;
+    border: 1px solid;
+    border-color: #85BEE5 #3485C0 #3485C0 #85BEE5;
+    letter-spacing: -0.31em;
+    *letter-spacing: normal;
+    word-spacing: -0.43em;
+}
+
+.calendar-bounding-box .content-box .arrow {
+}
+
+.calendar-bounding-box .content-box .arrow span {
+    position: absolute;
+    top: 50%;
+    width: 20px;
+    height: 38px;
+    cursor: pointer;
+    margin-top: -19px;
+    text-indent: -99999px;
+    background: #FFF url(http://img03.taobaocdn.com/tps/i3/T1upvrXbFdXXbRt4oj-57-106.png) 0 0 no-repeat;
+}
+
+.calendar-bounding-box .content-box .arrow span.close-btn {
+    top: 10px;
+    right: 10px;
+    width: 17px;
+    height: 17px;
+    margin: 0;
+    background-position: -40px 0px;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+.calendar-bounding-box .content-box .arrow span.prev-btn {
+    left: 10px;
+    background-position: 0 0;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+.calendar-bounding-box .content-box .arrow span.next-btn {
+    right: 10px;
+    background-position: -20px 0;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+.calendar-bounding-box .content-box .arrow span.prev-btn-disabled {
+    left: 10px;
+    cursor: default;
+    background-position: 0 -38px;
+}
+
+.calendar-bounding-box .content-box .arrow span.next-btn-disabled {
+    right: 10px;
+    cursor: default;
+    background-position: -20px -38px;
+}
+
+.calendar-bounding-box .content-box .inner {
+    position: relative;
+    background-color: #FFF;
+    display: inline-block;
+    padding: 0 10px;
+    zoom: 1;
+    *display: inline;
+    letter-spacing: normal;
+    word-spacing: normal;
+    vertical-align: top;
+}
+
+.calendar-bounding-box .content-box .inner h4 {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    line-height: 25px;
+    text-align: center;
+    border-bottom: 1px solid #E4E4E4;
+}
+
+.calendar-bounding-box .content-box .inner h4 select {
+    font: 12px/1.5 Arial;
+    margin: 0 5px;
+}
+
+.calendar-bounding-box .content-box .inner table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+.calendar-bounding-box .content-box .inner table th {
+    height: 22px;
+    font-weight: 400;
+    border-bottom: 1px solid #E4E4E4;
+}
+
+.calendar-bounding-box .content-box .inner table th.weekend {
+    font-weight: 700;
+}
+
+.calendar-bounding-box .content-box .inner table td {
+    padding: 0;
+    width: 25px;
+    height: 22px;
+    font-weight: 700;
+    text-align: center;
+    border: 1px solid #E5E5E5;
+}
+
+.calendar-bounding-box td a {
+    width: 25px;
+    height: 22px;
+    display: block;
+    color: #404040;
+    line-height: 22px;
+    text-decoration: none;
+    background: #FFF url(http://img01.taobaocdn.com/tps/i1/T1MwfeXdFsXXcLztbA-149-292.png) -9999px -9999px no-repeat;
+}
+
+.calendar-bounding-box td.disabled a {
+    color: #DCDCDC !important;
+    background-color: transparent !important;
+}
+
+.calendar-bounding-box td.disabled a:hover {
+    color: #DCDCDC;
+    cursor: default;
+}
+
+.calendar-bounding-box td.start-date a,
+.calendar-bounding-box td a:hover,
+.calendar-bounding-box td.end-date a:hover,
+.calendar-bounding-box td.selected-date a,
+.calendar-bounding-box td.selected-range a:hover {
+    color: #FFF;
+    background-color: #5792DC;
+}
+
+.calendar-bounding-box td.end-date a,
+.calendar-bounding-box-style td a:hover,
+.calendar-bounding-box-style td.end-date a:hover,
+.calendar-bounding-box-style td.start-date a:hover,
+.calendar-bounding-box-style td.selected-range a:hover {
+    color: #FFF;
+    background-color: #E2AD44;
+}
+
+.calendar-bounding-box-style td.start-date a:hover {
+    cursor: not-allowed;
+}
+
+.calendar-bounding-box-style td.hover a {
+    color: #404040;
+    background-color: #BBDDF4 !important;
+}
+
+.calendar-bounding-box td.selected-range a {
+    background-color: #D9F2FF;
+}
+
+.calendar-bounding-box .hidden {
+    display: none;
+    zoom: 0;
+}
+
+.calendar-bounding-box .visible {
+    display: block;
+    zoom: 1;
+}
+
+.calendar-input-wrap {
+    position: relative;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+}
+
+.calendar-input-wrap input {
+    outline: none;
+}
+
+.calendar-input-wrap span {
+    position: absolute;
+    cursor: text;
+    top: 50%;
+    right: 5px;
+    height: 15px;
+    color: #A1A1A1;
+    overflow: hidden;
+    margin-top: -7.5px;
+    font: 400 12px/15px Arial;
+    background: url(http://img03.taobaocdn.com/tps/i3/T1upvrXbFdXXbRt4oj-57-106.png) -999px -999px no-repeat;
+}
+
+.calendar-input-wrap .calendar-start-icon {
+    padding-right: 25px;
+    background-position: right -76px;
+}
+
+.calendar-input-wrap .calendar-end-icon {
+    padding-right: 25px;
+    background-position: right -91px;
+}
+
+/* 元旦 */
+.calendar-bounding-box td .yuandan {
+    text-indent: -9999px;
+    background-position: 0 0;
+}
+
+.calendar-bounding-box td.start-date .yuandan,
+.calendar-bounding-box td.selected-date .yuandan,
+.calendar-bounding-box td .yuandan:hover,
+.calendar-bounding-box td.end-date .yuandan:hover,
+.calendar-bounding-box td.selected-range .yuandan:hover {
+    background-position: -31px 0;
+}
+
+.calendar-bounding-box td.end-date .yuandan,
+.calendar-bounding-box-style td .yuandan:hover,
+.calendar-bounding-box-style td.end-date .yuandan:hover,
+.calendar-bounding-box-style td.selected-range .yuandan:hover {
+    background-position: -62px 0;
+}
+
+.calendar-bounding-box td.selected-range .yuandan {
+    background-position: -93px 0;
+}
+
+.calendar-bounding-box td.hover .yuandan {
+    background-position: -124px 0;
+}
+
+/* 除夕 */
+.calendar-bounding-box td .chuxi {
+    text-indent: -9999px;
+    background-position: 0 -30px;
+}
+
+.calendar-bounding-box td.start-date .chuxi,
+.calendar-bounding-box td.selected-date .chuxi,
+.calendar-bounding-box td .chuxi:hover,
+.calendar-bounding-box td.end-date .chuxi:hover,
+.calendar-bounding-box td.selected-range .chuxi:hover {
+    background-position: -31px -30px;
+}
+
+.calendar-bounding-box td.end-date .chuxi,
+.calendar-bounding-box-style td .chuxi:hover,
+.calendar-bounding-box-style td.end-date .chuxi:hover,
+.calendar-bounding-box-style td.selected-range .chuxi:hover {
+    background-position: -62px -30px;
+}
+
+.calendar-bounding-box td.selected-range .chuxi {
+    background-position: -93px -30px;
+}
+
+.calendar-bounding-box td.hover .chuxi {
+    background-position: -124px -30px;
+}
+
+/* 春节 */
+.calendar-bounding-box td .chunjie {
+    text-indent: -9999px;
+    background-position: 0 -60px;
+}
+
+.calendar-bounding-box td.start-date .chunjie,
+.calendar-bounding-box td.selected-date .chunjie,
+.calendar-bounding-box td .chunjie:hover,
+.calendar-bounding-box td.end-date .chunjie:hover,
+.calendar-bounding-box td.selected-range .chunjie:hover {
+    background-position: -31px -60px;
+}
+
+.calendar-bounding-box td.end-date .chunjie,
+.calendar-bounding-box-style td .chunjie:hover,
+.calendar-bounding-box-style td.end-date .chunjie:hover,
+.calendar-bounding-box-style td.selected-range .chunjie:hover {
+    background-position: -62px -60px;
+}
+
+.calendar-bounding-box td.selected-range .chunjie {
+    background-position: -93px -60px;
+}
+
+.calendar-bounding-box td.hover .chunjie {
+    background-position: -124px -60px;
+}
+
+/* 元宵 */
+.calendar-bounding-box td .yuanxiao {
+    text-indent: -9999px;
+    background-position: 0 -90px;
+}
+
+.calendar-bounding-box td.start-date .yuanxiao,
+.calendar-bounding-box td.selected-date .yuanxiao,
+.calendar-bounding-box td .yuanxiao:hover,
+.calendar-bounding-box td.end-date .yuanxiao:hover,
+.calendar-bounding-box td.selected-range .yuanxiao:hover {
+    background-position: -31px -90px;
+}
+
+.calendar-bounding-box td.end-date .yuanxiao,
+.calendar-bounding-box-style td .yuanxiao:hover,
+.calendar-bounding-box-style td.end-date .yuanxiao:hover,
+.calendar-bounding-box-style td.selected-range .yuanxiao:hover {
+    background-position: -62px -90px;
+}
+
+.calendar-bounding-box td.selected-range .yuanxiao {
+    background-position: -93px -90px;
+}
+
+.calendar-bounding-box td.hover .yuanxiao {
+    background-position: -124px -90px;
+}
+
+/* 清明 */
+.calendar-bounding-box td .qingming {
+    text-indent: -9999px;
+    background-position: 0 -120px;
+}
+
+.calendar-bounding-box td.start-date .qingming,
+.calendar-bounding-box td.selected-date .qingming,
+.calendar-bounding-box td .qingming:hover,
+.calendar-bounding-box td.end-date .qingming:hover,
+.calendar-bounding-box td.selected-range .qingming:hover {
+    background-position: -31px -120px;
+}
+
+.calendar-bounding-box td.end-date .qingming,
+.calendar-bounding-box-style td .qingming:hover,
+.calendar-bounding-box-style td.end-date .qingming:hover,
+.calendar-bounding-box-style td.selected-range .qingming:hover {
+    background-position: -62px -120px;
+}
+
+.calendar-bounding-box td.selected-range .qingming {
+    background-position: -93px -120px;
+}
+
+.calendar-bounding-box td.hover .qingming {
+    background-position: -124px -120px;
+}
+
+/* 五一 */
+.calendar-bounding-box td .wuyi {
+    text-indent: -9999px;
+    background-position: 0 -150px;
+}
+
+.calendar-bounding-box td.start-date .wuyi,
+.calendar-bounding-box td.selected-date .wuyi,
+.calendar-bounding-box td .wuyi:hover,
+.calendar-bounding-box td.end-date .wuyi:hover,
+.calendar-bounding-box td.selected-range .wuyi:hover {
+    background-position: -31px -150px;
+}
+
+.calendar-bounding-box td.end-date .wuyi,
+.calendar-bounding-box-style td .wuyi:hover,
+.calendar-bounding-box-style td.end-date .wuyi:hover,
+.calendar-bounding-box-style td.selected-range .wuyi:hover {
+    background-position: -62px -150px;
+}
+
+.calendar-bounding-box td.selected-range .wuyi {
+    background-position: -93px -150px;
+}
+
+.calendar-bounding-box td.hover .wuyi {
+    background-position: -124px -150px;
+}
+
+/* 端午 */
+.calendar-bounding-box td .duanwu {
+    text-indent: -9999px;
+    background-position: 0 -180px;
+}
+
+.calendar-bounding-box td.start-date .duanwu,
+.calendar-bounding-box td.selected-date .duanwu,
+.calendar-bounding-box td .duanwu:hover,
+.calendar-bounding-box td.end-date .duanwu:hover,
+.calendar-bounding-box td.selected-range .duanwu:hover {
+    background-position: -31px -180px;
+}
+
+.calendar-bounding-box td.end-date .duanwu,
+.calendar-bounding-box-style td .duanwu:hover,
+.calendar-bounding-box-style td.end-date .duanwu:hover,
+.calendar-bounding-box-style td.selected-range .duanwu:hover {
+    background-position: -62px -180px;
+}
+
+.calendar-bounding-box td.selected-range .duanwu {
+    background-position: -93px -180px;
+}
+
+.calendar-bounding-box td.hover .duanwu {
+    background-position: -124px -180px;
+}
+
+/* 中秋 */
+.calendar-bounding-box td .zhongqiu {
+    text-indent: -9999px;
+    background-position: 0 -210px;
+}
+
+.calendar-bounding-box td.start-date .zhongqiu,
+.calendar-bounding-box td.selected-date .zhongqiu,
+.calendar-bounding-box td .zhongqiu:hover,
+.calendar-bounding-box td.end-date .zhongqiu:hover,
+.calendar-bounding-box td.selected-range .zhongqiu:hover {
+    background-position: -31px -210px;
+}
+
+.calendar-bounding-box td.end-date .zhongqiu,
+.calendar-bounding-box-style td .zhongqiu:hover,
+.calendar-bounding-box-style td.end-date .zhongqiu:hover,
+.calendar-bounding-box-style td.selected-range .zhongqiu:hover {
+    background-position: -62px -210px;
+}
+
+.calendar-bounding-box td.selected-range .zhongqiu {
+    background-position: -93px -210px;
+}
+
+.calendar-bounding-box td.hover .zhongqiu {
+    background-position: -124px -210px;
+}
+
+/* 国庆 */
+.calendar-bounding-box td .guoqing {
+    text-indent: -9999px;
+    background-position: 0 -240px;
+}
+
+.calendar-bounding-box td.start-date .guoqing,
+.calendar-bounding-box td.selected-date .guoqing,
+.calendar-bounding-box td .guoqing:hover,
+.calendar-bounding-box td.end-date .guoqing:hover,
+.calendar-bounding-box td.selected-range .guoqing:hover {
+    background-position: -31px -240px;
+}
+
+.calendar-bounding-box td.end-date .guoqing,
+.calendar-bounding-box-style td .guoqing:hover,
+.calendar-bounding-box-style td.end-date .guoqing:hover,
+.calendar-bounding-box-style td.selected-range .guoqing:hover {
+    background-position: -62px -240px;
+}
+
+.calendar-bounding-box td.selected-range .guoqing {
+    background-position: -93px -240px;
+}
+
+.calendar-bounding-box td.hover .guoqing {
+    background-position: -124px -240px;
+}
+
+/* 今天 */
+.calendar-bounding-box td .today {
+    text-indent: -9999px;
+    background-position: 0 -270px;
+}
+
+.calendar-bounding-box td.start-date .today,
+.calendar-bounding-box td.selected-date .today,
+.calendar-bounding-box td .today:hover,
+.calendar-bounding-box td.end-date .today:hover,
+.calendar-bounding-box td.selected-range .today:hover {
+    background-position: -31px -270px;
+}
+
+.calendar-bounding-box td.end-date .today,
+.calendar-bounding-box-style td .today:hover,
+.calendar-bounding-box-style td.end-date .today:hover,
+.calendar-bounding-box-style td.selected-range .today:hover {
+    background-position: -62px -270px;
+}
+
+.calendar-bounding-box td.selected-range .today {
+    background-position: -93px -270px;
+}
+
+.calendar-bounding-box td.hover .today {
+    background-position: -124px -270px;
+}
