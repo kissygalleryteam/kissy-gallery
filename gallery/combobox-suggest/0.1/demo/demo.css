@@ -1,0 +1,317 @@
+.tb-search .tab {
+    position: relative;
+    z-index: 2;
+}
+
+.tb-search form {
+    margin-bottom: 0;
+}
+.tb-search .tab li{
+    float: left;
+}
+.tb-search .tab,
+.tb-search .tab a {
+    border: 0 none;
+    color: #404040;
+    border-radius: 0;
+    height: 26px;
+    line-height: 26px;
+}
+
+.tb-search .tab li a {
+    display: block;
+    padding-right: 12px;
+    padding-left: 12px;
+    margin-right: 2px;
+}
+
+.tb-search .tab li {
+    position: relative;
+}
+
+.tb-search .tab a:hover {
+    border: 0 none;
+    text-decoration: underline;
+    cursor: pointer;
+    background: none;
+}
+
+.tb-search .tab .active a,
+.tb-search .tab .active a:hover {
+    background-color: #F80;
+    color: white;
+    font-weight: bold;
+    border-radius: 3px 3px 0 0;
+}
+.tb-search .dropdown {
+    position: relative;
+    float: right;
+    display: inline;
+    height: 32px;
+    width: 135px;
+    padding: 0 20px 0 5px;
+    border: 0 none;
+    border-left: 1px solid #E1E1E1;
+    background-color: #F7F7F7;
+    cursor: pointer;
+}
+
+.tb-search .dropdown-hover {
+
+    margin-right: -1px;
+    border-right: 1px solid #E1E1E1;
+    background-color: white;
+
+}
+
+.tb-search .dropdown .active {
+    line-height: 28px;
+    display: block;
+    white-space: nowrap;
+    color: #404040;
+    font-size: 12px;
+    overflow: hidden;
+    padding: 0;
+    border: 0 none;
+    text-overflow: ellipsis;
+}
+
+.tb-search .dropdown-list {
+    border: 1px solid;
+    border-top: none;
+    background-color: white;
+    top: 30px;
+    left: -1px;
+    display: none;
+    z-index: 10;
+    position: absolute;
+    border-color: #B0B0B0 #DDD #D8D8D8;
+}
+
+.tb-search .dropdown .icon-todo-expand {
+    float: right;
+    margin-top: 8px;
+    margin-right: -20px;
+}
+
+.tb-search .dropdown:hover .icon-todo-expand {
+    background-position: -40px -20px;
+}
+
+.tb-search .dropdown-list {
+    left: -1px;
+}
+
+.tb-search .dropdown-list li a {
+    display: block;
+    overflow: hidden;
+    line-height: 25px;
+    color: #404040;
+    padding: 0 5px;
+    margin: 2px 0;
+    white-space: nowrap;
+    outline: none;
+    border: 0 none;
+}
+
+.tb-search .dropdown-list li a {
+    margin: 0;
+    height: 24px;
+    line-height: 24px;
+}
+
+.tb-search .dropdown-list li.selected,
+.tb-search .dropdown-list li a:hover {
+    background: #F60;
+    text-decoration: none;
+    color: white;
+}
+
+.searchform button,
+.searchform {
+    background: url(http://img02.taobaocdn.com/tps/i2/T1qn0NXelCXXXXXXXX-151-270.png);
+}
+
+.searchform button {
+    background-position: 0 -36px;
+}
+
+.searchform {
+    background-position: 0 -126px;
+}
+
+.searchform {
+    padding: 3px;
+    background-color: #F57A04;
+    height: 32px;
+    position: relative;
+    border-radius: 0 3px 3px 3px;
+}
+
+.searchform .input {
+    margin-right: 133px;
+    height: 32px;
+    background-color: white;
+    position: relative;
+}
+
+.searchform .input .input-auto {
+    /*margin-right: 84px;*/
+    height: 32px;
+}
+
+.searchform .allWidth .input-auto {
+    padding-right: 10px;
+}
+
+.searchform .input input {
+    border: none;
+    background: transparent;
+    padding: 7px 6px;
+    width: 100%;
+    height: 18px;
+    outline-color: #F60;
+    font: 14px/18px verdana, tahoma, arial, "\5b8b\4f53", sans-serif;
+}
+
+.searchform button {
+    position: absolute;
+    top: 3px;
+    right: 0;
+    background-color: #F57A04;
+    width: 131px;
+    height: 32px;
+    text-indent: -9999px;
+    border: none;
+}
+
+/* ie6 hack*/
+.tb-search .tab li a {
+    _display: inline;
+    _zoom: 1;
+}
+
+.searchform .input input {
+    _height: 16px;
+    _position: absolute;
+    _padding: 7px 0;
+    _text-indent: 6px;
+}
+.ks-combobox-input-wrap {
+    vertical-align: middle;
+    position: relative;
+    padding-right: 11px;
+    overflow: hidden;
+}
+/*底部的搜索框樣式 */
+.tb-supplement-suggset .searchform .input .input-auto {
+    margin-right: 0;
+}
+.searchform .dropup {
+    height: 32px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 0 0 #eee;
+}
+.dropup {
+    box-shadow: 0 0 0 #eee;
+}
+.search-site-arrow{
+    position: absolute;
+    border: 4px #fff solid;
+    border-top-color: #999;
+    top: 16px;
+    right: 16px;
+    line-height: 0;
+    font-size: 0;
+}
+.search-site {
+    position: absolute;
+    right: -1px;
+    top: 0;
+    background: white;
+    color: #999;
+    line-height: 32px;
+    text-indent: 18px;
+    z-index: 100;
+    width: 84px;
+    box-shadow: 1px 1px 3px #eee;
+}
+.search-site ul {
+    border-left: 1px solid #E4E4E4;
+    border-right: 1px solid #E4E4E4;
+    border-bottom: 1px solid #E4E4E4;
+    background-color: white;
+}
+.search-site li {
+    cursor: pointer;
+}
+.search-site li.selected span {
+    padding-right: 18px;
+}
+.search-site li.hover,
+.search-site li:hover {
+    color: #377BEE;
+}
+
+
+
+
+.tip{
+    position: absolute;
+    top: -9px;
+    right: 72px;
+    font-size: 12px;
+    color: #fff;
+
+}
+.tip .tip-arrow,.tip .tip-container{
+    opacity: 0.6;
+    filter:alpha(opacity=60);
+}
+.tip.hover .tip-close{
+    color: white;
+}
+.tip-arrow{
+    border: 6px dashed transparent;
+    font-size: 0;
+    height: 0;
+    width: 0;
+    line-height: 0;
+    border-top: solid #000 6px;
+
+
+}
+.tip-arrow-contain{
+    position: absolute;
+    top: -1px;
+    left: 19px;
+}
+.tip-container{
+    background: #000;
+    position: absolute;
+
+    min-width: 45px;
+    border-radius: 4px;
+    left: -30px;
+    right: -196px;
+    overflow: hidden;
+    bottom: 12px;
++bottom:13px;
+    *zoom:1;
+}
+.tip-close{
+    position: absolute;
+    top: 1px;
+    right: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #ccc;
+}
+.tip-content{
+    font-family: "\5b8b\4f53";
+    padding: 3px 18px 3px 9px;
+}
+.tb-search{
+    margin-top: 20px;
+}

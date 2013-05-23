@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>KISSY gallery - ComboBoxSuggest</title>
+
+    <link rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.3.0/css/dpl/base-min.css"/>
+    <link rel="stylesheet" href="../../../tools/skin/default.css"/>
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy.js" charset="utf-8"></script>
+    <script src="../init.js"></script>
+    <script src="../../../../tools/skin/show-code.js"></script>
+    <link rel="stylesheet" href="demo.css"/>
+
+</head>
+<body>
+<div id="header">
+    <h1 class="logo">
+        <a alt="KISSY" href="http://kissyui.com/">
+            <img src="http://a.tbcdn.cn/s/kissy/logo.png"/>
+        </a>
+    </h1>
+    <div class="sub-title">Gallery</div>
+    <ul class="navigation">
+        <li><a href="http://docs.kissyui.com/">首页</a></li>
+        <li><a href="http://github.com/kissyteam">源码</a></li>
+    </ul>
+
+</div>
+<div id="content">
+    <div class="s-crumbs">
+        <span>当前位置：</span>
+        <a href="http://kissyui.com/">KISSY</a>
+        <a href="../../../index.html">Gallery</a>
+        <span>ComboBoxSuggest</span>
+    </div>
+    <div>
+        <h2>组件简介</h2>
+        <p>待补充</p>
+        <h2>组件示例</h2>
+        <ul>
+            <li><a target="_blank" href="demo/homepage.html">首页搜索下拉提示</a></li>
+            <li><a target="_blank" href="demo/srp.html">srp下拉提示</a></li>
+            <li><a target="_blank" href="demo/etao.html">etao下拉提示</a></li>
+            <li><a target="_blank" href="demo/list.html">list下拉提示</a></li>
+            <li><a target="_blank" href="demo/min.html">最小下拉提示</a></li>
+        </ul>
+        <h2>组件使用方法</h2>
+        <pre>
+            KISSY.use("gallery/combobox-suggest/0.1/index", function (S,Sug,undefined) {
+                var sug = new Sug(config);
+                sug.on("beforeSubmit",function(){
+                    //提交前的处理
+                })
+                sug.on("beforeFocus",function(){
+                    //focus时触发的事件
+                })
+            })
+        </pre>
+        <h2>组件api</h2>
+        <div>
+            <h3>属性： config的参数</h3>
+            <div style="margin-left:20px;">
+                <ul>
+                    <li>
+                        <h4>mods</h4>
+                        <p>对额外模块的配置</p>
+                        <ul>
+                            <li>
+                                <h5>modname(String)</h5>
+                                <p>额外模块对应的脚本</p>
+                            </li>
+                            <li>
+                                <h5>tab(String)</h5>
+                                <p>用来标记默认使用的tab</p>
+                            </li>
+                            <li>
+                                <h5>tmpl(String)</h5>
+                                <p>某些简单的模块，可以通过配置tmpl来调用内置的简单渲染逻辑</p>
+                            </li>
+                            <li>
+                                <h5>pos:<span>["header"|"footer"](String)</span></h5>
+                                <p>和tmpl搭配使用，表示渲染的模块插入的位置</p>
+                            </li>
+                        </ul>
+                        <pre>
+                            "mods":{
+                                "history":{
+                                    "modname": "gallery/combobox-suggest/0.1/plugins/history",
+                                    "tab":"item"
+                                },
+                                ...
+                            }
+                        </pre>
+                    </li>
+                    <li>
+                        <h4>extra</h4>
+                        <p>配置所有模块的开关，默认下全部为true</p>
+                        <pre>
+                            extra:{
+                            //历史纪录模块
+                                "history": true,
+                            //手机充值模块
+                                "tel": true,
+                            //类目
+                                "cat": true,
+                            //全球购模块
+                                "global": true,
+                            //新品模块
+                                "new": true,
+                            //店铺搜索模块
+                                "shop": true,
+                            //机票模块
+                                "jipiao": true,
+                            //同店购模块
+                                "tdg": true
+                            }
+                        </pre>
+                    </li>
+                    <li>
+                        <h4>sugConfig</h4>
+                        <p>配置suggest的其他配置</p>
+                        <ul>
+                            <li>
+                                <h5>extraParams(String)</h5>
+                                <p>当用户点击搜索下拉提示时，额外传出的参数，通常用来埋点透传</p>
+                            </li>
+                            <li>
+                                <h5>sourceUrl(String)</h5>
+                                <p>用于配置suggest接口</p>
+                            </li>
+                            <li>
+                                <h5>comboBoxCfg(Object)</h5>
+                                <p>暴露comboBox的配置，详细说明点击<a target="_blank" href="http://docs.kissyui.com/docs/html/api/component/combobox/combobox.html">这里</a></p>
+                            </li>
+                        </ul>
+                        <pre>
+                            "sugConfig":{
+                                extraParams: "",
+                                sourceUrl:"http://suggest.taobao.com/sug",
+                                comboBoxCfg:{
+                                    srcNode: ".input-auto",
+                                    "focus": true
+                                }
+                            }
+                        </pre>
+                    </li>
+                </ul>
+            </div>
+            <h3>事件：</h3>
+            <div style="margin-left:20px;">
+                <ul>
+                    <li>
+                        <h4>beforeSubmit 事件</h4>
+                        <p>当点搜索按钮或者回车时触发提交之前的事件</p>
+                    </li>
+                    <li>
+                        <h4>beforeFocus 事件</h4>
+                        <p>当搜索框获得焦点时，触发的事件</p>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<div id="footer">
+    &copy; Copyright 2010~2100, KISSY Team.
+</div>
+</body>
+</html>
