@@ -8,7 +8,7 @@ KISSY.add('gallery/checkcode/1.0/index', function (S) {
     var D = S.DOM,
         E = S.Event,
         uid = 1,
-        regexp = /^[\da-zA-Z]{4}$/,
+        regexp = /^[\da-zA-Z]{4, 6}$/,
         isWin = navigator.userAgent.indexOf("Windows") !== -1,
         isie = S.UA.ie,
         isfirefox = S.UA.firefox,
