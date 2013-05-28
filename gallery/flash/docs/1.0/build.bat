@@ -1,3 +1,0 @@
-call make html
-
-pause
